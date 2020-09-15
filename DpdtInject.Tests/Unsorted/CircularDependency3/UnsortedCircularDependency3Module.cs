@@ -40,8 +40,6 @@ namespace DpdtInject.Tests.Unsorted.CircularDependency3
                 var module = new FakeModule<UnsortedCircularDependency3Module>();
 
                 var a = module.Get<IA>();
-
-                //Assert.Fail("this line should never be executed");
             }
         }
 

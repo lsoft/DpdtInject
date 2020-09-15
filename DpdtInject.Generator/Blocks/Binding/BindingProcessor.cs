@@ -1,5 +1,6 @@
 ﻿using DpdtInject.Generator.Properties;
 using DpdtInject.Injector.Helper;
+using DpdtInject.Injector.Module.Bind;
 using DpdtInject.Injector.Module.RContext;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -23,10 +24,17 @@ namespace DpdtInject.Generator.Blocks.Binding
         {
             get;
         }
+
         public IReadOnlyList<DetectedConstructorArgument> ConstructorArguments
         {
             get;
         }
+
+        public BindScopeEnum Scope
+        {
+            get;
+        }
+
         public InstanceContainerGenerator InstanceContainerGenerator
         {
             get;
@@ -55,7 +63,8 @@ namespace DpdtInject.Generator.Blocks.Binding
         public BindingProcessor(
             IReadOnlyList<ITypeSymbol> bindFromTypes,
             ITypeSymbol bindToType,
-            IReadOnlyList<DetectedConstructorArgument> constructorArguments
+            IReadOnlyList<DetectedConstructorArgument> constructorArguments,
+            BindScopeEnum scope
             )
         {
             if (bindFromTypes is null)
@@ -76,6 +85,7 @@ namespace DpdtInject.Generator.Blocks.Binding
             BindFromTypes = bindFromTypes;
             BindToType = bindToType;
             ConstructorArguments = constructorArguments;
+            Scope = scope;
             FromTypeFullNames = new HashSet<string>(BindFromTypes.ConvertAll(b => b.GetFullName()));
             FromTypeNames = new HashSet<string>(BindFromTypes.ConvertAll(b => b.Name));
 

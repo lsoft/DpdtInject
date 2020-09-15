@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DpdtInject.Tests
 {
-    public class FakeModule<T>
+    public class FakeModule<T> : DpdtModule
         where T : DpdtModule
     {
         public T1 Get<T1>()
@@ -21,5 +21,9 @@ namespace DpdtInject.Tests
             throw new NotImplementedException("This method should not be executed");
         }
 
+        public override void Load()
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
     }
 }

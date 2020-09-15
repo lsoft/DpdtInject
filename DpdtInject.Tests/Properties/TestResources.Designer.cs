@@ -70,6 +70,34 @@ namespace DpdtInject.Tests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Singleton.Dispose
+        ///{
+        ///    public partial class SingletonDisposeModule : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithSingletonScope()
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SingletonDisposeModule {
+            get {
+                return ResourceManager.GetString("SingletonDisposeModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
         ///using DpdtInject.Injector.Module.Bind;
         ///
         ///namespace DpdtInject.Tests.Singleton.Hierarchy2

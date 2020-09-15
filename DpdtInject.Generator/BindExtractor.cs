@@ -231,7 +231,8 @@ namespace DpdtInject.Generator
             var bindingProcessor = new BindingProcessor(
                 bindFromTypeSematics,
                 bindToTypeSematic,
-                constructorArguments
+                constructorArguments,
+                BindScopeEnum.Singleton
                 );
 
             _bindingProcessors.Add(bindingProcessor);
