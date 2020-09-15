@@ -11,7 +11,12 @@ namespace DpdtInject.Generator.Parser.Binding
             get;
         }
 
-        public Dictionary<ITypeSymbol, List<BindingContainer>> ContainerGroups
+        public Dictionary<ITypeSymbol, List<BindingContainer>> BindGroups
+        {
+            get;
+        }
+
+        public Dictionary<ITypeSymbol, List<BindingContainer>> NotBindParentGroups
         {
             get;
         }
@@ -25,7 +30,10 @@ namespace DpdtInject.Generator.Parser.Binding
                 throw new ArgumentNullException(nameof(bindingContainers));
             }
 
-            var processorGroups = new Dictionary<ITypeSymbol, List<BindingContainer>>(
+            BindGroups = new Dictionary<ITypeSymbol, List<BindingContainer>>(
+                new TypeSymbolEqualityComparer()
+                );
+            NotBindParentGroups = new Dictionary<ITypeSymbol, List<BindingContainer>>(
                 new TypeSymbolEqualityComparer()
                 );
 
@@ -33,16 +41,25 @@ namespace DpdtInject.Generator.Parser.Binding
             {
                 foreach (var bindFromType in bc.BindFromTypes)
                 {
-                    if (!processorGroups.ContainsKey(bindFromType))
+                    if (!BindGroups.ContainsKey(bindFromType))
                     {
-                        processorGroups[bindFromType] = new List<BindingContainer>();
+                        BindGroups[bindFromType] = new List<BindingContainer>();
                     }
 
-                    processorGroups[bindFromType].Add(bc);
+                    BindGroups[bindFromType].Add(bc);
+                }
+
+                foreach(var cat in bc.NotBindConstructorArgumentTypes)
+                {
+                    if (!NotBindParentGroups.ContainsKey(cat))
+                    {
+                        NotBindParentGroups[cat] = new List<BindingContainer>();
+                    }
+
+                    NotBindParentGroups[cat].Add(bc);
                 }
             }
 
-            ContainerGroups = processorGroups;
             BindingContainers = bindingContainers;
         }
 

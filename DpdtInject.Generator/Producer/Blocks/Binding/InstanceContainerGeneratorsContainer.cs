@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Generator.Parser.Binding;
+using DpdtInject.Injector.Compilation;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
@@ -23,15 +24,26 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         }
 
         public InstanceContainerGeneratorsContainer(
+            IDiagnosticReporter diagnosticReporter,
             BindingsContainer bindingsContainer
             )
         {
+            if (diagnosticReporter is null)
+            {
+                throw new ArgumentNullException(nameof(diagnosticReporter));
+            }
+
             BindingsContainer = bindingsContainer;
 
             _instanceContainerGenerators = new List<InstanceContainerGenerator>();
             foreach (var bindingContainer in bindingsContainer.BindingContainers)
             {
-                _instanceContainerGenerators.Add(new InstanceContainerGenerator(bindingContainer));
+                _instanceContainerGenerators.Add(
+                    new InstanceContainerGenerator(
+                        diagnosticReporter,
+                        bindingsContainer,
+                        bindingContainer
+                        ));
             }
 
             Groups = new InstanceContainerGeneratorGroups(_instanceContainerGenerators);

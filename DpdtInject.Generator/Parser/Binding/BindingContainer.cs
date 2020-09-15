@@ -16,7 +16,6 @@ using System.Threading.Tasks;
 namespace DpdtInject.Generator.Parser.Binding
 {
     public class BindingContainer
-
     {
         public IReadOnlyList<ITypeSymbol> BindFromTypes
         {
@@ -29,6 +28,11 @@ namespace DpdtInject.Generator.Parser.Binding
         }
 
         public IReadOnlyList<DetectedConstructorArgument> ConstructorArguments
+        {
+            get;
+        }
+
+        public IReadOnlyCollection<ITypeSymbol> NotBindConstructorArgumentTypes
         {
             get;
         }
@@ -83,9 +87,11 @@ namespace DpdtInject.Generator.Parser.Binding
             BindFromTypes = bindFromTypes;
             BindToType = bindToType;
             ConstructorArguments = constructorArguments;
+            NotBindConstructorArgumentTypes = new HashSet<ITypeSymbol>(constructorArguments.Where(ca => !ca.DefineInBindNode).Select(ca => ca.Type!), new TypeSymbolEqualityComparer());
             Scope = scope;
             FromTypeFullNames = new HashSet<string>(BindFromTypes.ConvertAll(b => b.GetFullName()));
             FromTypeNames = new HashSet<string>(BindFromTypes.ConvertAll(b => b.Name));
+
         }
     }
 }

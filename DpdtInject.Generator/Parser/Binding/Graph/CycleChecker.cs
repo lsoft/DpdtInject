@@ -1,5 +1,6 @@
 ﻿using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Reporter;
+using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
@@ -34,7 +35,7 @@ namespace DpdtInject.Generator.Parser.Binding.Graph
                 new OrderIndependentCycleFoundEqualityComparer()
                 );
 
-            foreach (var bindFromType in _groups.ContainerGroups.Keys.Shuffle())
+            foreach (var bindFromType in _groups.BindGroups.Keys.Shuffle())
             {
                 try
                 {
@@ -78,7 +79,7 @@ namespace DpdtInject.Generator.Parser.Binding.Graph
             ITypeSymbol requestedType
             )
         {
-            foreach (var bindingProcessor in _groups.ContainerGroups[requestedType])
+            foreach (var bindingProcessor in _groups.BindGroups[requestedType])
             {
                 var used2 = used.Clone();
 

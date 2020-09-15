@@ -2,9 +2,8 @@
 using DpdtInject.Generator.Parser;
 using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Producer.Blocks.Module;
-using DpdtInject.Generator.Reporter;
+using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Excp;
-using DpdtInject.Injector.Helper;
 using DpdtInject.Injector.Module;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -171,7 +170,10 @@ namespace DpdtInject.Generator
                 //};
 
                 var bindingsContainer = bindExtractor.GetBindingsContainer();
-                var itemGeneratorsContainer = new InstanceContainerGeneratorsContainer(bindingsContainer);
+                var itemGeneratorsContainer = new InstanceContainerGeneratorsContainer(
+                    _diagnosticReporter,
+                    bindingsContainer
+                    );
 
                 var modulePartGenerator = new ModulePartGenerator(
                     _diagnosticReporter,

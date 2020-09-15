@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Generator.Reporter;
+using DpdtInject.Injector.Compilation;
 using System.Diagnostics;
 
 namespace DpdtInject.Tests

@@ -5,6 +5,21 @@ namespace DpdtInject.Generator.Helpers
 {
     public static class StringHelper
     {
+        public static string CheckAndReplaceIfTrue(
+            this string source,
+            Func<bool> predicate,
+            string oldValue,
+            string newValue
+            )
+        {
+            if(!predicate())
+            {
+                return source;
+            }
+
+            return CheckAndReplace(source, oldValue, newValue);
+        }
+
         public static string CheckAndReplace(
             this string source,
             string oldValue,

@@ -3,6 +3,7 @@ using DpdtInject.Generator.Parser;
 using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer;
 using DpdtInject.Generator.Properties;
+using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Module.RContext;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -16,11 +17,6 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
     public class InstanceContainerGenerator
     {
-        //private readonly IReadOnlyCollection<string> _fromTypeNames;
-        //private readonly string _targetTypeName;
-        //private readonly string _targetTypeFullName;
-        //private readonly IReadOnlyList<DetectedConstructorArgument> _constructorArguments;
-
         public BindingContainer BindingContainer
         {
             get;
@@ -37,57 +33,29 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         {
             get;
         }
-
+        public bool AtLeastOneParentIsConditional
+        {
+            get;
+        }
 
         public string DisposeClause => $"{ClassName}.{nameof(SingletonInstanceContainer.DoDisposeIfApplicable)}();";
 
-
-        //public InstanceContainerGenerator(
-        //    IReadOnlyCollection<string> fromTypeNames,
-        //    string targetTypeName,
-        //    string targetTypeFullName,
-        //    IReadOnlyList<DetectedConstructorArgument> constructorArguments
-        //    )
-        //{
-        //    if (fromTypeNames is null)
-        //    {
-        //        throw new ArgumentNullException(nameof(fromTypeNames));
-        //    }
-
-        //    if (targetTypeName is null)
-        //    {
-        //        throw new ArgumentNullException(nameof(targetTypeName));
-        //    }
-
-        //    if (targetTypeFullName is null)
-        //    {
-        //        throw new ArgumentNullException(nameof(targetTypeFullName));
-        //    }
-
-        //    if (constructorArguments is null)
-        //    {
-        //        throw new ArgumentNullException(nameof(constructorArguments));
-        //    }
-
-        //    _fromTypeNames = fromTypeNames;
-        //    _targetTypeName = targetTypeName;
-        //    _targetTypeFullName = targetTypeFullName;
-        //    _constructorArguments = constructorArguments;
-
-        //    ClassName = $"{string.Join("_", fromTypeNames)}_{targetTypeName}_{nameof(SingletonInstanceContainer)}_{Guid.NewGuid().ToString().ConvertMinusToGround()}";
-
-        //    var cus = SyntaxFactory.ParseCompilationUnit(Resources.SingletonInstanceContainer);
-        //    var uds = cus.DescendantNodes().OfType<UsingDirectiveSyntax>().ToList();
-
-        //    var usings = uds.ConvertAll(r => r.GetText().ToString());
-        //    usings.Add($"using {typeof(ResolutionContext).Namespace};");
-        //    Usings = usings;
-        //}
-
         public InstanceContainerGenerator(
+            IDiagnosticReporter diagnosticReporter,
+            BindingsContainer bindingsContainer,
             BindingContainer bindingContainer
             )
         {
+            if (diagnosticReporter is null)
+            {
+                throw new ArgumentNullException(nameof(diagnosticReporter));
+            }
+
+            if (bindingsContainer is null)
+            {
+                throw new ArgumentNullException(nameof(bindingsContainer));
+            }
+
             if (bindingContainer is null)
             {
                 throw new ArgumentNullException(nameof(bindingContainer));
@@ -104,6 +72,11 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             usings.Add($"using {typeof(ResolutionContext).Namespace};");
             Usings = usings;
 
+            AtLeastOneParentIsConditional = bindingContainer.IsConditional ||
+                bindingsContainer.CheckForAtLeastOneParentIsConditional(
+                    diagnosticReporter,
+                    bindingContainer
+                );
         }
 
         public string GetClassBody(
@@ -123,6 +96,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                 .CheckAndReplace(nameof(FakeTarget), BindingContainer.TargetTypeFullName)
                 .CheckAndReplace("//GENERATOR: arguments", string.Join(",", BindingContainer.ConstructorArguments.Select(ca => ca.GetConstructorClause(container))))
                 .CheckAndReplace("public sealed class", "private sealed class")
+                .CheckAndReplaceIfTrue(() => AtLeastOneParentIsConditional, "#if UNDECLARED_SYMBOL", "#if !UNDECLARED_SYMBOL")
                 ;
 
             return classBody;

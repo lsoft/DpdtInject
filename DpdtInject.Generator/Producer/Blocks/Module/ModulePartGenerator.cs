@@ -1,13 +1,11 @@
 ﻿using DpdtInject.Generator.Helpers;
-using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Producer.Blocks.Provider;
-using DpdtInject.Generator.Reporter;
+using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Helper;
 using DpdtInject.Injector.Module;
 using Microsoft.CodeAnalysis;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace DpdtInject.Generator.Producer.Blocks.Module
