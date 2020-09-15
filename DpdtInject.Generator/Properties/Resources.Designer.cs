@@ -61,27 +61,50 @@ namespace DpdtInject.Generator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Generator.Blocks.RContext;
+        ///   Looks up a localized string similar to using DpdtInject.Generator.Producer.Blocks.Binding;
+        ///using DpdtInject.Injector.Module.RContext;
         ///using System;
         ///using System.Runtime.CompilerServices;
         ///using System.Threading;
         ///
-        ///namespace DpdtInject.Generator.Blocks.Binding
+        ///namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
         ///{
-        ///#nullable enable
-        ///
         ///    public sealed class SingletonInstanceContainer
         ///    {
+        ///#nullable enable
         ///        private volatile static Action? _currentDisposeAction = null;
         ///        private volatile static Action _realDisposeAction =
         ///            () =&gt;
         ///            {
-        ///                if (Nested.Instance is IDisposable disposableInstance)
-        ///                {        /// [rest of string was truncated]&quot;;.
+        ///              [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SingletonInstanceContainer {
             get {
                 return ResourceManager.GetString("SingletonInstanceContainer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Generator.Producer.Blocks.Binding;
+        ///using DpdtInject.Injector.Module.RContext;
+        ///using System;
+        ///using System.Runtime.CompilerServices;
+        ///using System.Threading;
+        ///
+        ///namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
+        ///{
+        ///    public static class TransientInstanceContainer
+        ///    {
+        ///#nullable enable
+        ///
+        ///        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        ///        public static bool CheckPredicate(ResolutionContext resolutionContext)
+        ///        {
+        ///            return DateTim [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TransientInstanceContainer {
+            get {
+                return ResourceManager.GetString("TransientInstanceContainer", resourceCulture);
             }
         }
     }

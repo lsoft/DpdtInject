@@ -1,4 +1,4 @@
-﻿using DpdtInject.Generator;
+﻿using DpdtInject.Generator.Parser;
 using DpdtInject.Injector.Excp;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;

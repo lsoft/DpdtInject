@@ -1,9 +1,8 @@
 ﻿using DpdtInject.Injector.Module.RContext;
 using System;
 using System.Runtime.CompilerServices;
-using System.Threading;
 
-namespace DpdtInject.Generator.Blocks.Binding
+namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
 {
     public static class TransientInstanceContainer
     {
