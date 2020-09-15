@@ -37,7 +37,10 @@ namespace DpdtInject.Binding.Example.Zero
         }
 
 
-        public class ResolutionContext { }
+        public class ResolutionContext
+        {
+            public static readonly ResolutionContext EmptyContext = new ResolutionContext();
+        }
 
 
         private class Provider :

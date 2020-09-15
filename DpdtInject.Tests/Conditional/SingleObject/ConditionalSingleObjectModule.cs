@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DpdtInject.Tests.Singleton.Conditional
+namespace DpdtInject.Tests.Conditional.SingleObject
 {
     public partial class ConditionalSingleObjectModule : DpdtModule
     {

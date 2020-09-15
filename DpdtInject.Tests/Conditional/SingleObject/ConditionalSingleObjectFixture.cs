@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace DpdtInject.Tests.Singleton.Conditional
+namespace DpdtInject.Tests.Conditional.SingleObject
 {
 
     [TestClass]

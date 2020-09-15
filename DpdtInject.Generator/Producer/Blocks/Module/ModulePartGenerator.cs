@@ -82,7 +82,7 @@ namespace {ModuleTypeNamespace}
 
         public override void Dispose()
         {{
-            {container.InstanceContainerGenerators.Join(sc => sc.DisposeClause)}
+            {container.InstanceContainerGenerators.Join(sc => sc.DisposeClause + ";")}
         }}
 
         public T Get<T>()

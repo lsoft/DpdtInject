@@ -54,39 +54,116 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
 
             InterfaceSection = $"{nameof(IBaseProvider<object>)}<{BindFromTypeFullName}>";
 
-            if (instanceContainerGenerators.Count == 1)
+            var exceptionSuffix =
+                instanceContainerGenerators.Count > 1
+                    ? ", but conditional bindings exists"
+                    : string.Empty
+                    ;
+
+            if (instanceContainerGenerators.Count == 0)
             {
                 GetImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
 {bindFromTypeFullName} IBaseProvider<{bindFromTypeFullName}>.Get()
 {{
-    //TODO сделать выборку изо всех контейнеров и учесть предикат
-    return {instanceContainerGenerators[0].ClassName}.GetInstance();
+    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings available for [{bindFromTypeFullName}]{exceptionSuffix}", bindFromTypeFullName)}
+}}
+";
+            }
+            else if (instanceContainerGenerators.Count == 1)
+            {
+                GetImplementationSection = $@"
+//[MethodImpl(MethodImplOptions.AggressiveInlining)]
+{bindFromTypeFullName} IBaseProvider<{bindFromTypeFullName}>.Get()
+{{
+    if({instanceContainerGenerators[0].GetCheckPredicateClause("null")})
+    {{
+        return {instanceContainerGenerators[0].GetInstanceClause};
+    }}
+
+    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings available for [{bindFromTypeFullName}]{exceptionSuffix}", bindFromTypeFullName)}
 }}
 ";
             }
             else
             {
-                GetImplementationSection = $@"
+                if (instanceContainerGenerators.All(cg => !cg.AtLeastOneParentIsConditional))
+                {
+                    GetImplementationSection = $@"
+//[MethodImpl(MethodImplOptions.AggressiveInlining)]
+{bindFromTypeFullName} IBaseProvider<{bindFromTypeFullName}>.Get()
+{{
+            {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings available for [{bindFromTypeFullName}]", bindFromTypeFullName)}
+}}
+";
+                }
+                else
+                {
+                    GetImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
 {bindFromTypeFullName} IBaseProvider<{bindFromTypeFullName}>.Get()
 {{
     //TODO сделать выборку изо всех контейнеров и учесть предикат
-    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, "Too many bindings availble", bindFromTypeFullName)}
+
+    {bindFromTypeFullName} result = null;
+
+    if({instanceContainerGenerators[0].GetCheckPredicateClause("null")})
+    {{
+        result = {instanceContainerGenerators[0].GetInstanceClause};
+    }}
+";
+
+                    foreach (var instanceContainerGenerator in instanceContainerGenerators.Skip(1))
+                    {
+                        GetImplementationSection += $@"
+
+    if({instanceContainerGenerator.GetCheckPredicateClause("null")})
+    {{
+        if(result is not null)
+        {{
+            {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings available for [{bindFromTypeFullName}]", bindFromTypeFullName)}
+        }}
+
+        result = {instanceContainerGenerator.GetInstanceClause};
+    }}
+
+";
+                    }
+
+                    GetImplementationSection += $@"
+    if(result is null)
+    {{
+        {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings available for [{bindFromTypeFullName}]{exceptionSuffix}", bindFromTypeFullName)}
+    }}
+
+    return result;
 }}
 ";
+                }
             }
 
             GetAllImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
 List<{bindFromTypeFullName}> IBaseProvider<{bindFromTypeFullName}>.GetAll()
 {{
-    return
-        new List<{bindFromTypeFullName}>
-        {{
-            //TODO учесть предикат у каждого контейнера
-            {string.Join(",", instanceContainerGenerators.Select(b => $"{b.ClassName}.GetInstance()"))}
-        }};
+    var result = new List<{bindFromTypeFullName}>();
+";
+
+            foreach (var instanceContainerGenerator in instanceContainerGenerators)
+            {
+                GetAllImplementationSection += $@"
+
+    if({instanceContainerGenerator.GetCheckPredicateClause("null")})
+    {{
+        result.Add( {instanceContainerGenerator.GetInstanceClause} );
+    }}
+
+";
+            }
+
+            GetAllImplementationSection += $@"
+
+    return result;
 }}
 ";
 

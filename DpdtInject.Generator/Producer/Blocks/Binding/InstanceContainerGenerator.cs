@@ -10,6 +10,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 namespace DpdtInject.Generator.Producer.Blocks.Binding
@@ -38,7 +39,20 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             get;
         }
 
-        public string DisposeClause => $"{ClassName}.{nameof(SingletonInstanceContainer.DoDisposeIfApplicable)}();";
+        public string DisposeClause => $"{ClassName}.{nameof(SingletonInstanceContainer.DoDisposeIfApplicable)}()";
+
+        public string GetInstanceClause => $"{ClassName}.GetInstance()";
+
+        public string GetCheckPredicateClause(string innerText)
+        {
+            if(AtLeastOneParentIsConditional)
+            {
+                return $"{ClassName}.CheckPredicate({innerText})";
+
+            }
+
+            return $"true";
+        }
 
         public InstanceContainerGenerator(
             IDiagnosticReporter diagnosticReporter,
