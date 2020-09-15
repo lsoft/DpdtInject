@@ -12,6 +12,11 @@ namespace DpdtInject.Generator.Parser.Binding
 
         public IReadOnlyList<BindingContainer> BindingContainers => _bindingContainers;
 
+        public BindingContainerGroups Groups
+        {
+            get;
+        }
+
         public BindingsContainer(
             List<BindingContainer> bindingContainers
             )
@@ -20,7 +25,10 @@ namespace DpdtInject.Generator.Parser.Binding
             {
                 throw new ArgumentNullException(nameof(bindingContainers));
             }
+
             _bindingContainers = bindingContainers;
+
+            Groups = new BindingContainerGroups(_bindingContainers);
         }
 
         public IReadOnlyList<BindingContainer> GetBindWith(
@@ -36,11 +44,6 @@ namespace DpdtInject.Generator.Parser.Binding
                 _bindingContainers.FindAll(bc => bc.FromTypeFullNames.Contains(bindFromTypeFullName));
         }
 
-        public BindingContainerGroups ConvertToGroups()
-        {
-            return new BindingContainerGroups(_bindingContainers);
-        }
-
         internal void AnalyzeForCircularDependencies(
             IDiagnosticReporter diagnosticReporter
             )
@@ -50,7 +53,7 @@ namespace DpdtInject.Generator.Parser.Binding
                 throw new ArgumentNullException(nameof(diagnosticReporter));
             }
 
-            new CycleChecker(ConvertToGroups())
+            new CycleChecker(Groups)
                 .CheckForCycles(diagnosticReporter)
                 ;
         }

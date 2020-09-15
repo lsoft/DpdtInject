@@ -17,11 +17,10 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
     {
         private readonly List<ProviderInterfaceGenerator> _interfaceSection;
 
-        public InstanceContainerGeneratorGroups ProviderGroups
+        public InstanceContainerGeneratorsContainer Container
         {
             get;
         }
-
 
 
         public IReadOnlyList<ProviderInterfaceGenerator> InterfaceSection => _interfaceSection;
@@ -52,6 +51,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
             }
         }
 
+
         public ProviderGenerator(
             InstanceContainerGeneratorsContainer container
             )
@@ -61,27 +61,11 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
                 throw new ArgumentNullException(nameof(container));
             }
 
-            //_providerGroups = new Dictionary<string, List<BindingContainer>>();
-
-            //foreach (var bindingProcessor in container.BindingContainers)
-            //{
-            //    foreach (var bindFromType in bindingProcessor.BindFromTypes)
-            //    {
-            //        var key = bindFromType.GetFullName();
-            //        if (!_providerGroups.ContainsKey(key))
-            //        {
-            //            _providerGroups[key] = new List<BindingContainer>();
-            //        }
-
-            //        _providerGroups[key].Add(bindingProcessor);
-            //    }
-            //}
-
-            ProviderGroups = container.ConvertToGroups();
+            Container = container;
 
             _interfaceSection = new List<ProviderInterfaceGenerator>();
 
-            foreach (var pair in ProviderGroups.ContainerGroups)
+            foreach (var pair in Container.Groups.ContainerGroups)
             {
                 _interfaceSection.Add(
                     new ProviderInterfaceGenerator(pair.Key.GetFullName(), pair.Value)
@@ -89,91 +73,6 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
             }
         }
 
-    }
-
-    public class ProviderInterfaceGenerator
-    {
-        private readonly List<InstanceContainerGenerator> _instanceContainerGenerators;
-
-        public string BindFromTypeFullName
-        {
-            get;
-        }
-
-        public IReadOnlyList<InstanceContainerGenerator> InstanceContainerGenerators => _instanceContainerGenerators;
-
-        public string InterfaceSection
-        {
-            get;
-        } = string.Empty;
-
-        public string GetImplementationSection
-        {
-            get;
-        } = string.Empty;
-
-        public string GetAllImplementationSection
-        {
-            get;
-        } = string.Empty;
-
-        public ProviderInterfaceGenerator(
-            string bindFromTypeFullName,
-            List<InstanceContainerGenerator> instanceContainerGenerators
-            )
-        {
-            if (bindFromTypeFullName is null)
-            {
-                throw new ArgumentNullException(nameof(bindFromTypeFullName));
-            }
-
-            if (instanceContainerGenerators is null)
-            {
-                throw new ArgumentNullException(nameof(instanceContainerGenerators));
-            }
-
-            BindFromTypeFullName = bindFromTypeFullName;
-            _instanceContainerGenerators = instanceContainerGenerators;
-
-            InterfaceSection = $"{nameof(IBaseProvider<object>)}<{BindFromTypeFullName}>";
-
-            if (instanceContainerGenerators.Count == 1)
-            {
-                GetImplementationSection = $@"
-//[MethodImpl(MethodImplOptions.AggressiveInlining)]
-{bindFromTypeFullName} IBaseProvider<{bindFromTypeFullName}>.Get()
-{{
-    //TODO сделать выборку изо всех контейнеров и учесть предикат
-    return {instanceContainerGenerators[0].ClassName}.GetInstance();
-}}
-";
-            }
-            else
-            {
-                GetImplementationSection = $@"
-//[MethodImpl(MethodImplOptions.AggressiveInlining)]
-{bindFromTypeFullName} IBaseProvider<{bindFromTypeFullName}>.Get()
-{{
-    //TODO сделать выборку изо всех контейнеров и учесть предикат
-    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, "Too many bindings availble", bindFromTypeFullName)}
-}}
-";
-            }
-
-            GetAllImplementationSection = $@"
-//[MethodImpl(MethodImplOptions.AggressiveInlining)]
-List<{bindFromTypeFullName}> IBaseProvider<{bindFromTypeFullName}>.GetAll()
-{{
-    return
-        new List<{bindFromTypeFullName}>
-        {{
-            //TODO учесть предикат у каждого контейнера
-            {string.Join(",", instanceContainerGenerators.Select(b => $"{b.ClassName}.GetInstance()"))}
-        }};
-}}
-";
-
-        }
     }
 
 }

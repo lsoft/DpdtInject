@@ -17,6 +17,11 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
         public IReadOnlyList<InstanceContainerGenerator> InstanceContainerGenerators => _instanceContainerGenerators;
 
+        public InstanceContainerGeneratorGroups Groups
+        {
+            get;
+        }
+
         public InstanceContainerGeneratorsContainer(
             BindingsContainer bindingsContainer
             )
@@ -28,11 +33,8 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             {
                 _instanceContainerGenerators.Add(new InstanceContainerGenerator(bindingContainer));
             }
-        }
 
-        public InstanceContainerGeneratorGroups ConvertToGroups()
-        {
-            return new InstanceContainerGeneratorGroups(_instanceContainerGenerators);
+            Groups = new InstanceContainerGeneratorGroups(_instanceContainerGenerators);
         }
 
 
