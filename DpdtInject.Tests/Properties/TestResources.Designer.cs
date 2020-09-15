@@ -71,6 +71,33 @@ namespace DpdtInject.Tests.Properties {
         ///using System.Text;
         ///using System.Threading.Tasks;
         ///
+        ///namespace DpdtInject.Tests.Singleton.Conditional
+        ///{
+        ///    public partial class ConditionalSingleObjectModule : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA1&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithSingle [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ConditionalSingleObjectModule {
+            get {
+                return ResourceManager.GetString("ConditionalSingleObjectModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
         ///namespace DpdtInject.Tests.Singleton.Dispose
         ///{
         ///    public partial class SingletonDisposeModule : DpdtModule

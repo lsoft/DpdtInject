@@ -32,10 +32,10 @@ namespace DpdtInject.Injector.Module.Bind
 
     public interface IConditionalBinding : IBindConfigurationProvider
     {
-        //IConfigureBinding When(
+        IConfigureBinding When(
         //    DpdtIdempotentStatusEnum idempotentStatus,
         //    Func<IEmptyContext, bool> predicate
-        //    );
+            );
     }
 
     public interface IConfigureBinding : IBindConfigurationProvider
@@ -50,6 +50,8 @@ namespace DpdtInject.Injector.Module.Bind
         IToBinding, IScopeBinding, IConfigureAndConditionalBinding, IConfigureBinding, IBindConfigurationProvider
     {
         private readonly Dictionary<string, ConstructorArgument> _constructorArguments = new Dictionary<string, ConstructorArgument>();
+        
+        private bool _conditionalToDelete = false;
 
         //private Func<IEmptyContext, bool>? _predicate;
         //private object? _constant;
@@ -174,22 +176,24 @@ namespace DpdtInject.Injector.Module.Bind
         //    return this;
         //}
 
-        //public IConfigureBinding When(
+        public IConfigureBinding When(
         //    DpdtIdempotentStatusEnum idempotentStatus,
         //    Func<IEmptyContext, bool> predicate
-        //    )
-        //{
-        //    if (predicate is null)
-        //    {
-        //        throw new ArgumentNullException(nameof(predicate));
-        //    }
+            )
+        {
+            //    if (predicate is null)
+            //    {
+            //        throw new ArgumentNullException(nameof(predicate));
+            //    }
 
-        //    IdempotentStatus = idempotentStatus;
+            //    IdempotentStatus = idempotentStatus;
 
-        //    _predicate = predicate;
+            //    _predicate = predicate;
 
-        //    return this;
-        //}
+            _conditionalToDelete = true;
+
+            return this;
+        }
 
         public IConfigureBinding Configure(
             ConstructorArgument argument
@@ -227,7 +231,7 @@ namespace DpdtInject.Injector.Module.Bind
                     throw new DpdtException(DpdtExceptionTypeEnum.UnknownScope, $"Unknown scope {BindScope}");
                     //return new BindConfiguration(bindNode, _predicate, _constructorArguments, IdempotentStatus);
                 case BindScopeEnum.Singleton:
-                    return new BindConfiguration(bindNode, /*_predicate,*/ _constructorArguments/*, IdempotentStatus*/);
+                    return new BindConfiguration(bindNode, _conditionalToDelete, /*_predicate,*/ _constructorArguments/*, IdempotentStatus*/);
                 case BindScopeEnum.Constant:
                     throw new DpdtException(DpdtExceptionTypeEnum.UnknownScope, $"Unknown scope {BindScope}");
                     //return new BindConfiguration(bindNode, _predicate, _constant, IdempotentStatus);

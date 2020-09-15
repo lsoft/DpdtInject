@@ -9,6 +9,7 @@ namespace DpdtInject.Injector.Module.Bind
 {
     public class BindConfiguration : IBindConfiguration
     {
+        private readonly bool _conditionalToDelete;
         private readonly IReadOnlyDictionary<string, ConstructorArgument> _constructorArguments;
         private readonly object? _constant;
 
@@ -29,6 +30,7 @@ namespace DpdtInject.Injector.Module.Bind
 
         public BindConfiguration(
             BindNode bindNode,
+            bool conditionalToDelete,
             //Func<IEmptyContext, bool>? predicate,
             IReadOnlyDictionary<string, ConstructorArgument> constructorArguments
             //DpdtIdempotentStatusEnum idempotentStatus
@@ -45,6 +47,7 @@ namespace DpdtInject.Injector.Module.Bind
             }
 
             BindNode = bindNode;
+            _conditionalToDelete = conditionalToDelete;
             //Predicate = predicate;
             _constructorArguments = constructorArguments;
             //IdempotentStatus = idempotentStatus;

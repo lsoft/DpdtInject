@@ -101,6 +101,8 @@ namespace DpdtInject.Generator.Parser
 
             var scope = DetermineScope(expressionNode);
 
+            var whenClause = DetermineBindingClause(expressionNode);
+
             //StatementSyntax toReplace0Node, toReplace1Node;
             switch (scope)
             {
@@ -108,7 +110,8 @@ namespace DpdtInject.Generator.Parser
                     ProcessSingleton(
                         expressionNode,
                         bindGenericNode,
-                        toGenericNode
+                        toGenericNode,
+                        whenClause
                         //bindFromTypeName,
                         //bindToTypeName,
                         //nodeVariableName,
@@ -156,7 +159,8 @@ namespace DpdtInject.Generator.Parser
         private void ProcessSingleton(
             ExpressionStatementSyntax expressionNode,
             GenericNameSyntax bindGenericNode,
-            GenericNameSyntax toGenericNode
+            GenericNameSyntax toGenericNode,
+            IdentifierNameSyntax? whenClause
             //string bindFromTypeName,
             //string bindToTypeName,
             //string nodeVariableName,
@@ -233,7 +237,8 @@ namespace DpdtInject.Generator.Parser
                 bindFromTypeSematics,
                 bindToTypeSematic,
                 constructorArguments,
-                BindScopeEnum.Singleton
+                BindScopeEnum.Singleton,
+                whenClause
                 );
 
             _bindingContainers.Add(bindingContainer);
@@ -251,6 +256,20 @@ namespace DpdtInject.Generator.Parser
             //                containers.Add({containerVariableName}.Configuration.BindNode.Name, {containerVariableName});
             //");
 
+        }
+
+        private IdentifierNameSyntax? DetermineBindingClause(
+            ExpressionStatementSyntax expressionNode
+            )
+        {
+            var dnodes = expressionNode
+                .DescendantNodes()
+                .ToList()
+                ;
+
+            var whenSyntax = dnodes.OfType<IdentifierNameSyntax>().FirstOrDefault(j => j.Identifier.Text == nameof(IConditionalBinding.When));
+            
+            return whenSyntax;
         }
 
         private BindScopeEnum DetermineScope(
