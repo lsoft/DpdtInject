@@ -2,6 +2,7 @@
 using DpdtInject.Generator.Producer.Blocks.Exception;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Excp;
+using DpdtInject.Injector.Module.RContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,6 +61,8 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
                     : string.Empty
                     ;
 
+            var emptyContextReference = $"{nameof(ResolutionContext)}.{nameof(ResolutionContext.EmptyContext)}";
+
             if (instanceContainerGenerators.Count == 0)
             {
                 GetImplementationSection = $@"
@@ -76,7 +79,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
 {bindFromTypeFullName} IBaseProvider<{bindFromTypeFullName}>.Get()
 {{
-    if({instanceContainerGenerators[0].GetCheckPredicateClause("null")})
+    if({instanceContainerGenerators[0].GetCheckPredicateClause(emptyContextReference)})
     {{
         return {instanceContainerGenerators[0].GetInstanceClause};
     }}
@@ -107,7 +110,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
 
     {bindFromTypeFullName} result = null;
 
-    if({instanceContainerGenerators[0].GetCheckPredicateClause("null")})
+    if({instanceContainerGenerators[0].GetCheckPredicateClause(emptyContextReference)})
     {{
         result = {instanceContainerGenerators[0].GetInstanceClause};
     }}
@@ -117,7 +120,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
                     {
                         GetImplementationSection += $@"
 
-    if({instanceContainerGenerator.GetCheckPredicateClause("null")})
+    if({instanceContainerGenerator.GetCheckPredicateClause(emptyContextReference)})
     {{
         if(result is not null)
         {{
@@ -153,7 +156,7 @@ List<{bindFromTypeFullName}> IBaseProvider<{bindFromTypeFullName}>.GetAll()
             {
                 GetAllImplementationSection += $@"
 
-    if({instanceContainerGenerator.GetCheckPredicateClause("null")})
+    if({instanceContainerGenerator.GetCheckPredicateClause(emptyContextReference)})
     {{
         result.Add( {instanceContainerGenerator.GetInstanceClause} );
     }}

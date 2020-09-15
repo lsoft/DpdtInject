@@ -26,7 +26,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CheckPredicate(ResolutionContext resolutionContext)
         {
-            return DateTime.Now.Millisecond % 2 == 0;
+            //GENERATOR: predicate
         }
 #endif
 
