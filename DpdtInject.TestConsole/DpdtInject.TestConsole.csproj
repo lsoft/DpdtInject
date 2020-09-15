@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5</TargetFramework>
+    <LangVersion>preview</LangVersion>
+    <Nullable>enable</Nullable>
+    <WarningsAsErrors>nullable;CS8766;CS8767</WarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DpdtInject.Binding.Example\DpdtInject.Binding.Example.csproj" />
+    <ProjectReference Include="..\DpdtInject.Generator\DpdtInject.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true">
+       <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework>
+    </ProjectReference>
+
+  </ItemGroup>
+
+</Project>

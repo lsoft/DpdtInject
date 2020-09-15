@@ -1,0 +1,90 @@
+﻿using DpdtInject.Generator.Properties;
+using DpdtInject.Injector.Helper;
+using DpdtInject.Injector.Module.RContext;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DpdtInject.Generator.Blocks.Binding
+{
+    public class BindingProcessor
+    {
+        public IReadOnlyList<ITypeSymbol> BindFromTypes
+        {
+            get;
+        }
+        
+        public ITypeSymbol BindToType
+        {
+            get;
+        }
+        public IReadOnlyList<DetectedConstructorArgument> ConstructorArguments
+        {
+            get;
+        }
+        public InstanceContainerGenerator InstanceContainerGenerator
+        {
+            get;
+        }
+
+        public IReadOnlyCollection<string> FromTypeFullNames
+        {
+            get;
+        }
+
+        public IReadOnlyCollection<string> FromTypeNames
+        {
+            get;
+        }
+
+        public bool IsConditional
+        {
+            get;
+            private set;
+        } = false;
+
+        public string TargetTypeName => BindToType.Name;
+
+        public string TargetTypeFullName => BindToType.GetFullName();
+
+        public BindingProcessor(
+            IReadOnlyList<ITypeSymbol> bindFromTypes,
+            ITypeSymbol bindToType,
+            IReadOnlyList<DetectedConstructorArgument> constructorArguments
+            )
+        {
+            if (bindFromTypes is null)
+            {
+                throw new ArgumentNullException(nameof(bindFromTypes));
+            }
+
+            if (bindToType is null)
+            {
+                throw new ArgumentNullException(nameof(bindToType));
+            }
+
+            if (constructorArguments is null)
+            {
+                throw new ArgumentNullException(nameof(constructorArguments));
+            }
+
+            BindFromTypes = bindFromTypes;
+            BindToType = bindToType;
+            ConstructorArguments = constructorArguments;
+            FromTypeFullNames = new HashSet<string>(BindFromTypes.ConvertAll(b => b.GetFullName()));
+            FromTypeNames = new HashSet<string>(BindFromTypes.ConvertAll(b => b.Name));
+
+            InstanceContainerGenerator = new InstanceContainerGenerator(
+                FromTypeNames,
+                TargetTypeName,
+                TargetTypeFullName,
+                ConstructorArguments
+                );
+        }
+    }
+}

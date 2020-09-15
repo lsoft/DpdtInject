@@ -1,0 +1,25 @@
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+рекурсивные зависимости выдадут некорректные результаты из-за спецификации €зыка C#:
+
+It is possible for static fields with variable initializers to be observed in their default value state. However, this is strongly discouraged as a matter of style. The example
+using System;
+class Test
+{
+	static int a = b + 1;
+	static int b = a + 1;
+	static void Main() {
+		Console.WriteLine("a = {0}, b = {1}", a, b);
+	}
+}
+exhibits this behavior. Despite the circular definitions of a and b, the program is valid. It results in the output
+a = 1, b = 2
+because the static fields a and b are initialized to 0 (the default value for int) before their initializers are executed. When the initializer for a runs, the value of b is zero, and so a is initialized to 1. When the initializer for b runs, the value of a is already 1, and so b is initialized to 2.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+написать тесты на циклы в графе; в том числе с conditional биндингами
+подумать насчет возможности сделать тесты веро€тностными (то есть искать не все варианты, а ограниченные по времени), или даже полностью отключать их; это бы сэкономило врем€ компил€ции
+подумать насчет пропускать подграфы, например с помощью атрибута или внутри кл€узы Bind а-л€ Bind<>().To<>().SkipCirculalCheck()
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
