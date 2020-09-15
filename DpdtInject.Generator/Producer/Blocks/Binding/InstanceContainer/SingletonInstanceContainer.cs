@@ -36,11 +36,11 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
 #endif
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static FakeTarget GetInstance()
+        public static FakeTarget GetInstance(ResolutionContext resolutionContext)
         {
             Interlocked.Exchange(ref _currentDisposeAction, _realDisposeAction);
 
-            return Nested.Instance;
+            return Nested.GetInstance(resolutionContext);
         }
 
         public static void DoDisposeIfApplicable()
@@ -50,6 +50,9 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
 
         private class Nested
         {
+            private static readonly object _locker = new object();
+            public static volatile FakeTarget? Instance = null;
+
             // Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
             static Nested()
             {
@@ -57,9 +60,23 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
 
             //GENERATOR: declare arguments
 
-            internal static readonly FakeTarget Instance = new FakeTarget(
-                //GENERATOR: apply arguments
-                );
+            internal static FakeTarget GetInstance(ResolutionContext resolutionContext)
+            {
+                if(Instance is null)
+                {
+                    lock(_locker)
+                    {
+                        if(Instance is null)
+                        {
+                            Instance = new FakeTarget(
+                                //GENERATOR: apply arguments
+                              );
+                        }
+                    }
+                }
+
+                return Instance!;
+            }
         }
 #nullable disable
     }

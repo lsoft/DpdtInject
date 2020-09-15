@@ -44,7 +44,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
         public string DisposeClause => $"{ClassName}.{nameof(SingletonInstanceContainer.DoDisposeIfApplicable)}()";
 
-        public string GetInstanceClause => $"{ClassName}.GetInstance()";
+        public string GetInstanceClause(string innerText) => $"{ClassName}.GetInstance({innerText})";
 
         public string GetCheckPredicateClause(string innerText)
         {

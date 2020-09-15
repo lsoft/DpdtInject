@@ -191,7 +191,7 @@ private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {loca
 {{
     if({instanceContainerGenerators[0].GetCheckPredicateClause(localVariableContextReference)})
     {{
-        return {instanceContainerGenerators[0].GetInstanceClause};
+        return {instanceContainerGenerators[0].GetInstanceClause(localVariableContextReference)};
     }}
 
     {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetTypeFullName}]{exceptionSuffix}", bindingContainer.TargetTypeFullName)}
@@ -220,7 +220,7 @@ private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {loca
 
     if({instanceContainerGenerators[0].GetCheckPredicateClause(localVariableContextReference)})
     {{
-        result = {instanceContainerGenerators[0].GetInstanceClause};
+        result = {instanceContainerGenerators[0].GetInstanceClause(localVariableContextReference)};
     }}
 ";
 
@@ -235,7 +235,7 @@ private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {loca
             {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetTypeFullName}]", bindingContainer.TargetTypeFullName)}
         }}
 
-        result = {instanceContainerGenerator.GetInstanceClause};
+        result = {instanceContainerGenerator.GetInstanceClause(localVariableContextReference)};
     }}
 
 ";
@@ -254,25 +254,6 @@ private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {loca
             }
 
             return applyArgumentPiece;
-
-            //            //we need to access child instance container
-            //            var childContainers = container.GetBindWith(Type!.GetFullName());
-
-            //            if (childContainers.Count != 1)
-            //            {
-            //                throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"childContainers.Count != 1, probably it's time to improve choosing a child");
-            //            }
-
-            //            var childContainer = childContainers[0];
-
-            //            return $@"
-            //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-            //private static {Type.GetFullName()} Get_{Name}()
-            //{{
-            //    var result = {childContainer.ClassName}.{nameof(SingletonInstanceContainer.GetInstance)}();
-            //    return result;
-            //}}
-            //";
         }
 
         public string GetApplyConstructorClause(
@@ -289,7 +270,7 @@ private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {loca
                 return $"{Name}: {Body}";
             }
 
-            return $"{Name}: Get_{Name}()";
+            return $"{Name}: Get_{Name}(resolutionContext)";
         }
 
     }

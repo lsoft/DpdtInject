@@ -81,7 +81,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
 {{
     if({instanceContainerGenerators[0].GetCheckPredicateClause(emptyContextReference)})
     {{
-        return {instanceContainerGenerators[0].GetInstanceClause};
+        return {instanceContainerGenerators[0].GetInstanceClause(emptyContextReference)};
     }}
 
     {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings available for [{bindFromTypeFullName}]{exceptionSuffix}", bindFromTypeFullName)}
@@ -112,7 +112,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
 
     if({instanceContainerGenerators[0].GetCheckPredicateClause(emptyContextReference)})
     {{
-        result = {instanceContainerGenerators[0].GetInstanceClause};
+        result = {instanceContainerGenerators[0].GetInstanceClause(emptyContextReference)};
     }}
 ";
 
@@ -127,7 +127,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
             {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings available for [{bindFromTypeFullName}]", bindFromTypeFullName)}
         }}
 
-        result = {instanceContainerGenerator.GetInstanceClause};
+        result = {instanceContainerGenerator.GetInstanceClause(emptyContextReference)};
     }}
 
 ";
@@ -158,7 +158,7 @@ List<{bindFromTypeFullName}> IBaseProvider<{bindFromTypeFullName}>.GetAll()
 
     if({instanceContainerGenerator.GetCheckPredicateClause(emptyContextReference)})
     {{
-        result.Add( {instanceContainerGenerator.GetInstanceClause} );
+        result.Add( {instanceContainerGenerator.GetInstanceClause(emptyContextReference)} );
     }}
 
 ";

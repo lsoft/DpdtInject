@@ -48,20 +48,6 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
             Groups = new InstanceContainerGeneratorGroups(_instanceContainerGenerators);
         }
-
-
-        //public IReadOnlyList<InstanceContainerGenerator> GetBindWith(
-        //    string bindFromTypeFullName
-        //    )
-        //{
-        //    if (bindFromTypeFullName is null)
-        //    {
-        //        throw new ArgumentNullException(nameof(bindFromTypeFullName));
-        //    }
-
-        //    return
-        //        _instanceContainerGenerators.FindAll(icg => icg.BindingContainer.FromTypeFullNames.Contains(bindFromTypeFullName));
-        //}
     }
 
     public class InstanceContainerGeneratorGroups
