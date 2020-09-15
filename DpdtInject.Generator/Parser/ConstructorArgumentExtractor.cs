@@ -2,8 +2,10 @@
 using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer;
+using DpdtInject.Generator.Producer.Blocks.Exception;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Module.Bind;
+using DpdtInject.Injector.Module.RContext;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -131,7 +133,149 @@ namespace DpdtInject.Generator.Parser
             Body = null;
         }
 
-        public string GetConstructorClause(
+        public string GetDeclareConstructorClause(
+            InstanceContainerGeneratorsContainer container,
+            BindingContainer bindingContainer
+            )
+        {
+            if (container is null)
+            {
+                throw new ArgumentNullException(nameof(container));
+            }
+
+            if (bindingContainer is null)
+            {
+                throw new ArgumentNullException(nameof(bindingContainer));
+            }
+
+
+
+            if (DefineInBindNode)
+            {
+                return string.Empty;
+            }
+
+
+            var localVariableContextReference = "resolutionContext";
+
+            var applyArgumentPiece = string.Empty;
+
+            if(Type is null)
+            {
+                throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"Type is null somehow");
+            }
+
+            var instanceContainerGenerators = container.Groups.ContainerGroups[this.Type];
+
+            var exceptionSuffix =
+                instanceContainerGenerators.Count > 1
+                    ? ", but conditional bindings exists"
+                    : string.Empty
+                    ;
+
+            if (instanceContainerGenerators.Count == 0)
+            {
+                applyArgumentPiece = $@"
+[MethodImpl(MethodImplOptions.AggressiveInlining)]
+private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {localVariableContextReference})
+{{
+        {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetTypeFullName}]{exceptionSuffix}", bindingContainer.TargetTypeFullName)}
+}}
+";
+            }
+            else if (instanceContainerGenerators.Count == 1)
+            {
+                applyArgumentPiece = $@"
+[MethodImpl(MethodImplOptions.AggressiveInlining)]
+private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {localVariableContextReference})
+{{
+    if({instanceContainerGenerators[0].GetCheckPredicateClause(localVariableContextReference)})
+    {{
+        return {instanceContainerGenerators[0].GetInstanceClause};
+    }}
+
+    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetTypeFullName}]{exceptionSuffix}", bindingContainer.TargetTypeFullName)}
+}}
+";
+            }
+            else
+            {
+                if (instanceContainerGenerators.Count(cg => !cg.AtLeastOneParentIsConditional) > 1)
+                {
+                    applyArgumentPiece = $@"
+[MethodImpl(MethodImplOptions.AggressiveInlining)]
+private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {localVariableContextReference})
+{{
+    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetTypeFullName}]", bindingContainer.TargetTypeFullName)}
+}}
+";
+                }
+                else
+                {
+                    applyArgumentPiece = $@"
+[MethodImpl(MethodImplOptions.AggressiveInlining)]
+private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {localVariableContextReference})
+{{
+    {bindingContainer.TargetTypeFullName} result = null;
+
+    if({instanceContainerGenerators[0].GetCheckPredicateClause(localVariableContextReference)})
+    {{
+        result = {instanceContainerGenerators[0].GetInstanceClause};
+    }}
+";
+
+                    foreach (var instanceContainerGenerator in instanceContainerGenerators.Skip(1))
+                    {
+                        applyArgumentPiece += $@"
+
+    if({instanceContainerGenerator.GetCheckPredicateClause(localVariableContextReference)})
+    {{
+        if(result is not null)
+        {{
+            {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetTypeFullName}]", bindingContainer.TargetTypeFullName)}
+        }}
+
+        result = {instanceContainerGenerator.GetInstanceClause};
+    }}
+
+";
+                    }
+
+                    applyArgumentPiece += $@"
+    if(result is null)
+    {{
+        {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetTypeFullName}]{exceptionSuffix}", bindingContainer.TargetTypeFullName)}
+    }}
+
+    return result;
+}}
+";
+                }
+            }
+
+            return applyArgumentPiece;
+
+            //            //we need to access child instance container
+            //            var childContainers = container.GetBindWith(Type!.GetFullName());
+
+            //            if (childContainers.Count != 1)
+            //            {
+            //                throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"childContainers.Count != 1, probably it's time to improve choosing a child");
+            //            }
+
+            //            var childContainer = childContainers[0];
+
+            //            return $@"
+            //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+            //private static {Type.GetFullName()} Get_{Name}()
+            //{{
+            //    var result = {childContainer.ClassName}.{nameof(SingletonInstanceContainer.GetInstance)}();
+            //    return result;
+            //}}
+            //";
+        }
+
+        public string GetApplyConstructorClause(
             InstanceContainerGeneratorsContainer container
             )
         {
@@ -145,17 +289,7 @@ namespace DpdtInject.Generator.Parser
                 return $"{Name}: {Body}";
             }
 
-            //we need to access child instance container
-            var childContainers = container.GetBindWith(Type!.GetFullName());
-
-            if (childContainers.Count != 1)
-            {
-                throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"childContainers.Count != 1, probably it's time to improve choosing a child");
-            }
-
-            var childContainer = childContainers[0];
-
-            return $"{Name}: {childContainer.ClassName}.{nameof(SingletonInstanceContainer.GetInstance)}()";
+            return $"{Name}: Get_{Name}()";
         }
 
     }

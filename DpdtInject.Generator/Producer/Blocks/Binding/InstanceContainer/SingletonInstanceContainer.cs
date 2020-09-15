@@ -1,4 +1,5 @@
-﻿using DpdtInject.Injector.Module.RContext;
+﻿using DpdtInject.Injector.Excp;
+using DpdtInject.Injector.Module.RContext;
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -54,8 +55,10 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
             {
             }
 
+            //GENERATOR: declare arguments
+
             internal static readonly FakeTarget Instance = new FakeTarget(
-                //GENERATOR: arguments
+                //GENERATOR: apply arguments
                 );
         }
 #nullable disable

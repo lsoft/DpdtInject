@@ -70,16 +70,42 @@ namespace DpdtInject.Tests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
         ///
-        ///namespace DpdtInject.Tests.Singleton.Conditional
+        ///namespace DpdtInject.Tests.Conditional.Hierarchy2
+        ///{
+        ///    public partial class ConditionalHierarchy2Module : DpdtModule
+        ///    {
+        ///        public const string Message = &quot;some message&quot;;
+        ///
+        ///        public override void L [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ConditionalHierarchy2Module {
+            get {
+                return ResourceManager.GetString("ConditionalHierarchy2Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Conditional.SingleObject
         ///{
         ///    public partial class ConditionalSingleObjectModule : DpdtModule
         ///    {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IA1&gt;()
-        ///                .To&lt;A&gt;()
-        ///                .WithSingle [rest of string was truncated]&quot;;.
+        ///                . [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalSingleObjectModule {
             get {

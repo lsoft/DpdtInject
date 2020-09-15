@@ -2,8 +2,10 @@
 using DpdtInject.Generator.Parser;
 using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer;
+using DpdtInject.Generator.Producer.Blocks.Exception;
 using DpdtInject.Generator.Properties;
 using DpdtInject.Injector.Compilation;
+using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Module.RContext;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -12,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
 
 namespace DpdtInject.Generator.Producer.Blocks.Binding
 {
@@ -108,7 +111,8 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             var classBody = cds.GetText().ToString()
                 .CheckAndReplace(nameof(SingletonInstanceContainer), ClassName)
                 .CheckAndReplace(nameof(FakeTarget), BindingContainer.TargetTypeFullName)
-                .CheckAndReplace("//GENERATOR: arguments", string.Join(",", BindingContainer.ConstructorArguments.Select(ca => ca.GetConstructorClause(container))))
+                .CheckAndReplace("//GENERATOR: declare arguments", string.Join(Environment.NewLine, BindingContainer.ConstructorArguments.Where(ca => !ca.DefineInBindNode).Select(ca => ca.GetDeclareConstructorClause(container, BindingContainer))))
+                .CheckAndReplace("//GENERATOR: apply arguments", string.Join(",", BindingContainer.ConstructorArguments.Select(ca => ca.GetApplyConstructorClause(container))))
                 .CheckAndReplace("public sealed class", "private sealed class")
                 .CheckAndReplaceIfTrue(() => AtLeastOneParentIsConditional, "#if UNDECLARED_SYMBOL", "#if !UNDECLARED_SYMBOL")
                 .CheckAndReplace("//GENERATOR: predicate", (BindingContainer.WhenArgumentClause?.ToString() ?? "rc => true"))

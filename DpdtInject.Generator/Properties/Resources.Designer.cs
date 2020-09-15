@@ -61,7 +61,7 @@ namespace DpdtInject.Generator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Generator.Producer.Blocks.Binding;
+        ///   Looks up a localized string similar to using DpdtInject.Injector.Excp;
         ///using DpdtInject.Injector.Module.RContext;
         ///using System;
         ///using System.Runtime.CompilerServices;
@@ -76,35 +76,11 @@ namespace DpdtInject.Generator.Properties {
         ///        private volatile static Action _realDisposeAction =
         ///            () =&gt;
         ///            {
-        ///              [rest of string was truncated]&quot;;.
+        ///                if (Nested.Instan [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SingletonInstanceContainer {
             get {
                 return ResourceManager.GetString("SingletonInstanceContainer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Generator.Producer.Blocks.Binding;
-        ///using DpdtInject.Injector.Module.RContext;
-        ///using System;
-        ///using System.Runtime.CompilerServices;
-        ///using System.Threading;
-        ///
-        ///namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
-        ///{
-        ///    public static class TransientInstanceContainer
-        ///    {
-        ///#nullable enable
-        ///
-        ///        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        ///        public static bool CheckPredicate(ResolutionContext resolutionContext)
-        ///        {
-        ///            return DateTim [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string TransientInstanceContainer {
-            get {
-                return ResourceManager.GetString("TransientInstanceContainer", resourceCulture);
             }
         }
     }

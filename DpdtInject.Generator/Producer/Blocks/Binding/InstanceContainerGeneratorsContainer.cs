@@ -50,18 +50,18 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         }
 
 
-        public IReadOnlyList<InstanceContainerGenerator> GetBindWith(
-            string bindFromTypeFullName
-            )
-        {
-            if (bindFromTypeFullName is null)
-            {
-                throw new ArgumentNullException(nameof(bindFromTypeFullName));
-            }
+        //public IReadOnlyList<InstanceContainerGenerator> GetBindWith(
+        //    string bindFromTypeFullName
+        //    )
+        //{
+        //    if (bindFromTypeFullName is null)
+        //    {
+        //        throw new ArgumentNullException(nameof(bindFromTypeFullName));
+        //    }
 
-            return
-                _instanceContainerGenerators.FindAll(icg => icg.BindingContainer.FromTypeFullNames.Contains(bindFromTypeFullName));
-        }
+        //    return
+        //        _instanceContainerGenerators.FindAll(icg => icg.BindingContainer.FromTypeFullNames.Contains(bindFromTypeFullName));
+        //}
     }
 
     public class InstanceContainerGeneratorGroups

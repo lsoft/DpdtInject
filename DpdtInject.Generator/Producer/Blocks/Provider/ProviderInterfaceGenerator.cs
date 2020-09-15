@@ -90,7 +90,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
             }
             else
             {
-                if (instanceContainerGenerators.All(cg => !cg.AtLeastOneParentIsConditional))
+                if (instanceContainerGenerators.Count(cg => !cg.AtLeastOneParentIsConditional) > 1)
                 {
                     GetImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
