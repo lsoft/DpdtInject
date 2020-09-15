@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.Options;
 using System;
 using System.IO;
 
-namespace DpdtInject.Generator.Parser
+namespace DpdtInject.Generator
 {
     public class ModificationDescription
     {

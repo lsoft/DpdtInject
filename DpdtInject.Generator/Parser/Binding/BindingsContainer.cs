@@ -8,19 +8,19 @@ namespace DpdtInject.Generator.Parser.Binding
 {
     public class BindingsContainer
     {
-        private readonly List<BindingContainer> _bindingProcessors;
+        private readonly List<BindingContainer> _bindingContainers;
 
-        public IReadOnlyList<BindingContainer> BindingProcessors => _bindingProcessors;
+        public IReadOnlyList<BindingContainer> BindingContainers => _bindingContainers;
 
         public BindingsContainer(
-            List<BindingContainer> bindingProcessors
+            List<BindingContainer> bindingContainers
             )
         {
-            if (bindingProcessors is null)
+            if (bindingContainers is null)
             {
-                throw new ArgumentNullException(nameof(bindingProcessors));
+                throw new ArgumentNullException(nameof(bindingContainers));
             }
-            _bindingProcessors = bindingProcessors;
+            _bindingContainers = bindingContainers;
         }
 
         public IReadOnlyList<BindingContainer> GetBindWith(
@@ -33,12 +33,12 @@ namespace DpdtInject.Generator.Parser.Binding
             }
 
             return
-                _bindingProcessors.FindAll(bc => bc.FromTypeFullNames.Contains(bindFromTypeFullName));
+                _bindingContainers.FindAll(bc => bc.FromTypeFullNames.Contains(bindFromTypeFullName));
         }
 
         public BindingContainerGroups ConvertToGroups()
         {
-            return new BindingContainerGroups(_bindingProcessors);
+            return new BindingContainerGroups(_bindingContainers);
         }
 
         internal void AnalyzeForCircularDependencies(

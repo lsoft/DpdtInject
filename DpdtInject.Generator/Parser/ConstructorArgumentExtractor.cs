@@ -1,5 +1,6 @@
 ﻿using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Parser.Binding;
+using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Module.Bind;
@@ -131,12 +132,12 @@ namespace DpdtInject.Generator.Parser
         }
 
         public string GetConstructorClause(
-            BindingsContainer bindingProcessorContainer
+            InstanceContainerGeneratorsContainer container
             )
         {
-            if (bindingProcessorContainer is null)
+            if (container is null)
             {
-                throw new ArgumentNullException(nameof(bindingProcessorContainer));
+                throw new ArgumentNullException(nameof(container));
             }
 
             if (DefineInBindNode)
@@ -145,16 +146,16 @@ namespace DpdtInject.Generator.Parser
             }
 
             //we need to access child instance container
-            var childBindContainers = bindingProcessorContainer.GetBindWith(Type!.GetFullName());
+            var childContainers = container.GetBindWith(Type!.GetFullName());
 
-            if (childBindContainers.Count != 1)
+            if (childContainers.Count != 1)
             {
-                throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"childBindContainers.Count != 1, probably it's time to improve choosing a child");
+                throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"childContainers.Count != 1, probably it's time to improve choosing a child");
             }
 
-            var childBindContainer = childBindContainers[0];
+            var childContainer = childContainers[0];
 
-            return $"{Name}: {childBindContainer.InstanceContainerGenerator.ClassName}.{nameof(SingletonInstanceContainer.GetInstance)}()";
+            return $"{Name}: {childContainer.ClassName}.{nameof(SingletonInstanceContainer.GetInstance)}()";
         }
 
     }

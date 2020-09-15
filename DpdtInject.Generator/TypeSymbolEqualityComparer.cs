@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace DpdtInject.Generator.Parser
+namespace DpdtInject.Generator
 {
     public class TypeSymbolEqualityComparer : IEqualityComparer<ITypeSymbol>
     {

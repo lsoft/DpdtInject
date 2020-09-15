@@ -1,5 +1,6 @@
 ﻿using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Parser.Binding;
+using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Producer.Blocks.Provider;
 using DpdtInject.Generator.Reporter;
 using DpdtInject.Injector.Helper;
@@ -43,18 +44,18 @@ namespace DpdtInject.Generator.Producer.Blocks.Module
         }
 
         public string GetClassBody(
-            BindingsContainer bindingProcessorContainer
+            InstanceContainerGeneratorsContainer container
             )
         {
-            if (bindingProcessorContainer is null)
+            if (container is null)
             {
-                throw new ArgumentNullException(nameof(bindingProcessorContainer));
+                throw new ArgumentNullException(nameof(container));
             }
 
-            bindingProcessorContainer.AnalyzeForCircularDependencies(_diagnosticReporter);
+            container.BindingsContainer.AnalyzeForCircularDependencies(_diagnosticReporter);
 
             var providerGenerator = new ProviderGenerator(
-                bindingProcessorContainer
+                container
                 );
 
             var result = @$"
@@ -71,7 +72,7 @@ using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Module;
 using DpdtInject.Injector.Module.Bind;
 
-{bindingProcessorContainer.BindingProcessors.Join(sc => sc.InstanceContainerGenerator.Usings.Join(c => c))}
+{container.InstanceContainerGenerators.Join(sc => sc.Usings.Join(c => c))}
 
 namespace {ModuleTypeNamespace}
 {{
@@ -83,7 +84,7 @@ namespace {ModuleTypeNamespace}
 
         public override void Dispose()
         {{
-            {bindingProcessorContainer.BindingProcessors.Join(sc => sc.InstanceContainerGenerator.DisposeClause)}
+            {container.InstanceContainerGenerators.Join(sc => sc.DisposeClause)}
         }}
 
         public T Get<T>()
@@ -104,7 +105,7 @@ namespace {ModuleTypeNamespace}
         }}
 #nullable disable
 
-    {bindingProcessorContainer.BindingProcessors.Join(sc => sc.InstanceContainerGenerator.GetClassBody(bindingProcessorContainer))}
+    {container.InstanceContainerGenerators.Join(sc => sc.GetClassBody(container))}
 
     }}
 

@@ -38,11 +38,6 @@ namespace DpdtInject.Generator.Parser.Binding
             get;
         }
 
-        public InstanceContainerGenerator InstanceContainerGenerator
-        {
-            get;
-        }
-
         public IReadOnlyCollection<string> FromTypeFullNames
         {
             get;
@@ -91,13 +86,6 @@ namespace DpdtInject.Generator.Parser.Binding
             Scope = scope;
             FromTypeFullNames = new HashSet<string>(BindFromTypes.ConvertAll(b => b.GetFullName()));
             FromTypeNames = new HashSet<string>(BindFromTypes.ConvertAll(b => b.Name));
-
-            InstanceContainerGenerator = new InstanceContainerGenerator(
-                FromTypeNames,
-                TargetTypeName,
-                TargetTypeFullName,
-                ConstructorArguments
-                );
         }
     }
 }

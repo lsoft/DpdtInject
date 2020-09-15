@@ -22,12 +22,13 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
         {
         }
 
+#if UNDECLARED_SYMBOL
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CheckPredicate(ResolutionContext resolutionContext)
         {
             return DateTime.Now.Millisecond % 2 == 0;
         }
-
+#endif
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static FakeTarget GetInstance()

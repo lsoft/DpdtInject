@@ -1,4 +1,6 @@
 ﻿using DpdtInject.Generator.Helpers;
+using DpdtInject.Generator.Parser;
+using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Producer.Blocks.Module;
 using DpdtInject.Generator.Reporter;
 using DpdtInject.Injector.Excp;
@@ -11,7 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace DpdtInject.Generator.Parser
+namespace DpdtInject.Generator
 {
     public class DpdtInternalGenerator
     {
@@ -168,6 +170,9 @@ namespace DpdtInject.Generator.Parser
                 //    bindingProcessor
                 //};
 
+                var bindingsContainer = bindExtractor.GetBindingsContainer();
+                var itemGeneratorsContainer = new InstanceContainerGeneratorsContainer(bindingsContainer);
+
                 var modulePartGenerator = new ModulePartGenerator(
                     _diagnosticReporter,
                     moduleType
@@ -176,7 +181,7 @@ namespace DpdtInject.Generator.Parser
                 var modificationDescription = new ModificationDescription(
                     moduleType,
                     moduleType.Name + "_1.cs",
-                    modulePartGenerator.GetClassBody(bindExtractor.GetBindingsContainer())
+                    modulePartGenerator.GetClassBody(itemGeneratorsContainer)
                     );
 
                 if (!string.IsNullOrEmpty(_generatedFilePath))

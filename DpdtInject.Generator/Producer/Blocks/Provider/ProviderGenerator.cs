@@ -1,5 +1,6 @@
 ﻿using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Parser.Binding;
+using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Producer.Blocks.Exception;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Excp;
@@ -15,9 +16,13 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
     public class ProviderGenerator
     {
         private readonly List<ProviderInterfaceGenerator> _interfaceSection;
-        private readonly Dictionary<string, List<BindingContainer>> _providerGroups;
 
-        public IReadOnlyDictionary<string, List<BindingContainer>> ProviderGroups => _providerGroups;
+        public InstanceContainerGeneratorGroups ProviderGroups
+        {
+            get;
+        }
+
+
 
         public IReadOnlyList<ProviderInterfaceGenerator> InterfaceSection => _interfaceSection;
 
@@ -48,31 +53,38 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
         }
 
         public ProviderGenerator(
-            BindingsContainer bindingProcessorContainer
+            InstanceContainerGeneratorsContainer container
             )
         {
-            _providerGroups = new Dictionary<string, List<BindingContainer>>();
-
-            foreach (var bindingProcessor in bindingProcessorContainer.BindingProcessors)
+            if (container is null)
             {
-                foreach (var bindFromType in bindingProcessor.BindFromTypes)
-                {
-                    var key = bindFromType.GetFullName();
-                    if (!_providerGroups.ContainsKey(key))
-                    {
-                        _providerGroups[key] = new List<BindingContainer>();
-                    }
-
-                    _providerGroups[key].Add(bindingProcessor);
-                }
+                throw new ArgumentNullException(nameof(container));
             }
+
+            //_providerGroups = new Dictionary<string, List<BindingContainer>>();
+
+            //foreach (var bindingProcessor in container.BindingContainers)
+            //{
+            //    foreach (var bindFromType in bindingProcessor.BindFromTypes)
+            //    {
+            //        var key = bindFromType.GetFullName();
+            //        if (!_providerGroups.ContainsKey(key))
+            //        {
+            //            _providerGroups[key] = new List<BindingContainer>();
+            //        }
+
+            //        _providerGroups[key].Add(bindingProcessor);
+            //    }
+            //}
+
+            ProviderGroups = container.ConvertToGroups();
 
             _interfaceSection = new List<ProviderInterfaceGenerator>();
 
-            foreach (var pair in _providerGroups)
+            foreach (var pair in ProviderGroups.ContainerGroups)
             {
                 _interfaceSection.Add(
-                    new ProviderInterfaceGenerator(pair.Key, pair.Value)
+                    new ProviderInterfaceGenerator(pair.Key.GetFullName(), pair.Value)
                     );
             }
         }
@@ -81,14 +93,14 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
 
     public class ProviderInterfaceGenerator
     {
-        private readonly List<BindingContainer> _bindingProcessors;
+        private readonly List<InstanceContainerGenerator> _instanceContainerGenerators;
 
         public string BindFromTypeFullName
         {
             get;
         }
 
-        public IReadOnlyList<BindingContainer> BindingProcessors => _bindingProcessors;
+        public IReadOnlyList<InstanceContainerGenerator> InstanceContainerGenerators => _instanceContainerGenerators;
 
         public string InterfaceSection
         {
@@ -107,7 +119,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
 
         public ProviderInterfaceGenerator(
             string bindFromTypeFullName,
-            List<BindingContainer> bindingProcessors
+            List<InstanceContainerGenerator> instanceContainerGenerators
             )
         {
             if (bindFromTypeFullName is null)
@@ -115,24 +127,24 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
                 throw new ArgumentNullException(nameof(bindFromTypeFullName));
             }
 
-            if (bindingProcessors is null)
+            if (instanceContainerGenerators is null)
             {
-                throw new ArgumentNullException(nameof(bindingProcessors));
+                throw new ArgumentNullException(nameof(instanceContainerGenerators));
             }
 
             BindFromTypeFullName = bindFromTypeFullName;
-            _bindingProcessors = bindingProcessors;
+            _instanceContainerGenerators = instanceContainerGenerators;
 
             InterfaceSection = $"{nameof(IBaseProvider<object>)}<{BindFromTypeFullName}>";
 
-            if (bindingProcessors.Count == 1)
+            if (instanceContainerGenerators.Count == 1)
             {
                 GetImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
 {bindFromTypeFullName} IBaseProvider<{bindFromTypeFullName}>.Get()
 {{
     //TODO сделать выборку изо всех контейнеров и учесть предикат
-    return {bindingProcessors[0].InstanceContainerGenerator.ClassName}.GetInstance();
+    return {instanceContainerGenerators[0].ClassName}.GetInstance();
 }}
 ";
             }
@@ -156,7 +168,7 @@ List<{bindFromTypeFullName}> IBaseProvider<{bindFromTypeFullName}>.GetAll()
         new List<{bindFromTypeFullName}>
         {{
             //TODO учесть предикат у каждого контейнера
-            {string.Join(",", bindingProcessors.Select(b => $"{b.InstanceContainerGenerator.ClassName}.GetInstance()"))}
+            {string.Join(",", instanceContainerGenerators.Select(b => $"{b.ClassName}.GetInstance()"))}
         }};
 }}
 ";
