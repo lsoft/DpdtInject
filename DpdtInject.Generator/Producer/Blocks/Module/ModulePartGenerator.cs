@@ -109,7 +109,6 @@ namespace {ModuleTypeNamespace}
 
 }}
 ";
-
             return result;
         }
 

@@ -111,7 +111,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                 .CheckAndReplace("//GENERATOR: arguments", string.Join(",", BindingContainer.ConstructorArguments.Select(ca => ca.GetConstructorClause(container))))
                 .CheckAndReplace("public sealed class", "private sealed class")
                 .CheckAndReplaceIfTrue(() => AtLeastOneParentIsConditional, "#if UNDECLARED_SYMBOL", "#if !UNDECLARED_SYMBOL")
-                .CheckAndReplace("//GENERATOR: predicate", "return true;")
+                .CheckAndReplace("//GENERATOR: predicate", (BindingContainer.WhenArgumentClause?.ToString() ?? "rc => true"))
                 ;
 
             return classBody;

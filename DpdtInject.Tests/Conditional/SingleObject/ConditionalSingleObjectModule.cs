@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Injector;
+using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Module;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -17,13 +18,13 @@ namespace DpdtInject.Tests.Conditional.SingleObject
             Bind<IA1>()
                 .To<A>()
                 .WithSingletonScope()
-                .When()
+                .When(rc => true)
                 ;
 
             Bind<IA2>()
                 .To<A>()
                 .WithSingletonScope()
-                .When()
+                .When(rc => false)
                 ;
         }
 
@@ -36,10 +37,27 @@ namespace DpdtInject.Tests.Conditional.SingleObject
                 var a1 = module.Get<IA1>();
                 Assert.IsNotNull(a1);
 
-                //var a2 = module.Get<IA1>();
-                //Assert.IsNotNull(a2);
+                var a1s = module.GetAll<IA1>();
+                Assert.IsNotNull(a1s);
+                Assert.AreEqual(1, a1s.Count);
+                Assert.AreSame(a1, a1s[0]);
 
-                //Assert.AreNotSame(a1, a2);
+                try
+                {
+                    var a2 = module.Get<IA2>();
+
+                    Assert.Fail("test fails, this line should never be executed");
+                }
+                catch (DpdtException excp)
+                    when(excp.Type == DpdtExceptionTypeEnum.NoBindingAvailable && excp.AdditionalArgument == typeof(IA2).FullName)
+                {
+                    //it's ok
+                }
+
+                var a2s = module.GetAll<IA2>();
+                Assert.IsNotNull(a2s);
+                Assert.AreEqual(0, a2s.Count);
+
             }
         }
 

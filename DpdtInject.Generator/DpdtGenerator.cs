@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using DpdtInject.Generator.Reporter;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.FindSymbols;
 using Microsoft.CodeAnalysis.Text;
 using System;
@@ -9,11 +10,8 @@ using System.Text;
 namespace DpdtInject.Generator
 {
     [Generator]
-    public class DpdtGenerator
-
-        : ISourceGenerator
+    public class DpdtGenerator : ISourceGenerator
     {
-
         public DpdtGenerator()
         {
         }
@@ -26,56 +24,22 @@ namespace DpdtInject.Generator
         {
             try
             {
+                var internalGenerator = new DpdtInternalGenerator(
+                    new DiagnosticReporter(
+                        context
+                        )
+                    );
 
-                //var compilation = context.Compilation;
+                var unitsGenerated = 0;
+                foreach (var modificationDescription in internalGenerator.Execute(context.Compilation))
+                {
+                    context.AddSource(
+                        modificationDescription.NewFileName,
+                        SourceText.From(modificationDescription.NewFileBody, Encoding.UTF8)
+                        );
 
-                //var allTypes = compilation.GlobalNamespace.GetAllTypes().ToList();
-                //var builderTypes = allTypes
-                //    .Where(t => t.GetFullName() == typeof(D2pdt2KernelBuilder).FullName)
-                //    .ToList()
-                //    ;
-
-                //Debugger.Launch();
-
-                //if (builderTypes.Count != 1)
-                //{
-                //    throw new InvalidOperationException("builder's type should exists only one!");
-                //}
-
-                //var builderType = builderTypes[0];
-
-                ////compilation.GetSemanticModel().
-
-
-
-//                context.AddSource(
-//                    "additional.cs",
-//                    SourceText.From(@"
-//namespace DpdtInject.Generator
-//{
-//    //public partial class D2pdt2KernelBuilder
-//    //{
-//    //    private T GetKernelPrivate<T>()
-//    //        where T : ID2pdt2Kernel
-//    //    {
-//    //        return new D2pdt2Kernel0();
-//    //    }
-//    //}
-
-//    //public class D2pdt2Kernel0 : ID2pdt2Kernel
-//    //{
-//    //    public void ShowMessage()
-//    //    {
-//    //        System.Console.WriteLine(""--== message showed ==--"");
-//    //    }
-
-//    //}
-//}
-
-//", Encoding.UTF8)
-//                    );
-
-                var unitsGenerated = 1;
+                    unitsGenerated++;
+                }
 
                 context.ReportDiagnostic(
                     Diagnostic.Create(

@@ -86,7 +86,7 @@ namespace DpdtInject.Generator
 
                 if (loadMethodRefs.Length != 1)
                 {
-                    throw new Exception($"Something wrong with method {loadMethod.GetFullName()}");
+                    throw new Exception($"Something wrong with method {loadMethod.GetFullName()} : {loadMethodRefs.Length}");
                 }
 
                 var loadMethodRef = loadMethodRefs[0];

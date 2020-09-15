@@ -7,107 +7,107 @@ using System.Runtime.CompilerServices;
 
 namespace DpdtInject.Injector.Module.Bind
 {
-    public class BindConfiguration : IBindConfiguration
-    {
-        private readonly bool _conditionalToDelete;
-        private readonly IReadOnlyDictionary<string, ConstructorArgument> _constructorArguments;
-        private readonly object? _constant;
+    //public class BindConfiguration : IBindConfiguration
+    //{
+    //    private readonly bool _conditionalBinding;
+    //    private readonly IReadOnlyDictionary<string, ConstructorArgument> _constructorArguments;
+    //    private readonly object? _constant;
 
-        public BindNode BindNode
-        {
-            get;
-        }
+    //    public BindNode BindNode
+    //    {
+    //        get;
+    //    }
 
-        //public DpdtIdempotentStatusEnum IdempotentStatus
-        //{
-        //    get;
-        //}
+    //    //public DpdtIdempotentStatusEnum IdempotentStatus
+    //    //{
+    //    //    get;
+    //    //}
 
-        //public Func<IEmptyContext, bool>? Predicate
-        //{
-        //    get;
-        //}
+    //    //public Func<IEmptyContext, bool>? Predicate
+    //    //{
+    //    //    get;
+    //    //}
 
-        public BindConfiguration(
-            BindNode bindNode,
-            bool conditionalToDelete,
-            //Func<IEmptyContext, bool>? predicate,
-            IReadOnlyDictionary<string, ConstructorArgument> constructorArguments
-            //DpdtIdempotentStatusEnum idempotentStatus
-            )
-        {
-            if (bindNode is null)
-            {
-                throw new ArgumentNullException(nameof(bindNode));
-            }
+    //    public BindConfiguration(
+    //        BindNode bindNode,
+    //        bool conditionalBinding,
+    //        //Func<IEmptyContext, bool>? predicate,
+    //        IReadOnlyDictionary<string, ConstructorArgument> constructorArguments
+    //        //DpdtIdempotentStatusEnum idempotentStatus
+    //        )
+    //    {
+    //        if (bindNode is null)
+    //        {
+    //            throw new ArgumentNullException(nameof(bindNode));
+    //        }
 
-            if (constructorArguments is null)
-            {
-                throw new ArgumentNullException(nameof(constructorArguments));
-            }
+    //        if (constructorArguments is null)
+    //        {
+    //            throw new ArgumentNullException(nameof(constructorArguments));
+    //        }
 
-            BindNode = bindNode;
-            _conditionalToDelete = conditionalToDelete;
-            //Predicate = predicate;
-            _constructorArguments = constructorArguments;
-            //IdempotentStatus = idempotentStatus;
-        }
+    //        BindNode = bindNode;
+    //        _conditionalBinding = conditionalBinding;
+    //        //Predicate = predicate;
+    //        _constructorArguments = constructorArguments;
+    //        //IdempotentStatus = idempotentStatus;
+    //    }
 
-        //public BindConfiguration(
-        //    BindNode bindNode,
-        //    Func<IEmptyContext, bool>? predicate,
-        //    object? constant,
-        //    DpdtIdempotentStatusEnum idempotentStatus
-        //    )
-        //{
-        //    if (bindNode is null)
-        //    {
-        //        throw new ArgumentNullException(nameof(bindNode));
-        //    }
-
-
-        //    BindNode = bindNode;
-        //    Predicate = predicate;
-        //    _constant = constant;
-        //    _constructorArguments = null!;
-        //    IdempotentStatus = idempotentStatus;
-        //}
+    //    //public BindConfiguration(
+    //    //    BindNode bindNode,
+    //    //    Func<IEmptyContext, bool>? predicate,
+    //    //    object? constant,
+    //    //    DpdtIdempotentStatusEnum idempotentStatus
+    //    //    )
+    //    //{
+    //    //    if (bindNode is null)
+    //    //    {
+    //    //        throw new ArgumentNullException(nameof(bindNode));
+    //    //    }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public object? GetConstant()
-        {
-            if (BindNode.BindScope != BindScopeEnum.Constant)
-            {
-                throw new DpdtException(DpdtExceptionTypeEnum.IncorrectScope, $"Incorrect scope: {BindNode.BindScope}");
-            }
+    //    //    BindNode = bindNode;
+    //    //    Predicate = predicate;
+    //    //    _constant = constant;
+    //    //    _constructorArguments = null!;
+    //    //    IdempotentStatus = idempotentStatus;
+    //    //}
 
-            return _constant;
-        }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public IReadOnlyDictionary<string, ConstructorArgument> GetConstructorArguments()
-        {
-            if(BindNode.BindScope.NotIn(BindScopeEnum.Singleton, BindScopeEnum.Transient))
-            {
-                throw new DpdtException(DpdtExceptionTypeEnum.IncorrectScope, $"Incorrect scope: {BindNode.BindScope}");
-            }
+    //    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    //    public object? GetConstant()
+    //    {
+    //        if (BindNode.BindScope != BindScopeEnum.Constant)
+    //        {
+    //            throw new DpdtException(DpdtExceptionTypeEnum.IncorrectScope, $"Incorrect scope: {BindNode.BindScope}");
+    //        }
 
-            return _constructorArguments!;
-        }
+    //        return _constant;
+    //    }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal bool TryGetConstructorArguments(
-            string constructorArgumentName,
-            [NotNullWhen(true)] out ConstructorArgument? constructorArgument
-            )
-        {
-            if (BindNode.BindScope.NotIn(BindScopeEnum.Singleton, BindScopeEnum.Transient))
-            {
-                throw new DpdtException(DpdtExceptionTypeEnum.IncorrectScope, $"Incorrect scope: {BindNode.BindScope}");
-            }
+    //    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    //    public IReadOnlyDictionary<string, ConstructorArgument> GetConstructorArguments()
+    //    {
+    //        if(BindNode.BindScope.NotIn(BindScopeEnum.Singleton, BindScopeEnum.Transient))
+    //        {
+    //            throw new DpdtException(DpdtExceptionTypeEnum.IncorrectScope, $"Incorrect scope: {BindNode.BindScope}");
+    //        }
 
-            return _constructorArguments.TryGetValue(constructorArgumentName, out constructorArgument);
-        }
-    }
+    //        return _constructorArguments!;
+    //    }
+
+    //    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    //    internal bool TryGetConstructorArguments(
+    //        string constructorArgumentName,
+    //        [NotNullWhen(true)] out ConstructorArgument? constructorArgument
+    //        )
+    //    {
+    //        if (BindNode.BindScope.NotIn(BindScopeEnum.Singleton, BindScopeEnum.Transient))
+    //        {
+    //            throw new DpdtException(DpdtExceptionTypeEnum.IncorrectScope, $"Incorrect scope: {BindNode.BindScope}");
+    //        }
+
+    //        return _constructorArguments.TryGetValue(constructorArgumentName, out constructorArgument);
+    //    }
+    //}
 }

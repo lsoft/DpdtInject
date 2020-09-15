@@ -41,7 +41,12 @@ namespace DpdtInject.Generator.Parser.Binding
         {
             get;
         }
-        public IdentifierNameSyntax? WhenClause { get; }
+
+        public ArgumentSyntax? WhenArgumentClause
+        {
+            get;
+        }
+
         public IReadOnlyCollection<string> FromTypeFullNames
         {
             get;
@@ -52,7 +57,7 @@ namespace DpdtInject.Generator.Parser.Binding
             get;
         }
 
-        public bool IsConditional => WhenClause is not null;
+        public bool IsConditional => WhenArgumentClause is not null;
 
         public string TargetTypeName => BindToType.Name;
 
@@ -63,7 +68,7 @@ namespace DpdtInject.Generator.Parser.Binding
             ITypeSymbol bindToType,
             IReadOnlyList<DetectedConstructorArgument> constructorArguments,
             BindScopeEnum scope,
-            IdentifierNameSyntax? whenClause
+            ArgumentSyntax? whenArgumentClause
             )
         {
             if (bindFromTypes is null)
@@ -86,7 +91,7 @@ namespace DpdtInject.Generator.Parser.Binding
             ConstructorArguments = constructorArguments;
             NotBindConstructorArgumentTypes = new HashSet<ITypeSymbol>(constructorArguments.Where(ca => !ca.DefineInBindNode).Select(ca => ca.Type!), new TypeSymbolEqualityComparer());
             Scope = scope;
-            WhenClause = whenClause;
+            WhenArgumentClause = whenArgumentClause;
             FromTypeFullNames = new HashSet<string>(BindFromTypes.ConvertAll(b => b.GetFullName()));
             FromTypeNames = new HashSet<string>(BindFromTypes.ConvertAll(b => b.Name));
 

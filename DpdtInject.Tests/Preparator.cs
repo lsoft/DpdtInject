@@ -57,7 +57,7 @@ namespace DpdtInject.Tests
             _testContext = testContext;
             _testerClassName = testerClassName;
             _moduleFileName = moduleFileName;
-            _moduleSource = Regex.Replace(moduleSource, @"new FakeModule<(?i:([a-zA-z\d]+))>", "new $1");
+            _moduleSource = Regex.Replace(moduleSource, @"FakeModule<(?i:([a-zA-z\d]+))>", "$1");
             _callerFilePath = callerFilePath;
 
             DiagnosticReporter = new FakeDiagnosticReporter();
