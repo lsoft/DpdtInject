@@ -21,14 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Singleton\Hierarchy2\SingletonHierarchy2Module.Pregenerated.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Singleton\Hierarchy2\SingletonHierarchy2Module.Pregenerated.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.8.0-2.final" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0-2.final" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.0-preview-20200812-03" />

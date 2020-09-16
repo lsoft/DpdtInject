@@ -1,7 +1,10 @@
 ﻿using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Producer.Blocks.Binding;
+using DpdtInject.Generator.Producer.Blocks.Exception;
 using DpdtInject.Generator.Producer.Blocks.Provider;
+using DpdtInject.Injector;
 using DpdtInject.Injector.Compilation;
+using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
 using DpdtInject.Injector.Module;
 using DpdtInject.Injector.Module.Bind;
@@ -57,7 +60,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Module
             var providerGenerator = new ProviderGenerator(
                 container
                 );
-
+            
             var result = @$"
 #nullable disable
 
@@ -79,7 +82,8 @@ namespace {ModuleTypeNamespace}
 #nullable enable
     public partial class {ModuleTypeName} : {nameof(DpdtModule)}
     {{
-        private readonly Provider _provider = new Provider();
+        private readonly Provider _provider = new Provider(
+            );
 
 
         public override void Dispose()
@@ -90,28 +94,71 @@ namespace {ModuleTypeNamespace}
         public T Get<T>()
         {{
             return ((IBaseProvider<T>)_provider).Get();
-
-            //var incomingType = typeof(T);
-            //var targetType = typeof(IBaseProvider<>).MakeGenericType(incomingType);
-
-            //var r = targetType.InvokeMember(
-            //    nameof(IBaseProvider<object>.Get),
-            //    System.Reflection.BindingFlags.InvokeMethod | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic,
-            //    null, _provider, null
-            //    );
-
-            //return (T)r;
         }}
-
-
         public List<T> GetAll<T>()
         {{
             return ((IBaseProvider<T>)_provider).GetAll();
         }}
 
+        public object Get({typeof(Type).FullName} requestedType)
+        {{
+            return _provider.Get(requestedType);
+        }}
+        public List<object> GetAll({typeof(Type).FullName} requestedType)
+        {{
+            return _provider.GetAll(requestedType);
+        }}
+
         private class Provider
             {providerGenerator.CombinedInterfaces}
         {{
+            private readonly {typeof(ReinventedContainer).FullName} _typeContainer;
+
+            public Provider()
+            {{
+                _typeContainer = new {typeof(ReinventedContainer).FullName}(
+                    {container.GetReinventedContainerArgument()}
+                    );
+            }}
+
+            public object Get({typeof(Type).FullName} requestedType)
+            {{
+                var resolveFunc = _typeContainer.{nameof(ReinventedContainer.GetGet)}(requestedType);
+
+                if(resolveFunc is null)
+                {{
+                    {ExceptionGenerator.GenerateThrowExceptionClause2(DpdtExceptionTypeEnum.NoBindingAvailable, "string.Format(\"No bindings available for {0}\", requestedType.GetType().FullName)", "requestedType.GetType().FullName")}
+                }}
+
+                return resolveFunc();
+            }}
+            public List<object> GetAll({typeof(Type).FullName} requestedType)
+            {{
+                var result = new List<object>();
+
+                var resolveTuples = _typeContainer.{nameof(ReinventedContainer.GetGetAllDirty)}(requestedType);
+
+                if (resolveTuples is null)
+                {{
+                    {ExceptionGenerator.GenerateThrowExceptionClause2(DpdtExceptionTypeEnum.NoBindingAvailable, "string.Format(\"No bindings available for {0}\", requestedType.GetType().FullName)", "requestedType.GetType().FullName")}
+                }}
+
+                for(var index = 0; index < resolveTuples.Count; index++)
+                {{
+                    var tuple = resolveTuples[index];
+
+                    if(tuple.{nameof(ReinventedContainer.HashTuple.Type)} != requestedType)
+                    {{
+                        continue;
+                    }}
+
+                    result.Add(tuple.{nameof(ReinventedContainer.HashTuple.Factory)}());
+                }}
+
+                return result;
+            }}
+
+
             {providerGenerator.CombinedImplementationSection}
         }}
 #nullable disable

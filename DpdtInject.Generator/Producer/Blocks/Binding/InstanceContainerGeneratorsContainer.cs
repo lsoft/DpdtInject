@@ -1,9 +1,12 @@
-﻿using DpdtInject.Generator.Parser.Binding;
+﻿using DpdtInject.Generator.Helpers;
+using DpdtInject.Generator.Parser.Binding;
+using DpdtInject.Injector;
 using DpdtInject.Injector.Compilation;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace DpdtInject.Generator.Producer.Blocks.Binding
 {
@@ -47,6 +50,20 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             }
 
             Groups = new InstanceContainerGeneratorGroups(_instanceContainerGenerators);
+        }
+
+        internal string GetReinventedContainerArgument()
+        {
+            var clauses = new List<string>();
+
+            foreach(var key in Groups.ContainerGroups.Keys)
+            {
+                clauses.Add(
+                    $"(typeof({key.GetFullName()}), new Func<object>(() => (({nameof(IBaseProvider<object>)}<{key.GetFullName()}>)this).Get()))"
+                    );
+            }
+
+            return string.Join(",", clauses);
         }
     }
 

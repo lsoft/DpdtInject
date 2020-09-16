@@ -32,5 +32,15 @@ namespace DpdtInject.Generator.Producer.Blocks.Exception
             return
                 $"throw new {typeof(DpdtException).FullName}({nameof(DpdtExceptionTypeEnum)}.{exceptionType}, \"{message}\", \"{additionalInformation}\");";
         }
+
+        public static string GenerateThrowExceptionClause2(
+            DpdtExceptionTypeEnum exceptionType,
+            string message,
+            string additionalInformation
+            )
+        {
+            return
+                $"throw new {typeof(DpdtException).FullName}({nameof(DpdtExceptionTypeEnum)}.{exceptionType}, {message}, {additionalInformation});";
+        }
     }
 }
