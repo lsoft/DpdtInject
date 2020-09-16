@@ -114,7 +114,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             var classBody = cds.GetText().ToString()
                 .CheckAndReplace(nameof(SingletonInstanceContainer), ClassName)
                 .CheckAndReplace(nameof(FakeTarget), BindingContainer.TargetTypeFullName)
-                .CheckAndReplace("//GENERATOR: declare arguments", string.Join(Environment.NewLine, BindingContainer.ConstructorArguments.Where(ca => !ca.DefineInBindNode).Select(ca => ca.GetDeclareConstructorClause(container, BindingContainer))))
+                .CheckAndReplace("//GENERATOR: declare arguments", string.Join(Environment.NewLine, BindingContainer.ConstructorArguments.Where(ca => !ca.DefineInBindNode).Select(ca => ca.GetRetrieveConstructorArgumentClause(container, BindingContainer))))
                 .CheckAndReplace("//GENERATOR: apply arguments", string.Join(",", BindingContainer.ConstructorArguments.Select(ca => ca.GetApplyConstructorClause(container))))
                 .CheckAndReplace("public sealed class", "private sealed class")
                 .CheckAndReplaceIfTrue(() => ItselfOrAtLeastOneChildIsConditional, "#if UNDECLARED_SYMBOL", "#if !UNDECLARED_SYMBOL")

@@ -166,6 +166,30 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Conditional.RContext.Hierarchy2Variant1
+        ///{
+        ///    public partial class ConditionalRContextHierarchy2Variant1Module : DpdtModule
+        ///    {
+        ///        public const string BMessage = &quot;B some message [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ConditionalRContextHierarchy2Variant1Module {
+            get {
+                return ResourceManager.GetString("ConditionalRContextHierarchy2Variant1Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
         ///using DpdtInject.Injector.Excp;
         ///using DpdtInject.Injector.Module;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;

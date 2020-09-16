@@ -157,7 +157,7 @@ var context = {emptyContextReference}.{nameof(ResolutionContext.AddFrame)}(
                             GetImplementationSection += $@"
     if({instanceContainerGenerator.ClassName}.CheckPredicate(context))
     {{
-        if(result is not null)
+        if(!(result is null))
         {{
             {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings available for [{BindFromTypeFullName}]", BindFromTypeFullName)}
         }}

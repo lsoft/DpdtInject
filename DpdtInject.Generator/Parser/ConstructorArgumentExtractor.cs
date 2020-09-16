@@ -134,7 +134,7 @@ namespace DpdtInject.Generator.Parser
             Body = null;
         }
 
-        public string GetDeclareConstructorClause(
+        public string GetRetrieveConstructorArgumentClause(
             InstanceContainerGeneratorsContainer container,
             BindingContainer bindingContainer
             )
@@ -240,7 +240,7 @@ private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {loca
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
 private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {localVariableContextReference})
 {{
-    {bindingContainer.TargetTypeFullName} result = null;
+    {Type.GetFullName()} result = null;
 ";
 
                     var contextClauseApplied = false;
@@ -257,7 +257,7 @@ private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {loca
                             applyArgumentPiece += $@"
 if({instanceContainerGenerator.ClassName}.CheckPredicate(context))
 {{
-    if(result is not null)
+    if(!(result is null))
     {{
         {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetTypeFullName}]", bindingContainer.TargetTypeFullName)}
     }}
