@@ -127,7 +127,7 @@ namespace {ModuleTypeNamespace}
 
                 if(resolveFunc is null)
                 {{
-                    {ExceptionGenerator.GenerateThrowExceptionClause2(DpdtExceptionTypeEnum.NoBindingAvailable, "string.Format(\"No bindings available for {0}\", requestedType.GetType().FullName)", "requestedType.GetType().FullName")}
+                    {ExceptionGenerator.GenerateThrowExceptionClause2(DpdtExceptionTypeEnum.NoBindingAvailable, "string.Format(\"No bindings available for {0}\", requestedType.FullName)", "requestedType.FullName")}
                 }}
 
                 return resolveFunc();
@@ -140,7 +140,7 @@ namespace {ModuleTypeNamespace}
 
                 if (resolveTuples is null)
                 {{
-                    {ExceptionGenerator.GenerateThrowExceptionClause2(DpdtExceptionTypeEnum.NoBindingAvailable, "string.Format(\"No bindings available for {0}\", requestedType.GetType().FullName)", "requestedType.GetType().FullName")}
+                    {ExceptionGenerator.GenerateThrowExceptionClause2(DpdtExceptionTypeEnum.NoBindingAvailable, "string.Format(\"No bindings available for {0}\", requestedType.FullName)", "requestedType.FullName")}
                 }}
 
                 for(var index = 0; index < resolveTuples.Count; index++)
@@ -153,6 +153,17 @@ namespace {ModuleTypeNamespace}
                     }}
 
                     result.Add(tuple.{nameof(ReinventedContainer.HashTuple.Factory)}());
+                }}
+
+                //{nameof(ReinventedContainer)} can return null or list of completely unsuitable items
+                //because of its hashing nature
+                //so we need to do additional check in that case
+                if (result.Count == 0)
+                {{
+                    if (!_typeContainer.{nameof(ReinventedContainer.IsTypeKnown)}(requestedType))
+                    {{
+                        {ExceptionGenerator.GenerateThrowExceptionClause2(DpdtExceptionTypeEnum.NoBindingAvailable, "string.Format(\"No bindings available for {0}\", requestedType.FullName)", "requestedType.FullName")}
+                    }}
                 }}
 
                 return result;

@@ -217,6 +217,60 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.NonGeneric.IncorrectRequest
+        ///{
+        ///    public partial class NonGenericIncorrectRequestModule : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///             [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string NonGenericIncorrectRequestModule {
+            get {
+                return ResourceManager.GetString("NonGenericIncorrectRequestModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.NonGeneric.SingleObject
+        ///{
+        ///    public partial class NonGenericSingleObjectModule : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithSingle [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string NonGenericSingleObjectModule {
+            get {
+                return ResourceManager.GetString("NonGenericSingleObjectModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
         ///using DpdtInject.Injector.Module;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;

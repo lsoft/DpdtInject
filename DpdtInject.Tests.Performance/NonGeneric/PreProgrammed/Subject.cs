@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DpdtInject.Tests.Performance.Transient
+namespace DpdtInject.Tests.Performance.NonGeneric.PreProgrammed
 {
     public interface IA
     {

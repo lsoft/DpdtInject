@@ -136,6 +136,12 @@
   <data name="ConditionalSingleObjectModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Conditional\SingleObject\ConditionalSingleObjectModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="NonGenericIncorrectRequestModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\NonGeneric\IncorrectRequest\NonGenericIncorrectRequestModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="NonGenericSingleObjectModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\NonGeneric\SingleObject\NonGenericSingleObjectModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="SingletonDisposeModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Singleton\Dispose\SingletonDisposeModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

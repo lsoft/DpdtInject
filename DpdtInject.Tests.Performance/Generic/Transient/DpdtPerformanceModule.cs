@@ -1,6 +1,6 @@
 ﻿using DpdtInject.Injector.Module;
 
-namespace DpdtInject.Tests.Performance.Singleton
+namespace DpdtInject.Tests.Performance.Generic.Transient
 {
     public partial class DpdtPerformanceModule : DpdtModule
     {
@@ -8,17 +8,17 @@ namespace DpdtInject.Tests.Performance.Singleton
         {
             Bind<IA>()
                 .To<A>()
-                .WithSingletonScope()
+                .WithTransientScope()
                 ;
 
             Bind<IB>()
                 .To<B>()
-                .WithSingletonScope()
+                .WithTransientScope()
                 ;
 
             Bind<IC>()
                 .To<C>()
-                .WithSingletonScope()
+                .WithTransientScope()
                 ;
 
         }

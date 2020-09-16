@@ -1,7 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
 
-namespace DpdtInject.Tests.Performance.Singleton
+namespace DpdtInject.Tests.Performance.NonGeneric.PreProgrammed
 {
 
     [SimpleJob(RuntimeMoniker.NetCoreApp31)]
@@ -17,17 +17,17 @@ namespace DpdtInject.Tests.Performance.Singleton
             _kernel = new DpdtPerformanceModule(
                 );
 
-            _kernel.Get<IA>();
-            _kernel.Get<IB>();
-            _kernel.Get<IC>();
+            _kernel.Get(typeof(IA));
+            _kernel.Get(typeof(IB));
+            _kernel.Get(typeof(IC));
         }
 
         [Benchmark]
         public void Actual()
         {
-            _kernel.Get<IA>();
-            _kernel.Get<IB>();
-            _kernel.Get<IC>();
+            _kernel.Get(typeof(IA));
+            _kernel.Get(typeof(IB));
+            _kernel.Get(typeof(IC));
         }
 
     }

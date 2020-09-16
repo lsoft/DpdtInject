@@ -2,7 +2,7 @@
 using BenchmarkDotNet.Jobs;
 using MicroResolver;
 
-namespace DpdtInject.Tests.Performance.Transient
+namespace DpdtInject.Tests.Performance.Generic.Singleton
 {
     [SimpleJob(RuntimeMoniker.NetCoreApp31)]
     [MemoryDiagnoser]
@@ -16,9 +16,9 @@ namespace DpdtInject.Tests.Performance.Transient
         {
             _kernel = ObjectResolver.Create();
 
-            _kernel.Register<IA, A>(Lifestyle.Transient);
-            _kernel.Register<IB, B>(Lifestyle.Transient);
-            _kernel.Register<IC, C>(Lifestyle.Transient);
+            _kernel.Register<IA, A>(Lifestyle.Singleton);
+            _kernel.Register<IB, B>(Lifestyle.Singleton);
+            _kernel.Register<IC, C>(Lifestyle.Singleton);
 
             _kernel.Compile();
 

@@ -30,6 +30,7 @@ namespace DpdtInject.Injector
 
         private readonly int _length;
         private readonly List<HashTuple>[] _table;
+        private readonly HashSet<Type> _knownTypes;
 
         public ReinventedContainer(
             params (Type, Func<object>)[] pairs
@@ -37,6 +38,7 @@ namespace DpdtInject.Injector
         {
             _length = GetPower2Length(pairs.Length);
             _table = new List<HashTuple>[_length];
+            _knownTypes = new HashSet<Type>();
 
             foreach (var pair in pairs)
             {
@@ -51,9 +53,15 @@ namespace DpdtInject.Injector
                 }
 
                 _table[index].Add(new HashTuple(type, func));
+                _knownTypes.Add(type);
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool IsTypeKnown(Type requestedType)
+        {
+            return _knownTypes.Contains(requestedType);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public List<HashTuple> GetGetAllDirty(Type requestedType)

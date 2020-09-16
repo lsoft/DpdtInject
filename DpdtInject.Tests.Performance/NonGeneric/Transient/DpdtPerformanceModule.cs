@@ -1,6 +1,6 @@
 ﻿using DpdtInject.Injector.Module;
 
-namespace DpdtInject.Tests.Performance.Transient
+namespace DpdtInject.Tests.Performance.NonGeneric.Transient
 {
     public partial class DpdtPerformanceModule : DpdtModule
     {
