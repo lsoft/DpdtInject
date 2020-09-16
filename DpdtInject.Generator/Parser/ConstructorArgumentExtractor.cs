@@ -202,7 +202,7 @@ private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {loca
 {{
     {createContextClause}
 
-    if({instanceContainerGenerator.GetCheckPredicateClause("context")})
+    if({instanceContainerGenerator.ClassName}.CheckPredicate(context))
     {{
         return {instanceContainerGenerator.GetInstanceClause("context")};
     }}
@@ -255,7 +255,7 @@ private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {loca
                             }
 
                             applyArgumentPiece += $@"
-if({instanceContainerGenerator.GetCheckPredicateClause("context")})
+if({instanceContainerGenerator.ClassName}.CheckPredicate(context))
 {{
     if(result is not null)
     {{

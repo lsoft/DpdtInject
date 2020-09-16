@@ -52,17 +52,6 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
         public string GetInstanceClause(string innerText) => $"{ClassName}.GetInstance({innerText})";
 
-        //todo: удалить метод, он некорректен
-        public string GetCheckPredicateClause(string innerText)
-        {
-            if (ItselfOrAtLeastOneParentIsConditional)
-            {
-                return $"{ClassName}.CheckPredicate({innerText})";
-
-            }
-
-            return $"true";
-        }
 
         public InstanceContainerGenerator(
             IDiagnosticReporter diagnosticReporter,
