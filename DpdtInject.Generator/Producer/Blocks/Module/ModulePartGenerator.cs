@@ -90,6 +90,17 @@ namespace {ModuleTypeNamespace}
         public T Get<T>()
         {{
             return ((IBaseProvider<T>)_provider).Get();
+
+            //var incomingType = typeof(T);
+            //var targetType = typeof(IBaseProvider<>).MakeGenericType(incomingType);
+
+            //var r = targetType.InvokeMember(
+            //    nameof(IBaseProvider<object>.Get),
+            //    System.Reflection.BindingFlags.InvokeMethod | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic,
+            //    null, _provider, null
+            //    );
+
+            //return (T)r;
         }}
 
 
