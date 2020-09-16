@@ -4,83 +4,47 @@ using System.Text;
 
 namespace DpdtInject.Binding.Example.Zero
 {
-    public interface IA2
+
+    public interface IA
     {
-        string GetMessage();
     }
 
-    public interface IA1
+    public class A : IA
     {
-        string Message
-        {
-            get;
-        }
-    }
-
-    public class A : IA1, IA2
-    {
-        public string Message
-        {
-            get;
-        }
-
-        public A()
-        {
-            Message = "no message";
-        }
-
-        //public A(string message)
-        //{
-        //    Message = message;
-        //}
-
-        public string GetMessage()
-        {
-            return Message;
-        }
     }
 
     public interface IB
     {
-        IA1 A
-        {
-            get;
-        }
+        string Message { get; }
+
+        IA A { get; }
     }
 
     public class B : IB
     {
-        public IA1 A
-        {
-            get;
-        }
+        public string Message { get; }
+        public IA A { get; }
 
-        public B(IA1 a)
+        public B(string message, IA a)
         {
+            Message = message;
             A = a;
         }
     }
 
     public interface IC
     {
-        IB B
-        {
-            get;
-        }
-
+        IB B { get; }
     }
+
 
     public class C : IC
     {
-        public IB B
-        {
-            get;
-        }
+        public IB B { get; }
 
         public C(IB b)
         {
             B = b;
         }
-
     }
 }
