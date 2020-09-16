@@ -387,6 +387,138 @@ namespace DpdtInject.Tests.Properties {
         ///using System.Threading.Tasks;
         ///using DpdtInject.Injector.Module.Bind;
         ///
+        ///namespace DpdtInject.Tests.Transient.Hierarchy2
+        ///{
+        ///    public partial class TransientHierarchy2Module : DpdtModule
+        ///    {
+        ///        public const string Message = &quot;some message&quot;;
+        ///
+        ///        public override void Load( [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TransientHierarchy2Module {
+            get {
+                return ResourceManager.GetString("TransientHierarchy2Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using NuGet.Frameworks;
+        ///
+        ///namespace DpdtInject.Tests.Transient.Hierarchy3
+        ///{
+        ///    public partial class TransientHierarchy3Module : DpdtModule
+        ///    {
+        ///        public const string Message = &quot;some message&quot;;
+        ///
+        ///        p [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TransientHierarchy3Module {
+            get {
+                return ResourceManager.GetString("TransientHierarchy3Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Transient.SingleObject
+        ///{
+        ///    public partial class TransientSingleObjectModule : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithTransien [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TransientSingleObjectModule {
+            get {
+                return ResourceManager.GetString("TransientSingleObjectModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Reflection.PortableExecutable;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Transient.SingleObjectWithArgument
+        ///{
+        ///    public partial class TransientSingleObjectWithArgumentModule : DpdtModule
+        ///    {
+        ///        public con [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TransientSingleObjectWithArgumentModule {
+            get {
+                return ResourceManager.GetString("TransientSingleObjectWithArgumentModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Transient.TwoSameBindings
+        ///{
+        ///    public partial class TransientTwoSameBindingsModule : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TransientTwoSameBindingsModule {
+            get {
+                return ResourceManager.GetString("TransientTwoSameBindingsModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///
         ///namespace DpdtInject.Tests.Unsorted.CircularDependency3
         ///{
         ///    public partial class UnsortedCircularDependency3Module : DpdtModule
@@ -398,6 +530,32 @@ namespace DpdtInject.Tests.Properties {
         internal static string UnsortedCircularDependency3Module {
             get {
                 return ResourceManager.GetString("UnsortedCircularDependency3Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.SingletonTransient
+        ///{
+        ///    public partial class UnsortedSingletonTransientModule : DpdtModule
+        ///    {
+        ///        public const string Message = &quot;some message&quot;;
+        ///
+        ///        public overr [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedSingletonTransientModule {
+            get {
+                return ResourceManager.GetString("UnsortedSingletonTransientModule", resourceCulture);
             }
         }
     }

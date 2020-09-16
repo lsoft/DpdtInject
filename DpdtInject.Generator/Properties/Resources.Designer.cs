@@ -83,5 +83,31 @@ namespace DpdtInject.Generator.Properties {
                 return ResourceManager.GetString("SingletonInstanceContainer", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector.Excp;
+        ///using DpdtInject.Injector.Module.RContext;
+        ///using System;
+        ///using System.Runtime.CompilerServices;
+        ///using System.Threading;
+        ///
+        ///namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
+        ///{
+        ///    public sealed class TransientInstanceContainer
+        ///    {
+        ///#nullable enable
+        ///        private TransientInstanceContainer()
+        ///        {
+        ///        }
+        ///
+        ///#if UNDECLARED_SYMBOL
+        ///        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        ///        public static bool CheckPredicate(Reso [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TransientInstanceContainer {
+            get {
+                return ResourceManager.GetString("TransientInstanceContainer", resourceCulture);
+            }
+        }
     }
 }

@@ -6,6 +6,8 @@ using DpdtInject.Generator.Producer.Blocks.Exception;
 using DpdtInject.Generator.Properties;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Excp;
+using DpdtInject.Injector.Helper;
+using DpdtInject.Injector.Module.Bind;
 using DpdtInject.Injector.Module.RContext;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -48,7 +50,18 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             get;
         }
 
-        public string DisposeClause => $"{ClassName}.{nameof(SingletonInstanceContainer.DoDisposeIfApplicable)}()";
+        public string DisposeClause
+        {
+            get
+            {
+                if (BindingContainer.Scope.In(BindScopeEnum.Singleton))
+                {
+                    return $"{ClassName}.{nameof(SingletonInstanceContainer.DoDisposeIfApplicable)}()";
+                }
+
+                return string.Empty;
+            }
+        }
 
         public string GetInstanceClause(string innerText) => $"{ClassName}.GetInstance({innerText})";
 
@@ -76,7 +89,19 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
             BindingContainer = bindingContainer;
 
-            ClassName = $"{string.Join("_", bindingContainer.FromTypeNames)}_{bindingContainer.TargetTypeName}_{nameof(SingletonInstanceContainer)}_{Guid.NewGuid().ToString().ConvertMinusToGround()}";
+            switch (this.BindingContainer.Scope)
+            {
+                case Injector.Module.Bind.BindScopeEnum.Transient:
+                    ClassName = $"{string.Join("_", bindingContainer.FromTypeNames)}_{bindingContainer.TargetTypeName}_{nameof(TransientInstanceContainer)}_{Guid.NewGuid().ToString().ConvertMinusToGround()}";
+                    break;
+                case Injector.Module.Bind.BindScopeEnum.Singleton:
+                    ClassName = $"{string.Join("_", bindingContainer.FromTypeNames)}_{bindingContainer.TargetTypeName}_{nameof(SingletonInstanceContainer)}_{Guid.NewGuid().ToString().ConvertMinusToGround()}";
+                    break;
+                case Injector.Module.Bind.BindScopeEnum.Constant:
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
 
             var cus = SyntaxFactory.ParseCompilationUnit(Resources.SingletonInstanceContainer);
             var uds = cus.DescendantNodes().OfType<UsingDirectiveSyntax>().ToList();
@@ -108,11 +133,28 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                 throw new ArgumentNullException(nameof(container));
             }
 
-            var cus = SyntaxFactory.ParseCompilationUnit(Resources.SingletonInstanceContainer);
+            string className;
+            string resource;
+            switch (this.BindingContainer.Scope)
+            {
+                case Injector.Module.Bind.BindScopeEnum.Transient:
+                    className = nameof(TransientInstanceContainer);
+                    resource = Resources.TransientInstanceContainer;
+                    break;
+                case Injector.Module.Bind.BindScopeEnum.Singleton:
+                    className = nameof(SingletonInstanceContainer);
+                    resource = Resources.SingletonInstanceContainer;
+                    break;
+                case Injector.Module.Bind.BindScopeEnum.Constant:
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            var cus = SyntaxFactory.ParseCompilationUnit(resource);
             var cds = cus.DescendantNodes().OfType<ClassDeclarationSyntax>().First();
 
             var classBody = cds.GetText().ToString()
-                .CheckAndReplace(nameof(SingletonInstanceContainer), ClassName)
+                .CheckAndReplace(className, ClassName)
                 .CheckAndReplace(nameof(FakeTarget), BindingContainer.TargetTypeFullName)
                 .CheckAndReplace("//GENERATOR: declare arguments", string.Join(Environment.NewLine, BindingContainer.ConstructorArguments.Where(ca => !ca.DefineInBindNode).Select(ca => ca.GetRetrieveConstructorArgumentClause(container, BindingContainer))))
                 .CheckAndReplace("//GENERATOR: apply arguments", string.Join(",", BindingContainer.ConstructorArguments.Select(ca => ca.GetApplyConstructorClause(container))))

@@ -154,7 +154,25 @@
   <data name="SingletonTwoSameBindingsModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Singleton\TwoSameBindings\SingletonTwoSameBindingsModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="TransientHierarchy2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Transient\Hierarchy2\TransientHierarchy2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TransientHierarchy3Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Transient\Hierarchy3\TransientHierarchy3Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TransientSingleObjectModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Transient\SingleObject\TransientSingleObjectModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TransientSingleObjectWithArgumentModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Transient\SingleObjectWithArgument\TransientSingleObjectWithArgumentModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TransientTwoSameBindingsModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Transient\TwoSameBindings\TransientTwoSameBindingsModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="UnsortedCircularDependency3Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\CircularDependency3\UnsortedCircularDependency3Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="UnsortedSingletonTransientModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\SingletonTransient\UnsortedSingletonTransientModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

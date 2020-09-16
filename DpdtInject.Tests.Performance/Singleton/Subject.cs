@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DpdtInject.Tests.Performance.Zero
+namespace DpdtInject.Tests.Performance.Singleton
 {
     public interface IA
     {

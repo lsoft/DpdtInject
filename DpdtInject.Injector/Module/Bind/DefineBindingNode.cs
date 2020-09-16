@@ -18,7 +18,7 @@ namespace DpdtInject.Injector.Module.Bind
 
     public interface IScopeBinding //: IBindConfigurationProvider
     {
-        //IConfigureAndConditionalBinding WithTransientScope();
+        IConfigureAndConditionalBinding WithTransientScope();
 
         IConfigureAndConditionalBinding WithSingletonScope();
 
@@ -117,20 +117,20 @@ namespace DpdtInject.Injector.Module.Bind
             return this;
         }
 
-        //public IConfigureAndConditionalBinding WithTransientScope()
-        //{
-        //    if (BindTo == null)
-        //    {
-        //        throw new DpdtException(
-        //            DpdpExceptionTypeEnum.IncorrectBinding,
-        //            $"Incorrect binding found {BindsFromFullName}"
-        //            );
-        //    }
+        public IConfigureAndConditionalBinding WithTransientScope()
+        {
+            if (BindTo == null)
+            {
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.IncorrectBinding,
+                    $"Incorrect binding found {BindsFromFullName}"
+                    );
+            }
 
-        //    BindScope = BindScopeEnum.Transient;
+            BindScope = BindScopeEnum.Transient;
 
-        //    return this;
-        //}
+            return this;
+        }
 
         public IConfigureAndConditionalBinding WithSingletonScope()
         {

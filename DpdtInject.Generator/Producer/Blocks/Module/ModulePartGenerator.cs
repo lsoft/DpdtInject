@@ -4,6 +4,7 @@ using DpdtInject.Generator.Producer.Blocks.Provider;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Helper;
 using DpdtInject.Injector.Module;
+using DpdtInject.Injector.Module.Bind;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Linq;
@@ -51,6 +52,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Module
             }
 
             container.BindingsContainer.AnalyzeForCircularDependencies(_diagnosticReporter);
+            container.BindingsContainer.AnalyzeForSingletonTakesTransient(_diagnosticReporter);
 
             var providerGenerator = new ProviderGenerator(
                 container
@@ -82,7 +84,7 @@ namespace {ModuleTypeNamespace}
 
         public override void Dispose()
         {{
-            {container.InstanceContainerGenerators.Join(sc => sc.DisposeClause + ";")}
+            {container.InstanceContainerGenerators.Where(icg => icg.BindingContainer.Scope.In(BindScopeEnum.Singleton)).Join(sc => sc.DisposeClause + ";")}
         }}
 
         public T Get<T>()

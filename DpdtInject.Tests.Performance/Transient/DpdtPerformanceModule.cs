@@ -1,24 +1,24 @@
 ﻿using DpdtInject.Injector.Module;
 
-namespace DpdtInject.Tests.Performance.Zero
+namespace DpdtInject.Tests.Performance.Transient
 {
-    public partial class DpdtModule0 : DpdtModule
+    public partial class DpdtPerformanceModule : DpdtModule
     {
         public override void Load()
         {
             Bind<IA>()
                 .To<A>()
-                .WithSingletonScope()
+                .WithTransientScope()
                 ;
 
             Bind<IB>()
                 .To<B>()
-                .WithSingletonScope()
+                .WithTransientScope()
                 ;
 
             Bind<IC>()
                 .To<C>()
-                .WithSingletonScope()
+                .WithTransientScope()
                 ;
 
         }

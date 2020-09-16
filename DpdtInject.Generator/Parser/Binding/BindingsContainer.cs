@@ -3,6 +3,8 @@ using DpdtInject.Generator.Parser.Binding.Graph;
 using DpdtInject.Generator.Reporter;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Excp;
+using DpdtInject.Injector.Helper;
+using DpdtInject.Injector.Module.Bind;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
@@ -35,19 +37,6 @@ namespace DpdtInject.Generator.Parser.Binding
             Groups = new BindingContainerGroups(_bindingContainers);
         }
 
-        public IReadOnlyList<BindingContainer> GetBindWith(
-            string bindFromTypeFullName
-            )
-        {
-            if (bindFromTypeFullName is null)
-            {
-                throw new ArgumentNullException(nameof(bindFromTypeFullName));
-            }
-
-            return
-                _bindingContainers.FindAll(bc => bc.FromTypeFullNames.Contains(bindFromTypeFullName));
-        }
-
         internal void AnalyzeForCircularDependencies(
             IDiagnosticReporter diagnosticReporter
             )
@@ -61,6 +50,91 @@ namespace DpdtInject.Generator.Parser.Binding
                 .CheckForCycles(diagnosticReporter)
                 ;
         }
+
+        internal void AnalyzeForSingletonTakesTransient(
+            IDiagnosticReporter diagnosticReporter
+            )
+        {
+            if (diagnosticReporter is null)
+            {
+                throw new ArgumentNullException(nameof(diagnosticReporter));
+            }
+
+            foreach (var bindingContainer in _bindingContainers)
+            {
+                AnalyzeForSingletonTakesTransientPrivate(
+                    diagnosticReporter,
+                    bindingContainer,
+                    new HashSet<BindingContainer>()
+                    );
+            }
+        }
+
+        private void AnalyzeForSingletonTakesTransientPrivate(
+            IDiagnosticReporter diagnosticReporter,
+            BindingContainer parent,
+            HashSet<BindingContainer> processed
+            )
+        {
+            if (diagnosticReporter is null)
+            {
+                throw new ArgumentNullException(nameof(diagnosticReporter));
+            }
+
+            if (parent is null)
+            {
+                throw new ArgumentNullException(nameof(parent));
+            }
+
+            if (processed is null)
+            {
+                throw new ArgumentNullException(nameof(processed));
+            }
+
+            if (processed.Contains(parent))
+            {
+                //circular dependency found
+                //do not check this binding because of it's invalid a priori
+                diagnosticReporter.ReportWarning(
+                    $"Searching for singleton-transient relationship has been skipped.",
+                    $"Searching for singleton-transient relationship has been skipped, because of circular dependency found with {parent.TargetTypeFullName}."
+                    );
+
+                return;
+            }
+
+            processed.Add(parent);
+
+            foreach (var ca in parent.ConstructorArguments.Where(j => !j.DefineInBindNode))
+            {
+                if (!Groups.BindGroups.TryGetValue(ca.Type!, out var children))
+                {
+                    throw new DpdtException(DpdtExceptionTypeEnum.NoBindingAvailable, $"Found unknown binding [{ca.Type!.GetFullName()}] from constructor of [{parent.BindToType.GetFullName()}]", ca.Type.Name);
+                }
+
+                foreach (var child in children)
+                {
+                    if(parent.Scope.In(BindScopeEnum.Singleton))
+                    {
+                        if(child.Scope.In(BindScopeEnum.Transient))
+                        {
+                            diagnosticReporter.ReportWarning(
+                                $"Singleton-transient relationship has been found.",
+                                $"Searching for singleton-transient relationship has been found: singleton parent [{parent.TargetTypeFullName}] takes transient child [{child.TargetTypeFullName}]."
+                                );
+                        }
+                    }
+
+                    AnalyzeForSingletonTakesTransientPrivate(
+                        diagnosticReporter,
+                        child,
+                        processed
+                        );
+                }
+            }
+        }
+
+
         internal bool CheckForAtLeastOneParentIsConditional(
             IDiagnosticReporter diagnosticReporter,
             BindingContainer bindingContainer
@@ -74,6 +148,7 @@ namespace DpdtInject.Generator.Parser.Binding
                     new HashSet<BindingContainer>()
                     );
         }
+
         private bool CheckForAtLeastOneParentIsConditionalPrivate(
             IDiagnosticReporter diagnosticReporter,
             BindingContainer rootBindingContainer,
@@ -96,8 +171,8 @@ namespace DpdtInject.Generator.Parser.Binding
                 //circular dependency found
                 //do not check this binding because of it's invalid a priori
                 diagnosticReporter.ReportWarning(
-                    $"Searching for undeterministic resolution path for [{rootBindingContainer.BindToType.GetFullName()}] has been skipped, because of circular dependency found.",
-                    $""
+                    $"Searching for undeterministic resolution path has been skipped",
+                    $"Searching for undeterministic resolution path for [{rootBindingContainer.BindToType.GetFullName()}] has been skipped, because of circular dependency found."
                     );
                 return false;
             }
@@ -168,8 +243,8 @@ namespace DpdtInject.Generator.Parser.Binding
                 //circular dependency found
                 //do not check this binding because of it's invalid a priori
                 diagnosticReporter.ReportWarning(
-                    $"Searching for undeterministic resolution path (up) for [{rootBindingContainer.BindToType.GetFullName()}] has been skipped, because of circular dependency found.",
-                    $""
+                    $"Searching for undeterministic resolution path (up) has been skipped.",
+                    $"Searching for undeterministic resolution path (up) for [{rootBindingContainer.BindToType.GetFullName()}] has been skipped, because of circular dependency found."
                     );
                 return false;
             }
