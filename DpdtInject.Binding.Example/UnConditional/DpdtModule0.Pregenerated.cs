@@ -7,7 +7,7 @@ using DpdtInject.Injector.Module.RContext;
 using System.Runtime.CompilerServices;
 using System.Threading;
 
-namespace DpdtInject.Binding.Example.Zero
+namespace DpdtInject.Binding.Example.UnConditional
 {
     //#nullable enable
     public partial class DpdtModule0 : DpdtModule

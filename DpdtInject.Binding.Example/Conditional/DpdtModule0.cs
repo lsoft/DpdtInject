@@ -1,7 +1,8 @@
-﻿using DpdtInject.Injector;
-using DpdtInject.Injector.Module;
+﻿using DpdtInject.Injector.Module;
+using System.Linq;
+using DpdtInject.Injector.Module.Bind;
 
-namespace DpdtInject.Binding.Example.Zero
+namespace DpdtInject.Binding.Example.Conditional
 {
     public partial class DpdtModule0 : DpdtModule
     {
@@ -17,6 +18,7 @@ namespace DpdtInject.Binding.Example.Zero
             //Bind<IB>()
             //    .To<B>()
             //    .WithSingletonScope()
+            //    .When(rc => true)
             //    .Configure(new ConstructorArgument("message", Message))
             //    ;
 
@@ -24,10 +26,7 @@ namespace DpdtInject.Binding.Example.Zero
             //    .To<C>()
             //    .WithSingletonScope()
             //    ;
-
         }
 
     }
-
 }
-
