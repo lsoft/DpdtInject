@@ -174,10 +174,10 @@ namespace DpdtInject.Generator.Parser
                     : string.Empty
                     ;
 
-            var createContextClause = $@"
-    var context = {localVariableContextReference}.{nameof(ResolutionContext.AddFrame)}(
-        {ResolutionFrameGenerator.GetNewFrameClause(Type.GetFullName(), Name)}
-        );
+            var createFrameVariableName = $"Context_{Type.GetFullName().ConvertDotToGround()}";
+
+            var createFrameClause = $@"
+private static readonly {nameof(ResolutionFrame)} {createFrameVariableName} = {ResolutionFrameGenerator.GetNewFrameClause(Type.GetFullName(), Name)};
 ";
 
             if (instanceContainerGenerators.Count == 0)
@@ -197,10 +197,12 @@ private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {loca
                 if (instanceContainerGenerator.ItselfOrAtLeastOneChildIsConditional)
                 {
                     applyArgumentPiece = $@"
+{createFrameClause}
+
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
 private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {localVariableContextReference})
 {{
-    {createContextClause}
+    var context = {localVariableContextReference}.{nameof(ResolutionContext.AddFrame)}({createFrameVariableName});
 
     if({instanceContainerGenerator.ClassName}.CheckPredicate(context))
     {{
@@ -237,6 +239,8 @@ private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {loca
                 else
                 {
                     applyArgumentPiece = $@"
+{createFrameClause}
+
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
 private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {localVariableContextReference})
 {{
@@ -250,7 +254,9 @@ private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {loca
                         {
                             if (!contextClauseApplied)
                             {
-                                applyArgumentPiece += createContextClause;
+                                applyArgumentPiece += $@"
+var context = {localVariableContextReference}.{nameof(ResolutionContext.AddFrame)}({createFrameVariableName});
+";
                                 contextClauseApplied = true;
                             }
 
