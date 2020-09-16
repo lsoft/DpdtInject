@@ -67,8 +67,12 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
 
             foreach (var pair in Container.Groups.ContainerGroups)
             {
+                var bindFromType = pair.Key;
+                var containers = pair.Value;
+
+
                 _interfaceSection.Add(
-                    new ProviderInterfaceGenerator(pair.Key.GetFullName(), pair.Value)
+                    new ProviderInterfaceGenerator(bindFromType, containers)
                     );
             }
         }

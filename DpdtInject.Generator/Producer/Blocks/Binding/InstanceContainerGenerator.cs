@@ -37,7 +37,13 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         {
             get;
         }
-        public bool AtLeastOneParentIsConditional
+
+        public bool ItselfOrAtLeastOneChildIsConditional
+        {
+            get;
+        }
+        
+        public bool ItselfOrAtLeastOneParentIsConditional
         {
             get;
         }
@@ -46,9 +52,10 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
         public string GetInstanceClause(string innerText) => $"{ClassName}.GetInstance({innerText})";
 
+        //todo: удалить метод, он некорректен
         public string GetCheckPredicateClause(string innerText)
         {
-            if(AtLeastOneParentIsConditional)
+            if (ItselfOrAtLeastOneParentIsConditional)
             {
                 return $"{ClassName}.CheckPredicate({innerText})";
 
@@ -89,12 +96,19 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             usings.Add($"using {typeof(ResolutionContext).Namespace};");
             Usings = usings;
 
-            AtLeastOneParentIsConditional = bindingContainer.IsConditional ||
+            ItselfOrAtLeastOneChildIsConditional = bindingContainer.IsConditional ||
+                bindingsContainer.CheckForAtLeastOneChildIsConditional(
+                    diagnosticReporter,
+                    bindingContainer
+                );
+
+            ItselfOrAtLeastOneParentIsConditional = bindingContainer.IsConditional ||
                 bindingsContainer.CheckForAtLeastOneParentIsConditional(
                     diagnosticReporter,
                     bindingContainer
                 );
         }
+
 
         public string GetClassBody(
             InstanceContainerGeneratorsContainer container
@@ -114,7 +128,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                 .CheckAndReplace("//GENERATOR: declare arguments", string.Join(Environment.NewLine, BindingContainer.ConstructorArguments.Where(ca => !ca.DefineInBindNode).Select(ca => ca.GetDeclareConstructorClause(container, BindingContainer))))
                 .CheckAndReplace("//GENERATOR: apply arguments", string.Join(",", BindingContainer.ConstructorArguments.Select(ca => ca.GetApplyConstructorClause(container))))
                 .CheckAndReplace("public sealed class", "private sealed class")
-                .CheckAndReplaceIfTrue(() => AtLeastOneParentIsConditional, "#if UNDECLARED_SYMBOL", "#if !UNDECLARED_SYMBOL")
+                .CheckAndReplaceIfTrue(() => ItselfOrAtLeastOneChildIsConditional, "#if UNDECLARED_SYMBOL", "#if !UNDECLARED_SYMBOL")
                 .CheckAndReplace("//GENERATOR: predicate", (BindingContainer.WhenArgumentClause?.ToString() ?? "rc => true"))
                 ;
 

@@ -88,6 +88,84 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Conditional.Hierarchy3First
+        ///{
+        ///    public partial class ConditionalHierarchy3FirstModule : DpdtModule
+        ///    {
+        ///        public const string Message = &quot;some message&quot;;
+        ///
+        ///        public overr [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ConditionalHierarchy3FirstModule {
+            get {
+                return ResourceManager.GetString("ConditionalHierarchy3FirstModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Conditional.Hierarchy3Second
+        ///{
+        ///    public partial class ConditionalHierarchy3SecondModule : DpdtModule
+        ///    {
+        ///        public const string Message = &quot;some message&quot;;
+        ///
+        ///        public ove [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ConditionalHierarchy3SecondModule {
+            get {
+                return ResourceManager.GetString("ConditionalHierarchy3SecondModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Conditional.RContext.Hierarchy2
+        ///{
+        ///    public partial class ConditionalRContextHierarchy2Module : DpdtModule
+        ///    {
+        ///        public const string Message = &quot;some message&quot;;
+        ///
+        ///        publi [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ConditionalRContextHierarchy2Module {
+            get {
+                return ResourceManager.GetString("ConditionalRContextHierarchy2Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
         ///using DpdtInject.Injector.Excp;
         ///using DpdtInject.Injector.Module;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;

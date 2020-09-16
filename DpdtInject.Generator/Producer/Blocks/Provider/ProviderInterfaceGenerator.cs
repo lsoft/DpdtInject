@@ -1,8 +1,11 @@
-﻿using DpdtInject.Generator.Producer.Blocks.Binding;
+﻿using DpdtInject.Generator.Helpers;
+using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Producer.Blocks.Exception;
+using DpdtInject.Generator.Producer.RContext;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Module.RContext;
+using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +15,11 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
     public class ProviderInterfaceGenerator
     {
         private readonly List<InstanceContainerGenerator> _instanceContainerGenerators;
+
+        public ITypeSymbol BindFromType
+        { 
+            get;
+        }
 
         public string BindFromTypeFullName
         {
@@ -36,13 +44,13 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
         } = string.Empty;
 
         public ProviderInterfaceGenerator(
-            string bindFromTypeFullName,
+            ITypeSymbol bindFromType,
             List<InstanceContainerGenerator> instanceContainerGenerators
             )
         {
-            if (bindFromTypeFullName is null)
+            if (bindFromType is null)
             {
-                throw new ArgumentNullException(nameof(bindFromTypeFullName));
+                throw new ArgumentNullException(nameof(bindFromType));
             }
 
             if (instanceContainerGenerators is null)
@@ -50,7 +58,8 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
                 throw new ArgumentNullException(nameof(instanceContainerGenerators));
             }
 
-            BindFromTypeFullName = bindFromTypeFullName;
+            BindFromType = bindFromType;
+            BindFromTypeFullName = bindFromType.GetFullName();
             _instanceContainerGenerators = instanceContainerGenerators;
 
             InterfaceSection = $"{nameof(IBaseProvider<object>)}<{BindFromTypeFullName}>";
@@ -61,42 +70,44 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
                     : string.Empty
                     ;
 
-            var emptyContextReference = $"{nameof(ResolutionContext)}.{nameof(ResolutionContext.EmptyContext)}";
+            var emptyContextReference = $"{typeof(ResolutionContext).FullName}.{nameof(ResolutionContext.EmptyContext)}";
+
+            var createContextClause = $@"
+var context = {emptyContextReference}.{nameof(ResolutionContext.AddFrame)}(
+    {ResolutionFrameGenerator.GetNewFrameClause(BindFromTypeFullName)}
+    );
+";
+
+            #region GetImplementationSection
 
             if (instanceContainerGenerators.Count == 0)
             {
                 GetImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-{bindFromTypeFullName} IBaseProvider<{bindFromTypeFullName}>.Get()
+{BindFromTypeFullName} IBaseProvider<{BindFromTypeFullName}>.Get()
 {{
-    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings available for [{bindFromTypeFullName}]{exceptionSuffix}", bindFromTypeFullName)}
+    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings available for [{BindFromTypeFullName}]{exceptionSuffix}", BindFromTypeFullName)}
 }}
 ";
             }
             else if (instanceContainerGenerators.Count == 1)
             {
-                GetImplementationSection = $@"
-//[MethodImpl(MethodImplOptions.AggressiveInlining)]
-{bindFromTypeFullName} IBaseProvider<{bindFromTypeFullName}>.Get()
-{{
-    if({instanceContainerGenerators[0].GetCheckPredicateClause(emptyContextReference)})
-    {{
-        return {instanceContainerGenerators[0].GetInstanceClause(emptyContextReference)};
-    }}
+                var instanceContainerGenerator = instanceContainerGenerators[0];
 
-    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings available for [{bindFromTypeFullName}]{exceptionSuffix}", bindFromTypeFullName)}
-}}
-";
-            }
-            else
-            {
-                if (instanceContainerGenerators.Count(cg => !cg.AtLeastOneParentIsConditional) > 1)
+                if (instanceContainerGenerator.ItselfOrAtLeastOneChildIsConditional)
                 {
                     GetImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-{bindFromTypeFullName} IBaseProvider<{bindFromTypeFullName}>.Get()
+{BindFromTypeFullName} IBaseProvider<{BindFromTypeFullName}>.Get()
 {{
-            {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings available for [{bindFromTypeFullName}]", bindFromTypeFullName)}
+    {createContextClause}
+
+    if({instanceContainerGenerator.ClassName}.CheckPredicate(context))
+    {{
+        return {instanceContainerGenerator.GetInstanceClause("context")};
+    }}
+
+    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings available for [{BindFromTypeFullName}]{exceptionSuffix}", BindFromTypeFullName)}
 }}
 ";
                 }
@@ -104,39 +115,70 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
                 {
                     GetImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-{bindFromTypeFullName} IBaseProvider<{bindFromTypeFullName}>.Get()
+{BindFromTypeFullName} IBaseProvider<{BindFromTypeFullName}>.Get()
 {{
-    //TODO сделать выборку изо всех контейнеров и учесть предикат
-
-    {bindFromTypeFullName} result = null;
-
-    if({instanceContainerGenerators[0].GetCheckPredicateClause(emptyContextReference)})
-    {{
-        result = {instanceContainerGenerators[0].GetInstanceClause(emptyContextReference)};
-    }}
+    return {instanceContainerGenerator.GetInstanceClause("null")};
+}}
+";
+                }
+            }
+            else
+            {
+                if (instanceContainerGenerators.Count(cg => !cg.BindingContainer.IsConditional) > 1)
+                {
+                    GetImplementationSection = $@"
+//[MethodImpl(MethodImplOptions.AggressiveInlining)]
+{BindFromTypeFullName} IBaseProvider<{BindFromTypeFullName}>.Get()
+{{
+    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings available for [{BindFromTypeFullName}]", BindFromTypeFullName)}
+}}
+";
+                }
+                else
+                {
+                    GetImplementationSection = $@"
+//[MethodImpl(MethodImplOptions.AggressiveInlining)]
+{BindFromTypeFullName} IBaseProvider<{BindFromTypeFullName}>.Get()
+{{
+    {BindFromTypeFullName} result = null;
 ";
 
-                    foreach (var instanceContainerGenerator in instanceContainerGenerators.Skip(1))
+                    var contextClauseApplied = false;
+                    foreach (var instanceContainerGenerator in instanceContainerGenerators)
                     {
-                        GetImplementationSection += $@"
+                        if (instanceContainerGenerator.ItselfOrAtLeastOneChildIsConditional)
+                        {
+                            if(!contextClauseApplied)
+                            {
+                                GetImplementationSection += createContextClause;
+                                contextClauseApplied = true;
+                            }
 
-    if({instanceContainerGenerator.GetCheckPredicateClause(emptyContextReference)})
+                            GetImplementationSection += $@"
+    if({instanceContainerGenerator.ClassName}.CheckPredicate(context))
     {{
         if(result is not null)
         {{
-            {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings available for [{bindFromTypeFullName}]", bindFromTypeFullName)}
+            {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings available for [{BindFromTypeFullName}]", BindFromTypeFullName)}
         }}
 
-        result = {instanceContainerGenerator.GetInstanceClause(emptyContextReference)};
+        result = {instanceContainerGenerator.GetInstanceClause("context")};
     }}
 
 ";
+                        }
+                        else
+                        {
+                            GetImplementationSection += $@"
+    result = {instanceContainerGenerator.GetInstanceClause("null")};
+";
+                        }
                     }
 
                     GetImplementationSection += $@"
     if(result is null)
     {{
-        {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings available for [{bindFromTypeFullName}]{exceptionSuffix}", bindFromTypeFullName)}
+        {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings available for [{BindFromTypeFullName}]{exceptionSuffix}", BindFromTypeFullName)}
     }}
 
     return result;
@@ -145,31 +187,52 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
                 }
             }
 
-            GetAllImplementationSection = $@"
-//[MethodImpl(MethodImplOptions.AggressiveInlining)]
-List<{bindFromTypeFullName}> IBaseProvider<{bindFromTypeFullName}>.GetAll()
-{{
-    var result = new List<{bindFromTypeFullName}>();
-";
+            #endregion
 
-            foreach (var instanceContainerGenerator in instanceContainerGenerators)
+            #region GetAllImplementationSection
             {
-                GetAllImplementationSection += $@"
-
-    if({instanceContainerGenerator.GetCheckPredicateClause(emptyContextReference)})
-    {{
-        result.Add( {instanceContainerGenerator.GetInstanceClause(emptyContextReference)} );
-    }}
-
+                GetAllImplementationSection = $@"
+//[MethodImpl(MethodImplOptions.AggressiveInlining)]
+List<{BindFromTypeFullName}> IBaseProvider<{BindFromTypeFullName}>.GetAll()
+{{
+    var result = new List<{BindFromTypeFullName}>();
 ";
-            }
 
-            GetAllImplementationSection += $@"
+                var contextClauseApplied = false;
+                foreach (var instanceContainerGenerator in instanceContainerGenerators)
+                {
+                    if (instanceContainerGenerator.ItselfOrAtLeastOneChildIsConditional)
+                    {
+                        if (!contextClauseApplied)
+                        {
+                            GetAllImplementationSection += createContextClause;
+                            contextClauseApplied = true;
+                        }
+
+
+                        GetAllImplementationSection += $@"
+    if({instanceContainerGenerator.ClassName}.CheckPredicate(context))
+    {{
+        result.Add( {instanceContainerGenerator.GetInstanceClause("context")} );
+    }}
+";
+                    }
+                    else
+                    {
+                        GetAllImplementationSection += $@"
+    result.Add( {instanceContainerGenerator.GetInstanceClause("null")} );
+";
+                    }
+                }
+
+                GetAllImplementationSection += $@"
 
     return result;
 }}
 ";
+            }
 
+            #endregion
         }
     }
 

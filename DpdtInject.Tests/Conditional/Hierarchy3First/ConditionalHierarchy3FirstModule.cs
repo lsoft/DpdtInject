@@ -9,9 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using DpdtInject.Injector.Module.Bind;
 
-namespace DpdtInject.Tests.Conditional.Hierarchy2
+namespace DpdtInject.Tests.Conditional.Hierarchy3First
 {
-    public partial class ConditionalHierarchy2Module : DpdtModule
+    public partial class ConditionalHierarchy3FirstModule : DpdtModule
     {
         public const string Message = "some message";
 
@@ -26,26 +26,32 @@ namespace DpdtInject.Tests.Conditional.Hierarchy2
             Bind<IB>()
                 .To<B>()
                 .WithSingletonScope()
-                .When(rc => true)
                 .Configure(new ConstructorArgument("message", Message))
+                ;
+
+            Bind<IC>()
+                .To<C>()
+                .WithSingletonScope()
+                .When(rc => true)
                 ;
         }
 
-        public class ConditionalHierarchy2ModuleTester
+        public class ConditionalHierarchy3FirstModuleTester
         {
             public void PerformModuleTesting()
             {
-                var module = new FakeModule<ConditionalHierarchy2Module>();
+                var module = new FakeModule<ConditionalHierarchy3FirstModule>();
 
-                var b0 = module.Get<IB>();
-                Assert.IsNotNull(b0);
-                Assert.IsNotNull(b0.A);
-                Assert.AreEqual(Message, b0.Message);
+                var c0 = module.Get<IC>();
+                Assert.IsNotNull(c0);
+                Assert.IsNotNull(c0.B);
+                Assert.AreEqual(Message, c0.B.Message);
+                Assert.IsNotNull(c0.B.A);
 
-                var bb = module.GetAll<IB>();
-                Assert.IsNotNull(bb);
-                Assert.AreEqual(1, bb.Count);
-                Assert.AreSame(b0, bb[0]);
+                var cc = module.GetAll<IC>();
+                Assert.IsNotNull(cc);
+                Assert.AreEqual(1, cc.Count);
+                Assert.AreSame(c0, cc[0]);
             }
         }
 
@@ -76,6 +82,21 @@ namespace DpdtInject.Tests.Conditional.Hierarchy2
         {
             Message = message;
             A = a;
+        }
+    }
+
+    public interface IC
+    {
+        IB B { get; }
+    }
+
+    public class C : IC
+    {
+        public IB B { get; }
+
+        public C(IB b)
+        {
+            B = b;
         }
     }
 

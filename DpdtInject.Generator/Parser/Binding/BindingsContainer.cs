@@ -137,27 +137,64 @@ namespace DpdtInject.Generator.Parser.Binding
         }
 
         internal bool CheckForAtLeastOneChildIsConditional(
+            IDiagnosticReporter diagnosticReporter,
             BindingContainer bindingContainer
             )
         {
-            throw new NotImplementedException("wrote, but not checked!");
+            return
+                CheckForAtLeastOneChildIsConditionalPrivate(
+                    diagnosticReporter,
+                    bindingContainer,
+                    bindingContainer,
+                    new HashSet<BindingContainer>()
+                    );
 
+        }
+
+        private bool CheckForAtLeastOneChildIsConditionalPrivate(
+            IDiagnosticReporter diagnosticReporter,
+            BindingContainer rootBindingContainer,
+            BindingContainer bindingContainer,
+            HashSet<BindingContainer> processed
+            )
+        {
             if (bindingContainer is null)
             {
                 throw new ArgumentNullException(nameof(bindingContainer));
             }
 
-            foreach(var ca in bindingContainer.ConstructorArguments.Where(j => !j.DefineInBindNode))
+            if (processed.Contains(bindingContainer))
             {
-                if(!Groups.BindGroups.TryGetValue(ca.Type!, out var children))
+                //circular dependency found
+                //do not check this binding because of it's invalid a priori
+                diagnosticReporter.ReportWarning(
+                    $"Searching for undeterministic resolution path (up) for [{rootBindingContainer.BindToType.GetFullName()}] has been skipped, because of circular dependency found.",
+                    $""
+                    );
+                return false;
+            }
+
+            processed.Add(bindingContainer);
+
+            foreach (var ca in bindingContainer.ConstructorArguments.Where(j => !j.DefineInBindNode))
+            {
+                if (!Groups.BindGroups.TryGetValue(ca.Type!, out var children))
                 {
-                    throw new DpdtException(DpdtExceptionTypeEnum.NoBindingAvailable, $"Found unknown binding [{ca.Type.GetFullName()}] from constructor of [{bindingContainer.BindToType.GetFullName()}]", ca.Type.Name);
+                    throw new DpdtException(DpdtExceptionTypeEnum.NoBindingAvailable, $"Found unknown binding [{ca.Type!.GetFullName()}] from constructor of [{bindingContainer.BindToType.GetFullName()}]", ca.Type.Name);
                 }
 
-                foreach(var child in children)
+                foreach (var child in children)
                 {
-                    if(CheckForAtLeastOneChildIsConditional(
-                        child
+                    if (child.IsConditional)
+                    {
+                        return true;
+                    }
+
+                    if (CheckForAtLeastOneChildIsConditionalPrivate(
+                        diagnosticReporter,
+                        rootBindingContainer,
+                        child,
+                        processed
                         ))
                     {
                         return true;
@@ -167,6 +204,5 @@ namespace DpdtInject.Generator.Parser.Binding
 
             return false;
         }
-
     }
 }

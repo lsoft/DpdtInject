@@ -38,8 +38,6 @@ namespace DpdtInject.Tests.Unsorted.CircularDependency3
             public void PerformModuleTesting()
             {
                 var module = new FakeModule<UnsortedCircularDependency3Module>();
-
-                var a = module.Get<IA>();
             }
         }
 

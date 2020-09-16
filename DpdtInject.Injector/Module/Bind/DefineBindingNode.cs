@@ -34,7 +34,7 @@ namespace DpdtInject.Injector.Module.Bind
     public interface IConditionalBinding //: IBindConfigurationProvider
     {
         IConfigureBinding When(
-            Func<ResolutionContext, bool> predicate
+            Func<IResolutionContext, bool> predicate
             );
     }
 
@@ -177,7 +177,7 @@ namespace DpdtInject.Injector.Module.Bind
         //}
 
         public IConfigureBinding When(
-            Func<ResolutionContext, bool> predicate
+            Func<IResolutionContext, bool> predicate
             )
         {
             if (predicate is null)

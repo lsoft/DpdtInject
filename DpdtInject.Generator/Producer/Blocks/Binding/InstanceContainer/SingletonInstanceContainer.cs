@@ -27,7 +27,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CheckPredicate(ResolutionContext resolutionContext)
         {
-            Func<ResolutionContext, bool> predicate = //GENERATOR: predicate
+            Func<IResolutionContext, bool> predicate = //GENERATOR: predicate
             ;
 
             var result = predicate(resolutionContext);
