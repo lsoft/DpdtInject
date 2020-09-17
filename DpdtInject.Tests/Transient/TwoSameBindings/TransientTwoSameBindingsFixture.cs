@@ -23,6 +23,8 @@ namespace DpdtInject.Tests.Transient.TwoSameBindings
                 );
 
             preparation.Check();
+
+            Assert.AreEqual(0, preparation.DiagnosticReporter.ErrorCount);
         }
 
     }

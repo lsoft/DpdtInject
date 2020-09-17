@@ -1,3 +1,4 @@
+using DpdtInject.Injector.Excp;
 using DpdtInject.Tests.Properties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -25,7 +26,8 @@ namespace DpdtInject.Tests.Unsorted.InvalidToType
 
             preparation.Check();
 
-            Assert.AreEqual(1, preparation.DiagnosticReporter.ErrorCount);
+            Assert.AreEqual(1, preparation.DiagnosticReporter.Exceptions.Count);
+            Assert.AreEqual(DpdtExceptionTypeEnum.IncorrectBinding_IncorrectTarget, preparation.DiagnosticReporter.GetDpdtException().Type);
         }
 
     }

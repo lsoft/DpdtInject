@@ -59,8 +59,8 @@ namespace DpdtInject.Generator.Parser.Binding.Graph
             {
                 if (cycle.StrictConculsion)
                 {
-                    reporter.ReportError(
-                        $"A circular dependency was found",
+                    throw new DpdtException(
+                        DpdtExceptionTypeEnum.CircularDependency,
                         $"A circular dependency was found: [{cycle.GetStringRepresentation()}]"
                         );
                 }

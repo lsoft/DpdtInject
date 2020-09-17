@@ -14,13 +14,17 @@ namespace DpdtInject.Injector.Excp
         InvalidTestConfiguration,
         DuplicateBinding,
         NoBindingAvailable,
-        IncorrectBinding,
         CircularDependency,
         UnknownName,
         ConstantCantHaveConstructorArguments,
         UnknownScope,
         IncorrectScope,
-        SingletonTakesTransient
+        SingletonTakesTransient,
+
+        IncorrectBinding,
+        IncorrectBinding_CantCast,
+        IncorrectBinding_IncorrectTarget,
+
     }
 
     public class DpdtException : Exception

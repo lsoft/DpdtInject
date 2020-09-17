@@ -537,6 +537,33 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Singleton.UnknownRequest
+        ///{
+        ///    public partial class SingletonUnknownRequestModule : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .T [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SingletonUnknownRequestModule {
+            get {
+                return ResourceManager.GetString("SingletonUnknownRequestModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
         ///using DpdtInject.Injector.Module;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;

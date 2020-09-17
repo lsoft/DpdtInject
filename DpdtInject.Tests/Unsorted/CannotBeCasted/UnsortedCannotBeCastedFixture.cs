@@ -1,3 +1,5 @@
+using DpdtInject.Injector.Excp;
+using DpdtInject.Tests.Conditional.Hierarchy2;
 using DpdtInject.Tests.Properties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -25,7 +27,8 @@ namespace DpdtInject.Tests.Unsorted.CannotBeCasted
 
             preparation.Check();
 
-            Assert.AreEqual(1, preparation.DiagnosticReporter.ErrorCount);
+            Assert.AreEqual(1, preparation.DiagnosticReporter.Exceptions.Count);
+            Assert.AreEqual(DpdtExceptionTypeEnum.IncorrectBinding_CantCast, preparation.DiagnosticReporter.GetDpdtException().Type);
         }
 
     }

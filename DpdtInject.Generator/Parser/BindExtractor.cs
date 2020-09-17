@@ -392,7 +392,7 @@ namespace DpdtInject.Generator.Parser
             if (bindToTypeSematic.TypeKind.NotIn(TypeKind.Class, TypeKind.Struct))
             {
                 throw new DpdtException(
-                    DpdtExceptionTypeEnum.IncorrectBinding,
+                    DpdtExceptionTypeEnum.IncorrectBinding_IncorrectTarget,
                     $"Type [{bindToTypeSematic.GetFullName()}] is not a class or struct",
                     bindToTypeSematic.GetFullName()
                     );
@@ -404,7 +404,7 @@ namespace DpdtInject.Generator.Parser
                 if (!bindToTypeSematic.CanBeCastedTo(bindFromSemantic.GetFullName()))
                 {
                     throw new DpdtException(
-                        DpdtExceptionTypeEnum.IncorrectBinding,
+                        DpdtExceptionTypeEnum.IncorrectBinding_CantCast,
                         $"Type [{bindToTypeSematic.GetFullName()}] cannot be casted to [{bindFromSemantic.GetFullName()}]",
                         bindToTypeSematic.GetFullName()
                         );

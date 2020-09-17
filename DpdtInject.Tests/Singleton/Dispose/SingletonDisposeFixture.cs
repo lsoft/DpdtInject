@@ -23,6 +23,8 @@ namespace DpdtInject.Tests.Singleton.Dispose
                 );
 
             preparation.Check();
+
+            Assert.AreEqual(0, preparation.DiagnosticReporter.ErrorCount);
         }
 
     }

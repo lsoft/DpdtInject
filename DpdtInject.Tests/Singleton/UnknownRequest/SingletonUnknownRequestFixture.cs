@@ -4,11 +4,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace DpdtInject.Tests.NonGeneric.SingleObject
+namespace DpdtInject.Tests.Singleton.UnknownRequest
 {
 
     [TestClass]
-    public class NonGenericSingleObjectFixture
+    public class SingletonUnknownRequestFixture
     {
         public TestContext TestContext { get; set; }
 
@@ -17,9 +17,9 @@ namespace DpdtInject.Tests.NonGeneric.SingleObject
         {
             var preparation = new Preparator(
                 TestContext,
-                nameof(NonGenericSingleObjectModule.NonGenericSingleObjectModuleTester),
-                nameof(TestResources.NonGenericSingleObjectModule),
-                TestResources.NonGenericSingleObjectModule
+                nameof(SingletonUnknownRequestModule.SingletonUnknownRequestModuleTester),
+                nameof(TestResources.SingletonUnknownRequestModule),
+                TestResources.SingletonUnknownRequestModule
                 );
 
             preparation.Check();

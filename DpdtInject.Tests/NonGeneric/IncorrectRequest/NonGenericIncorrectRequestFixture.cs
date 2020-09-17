@@ -23,6 +23,8 @@ namespace DpdtInject.Tests.NonGeneric.IncorrectRequest
                 );
 
             preparation.Check();
+
+            Assert.AreEqual(0, preparation.DiagnosticReporter.ErrorCount);
         }
 
     }

@@ -1,5 +1,8 @@
 ﻿using DpdtInject.Generator.Reporter;
 using DpdtInject.Injector.Compilation;
+using DpdtInject.Injector.Excp;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace DpdtInject.Tests
@@ -18,6 +21,10 @@ namespace DpdtInject.Tests
             private set;
         }
 
+        public List<Exception> Exceptions
+        {
+            get;
+        } = new List<Exception>();
 
         public FakeDiagnosticReporter()
         {
@@ -39,6 +46,31 @@ namespace DpdtInject.Tests
             Debug.WriteLine(message);
             Debug.WriteLine(string.Empty);
             WarningCount++;
+        }
+
+        internal void ReportException(Exception excp)
+        {
+            if (excp is null)
+            {
+                throw new ArgumentNullException(nameof(excp));
+            }
+
+            Debug.WriteLine(excp.Message);
+            Debug.WriteLine(excp.StackTrace);
+
+            ErrorCount++;
+            Exceptions.Add(excp);
+        }
+
+        public DpdtException GetDpdtException(int index = 0)
+        {
+            return GetException<DpdtException>(index);
+        }
+
+        public T GetException<T>(int index = 0)
+            where T : Exception
+        {
+            return (T)Exceptions[index];
         }
     }
 }

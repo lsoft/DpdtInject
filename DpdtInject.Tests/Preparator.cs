@@ -184,13 +184,11 @@ namespace DpdtInject.Tests
             }
             catch(Exception excp)
             {
-                Debug.WriteLine(excp.Message);
-                Debug.WriteLine(excp.StackTrace);
-
-                this.DiagnosticReporter.ReportError(
-                    excp.Message,
-                    excp.StackTrace
+                this.DiagnosticReporter.ReportException(
+                    excp
                     );
+
+                //throw;
             }
         }
 

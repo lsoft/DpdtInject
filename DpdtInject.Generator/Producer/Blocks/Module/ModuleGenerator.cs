@@ -3,6 +3,7 @@ using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Producer.Blocks.Exception;
 using DpdtInject.Generator.Producer.Blocks.Provider;
 using DpdtInject.Injector;
+using DpdtInject.Injector.Beautify;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
@@ -61,7 +62,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Module
             var providerGenerator = new ProviderGenerator(
                 container
                 );
-            
+
             var result = @$"
 #nullable disable
 
@@ -88,6 +89,9 @@ namespace {ModuleTypeNamespace}
         private static readonly Provider _provider;
         private static readonly {typeof(ReinventedContainer).FullName} _typeContainerGet;
         private static readonly {typeof(ReinventedContainer).FullName} _typeContainerGetAll;
+        //private static readonly {typeof(Beautifier).FullName} _beautifier;
+
+        //public static {typeof(Beautifier).FullName} Beautifier => _beautifier;
 
         static {ModuleTypeName}()
         {{
@@ -100,6 +104,9 @@ namespace {ModuleTypeNamespace}
             _typeContainerGetAll = new {typeof(ReinventedContainer).FullName}(
                 {container.GetReinventedContainerArgument("GetAll")}
                 );
+            //_beautifier = new {typeof(Beautifier).FullName}(
+            //    this
+            //    );
         }}
 
         public {ModuleTypeName}()

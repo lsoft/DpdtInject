@@ -23,6 +23,8 @@ namespace DpdtInject.Tests.Transient.Hierarchy3
                 );
 
             preparation.Check();
+
+            Assert.AreEqual(0, preparation.DiagnosticReporter.ErrorCount);
         }
 
     }

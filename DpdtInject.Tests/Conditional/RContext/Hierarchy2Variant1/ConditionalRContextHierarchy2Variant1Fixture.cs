@@ -23,6 +23,8 @@ namespace DpdtInject.Tests.Conditional.RContext.Hierarchy2Variant1
                 );
 
             preparation.Check();
+
+            Assert.AreEqual(0, preparation.DiagnosticReporter.ErrorCount);
         }
 
     }
