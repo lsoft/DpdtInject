@@ -23,7 +23,7 @@ namespace DpdtInject.Tests.Performance.NonGeneric.Transient
         }
 
         [Benchmark]
-        public void Actual()
+        public void NonGenericTransient()
         {
             _kernel.Get(typeof(IA));
             _kernel.Get(typeof(IB));

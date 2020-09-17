@@ -23,7 +23,7 @@ namespace DpdtInject.Tests.Performance.Conditional.Singleton
         }
 
         [Benchmark]
-        public void Actual()
+        public void ConditionalSingleton()
         {
             _kernel.Get<IA>();
             _kernel.Get<IB>();

@@ -23,7 +23,7 @@ namespace DpdtInject.Tests.Performance.Conditional.Transient
         }
 
         [Benchmark]
-        public void Actual()
+        public void ConditionalTransient()
         {
             _kernel.Get<IA>();
             _kernel.Get<IB>();

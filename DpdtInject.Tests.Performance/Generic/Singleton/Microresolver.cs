@@ -28,7 +28,7 @@ namespace DpdtInject.Tests.Performance.Generic.Singleton
         }
 
         [Benchmark]
-        public void Baseline()
+        public void GenericSingleton()
         {
             _kernel.Resolve<IA>();
             _kernel.Resolve<IB>();

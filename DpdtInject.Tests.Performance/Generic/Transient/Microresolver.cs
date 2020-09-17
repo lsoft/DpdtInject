@@ -28,7 +28,7 @@ namespace DpdtInject.Tests.Performance.Generic.Transient
         }
 
         [Benchmark]
-        public void Baseline()
+        public void GenericTransient()
         {
             _kernel.Resolve<IA>();
             _kernel.Resolve<IB>();

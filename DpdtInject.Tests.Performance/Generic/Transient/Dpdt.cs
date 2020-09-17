@@ -23,7 +23,7 @@ namespace DpdtInject.Tests.Performance.Generic.Transient
         }
 
         [Benchmark]
-        public void Actual()
+        public void GenericTransient()
         {
             _kernel.Get<IA>();
             _kernel.Get<IB>();

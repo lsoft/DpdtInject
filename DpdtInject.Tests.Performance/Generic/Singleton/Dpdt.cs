@@ -23,7 +23,7 @@ namespace DpdtInject.Tests.Performance.Generic.Singleton
         }
 
         [Benchmark]
-        public void Actual()
+        public void GenericSingleton()
         {
             _kernel.Get<IA>();
             _kernel.Get<IB>();
