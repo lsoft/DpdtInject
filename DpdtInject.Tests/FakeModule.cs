@@ -16,7 +16,7 @@ namespace DpdtInject.Tests
         }
 
 
-        public List<object> GetAll(Type requestedType)
+        public IEnumerable<object> GetAll(Type requestedType)
         {
             throw new NotImplementedException("This method should not be executed");
         }

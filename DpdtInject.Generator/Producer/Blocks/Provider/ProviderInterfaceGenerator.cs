@@ -52,6 +52,10 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
         {
             get;
         } = string.Empty;
+        public string GetAllExplicitImplementationSection
+        {
+            get;
+        } = string.Empty;
 
         public ProviderInterfaceGenerator(
             ITypeSymbol bindFromType,
@@ -96,7 +100,6 @@ private static readonly {nameof(ResolutionContext)} {createContextVariableName} 
 
             #endregion
 
-            //var getImplementationMethodName = $"Get_{BindFromTypeFullName.ConvertDotToGround()}__{Guid.NewGuid().ToString().ConvertMinusToGround()}";
             var getImplementationMethodName = $"Get_{BindFromTypeFullName.ConvertDotToGround()}";
 
             #region GetGenericImplementationSection
@@ -213,9 +216,23 @@ public {BindFromTypeFullName} {getImplementationMethodName}()
 
             #endregion
 
-            #region GetAllImplementationSection
+            var getAllImplementationMethodName = $"GetAll_{BindFromTypeFullName.ConvertDotToGround()}";
+
+            #region GetAllImplementation
+
+            GetAllImplementationSection = $@"
+//[MethodImpl(MethodImplOptions.AggressiveInlining)]
+public IEnumerable<object> {getAllImplementationMethodName}()
+{{
+    return ((IBaseProvider<{BindFromTypeFullName}>)this).GetAll();
+}}
+";
+
+            #endregion
+
+            #region GetAllExplicitImplementationSection
             {
-                GetAllImplementationSection = $@"
+                GetAllExplicitImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
 List<{BindFromTypeFullName}> IBaseProvider<{BindFromTypeFullName}>.GetAll()
 {{
@@ -234,7 +251,7 @@ List<{BindFromTypeFullName}> IBaseProvider<{BindFromTypeFullName}>.GetAll()
                         //}
 
 
-                        GetAllImplementationSection += $@"
+                        GetAllExplicitImplementationSection += $@"
     if({instanceContainerGenerator.ClassName}.CheckPredicate({createContextVariableName}))
     {{
         result.Add( {instanceContainerGenerator.GetInstanceClause(createContextVariableName)} );
@@ -243,13 +260,13 @@ List<{BindFromTypeFullName}> IBaseProvider<{BindFromTypeFullName}>.GetAll()
                     }
                     else
                     {
-                        GetAllImplementationSection += $@"
+                        GetAllExplicitImplementationSection += $@"
     result.Add( {instanceContainerGenerator.GetInstanceClause("null")} );
 ";
                     }
                 }
 
-                GetAllImplementationSection += $@"
+                GetAllExplicitImplementationSection += $@"
 
     return result;
 }}

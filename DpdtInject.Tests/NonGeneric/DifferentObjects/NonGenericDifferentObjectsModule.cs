@@ -42,7 +42,7 @@ namespace DpdtInject.Tests.NonGeneric.DifferentObjects
 
                     Assert.AreSame(a0, a1);
 
-                    var aa = module.GetAll(typeof(IA));
+                    var aa = module.GetAll(typeof(IA)).ToList();
                     Assert.IsNotNull(aa);
                     Assert.AreEqual(1, aa.Count);
                     Assert.AreSame(a0, aa[0]);
@@ -59,7 +59,7 @@ namespace DpdtInject.Tests.NonGeneric.DifferentObjects
 
                     Assert.AreSame(b0, b11);
 
-                    var bb = module.GetAll(typeof(IB));
+                    var bb = module.GetAll(typeof(IB)).ToList();
                     Assert.IsNotNull(bb);
                     Assert.AreEqual(1, bb.Count);
                     Assert.AreSame(b0, bb[0]);

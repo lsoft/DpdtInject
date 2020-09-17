@@ -49,7 +49,18 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
 
                 return
                     string.Join(Environment.NewLine, InterfaceSection.Select(i => i.ResolutionFrameSection))
-                    + string.Join(Environment.NewLine, InterfaceSection.Select(j => j.GetExplicitImplementationSection + Environment.NewLine + j.GetImplementationSection + Environment.NewLine + j.GetAllImplementationSection))
+                    + string.Join(
+                        Environment.NewLine, 
+                        InterfaceSection.Select(j => 
+                            j.GetExplicitImplementationSection
+                            + Environment.NewLine 
+                            + j.GetImplementationSection
+                            + Environment.NewLine
+                            + j.GetAllImplementationSection
+                            + Environment.NewLine 
+                            + j.GetAllExplicitImplementationSection
+                            )
+                        )
                     ;
             }
         }

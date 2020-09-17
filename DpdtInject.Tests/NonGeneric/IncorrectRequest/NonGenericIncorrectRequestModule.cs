@@ -41,7 +41,7 @@ namespace DpdtInject.Tests.NonGeneric.IncorrectRequest
 
                 try
                 {
-                    var rs = module.GetAll(typeof(IB));
+                    var rs = module.GetAll(typeof(IB)).ToList();
 
                     Assert.Fail("test fails, this line should never be executed");
                 }

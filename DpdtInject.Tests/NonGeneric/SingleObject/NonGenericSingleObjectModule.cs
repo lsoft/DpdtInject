@@ -36,7 +36,7 @@ namespace DpdtInject.Tests.NonGeneric.SingleObject
 
                 Assert.AreSame(a0, a1);
 
-                var aa = module.GetAll(typeof(IA));
+                var aa = module.GetAll(typeof(IA)).ToList();
                 Assert.IsNotNull(aa);
                 Assert.AreEqual(1, aa.Count);
                 Assert.AreSame(a0, aa[0]);

@@ -33,24 +33,39 @@ namespace DpdtInject.Injector
         private readonly int _length;
         private readonly int _mask;
         private readonly HashTuple[][] _table;
-        private readonly int[] _tableIndexes;
-        private readonly HashSet<Type> _knownTypes;
 
         public ReinventedContainer(
             params Tuple<Type, Func<object>>[] pairs
             )
         {
-            _length = GetPower2Length(pairs.Length);
-            _mask = _length - 1;
-            _table = new HashTuple[_length][];
-            _tableIndexes = new int[_length];
-            _knownTypes = new HashSet<Type>();
-
-            for(var index = 0; index < _length; index++)
+            if (pairs is null)
             {
-                _table[index] = new HashTuple[3]; //TODO: move as constructor argument and calculate appropriate at the compilation stage
+                throw new ArgumentNullException(nameof(pairs));
             }
 
+            #region check for duplicate (for additional safety)
+
+            var duplicateChecker = new HashSet<Type>();
+            foreach (var pair in pairs)
+            {
+                var type = pair.Item1;
+
+                if (duplicateChecker.Contains(type))
+                {
+                    throw new DpdtException(
+                        DpdtExceptionTypeEnum.InternalError,
+                        $"Duplicate types incomes into the container: [{type.FullName}]"
+                        );
+                }
+                duplicateChecker.Add(type);
+            }
+
+            #endregion
+
+            _length = GetPower2Length(pairs.Length);
+            _mask = _length - 1;
+
+            var preTable = new List<HashTuple>[_length];
             foreach (var pair in pairs)
             {
                 var type = pair.Item1;
@@ -58,51 +73,53 @@ namespace DpdtInject.Injector
 
                 var index = CalculateIndex(type);
 
-                _table[index][_tableIndexes[index]] = new HashTuple(type, func);
-                _knownTypes.Add(type);
-                _tableIndexes[index]++;
+                if(preTable[index] is null)
+                {
+                    preTable[index] = new List<HashTuple>();
+                }
+
+                preTable[index].Add(
+                    new HashTuple(type, func)
+                    );
             }
-        }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsTypeKnown(Type requestedType)
-        {
-            return _knownTypes.Contains(requestedType);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public List<HashTuple> GetGetAllDirty(Type requestedType)
-        {
-            if (requestedType is null)
+            _table = new HashTuple[_length][];
+            for (var i = 0; i < preTable.Length; i++)
             {
-                throw new ArgumentNullException(nameof(requestedType));
+                if (preTable[i] is null)
+                {
+                    _table[i] = new HashTuple[0];
+                }
+                else
+                {
+                    _table[i] = preTable[i].ToArray();
+                }
             }
 
-            var result = new List<Func<object>>();
+            ////for(var index = 0; index < _length; index++)
+            ////{
+            ////    _table[index] = new HashTuple[3]; //TODO: move as constructor argument and calculate appropriate at the compilation stage
+            ////}
 
-            var index = CalculateIndex(requestedType);
-
-            var list = _table[index];
-
-            return list.ToList(); //TODO: refactor, it's too slow
-
-            //if (list is null)
+            //var tableIndexes = new int[_length];
+            //foreach (var pair in pairs)
             //{
-            //    return result;
-            //}
+            //    var type = pair.Item1;
+            //    var func = pair.Item2;
 
-            //for (var i = 0; i < list.Count; i++)
-            //{
-            //    var item = list[i];
-
-            //    if (item.Type == requestedType)
+            //    if(duplicateChecker.Contains(type))
             //    {
-            //        result.Add(item.Factory);
+            //        throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"Duplicate types incomes to the container.");
             //    }
-            //}
+            //    duplicateChecker.Add(type);
 
-            //return result;
+            //    var index = CalculateIndex(type);
+
+            //    _table[index][tableIndexes[index]] = new HashTuple(type, func);
+            //    tableIndexes[index]++;
+            //}
         }
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public object? GetGetObject(Type requestedType)

@@ -52,14 +52,21 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             Groups = new InstanceContainerGeneratorGroups(_instanceContainerGenerators);
         }
 
-        internal string GetReinventedContainerArgument()
+        internal string GetReinventedContainerArgument(
+            string providerMethodNamePrefix
+            )
         {
+            if (providerMethodNamePrefix is null)
+            {
+                throw new ArgumentNullException(nameof(providerMethodNamePrefix));
+            }
+
             var clauses = new List<string>();
 
             foreach(var key in Groups.ContainerGroups.Keys)
             {
                 clauses.Add(
-                    $"new Tuple<Type, Func<object>>( typeof({key.GetFullName()}), _provider.Get_{key.GetFullName().ConvertDotToGround()} )"
+                    $"new Tuple<Type, Func<object>>( typeof({key.GetFullName()}), _provider.{providerMethodNamePrefix}_{key.GetFullName().ConvertDotToGround()} )"
                     );
             }
 
