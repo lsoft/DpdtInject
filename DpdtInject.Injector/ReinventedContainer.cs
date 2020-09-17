@@ -48,7 +48,7 @@ namespace DpdtInject.Injector
 
             for(var index = 0; index < _length; index++)
             {
-                _table[index] = new HashTuple[3];
+                _table[index] = new HashTuple[3]; //TODO: move as constructor argument and calculate appropriate at the compilation stage
             }
 
             foreach (var pair in pairs)

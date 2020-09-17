@@ -43,6 +43,11 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
             get;
         } = string.Empty;
 
+        public string GetExplicitImplementationSection
+        {
+            get;
+        } = string.Empty;
+
         public string GetAllImplementationSection
         {
             get;
@@ -91,13 +96,28 @@ private static readonly {nameof(ResolutionContext)} {createContextVariableName} 
 
             #endregion
 
+            //var getImplementationMethodName = $"Get_{BindFromTypeFullName.ConvertDotToGround()}__{Guid.NewGuid().ToString().ConvertMinusToGround()}";
+            var getImplementationMethodName = $"Get_{BindFromTypeFullName.ConvertDotToGround()}";
+
+            #region GetGenericImplementationSection
+
+            GetExplicitImplementationSection = $@"
+[MethodImpl(MethodImplOptions.AggressiveInlining)]
+{BindFromTypeFullName} IBaseProvider<{BindFromTypeFullName}>.Get()
+{{
+    return {getImplementationMethodName}();
+}}
+";
+
+            #endregion
+
             #region GetImplementationSection
 
             if (instanceContainerGenerators.Count == 0)
             {
                 GetImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-{BindFromTypeFullName} IBaseProvider<{BindFromTypeFullName}>.Get()
+{BindFromTypeFullName} {getImplementationMethodName}()
 {{
     {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings available for [{BindFromTypeFullName}]{exceptionSuffix}", BindFromTypeFullName)}
 }}
@@ -111,7 +131,7 @@ private static readonly {nameof(ResolutionContext)} {createContextVariableName} 
                 {
                     GetImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-{BindFromTypeFullName} IBaseProvider<{BindFromTypeFullName}>.Get()
+{BindFromTypeFullName} {getImplementationMethodName}()
 {{
     if({instanceContainerGenerator.ClassName}.CheckPredicate({createContextVariableName}))
     {{
@@ -126,7 +146,7 @@ private static readonly {nameof(ResolutionContext)} {createContextVariableName} 
                 {
                     GetImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-{BindFromTypeFullName} IBaseProvider<{BindFromTypeFullName}>.Get()
+{BindFromTypeFullName} {getImplementationMethodName}()
 {{
     return {instanceContainerGenerator.GetInstanceClause("null")};
 }}
@@ -139,7 +159,7 @@ private static readonly {nameof(ResolutionContext)} {createContextVariableName} 
                 {
                     GetImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-{BindFromTypeFullName} IBaseProvider<{BindFromTypeFullName}>.Get()
+{BindFromTypeFullName} {getImplementationMethodName}()
 {{
     {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings available for [{BindFromTypeFullName}]", BindFromTypeFullName)}
 }}
@@ -149,22 +169,15 @@ private static readonly {nameof(ResolutionContext)} {createContextVariableName} 
                 {
                     GetImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-{BindFromTypeFullName} IBaseProvider<{BindFromTypeFullName}>.Get()
+{BindFromTypeFullName} {getImplementationMethodName}()
 {{
     {BindFromTypeFullName} result = null;
 ";
 
-                    //var contextClauseApplied = false;
                     foreach (var instanceContainerGenerator in instanceContainerGenerators)
                     {
                         if (instanceContainerGenerator.ItselfOrAtLeastOneChildIsConditional)
                         {
-                            //if(!contextClauseApplied)
-                            //{
-                            //    GetImplementationSection += createContextClause;
-                            //    contextClauseApplied = true;
-                            //}
-
                             GetImplementationSection += $@"
     if({instanceContainerGenerator.ClassName}.CheckPredicate({createContextVariableName}))
     {{

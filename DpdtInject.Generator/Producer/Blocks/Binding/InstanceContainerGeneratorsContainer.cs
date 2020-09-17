@@ -59,7 +59,8 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             foreach(var key in Groups.ContainerGroups.Keys)
             {
                 clauses.Add(
-                    $"new Tuple<Type, Func<object>>( typeof({key.GetFullName()}), (({nameof(IBaseProvider<object>)}<{key.GetFullName()}>)this).Get )"
+                    //$"new Tuple<Type, Func<object>>( typeof({key.GetFullName()}), (({nameof(IBaseProvider<object>)}<{key.GetFullName()}>)this).Get )"
+                    $"new Tuple<Type, Func<object>>( typeof({key.GetFullName()}), Get_{key.GetFullName().ConvertDotToGround()} )"
                     );
             }
 
