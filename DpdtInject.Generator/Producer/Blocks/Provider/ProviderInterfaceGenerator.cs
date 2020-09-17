@@ -117,7 +117,7 @@ private static readonly {nameof(ResolutionContext)} {createContextVariableName} 
             {
                 GetImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-{BindFromTypeFullName} {getImplementationMethodName}()
+public {BindFromTypeFullName} {getImplementationMethodName}()
 {{
     {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings available for [{BindFromTypeFullName}]{exceptionSuffix}", BindFromTypeFullName)}
 }}
@@ -131,7 +131,7 @@ private static readonly {nameof(ResolutionContext)} {createContextVariableName} 
                 {
                     GetImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-{BindFromTypeFullName} {getImplementationMethodName}()
+public {BindFromTypeFullName} {getImplementationMethodName}()
 {{
     if({instanceContainerGenerator.ClassName}.CheckPredicate({createContextVariableName}))
     {{
@@ -146,7 +146,7 @@ private static readonly {nameof(ResolutionContext)} {createContextVariableName} 
                 {
                     GetImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-{BindFromTypeFullName} {getImplementationMethodName}()
+public {BindFromTypeFullName} {getImplementationMethodName}()
 {{
     return {instanceContainerGenerator.GetInstanceClause("null")};
 }}
@@ -159,7 +159,7 @@ private static readonly {nameof(ResolutionContext)} {createContextVariableName} 
                 {
                     GetImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-{BindFromTypeFullName} {getImplementationMethodName}()
+public {BindFromTypeFullName} {getImplementationMethodName}()
 {{
     {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings available for [{BindFromTypeFullName}]", BindFromTypeFullName)}
 }}
@@ -169,7 +169,7 @@ private static readonly {nameof(ResolutionContext)} {createContextVariableName} 
                 {
                     GetImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-{BindFromTypeFullName} {getImplementationMethodName}()
+public {BindFromTypeFullName} {getImplementationMethodName}()
 {{
     {BindFromTypeFullName} result = null;
 ";

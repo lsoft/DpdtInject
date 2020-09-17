@@ -82,9 +82,18 @@ namespace {ModuleTypeNamespace}
 #nullable enable
     public partial class {ModuleTypeName} : {nameof(DpdtModule)}
     {{
-        private readonly Provider _provider = new Provider(
-            );
+        private static readonly Provider _provider;
+        private static readonly {typeof(ReinventedContainer).FullName} _typeContainer;
 
+        static {ModuleTypeName}()
+        {{
+            _provider = new Provider(
+                );
+
+            _typeContainer = new {typeof(ReinventedContainer).FullName}(
+                {container.GetReinventedContainerArgument()}
+                );
+        }}
 
         public override void Dispose()
         {{
@@ -102,68 +111,53 @@ namespace {ModuleTypeNamespace}
 
         public object Get({typeof(Type).FullName} requestedType)
         {{
-            return _provider.Get(requestedType);
+            var result = _typeContainer.{nameof(ReinventedContainer.GetGetObject)}(requestedType);
+
+            return result;
         }}
         public List<object> GetAll({typeof(Type).FullName} requestedType)
         {{
-            return _provider.GetAll(requestedType);
+            var result = new List<object>();
+
+            var resolveTuples = _typeContainer.{nameof(ReinventedContainer.GetGetAllDirty)}(requestedType);
+
+            if (resolveTuples is null)
+            {{
+                {ExceptionGenerator.GenerateThrowExceptionClause2(DpdtExceptionTypeEnum.NoBindingAvailable, "string.Format(\"No bindings available for {0}\", requestedType.FullName)", "requestedType.FullName")}
+            }}
+
+            for(var index = 0; index < resolveTuples.Count; index++)
+            {{
+                var tuple = resolveTuples[index];
+
+                if(tuple.{nameof(ReinventedContainer.HashTuple.Type)} != requestedType)
+                {{
+                    continue;
+                }}
+
+                result.Add(tuple.{nameof(ReinventedContainer.HashTuple.Factory)}());
+            }}
+
+            //{nameof(ReinventedContainer)} can return null or list of completely unsuitable items
+            //because of its hashing nature
+            //so we need to do additional check in that case
+            if (result.Count == 0)
+            {{
+                if (!_typeContainer.{nameof(ReinventedContainer.IsTypeKnown)}(requestedType))
+                {{
+                    {ExceptionGenerator.GenerateThrowExceptionClause2(DpdtExceptionTypeEnum.NoBindingAvailable, "string.Format(\"No bindings available for {0}\", requestedType.FullName)", "requestedType.FullName")}
+                }}
+            }}
+
+            return result;
         }}
 
         private class Provider
             {providerGenerator.CombinedInterfaces}
         {{
-            private readonly {typeof(ReinventedContainer).FullName} _typeContainer;
-
-            public Provider()
-            {{
-                _typeContainer = new {typeof(ReinventedContainer).FullName}(
-                    {container.GetReinventedContainerArgument()}
-                    );
-            }}
-
-            public object Get({typeof(Type).FullName} requestedType)
-            {{
-                var result = _typeContainer.{nameof(ReinventedContainer.GetGetObject)}(requestedType);
-
-                return result;
-            }}
-            public List<object> GetAll({typeof(Type).FullName} requestedType)
-            {{
-                var result = new List<object>();
-
-                var resolveTuples = _typeContainer.{nameof(ReinventedContainer.GetGetAllDirty)}(requestedType);
-
-                if (resolveTuples is null)
-                {{
-                    {ExceptionGenerator.GenerateThrowExceptionClause2(DpdtExceptionTypeEnum.NoBindingAvailable, "string.Format(\"No bindings available for {0}\", requestedType.FullName)", "requestedType.FullName")}
-                }}
-
-                for(var index = 0; index < resolveTuples.Count; index++)
-                {{
-                    var tuple = resolveTuples[index];
-
-                    if(tuple.{nameof(ReinventedContainer.HashTuple.Type)} != requestedType)
-                    {{
-                        continue;
-                    }}
-
-                    result.Add(tuple.{nameof(ReinventedContainer.HashTuple.Factory)}());
-                }}
-
-                //{nameof(ReinventedContainer)} can return null or list of completely unsuitable items
-                //because of its hashing nature
-                //so we need to do additional check in that case
-                if (result.Count == 0)
-                {{
-                    if (!_typeContainer.{nameof(ReinventedContainer.IsTypeKnown)}(requestedType))
-                    {{
-                        {ExceptionGenerator.GenerateThrowExceptionClause2(DpdtExceptionTypeEnum.NoBindingAvailable, "string.Format(\"No bindings available for {0}\", requestedType.FullName)", "requestedType.FullName")}
-                    }}
-                }}
-
-                return result;
-            }}
-
+            //public Provider()
+            //{{
+            //}}
 
             {providerGenerator.CombinedImplementationSection}
         }}
