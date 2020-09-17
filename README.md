@@ -22,8 +22,8 @@ More to come!
 
 # Performance
 
-+ Very impressed Generic resolution performance
-- Not best Non Generic resolution (Microresolver is fantastically fast)
+0. Very impressive Generic resolution performance.
+0. Not best Non Generic resolution - Microresolver is fantastically fast; what's the magic? :)
 
 ``` ini
 
@@ -31,22 +31,22 @@ BenchmarkDotNet=v0.12.0, OS=Windows 10.0.19041
 Intel Core i5-4200U CPU 1.60GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
 .NET Core SDK=5.0.100-preview.8.20417.9
   [Host]     : .NET Core 3.1.7 (CoreCLR 4.700.20.36602, CoreFX 4.700.20.37001), X64 RyuJIT
-  Job-NRDMFW : .NET Core 3.1.7 (CoreCLR 4.700.20.36602, CoreFX 4.700.20.37001), X64 RyuJIT
+  Job-NLMRRB : .NET Core 3.1.7 (CoreCLR 4.700.20.36602, CoreFX 4.700.20.37001), X64 RyuJIT
 
 Runtime=.NET Core 3.1  Server=True  
 
 ```
-|          Type |               Method |      Mean |    Error |    StdDev |    Median |  Gen 0 | Gen 1 | Gen 2 | Allocated |
-|-------------- |--------------------- |----------:|---------:|----------:|----------:|-------:|------:|------:|----------:|
-|          Dpdt |     GenericSingleton |  43.02 ns | 0.843 ns |  0.788 ns |  42.94 ns |      - |     - |     - |         - |
-|          Dpdt |     GenericTransient |  65.93 ns | 1.155 ns |  1.080 ns |  65.65 ns | 0.0187 |     - |     - |     144 B |
-|          Dpdt |  NonGenericSingleton |  79.71 ns | 3.464 ns | 10.105 ns |  75.87 ns |      - |     - |     - |         - |
-|          Dpdt |  NonGenericTransient | 100.22 ns | 1.975 ns |  2.028 ns |  99.92 ns | 0.0187 |     - |     - |     144 B |
-|        Dryloc |     GenericSingleton |  96.37 ns | 0.989 ns |  0.877 ns |  96.52 ns |      - |     - |     - |         - |
-|        Dryloc |     GenericTransient | 156.20 ns | 1.830 ns |  1.712 ns | 156.72 ns | 0.0188 |     - |     - |     144 B |
-|        Dryloc |  NonGenericSingleton |  56.82 ns | 0.998 ns |  0.933 ns |  56.50 ns |      - |     - |     - |         - |
-|        Dryloc |  NonGenericTransient | 117.67 ns | 2.046 ns |  1.709 ns | 117.69 ns | 0.0188 |     - |     - |     144 B |
-| Microresolver |     GenericSingleton |  57.18 ns | 0.985 ns |  0.921 ns |  57.06 ns |      - |     - |     - |         - |
-| Microresolver |     GenericTransient | 124.55 ns | 1.937 ns |  1.812 ns | 124.48 ns | 0.0188 |     - |     - |     144 B |
-| Microresolver |  NonGenericSingleton |  30.84 ns | 0.490 ns |  0.458 ns |  30.83 ns |      - |     - |     - |         - |
-| Microresolver |  NonGenericTransient |  91.18 ns | 1.445 ns |  1.281 ns |  91.36 ns | 0.0187 |     - |     - |     144 B |
+|          Type |               Method |      Mean |    Error |   StdDev |    Median |  Gen 0 | Gen 1 | Gen 2 | Allocated |
+|-------------- |--------------------- |----------:|---------:|---------:|----------:|-------:|------:|------:|----------:|
+|          Dpdt |     GenericSingleton |  18.88 ns | 0.164 ns | 0.137 ns |  18.90 ns |      - |     - |     - |         - |
+|          Dpdt |     GenericTransient |  66.61 ns | 1.347 ns | 1.888 ns |  66.42 ns | 0.0187 |     - |     - |     144 B |
+|          Dpdt |  NonGenericSingleton |  56.20 ns | 1.949 ns | 5.717 ns |  54.29 ns |      - |     - |     - |         - |
+|          Dpdt |  NonGenericTransient |  99.76 ns | 1.777 ns | 1.575 ns |  99.92 ns | 0.0187 |     - |     - |     144 B |
+|        Dryloc |     GenericSingleton |  96.19 ns | 0.913 ns | 0.854 ns |  96.31 ns |      - |     - |     - |         - |
+|        Dryloc |     GenericTransient | 158.86 ns | 1.859 ns | 1.648 ns | 159.17 ns | 0.0186 |     - |     - |     144 B |
+|        Dryloc |  NonGenericSingleton |  57.08 ns | 0.835 ns | 0.697 ns |  57.02 ns |      - |     - |     - |         - |
+|        Dryloc |  NonGenericTransient | 116.67 ns | 1.981 ns | 1.654 ns | 116.48 ns | 0.0187 |     - |     - |     144 B |
+| Microresolver |     GenericSingleton |  65.25 ns | 1.187 ns | 1.110 ns |  65.71 ns |      - |     - |     - |         - |
+| Microresolver |     GenericTransient | 115.11 ns | 2.298 ns | 2.359 ns | 115.09 ns | 0.0186 |     - |     - |     144 B |
+| Microresolver |  NonGenericSingleton |  30.19 ns | 0.407 ns | 0.381 ns |  30.22 ns |      - |     - |     - |         - |
+| Microresolver |  NonGenericTransient |  93.30 ns | 1.281 ns | 1.198 ns |  93.43 ns | 0.0188 |     - |     - |     144 B |

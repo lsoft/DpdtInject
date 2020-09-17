@@ -9,15 +9,6 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
     public sealed class SingletonInstanceContainer
     {
 #nullable enable
-        private volatile static Action? _currentDisposeAction = null;
-        private volatile static Action _realDisposeAction =
-            () =>
-            {
-                if (Nested.Instance is IDisposable disposableInstance)
-                {
-                    disposableInstance.Dispose();
-                }
-            };
 
         private SingletonInstanceContainer()
         {
@@ -38,14 +29,15 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static FakeTarget GetInstance(ResolutionContext resolutionContext)
         {
-            Interlocked.Exchange(ref _currentDisposeAction, _realDisposeAction);
-
             return Nested.GetInstance(resolutionContext);
         }
 
         public static void DoDisposeIfApplicable()
         {
-            Interlocked.Exchange(ref _currentDisposeAction, null)?.Invoke();
+            if (Nested.Instance is IDisposable disposableInstance)
+            {
+                disposableInstance.Dispose();
+            }
         }
 
         private class Nested
