@@ -175,7 +175,7 @@ namespace DpdtInject.Generator
                     bindingsContainer
                     );
 
-                var modulePartGenerator = new ModulePartGenerator(
+                var modulePartGenerator = new ModuleGenerator(
                     _diagnosticReporter,
                     moduleType
                     );

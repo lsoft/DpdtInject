@@ -11,10 +11,11 @@ using DpdtInject.Injector.Module.Bind;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Linq;
+using System.Threading;
 
 namespace DpdtInject.Generator.Producer.Blocks.Module
 {
-    internal class ModulePartGenerator
+    internal class ModuleGenerator
     {
         private readonly IDiagnosticReporter _diagnosticReporter;
 
@@ -27,7 +28,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Module
 
         public string ModuleTypeName => ModuleSymbol.Name;
 
-        public ModulePartGenerator(
+        public ModuleGenerator(
             IDiagnosticReporter diagnosticReporter,
             INamedTypeSymbol moduleSymbol
             )
@@ -82,6 +83,8 @@ namespace {ModuleTypeNamespace}
 #nullable enable
     public partial class {ModuleTypeName} : {nameof(DpdtModule)}
     {{
+        private static long _instanceCount = 0L;
+
         private static readonly Provider _provider;
         private static readonly {typeof(ReinventedContainer).FullName} _typeContainerGet;
         private static readonly {typeof(ReinventedContainer).FullName} _typeContainerGetAll;
@@ -98,6 +101,15 @@ namespace {ModuleTypeNamespace}
                 {container.GetReinventedContainerArgument("GetAll")}
                 );
         }}
+
+        public {ModuleTypeName}()
+        {{
+            if(Interlocked.Increment(ref _instanceCount) > 1L)
+            {{
+                throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, ""Module should not be instanciated more that once. This is a Dpdt's design axiom."");
+            }}
+        }}
+
 
         public override void Dispose()
         {{
