@@ -1,9 +1,9 @@
-﻿using DpdtInject.Generator.Helpers;
+﻿using DpdtInject.Generator.Beautify;
+using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Producer.Blocks.Exception;
 using DpdtInject.Generator.Producer.Blocks.Provider;
 using DpdtInject.Injector;
-using DpdtInject.Injector.Beautify;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
@@ -63,6 +63,10 @@ namespace DpdtInject.Generator.Producer.Blocks.Module
                 container
                 );
 
+            var beautifyGenerator = new BeautifyGenerator(
+                ModuleTypeName
+                );
+
             var result = @$"
 #nullable disable
 
@@ -89,9 +93,10 @@ namespace {ModuleTypeNamespace}
         private static readonly Provider _provider;
         private static readonly {typeof(ReinventedContainer).FullName} _typeContainerGet;
         private static readonly {typeof(ReinventedContainer).FullName} _typeContainerGetAll;
-        //private static readonly {typeof(Beautifier).FullName} _beautifier;
 
-        //public static {typeof(Beautifier).FullName} Beautifier => _beautifier;
+        private readonly {beautifyGenerator.ClassName} _beautifier;
+
+        public {beautifyGenerator.ClassName} Beautifier => _beautifier;
 
         static {ModuleTypeName}()
         {{
@@ -104,9 +109,6 @@ namespace {ModuleTypeNamespace}
             _typeContainerGetAll = new {typeof(ReinventedContainer).FullName}(
                 {container.GetReinventedContainerArgument("GetAll")}
                 );
-            //_beautifier = new {typeof(Beautifier).FullName}(
-            //    this
-            //    );
         }}
 
         public {ModuleTypeName}()
@@ -115,6 +117,10 @@ namespace {ModuleTypeNamespace}
             {{
                 throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, ""Module should not be instanciated more that once. This is a Dpdt's design axiom."");
             }}
+
+            _beautifier = new {beautifyGenerator.ClassName}(
+                this
+                );
         }}
 
 
@@ -145,6 +151,14 @@ namespace {ModuleTypeNamespace}
             return (IEnumerable<object>)result;
         }}
 
+#region Beautify
+
+        {beautifyGenerator.Generate()}
+
+#endregion
+
+#region Provider
+
         private class Provider
             {providerGenerator.CombinedInterfaces}
         {{
@@ -156,10 +170,15 @@ namespace {ModuleTypeNamespace}
         }}
 #nullable disable
 
+#endregion
+
+#region Instance Containers
+
     {container.InstanceContainerGenerators.Join(sc => sc.GetClassBody(container))}
 
     }}
 
+#endregion
 }}
 ";
             return result;

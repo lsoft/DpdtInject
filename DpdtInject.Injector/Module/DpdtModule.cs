@@ -15,25 +15,10 @@ namespace DpdtInject.Injector.Module
 
         public abstract void Load();
 
-        //public virtual void Apply(
-        //    IInstancesContainer containers
-        //    )
-        //{
-        //    throw new InvalidOperationException($"dpdt is a source-generation based DI container. This method should not be performed. Probably something went wrong with your {GetType().Name} module.");
-        //}
-
-
         protected IToBinding Bind<T1, T2>(
-            //string name = BindingNameTree.RootName
             )
         {
-            //if (name is null)
-            //{
-            //    throw new ArgumentNullException(nameof(name));
-            //}
-
             var bind = new DefineBindingNode(
-                //name,
                 new List<Type>
                 {
                     typeof(T1),
@@ -46,16 +31,9 @@ namespace DpdtInject.Injector.Module
         }
 
         protected IToBinding Bind<T>(
-            //string name = BindingNameTree.RootName
             )
         {
-            //if (name is null)
-            //{
-            //    throw new ArgumentNullException(nameof(name));
-            //}
-
             var bind = new DefineBindingNode(
-                //name,
                 new List<Type>
                 {
                     typeof(T)

@@ -6,17 +6,12 @@ using System.Linq;
 
 namespace DpdtInject.Injector.Module.Bind
 {
-    //public interface IBindConfigurationProvider
-    //{
-    //    BindConfiguration CreateConfiguration();
-    //}
-
     public interface IToBinding
     {
         IScopeBinding To<T>();
     }
 
-    public interface IScopeBinding //: IBindConfigurationProvider
+    public interface IScopeBinding 
     {
         IConfigureAndConditionalBinding WithTransientScope();
 
@@ -26,19 +21,19 @@ namespace DpdtInject.Injector.Module.Bind
     }
 
     public interface IConfigureAndConditionalBinding :
-        IConditionalBinding, IConfigureBinding//, IBindConfigurationProvider
+        IConditionalBinding, IConfigureBinding
     {
 
     }
 
-    public interface IConditionalBinding //: IBindConfigurationProvider
+    public interface IConditionalBinding
     {
         IConfigureBinding When(
             Func<IResolutionContext, bool> predicate
             );
     }
 
-    public interface IConfigureBinding //: IBindConfigurationProvider
+    public interface IConfigureBinding
     {
         IConfigureBinding Configure(
             ConstructorArgument argument
@@ -47,19 +42,11 @@ namespace DpdtInject.Injector.Module.Bind
 
 
     public class DefineBindingNode
-        : IToBinding, IScopeBinding, IConfigureAndConditionalBinding, IConfigureBinding//, IBindConfigurationProvider
+        : IToBinding, IScopeBinding, IConfigureAndConditionalBinding, IConfigureBinding
     {
         private readonly Dictionary<string, ConstructorArgument> _constructorArguments = new Dictionary<string, ConstructorArgument>();
         
         private bool _conditionalBinding = false;
-
-        //private Func<IEmptyContext, bool>? _predicate;
-        //private object? _constant;
-
-        //public string Name
-        //{
-        //    get;
-        //}
 
         public IReadOnlyList<Type> BindsFrom
         {
@@ -80,31 +67,17 @@ namespace DpdtInject.Injector.Module.Bind
             private set;
         }
 
-        //public DpdtIdempotentStatusEnum IdempotentStatus
-        //{
-        //    get;
-        //    private set;
-        //} = DpdtIdempotentStatusEnum.Idempotent;
-
-
         public bool IsCompleted => BindTo != null;
 
         public DefineBindingNode(
-            //string name,
             IReadOnlyList<Type> bindFrom
             )
         {
-            //if (name is null)
-            //{
-            //    throw new ArgumentNullException(nameof(name));
-            //}
-
             if (bindFrom is null)
             {
                 throw new ArgumentNullException(nameof(bindFrom));
             }
 
-            //Name = name;
             BindsFrom = bindFrom;
             BindTo = null!;
             BindScope = BindScopeEnum.Transient;
@@ -185,10 +158,6 @@ namespace DpdtInject.Injector.Module.Bind
                 throw new ArgumentNullException(nameof(predicate));
             }
 
-            //    IdempotentStatus = idempotentStatus;
-
-            //    _predicate = predicate;
-
             _conditionalBinding = true;
 
             return this;
@@ -214,30 +183,5 @@ namespace DpdtInject.Injector.Module.Bind
 
             return this;
         }
-
-        //public BindConfiguration CreateConfiguration()
-        //{
-        //    var bindNode = new BindNode(
-        //        BindsFrom,
-        //        BindTo,
-        //        BindScope
-        //        //Name
-        //        );
-
-        //    switch (BindScope)
-        //    {
-        //        case BindScopeEnum.Transient:
-        //            throw new DpdtException(DpdtExceptionTypeEnum.UnknownScope, $"Unknown scope {BindScope}");
-        //            //return new BindConfiguration(bindNode, _predicate, _constructorArguments, IdempotentStatus);
-        //        case BindScopeEnum.Singleton:
-        //            return new BindConfiguration(bindNode, _conditionalBinding, /*_predicate,*/ _constructorArguments/*, IdempotentStatus*/);
-        //        case BindScopeEnum.Constant:
-        //            throw new DpdtException(DpdtExceptionTypeEnum.UnknownScope, $"Unknown scope {BindScope}");
-        //            //return new BindConfiguration(bindNode, _predicate, _constant, IdempotentStatus);
-        //        default:
-        //            throw new DpdtException(DpdtExceptionTypeEnum.UnknownScope, $"Unknown scope {BindScope}");
-        //    }
-
-        //}
     }
 }

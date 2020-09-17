@@ -1,4 +1,5 @@
-﻿using DpdtInject.Injector.Excp;
+﻿using DpdtInject.Injector;
+using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Module;
 using System;
 using System.Collections.Generic;
@@ -6,20 +7,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DpdtInject.Injector.Beautify
+namespace DpdtInject.Generator.Beautify
 {
-    public class Beautifier
+    public sealed class Beautifier
     {
         public FakeModule Module
         {
             get;
         }
 
-        public Beautifier.ListBeautifier List
+        public ListBeautifier List
         {
             get;
         }
-        public Beautifier.ReadOnlyListBeautifier ReadOnlyList
+        public ReadOnlyListBeautifier ReadOnlyList
         {
             get;
         }
@@ -34,8 +35,8 @@ namespace DpdtInject.Injector.Beautify
             }
 
             Module = module;
-            List = new Beautifier.ListBeautifier(this);
-            ReadOnlyList = new Beautifier.ReadOnlyListBeautifier(this);
+            List = new ListBeautifier(this);
+            ReadOnlyList = new ReadOnlyListBeautifier(this);
         }
 
         public T Get<T>()
@@ -80,7 +81,7 @@ namespace DpdtInject.Injector.Beautify
             return Module.GetAll(requestedType);
         }
 
-        public class ReadOnlyListBeautifier
+        public sealed class ReadOnlyListBeautifier
         {
             private readonly Beautifier _beautifier;
 
@@ -117,7 +118,7 @@ namespace DpdtInject.Injector.Beautify
             }
         }
 
-        public class ListBeautifier
+        public sealed class ListBeautifier
         {
             private readonly Beautifier _beautifier;
 

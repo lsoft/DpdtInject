@@ -9,11 +9,6 @@ namespace DpdtInject.Injector.Module.Bind
             get;
         }
 
-        //DpdtIdempotentStatusEnum IdempotentStatus
-        //{
-        //    get;
-        //}
-
         object? GetConstant();
 
         IReadOnlyDictionary<string, ConstructorArgument> GetConstructorArguments();

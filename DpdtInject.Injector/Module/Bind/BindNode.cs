@@ -6,8 +6,6 @@ namespace DpdtInject.Injector.Module.Bind
 {
     public class BindNode
     {
-        //public string Name { get; }
-
         public IReadOnlyList<Type> BindsFrom { get; }
 
         public string BindsFromFullName => string.Join(",", BindsFrom.Select(b => b.FullName));
@@ -24,7 +22,6 @@ namespace DpdtInject.Injector.Module.Bind
             IReadOnlyList<Type> bindsFrom,
             Type bindTo,
             BindScopeEnum bindScope
-            //string name = ""
             )
         {
             if (bindsFrom is null)
@@ -37,15 +34,9 @@ namespace DpdtInject.Injector.Module.Bind
                 throw new ArgumentNullException(nameof(bindTo));
             }
 
-            //if (name is null)
-            //{
-            //    throw new ArgumentNullException(nameof(name));
-            //}
-
             BindsFrom = bindsFrom;
             BindTo = bindTo;
             BindScope = bindScope;
-            //Name = name;
         }
 
     }
