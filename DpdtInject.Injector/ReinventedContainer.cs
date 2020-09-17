@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DpdtInject.Injector.Excp;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace DpdtInject.Injector
@@ -9,7 +11,7 @@ namespace DpdtInject.Injector
     /// </summary>
     public class ReinventedContainer
     {
-        public class HashTuple
+        public struct HashTuple
         {
             public Type Type;
             public Func<object> Factory;
@@ -29,16 +31,25 @@ namespace DpdtInject.Injector
         }
 
         private readonly int _length;
-        private readonly List<HashTuple>[] _table;
+        private readonly int _mask;
+        private readonly HashTuple[][] _table;
+        private readonly int[] _tableIndexes;
         private readonly HashSet<Type> _knownTypes;
 
         public ReinventedContainer(
-            params (Type, Func<object>)[] pairs
+            params Tuple<Type, Func<object>>[] pairs
             )
         {
             _length = GetPower2Length(pairs.Length);
-            _table = new List<HashTuple>[_length];
+            _mask = _length - 1;
+            _table = new HashTuple[_length][];
+            _tableIndexes = new int[_length];
             _knownTypes = new HashSet<Type>();
+
+            for(var index = 0; index < _length; index++)
+            {
+                _table[index] = new HashTuple[3];
+            }
 
             foreach (var pair in pairs)
             {
@@ -47,13 +58,9 @@ namespace DpdtInject.Injector
 
                 var index = CalculateIndex(type);
 
-                if (_table[index] is null)
-                {
-                    _table[index] = new List<HashTuple>();
-                }
-
-                _table[index].Add(new HashTuple(type, func));
+                _table[index][_tableIndexes[index]] = new HashTuple(type, func);
                 _knownTypes.Add(type);
+                _tableIndexes[index]++;
             }
         }
 
@@ -71,13 +78,13 @@ namespace DpdtInject.Injector
                 throw new ArgumentNullException(nameof(requestedType));
             }
 
-            //var result = new List<Func<object>>();
+            var result = new List<Func<object>>();
 
             var index = CalculateIndex(requestedType);
 
             var list = _table[index];
 
-            return list;
+            return list.ToList(); //TODO: refactor, it's too slow
 
             //if (list is null)
             //{
@@ -98,40 +105,34 @@ namespace DpdtInject.Injector
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Func<object>? GetGet(Type requestedType)
+        public object? GetGetObject(Type requestedType)
         {
-            if (requestedType is null)
-            {
-                throw new ArgumentNullException(nameof(requestedType));
-            }
-
             var index = CalculateIndex(requestedType);
 
             var list = _table[index];
 
-            if (list is null)
-            {
-                return null;
-            }
-
-            for (var i = 0; i < list.Count; i++)
+            for (var i = 0; i < list.Length; i++)
             {
                 var item = list[i];
 
                 if (item.Type == requestedType)
                 {
-                    return item.Factory;
+                    return item.Factory();
                 }
             }
 
-            return null;
+            throw new DpdtException(
+                DpdtExceptionTypeEnum.NoBindingAvailable,
+                $"No bindings available for {requestedType.FullName}",
+                requestedType.FullName!
+                );
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private int CalculateIndex(Type type)
         {
             var hashCode = type.GetHashCode();
-            var index = Math.Abs(hashCode) % _length;
+            var index = hashCode & _mask;
             return index;
         }
 
@@ -142,8 +143,6 @@ namespace DpdtInject.Injector
 
             return (int)Math.Pow(2, power);
         }
-
-        //private class NonUsedClass { }
     }
 
 }

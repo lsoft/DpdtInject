@@ -25,6 +25,9 @@ namespace DpdtInject.Tests.Performance.NonGeneric.PreProgrammed
         [Benchmark]
         public void Actual()
         {
+            //_kernel.GetIA(typeof(IA));
+            //_kernel.GetIB(typeof(IB));
+            //_kernel.GetIC(typeof(IC));
             _kernel.Get(typeof(IA));
             _kernel.Get(typeof(IB));
             _kernel.Get(typeof(IC));

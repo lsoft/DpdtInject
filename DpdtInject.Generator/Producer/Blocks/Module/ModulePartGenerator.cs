@@ -123,14 +123,9 @@ namespace {ModuleTypeNamespace}
 
             public object Get({typeof(Type).FullName} requestedType)
             {{
-                var resolveFunc = _typeContainer.{nameof(ReinventedContainer.GetGet)}(requestedType);
+                var result = _typeContainer.{nameof(ReinventedContainer.GetGetObject)}(requestedType);
 
-                if(resolveFunc is null)
-                {{
-                    {ExceptionGenerator.GenerateThrowExceptionClause2(DpdtExceptionTypeEnum.NoBindingAvailable, "string.Format(\"No bindings available for {0}\", requestedType.FullName)", "requestedType.FullName")}
-                }}
-
-                return resolveFunc();
+                return result;
             }}
             public List<object> GetAll({typeof(Type).FullName} requestedType)
             {{

@@ -11,10 +11,36 @@ namespace DpdtInject.Tests.Performance.NonGeneric.PreProgrammed
 {
     public partial class DpdtPerformanceModule //: DpdtModule
     {
-        private readonly Provider _provider = new Provider();
+        private static readonly Provider _provider;
+        private static readonly DpdtInject.Injector.ReinventedContainer _typeContainer;
+
         //public override void Dispose()
         //{
         //}
+
+        //Func<object> resolveFuncIA, resolveFuncIB, resolveFuncIC;
+
+
+        static DpdtPerformanceModule()
+        {
+            _provider = new Provider();
+
+            _typeContainer = new DpdtInject.Injector.ReinventedContainer(
+                //(typeof(IA), new Func<object>(() => ((IBaseProvider<IA>)_provider).Get())),
+                //(typeof(IB), new Func<object>(() => ((IBaseProvider<IB>)_provider).Get())),
+                //(typeof(IC), new Func<object>(() => ((IBaseProvider<IC>)_provider).Get()))
+                new Tuple<Type, Func<object>>(typeof(IA), _provider.Get_IA),
+                new Tuple<Type, Func<object>>(typeof(IB), _provider.Get_IB),
+                new Tuple<Type, Func<object>>(typeof(IC), _provider.Get_IC)
+                );
+
+            ////resolveFuncIA = () => ((IBaseProvider<IA>)_provider).Get();// TypeContainer.GetGet(requestedType);
+            ////resolveFuncIB = () => ((IBaseProvider<IB>)_provider).Get();// TypeContainer.GetGet(requestedType);
+            ////resolveFuncIC = () => ((IBaseProvider<IC>)_provider).Get();// TypeContainer.GetGet(requestedType);
+            //resolveFuncIA = () => _provider.Get_IA();// TypeContainer.GetGet(requestedType);
+            //resolveFuncIB = () => _provider.Get_IB();// TypeContainer.GetGet(requestedType);
+            //resolveFuncIC = () => _provider.Get_IC();// TypeContainer.GetGet(requestedType);
+        }
 
         public T Get<T>()
         {
@@ -26,76 +52,90 @@ namespace DpdtInject.Tests.Performance.NonGeneric.PreProgrammed
             return ((IBaseProvider<T>)_provider).GetAll();
         }
 
+        //public object GetIA(System.Type requestedType)
+        //{
+        //    return _provider.Get_IA();//resolveFuncIA();
+        //}
+        //public object GetIB(System.Type requestedType)
+        //{
+        //    return _provider.Get_IB(); //resolveFuncIB();
+        //}
+
+        //public object GetIC(System.Type requestedType)
+        //{
+        //    return _provider.Get_IC(); //resolveFuncIC();
+        //}
+
         public object Get(System.Type requestedType)
         {
-            return _provider.Get(requestedType);
+            return _typeContainer.GetGetObject(requestedType);
         }
 
         public List<object> GetAll(System.Type requestedType)
         {
-            return _provider.GetAll(requestedType);
+            throw new NotImplementedException();
+
+            //var result = new List<object>();
+            //var resolveTuples = _typeContainer.GetGetAllDirty(requestedType);
+            //if (resolveTuples is null)
+            //{
+            //    throw new DpdtInject.Injector.Excp.DpdtException(DpdtExceptionTypeEnum.NoBindingAvailable, string.Format("No bindings available for {0}", requestedType.FullName), requestedType.FullName);
+            //}
+
+            //for (var index = 0; index < resolveTuples.Count; index++)
+            //{
+            //    var tuple = resolveTuples[index];
+            //    if (tuple.Type != requestedType)
+            //    {
+            //        continue;
+            //    }
+
+            //    result.Add(tuple.Factory());
+            //}
+
+            ////ReinventedContainer can return null or list of completely unsuitable items
+            ////because of its hashing nature
+            ////so we need to do additional check in that case
+            //if (result.Count == 0)
+            //{
+            //    if (!_typeContainer.IsTypeKnown(requestedType))
+            //    {
+            //        throw new DpdtInject.Injector.Excp.DpdtException(DpdtExceptionTypeEnum.NoBindingAvailable, string.Format("No bindings available for {0}", requestedType.FullName), requestedType.FullName);
+            //    }
+            //}
+
+            //return result;
         }
 
         private class Provider : IBaseProvider<IA>, IBaseProvider<IB>, IBaseProvider<IC>
         {
-            private readonly DpdtInject.Injector.ReinventedContainer _typeContainer;
             public Provider()
             {
-                _typeContainer = new DpdtInject.Injector.ReinventedContainer(
-                    (typeof(IA), new Func<object>(() => ((IBaseProvider<IA>)this).Get())),
-                    (typeof(IB), new Func<object>(() => ((IBaseProvider<IB>)this).Get())),
-                    (typeof(IC), new Func<object>(() => ((IBaseProvider<IC>)this).Get()))
-                    );
             }
 
-            public object Get(System.Type requestedType)
-            {
-                var resolveFunc = _typeContainer.GetGet(requestedType);
-                if (resolveFunc is null)
-                {
-                    throw new DpdtInject.Injector.Excp.DpdtException(DpdtExceptionTypeEnum.NoBindingAvailable, string.Format("No bindings available for {0}", requestedType.FullName), requestedType.FullName);
-                }
-
-                return resolveFunc();
-            }
-
-            public List<object> GetAll(System.Type requestedType)
-            {
-                var result = new List<object>();
-                var resolveTuples = _typeContainer.GetGetAllDirty(requestedType);
-                if (resolveTuples is null)
-                {
-                    throw new DpdtInject.Injector.Excp.DpdtException(DpdtExceptionTypeEnum.NoBindingAvailable, string.Format("No bindings available for {0}", requestedType.FullName), requestedType.FullName);
-                }
-
-                for (var index = 0; index < resolveTuples.Count; index++)
-                {
-                    var tuple = resolveTuples[index];
-                    if (tuple.Type != requestedType)
-                    {
-                        continue;
-                    }
-
-                    result.Add(tuple.Factory());
-                }
-
-                //ReinventedContainer can return null or list of completely unsuitable items
-                //because of its hashing nature
-                //so we need to do additional check in that case
-                if (result.Count == 0)
-                {
-                    if (!_typeContainer.IsTypeKnown(requestedType))
-                    {
-                        throw new DpdtInject.Injector.Excp.DpdtException(DpdtExceptionTypeEnum.NoBindingAvailable, string.Format("No bindings available for {0}", requestedType.FullName), requestedType.FullName);
-                    }
-                }
-
-                return result;
-            }
 
             private static readonly ResolutionContext Context_DpdtInject_Tests_Transient_Hierarchy3_IA = DpdtInject.Injector.Module.RContext.ResolutionContext.EmptyContext.AddFrame(new DpdtInject.Injector.Module.RContext.ResolutionFrame(typeof(IA)));
             private static readonly ResolutionContext Context_DpdtInject_Tests_Transient_Hierarchy3_IB = DpdtInject.Injector.Module.RContext.ResolutionContext.EmptyContext.AddFrame(new DpdtInject.Injector.Module.RContext.ResolutionFrame(typeof(IB)));
             private static readonly ResolutionContext Context_DpdtInject_Tests_Transient_Hierarchy3_IC = DpdtInject.Injector.Module.RContext.ResolutionContext.EmptyContext.AddFrame(new DpdtInject.Injector.Module.RContext.ResolutionFrame(typeof(IC)));
+
+            //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public object Get_IA()
+            {
+                return IA_A_TransientInstanceContainer_49f8f06d_6490_45d6_82e4_df59eefea2d1.GetInstance(null);
+            }
+            //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public object Get_IB()
+            {
+                return IB_B_TransientInstanceContainer_97ea037b_4986_484f_9e45_b205bd097ea7.GetInstance(null);
+            }
+            //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public object Get_IC()
+            {
+                return IC_C_TransientInstanceContainer_653d7d82_3d4a_44f3_a57a_c4ad03a45056.GetInstance(null);
+
+            }
+
+
             //[MethodImpl(MethodImplOptions.AggressiveInlining)]
             IA IBaseProvider<IA>.Get()
             {
@@ -161,22 +201,8 @@ namespace DpdtInject.Tests.Performance.NonGeneric.PreProgrammed
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static A GetInstance(ResolutionContext resolutionContext)
             {
-                return Nested.GetInstance(resolutionContext);
-            }
-
-            private class Nested
-            {
-                // Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
-                static Nested()
-                {
-                }
-
-                [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                internal static A GetInstance(ResolutionContext resolutionContext)
-                {
-                    var instance = new A();
-                    return instance;
-                }
+                var instance = new A();
+                return instance;
             }
 #nullable disable
         }
@@ -200,30 +226,16 @@ namespace DpdtInject.Tests.Performance.NonGeneric.PreProgrammed
         }
 #endif
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static B GetInstance(ResolutionContext resolutionContext)
+            private static IA Get_a(ResolutionContext resolutionContext)
             {
-                return Nested.GetInstance(resolutionContext);
+                return IA_A_TransientInstanceContainer_49f8f06d_6490_45d6_82e4_df59eefea2d1.GetInstance(null);
             }
 
-            private class Nested
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static B GetInstance(ResolutionContext resolutionContext)
             {
-                // Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
-                static Nested()
-                {
-                }
-
-                [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                private static IA Get_a(ResolutionContext resolutionContext)
-                {
-                    return IA_A_TransientInstanceContainer_49f8f06d_6490_45d6_82e4_df59eefea2d1.GetInstance(null);
-                }
-
-                [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                internal static B GetInstance(ResolutionContext resolutionContext)
-                {
-                    var instance = new B(a: Get_a(resolutionContext));
-                    return instance;
-                }
+                var instance = new B(a: Get_a(resolutionContext));
+                return instance;
             }
 #nullable disable
         }
@@ -246,32 +258,21 @@ namespace DpdtInject.Tests.Performance.NonGeneric.PreProgrammed
             return result;
         }
 #endif
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static IB Get_b(ResolutionContext resolutionContext)
+            {
+                return IB_B_TransientInstanceContainer_97ea037b_4986_484f_9e45_b205bd097ea7.GetInstance(null);
+            }
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static C GetInstance(ResolutionContext resolutionContext)
             {
-                return Nested.GetInstance(resolutionContext);
+                var instance = new C(b: Get_b(resolutionContext));
+                return instance;
             }
 
-            private class Nested
-            {
-                // Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
-                static Nested()
-                {
-                }
-
-                [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                private static IB Get_b(ResolutionContext resolutionContext)
-                {
-                    return IB_B_TransientInstanceContainer_97ea037b_4986_484f_9e45_b205bd097ea7.GetInstance(null);
-                }
-
-                [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                internal static C GetInstance(ResolutionContext resolutionContext)
-                {
-                    var instance = new C(b: Get_b(resolutionContext));
-                    return instance;
-                }
-            }
 #nullable disable
         }
     }

@@ -217,6 +217,33 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.NonGeneric.DifferentObjects
+        ///{
+        ///    public partial class NonGenericDifferentObjectsModule : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .Wi [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string NonGenericDifferentObjectsModule {
+            get {
+                return ResourceManager.GetString("NonGenericDifferentObjectsModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
         ///using DpdtInject.Injector.Excp;
         ///using DpdtInject.Injector.Module;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
