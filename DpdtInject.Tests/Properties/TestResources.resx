@@ -136,6 +136,12 @@
   <data name="ConditionalSingleObjectModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Conditional\SingleObject\ConditionalSingleObjectModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="InvalidToTypeTransientModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\InvalidToType\InvalidToTypeTransientModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="LocalVariableTransientModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\LocalVariable\LocalVariableTransientModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="NonGenericDifferentObjectsModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\NonGeneric\DifferentObjects\NonGenericDifferentObjectsModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -180,6 +186,9 @@
   </data>
   <data name="TransientTwoSameBindingsModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Transient\TwoSameBindings\TransientTwoSameBindingsModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="UnsortedCannotBeCastedModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\CannotBeCasted\UnsortedCannotBeCastedModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="UnsortedCircularDependency3Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\CircularDependency3\UnsortedCircularDependency3Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>

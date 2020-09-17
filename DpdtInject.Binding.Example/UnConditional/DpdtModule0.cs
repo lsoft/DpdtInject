@@ -9,6 +9,7 @@ namespace DpdtInject.Binding.Example.UnConditional
 
         public override void Load()
         {
+
             //Bind<IA>()
             //    .To<A>()
             //    .WithSingletonScope()

@@ -95,29 +95,6 @@ namespace DpdtInject.Injector
                     _table[i] = preTable[i].ToArray();
                 }
             }
-
-            ////for(var index = 0; index < _length; index++)
-            ////{
-            ////    _table[index] = new HashTuple[3]; //TODO: move as constructor argument and calculate appropriate at the compilation stage
-            ////}
-
-            //var tableIndexes = new int[_length];
-            //foreach (var pair in pairs)
-            //{
-            //    var type = pair.Item1;
-            //    var func = pair.Item2;
-
-            //    if(duplicateChecker.Contains(type))
-            //    {
-            //        throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"Duplicate types incomes to the container.");
-            //    }
-            //    duplicateChecker.Add(type);
-
-            //    var index = CalculateIndex(type);
-
-            //    _table[index][tableIndexes[index]] = new HashTuple(type, func);
-            //    tableIndexes[index]++;
-            //}
         }
 
 

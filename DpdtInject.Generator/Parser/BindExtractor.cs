@@ -191,8 +191,9 @@ namespace DpdtInject.Generator.Parser
                 bindFromTypeSematics.Add(bindFromTypeSematic);
             }
 
+            var bindToSyntax = toGenericNode.TypeArgumentList.DescendantNodes().First();
+            var bindToTypeSematic = _semanticModel.GetTypeInfo(bindToSyntax).Type;
 
-            var bindToTypeSematic = _semanticModel.GetTypeInfo(toGenericNode.TypeArgumentList.DescendantNodes().First()).Type;
             if (bindToTypeSematic == null)
             {
                 throw new DpdtException(
@@ -200,6 +201,11 @@ namespace DpdtInject.Generator.Parser
                     $"Unknown problem to access {nameof(bindToTypeSematic)}"
                     );
             }
+
+            CheckForFromAndToTypes(
+                bindFromTypeSematics,
+                bindToTypeSematic
+                );
 
             var fullBindToTypeName = _compilation.GetTypeByMetadataName(bindToTypeSematic.GetFullName());
             if (fullBindToTypeName == null)
@@ -248,15 +254,15 @@ namespace DpdtInject.Generator.Parser
 
 
 
-//            //transform it
+            //            //transform it
 
-//            toReplace0Node = SyntaxFactory.ParseStatement(
-//                $"var {nodeVariableName} = " + expressionNode.WithoutLeadingTrivia().GetText().ToString()
-//                ).WithLeadingTrivia(expressionNode.GetLeadingTrivia());
+            //            toReplace0Node = SyntaxFactory.ParseStatement(
+            //                $"var {nodeVariableName} = " + expressionNode.WithoutLeadingTrivia().GetText().ToString()
+            //                ).WithLeadingTrivia(expressionNode.GetLeadingTrivia());
 
-//            toReplace1Node = SyntaxFactory.ParseStatement($@"{Environment.NewLine}var {containerVariableName} = new {containerClassName}({nodeVariableName}.{nameof(DefineBindingNode.CreateConfiguration)}());
-//                containers.Add({containerVariableName}.Configuration.BindNode.Name, {containerVariableName});
-//");
+            //            toReplace1Node = SyntaxFactory.ParseStatement($@"{Environment.NewLine}var {containerVariableName} = new {containerClassName}({nodeVariableName}.{nameof(DefineBindingNode.CreateConfiguration)}());
+            //                containers.Add({containerVariableName}.Configuration.BindNode.Name, {containerVariableName});
+            //");
 
         }
 
@@ -293,8 +299,8 @@ namespace DpdtInject.Generator.Parser
                 bindFromTypeSematics.Add(bindFromTypeSematic);
             }
 
-
-            var bindToTypeSematic = _semanticModel.GetTypeInfo(toGenericNode.TypeArgumentList.DescendantNodes().First()).Type;
+            var bindToSyntax = toGenericNode.TypeArgumentList.DescendantNodes().First();
+            var bindToTypeSematic = _semanticModel.GetTypeInfo(bindToSyntax).Type;
             if (bindToTypeSematic == null)
             {
                 throw new DpdtException(
@@ -302,6 +308,11 @@ namespace DpdtInject.Generator.Parser
                     $"Unknown problem to access {nameof(bindToTypeSematic)}"
                     );
             }
+
+            CheckForFromAndToTypes(
+                bindFromTypeSematics,
+                bindToTypeSematic
+                );
 
             var fullBindToTypeName = _compilation.GetTypeByMetadataName(bindToTypeSematic.GetFullName());
             if (fullBindToTypeName == null)
@@ -360,6 +371,45 @@ namespace DpdtInject.Generator.Parser
             //                containers.Add({containerVariableName}.Configuration.BindNode.Name, {containerVariableName});
             //");
 
+        }
+
+        private void CheckForFromAndToTypes(
+            List<ITypeSymbol> bindFromTypeSematics,
+            ITypeSymbol bindToTypeSematic
+            )
+        {
+            if (bindFromTypeSematics is null)
+            {
+                throw new ArgumentNullException(nameof(bindFromTypeSematics));
+            }
+
+            if (bindToTypeSematic is null)
+            {
+                throw new ArgumentNullException(nameof(bindToTypeSematic));
+            }
+
+            //check for target type correct
+            if (bindToTypeSematic.TypeKind.NotIn(TypeKind.Class, TypeKind.Struct))
+            {
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.IncorrectBinding,
+                    $"Type [{bindToTypeSematic.GetFullName()}] is not a class or struct",
+                    bindToTypeSematic.GetFullName()
+                    );
+            }
+
+            //check for cast exists
+            foreach (var bindFromSemantic in bindFromTypeSematics)
+            {
+                if (!bindToTypeSematic.CanBeCastedTo(bindFromSemantic.GetFullName()))
+                {
+                    throw new DpdtException(
+                        DpdtExceptionTypeEnum.IncorrectBinding,
+                        $"Type [{bindToTypeSematic.GetFullName()}] cannot be casted to [{bindFromSemantic.GetFullName()}]",
+                        bindToTypeSematic.GetFullName()
+                        );
+                }
+            }
         }
 
         private ArgumentSyntax? DetermineBindingClause(

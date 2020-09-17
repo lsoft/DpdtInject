@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -57,7 +58,7 @@ namespace DpdtInject.Tests
             _testContext = testContext;
             _testerClassName = testerClassName;
             _moduleFileName = moduleFileName;
-            _moduleSource = Regex.Replace(moduleSource, @"FakeModule<(?i:([a-zA-z\d]+))>", "$1");
+            _moduleSource = "#define IN_UNIT_TEST_SYMBOL" + Environment.NewLine + Regex.Replace(moduleSource, @"FakeModule<(?i:([a-zA-z\d]+))>", "$1");
             _callerFilePath = callerFilePath;
 
             DiagnosticReporter = new FakeDiagnosticReporter();
@@ -65,119 +66,131 @@ namespace DpdtInject.Tests
 
         public void Check()
         {
-
-            var moduleSourceText = SourceText.From(_moduleSource, Encoding.UTF8);
-            var moduleSyntaxTree = SyntaxFactory.ParseSyntaxTree(moduleSourceText, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest), "");
-
-            var trustedAssembliesPaths = ((string)AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")).Split(Path.PathSeparator);
-            var references = trustedAssembliesPaths
-                //.Where(p => this.GetType().Assembly.GetReferencedAssemblies().Any(ra => ra.Name == Path.GetFileNameWithoutExtension(p)))
-                .Where(path => !IsSkippedAssembly(path))
-                .Select(p => MetadataReference.CreateFromFile(p))
-                .ToList();
-
-
-
-            var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
-                .WithOverflowChecks(true)
-                .WithOptimizationLevel(OptimizationLevel.Debug)
-                //.WithUsings(DefaultNamespaces)
-                ;
-
-            var compilation = CSharpCompilation.Create(
-                Guid.NewGuid() + ".dll",
-                new SyntaxTree[] { moduleSyntaxTree }
-                , references
-                , compilationOptions
-                );
-
-            var generatedSourceFilePath = Path.Combine(
-                new FileInfo(_callerFilePath).Directory.FullName,
-                _moduleFileName
-                ) + ".Pregenerated.cs";
-            var internalGenerator = new DpdtInternalGenerator(
-                DiagnosticReporter,
-                generatedSourceFilePath
-                );
-            internalGenerator.Execute(compilation);
-
-            var modificationDescriptions = internalGenerator.Execute(compilation).ToList();
-
-            Assert.AreEqual(1, modificationDescriptions.Count, "Allowed only one module per request");
-
-            var modificationDescription = modificationDescriptions[0];
-
-            var generatorSyntaxTree = SyntaxFactory.ParseSyntaxTree(
-                SourceText.From(modificationDescription.NewFileBody),
-                CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest),
-                ""
-                );
-
-            compilation = compilation.AddSyntaxTrees(generatorSyntaxTree);
-
-
-            var compiledDllPath = Path.Combine(
-                _testContext.TestResultsDirectory,
-                modificationDescription.ModifiedTypeName + ".dll"
-                );
-
-            var emitResult = compilation.Emit(compiledDllPath);
-
-            Assert.IsTrue(emitResult.Success, string.Join(Environment.NewLine, emitResult.Diagnostics));
-
-            TestAssemblyLoadContext talContext = null;
             try
             {
-                talContext = new TestAssemblyLoadContext();
+                var moduleSourceText = SourceText.From(_moduleSource, Encoding.UTF8);
+                var moduleSyntaxTree = SyntaxFactory.ParseSyntaxTree(moduleSourceText, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest), "");
 
-                var compiledAssembly = talContext.LoadFromAssemblyPath(compiledDllPath);
+                var trustedAssembliesPaths = ((string)AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")).Split(Path.PathSeparator);
+                var references = trustedAssembliesPaths
+                    //.Where(p => this.GetType().Assembly.GetReferencedAssemblies().Any(ra => ra.Name == Path.GetFileNameWithoutExtension(p)))
+                    .Where(path => !IsSkippedAssembly(path))
+                    .Select(p => MetadataReference.CreateFromFile(p))
+                    .ToList();
 
-                //var moduleTypeName = modificationDescription.ModifiedTypeFullName;
-                var testerType = compiledAssembly.GetTypes().FirstOrDefault(t => t.Name == _testerClassName);
 
-                if(testerType == null)
-                {
-                    throw new DpdtException(
-                        DpdtExceptionTypeEnum.InvalidTestConfiguration,
-                        $"Type {_testerClassName} does not found",
-                        _testerClassName
-                        );
-                }
 
-                var tester = Activator.CreateInstance(testerType);
+                var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
+                    .WithOverflowChecks(true)
+                    .WithOptimizationLevel(OptimizationLevel.Debug)
+                    //.WithUsings(DefaultNamespaces)
+                    ;
 
-                var method = testerType.GetMethod(
-                    "PerformModuleTesting",
-                    BindingFlags.Public | BindingFlags.Instance
+                var compilation = CSharpCompilation.Create(
+                    Guid.NewGuid() + ".dll",
+                    new SyntaxTree[] { moduleSyntaxTree }
+                    , references
+                    , compilationOptions
                     );
 
-                method.Invoke(tester, null);
+                var generatedSourceFilePath = Path.Combine(
+                    new FileInfo(_callerFilePath).Directory.FullName,
+                    _moduleFileName
+                    ) + ".Pregenerated.cs";
+                var internalGenerator = new DpdtInternalGenerator(
+                    DiagnosticReporter,
+                    generatedSourceFilePath
+                    );
+                internalGenerator.Execute(compilation);
 
-                //var testerInterface = testerType.GetInterface(nameof(IDpdtModuleTester));
-                //if (testerInterface == null || testerInterface.FullName != typeof(IDpdtModuleTester).FullName)
-                //{
-                //    throw new DpdtException(
-                //        DpdpExceptionTypeEnum.InvalidTestConfiguration,
-                //        $"Module tester {testerType.Name} must implement {nameof(IDpdtModuleTester)}.",
-                //        testerType.Name
-                //        );
-                //}
+                var modificationDescriptions = internalGenerator.Execute(compilation).ToList();
 
-                //var tester = (IDpdtModuleTester)Activator.CreateInstance(testerType);
+                Assert.AreEqual(1, modificationDescriptions.Count, "Allowed only one module per request");
 
-                //try
-                //{
-                //    var method = testerType.GetMethod(nameof(IDpdtModuleTester.PerformModuleTesting));
-                //    method.Invoke(tester, new[] { this } );
-                //}
-                //catch (Exception excp)
-                //{
-                //    throw;
-                //}
+                var modificationDescription = modificationDescriptions[0];
+
+                var generatorSyntaxTree = SyntaxFactory.ParseSyntaxTree(
+                    SourceText.From(modificationDescription.NewFileBody),
+                    CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest),
+                    ""
+                    );
+
+                compilation = compilation.AddSyntaxTrees(generatorSyntaxTree);
+
+
+                var compiledDllPath = Path.Combine(
+                    _testContext.TestResultsDirectory,
+                    modificationDescription.ModifiedTypeName + ".dll"
+                    );
+
+                var emitResult = compilation.Emit(compiledDllPath);
+
+                Assert.IsTrue(emitResult.Success, string.Join(Environment.NewLine, emitResult.Diagnostics));
+
+                TestAssemblyLoadContext talContext = null;
+                try
+                {
+                    talContext = new TestAssemblyLoadContext();
+
+                    var compiledAssembly = talContext.LoadFromAssemblyPath(compiledDllPath);
+
+                    //var moduleTypeName = modificationDescription.ModifiedTypeFullName;
+                    var testerType = compiledAssembly.GetTypes().FirstOrDefault(t => t.Name == _testerClassName);
+
+                    if (testerType == null)
+                    {
+                        throw new DpdtException(
+                            DpdtExceptionTypeEnum.InvalidTestConfiguration,
+                            $"Type {_testerClassName} does not found",
+                            _testerClassName
+                            );
+                    }
+
+                    var tester = Activator.CreateInstance(testerType);
+
+                    var method = testerType.GetMethod(
+                        "PerformModuleTesting",
+                        BindingFlags.Public | BindingFlags.Instance
+                        );
+
+                    method.Invoke(tester, null);
+
+                    //var testerInterface = testerType.GetInterface(nameof(IDpdtModuleTester));
+                    //if (testerInterface == null || testerInterface.FullName != typeof(IDpdtModuleTester).FullName)
+                    //{
+                    //    throw new DpdtException(
+                    //        DpdpExceptionTypeEnum.InvalidTestConfiguration,
+                    //        $"Module tester {testerType.Name} must implement {nameof(IDpdtModuleTester)}.",
+                    //        testerType.Name
+                    //        );
+                    //}
+
+                    //var tester = (IDpdtModuleTester)Activator.CreateInstance(testerType);
+
+                    //try
+                    //{
+                    //    var method = testerType.GetMethod(nameof(IDpdtModuleTester.PerformModuleTesting));
+                    //    method.Invoke(tester, new[] { this } );
+                    //}
+                    //catch (Exception excp)
+                    //{
+                    //    throw;
+                    //}
+                }
+                finally
+                {
+                    talContext?.Unload();
+                }
             }
-            finally
+            catch(Exception excp)
             {
-                talContext?.Unload();
+                Debug.WriteLine(excp.Message);
+                Debug.WriteLine(excp.StackTrace);
+
+                this.DiagnosticReporter.ReportError(
+                    excp.Message,
+                    excp.StackTrace
+                    );
             }
         }
 

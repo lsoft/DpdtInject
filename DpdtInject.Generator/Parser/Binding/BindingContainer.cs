@@ -52,14 +52,7 @@ namespace DpdtInject.Generator.Parser.Binding
             get;
         }
 
-        public IReadOnlyCollection<string> FromTypeNames
-        {
-            get;
-        }
-
         public bool IsConditional => WhenArgumentClause is not null;
-
-        public string TargetTypeName => BindToType.Name;
 
         public string TargetTypeFullName => BindToType.GetFullName();
 
@@ -93,8 +86,11 @@ namespace DpdtInject.Generator.Parser.Binding
             Scope = scope;
             WhenArgumentClause = whenArgumentClause;
             FromTypeFullNames = new HashSet<string>(BindFromTypes.ConvertAll(b => b.GetFullName()));
-            FromTypeNames = new HashSet<string>(BindFromTypes.ConvertAll(b => b.Name));
-
         }
+
+        public string GetFromTypeFullNamesCombined(string separator = "_") => string.Join(separator, FromTypeFullNames);
+
+
+
     }
 }

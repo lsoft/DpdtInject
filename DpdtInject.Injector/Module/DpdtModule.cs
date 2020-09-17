@@ -23,7 +23,7 @@ namespace DpdtInject.Injector.Module
         //}
 
 
-        protected DefineBindingNode Bind<T1, T2>(
+        protected IToBinding Bind<T1, T2>(
             //string name = BindingNameTree.RootName
             )
         {
@@ -45,7 +45,7 @@ namespace DpdtInject.Injector.Module
             return bind;
         }
 
-        protected DefineBindingNode Bind<T>(
+        protected IToBinding Bind<T>(
             //string name = BindingNameTree.RootName
             )
         {

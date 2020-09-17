@@ -225,6 +225,58 @@ namespace DpdtInject.Tests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.InvalidToType
+        ///{
+        ///    public partial class InvalidToTypeTransientModule : DpdtModule
+        ///    {
+        ///        public const string Message = &quot;some message&quot;;
+        ///
+        ///        public override void  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string InvalidToTypeTransientModule {
+            get {
+                return ResourceManager.GetString("InvalidToTypeTransientModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.LocalVariable
+        ///{
+        ///    public partial class LocalVariableTransientModule : DpdtModule
+        ///    {
+        ///        public const string Message = &quot;some message&quot;;
+        ///
+        ///        public override void  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string LocalVariableTransientModule {
+            get {
+                return ResourceManager.GetString("LocalVariableTransientModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
         ///
         ///namespace DpdtInject.Tests.NonGeneric.DifferentObjects
         ///{
@@ -612,6 +664,32 @@ namespace DpdtInject.Tests.Properties {
         internal static string TransientTwoSameBindingsModule {
             get {
                 return ResourceManager.GetString("TransientTwoSameBindingsModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.CannotBeCasted
+        ///{
+        ///    public partial class UnsortedCannotBeCastedModule : DpdtModule
+        ///    {
+        ///        public const string Message = &quot;some message&quot;;
+        ///
+        ///        public override void [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedCannotBeCastedModule {
+            get {
+                return ResourceManager.GetString("UnsortedCannotBeCastedModule", resourceCulture);
             }
         }
         

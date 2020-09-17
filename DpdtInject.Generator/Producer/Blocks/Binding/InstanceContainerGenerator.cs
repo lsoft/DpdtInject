@@ -92,10 +92,10 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             switch (this.BindingContainer.Scope)
             {
                 case Injector.Module.Bind.BindScopeEnum.Transient:
-                    ClassName = $"{string.Join("_", bindingContainer.FromTypeNames)}_{bindingContainer.TargetTypeName}_{nameof(TransientInstanceContainer)}_{Guid.NewGuid().ToString().ConvertMinusToGround()}";
+                    ClassName = $"{string.Join("_", bindingContainer.GetFromTypeFullNamesCombined().ConvertDotToGround())}_{bindingContainer.TargetTypeFullName.ConvertDotToGround()}_{nameof(TransientInstanceContainer)}_{Guid.NewGuid().ToString().ConvertMinusToGround()}";
                     break;
                 case Injector.Module.Bind.BindScopeEnum.Singleton:
-                    ClassName = $"{string.Join("_", bindingContainer.FromTypeNames)}_{bindingContainer.TargetTypeName}_{nameof(SingletonInstanceContainer)}_{Guid.NewGuid().ToString().ConvertMinusToGround()}";
+                    ClassName = $"{string.Join("_", bindingContainer.GetFromTypeFullNamesCombined().ConvertDotToGround())}_{bindingContainer.TargetTypeFullName.ConvertDotToGround()}_{nameof(SingletonInstanceContainer)}_{Guid.NewGuid().ToString().ConvertMinusToGround()}";
                     break;
                 case Injector.Module.Bind.BindScopeEnum.Constant:
                 default:
