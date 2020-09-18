@@ -174,7 +174,7 @@ namespace DpdtInject.Generator.Parser
                     : string.Empty
                     ;
 
-            var createFrameVariableName = $"Context_{Type.GetFullName().ConvertDotToGround()}";
+            var createFrameVariableName = $"Context_{Type.GetFullName().ConvertDotToGround()}_{Name}";
 
             var createFrameClause = $@"
 private static readonly {nameof(ResolutionFrame)} {createFrameVariableName} = {ResolutionFrameGenerator.GetNewFrameClause(Type.GetFullName(), Name)};

@@ -11,6 +11,8 @@ namespace DpdtInject.Injector.Module.RContext
 
         IResolutionFrame RootFrame { get; }
 
+        IResolutionFrame ParentFrame { get; }
+
         IResolutionFrame CurrentFrame { get; }
 
     }

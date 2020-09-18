@@ -17,6 +17,8 @@ namespace DpdtInject.Injector.Module.RContext
 
         public IResolutionFrame RootFrame => _frames[0];
 
+        public IResolutionFrame ParentFrame => _frames[_frames.Count - 2];
+
         public IResolutionFrame CurrentFrame => _frames[_frames.Count - 1];
 
         public ResolutionContext()

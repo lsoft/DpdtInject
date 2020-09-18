@@ -128,7 +128,7 @@ namespace DpdtInject.Generator.Parser.Binding
                     AnalyzeForSingletonTakesTransientPrivate(
                         diagnosticReporter,
                         child,
-                        processed
+                        new HashSet<BindingContainer>(processed)
                         );
                 }
             }

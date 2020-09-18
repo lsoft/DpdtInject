@@ -960,6 +960,32 @@ namespace DpdtInject.Tests.Properties {
         ///using System.Text;
         ///using System.Threading.Tasks;
         ///using DpdtInject.Injector.Module.Bind;
+        ///using DpdtInject.Injector.Excp;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.SameChildren
+        ///{
+        ///    public partial class UnsortedSameChildrenModule : DpdtModule
+        ///    {
+        ///        public const string Message = &quot;some message&quot;;
+        ///        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedSameChildrenModule {
+            get {
+                return ResourceManager.GetString("UnsortedSameChildrenModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
         ///
         ///namespace DpdtInject.Tests.Unsorted.SingletonTransient
         ///{

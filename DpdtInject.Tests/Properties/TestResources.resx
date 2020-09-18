@@ -220,6 +220,9 @@
   <data name="UnsortedCircularDependency3Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\CircularDependency3\UnsortedCircularDependency3Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="UnsortedSameChildrenModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\SameChildren\UnsortedSameChildrenModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="UnsortedSingletonTransientModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\SingletonTransient\UnsortedSingletonTransientModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
