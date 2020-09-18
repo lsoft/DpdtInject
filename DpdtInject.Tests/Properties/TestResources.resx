@@ -118,6 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ActivationExcessiveTooManyChildren0Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Activation\Excessive\TooManyChildren0\ActivationExcessiveTooManyChildren0Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ActivationExcessiveTooManyChildren1Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Activation\Excessive\TooManyChildren1\ActivationExcessiveTooManyChildren1Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ActivationExcessiveTooManyChildren2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Activation\Excessive\TooManyChildren2\ActivationExcessiveTooManyChildren2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ActivationExcessiveTooManyChildren3Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Activation\Excessive\TooManyChildren3\ActivationExcessiveTooManyChildren3Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="ConditionalHierarchy2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Conditional\Hierarchy2\ConditionalHierarchy2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

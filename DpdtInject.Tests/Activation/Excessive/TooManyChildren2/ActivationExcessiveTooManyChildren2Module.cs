@@ -9,10 +9,11 @@ using System.Text;
 using System.Threading.Tasks;
 using DpdtInject.Injector.Module.Bind;
 using DpdtInject.Injector.Excp;
+using System.Threading;
 
-namespace DpdtInject.Tests.Unsorted.TooManyChildren
+namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren2
 {
-    public partial class UnsortedTooManyChildrenModule : DpdtModule
+    public partial class ActivationExcessiveTooManyChildren2Module : DpdtModule
     {
         public const string Message = "some message";
 
@@ -36,11 +37,11 @@ namespace DpdtInject.Tests.Unsorted.TooManyChildren
                 ;
         }
 
-        public class UnsortedTooManyChildrenTester
+        public class ActivationExcessiveTooManyChildren2Tester
         {
             public void PerformModuleTesting()
             {
-                var module = new FakeModule<UnsortedTooManyChildrenModule>();
+                var module = new FakeModule<ActivationExcessiveTooManyChildren2Module>();
 
                 try
                 {
@@ -53,6 +54,10 @@ namespace DpdtInject.Tests.Unsorted.TooManyChildren
                 {
                     //it's OK, this test is gree
                 }
+
+                Assert.AreEqual(0, B.ActivationCount, "B.ActivationCount");
+                Assert.AreEqual(0, A1.ActivationCount, "A1.ActivationCount");
+                Assert.AreEqual(0, A2.ActivationCount, "A2.ActivationCount");
             }
         }
 
@@ -65,9 +70,22 @@ namespace DpdtInject.Tests.Unsorted.TooManyChildren
 
     public class A2 : IA
     {
+        public static long ActivationCount = 0L;
+
+        public A2()
+        {
+            Interlocked.Increment(ref ActivationCount);
+        }
     }
+
     public class A1 : IA
     {
+        public static long ActivationCount = 0L;
+
+        public A1()
+        {
+            Interlocked.Increment(ref ActivationCount);
+        }
     }
 
     public interface IB
@@ -77,10 +95,14 @@ namespace DpdtInject.Tests.Unsorted.TooManyChildren
 
     public class B : IB
     {
+        public static long ActivationCount = 0L;
+
         public IA A { get; }
 
         public B(IA a)
         {
+            Interlocked.Increment(ref ActivationCount);
+
             A = a;
         }
     }

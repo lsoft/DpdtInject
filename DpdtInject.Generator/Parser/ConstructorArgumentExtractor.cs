@@ -186,7 +186,7 @@ private static readonly {nameof(ResolutionFrame)} {createFrameVariableName} = {R
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
 private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {localVariableContextReference})
 {{
-        {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetTypeFullName}]{exceptionSuffix}", bindingContainer.TargetTypeFullName)}
+        {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetTypeFullName}]{exceptionSuffix}", Type.GetFullName())}
 }}
 ";
             }
@@ -209,7 +209,7 @@ private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {loca
         return {instanceContainerGenerator.GetInstanceClause("context")};
     }}
 
-    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetTypeFullName}]{exceptionSuffix}", bindingContainer.TargetTypeFullName)}
+    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetTypeFullName}]{exceptionSuffix}", Type.GetFullName())}
 }}
 ";
                 }
@@ -284,7 +284,7 @@ result = {instanceContainerGenerator.GetInstanceClause("null")};
                     applyArgumentPiece += $@"
     if(result is null)
     {{
-        {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetTypeFullName}]{exceptionSuffix}", bindingContainer.TargetTypeFullName)}
+        {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetTypeFullName}]{exceptionSuffix}", Type.GetFullName())}
     }}
 
     return result;

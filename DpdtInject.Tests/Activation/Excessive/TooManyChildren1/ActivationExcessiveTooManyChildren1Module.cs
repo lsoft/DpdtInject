@@ -9,10 +9,11 @@ using System.Text;
 using System.Threading.Tasks;
 using DpdtInject.Injector.Module.Bind;
 using DpdtInject.Injector.Excp;
+using System.Threading;
 
-namespace DpdtInject.Tests.Unsorted.TooManyChildren
+namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren1
 {
-    public partial class UnsortedTooManyChildrenModule : DpdtModule
+    public partial class ActivationExcessiveTooManyChildren1Module : DpdtModule
     {
         public const string Message = "some message";
 
@@ -21,7 +22,7 @@ namespace DpdtInject.Tests.Unsorted.TooManyChildren
             Bind<IA>()
                 .To<A1>()
                 .WithSingletonScope()
-                .When(rc => true)
+                .When(rc => false)
                 ;
 
             Bind<IA>()
@@ -36,23 +37,19 @@ namespace DpdtInject.Tests.Unsorted.TooManyChildren
                 ;
         }
 
-        public class UnsortedTooManyChildrenTester
+        public class ActivationExcessiveTooManyChildren1Tester
         {
             public void PerformModuleTesting()
             {
-                var module = new FakeModule<UnsortedTooManyChildrenModule>();
+                var module = new FakeModule<ActivationExcessiveTooManyChildren1Module>();
 
-                try
-                {
-                    var b = module.Get<IB>();
+                var b = module.Get<IB>();
+                Assert.IsNotNull(b);
+                Assert.IsNotNull(b.A);
 
-                    Assert.Fail("this line should never be executed");
-                }
-                catch (DpdtException excp)
-                when (excp.Type == DpdtExceptionTypeEnum.DuplicateBinding && excp.AdditionalArgument == typeof(IA).FullName)
-                {
-                    //it's OK, this test is gree
-                }
+                Assert.AreEqual(1, B.ActivationCount, "B.ActivationCount");
+                Assert.AreEqual(0, A1.ActivationCount, "A1.ActivationCount");
+                Assert.AreEqual(1, A2.ActivationCount, "A2.ActivationCount");
             }
         }
 
@@ -65,9 +62,22 @@ namespace DpdtInject.Tests.Unsorted.TooManyChildren
 
     public class A2 : IA
     {
+        public static long ActivationCount = 0L;
+
+        public A2()
+        {
+            Interlocked.Increment(ref ActivationCount);
+        }
     }
+
     public class A1 : IA
     {
+        public static long ActivationCount = 0L;
+
+        public A1()
+        {
+            Interlocked.Increment(ref ActivationCount);
+        }
     }
 
     public interface IB
@@ -77,10 +87,14 @@ namespace DpdtInject.Tests.Unsorted.TooManyChildren
 
     public class B : IB
     {
+        public static long ActivationCount = 0L;
+
         public IA A { get; }
 
         public B(IA a)
         {
+            Interlocked.Increment(ref ActivationCount);
+
             A = a;
         }
     }

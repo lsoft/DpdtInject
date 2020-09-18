@@ -499,6 +499,11 @@ namespace DpdtInject.Generator.Parser
             IMethodSymbol chosenConstructor = null!;
             foreach (var constructor in fullBindToTypeName.Constructors)
             {
+                if(constructor.IsStatic)
+                {
+                    continue;
+                }
+
                 if (!ContainsAllArguments(constructor, constructorArguments))
                 {
                     continue;
