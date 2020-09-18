@@ -85,7 +85,7 @@ using DpdtInject.Injector.Module.Bind;
 
 namespace {ModuleTypeNamespace}
 {{
-#nullable enable
+//#nullable enable
     public partial class {ModuleTypeName} : {nameof(DpdtModule)}
     {{
         private static long _instanceCount = 0L;
@@ -181,7 +181,7 @@ namespace {ModuleTypeNamespace}
 
             {providerGenerator.CombinedImplementationSection}
         }}
-#nullable disable
+//#nullable disable
 
 #endregion
 

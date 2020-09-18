@@ -8,7 +8,6 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
 {
     public sealed class TransientInstanceContainer
     {
-#nullable enable
         private TransientInstanceContainer()
         {
         }
@@ -31,6 +30,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
             return Nested.GetInstance(resolutionContext);
         }
 
+#nullable enable
         private class Nested
         {
             // Explicit static constructor to tell C# compiler not to mark type as beforefieldinit

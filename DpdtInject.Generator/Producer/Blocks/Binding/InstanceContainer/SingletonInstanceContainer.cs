@@ -8,8 +8,6 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
 {
     public sealed class SingletonInstanceContainer
     {
-#nullable enable
-
         private SingletonInstanceContainer()
         {
         }
@@ -40,6 +38,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
             }
         }
 
+#nullable enable
         private class Nested
         {
             private static readonly object _locker = new object();
