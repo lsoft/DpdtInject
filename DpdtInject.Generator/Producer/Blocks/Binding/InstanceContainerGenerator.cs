@@ -165,5 +165,10 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
             return classBody;
         }
+
+        internal string GetVariableStableName()
+        {
+            return $"generator{this.GetHashCode()}";
+        }
     }
 }

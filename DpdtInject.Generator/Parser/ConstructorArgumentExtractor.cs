@@ -186,7 +186,7 @@ private static readonly {nameof(ResolutionFrame)} {createFrameVariableName} = {R
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
 private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {localVariableContextReference})
 {{
-        {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetTypeFullName}]{exceptionSuffix}", Type.GetFullName())}
+    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetTypeFullName}]{exceptionSuffix}", Type.GetFullName())}
 }}
 ";
             }
@@ -238,19 +238,21 @@ private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {loca
                 }
                 else
                 {
+                    var nonConditionalGeneratorCount = instanceContainerGenerators.Count(g => !g.BindingContainer.IsConditional);
+
                     applyArgumentPiece = $@"
 {createFrameClause}
 
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
 private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {localVariableContextReference})
 {{
-    {Type.GetFullName()} result = null;
+    int allowedChildrenCount = {nonConditionalGeneratorCount};
 ";
 
                     var contextClauseApplied = false;
-                    foreach (var instanceContainerGenerator in instanceContainerGenerators)
+                    foreach (var conditionalGenerator in instanceContainerGenerators.Where(g => g.BindingContainer.IsConditional))
                     {
-                        if (instanceContainerGenerator.ItselfOrAtLeastOneChildIsConditional)
+                        if (conditionalGenerator.ItselfOrAtLeastOneChildIsConditional)
                         {
                             if (!contextClauseApplied)
                             {
@@ -259,35 +261,53 @@ var context = {localVariableContextReference}.{nameof(ResolutionContext.AddFrame
 ";
                                 contextClauseApplied = true;
                             }
+                        }
 
-                            applyArgumentPiece += $@"
-if({instanceContainerGenerator.ClassName}.CheckPredicate(context))
+                        applyArgumentPiece += $@"
+var {conditionalGenerator.GetVariableStableName()} = false;
+if({conditionalGenerator.ClassName}.CheckPredicate(context))
 {{
-    if(!(result is null))
+    if(++allowedChildrenCount > 1)
     {{
         {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetTypeFullName}]", Type.GetFullName())}
     }}
 
-    result = {instanceContainerGenerator.GetInstanceClause("context")};
+    {conditionalGenerator.GetVariableStableName()} = true;
+}}
+";
+                        
+                    }
+
+                    applyArgumentPiece += $@"
+if(allowedChildrenCount == 0)
+{{
+    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetTypeFullName}]{exceptionSuffix}", Type.GetFullName())}
+}}
+";
+
+                    for(var gIndex = 0; gIndex < instanceContainerGenerators.Count; gIndex++)
+                    {
+                        var generator = instanceContainerGenerators[gIndex];
+                        var isLastGenerator = gIndex == (instanceContainerGenerators.Count - 1);
+
+                        if (generator.ItselfOrAtLeastOneChildIsConditional && !isLastGenerator)
+                        {
+                            applyArgumentPiece += $@"
+if({generator.GetVariableStableName()})
+{{
+    return {generator.GetInstanceClause("context")};
 }}
 ";
                         }
                         else
                         {
                             applyArgumentPiece += $@"
-result = {instanceContainerGenerator.GetInstanceClause("null")};
-}}
+return {generator.GetInstanceClause("null")};
 ";
                         }
                     }
 
                     applyArgumentPiece += $@"
-    if(result is null)
-    {{
-        {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetTypeFullName}]{exceptionSuffix}", Type.GetFullName())}
-    }}
-
-    return result;
 }}
 ";
                 }
