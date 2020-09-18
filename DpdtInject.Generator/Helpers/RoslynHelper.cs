@@ -126,7 +126,7 @@ namespace DpdtInject.Generator.Helpers
             var constant = semanticModel.GetConstantValue(expression);
             if (constant.HasValue)
             {
-                result = constant.Value.ToString()!;
+                result = constant.Value!.ToString()!;
                 return true;
             }
 

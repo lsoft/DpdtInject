@@ -5,10 +5,10 @@ namespace DpdtInject.Generator.Reporter
 {
     public class DiagnosticReporter : IDiagnosticReporter
     {
-        private readonly SourceGeneratorContext _context;
+        private readonly GeneratorExecutionContext _context;
 
         public DiagnosticReporter(
-            SourceGeneratorContext context
+            GeneratorExecutionContext context
             )
         {
             _context = context;

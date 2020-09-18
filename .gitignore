@@ -10,6 +10,7 @@
 *.userosscache
 *.sln.docstates
 DpdtInject.Tests/**/*.Pregenerated.cs
+**/Dpdt.Pregenerated
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

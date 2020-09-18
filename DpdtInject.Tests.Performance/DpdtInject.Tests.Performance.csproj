@@ -3,9 +3,19 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>preview</LangVersion>
+
+    <Dpdt_Generator_GeneratedSourceFolder>Dpdt.Pregenerated</Dpdt_Generator_GeneratedSourceFolder>
   </PropertyGroup>
 
   <ItemGroup>
+    <CompilerVisibleProperty Include="Dpdt_Generator_GeneratedSourceFolder" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Dpdt.Pregenerated\**" />
+    <EmbeddedResource Remove="Dpdt.Pregenerated\**" />
+    <None Remove="Dpdt.Pregenerated\**" />
+
     <Compile Remove="NonGeneric\PreProgrammed\**" />
     <EmbeddedResource Remove="NonGeneric\PreProgrammed\**" />
     <None Remove="NonGeneric\PreProgrammed\**" />

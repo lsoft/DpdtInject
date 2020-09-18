@@ -6,10 +6,21 @@
     <LangVersion>preview</LangVersion>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>nullable;CS8766;CS8767</WarningsAsErrors>
+
+    <Dpdt_Generator_GeneratedSourceFolder>Dpdt.Pregenerated</Dpdt_Generator_GeneratedSourceFolder>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DpdtInject.Binding.Example\DpdtInject.Binding.Example.csproj" />
+    <CompilerVisibleProperty Include="Dpdt_Generator_GeneratedSourceFolder" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Dpdt.Pregenerated\**" />
+    <EmbeddedResource Remove="Dpdt.Pregenerated\**" />
+    <None Remove="Dpdt.Pregenerated\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DpdtInject.Generator\DpdtInject.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true">
        <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework>
     </ProjectReference>
