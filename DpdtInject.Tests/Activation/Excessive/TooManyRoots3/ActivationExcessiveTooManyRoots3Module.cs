@@ -12,12 +12,10 @@ using DpdtInject.Injector.Excp;
 using System.Threading;
 using System.Diagnostics;
 
-namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren3
+namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots3
 {
-    public partial class ActivationExcessiveTooManyChildren3Module : DpdtModule
+    public partial class ActivationExcessiveTooManyRoots3Module : DpdtModule
     {
-        public const string Message = "some message";
-
         public override void Load()
         {
             Bind<IA>()
@@ -31,22 +29,17 @@ namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren3
                 .WithSingletonScope()
                 .When(rc => false)
                 ;
-
-            Bind<IB>()
-                .To<B>()
-                .WithSingletonScope()
-                ;
         }
 
-        public class ActivationExcessiveTooManyChildren3Tester
+        public class ActivationExcessiveTooManyRoots3Tester
         {
             public void PerformModuleTesting()
             {
-                var module = new FakeModule<ActivationExcessiveTooManyChildren3Module>();
+                var module = new FakeModule<ActivationExcessiveTooManyRoots3Module>();
 
                 try
                 {
-                    var b = module.Get<IB>();
+                    var a = module.Get<IA>();
 
                     Assert.Fail("this line should never be executed");
                 }
@@ -56,7 +49,6 @@ namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren3
                     //it's OK, this test is gree
                 }
 
-                Assert.AreEqual(0, B.ActivationCount, "B.ActivationCount");
                 Assert.AreEqual(0, A1.ActivationCount, "A1.ActivationCount");
                 Assert.AreEqual(0, A2.ActivationCount, "A2.ActivationCount");
             }
@@ -90,25 +82,5 @@ namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren3
             
         }
     }
-
-    public interface IB
-    {
-        IA A { get; }
-    }
-
-    public class B : IB
-    {
-        public static long ActivationCount = 0L;
-
-        public IA A { get; }
-
-        public B(IA a)
-        {
-            Interlocked.Increment(ref ActivationCount);
-
-            A = a;
-        }
-    }
-
 
 }

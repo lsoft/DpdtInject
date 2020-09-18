@@ -130,6 +130,18 @@
   <data name="ActivationExcessiveTooManyChildren3Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Activation\Excessive\TooManyChildren3\ActivationExcessiveTooManyChildren3Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="ActivationExcessiveTooManyRoots0Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Activation\Excessive\TooManyRoots0\ActivationExcessiveTooManyRoots0Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ActivationExcessiveTooManyRoots1Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Activation\Excessive\TooManyRoots1\ActivationExcessiveTooManyRoots1Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ActivationExcessiveTooManyRoots2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Activation\Excessive\TooManyRoots2\ActivationExcessiveTooManyRoots2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ActivationExcessiveTooManyRoots3Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Activation\Excessive\TooManyRoots3\ActivationExcessiveTooManyRoots3Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="ConditionalHierarchy2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Conditional\Hierarchy2\ConditionalHierarchy2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

@@ -151,16 +151,115 @@ namespace DpdtInject.Tests.Properties {
         ///using DpdtInject.Injector.Module.Bind;
         ///using DpdtInject.Injector.Excp;
         ///using System.Threading;
+        ///using System.Diagnostics;
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren3
         ///{
-        ///    public partial class ActivationExcessiveTooManyChildren3Module : DpdtModule
-        ///    {
-        /// [rest of string was truncated]&quot;;.
+        ///    public partial class ActivationExcessiveTooManyChildren3M [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyChildren3Module {
             get {
                 return ResourceManager.GetString("ActivationExcessiveTooManyChildren3Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using DpdtInject.Injector.Excp;
+        ///using System.Threading;
+        ///using System.Diagnostics;
+        ///
+        ///namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots0
+        ///{
+        ///    public partial class ActivationExcessiveTooManyRoots0Module  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ActivationExcessiveTooManyRoots0Module {
+            get {
+                return ResourceManager.GetString("ActivationExcessiveTooManyRoots0Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using DpdtInject.Injector.Excp;
+        ///using System.Threading;
+        ///using System.Diagnostics;
+        ///
+        ///namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots1
+        ///{
+        ///    public partial class ActivationExcessiveTooManyRoots1Module  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ActivationExcessiveTooManyRoots1Module {
+            get {
+                return ResourceManager.GetString("ActivationExcessiveTooManyRoots1Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using DpdtInject.Injector.Excp;
+        ///using System.Threading;
+        ///using System.Diagnostics;
+        ///
+        ///namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots2
+        ///{
+        ///    public partial class ActivationExcessiveTooManyRoots2Module  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ActivationExcessiveTooManyRoots2Module {
+            get {
+                return ResourceManager.GetString("ActivationExcessiveTooManyRoots2Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using DpdtInject.Injector.Excp;
+        ///using System.Threading;
+        ///using System.Diagnostics;
+        ///
+        ///namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots3
+        ///{
+        ///    public partial class ActivationExcessiveTooManyRoots3Module  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ActivationExcessiveTooManyRoots3Module {
+            get {
+                return ResourceManager.GetString("ActivationExcessiveTooManyRoots3Module", resourceCulture);
             }
         }
         

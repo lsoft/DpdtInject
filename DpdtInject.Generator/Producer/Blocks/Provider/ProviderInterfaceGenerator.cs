@@ -170,45 +170,63 @@ public {BindFromTypeFullName} {getImplementationMethodName}()
                 }
                 else
                 {
+                    var nonConditionalGeneratorCount = instanceContainerGenerators.Count(g => !g.BindingContainer.IsConditional);
+
                     GetImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
 public {BindFromTypeFullName} {getImplementationMethodName}()
 {{
-    {BindFromTypeFullName} result = null;
+    int allowedChildrenCount = {nonConditionalGeneratorCount};
 ";
 
-                    foreach (var instanceContainerGenerator in instanceContainerGenerators)
-                    {
-                        if (instanceContainerGenerator.ItselfOrAtLeastOneChildIsConditional)
-                        {
-                            GetImplementationSection += $@"
-    if({instanceContainerGenerator.ClassName}.CheckPredicate({createContextVariableName}))
-    {{
-        if(!(result is null))
-        {{
-            {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings available for [{BindFromTypeFullName}]", BindFromTypeFullName)}
-        }}
 
-        result = {instanceContainerGenerator.GetInstanceClause(createContextVariableName)};
+                    foreach (var conditionalGenerator in instanceContainerGenerators.Where(g => g.BindingContainer.IsConditional))
+                    {
+                        GetImplementationSection += $@"
+var {conditionalGenerator.GetVariableStableName()} = false;
+if({conditionalGenerator.ClassName}.CheckPredicate({createContextVariableName}))
+{{
+    if(++allowedChildrenCount > 1)
+    {{
+        {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings available for [{BindFromTypeFullName}]", BindFromTypeFullName)}
     }}
 
+    {conditionalGenerator.GetVariableStableName()} = true;
+}}
+";
+
+                    }
+
+                    GetImplementationSection += $@"
+if(allowedChildrenCount == 0)
+{{
+    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings available for [{BindFromTypeFullName}]{exceptionSuffix}", BindFromTypeFullName)}
+}}
+";
+
+                    for (var gIndex = 0; gIndex < instanceContainerGenerators.Count; gIndex++)
+                    {
+                        var generator = instanceContainerGenerators[gIndex];
+                        var isLastGenerator = gIndex == (instanceContainerGenerators.Count - 1);
+
+                        if (generator.ItselfOrAtLeastOneChildIsConditional && !isLastGenerator)
+                        {
+                            GetImplementationSection += $@"
+if({generator.GetVariableStableName()})
+{{
+    return {generator.GetInstanceClause(createContextVariableName)};
+}}
 ";
                         }
                         else
                         {
                             GetImplementationSection += $@"
-    result = {instanceContainerGenerator.GetInstanceClause("null")};
+return {generator.GetInstanceClause("null")};
 ";
                         }
                     }
 
                     GetImplementationSection += $@"
-    if(result is null)
-    {{
-        {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings available for [{BindFromTypeFullName}]{exceptionSuffix}", BindFromTypeFullName)}
-    }}
-
-    return result;
 }}
 ";
                 }
