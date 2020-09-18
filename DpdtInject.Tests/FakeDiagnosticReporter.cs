@@ -56,6 +56,9 @@ namespace DpdtInject.Tests
                 throw new ArgumentNullException(nameof(excp));
             }
 
+            ErrorCount++;
+            Exceptions.Add(excp);
+
             var prefix = "";
             while (excp != null)
             {
@@ -66,9 +69,6 @@ namespace DpdtInject.Tests
                 prefix += "        ";
             }
             Debug.WriteLine(string.Empty);
-
-            ErrorCount++;
-            Exceptions.Add(excp);
         }
 
         public DpdtException GetDpdtException(int index = 0)

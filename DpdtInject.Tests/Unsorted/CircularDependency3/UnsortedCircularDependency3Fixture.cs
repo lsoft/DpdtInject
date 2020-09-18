@@ -25,7 +25,8 @@ namespace DpdtInject.Tests.Unsorted.CircularDependency3
 
             preparation.Check();
 
-            Assert.AreEqual(1, preparation.DiagnosticReporter.Exceptions.Count);
+            //no check for warning because here is a lot of warnings due to circular dependency
+            Assert.AreEqual(1, preparation.DiagnosticReporter.Exceptions.Count, "Error count");
             Assert.AreEqual(DpdtExceptionTypeEnum.CircularDependency, preparation.DiagnosticReporter.GetDpdtException().Type);
         }
 

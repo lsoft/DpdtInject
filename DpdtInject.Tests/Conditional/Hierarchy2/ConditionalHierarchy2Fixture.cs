@@ -24,7 +24,8 @@ namespace DpdtInject.Tests.Conditional.Hierarchy2
 
             preparation.Check();
 
-            Assert.AreEqual(0, preparation.DiagnosticReporter.ErrorCount);
+            Assert.AreEqual(0, preparation.DiagnosticReporter.ErrorCount, "Error count");
+            Assert.AreEqual(0, preparation.DiagnosticReporter.WarningCount, "Warning count");
         }
 
     }

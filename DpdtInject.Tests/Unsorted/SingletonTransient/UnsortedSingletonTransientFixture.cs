@@ -24,7 +24,8 @@ namespace DpdtInject.Tests.Unsorted.SingletonTransient
 
             preparation.Check();
 
-            Assert.AreEqual(1, preparation.DiagnosticReporter.WarningCount);
+            Assert.AreEqual(0, preparation.DiagnosticReporter.ErrorCount, "Error count");
+            Assert.AreEqual(1, preparation.DiagnosticReporter.WarningCount, "Warning count");
         }
 
     }
