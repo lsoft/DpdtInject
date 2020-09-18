@@ -38,6 +38,30 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
             }
         }
 
+        public string CombinedDeclareFuncSection
+        {
+            get
+            {
+                return
+                    string.Join(
+                        Environment.NewLine,
+                        InterfaceSection.Select(j => j.DeclareFuncSection)
+                        );
+            }
+        }
+
+        public string CombinedInitFuncSection
+        {
+            get
+            {
+                return
+                    string.Join(
+                        Environment.NewLine,
+                        InterfaceSection.Select(j => j.InitFuncSection)
+                        );
+            }
+        }
+
         public string CombinedImplementationSection
         {
             get
@@ -51,8 +75,10 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
                     string.Join(Environment.NewLine, InterfaceSection.Select(i => i.ResolutionFrameSection))
                     + string.Join(
                         Environment.NewLine, 
-                        InterfaceSection.Select(j => 
-                            j.GetExplicitImplementationSection
+                        InterfaceSection.Select(j =>
+                            j.GetFuncSection
+                            + Environment.NewLine
+                            + j.GetExplicitImplementationSection
                             + Environment.NewLine 
                             + j.GetImplementationSection
                             + Environment.NewLine

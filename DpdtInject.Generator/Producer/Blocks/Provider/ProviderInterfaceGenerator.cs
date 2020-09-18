@@ -57,6 +57,21 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
             get;
         } = string.Empty;
 
+        public string DeclareFuncSection
+        {
+            get;
+        } = string.Empty;
+
+        public string InitFuncSection
+        {
+            get;
+        } = string.Empty;
+
+        public string GetFuncSection
+        {
+            get;
+        } = string.Empty;
+
         public ProviderInterfaceGenerator(
             ITypeSymbol bindFromType,
             List<InstanceContainerGenerator> instanceContainerGenerators
@@ -76,7 +91,11 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
             BindFromTypeFullName = bindFromType.GetFullName();
             _instanceContainerGenerators = instanceContainerGenerators;
 
+            #region InterfaceSection 
+
             InterfaceSection = $"{nameof(IBaseProvider<object>)}<{BindFromTypeFullName}>";
+
+            #endregion
 
             var exceptionSuffix =
                 instanceContainerGenerators.Count > 1
@@ -292,6 +311,29 @@ List<{BindFromTypeFullName}> IBaseProvider<{BindFromTypeFullName}>.GetAll()
             }
 
             #endregion
+
+            #region FuncSection
+
+            var funcVariableName = $"Func_{bindFromType.GetFullName().ConvertDotToGround()}";
+
+            DeclareFuncSection = $@"
+private readonly Func<{bindFromType.GetFullName()}> {funcVariableName};
+";
+
+            InitFuncSection = $@"
+{funcVariableName} = {getImplementationMethodName};
+";
+
+            GetFuncSection = $@"
+[MethodImpl(MethodImplOptions.AggressiveInlining)]
+Func<{bindFromType.GetFullName()}> IBaseProvider<{bindFromType.GetFullName()}>.GetFunc()
+{{
+    return {funcVariableName};
+}}
+";
+
+            #endregion
+
         }
     }
 

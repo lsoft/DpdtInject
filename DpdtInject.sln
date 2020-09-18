@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DpdtInject.TestConsole", "D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DpdtInject.Tests.Performance", "DpdtInject.Tests.Performance\DpdtInject.Tests.Performance.csproj", "{2E7D06F1-EC4B-4D3C-919E-3306BF23FAF3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DpdtInject.Binding.Example", "DpdtInject.Binding.Example\DpdtInject.Binding.Example.csproj", "{620C0834-0021-4396-A81F-4AD6436BE365}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DpdtInject.Injector", "DpdtInject.Injector\DpdtInject.Injector.csproj", "{BCC579C4-9487-4683-9E00-86A18B923FFA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DpdtInject.Tests", "DpdtInject.Tests\DpdtInject.Tests.csproj", "{BE662580-D65E-4202-9010-56801C1B76EE}"
@@ -33,10 +31,6 @@ Global
 		{2E7D06F1-EC4B-4D3C-919E-3306BF23FAF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E7D06F1-EC4B-4D3C-919E-3306BF23FAF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E7D06F1-EC4B-4D3C-919E-3306BF23FAF3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{620C0834-0021-4396-A81F-4AD6436BE365}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{620C0834-0021-4396-A81F-4AD6436BE365}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{620C0834-0021-4396-A81F-4AD6436BE365}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{620C0834-0021-4396-A81F-4AD6436BE365}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BCC579C4-9487-4683-9E00-86A18B923FFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BCC579C4-9487-4683-9E00-86A18B923FFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCC579C4-9487-4683-9E00-86A18B923FFA}.Release|Any CPU.ActiveCfg = Release|Any CPU

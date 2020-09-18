@@ -9,6 +9,16 @@ namespace DpdtInject.Injector
 {
     public class FakeModule  : IDisposable
     {
+        public bool IsRegisteredFrom<T>()
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+
+        public Func<T> GetFunc<T>()
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+
         public object Get(Type requestedType)
         {
             throw new NotImplementedException("This method should not be executed");
@@ -39,6 +49,17 @@ namespace DpdtInject.Injector
     public class FakeModule<T>  : IDisposable
         where T : DpdtModule
     {
+        public bool IsRegisteredFrom<T>()
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+
+        public Func<T> GetFunc<T>()
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+
+
         public object Get(Type requestedType)
         {
             throw new NotImplementedException("This method should not be executed");

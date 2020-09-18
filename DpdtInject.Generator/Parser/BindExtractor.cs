@@ -458,13 +458,13 @@ namespace DpdtInject.Generator.Parser
                 .ToList()
                 ;
 
-            var singletonScope = dnodes.OfType<IdentifierNameSyntax>().Any(j => j.Identifier.Text == nameof(DefineBindingNode.WithSingletonScope));
+            var singletonScope = dnodes.OfType<IdentifierNameSyntax>().Any(j => j.Identifier.Text == nameof(IScopeBinding.WithSingletonScope));
             if (singletonScope)
             {
                 return BindScopeEnum.Singleton;
             }
 
-            var transientScope = dnodes.OfType<IdentifierNameSyntax>().Any(j => j.Identifier.Text == nameof(DefineBindingNode.WithTransientScope));
+            var transientScope = dnodes.OfType<IdentifierNameSyntax>().Any(j => j.Identifier.Text == nameof(IScopeBinding.WithTransientScope));
             if (transientScope)
             {
                 return BindScopeEnum.Transient;

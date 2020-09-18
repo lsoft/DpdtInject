@@ -129,6 +129,16 @@ namespace {ModuleTypeNamespace}
             {container.InstanceContainerGenerators.Where(icg => icg.BindingContainer.Scope.In(BindScopeEnum.Singleton)).Join(sc => sc.DisposeClause + ";")}
         }}
 
+        public bool IsRegisteredFrom<T>()
+        {{
+            return _provider is IBaseProvider<T>;
+        }}
+
+
+        public Func<T> GetFunc<T>()
+        {{
+            return ((IBaseProvider<T>)_provider).GetFunc();
+        }}
         public T Get<T>()
         {{
             return ((IBaseProvider<T>)_provider).Get();
@@ -162,9 +172,12 @@ namespace {ModuleTypeNamespace}
         private class Provider
             {providerGenerator.CombinedInterfaces}
         {{
-            //public Provider()
-            //{{
-            //}}
+            {providerGenerator.CombinedDeclareFuncSection}
+
+            public Provider()
+            {{
+                {providerGenerator.CombinedInitFuncSection}
+            }}
 
             {providerGenerator.CombinedImplementationSection}
         }}
