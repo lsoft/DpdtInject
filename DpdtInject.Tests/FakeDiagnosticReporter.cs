@@ -1,6 +1,7 @@
 ﻿using DpdtInject.Generator.Reporter;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Excp;
+using Microsoft.CodeAnalysis.CodeFixes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -55,8 +56,16 @@ namespace DpdtInject.Tests
                 throw new ArgumentNullException(nameof(excp));
             }
 
-            Debug.WriteLine(excp.Message);
-            Debug.WriteLine(excp.StackTrace);
+            var prefix = "";
+            while (excp != null)
+            {
+                Debug.WriteLine(prefix + excp.Message);
+                Debug.WriteLine(prefix + excp.StackTrace);
+
+                excp = excp.InnerException;
+                prefix += "        ";
+            }
+            Debug.WriteLine(string.Empty);
 
             ErrorCount++;
             Exceptions.Add(excp);

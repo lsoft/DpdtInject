@@ -771,5 +771,31 @@ namespace DpdtInject.Tests.Properties {
                 return ResourceManager.GetString("UnsortedSingletonTransientModule", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.TooManyChildren
+        ///{
+        ///    public partial class UnsortedTooManyChildrenModule : DpdtModule
+        ///    {
+        ///        public const string Message = &quot;some message&quot;;
+        ///
+        ///        public override vo [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedTooManyChildrenModule {
+            get {
+                return ResourceManager.GetString("UnsortedTooManyChildrenModule", resourceCulture);
+            }
+        }
     }
 }

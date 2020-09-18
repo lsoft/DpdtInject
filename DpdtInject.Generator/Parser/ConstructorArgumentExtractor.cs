@@ -232,7 +232,7 @@ private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {loca
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
 private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {localVariableContextReference})
 {{
-    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetTypeFullName}]", bindingContainer.TargetTypeFullName)}
+    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetTypeFullName}]", Type.GetFullName())}
 }}
 ";
                 }
@@ -265,7 +265,7 @@ if({instanceContainerGenerator.ClassName}.CheckPredicate(context))
 {{
     if(!(result is null))
     {{
-        {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetTypeFullName}]", bindingContainer.TargetTypeFullName)}
+        {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetTypeFullName}]", Type.GetFullName())}
     }}
 
     result = {instanceContainerGenerator.GetInstanceClause("context")};
