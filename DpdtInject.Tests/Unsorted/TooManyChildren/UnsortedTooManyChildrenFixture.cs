@@ -17,7 +17,7 @@ namespace DpdtInject.Tests.Unsorted.TooManyChildren
         {
             var preparation = new Preparator(
                 TestContext,
-                nameof(UnsortedTooManyChildrenModule.UnsortedTooManyChildrenTester),
+                nameof(UnsortedTooManyChildrenModule.UnsortedTooManyChildrenModuleTester),
                 nameof(TestResources.UnsortedTooManyChildrenModule),
                 TestResources.UnsortedTooManyChildrenModule
                 );

@@ -1184,5 +1184,31 @@ namespace DpdtInject.Tests.Properties {
                 return ResourceManager.GetString("UnsortedTooManyChildrenModule", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using DpdtInject.Injector.Excp;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.UnknownDependency
+        ///{
+        ///    public partial class UnsortedUnknownDependencyModule : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///        { [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedUnknownDependencyModule {
+            get {
+                return ResourceManager.GetString("UnsortedUnknownDependencyModule", resourceCulture);
+            }
+        }
     }
 }

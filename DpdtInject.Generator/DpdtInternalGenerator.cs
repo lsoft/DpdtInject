@@ -69,8 +69,6 @@ namespace DpdtInject.Generator
                 .ToList()
                 ;
 
-            //yield break;
-
             foreach (var moduleType in moduleTypes)
             {
                 var loadMethods = moduleType.GetMembers(nameof(DpdtModule.Load));
@@ -91,7 +89,6 @@ namespace DpdtInject.Generator
 
                 var loadMethodRef = loadMethodRefs[0];
 
-                //var loadMethodRef = moduleType.GetOnlyMethod(nameof(DpdtModule.Load));
                 var loadMethodSyntax = (MethodDeclarationSyntax)loadMethodRef.GetSyntax();
 
                 var compilationUnitSyntax = loadMethodSyntax.Root<CompilationUnitSyntax>();
@@ -110,73 +107,18 @@ namespace DpdtInject.Generator
 
                 bindExtractor.Visit(loadMethodSyntax);
 
-                //var rewrittenMethodSyntax = (MethodDeclarationSyntax)bindRewriter.Visit(loadMethodSyntax);
-                //if (rewrittenMethodSyntax == null)
-                //{
-                //    throw new DpdtException(
-                //        DpdpExceptionTypeEnum.InternalError,
-                //        $"Unknown problem to access to rewritten unit syntax"
-                //        );
-                //}
-                //if (rewrittenMethodSyntax.Body == null)
-                //{
-                //    throw new DpdtException(
-                //        DpdpExceptionTypeEnum.InternalError,
-                //        $"Unknown problem to access to rewritten unit syntax body"
-                //        );
-                //}
-
-
-                //                var modifiedMethodBody = SyntaxFactory.ParseMemberDeclaration(
-                //                    $@"public override void Apply(
-                //{nameof(IInstancesContainer)} containers
-                //)" + rewrittenMethodSyntax.Body.GetText().ToString()
-                //                    );
-
-                //                var customCompilationUnitUsings = string.Empty;
-                //                var cus = loadMethodSyntax.Root<CompilationUnitSyntax>();
-                //                if (cus != null)
-                //                {
-                //                    customCompilationUnitUsings = string.Join(
-                //                        Environment.NewLine,
-                //                        cus.Usings.ToFullString()
-                //                        );
-                //                }
-
-                //                var customNamespaceUsings = string.Empty;
-                //                var nus = loadMethodSyntax.Root<NamespaceDeclarationSyntax>();
-                //                if (nus != null)
-                //                {
-                //                    customNamespaceUsings = string.Join(
-                //                        Environment.NewLine,
-                //                        nus.Usings.ToFullString()
-                //                        );
-                //                }
-
-                //                var containerClasses = string.Join(
-                //                    Environment.NewLine,
-                //                    bindRewriter.ContainerClassDeclarations
-                //                    );
-
-                //var bindingProcessor = new BindingProcessor(
-                //    new List<string> { "IA" },
-                //    "A",
-                //    "DpdtInject.Tests.Scope.Singleton.A"
-                //    );
-
-                //var bindingProcessors = new List<BindingProcessor>()
-                //{
-                //    bindingProcessor
-                //};
-
                 var bindingsContainer = bindExtractor.GetBindingsContainer();
+
+                bindingsContainer.AnalyzeForUnknownBindings(_diagnosticReporter);
+                bindingsContainer.AnalyzeForCircularDependencies(_diagnosticReporter);
+                bindingsContainer.AnalyzeForSingletonTakesTransient(_diagnosticReporter);
+
                 var itemGeneratorsContainer = new InstanceContainerGeneratorsContainer(
                     _diagnosticReporter,
                     bindingsContainer
                     );
 
                 var modulePartGenerator = new ModuleGenerator(
-                    _diagnosticReporter,
                     moduleType
                     );
 

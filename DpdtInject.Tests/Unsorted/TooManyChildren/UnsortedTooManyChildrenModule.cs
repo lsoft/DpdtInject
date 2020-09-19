@@ -36,7 +36,7 @@ namespace DpdtInject.Tests.Unsorted.TooManyChildren
                 ;
         }
 
-        public class UnsortedTooManyChildrenTester
+        public class UnsortedTooManyChildrenModuleTester
         {
             public void PerformModuleTesting()
             {

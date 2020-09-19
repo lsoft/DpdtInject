@@ -51,6 +51,25 @@ namespace DpdtInject.Generator.Parser.Binding
                 ;
         }
 
+        internal void AnalyzeForUnknownBindings(
+            IDiagnosticReporter diagnosticReporter
+            )
+        {
+            foreach (var bindingContainer in _bindingContainers)
+            {
+                foreach (var ca in bindingContainer.ConstructorArguments.Where(j => !j.DefineInBindNode))
+                {
+                    if (!Groups.BindGroups.TryGetValue(ca.Type!, out var children))
+                    {
+                        throw new DpdtException(
+                            DpdtExceptionTypeEnum.NoBindingAvailable,
+                            $"Found unknown binding [{ca.Type!.GetFullName()}] from constructor of [{bindingContainer.TargetRepresentation}]",
+                            ca.Type.Name);
+                    }
+                }
+            }
+        }
+
         internal void AnalyzeForSingletonTakesTransient(
             IDiagnosticReporter diagnosticReporter
             )

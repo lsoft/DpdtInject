@@ -18,8 +18,6 @@ namespace DpdtInject.Generator.Producer.Blocks.Module
 {
     internal class ModuleGenerator
     {
-        private readonly IDiagnosticReporter _diagnosticReporter;
-
         public INamedTypeSymbol ModuleSymbol
         {
             get;
@@ -30,20 +28,14 @@ namespace DpdtInject.Generator.Producer.Blocks.Module
         public string ModuleTypeName => ModuleSymbol.Name;
 
         public ModuleGenerator(
-            IDiagnosticReporter diagnosticReporter,
             INamedTypeSymbol moduleSymbol
             )
         {
-            if (diagnosticReporter is null)
-            {
-                throw new ArgumentNullException(nameof(diagnosticReporter));
-            }
-
             if (moduleSymbol is null)
             {
                 throw new ArgumentNullException(nameof(moduleSymbol));
             }
-            _diagnosticReporter = diagnosticReporter;
+
             ModuleSymbol = moduleSymbol;
         }
 
@@ -55,9 +47,6 @@ namespace DpdtInject.Generator.Producer.Blocks.Module
             {
                 throw new ArgumentNullException(nameof(container));
             }
-
-            container.BindingsContainer.AnalyzeForCircularDependencies(_diagnosticReporter);
-            container.BindingsContainer.AnalyzeForSingletonTakesTransient(_diagnosticReporter);
 
             var providerGenerator = new ProviderGenerator(
                 container
