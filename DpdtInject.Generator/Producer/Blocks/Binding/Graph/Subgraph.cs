@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using System.Collections.Generic;
 
-namespace DpdtInject.Generator.Parser.Binding.Graph
+namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
 {
     public class Subgraph
     {

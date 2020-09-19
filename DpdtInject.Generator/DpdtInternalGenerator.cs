@@ -109,15 +109,15 @@ namespace DpdtInject.Generator
 
                 var bindingsContainer = bindExtractor.GetBindingsContainer();
 
-                bindingsContainer.AnalyzeForUnknownBindings(_diagnosticReporter);
-                bindingsContainer.AnalyzeForCircularDependencies(_diagnosticReporter);
-                bindingsContainer.AnalyzeForSingletonTakesTransient(_diagnosticReporter);
-
                 var itemGeneratorsContainer = new InstanceContainerGeneratorsContainer(
                     _diagnosticReporter,
                     compilation,
                     bindingsContainer
                     );
+
+                itemGeneratorsContainer.AnalyzeForUnknownBindings(_diagnosticReporter);
+                itemGeneratorsContainer.AnalyzeForCircularDependencies(_diagnosticReporter);
+                itemGeneratorsContainer.AnalyzeForSingletonTakesTransient(_diagnosticReporter);
 
                 var modulePartGenerator = new ModuleGenerator(
                     compilation,

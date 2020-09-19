@@ -1,10 +1,6 @@
 ﻿using DpdtInject.Generator.Helpers;
-using DpdtInject.Generator.Parser.Binding.Graph;
-using DpdtInject.Generator.Reporter;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Excp;
-using DpdtInject.Injector.Helper;
-using DpdtInject.Injector.Module.Bind;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
@@ -24,15 +20,9 @@ namespace DpdtInject.Generator.Parser.Binding
         }
 
         public BindingsContainer(
-            Compilation compilation,
             List<IBindingContainer> bindingContainers
             )
         {
-            if (compilation is null)
-            {
-                throw new ArgumentNullException(nameof(compilation));
-            }
-
             if (bindingContainers is null)
             {
                 throw new ArgumentNullException(nameof(bindingContainers));
@@ -41,137 +31,9 @@ namespace DpdtInject.Generator.Parser.Binding
             _bindingContainers = bindingContainers;
 
             Groups = new BindingContainerGroups(
-                compilation,
                 _bindingContainers
                 );
         }
-
-        internal void AnalyzeForCircularDependencies(
-            IDiagnosticReporter diagnosticReporter
-            )
-        {
-            if (diagnosticReporter is null)
-            {
-                throw new ArgumentNullException(nameof(diagnosticReporter));
-            }
-
-            new CycleChecker(Groups)
-                .CheckForCycles(diagnosticReporter)
-                ;
-        }
-
-        internal void AnalyzeForUnknownBindings(
-            IDiagnosticReporter diagnosticReporter
-            )
-        {
-            foreach (var bindingContainer in _bindingContainers)
-            {
-                foreach (var ca in bindingContainer.ConstructorArguments.Where(j => !j.DefineInBindNode))
-                {
-                    if(ca.Type is null)
-                    {
-                        throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, $"ca.Type is null somehow");
-                    }
-
-                    if (!Groups.IsTypeRegistered(ca.Type, out _, out _))
-                    {
-                        throw new DpdtException(
-                            DpdtExceptionTypeEnum.NoBindingAvailable,
-                            $"Found unknown binding [{ca.Type!.GetFullName()}] from constructor of [{bindingContainer.TargetRepresentation}]",
-                            ca.Type.Name);
-                    }
-                }
-            }
-        }
-
-        internal void AnalyzeForSingletonTakesTransient(
-            IDiagnosticReporter diagnosticReporter
-            )
-        {
-            if (diagnosticReporter is null)
-            {
-                throw new ArgumentNullException(nameof(diagnosticReporter));
-            }
-
-            foreach (var bindingContainer in _bindingContainers)
-            {
-                AnalyzeForSingletonTakesTransientPrivate(
-                    diagnosticReporter,
-                    bindingContainer,
-                    new HashSet<IBindingContainer>()
-                    );
-            }
-        }
-
-        private void AnalyzeForSingletonTakesTransientPrivate(
-            IDiagnosticReporter diagnosticReporter,
-            IBindingContainer parent,
-            HashSet<IBindingContainer> processed
-            )
-        {
-            if (diagnosticReporter is null)
-            {
-                throw new ArgumentNullException(nameof(diagnosticReporter));
-            }
-
-            if (parent is null)
-            {
-                throw new ArgumentNullException(nameof(parent));
-            }
-
-            if (processed is null)
-            {
-                throw new ArgumentNullException(nameof(processed));
-            }
-
-            if (processed.Contains(parent))
-            {
-                //circular dependency found
-                //do not check this binding because of it's invalid a priori
-                diagnosticReporter.ReportWarning(
-                    $"Searching for singleton-transient relationship has been skipped.",
-                    $"Searching for singleton-transient relationship has been skipped, because of circular dependency found with {parent.TargetRepresentation}."
-                    );
-
-                return;
-            }
-
-            processed.Add(parent);
-
-            foreach (var ca in parent.ConstructorArguments.Where(j => !j.DefineInBindNode))
-            {
-                if (ca.Type is null)
-                {
-                    throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, $"ca.Type is null somehow");
-                }
-
-                if (!Groups.TryGetRegisteredBindingContainers(ca.Type!, out var children))
-                {
-                    throw new DpdtException(DpdtExceptionTypeEnum.NoBindingAvailable, $"Found unknown binding [{ca.Type.GetFullName()}] from constructor of [{parent.TargetRepresentation}]", ca.Type.Name);
-                }
-
-                foreach (var child in children)
-                {
-                    if(parent.Scope.In(BindScopeEnum.Singleton))
-                    {
-                        if(child.Scope.In(BindScopeEnum.Transient))
-                        {
-                            diagnosticReporter.ReportWarning(
-                                $"Singleton-transient relationship has been found.",
-                                $"Searching for singleton-transient relationship has been found: singleton parent [{parent.TargetRepresentation}] takes transient child [{child.TargetRepresentation}]."
-                                );
-                        }
-                    }
-
-                    AnalyzeForSingletonTakesTransientPrivate(
-                        diagnosticReporter,
-                        child,
-                        new HashSet<IBindingContainer>(processed)
-                        );
-                }
-            }
-        }
-
 
         internal bool CheckForAtLeastOneParentIsConditional(
             IDiagnosticReporter diagnosticReporter,
@@ -296,7 +158,7 @@ namespace DpdtInject.Generator.Parser.Binding
                     throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, $"ca.Type is null somehow");
                 }
 
-                if (!Groups.TryGetRegisteredBindingContainers(ca.Type!, out var children))
+                if (!Groups.TryGetRegisteredBindingContainers(ca.Type!, true, out var children))
                 {
                     throw new DpdtException(DpdtExceptionTypeEnum.NoBindingAvailable, $"Found unknown binding [{ca.Type!.GetFullName()}] from constructor of [{bindingContainer.TargetRepresentation}]", ca.Type.Name);
                 }

@@ -1,8 +1,12 @@
 ﻿using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Parser;
 using DpdtInject.Generator.Parser.Binding;
+using DpdtInject.Generator.Producer.Blocks.Binding.Graph;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Compilation;
+using DpdtInject.Injector.Excp;
+using DpdtInject.Injector.Helper;
+using DpdtInject.Injector.Module.Bind;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
@@ -82,112 +86,132 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
             return string.Join(",", clauses);
         }
-    }
 
-    public class InstanceContainerGeneratorGroups
-    {
-        private readonly Compilation _compilation;
-        private readonly Dictionary<ITypeSymbol, List<InstanceContainerGenerator>> _containerGroups;
-
-        public List<InstanceContainerGenerator> InstanceContainerGenerators
-        {
-            get;
-        }
-
-        public InstanceContainerGeneratorGroups(
-            Compilation compilation,
-            List<InstanceContainerGenerator> instanceContainerGenerators
+        internal void AnalyzeForCircularDependencies(
+            IDiagnosticReporter diagnosticReporter
             )
         {
-            if (compilation is null)
+            if (diagnosticReporter is null)
             {
-                throw new ArgumentNullException(nameof(compilation));
+                throw new ArgumentNullException(nameof(diagnosticReporter));
             }
 
-            if (instanceContainerGenerators is null)
-            {
-                throw new ArgumentNullException(nameof(instanceContainerGenerators));
-            }
-
-            var processorGroups = new Dictionary<ITypeSymbol, List<InstanceContainerGenerator>>(
-                new TypeSymbolEqualityComparer()
-                );
-
-            foreach (var icg in instanceContainerGenerators)
-            {
-                foreach (var bindFromType in icg.BindFromTypes)
-                {
-                    if (!processorGroups.ContainsKey(bindFromType))
-                    {
-                        processorGroups[bindFromType] = new List<InstanceContainerGenerator>();
-                    }
-
-                    processorGroups[bindFromType].Add(icg);
-                }
-            }
-
-            _containerGroups = processorGroups;
-            _compilation = compilation;
-            InstanceContainerGenerators = instanceContainerGenerators;
+            new CycleChecker(Groups)
+                .CheckForCycles(diagnosticReporter)
+                ;
         }
 
-        public IReadOnlyCollection<(DpdtArgumentWrapperTypeEnum, ITypeSymbol)> GetRegisteredKeys(bool withWrappers)
-        {
-            var result = new HashSet<(DpdtArgumentWrapperTypeEnum, ITypeSymbol)>();
-
-            foreach (var key in _containerGroups.Keys)
-            {
-                result.Add((DpdtArgumentWrapperTypeEnum.None, key));
-
-                if (withWrappers)
-                {
-                    if (key.TryDetectWrapperType(out var _, out var _))
-                    {
-                        //Func<T> registered, probably we does not want to register Func<Func<T>>
-                        continue;
-                    }
-
-                    foreach(var pair in key.GenerateWrapperTypes(_compilation))
-                    {
-                        result.Add(pair);
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        public bool TryGetRegisteredGenerators(
-            ITypeSymbol type,
-            bool withWrappers,
-            out IReadOnlyList<InstanceContainerGenerator> result
+        internal void AnalyzeForUnknownBindings(
+            IDiagnosticReporter diagnosticReporter
             )
         {
-            if (type is null)
+            foreach (var generator in _instanceContainerGenerators)
             {
-                throw new ArgumentNullException(nameof(type));
-            }
-
-            var rresult = new List<InstanceContainerGenerator>();
-
-            if (_containerGroups.TryGetValue(type, out var list))
-            {
-                rresult.AddRange(list);
-            }
-
-            if (withWrappers)
-            {
-                if (type.TryDetectWrapperType(out var wrapperType, out var internalType))
+                foreach (var ca in generator.BindingContainer.ConstructorArguments.Where(j => !j.DefineInBindNode))
                 {
-                    if (_containerGroups.TryGetValue(internalType, out var wrappedList))
+                    if (ca.Type is null)
                     {
-                        rresult.AddRange(wrappedList);
+                        throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, $"ca.Type is null somehow");
+                    }
+
+                    if (Groups.GetRegisteredKeys(true).All(p => !SymbolEqualityComparer.Default.Equals(p.Item2, ca.Type)))
+                    {
+                        throw new DpdtException(
+                            DpdtExceptionTypeEnum.NoBindingAvailable,
+                            $"Found unknown binding [{ca.Type!.GetFullName()}] from constructor of [{generator.BindingContainer.TargetRepresentation}]",
+                            ca.Type.Name
+                            );
                     }
                 }
             }
+        }
 
-            result = rresult;
-            return rresult.Count > 0;
+        internal void AnalyzeForSingletonTakesTransient(
+            IDiagnosticReporter diagnosticReporter
+            )
+        {
+            if (diagnosticReporter is null)
+            {
+                throw new ArgumentNullException(nameof(diagnosticReporter));
+            }
+
+            foreach (var generator in _instanceContainerGenerators)
+            {
+                AnalyzeForSingletonTakesTransientPrivate(
+                    diagnosticReporter,
+                    generator,
+                    new HashSet<InstanceContainerGenerator>()
+                    );
+            }
+        }
+
+        private void AnalyzeForSingletonTakesTransientPrivate(
+            IDiagnosticReporter diagnosticReporter,
+            InstanceContainerGenerator parent,
+            HashSet<InstanceContainerGenerator> processed
+            )
+        {
+            if (diagnosticReporter is null)
+            {
+                throw new ArgumentNullException(nameof(diagnosticReporter));
+            }
+
+            if (parent is null)
+            {
+                throw new ArgumentNullException(nameof(parent));
+            }
+
+            if (processed is null)
+            {
+                throw new ArgumentNullException(nameof(processed));
+            }
+
+            if (processed.Contains(parent))
+            {
+                //circular dependency found
+                //do not check this binding because of it's invalid a priori
+                diagnosticReporter.ReportWarning(
+                    $"Searching for singleton-transient relationship has been skipped.",
+                    $"Searching for singleton-transient relationship has been skipped, because of circular dependency found with {parent.BindingContainer.TargetRepresentation}."
+                    );
+
+                return;
+            }
+
+            processed.Add(parent);
+
+            foreach (var ca in parent.BindingContainer.ConstructorArguments.Where(j => !j.DefineInBindNode))
+            {
+                if (ca.Type is null)
+                {
+                    throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, $"ca.Type is null somehow");
+                }
+
+                if (!Groups.TryGetRegisteredGenerators(ca.Type!, true, out var children))
+                {
+                    throw new DpdtException(DpdtExceptionTypeEnum.NoBindingAvailable, $"Found unknown binding [{ca.Type.GetFullName()}] from constructor of [{parent.BindingContainer.TargetRepresentation}]", ca.Type.Name);
+                }
+
+                foreach (var child in children)
+                {
+                    if (parent.BindingContainer.Scope.In(BindScopeEnum.Singleton))
+                    {
+                        if (child.BindingContainer.Scope.In(BindScopeEnum.Transient))
+                        {
+                            diagnosticReporter.ReportWarning(
+                                $"Singleton-transient relationship has been found.",
+                                $"Searching for singleton-transient relationship has been found: singleton parent [{parent.BindingContainer.TargetRepresentation}] takes transient child [{child.BindingContainer.TargetRepresentation}]."
+                                );
+                        }
+                    }
+
+                    AnalyzeForSingletonTakesTransientPrivate(
+                        diagnosticReporter,
+                        child,
+                        new HashSet<InstanceContainerGenerator>(processed)
+                        );
+                }
+            }
         }
 
     }

@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Generator.Helpers;
+using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Reporter;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Excp;
@@ -9,14 +10,14 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace DpdtInject.Generator.Parser.Binding.Graph
+namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
 {
     public class CycleChecker
     {
-        private readonly BindingContainerGroups _groups;
+        private readonly InstanceContainerGeneratorGroups _groups;
 
         public CycleChecker(
-            BindingContainerGroups groups
+            InstanceContainerGeneratorGroups groups
             )
         {
             _groups = groups;
@@ -35,7 +36,7 @@ namespace DpdtInject.Generator.Parser.Binding.Graph
                 new OrderIndependentCycleFoundEqualityComparer()
                 );
 
-            foreach (var bindFromType in _groups.GetRegisteredKeys(true).Shuffle())
+            foreach (var (wrapperType, wrapperSymbol) in _groups.GetRegisteredKeys(true).Shuffle())
             {
                 try
                 {
@@ -43,7 +44,7 @@ namespace DpdtInject.Generator.Parser.Binding.Graph
 
                     CheckForCyclesInternal(
                         ref used,
-                        bindFromType
+                        wrapperSymbol
                         );
                 }
                 catch (CycleFoundException cfe)
@@ -79,21 +80,21 @@ namespace DpdtInject.Generator.Parser.Binding.Graph
             ITypeSymbol requestedType
             )
         {
-            if(!_groups.TryGetRegisteredBindingContainers(requestedType, out var bindingProcessors))
+            if (!_groups.TryGetRegisteredGenerators(requestedType, true, out var generators))
             {
                 return;
             }
 
-            foreach (var bindingProcessor in bindingProcessors)
+            foreach (var generator in generators)
             {
                 var used2 = used.Clone();
 
                 used2.AppendOrFailIfExists(
                     requestedType,
-                    !bindingProcessor.IsConditional
+                    !generator.BindingContainer.IsConditional
                     );
 
-                foreach (var constructorArgument in bindingProcessor.ConstructorArguments.Where(ca => !ca.DefineInBindNode).Shuffle())
+                foreach (var constructorArgument in generator.BindingContainer.ConstructorArguments.Where(ca => !ca.DefineInBindNode).Shuffle())
                 {
                     if (constructorArgument.Type is null)
                     {

@@ -53,7 +53,6 @@ namespace DpdtInject.Generator.Parser
         public BindingsContainer GetBindingsContainer()
         {
             return new BindingsContainer(
-                _compilation,
                 _bindingContainers
                 );
         }

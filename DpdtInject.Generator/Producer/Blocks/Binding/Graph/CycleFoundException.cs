@@ -6,9 +6,9 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace DpdtInject.Generator.Parser.Binding.Graph
+namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
 {
-    internal class CycleFoundException : Exception
+    internal class CycleFoundException : System.Exception
     {
         public IReadOnlyList<ITypeSymbol> CycleList
         {

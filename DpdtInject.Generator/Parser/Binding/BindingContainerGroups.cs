@@ -8,7 +8,6 @@ namespace DpdtInject.Generator.Parser.Binding
     public class BindingContainerGroups
     {
         private readonly Dictionary<ITypeSymbol, List<IBindingContainer>> _bindGroups;
-        private readonly Compilation _compilation;
 
         public List<IBindingContainer> BindingContainers
         {
@@ -21,19 +20,15 @@ namespace DpdtInject.Generator.Parser.Binding
         }
 
         public BindingContainerGroups(
-            Compilation compilation,
             List<IBindingContainer> bindingContainers
             )
         {
-            if (compilation is null)
-            {
-                throw new ArgumentNullException(nameof(compilation));
-            }
-
             if (bindingContainers is null)
             {
                 throw new ArgumentNullException(nameof(bindingContainers));
             }
+
+            BindingContainers = bindingContainers;
 
             _bindGroups = new Dictionary<ITypeSymbol, List<IBindingContainer>>(
                 new TypeSymbolEqualityComparer()
@@ -64,38 +59,12 @@ namespace DpdtInject.Generator.Parser.Binding
                     NotBindParentGroups[cat].Add(bc);
                 }
             }
-            _compilation = compilation;
-            BindingContainers = bindingContainers;
-        }
 
-        public IReadOnlyList<ITypeSymbol> GetRegisteredKeys(bool withWrappers)
-        {
-            var result = new List<ITypeSymbol>();
-
-            foreach (var key in _bindGroups.Keys)
-            {
-                result.Add(key);
-
-                if (key.TryDetectWrapperType(out var _, out var _))
-                {
-                    //Func<T> registered, probably we does not want to register Func<Func<T>>
-                    continue;
-                }
-
-                if (withWrappers)
-                {
-                    foreach (var (wrapperType, wrapperSymbol) in key.GenerateWrapperTypes(_compilation))
-                    {
-                        result.Add(wrapperSymbol);
-                    }
-                }
-            }
-
-            return result;
         }
 
         public bool TryGetRegisteredBindingContainers(
             ITypeSymbol type,
+            bool includeWrappers,
             out IReadOnlyList<IBindingContainer> result
             )
         {
@@ -111,42 +80,19 @@ namespace DpdtInject.Generator.Parser.Binding
                 rresult.AddRange(list);
             }
 
-            if(type.TryDetectWrapperType(out var wrapperType, out var internalType))
+            if (includeWrappers)
             {
-                if (_bindGroups.TryGetValue(internalType, out var wrappedList))
+                if (type.TryDetectWrapperType(out var wrapperType, out var internalType))
                 {
-                    rresult.AddRange(wrappedList);
+                    if (_bindGroups.TryGetValue(internalType, out var wrappedList))
+                    {
+                        rresult.AddRange(wrappedList);
+                    }
                 }
             }
 
             result = rresult;
             return rresult.Count > 0;
         }
-
-        public bool IsTypeRegistered(
-            ITypeSymbol type,
-            out DpdtArgumentWrapperTypeEnum wrapperType,
-            out ITypeSymbol? internalType
-            )
-        {
-            if (type is null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
-
-            if(this._bindGroups.ContainsKey(type))
-            {
-                wrapperType = DpdtArgumentWrapperTypeEnum.None;
-                internalType = null;
-                return true;
-            }
-
-            return
-                type.TryDetectWrapperType(
-                    out wrapperType,
-                    out internalType
-                    );
-        }
-
     }
 }
