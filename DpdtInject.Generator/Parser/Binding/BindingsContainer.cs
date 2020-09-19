@@ -24,9 +24,15 @@ namespace DpdtInject.Generator.Parser.Binding
         }
 
         public BindingsContainer(
+            Compilation compilation,
             List<IBindingContainer> bindingContainers
             )
         {
+            if (compilation is null)
+            {
+                throw new ArgumentNullException(nameof(compilation));
+            }
+
             if (bindingContainers is null)
             {
                 throw new ArgumentNullException(nameof(bindingContainers));
@@ -34,7 +40,10 @@ namespace DpdtInject.Generator.Parser.Binding
 
             _bindingContainers = bindingContainers;
 
-            Groups = new BindingContainerGroups(_bindingContainers);
+            Groups = new BindingContainerGroups(
+                compilation,
+                _bindingContainers
+                );
         }
 
         internal void AnalyzeForCircularDependencies(
@@ -59,7 +68,12 @@ namespace DpdtInject.Generator.Parser.Binding
             {
                 foreach (var ca in bindingContainer.ConstructorArguments.Where(j => !j.DefineInBindNode))
                 {
-                    if (!Groups.BindGroups.TryGetValue(ca.Type!, out var children))
+                    if(ca.Type is null)
+                    {
+                        throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, $"ca.Type is null somehow");
+                    }
+
+                    if (!Groups.IsTypeRegistered(ca.Type, out _, out _))
                     {
                         throw new DpdtException(
                             DpdtExceptionTypeEnum.NoBindingAvailable,
@@ -126,9 +140,14 @@ namespace DpdtInject.Generator.Parser.Binding
 
             foreach (var ca in parent.ConstructorArguments.Where(j => !j.DefineInBindNode))
             {
-                if (!Groups.BindGroups.TryGetValue(ca.Type!, out var children))
+                if (ca.Type is null)
                 {
-                    throw new DpdtException(DpdtExceptionTypeEnum.NoBindingAvailable, $"Found unknown binding [{ca.Type!.GetFullName()}] from constructor of [{parent.TargetRepresentation}]", ca.Type.Name);
+                    throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, $"ca.Type is null somehow");
+                }
+
+                if (!Groups.TryGetRegisteredBindingContainers(ca.Type!, out var children))
+                {
+                    throw new DpdtException(DpdtExceptionTypeEnum.NoBindingAvailable, $"Found unknown binding [{ca.Type.GetFullName()}] from constructor of [{parent.TargetRepresentation}]", ca.Type.Name);
                 }
 
                 foreach (var child in children)
@@ -272,7 +291,12 @@ namespace DpdtInject.Generator.Parser.Binding
 
             foreach (var ca in bindingContainer.ConstructorArguments.Where(j => !j.DefineInBindNode))
             {
-                if (!Groups.BindGroups.TryGetValue(ca.Type!, out var children))
+                if (ca.Type is null)
+                {
+                    throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, $"ca.Type is null somehow");
+                }
+
+                if (!Groups.TryGetRegisteredBindingContainers(ca.Type!, out var children))
                 {
                     throw new DpdtException(DpdtExceptionTypeEnum.NoBindingAvailable, $"Found unknown binding [{ca.Type!.GetFullName()}] from constructor of [{bindingContainer.TargetRepresentation}]", ca.Type.Name);
                 }

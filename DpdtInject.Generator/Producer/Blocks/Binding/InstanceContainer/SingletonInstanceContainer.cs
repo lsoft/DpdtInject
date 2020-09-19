@@ -30,6 +30,12 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
             return Nested.GetInstance(resolutionContext);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Func<FakeTarget> GetInstance_Func(ResolutionContext resolutionContext)
+        {
+            return Nested.GetInstance_Func(resolutionContext);
+        }
+
         public static void DoDisposeIfApplicable()
         {
             if (Nested.Instance is IDisposable disposableInstance)
@@ -49,7 +55,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
             {
             }
 
-            //GENERATOR: declare arguments
+            //GENERATOR: argument methods
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static FakeTarget GetInstance(ResolutionContext resolutionContext)
@@ -69,6 +75,17 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
 
                 return Instance!;
             }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static Func<FakeTarget> GetInstance_Func(ResolutionContext resolutionContext)
+            {
+                Func<FakeTarget> instance = () => GetInstance(
+                    resolutionContext
+                    );
+
+                return instance;
+            }
+
         }
 #nullable disable
     }

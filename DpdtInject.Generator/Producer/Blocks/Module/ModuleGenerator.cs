@@ -18,6 +18,8 @@ namespace DpdtInject.Generator.Producer.Blocks.Module
 {
     internal class ModuleGenerator
     {
+        private readonly Compilation _compilation;
+
         public INamedTypeSymbol ModuleSymbol
         {
             get;
@@ -28,14 +30,20 @@ namespace DpdtInject.Generator.Producer.Blocks.Module
         public string ModuleTypeName => ModuleSymbol.Name;
 
         public ModuleGenerator(
+            Compilation compilation,
             INamedTypeSymbol moduleSymbol
             )
         {
+            if (compilation is null)
+            {
+                throw new ArgumentNullException(nameof(compilation));
+            }
+
             if (moduleSymbol is null)
             {
                 throw new ArgumentNullException(nameof(moduleSymbol));
             }
-
+            _compilation = compilation;
             ModuleSymbol = moduleSymbol;
         }
 
@@ -49,6 +57,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Module
             }
 
             var providerGenerator = new ProviderGenerator(
+                _compilation,
                 container
                 );
 
@@ -124,10 +133,6 @@ namespace {ModuleTypeNamespace}
         }}
 
 
-        public Func<T> GetFunc<T>()
-        {{
-            return ((IBaseProvider<T>)_provider).GetFunc();
-        }}
         public T Get<T>()
         {{
             return ((IBaseProvider<T>)_provider).Get();
@@ -161,11 +166,9 @@ namespace {ModuleTypeNamespace}
         private class Provider
             {providerGenerator.CombinedInterfaces}
         {{
-            {providerGenerator.CombinedDeclareFuncSection}
 
             public Provider()
             {{
-                {providerGenerator.CombinedInitFuncSection}
             }}
 
             {providerGenerator.CombinedImplementationSection}

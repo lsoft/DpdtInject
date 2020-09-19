@@ -506,6 +506,216 @@ namespace DpdtInject.Tests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Func.Generic.Singleton.Hierarchy2
+        ///{
+        ///    public partial class FuncGenericSingletonHierarchy2Module : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string FuncGenericSingletonHierarchy2Module {
+            get {
+                return ResourceManager.GetString("FuncGenericSingletonHierarchy2Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Func.Generic.Singleton.SingleObject
+        ///{
+        ///    public partial class FuncGenericSingletonSingleObjectModule : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///      [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string FuncGenericSingletonSingleObjectModule {
+            get {
+                return ResourceManager.GetString("FuncGenericSingletonSingleObjectModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Func.Generic.Transient.Hierarchy2
+        ///{
+        ///    public partial class FuncGenericTransientHierarchy2Module : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string FuncGenericTransientHierarchy2Module {
+            get {
+                return ResourceManager.GetString("FuncGenericTransientHierarchy2Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Func.Generic.Transient.SingleObject
+        ///{
+        ///    public partial class FuncGenericTransientSingleObjectModule : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///      [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string FuncGenericTransientSingleObjectModule {
+            get {
+                return ResourceManager.GetString("FuncGenericTransientSingleObjectModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Func.NonGeneric.Singleton.Hierarchy2
+        ///{
+        ///    public partial class FuncNonGenericSingletonHierarchy2Module : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            B [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string FuncNonGenericSingletonHierarchy2Module {
+            get {
+                return ResourceManager.GetString("FuncNonGenericSingletonHierarchy2Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Func.NonGeneric.Singleton.SingleObject
+        ///{
+        ///    public partial class FuncNonGenericSingletonSingleObjectModule : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string FuncNonGenericSingletonSingleObjectModule {
+            get {
+                return ResourceManager.GetString("FuncNonGenericSingletonSingleObjectModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Func.NonGeneric.Transient.Hierarchy2
+        ///{
+        ///    public partial class FuncNonGenericTransientHierarchy2Module : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            B [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string FuncNonGenericTransientHierarchy2Module {
+            get {
+                return ResourceManager.GetString("FuncNonGenericTransientHierarchy2Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Func.NonGeneric.Transient.SingleObject
+        ///{
+        ///    public partial class FuncNonGenericTransientSingleObjectModule : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string FuncNonGenericTransientSingleObjectModule {
+            get {
+                return ResourceManager.GetString("FuncNonGenericTransientSingleObjectModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
         ///
         ///namespace DpdtInject.Tests.Generic.IsRegisteredFrom
         ///{
@@ -721,33 +931,6 @@ namespace DpdtInject.Tests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
-        ///
-        ///namespace DpdtInject.Tests.Singleton.Func.Zero
-        ///{
-        ///    public partial class SingletonFuncZeroModule : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()
-        ///                .WithSingletonScope( [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string SingletonFuncZeroModule {
-            get {
-                return ResourceManager.GetString("SingletonFuncZeroModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
         ///using DpdtInject.Injector.Module.Bind;
         ///
         ///namespace DpdtInject.Tests.Singleton.Hierarchy2
@@ -894,33 +1077,6 @@ namespace DpdtInject.Tests.Properties {
         internal static string SingletonUnknownRequestModule {
             get {
                 return ResourceManager.GetString("SingletonUnknownRequestModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///
-        ///namespace DpdtInject.Tests.Transient.Func.Zero
-        ///{
-        ///    public partial class TransientFuncZeroModule : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()
-        ///                .WithTransientScope( [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string TransientFuncZeroModule {
-            get {
-                return ResourceManager.GetString("TransientFuncZeroModule", resourceCulture);
             }
         }
         

@@ -118,7 +118,7 @@ namespace DpdtInject.Generator.Parser.Binding
 
             var result = instanceContainerCode
                 .CheckAndReplace(nameof(FakeTarget), BindToType.GetFullName())
-                .CheckAndReplace("//GENERATOR: declare arguments", string.Join(Environment.NewLine, ConstructorArguments.Where(ca => !ca.DefineInBindNode).Select(ca => ca.GetRetrieveConstructorArgumentClause(container, this))))
+                .CheckAndReplace("//GENERATOR: argument methods", string.Join(Environment.NewLine, ConstructorArguments.Where(ca => !ca.DefineInBindNode).Select(ca => ca.GenerateProvideConstructorArgumentMethod(container, this))))
                 .CheckAndReplace("//GENERATOR: apply arguments", string.Join(",", ConstructorArguments.Select(ca => ca.GetApplyConstructorClause(container))))
                 .CheckAndReplace("//GENERATOR: predicate", (WhenArgumentClause?.ToString() ?? "rc => true"))
                 ;

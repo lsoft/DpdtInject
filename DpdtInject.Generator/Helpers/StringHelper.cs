@@ -50,11 +50,11 @@ namespace DpdtInject.Generator.Helpers
                 source.Replace(oldValue, newValue);
         }
 
-        public static string ConvertDotToGround(
+        public static string ConvertDotLessGreatherToGround(
             this string s
             )
         {
-            return s.Replace('.', '_');
+            return s.Replace('.', '_').Replace('<', '_').Replace('>', '_');
         }
 
         public static string ConvertMinusToGround(

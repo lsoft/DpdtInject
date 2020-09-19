@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Compile Remove="**\*.Pregenerated.cs" />
+    <Compile Remove="Func\Generic\SingleObject\**" />
     <Compile Remove="TestResults\**" />
   </ItemGroup>
 
@@ -16,7 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Remove="Func\Generic\SingleObject\**" />
     <EmbeddedResource Remove="TestResults\**" />
+    <None Remove="Func\Generic\SingleObject\**" />
     <None Remove="TestResults\**" />
   </ItemGroup>
 

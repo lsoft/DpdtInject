@@ -12,6 +12,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Transactions;
@@ -134,7 +135,7 @@ namespace DpdtInject.Generator.Parser
             Body = null;
         }
 
-        public string GetRetrieveConstructorArgumentClause(
+        public string GenerateProvideConstructorArgumentMethod(
             InstanceContainerGeneratorsContainer container,
             IBindingContainer bindingContainer
             )
@@ -166,7 +167,33 @@ namespace DpdtInject.Generator.Parser
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"Type is null somehow");
             }
 
-            var instanceContainerGenerators = container.Groups.ContainerGroups[this.Type];
+            DpdtArgumentWrapperTypeEnum wrapperType = DpdtArgumentWrapperTypeEnum.None;
+            if (container.Groups.GetRegisteredKeys(false).All(p => !SymbolEqualityComparer.Default.Equals(p.Item2, this.Type)))
+            {
+                //this type is not registered in the module
+                if (!this.Type.TryDetectWrapperType(out wrapperType, out var innerType))
+                {
+                    //no, it's not a wrapper
+                    throw new DpdtException(
+                        DpdtExceptionTypeEnum.NoBindingAvailable,
+                        $"No bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetRepresentation}]",
+                        Type.GetFullName()
+                        );
+                }
+
+                //it's a wrapper
+            }
+
+            var workingType = this.Type;
+
+            if(!container.Groups.TryGetRegisteredGenerators(workingType, true, out var instanceContainerGenerators))
+            {
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.NoBindingAvailable,
+                    $"No bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetRepresentation}]",
+                    Type.GetFullName()
+                    );
+            }
 
             var exceptionSuffix =
                 instanceContainerGenerators.Count > 1
@@ -183,7 +210,7 @@ namespace DpdtInject.Generator.Parser
 
             foreach (var generator in instanceContainerGenerators)
             {
-                var createFrameVariableName = $"Frame_{Type.GetFullName().ConvertDotToGround()}_{generator.BindingContainer.BindToType.GetFullName().ConvertDotToGround()}_{Name}_{generator.GetVariableStableName()}";
+                var createFrameVariableName = $"Frame_{workingType.GetFullName().ConvertDotLessGreatherToGround()}_{generator.BindingContainer.BindToType.GetFullName().ConvertDotLessGreatherToGround()}_{Name}_{generator.GetVariableStableName()}";
                 createFrameVariableNameDict[generator.GetVariableStableName()] = createFrameVariableName;
                 
                 var contextWithFrameVariableName = $"contextWithFrame_{createFrameVariableName}";
@@ -197,7 +224,7 @@ namespace DpdtInject.Generator.Parser
 
                 createFrameClause += $@"
 private static readonly {nameof(ResolutionFrame)} {createFrameVariableName} =
-    {ResolutionFrameGenerator.GetNewFrameClause(Type.GetFullName(), generator.BindingContainer.BindToType.GetFullName(), Name)};
+    {ResolutionFrameGenerator.GetNewFrameClause(workingType.GetFullName(), generator.BindingContainer.BindToType.GetFullName(), Name)};
 ";
             }
 
@@ -208,9 +235,9 @@ private static readonly {nameof(ResolutionFrame)} {createFrameVariableName} =
             {
                 applyArgumentPiece = $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {localVariableContextReference})
+private static {workingType.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {localVariableContextReference})
 {{
-    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetRepresentation}]{exceptionSuffix}", Type.GetFullName())}
+    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings [{workingType.GetFullName()}] available for [{bindingContainer.TargetRepresentation}]{exceptionSuffix}", workingType.GetFullName())}
 }}
 ";
             }
@@ -226,16 +253,16 @@ private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {loca
 {createFrameClause}
 
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {localVariableContextReference})
+private static {workingType.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {localVariableContextReference})
 {{
     var context = {localVariableContextReference}.{nameof(ResolutionContext.AddFrame)}({createFrameVariableName});
 
     if({instanceContainerGenerator.ClassName}.CheckPredicate(context))
     {{
-        return {instanceContainerGenerator.GetInstanceClause("context")};
+        return {instanceContainerGenerator.GetInstanceClause("context", wrapperType)};
     }}
 
-    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetRepresentation}]{exceptionSuffix}", Type.GetFullName())}
+    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings [{workingType.GetFullName()}] available for [{bindingContainer.TargetRepresentation}]{exceptionSuffix}", workingType.GetFullName())}
 }}
 ";
                 }
@@ -243,9 +270,9 @@ private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {loca
                 {
                     applyArgumentPiece = $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {localVariableContextReference})
+private static {workingType.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {localVariableContextReference})
 {{
-    return {instanceContainerGenerator.GetInstanceClause("null")};
+    return {instanceContainerGenerator.GetInstanceClause("null", wrapperType)};
 }}
 ";
                 }
@@ -256,9 +283,9 @@ private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {loca
                 {
                     applyArgumentPiece = $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {localVariableContextReference})
+private static {workingType.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {localVariableContextReference})
 {{
-    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetRepresentation}]", Type.GetFullName())}
+    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings [{workingType.GetFullName()}] available for [{bindingContainer.TargetRepresentation}]", workingType.GetFullName())}
 }}
 ";
                 }
@@ -270,7 +297,7 @@ private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {loca
 {createFrameClause}
 
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-private static {Type.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {localVariableContextReference})
+private static {workingType.GetFullName()} Get_{Name}({nameof(ResolutionContext)} {localVariableContextReference})
 {{
     int allowedChildrenCount = {nonConditionalGeneratorCount};
 ";
@@ -293,7 +320,7 @@ if({generator.ClassName}.CheckPredicate({createContextWithFrameVariableName}))
 {{
     if(++allowedChildrenCount > 1)
     {{
-        {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetRepresentation}]", Type.GetFullName())}
+        {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings [{workingType.GetFullName()}] available for [{bindingContainer.TargetRepresentation}]", workingType.GetFullName())}
     }}
 
     {generator.GetVariableStableName()} = true;
@@ -308,7 +335,7 @@ if({generator.ClassName}.CheckPredicate(null))
 {{
     if(++allowedChildrenCount > 1)
     {{
-        {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetRepresentation}]", Type.GetFullName())}
+        {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings [{workingType.GetFullName()}] available for [{bindingContainer.TargetRepresentation}]", workingType.GetFullName())}
     }}
 
     {generator.GetVariableStableName()} = true;
@@ -321,7 +348,7 @@ if({generator.ClassName}.CheckPredicate(null))
                     applyArgumentPiece += $@"
 if(allowedChildrenCount == 0)
 {{
-    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings [{Type.GetFullName()}] available for [{bindingContainer.TargetRepresentation}]{exceptionSuffix}", Type.GetFullName())}
+    {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings [{workingType.GetFullName()}] available for [{bindingContainer.TargetRepresentation}]{exceptionSuffix}", workingType.GetFullName())}
 }}
 ";
 
@@ -337,14 +364,14 @@ if(allowedChildrenCount == 0)
                             applyArgumentPiece += $@"
 if({generator.GetVariableStableName()})
 {{
-    return {generator.GetInstanceClause(createContextWithFrameVariableName)};
+    return {generator.GetInstanceClause(createContextWithFrameVariableName, wrapperType)};
 }}
 ";
                         }
                         else
                         {
                             applyArgumentPiece += $@"
-return {generator.GetInstanceClause("null")};
+return {generator.GetInstanceClause("null", wrapperType)};
 ";
                         }
                     }
@@ -375,5 +402,85 @@ return {generator.GetInstanceClause("null")};
             return $"{Name}: Get_{Name}(resolutionContext)";
         }
 
+    }
+
+    public static class ArgumentWrapperHelper
+    {
+        public static IEnumerable<(DpdtArgumentWrapperTypeEnum, ITypeSymbol)> GenerateWrapperTypes(
+            this ITypeSymbol type,
+            Compilation compilation
+            )
+        {
+            foreach(DpdtArgumentWrapperTypeEnum wrapperType in Enum.GetValues(typeof(DpdtArgumentWrapperTypeEnum)))
+            {
+                INamedTypeSymbol wrapperSymbol;
+                switch (wrapperType)
+                {
+                    case DpdtArgumentWrapperTypeEnum.None:
+                        continue;
+                    case DpdtArgumentWrapperTypeEnum.Func:
+                        wrapperSymbol = compilation.GetTypeByMetadataName("System.Func`1")!;
+                        wrapperSymbol = wrapperSymbol.Construct(type);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(wrapperType.ToString());
+                }
+
+                yield return (wrapperType, wrapperSymbol);
+            }
+        }
+
+        public static string GetPostfix(
+            this DpdtArgumentWrapperTypeEnum wrapperType
+            )
+        {
+            switch (wrapperType)
+            {
+                case DpdtArgumentWrapperTypeEnum.None:
+                    return string.Empty;
+                case DpdtArgumentWrapperTypeEnum.Func:
+                    return "_Func";
+                default:
+                    throw new ArgumentOutOfRangeException(wrapperType.ToString());
+            }
+        }
+
+        public static bool TryDetectWrapperType(
+            this ITypeSymbol type,
+            out DpdtArgumentWrapperTypeEnum wrapperType,
+            [NotNullWhen(true)] out ITypeSymbol? internalType
+            )
+        {
+            if (type is null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
+            var namedType = (type as INamedTypeSymbol);
+            if(namedType is null)
+            {
+                wrapperType = DpdtArgumentWrapperTypeEnum.None;
+                internalType = null;
+                return false;
+            }
+
+            var extractedName = type.Name;
+            if(extractedName == "Func")
+            {
+                wrapperType = DpdtArgumentWrapperTypeEnum.Func;
+                internalType = namedType.TypeArguments[0];
+                return true;
+            }
+
+            wrapperType = DpdtArgumentWrapperTypeEnum.None;
+            internalType = null;
+            return false;
+        }
+    }
+
+    public enum DpdtArgumentWrapperTypeEnum
+    {
+        None,
+        Func
     }
 }

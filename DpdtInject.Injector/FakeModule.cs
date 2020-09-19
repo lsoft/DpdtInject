@@ -14,11 +14,6 @@ namespace DpdtInject.Injector
             throw new NotImplementedException("This method should not be executed");
         }
 
-        public Func<T> GetFunc<T>()
-        {
-            throw new NotImplementedException("This method should not be executed");
-        }
-
         public object Get(Type requestedType)
         {
             throw new NotImplementedException("This method should not be executed");
@@ -50,11 +45,6 @@ namespace DpdtInject.Injector
         where T : DpdtModule
     {
         public bool IsRegisteredFrom<T>()
-        {
-            throw new NotImplementedException("This method should not be executed");
-        }
-
-        public Func<T> GetFunc<T>()
         {
             throw new NotImplementedException("This method should not be executed");
         }

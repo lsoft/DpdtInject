@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DpdtInject.Tests.Transient.Func.Zero
+namespace DpdtInject.Tests.Func.Generic.Transient.SingleObject
 {
-    public partial class TransientFuncZeroModule : DpdtModule
+    public partial class FuncGenericTransientSingleObjectModule : DpdtModule
     {
         public override void Load()
         {
@@ -20,23 +20,21 @@ namespace DpdtInject.Tests.Transient.Func.Zero
                 ;
         }
 
-        public class TransientFuncZeroModuleTester
+        public class FuncGenericTransientSingleObjectModuleTester
         {
             public void PerformModuleTesting()
             {
-                var module = new FakeModule<TransientFuncZeroModule>();
+                var module = new FakeModule<FuncGenericTransientSingleObjectModule>();
 
-                var af0 = module.GetFunc<IA>();
-                var af1 = module.GetFunc<IA>();
-                Assert.AreSame(af0, af1);
+                var a0 = module.Get<IA>();
+                Assert.IsNotNull(a0);
 
-                var a00 = af0();
-                var a01 = af0();
-                Assert.AreNotSame(a00, a01);
-
-                var a10 = af1();
-                var a11 = af1();
-                Assert.AreNotSame(a10, a11);
+                var af = module.Get<Func<IA>>();
+                Assert.IsNotNull(af);
+                
+                var a1 = af();
+                Assert.IsNotNull(a1);
+                Assert.AreNotSame(a0, a1);
             }
         }
 

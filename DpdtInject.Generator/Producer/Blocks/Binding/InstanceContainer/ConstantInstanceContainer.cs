@@ -39,6 +39,13 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
         {
             return Instance;
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Func<FakeTarget> GetInstance_Func(ResolutionContext resolutionContext)
+        {
+            return () => Instance;
+        }
+
     }
 
 }

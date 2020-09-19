@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Generator.Helpers;
+using DpdtInject.Generator.Parser;
 using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Compilation;
@@ -28,12 +29,18 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
         public InstanceContainerGeneratorsContainer(
             IDiagnosticReporter diagnosticReporter,
+            Compilation compilation,
             BindingsContainer bindingsContainer
             )
         {
             if (diagnosticReporter is null)
             {
                 throw new ArgumentNullException(nameof(diagnosticReporter));
+            }
+
+            if (compilation is null)
+            {
+                throw new ArgumentNullException(nameof(compilation));
             }
 
             BindingsContainer = bindingsContainer;
@@ -49,7 +56,10 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                         ));
             }
 
-            Groups = new InstanceContainerGeneratorGroups(_instanceContainerGenerators);
+            Groups = new InstanceContainerGeneratorGroups(
+                compilation,
+                _instanceContainerGenerators
+                );
         }
 
         internal string GetReinventedContainerArgument(
@@ -63,10 +73,10 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
             var clauses = new List<string>();
 
-            foreach(var key in Groups.ContainerGroups.Keys)
+            foreach(var (wrapperType, wrapperSymbol) in Groups.GetRegisteredKeys(true))
             {
                 clauses.Add(
-                    $"new Tuple<Type, Func<object>>( typeof({key.GetFullName()}), _provider.{providerMethodNamePrefix}_{key.GetFullName().ConvertDotToGround()} )"
+                    $"new Tuple<Type, Func<object>>( typeof({wrapperSymbol.GetFullName()}), _provider.{providerMethodNamePrefix}_{wrapperSymbol.GetFullName().ConvertDotLessGreatherToGround()}{wrapperType.GetPostfix()} )"
                     );
             }
 
@@ -76,20 +86,24 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
     public class InstanceContainerGeneratorGroups
     {
+        private readonly Compilation _compilation;
+        private readonly Dictionary<ITypeSymbol, List<InstanceContainerGenerator>> _containerGroups;
+
         public List<InstanceContainerGenerator> InstanceContainerGenerators
         {
             get;
         }
 
-        public Dictionary<ITypeSymbol, List<InstanceContainerGenerator>> ContainerGroups
-        {
-            get;
-        }
-
         public InstanceContainerGeneratorGroups(
+            Compilation compilation,
             List<InstanceContainerGenerator> instanceContainerGenerators
             )
         {
+            if (compilation is null)
+            {
+                throw new ArgumentNullException(nameof(compilation));
+            }
+
             if (instanceContainerGenerators is null)
             {
                 throw new ArgumentNullException(nameof(instanceContainerGenerators));
@@ -112,8 +126,68 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                 }
             }
 
-            ContainerGroups = processorGroups;
+            _containerGroups = processorGroups;
+            _compilation = compilation;
             InstanceContainerGenerators = instanceContainerGenerators;
+        }
+
+        public IReadOnlyCollection<(DpdtArgumentWrapperTypeEnum, ITypeSymbol)> GetRegisteredKeys(bool withWrappers)
+        {
+            var result = new HashSet<(DpdtArgumentWrapperTypeEnum, ITypeSymbol)>();
+
+            foreach (var key in _containerGroups.Keys)
+            {
+                result.Add((DpdtArgumentWrapperTypeEnum.None, key));
+
+                if (withWrappers)
+                {
+                    if (key.TryDetectWrapperType(out var _, out var _))
+                    {
+                        //Func<T> registered, probably we does not want to register Func<Func<T>>
+                        continue;
+                    }
+
+                    foreach(var pair in key.GenerateWrapperTypes(_compilation))
+                    {
+                        result.Add(pair);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public bool TryGetRegisteredGenerators(
+            ITypeSymbol type,
+            bool withWrappers,
+            out IReadOnlyList<InstanceContainerGenerator> result
+            )
+        {
+            if (type is null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
+            var rresult = new List<InstanceContainerGenerator>();
+
+            if (_containerGroups.TryGetValue(type, out var list))
+            {
+                rresult.AddRange(list);
+            }
+
+            if (withWrappers)
+            {
+                if (type.TryDetectWrapperType(out var wrapperType, out var internalType))
+                {
+                    if (_containerGroups.TryGetValue(internalType, out var wrappedList))
+                    {
+                        rresult.AddRange(wrappedList);
+                    }
+                }
+            }
+
+            result = rresult;
+            return rresult.Count > 0;
         }
 
     }

@@ -4,11 +4,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace DpdtInject.Tests.Transient.Func.Zero
+namespace DpdtInject.Tests.Func.Generic.Transient.Hierarchy2
 {
 
     [TestClass]
-    public class TransientFuncZeroFixture
+    public class FuncGenericTransientHierarchy2Fixture
     {
         public TestContext TestContext { get; set; }
 
@@ -17,9 +17,9 @@ namespace DpdtInject.Tests.Transient.Func.Zero
         {
             var preparation = new Preparator(
                 TestContext,
-                nameof(TransientFuncZeroModule.TransientFuncZeroModuleTester),
-                nameof(TestResources.TransientFuncZeroModule),
-                TestResources.TransientFuncZeroModule
+                nameof(FuncGenericTransientHierarchy2Module.FuncGenericTransientHierarchy2ModuleTester),
+                nameof(TestResources.FuncGenericTransientHierarchy2Module),
+                TestResources.FuncGenericTransientHierarchy2Module
                 );
 
             preparation.Check();

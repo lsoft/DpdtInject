@@ -35,7 +35,7 @@ namespace DpdtInject.Generator.Parser.Binding.Graph
                 new OrderIndependentCycleFoundEqualityComparer()
                 );
 
-            foreach (var bindFromType in _groups.BindGroups.Keys.Shuffle())
+            foreach (var bindFromType in _groups.GetRegisteredKeys(true).Shuffle())
             {
                 try
                 {
@@ -79,7 +79,12 @@ namespace DpdtInject.Generator.Parser.Binding.Graph
             ITypeSymbol requestedType
             )
         {
-            foreach (var bindingProcessor in _groups.BindGroups[requestedType])
+            if(!_groups.TryGetRegisteredBindingContainers(requestedType, out var bindingProcessors))
+            {
+                return;
+            }
+
+            foreach (var bindingProcessor in bindingProcessors)
             {
                 var used2 = used.Clone();
 

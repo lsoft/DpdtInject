@@ -4,11 +4,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace DpdtInject.Tests.Singleton.Func.Zero
+namespace DpdtInject.Tests.Func.NonGeneric.Singleton.Hierarchy2
 {
 
     [TestClass]
-    public class SingletonFuncZeroFixture
+    public class FuncNonGenericSingletonHierarchy2Fixture
     {
         public TestContext TestContext { get; set; }
 
@@ -17,9 +17,9 @@ namespace DpdtInject.Tests.Singleton.Func.Zero
         {
             var preparation = new Preparator(
                 TestContext,
-                nameof(SingletonFuncZeroModule.SingletonFuncZeroModuleTester),
-                nameof(TestResources.SingletonFuncZeroModule),
-                TestResources.SingletonFuncZeroModule
+                nameof(FuncNonGenericSingletonHierarchy2Module.FuncNonGenericSingletonHierarchy2ModuleTester),
+                nameof(TestResources.FuncNonGenericSingletonHierarchy2Module),
+                TestResources.FuncNonGenericSingletonHierarchy2Module
                 );
 
             preparation.Check();

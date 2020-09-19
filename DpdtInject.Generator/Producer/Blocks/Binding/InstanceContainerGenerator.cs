@@ -63,7 +63,10 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             }
         }
 
-        public string GetInstanceClause(string innerText) => $"{ClassName}.GetInstance({innerText})";
+        public string GetInstanceClause(
+            string innerText,
+            DpdtArgumentWrapperTypeEnum wrapperType
+            ) => $"{ClassName}.GetInstance{wrapperType.GetPostfix()}({innerText})";
 
 
         public InstanceContainerGenerator(
@@ -92,13 +95,13 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             switch (this.BindingContainer.Scope)
             {
                 case Injector.Module.Bind.BindScopeEnum.Transient:
-                    ClassName = $"{string.Join("_", bindingContainer.GetFromTypeFullNamesCombined().ConvertDotToGround())}_{bindingContainer.TargetRepresentation.ConvertDotToGround()}_{nameof(TransientInstanceContainer)}_{Guid.NewGuid().ConvertMinusToGround()}";
+                    ClassName = $"{string.Join("_", bindingContainer.GetFromTypeFullNamesCombined().ConvertDotLessGreatherToGround())}_{bindingContainer.TargetRepresentation.ConvertDotLessGreatherToGround()}_{nameof(TransientInstanceContainer)}_{Guid.NewGuid().ConvertMinusToGround()}";
                     break;
                 case Injector.Module.Bind.BindScopeEnum.Singleton:
-                    ClassName = $"{string.Join("_", bindingContainer.GetFromTypeFullNamesCombined().ConvertDotToGround())}_{bindingContainer.TargetRepresentation.ConvertDotToGround()}_{nameof(SingletonInstanceContainer)}_{Guid.NewGuid().ConvertMinusToGround()}";
+                    ClassName = $"{string.Join("_", bindingContainer.GetFromTypeFullNamesCombined().ConvertDotLessGreatherToGround())}_{bindingContainer.TargetRepresentation.ConvertDotLessGreatherToGround()}_{nameof(SingletonInstanceContainer)}_{Guid.NewGuid().ConvertMinusToGround()}";
                     break;
                 case Injector.Module.Bind.BindScopeEnum.Constant:
-                    ClassName = $"{string.Join("_", bindingContainer.GetFromTypeFullNamesCombined().ConvertDotToGround())}_{nameof(ConstantInstanceContainer)}_{Guid.NewGuid().ConvertMinusToGround()}";
+                    ClassName = $"{string.Join("_", bindingContainer.GetFromTypeFullNamesCombined().ConvertDotLessGreatherToGround())}_{nameof(ConstantInstanceContainer)}_{Guid.NewGuid().ConvertMinusToGround()}";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

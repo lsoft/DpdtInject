@@ -1,9 +1,11 @@
 ﻿using DpdtInject.Generator.Helpers;
+using DpdtInject.Generator.Parser;
 using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Producer.Blocks.Exception;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Excp;
+using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -16,6 +18,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
     public class ProviderGenerator
     {
         private readonly List<ProviderInterfaceGenerator> _interfaceSection;
+        private readonly Compilation _compilation;
 
         public InstanceContainerGeneratorsContainer Container
         {
@@ -38,30 +41,6 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
             }
         }
 
-        public string CombinedDeclareFuncSection
-        {
-            get
-            {
-                return
-                    string.Join(
-                        Environment.NewLine,
-                        InterfaceSection.Select(j => j.DeclareFuncSection)
-                        );
-            }
-        }
-
-        public string CombinedInitFuncSection
-        {
-            get
-            {
-                return
-                    string.Join(
-                        Environment.NewLine,
-                        InterfaceSection.Select(j => j.InitFuncSection)
-                        );
-            }
-        }
-
         public string CombinedImplementationSection
         {
             get
@@ -76,9 +55,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
                     + string.Join(
                         Environment.NewLine, 
                         InterfaceSection.Select(j =>
-                            j.GetFuncSection
-                            + Environment.NewLine
-                            + j.GetExplicitImplementationSection
+                            j.GetExplicitImplementationSection
                             + Environment.NewLine 
                             + j.GetImplementationSection
                             + Environment.NewLine
@@ -93,27 +70,39 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
 
 
         public ProviderGenerator(
+            Compilation compilation,
             InstanceContainerGeneratorsContainer container
             )
         {
+            if (compilation is null)
+            {
+                throw new ArgumentNullException(nameof(compilation));
+            }
+
             if (container is null)
             {
                 throw new ArgumentNullException(nameof(container));
             }
-
+            _compilation = compilation;
             Container = container;
 
             _interfaceSection = new List<ProviderInterfaceGenerator>();
 
-            foreach (var pair in Container.Groups.ContainerGroups)
+            foreach (var (_, bindFromType) in Container.Groups.GetRegisteredKeys(false))
             {
-                var bindFromType = pair.Key;
-                var containers = pair.Value;
+                if(Container.Groups.TryGetRegisteredGenerators(bindFromType, false, out var generators))
+                {
+                    _interfaceSection.Add(
+                        new ProviderInterfaceGenerator(bindFromType, DpdtArgumentWrapperTypeEnum.None, generators)
+                        );
 
-
-                _interfaceSection.Add(
-                    new ProviderInterfaceGenerator(bindFromType, containers)
-                    );
+                    foreach (var (wrapperType, key) in bindFromType.GenerateWrapperTypes(_compilation))
+                    {
+                        _interfaceSection.Add(
+                            new ProviderInterfaceGenerator(key, wrapperType, generators)
+                            );
+                    }
+                }
             }
         }
 

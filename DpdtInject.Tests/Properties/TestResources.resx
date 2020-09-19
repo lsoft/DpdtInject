@@ -169,6 +169,30 @@
   <data name="ConstantSingleObjectModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Constant\SingleObject\ConstantSingleObjectModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="FuncGenericSingletonHierarchy2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Func\Generic\Singleton\Hierarchy2\FuncGenericSingletonHierarchy2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="FuncGenericSingletonSingleObjectModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Func\Generic\Singleton\SingleObject\FuncGenericSingletonSingleObjectModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="FuncGenericTransientHierarchy2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Func\Generic\Transient\Hierarchy2\FuncGenericTransientHierarchy2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="FuncGenericTransientSingleObjectModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Func\Generic\Transient\SingleObject\FuncGenericTransientSingleObjectModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="FuncNonGenericSingletonHierarchy2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Func\NonGeneric\Singleton\Hierarchy2\FuncNonGenericSingletonHierarchy2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="FuncNonGenericSingletonSingleObjectModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Func\NonGeneric\Singleton\SingleObject\FuncNonGenericSingletonSingleObjectModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="FuncNonGenericTransientHierarchy2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Func\NonGeneric\Transient\Hierarchy2\FuncNonGenericTransientHierarchy2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="FuncNonGenericTransientSingleObjectModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Func\NonGeneric\Transient\SingleObject\FuncNonGenericTransientSingleObjectModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="GenericIsRegisteredFromModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Generic\IsRegisteredFrom\GenericIsRegisteredFromModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -193,9 +217,6 @@
   <data name="SingletonDisposeModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Singleton\Dispose\SingletonDisposeModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="SingletonFuncZeroModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Singleton\Func\Zero\SingletonFuncZeroModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
   <data name="SingletonHierarchy2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Singleton\Hierarchy2\SingletonHierarchy2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -213,9 +234,6 @@
   </data>
   <data name="SingletonUnknownRequestModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Singleton\UnknownRequest\SingletonUnknownRequestModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="TransientFuncZeroModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Transient\Func\Zero\TransientFuncZeroModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="TransientHierarchy2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Transient\Hierarchy2\TransientHierarchy2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>

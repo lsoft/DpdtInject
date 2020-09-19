@@ -115,10 +115,12 @@ namespace DpdtInject.Generator
 
                 var itemGeneratorsContainer = new InstanceContainerGeneratorsContainer(
                     _diagnosticReporter,
+                    compilation,
                     bindingsContainer
                     );
 
                 var modulePartGenerator = new ModuleGenerator(
+                    compilation,
                     moduleType
                     );
 

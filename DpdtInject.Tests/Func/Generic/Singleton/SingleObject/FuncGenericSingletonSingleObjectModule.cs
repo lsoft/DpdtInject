@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DpdtInject.Tests.Singleton.Func.Zero
+namespace DpdtInject.Tests.Func.Generic.Singleton.SingleObject
 {
-    public partial class SingletonFuncZeroModule : DpdtModule
+    public partial class FuncGenericSingletonSingleObjectModule : DpdtModule
     {
         public override void Load()
         {
@@ -20,23 +20,21 @@ namespace DpdtInject.Tests.Singleton.Func.Zero
                 ;
         }
 
-        public class SingletonFuncZeroModuleTester
+        public class FuncGenericSingletonSingleObjectModuleTester
         {
             public void PerformModuleTesting()
             {
-                var module = new FakeModule<SingletonFuncZeroModule>();
+                var module = new FakeModule<FuncGenericSingletonSingleObjectModule>();
 
-                var af0 = module.GetFunc<IA>();
-                var af1 = module.GetFunc<IA>();
-                Assert.AreSame(af0, af1);
+                var a0 = module.Get<IA>();
+                Assert.IsNotNull(a0);
 
-                var a00 = af0();
-                var a01 = af0();
-                Assert.AreSame(a00, a01);
-
-                var a10 = af1();
-                var a11 = af1();
-                Assert.AreSame(a10, a11);
+                var af = module.Get<Func<IA>>();
+                Assert.IsNotNull(af);
+                
+                var a1 = af();
+                Assert.IsNotNull(a1);
+                Assert.AreSame(a0, a1);
             }
         }
 

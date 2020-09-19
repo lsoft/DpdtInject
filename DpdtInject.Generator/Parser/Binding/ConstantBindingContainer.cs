@@ -118,7 +118,7 @@ namespace DpdtInject.Generator.Parser.Binding
             var result = instanceContainerCode
                 .CheckAndReplace(nameof(FakeTarget), _constTypeSymbol.GetFullName())
                 .CheckAndReplace("//GENERATOR: init constant", $"{nameof(ConstantInstanceContainer.Instance)} = {_constantSyntax.GetText()};")
-                //.CheckAndReplace("//GENERATOR: declare arguments", string.Join(Environment.NewLine, ConstructorArguments.Where(ca => !ca.DefineInBindNode).Select(ca => ca.GetRetrieveConstructorArgumentClause(container, this))))
+                //.CheckAndReplace("//GENERATOR: argument methods", string.Join(Environment.NewLine, ConstructorArguments.Where(ca => !ca.DefineInBindNode).Select(ca => ca.GetRetrieveConstructorArgumentClause(container, this))))
                 //.CheckAndReplace("//GENERATOR: apply arguments", string.Join(",", ConstructorArguments.Select(ca => ca.GetApplyConstructorClause(container))))
                 .CheckAndReplace("//GENERATOR: predicate", (WhenArgumentClause?.ToString() ?? "rc => true"))
                 ;

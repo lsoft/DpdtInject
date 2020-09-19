@@ -52,7 +52,10 @@ namespace DpdtInject.Generator.Parser
 
         public BindingsContainer GetBindingsContainer()
         {
-            return new BindingsContainer(_bindingContainers);
+            return new BindingsContainer(
+                _compilation,
+                _bindingContainers
+                );
         }
 
         public override SyntaxNode VisitExpressionStatement(ExpressionStatementSyntax expressionNode)

@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using DpdtInject.Generator.Parser;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.FindSymbols;
 using System;
@@ -87,6 +88,28 @@ namespace DpdtInject.Generator.Helpers
             foreach (var nestedType in type.GetTypeMembers()
                 .SelectMany(nestedType => nestedType.GetNestedTypes()))
                 yield return nestedType;
+        }
+
+        public static string GetFullName(
+            this ITypeSymbol symbol
+            )
+        {
+            if (symbol is null)
+            {
+                throw new ArgumentNullException(nameof(symbol));
+            }
+
+            if(symbol is INamedTypeSymbol namedSymbol)
+            {
+                if(namedSymbol.TypeArguments.Length > 0)
+                {
+                    var combined = string.Join(",", namedSymbol.TypeArguments.Select(s => s.GetFullName()));
+
+                    return $"{symbol.ContainingNamespace}.{symbol.Name}<{combined}>";
+                }
+            }
+
+            return symbol.ContainingNamespace + "." + symbol.Name;
         }
 
         public static string GetFullName(

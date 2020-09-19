@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Generator.Helpers;
+using DpdtInject.Generator.Parser;
 using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Producer.Blocks.Exception;
 using DpdtInject.Generator.Producer.RContext;
@@ -14,10 +15,15 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
 {
     public class ProviderInterfaceGenerator
     {
-        private readonly List<InstanceContainerGenerator> _instanceContainerGenerators;
+        private readonly IReadOnlyList<InstanceContainerGenerator> _instanceContainerGenerators;
 
         public ITypeSymbol BindFromType
         { 
+            get;
+        }
+        
+        public DpdtArgumentWrapperTypeEnum WrapperType
+        {
             get;
         }
 
@@ -57,24 +63,10 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
             get;
         } = string.Empty;
 
-        public string DeclareFuncSection
-        {
-            get;
-        } = string.Empty;
-
-        public string InitFuncSection
-        {
-            get;
-        } = string.Empty;
-
-        public string GetFuncSection
-        {
-            get;
-        } = string.Empty;
-
         public ProviderInterfaceGenerator(
             ITypeSymbol bindFromType,
-            List<InstanceContainerGenerator> instanceContainerGenerators
+            DpdtArgumentWrapperTypeEnum wrapperType,
+            IReadOnlyList<InstanceContainerGenerator> instanceContainerGenerators
             )
         {
             if (bindFromType is null)
@@ -88,6 +80,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
             }
 
             BindFromType = bindFromType;
+            WrapperType = wrapperType;
             BindFromTypeFullName = bindFromType.GetFullName();
             _instanceContainerGenerators = instanceContainerGenerators;
 
@@ -113,7 +106,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
 
             foreach (var generator in _instanceContainerGenerators)
             {
-                var createContextVariableName = $"Context_{BindFromTypeFullName.ConvertDotToGround()}_{generator.BindingContainer.BindToType.GetFullName().ConvertDotToGround()}_{Guid.NewGuid().ConvertMinusToGround()}";
+                var createContextVariableName = $"Context_{BindFromTypeFullName.ConvertDotLessGreatherToGround()}_{generator.BindingContainer.BindToType.GetFullName().ConvertDotLessGreatherToGround()}_{Guid.NewGuid().ConvertMinusToGround()}";
                 createContextVariableNameDict[generator.GetVariableStableName()] = createContextVariableName;
             }
 
@@ -136,7 +129,7 @@ private static readonly {nameof(ResolutionContext)} {createContextVariableName} 
 
             #endregion
 
-            var getImplementationMethodName = $"Get_{BindFromTypeFullName.ConvertDotToGround()}";
+            var getImplementationMethodName = $"Get_{BindFromTypeFullName.ConvertDotLessGreatherToGround()}{wrapperType.GetPostfix()}";
 
             #region GetGenericImplementationSection
 
@@ -176,7 +169,7 @@ public {BindFromTypeFullName} {getImplementationMethodName}()
 {{
     if({instanceContainerGenerator.ClassName}.CheckPredicate({createContextVariableName}))
     {{
-        return {instanceContainerGenerator.GetInstanceClause(createContextVariableName)};
+        return {instanceContainerGenerator.GetInstanceClause(createContextVariableName, WrapperType)};
     }}
 
     {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings available for [{BindFromTypeFullName}]{exceptionSuffix}", BindFromTypeFullName)}
@@ -189,7 +182,7 @@ public {BindFromTypeFullName} {getImplementationMethodName}()
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
 public {BindFromTypeFullName} {getImplementationMethodName}()
 {{
-    return {instanceContainerGenerator.GetInstanceClause("null")};
+    return {instanceContainerGenerator.GetInstanceClause("null", WrapperType)};
 }}
 ";
                 }
@@ -256,14 +249,14 @@ if(allowedChildrenCount == 0)
                             GetImplementationSection += $@"
 if({generator.GetVariableStableName()})
 {{
-    return {generator.GetInstanceClause(createContextVariableName)};
+    return {generator.GetInstanceClause(createContextVariableName, WrapperType)};
 }}
 ";
                         }
                         else
                         {
                             GetImplementationSection += $@"
-return {generator.GetInstanceClause("null")};
+return {generator.GetInstanceClause("null", WrapperType)};
 ";
                         }
                     }
@@ -276,7 +269,7 @@ return {generator.GetInstanceClause("null")};
 
             #endregion
 
-            var getAllImplementationMethodName = $"GetAll_{BindFromTypeFullName.ConvertDotToGround()}";
+            var getAllImplementationMethodName = $"GetAll_{BindFromTypeFullName.ConvertDotLessGreatherToGround()}{wrapperType.GetPostfix()}";
 
             #region GetAllImplementation
 
@@ -309,14 +302,14 @@ List<{BindFromTypeFullName}> IBaseProvider<{BindFromTypeFullName}>.GetAll()
                         GetAllExplicitImplementationSection += $@"
     if({instanceContainerGenerator.ClassName}.CheckPredicate({createContextVariableName}))
     {{
-        result.Add( {instanceContainerGenerator.GetInstanceClause(createContextVariableName)} );
+        result.Add( {instanceContainerGenerator.GetInstanceClause(createContextVariableName, WrapperType)} );
     }}
 ";
                     }
                     else
                     {
                         GetAllExplicitImplementationSection += $@"
-    result.Add( {instanceContainerGenerator.GetInstanceClause("null")} );
+    result.Add( {instanceContainerGenerator.GetInstanceClause("null", WrapperType)} );
 ";
                     }
                 }
@@ -329,29 +322,6 @@ List<{BindFromTypeFullName}> IBaseProvider<{BindFromTypeFullName}>.GetAll()
             }
 
             #endregion
-
-            #region FuncSection
-
-            var funcVariableName = $"Func_{bindFromType.GetFullName().ConvertDotToGround()}";
-
-            DeclareFuncSection = $@"
-private readonly Func<{bindFromType.GetFullName()}> {funcVariableName};
-";
-
-            InitFuncSection = $@"
-{funcVariableName} = {getImplementationMethodName};
-";
-
-            GetFuncSection = $@"
-[MethodImpl(MethodImplOptions.AggressiveInlining)]
-Func<{bindFromType.GetFullName()}> IBaseProvider<{bindFromType.GetFullName()}>.GetFunc()
-{{
-    return {funcVariableName};
-}}
-";
-
-            #endregion
-
         }
     }
 

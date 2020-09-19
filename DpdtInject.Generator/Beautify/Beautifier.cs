@@ -44,30 +44,6 @@ namespace DpdtInject.Generator.Beautify
             return Module.IsRegisteredFrom<T>();
         }
 
-        public Func<T> GetFunc<T>()
-        {
-            try
-            {
-                if(Module.IsRegisteredFrom<T>())
-                {
-                    //T is registered in the module, so Func<T> are resolvable
-                    return Module.GetFunc<T>();
-                }
-
-                //T is not registered, may be Func<T> registered directly, try to resolve
-
-                return Module.Get<Func<T>>();
-            }
-            catch (InvalidCastException)
-            {
-                throw new DpdtException(
-                    DpdtExceptionTypeEnum.NoBindingAvailable,
-                    $"No bindings available for [{typeof(T).FullName}]",
-                    typeof(T).FullName!
-                    );
-            }
-        }
-
         public T Get<T>()
         {
             try
@@ -131,11 +107,6 @@ namespace DpdtInject.Generator.Beautify
                 return _beautifier.IsRegisteredFrom<T>();
             }
 
-            public Func<T> GetFunc<T>()
-            {
-                return _beautifier.GetFunc<T>();
-            }
-
             public T Get<T>()
             {
                 return _beautifier.Get<T>();
@@ -176,11 +147,6 @@ namespace DpdtInject.Generator.Beautify
             public bool IsRegisteredFrom<T>()
             {
                 return _beautifier.IsRegisteredFrom<T>();
-            }
-
-            public Func<T> GetFunc<T>()
-            {
-                return _beautifier.GetFunc<T>();
             }
 
             public T Get<T>()
