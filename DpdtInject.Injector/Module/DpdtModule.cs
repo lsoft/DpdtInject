@@ -12,13 +12,13 @@ namespace DpdtInject.Injector.Module
 
         public abstract void Load();
 
-        protected IToBinding Bind<T1, T2>(
+        protected IToOrContantBinding Bind<T1, T2>(
             )
         {
             throw new NotImplementedException();
         }
 
-        protected IToBinding Bind<T>(
+        protected IToOrContantBinding Bind<T>(
             )
         {
             throw new NotImplementedException();

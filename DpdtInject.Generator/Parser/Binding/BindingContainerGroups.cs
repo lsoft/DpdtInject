@@ -6,23 +6,23 @@ namespace DpdtInject.Generator.Parser.Binding
 {
     public class BindingContainerGroups
     {
-        public List<BindingContainer> BindingContainers
+        public List<IBindingContainer> BindingContainers
         {
             get;
         }
 
-        public Dictionary<ITypeSymbol, List<BindingContainer>> BindGroups
+        public Dictionary<ITypeSymbol, List<IBindingContainer>> BindGroups
         {
             get;
         }
 
-        public Dictionary<ITypeSymbol, List<BindingContainer>> NotBindParentGroups
+        public Dictionary<ITypeSymbol, List<IBindingContainer>> NotBindParentGroups
         {
             get;
         }
 
         public BindingContainerGroups(
-            List<BindingContainer> bindingContainers
+            List<IBindingContainer> bindingContainers
             )
         {
             if (bindingContainers is null)
@@ -30,10 +30,10 @@ namespace DpdtInject.Generator.Parser.Binding
                 throw new ArgumentNullException(nameof(bindingContainers));
             }
 
-            BindGroups = new Dictionary<ITypeSymbol, List<BindingContainer>>(
+            BindGroups = new Dictionary<ITypeSymbol, List<IBindingContainer>>(
                 new TypeSymbolEqualityComparer()
                 );
-            NotBindParentGroups = new Dictionary<ITypeSymbol, List<BindingContainer>>(
+            NotBindParentGroups = new Dictionary<ITypeSymbol, List<IBindingContainer>>(
                 new TypeSymbolEqualityComparer()
                 );
 
@@ -43,7 +43,7 @@ namespace DpdtInject.Generator.Parser.Binding
                 {
                     if (!BindGroups.ContainsKey(bindFromType))
                     {
-                        BindGroups[bindFromType] = new List<BindingContainer>();
+                        BindGroups[bindFromType] = new List<IBindingContainer>();
                     }
 
                     BindGroups[bindFromType].Add(bc);
@@ -53,7 +53,7 @@ namespace DpdtInject.Generator.Parser.Binding
                 {
                     if (!NotBindParentGroups.ContainsKey(cat))
                     {
-                        NotBindParentGroups[cat] = new List<BindingContainer>();
+                        NotBindParentGroups[cat] = new List<IBindingContainer>();
                     }
 
                     NotBindParentGroups[cat].Add(bc);

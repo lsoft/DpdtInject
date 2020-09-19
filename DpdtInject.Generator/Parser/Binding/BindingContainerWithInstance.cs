@@ -16,9 +16,10 @@ using System.Threading.Tasks;
 
 namespace DpdtInject.Generator.Parser.Binding
 {
-    [DebuggerDisplay("{BindFromTypes[0].Name} -> {BindToType.Name}")]
-    public class BindingContainer
+    [DebuggerDisplay("{BindFromTypes[0].Name} -> {TargetRepresentation}")]
+    public class BindingContainerWithInstance : IBindingContainer
     {
+
         public IReadOnlyList<ITypeSymbol> BindFromTypes
         {
             get;
@@ -28,6 +29,7 @@ namespace DpdtInject.Generator.Parser.Binding
         {
             get;
         }
+
 
         public IReadOnlyList<DetectedConstructorArgument> ConstructorArguments
         {
@@ -56,9 +58,16 @@ namespace DpdtInject.Generator.Parser.Binding
 
         public bool IsConditional => WhenArgumentClause is not null;
 
-        public string TargetTypeFullName => BindToType.GetFullName();
+        public string TargetRepresentation
+        {
+            get
+            {
+                return BindToType.GetFullName();
+            }
+        }
 
-        public BindingContainer(
+
+        public BindingContainerWithInstance(
             IReadOnlyList<ITypeSymbol> bindFromTypes,
             ITypeSymbol bindToType,
             IReadOnlyList<DetectedConstructorArgument> constructorArguments,
@@ -92,7 +101,29 @@ namespace DpdtInject.Generator.Parser.Binding
 
         public string GetFromTypeFullNamesCombined(string separator = "_") => string.Join(separator, FromTypeFullNames);
 
+        public string PrepareInstanceContainerCode(
+            string instanceContainerCode,
+            InstanceContainerGeneratorsContainer container
+            )
+        {
+            if (instanceContainerCode is null)
+            {
+                throw new ArgumentNullException(nameof(instanceContainerCode));
+            }
 
+            if (container is null)
+            {
+                throw new ArgumentNullException(nameof(container));
+            }
 
+            var result = instanceContainerCode
+                .CheckAndReplace(nameof(FakeTarget), BindToType.GetFullName())
+                .CheckAndReplace("//GENERATOR: declare arguments", string.Join(Environment.NewLine, ConstructorArguments.Where(ca => !ca.DefineInBindNode).Select(ca => ca.GetRetrieveConstructorArgumentClause(container, this))))
+                .CheckAndReplace("//GENERATOR: apply arguments", string.Join(",", ConstructorArguments.Select(ca => ca.GetApplyConstructorClause(container))))
+                .CheckAndReplace("//GENERATOR: predicate", (WhenArgumentClause?.ToString() ?? "rc => true"))
+                ;
+
+            return result;
+        }
     }
 }

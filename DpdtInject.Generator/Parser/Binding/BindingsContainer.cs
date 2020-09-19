@@ -14,9 +14,9 @@ namespace DpdtInject.Generator.Parser.Binding
 {
     public class BindingsContainer
     {
-        private readonly List<BindingContainer> _bindingContainers;
+        private readonly List<IBindingContainer> _bindingContainers;
 
-        public IReadOnlyList<BindingContainer> BindingContainers => _bindingContainers;
+        public IReadOnlyList<IBindingContainer> BindingContainers => _bindingContainers;
 
         public BindingContainerGroups Groups
         {
@@ -24,7 +24,7 @@ namespace DpdtInject.Generator.Parser.Binding
         }
 
         public BindingsContainer(
-            List<BindingContainer> bindingContainers
+            List<IBindingContainer> bindingContainers
             )
         {
             if (bindingContainers is null)
@@ -65,15 +65,15 @@ namespace DpdtInject.Generator.Parser.Binding
                 AnalyzeForSingletonTakesTransientPrivate(
                     diagnosticReporter,
                     bindingContainer,
-                    new HashSet<BindingContainer>()
+                    new HashSet<IBindingContainer>()
                     );
             }
         }
 
         private void AnalyzeForSingletonTakesTransientPrivate(
             IDiagnosticReporter diagnosticReporter,
-            BindingContainer parent,
-            HashSet<BindingContainer> processed
+            IBindingContainer parent,
+            HashSet<IBindingContainer> processed
             )
         {
             if (diagnosticReporter is null)
@@ -97,7 +97,7 @@ namespace DpdtInject.Generator.Parser.Binding
                 //do not check this binding because of it's invalid a priori
                 diagnosticReporter.ReportWarning(
                     $"Searching for singleton-transient relationship has been skipped.",
-                    $"Searching for singleton-transient relationship has been skipped, because of circular dependency found with {parent.TargetTypeFullName}."
+                    $"Searching for singleton-transient relationship has been skipped, because of circular dependency found with {parent.TargetRepresentation}."
                     );
 
                 return;
@@ -109,7 +109,7 @@ namespace DpdtInject.Generator.Parser.Binding
             {
                 if (!Groups.BindGroups.TryGetValue(ca.Type!, out var children))
                 {
-                    throw new DpdtException(DpdtExceptionTypeEnum.NoBindingAvailable, $"Found unknown binding [{ca.Type!.GetFullName()}] from constructor of [{parent.BindToType.GetFullName()}]", ca.Type.Name);
+                    throw new DpdtException(DpdtExceptionTypeEnum.NoBindingAvailable, $"Found unknown binding [{ca.Type!.GetFullName()}] from constructor of [{parent.TargetRepresentation}]", ca.Type.Name);
                 }
 
                 foreach (var child in children)
@@ -120,7 +120,7 @@ namespace DpdtInject.Generator.Parser.Binding
                         {
                             diagnosticReporter.ReportWarning(
                                 $"Singleton-transient relationship has been found.",
-                                $"Searching for singleton-transient relationship has been found: singleton parent [{parent.TargetTypeFullName}] takes transient child [{child.TargetTypeFullName}]."
+                                $"Searching for singleton-transient relationship has been found: singleton parent [{parent.TargetRepresentation}] takes transient child [{child.TargetRepresentation}]."
                                 );
                         }
                     }
@@ -128,7 +128,7 @@ namespace DpdtInject.Generator.Parser.Binding
                     AnalyzeForSingletonTakesTransientPrivate(
                         diagnosticReporter,
                         child,
-                        new HashSet<BindingContainer>(processed)
+                        new HashSet<IBindingContainer>(processed)
                         );
                 }
             }
@@ -137,7 +137,7 @@ namespace DpdtInject.Generator.Parser.Binding
 
         internal bool CheckForAtLeastOneParentIsConditional(
             IDiagnosticReporter diagnosticReporter,
-            BindingContainer bindingContainer
+            IBindingContainer bindingContainer
             )
         {
             return
@@ -145,15 +145,15 @@ namespace DpdtInject.Generator.Parser.Binding
                     diagnosticReporter,
                     bindingContainer,
                     bindingContainer,
-                    new HashSet<BindingContainer>()
+                    new HashSet<IBindingContainer>()
                     );
         }
 
         private bool CheckForAtLeastOneParentIsConditionalPrivate(
             IDiagnosticReporter diagnosticReporter,
-            BindingContainer rootBindingContainer,
-            BindingContainer bindingContainer,
-            HashSet<BindingContainer> processed
+            IBindingContainer rootBindingContainer,
+            IBindingContainer bindingContainer,
+            HashSet<IBindingContainer> processed
             )
         {
             if (diagnosticReporter is null)
@@ -172,7 +172,7 @@ namespace DpdtInject.Generator.Parser.Binding
                 //do not check this binding because of it's invalid a priori
                 diagnosticReporter.ReportWarning(
                     $"Searching for undeterministic resolution path has been skipped",
-                    $"Searching for undeterministic resolution path for [{rootBindingContainer.BindToType.GetFullName()}] has been skipped, because of circular dependency found."
+                    $"Searching for undeterministic resolution path for [{rootBindingContainer.TargetRepresentation}] has been skipped, because of circular dependency found."
                     );
                 return false;
             }
@@ -213,7 +213,7 @@ namespace DpdtInject.Generator.Parser.Binding
 
         internal bool CheckForAtLeastOneChildIsConditional(
             IDiagnosticReporter diagnosticReporter,
-            BindingContainer bindingContainer
+            IBindingContainer bindingContainer
             )
         {
             return
@@ -221,16 +221,16 @@ namespace DpdtInject.Generator.Parser.Binding
                     diagnosticReporter,
                     bindingContainer,
                     bindingContainer,
-                    new HashSet<BindingContainer>()
+                    new HashSet<IBindingContainer>()
                     );
 
         }
 
         private bool CheckForAtLeastOneChildIsConditionalPrivate(
             IDiagnosticReporter diagnosticReporter,
-            BindingContainer rootBindingContainer,
-            BindingContainer bindingContainer,
-            HashSet<BindingContainer> processed
+            IBindingContainer rootBindingContainer,
+            IBindingContainer bindingContainer,
+            HashSet<IBindingContainer> processed
             )
         {
             if (bindingContainer is null)
@@ -244,7 +244,7 @@ namespace DpdtInject.Generator.Parser.Binding
                 //do not check this binding because of it's invalid a priori
                 diagnosticReporter.ReportWarning(
                     $"Searching for undeterministic resolution path (up) has been skipped.",
-                    $"Searching for undeterministic resolution path (up) for [{rootBindingContainer.BindToType.GetFullName()}] has been skipped, because of circular dependency found."
+                    $"Searching for undeterministic resolution path (up) for [{rootBindingContainer.TargetRepresentation}] has been skipped, because of circular dependency found."
                     );
                 return false;
             }
@@ -255,7 +255,7 @@ namespace DpdtInject.Generator.Parser.Binding
             {
                 if (!Groups.BindGroups.TryGetValue(ca.Type!, out var children))
                 {
-                    throw new DpdtException(DpdtExceptionTypeEnum.NoBindingAvailable, $"Found unknown binding [{ca.Type!.GetFullName()}] from constructor of [{bindingContainer.BindToType.GetFullName()}]", ca.Type.Name);
+                    throw new DpdtException(DpdtExceptionTypeEnum.NoBindingAvailable, $"Found unknown binding [{ca.Type!.GetFullName()}] from constructor of [{bindingContainer.TargetRepresentation}]", ca.Type.Name);
                 }
 
                 foreach (var child in children)

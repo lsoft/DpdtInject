@@ -9,9 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using DpdtInject.Injector.Module.Bind;
 
-namespace DpdtInject.Tests.Conditional.RContext.Hierarchy2
+namespace DpdtInject.Tests.Conditional.RContext.Hierarchy2Variant2
 {
-    public partial class ConditionalRContextHierarchy2Module : DpdtModule
+    public partial class ConditionalRContextHierarchy2Variant2Module : DpdtModule
     {
         public const string Message = "some message";
 
@@ -20,7 +20,7 @@ namespace DpdtInject.Tests.Conditional.RContext.Hierarchy2
             Bind<IA>()
                 .To<A>()
                 .WithSingletonScope()
-                .When(rc => !rc.IsRoot && rc.ParentFrame.RequestedType == typeof(IB))
+                .When(rc => !rc.IsRoot && rc.ParentFrame.TargetType == typeof(B))
                 ;
 
             Bind<IB>()
@@ -30,11 +30,11 @@ namespace DpdtInject.Tests.Conditional.RContext.Hierarchy2
                 ;
         }
 
-        public class ConditionalRContextHierarchy2ModuleTester
+        public class ConditionalRContextHierarchy2Variant2ModuleTester
         {
             public void PerformModuleTesting()
             {
-                var module = new FakeModule<ConditionalRContextHierarchy2Module>();
+                var module = new FakeModule<ConditionalRContextHierarchy2Variant2Module>();
 
                 var b0 = module.Get<IB>();
                 Assert.IsNotNull(b0);

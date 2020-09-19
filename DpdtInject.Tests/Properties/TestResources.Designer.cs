@@ -393,6 +393,30 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Conditional.RContext.Hierarchy2Variant2
+        ///{
+        ///    public partial class ConditionalRContextHierarchy2Variant2Module : DpdtModule
+        ///    {
+        ///        public const string Message = &quot;some message&quot;;        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ConditionalRContextHierarchy2Variant2Module {
+            get {
+                return ResourceManager.GetString("ConditionalRContextHierarchy2Variant2Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
         ///using DpdtInject.Injector.Excp;
         ///using DpdtInject.Injector.Module;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -415,6 +439,60 @@ namespace DpdtInject.Tests.Properties {
         internal static string ConditionalSingleObjectModule {
             get {
                 return ResourceManager.GetString("ConditionalSingleObjectModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Constant.Hierarchy2WithSame
+        ///{
+        ///    public partial class ConstantHierarchy2WithSameModule : DpdtModule
+        ///    {
+        ///        public static A ConstantA1 = new A();
+        ///        public static A ConstantA2 = new A();
+        ///
+        ///        public overri [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ConstantHierarchy2WithSameModule {
+            get {
+                return ResourceManager.GetString("ConstantHierarchy2WithSameModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Constant.SingleObject
+        ///{
+        ///    public partial class ConstantSingleObjectModule : DpdtModule
+        ///    {
+        ///        public static A ConstantA = new A();
+        ///
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///          [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ConstantSingleObjectModule {
+            get {
+                return ResourceManager.GetString("ConstantSingleObjectModule", resourceCulture);
             }
         }
         

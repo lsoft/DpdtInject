@@ -10,25 +10,32 @@ namespace DpdtInject.Generator.Producer.RContext
     public static class ResolutionFrameGenerator
     {
         public static string GetNewFrameClause(
-            string constructorType
+            string fromType,
+            string toType
             )
         {
-            if (constructorType is null)
+            if (fromType is null)
             {
-                throw new ArgumentNullException(nameof(constructorType));
+                throw new ArgumentNullException(nameof(fromType));
             }
 
-            return $"new {typeof(ResolutionFrame).FullName}(typeof({constructorType}))";
+            return $"new {typeof(ResolutionFrame).FullName}( typeof({fromType}), typeof({toType}) )";
         }
 
         public static string GetNewFrameClause(
-            string type,
+            string fromType,
+            string toType,
             string constructorArgumentName
             )
         {
-            if (type is null)
+            if (fromType is null)
             {
-                throw new ArgumentNullException(nameof(type));
+                throw new ArgumentNullException(nameof(fromType));
+            }
+
+            if (toType is null)
+            {
+                throw new ArgumentNullException(nameof(toType));
             }
 
             if (constructorArgumentName is null)
@@ -36,7 +43,7 @@ namespace DpdtInject.Generator.Producer.RContext
                 throw new ArgumentNullException(nameof(constructorArgumentName));
             }
 
-            return $"new {typeof(ResolutionFrame).FullName}(typeof({type}), \"{constructorArgumentName}\")";
+            return $"new {typeof(ResolutionFrame).FullName}(typeof({fromType}), typeof({toType}), \"{constructorArgumentName}\")";
         }
     }
 }

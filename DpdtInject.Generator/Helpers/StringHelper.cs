@@ -58,6 +58,13 @@ namespace DpdtInject.Generator.Helpers
         }
 
         public static string ConvertMinusToGround(
+            this Guid g
+            )
+        {
+            return g.ToString().ConvertMinusToGround();
+        }
+
+        public static string ConvertMinusToGround(
             this string s
             )
         {

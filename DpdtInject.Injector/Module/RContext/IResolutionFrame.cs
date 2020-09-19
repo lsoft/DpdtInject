@@ -9,6 +9,11 @@ namespace DpdtInject.Injector.Module.RContext
             get;
         }
 
+        Type TargetType
+        {
+            get;
+        }
+
         //string Name
         //{
         //    get;

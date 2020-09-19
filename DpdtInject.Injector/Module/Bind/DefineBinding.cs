@@ -6,9 +6,11 @@ using System.Linq;
 
 namespace DpdtInject.Injector.Module.Bind
 {
-    public interface IToBinding
+    public interface IToOrContantBinding
     {
         IScopeBinding To<T>();
+
+        IConstantConditionalBinding WithConstScope<T>(T? constant);
     }
 
     public interface IScopeBinding 
@@ -16,14 +18,19 @@ namespace DpdtInject.Injector.Module.Bind
         IConfigureAndConditionalBinding WithTransientScope();
 
         IConfigureAndConditionalBinding WithSingletonScope();
-
-        //IConfigureAndConditionalBinding WithConstScope(object? constant);
     }
 
     public interface IConfigureAndConditionalBinding :
         IConditionalBinding, IConfigureBinding
     {
 
+    }
+
+    public interface IConstantConditionalBinding
+    {
+        void When(
+            Func<IResolutionContext, bool> predicate
+            );
     }
 
     public interface IConditionalBinding

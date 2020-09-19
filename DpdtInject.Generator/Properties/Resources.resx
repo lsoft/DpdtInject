@@ -121,6 +121,9 @@
   <data name="Beautifier" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Beautify\Beautifier.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="ConstantInstanceContainer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Producer\Blocks\Binding\InstanceContainer\ConstantInstanceContainer.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="SingletonInstanceContainer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Producer\Blocks\Binding\InstanceContainer\SingletonInstanceContainer.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

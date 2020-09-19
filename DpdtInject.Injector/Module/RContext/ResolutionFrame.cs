@@ -9,6 +9,11 @@ namespace DpdtInject.Injector.Module.RContext
             get;
         }
 
+        public Type TargetType
+        {
+            get;
+        }
+
         public string? ConstructorArgumentName
         {
             get;
@@ -16,6 +21,7 @@ namespace DpdtInject.Injector.Module.RContext
 
         public ResolutionFrame(
             Type requestedType,
+            Type targetType,
             string? constructorArgumentName = null
             )
         {
@@ -24,7 +30,13 @@ namespace DpdtInject.Injector.Module.RContext
                 throw new ArgumentNullException(nameof(requestedType));
             }
 
+            if (targetType is null)
+            {
+                throw new ArgumentNullException(nameof(targetType));
+            }
+
             RequestedType = requestedType;
+            TargetType = targetType;
             ConstructorArgumentName = constructorArgumentName;
         }
     }

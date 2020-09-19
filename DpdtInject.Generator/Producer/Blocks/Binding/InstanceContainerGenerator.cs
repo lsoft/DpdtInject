@@ -23,7 +23,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
     public class InstanceContainerGenerator
     {
-        public BindingContainer BindingContainer
+        public IBindingContainer BindingContainer
         {
             get;
         }
@@ -69,7 +69,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         public InstanceContainerGenerator(
             IDiagnosticReporter diagnosticReporter,
             BindingsContainer bindingsContainer,
-            BindingContainer bindingContainer
+            IBindingContainer bindingContainer
             )
         {
             if (diagnosticReporter is null)
@@ -92,12 +92,14 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             switch (this.BindingContainer.Scope)
             {
                 case Injector.Module.Bind.BindScopeEnum.Transient:
-                    ClassName = $"{string.Join("_", bindingContainer.GetFromTypeFullNamesCombined().ConvertDotToGround())}_{bindingContainer.TargetTypeFullName.ConvertDotToGround()}_{nameof(TransientInstanceContainer)}_{Guid.NewGuid().ToString().ConvertMinusToGround()}";
+                    ClassName = $"{string.Join("_", bindingContainer.GetFromTypeFullNamesCombined().ConvertDotToGround())}_{bindingContainer.TargetRepresentation.ConvertDotToGround()}_{nameof(TransientInstanceContainer)}_{Guid.NewGuid().ConvertMinusToGround()}";
                     break;
                 case Injector.Module.Bind.BindScopeEnum.Singleton:
-                    ClassName = $"{string.Join("_", bindingContainer.GetFromTypeFullNamesCombined().ConvertDotToGround())}_{bindingContainer.TargetTypeFullName.ConvertDotToGround()}_{nameof(SingletonInstanceContainer)}_{Guid.NewGuid().ToString().ConvertMinusToGround()}";
+                    ClassName = $"{string.Join("_", bindingContainer.GetFromTypeFullNamesCombined().ConvertDotToGround())}_{bindingContainer.TargetRepresentation.ConvertDotToGround()}_{nameof(SingletonInstanceContainer)}_{Guid.NewGuid().ConvertMinusToGround()}";
                     break;
                 case Injector.Module.Bind.BindScopeEnum.Constant:
+                    ClassName = $"{string.Join("_", bindingContainer.GetFromTypeFullNamesCombined().ConvertDotToGround())}_{nameof(ConstantInstanceContainer)}_{Guid.NewGuid().ConvertMinusToGround()}";
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -146,6 +148,9 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                     resource = Resources.SingletonInstanceContainer;
                     break;
                 case Injector.Module.Bind.BindScopeEnum.Constant:
+                    className = nameof(ConstantInstanceContainer);
+                    resource = Resources.ConstantInstanceContainer;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -155,12 +160,9 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
             var classBody = cds.GetText().ToString()
                 .CheckAndReplace(className, ClassName)
-                .CheckAndReplace(nameof(FakeTarget), BindingContainer.TargetTypeFullName)
-                .CheckAndReplace("//GENERATOR: declare arguments", string.Join(Environment.NewLine, BindingContainer.ConstructorArguments.Where(ca => !ca.DefineInBindNode).Select(ca => ca.GetRetrieveConstructorArgumentClause(container, BindingContainer))))
-                .CheckAndReplace("//GENERATOR: apply arguments", string.Join(",", BindingContainer.ConstructorArguments.Select(ca => ca.GetApplyConstructorClause(container))))
                 .CheckAndReplace("public sealed class", "private sealed class")
                 .CheckAndReplaceIfTrue(() => ItselfOrAtLeastOneChildIsConditional, "#if UNDECLARED_SYMBOL", "#if !UNDECLARED_SYMBOL")
-                .CheckAndReplace("//GENERATOR: predicate", (BindingContainer.WhenArgumentClause?.ToString() ?? "rc => true"))
+                .PrepareInstanceContainerCode(BindingContainer, container)
                 ;
 
             return classBody;
@@ -169,6 +171,33 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         internal string GetVariableStableName()
         {
             return $"generator{this.GetHashCode()}";
+        }
+    }
+
+    public static class InstanceContainerGeneratorHelper
+    {
+        public static string PrepareInstanceContainerCode(
+            this string instanceContainerCode,
+            IBindingContainer bindingContainer,
+            InstanceContainerGeneratorsContainer container
+            )
+        {
+            if (instanceContainerCode is null)
+            {
+                throw new ArgumentNullException(nameof(instanceContainerCode));
+            }
+
+            if (bindingContainer is null)
+            {
+                throw new ArgumentNullException(nameof(bindingContainer));
+            }
+
+            if (container is null)
+            {
+                throw new ArgumentNullException(nameof(container));
+            }
+
+            return bindingContainer.PrepareInstanceContainerCode(instanceContainerCode, container);
         }
     }
 }

@@ -21,13 +21,13 @@ namespace DpdtInject.Tests.Conditional.RContext.Hierarchy2Variant1
             Bind<IA>()
                 .To<A>()
                 .WithSingletonScope()
-                .When(rc => !rc.IsRoot && rc.RootFrame.RequestedType == typeof(IC))
+                .When(rc => !rc.IsRoot && rc.ParentFrame.RequestedType == typeof(IC))
                 ;
 
             Bind<IA>()
                 .To<A>()
                 .WithSingletonScope()
-                .When(rc => !rc.IsRoot && rc.RootFrame.RequestedType == typeof(IB))
+                .When(rc => !rc.IsRoot && rc.ParentFrame.RequestedType == typeof(IB))
                 ;
 
             Bind<IB>()

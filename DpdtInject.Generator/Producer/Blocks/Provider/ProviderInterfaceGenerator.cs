@@ -105,13 +105,30 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
 
             var emptyContextReference = $"{typeof(ResolutionContext).FullName}.{nameof(ResolutionContext.EmptyContext)}";
 
-            var createContextVariableName = $"Context_{BindFromTypeFullName.ConvertDotToGround()}";
+            var createContextClause = "";
 
-            var createContextClause = $@"
+            #region ResolutionContext variables
+
+            var createContextVariableNameDict = new Dictionary<string, string>();
+
+            foreach (var generator in _instanceContainerGenerators)
+            {
+                var createContextVariableName = $"Context_{BindFromTypeFullName.ConvertDotToGround()}_{generator.BindingContainer.BindToType.GetFullName().ConvertDotToGround()}_{Guid.NewGuid().ConvertMinusToGround()}";
+                createContextVariableNameDict[generator.GetVariableStableName()] = createContextVariableName;
+            }
+
+            #endregion
+
+            foreach (var generator in _instanceContainerGenerators)
+            {
+                var createContextVariableName = createContextVariableNameDict[generator.GetVariableStableName()];
+
+                createContextClause += $@"
 private static readonly {nameof(ResolutionContext)} {createContextVariableName} = {emptyContextReference}.{nameof(ResolutionContext.AddFrame)}(
-    {ResolutionFrameGenerator.GetNewFrameClause(BindFromTypeFullName)}
+    {ResolutionFrameGenerator.GetNewFrameClause(BindFromTypeFullName, generator.BindingContainer.BindToType.GetFullName())}
     );
 ";
+            }
 
             #region ResolutionFrameSection
 
@@ -151,6 +168,8 @@ public {BindFromTypeFullName} {getImplementationMethodName}()
 
                 if (instanceContainerGenerator.ItselfOrAtLeastOneChildIsConditional)
                 {
+                    var createContextVariableName = createContextVariableNameDict[instanceContainerGenerator.GetVariableStableName()];
+
                     GetImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
 public {BindFromTypeFullName} {getImplementationMethodName}()
@@ -201,6 +220,8 @@ public {BindFromTypeFullName} {getImplementationMethodName}()
 
                     foreach (var conditionalGenerator in instanceContainerGenerators.Where(g => g.BindingContainer.IsConditional))
                     {
+                        var createContextVariableName = createContextVariableNameDict[conditionalGenerator.GetVariableStableName()];
+
                         GetImplementationSection += $@"
 var {conditionalGenerator.GetVariableStableName()} = false;
 if({conditionalGenerator.ClassName}.CheckPredicate({createContextVariableName}))
@@ -230,6 +251,8 @@ if(allowedChildrenCount == 0)
 
                         if (generator.ItselfOrAtLeastOneChildIsConditional && !isLastGenerator)
                         {
+                            var createContextVariableName = createContextVariableNameDict[generator.GetVariableStableName()];
+
                             GetImplementationSection += $@"
 if({generator.GetVariableStableName()})
 {{
@@ -281,12 +304,7 @@ List<{BindFromTypeFullName}> IBaseProvider<{BindFromTypeFullName}>.GetAll()
                 {
                     if (instanceContainerGenerator.ItselfOrAtLeastOneChildIsConditional)
                     {
-                        //if (!contextClauseApplied)
-                        //{
-                        //    GetAllImplementationSection += createContextClause;
-                        //    contextClauseApplied = true;
-                        //}
-
+                        var createContextVariableName = createContextVariableNameDict[instanceContainerGenerator.GetVariableStableName()];
 
                         GetAllExplicitImplementationSection += $@"
     if({instanceContainerGenerator.ClassName}.CheckPredicate({createContextVariableName}))

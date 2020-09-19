@@ -25,7 +25,7 @@ namespace DpdtInject.Generator.Parser
         private readonly CompilationUnitSyntax _compilationUnitSyntax;
         private readonly SemanticModel _semanticModel;
 
-        private readonly List<BindingContainer> _bindingContainers;
+        private readonly List<IBindingContainer> _bindingContainers;
 
         public BindExtractor(
             Compilation compilation,
@@ -46,7 +46,7 @@ namespace DpdtInject.Generator.Parser
             _compilationUnitSyntax = compilationUnitSyntax;
             _semanticModel = _compilation.GetSemanticModel(compilationUnitSyntax.SyntaxTree);
 
-            _bindingContainers = new List<BindingContainer>();
+            _bindingContainers = new List<IBindingContainer>();
         }
 
 
@@ -67,7 +67,7 @@ namespace DpdtInject.Generator.Parser
                 .OfType<GenericNameSyntax>()
                 .ToList();
 
-            if (genericNodes.Count < 2)
+            if (genericNodes.Count == 0)
             {
                 return base.VisitExpressionStatement(expressionNode)!;
             }
@@ -79,71 +79,51 @@ namespace DpdtInject.Generator.Parser
                 return base.VisitExpressionStatement(expressionNode)!;
             }
 
-            var toGenericNode = genericNodes[1];
-            var toMethodName = toGenericNode.Identifier.Text;
-            if (toMethodName != "To")
+            var expressionText = expressionNode.GetText().ToString();
+
+            if(!expressionText.Contains(nameof(IToOrContantBinding.WithConstScope)))
             {
-                return base.VisitExpressionStatement(expressionNode)!;
+                if (!expressionText.Contains(nameof(IScopeBinding.WithSingletonScope)))
+                {
+                    if (!expressionText.Contains(nameof(IScopeBinding.WithTransientScope)))
+                    {
+                        return base.VisitExpressionStatement(expressionNode)!;
+                    }
+                }
             }
 
             //looks like we found what we want
 
-            //var bindFromTypeName = string.Join("_", bindGenericNode.TypeArgumentList.Arguments);
-
-            //var bindToTypeName = toGenericNode.TypeArgumentList.ToFullString();
-            //bindToTypeName = bindToTypeName.Substring(1, bindToTypeName.Length - 2);
-
-            //var suffixName = string.Empty;// "_" + Guid.NewGuid().ToString().Replace("-", "");
-            //var nodeVariableName = "node" + suffixName;
-            //var containerVariableName = "container" + suffixName;
-
-            //extract constructor argument names
-
             var scope = DetermineScope(expressionNode);
 
-            var whenArgumentClause = DetermineBindingClause(expressionNode);
+            var whenArgumentClause = DetermineArgumentSubClause(
+                expressionNode,
+                nameof(IConditionalBinding.When)
+                );
 
-            //StatementSyntax toReplace0Node, toReplace1Node;
             switch (scope)
             {
                 case BindScopeEnum.Singleton:
                     ProcessSingleton(
                         expressionNode,
                         bindGenericNode,
-                        toGenericNode,
                         whenArgumentClause
-                        //bindFromTypeName,
-                        //bindToTypeName,
-                        //nodeVariableName,
-                        //containerVariableName,
-                        ////out toReplace0Node,
-                        //out toReplace1Node
                         );
                     break;
                 case BindScopeEnum.Transient:
                     ProcessTransient(
                         expressionNode,
                         bindGenericNode,
-                        toGenericNode,
                         whenArgumentClause
-                        //bindFromTypeName,
-                        //bindToTypeName,
-                        //nodeVariableName,
-                        //containerVariableName,
-                        //out toReplace0Node,
-                        //out toReplace1Node
                         );
                     break;
-                //case BindScopeEnum.Constant:
-                //    ProcessConstant(
-                //        expressionNode,
-                //        bindFromTypeName,
-                //        nodeVariableName,
-                //        containerVariableName,
-                //        out toReplace0Node,
-                //        out toReplace1Node
-                //        );
-                //    break;
+                case BindScopeEnum.Constant:
+                    ProcessConstant(
+                        expressionNode,
+                        bindGenericNode,
+                        whenArgumentClause
+                        );
+                    break;
                 default:
                     throw new DpdtException(DpdtExceptionTypeEnum.UnknownScope, $"Unknown scope {scope}");
             }
@@ -158,19 +138,74 @@ namespace DpdtInject.Generator.Parser
             //return block;
         }
 
+        private void ProcessConstant(
+            ExpressionStatementSyntax expressionNode,
+            GenericNameSyntax bindGenericNode,
+            ArgumentSyntax? whenArgumentClause
+            )
+        {
+
+            var withScopeSyntax = expressionNode
+                .DescendantNodes()
+                .Where(s => s.GetText().ToString() == nameof(IToOrContantBinding.WithConstScope))
+                .First();
+
+            var constTypeSymbol = (_semanticModel.GetSymbolInfo(withScopeSyntax).Symbol as IMethodSymbol)!.TypeArguments[0];
+
+            var constantClause = DetermineArgumentSubClause(
+                expressionNode,
+                nameof(IToOrContantBinding.WithConstScope)
+                );
+
+            if(constantClause is null)
+            {
+                throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"Cannot find constant clause");
+            }
+
+            var bindFromTypeSematics = new List<ITypeSymbol>();
+            foreach (var node in bindGenericNode.TypeArgumentList.DescendantNodes())
+            {
+                var bindFromTypeSematic = _semanticModel.GetTypeInfo(node).Type;
+                if (bindFromTypeSematic == null)
+                {
+                    throw new DpdtException(
+                        DpdtExceptionTypeEnum.InternalError,
+                        $"Unknown problem to access {nameof(bindFromTypeSematic)}"
+                        );
+                }
+                bindFromTypeSematics.Add(bindFromTypeSematic);
+            }
+
+            var bindingContainer = new ConstantBindingContainer(
+                bindFromTypeSematics,
+                constTypeSymbol,
+                constantClause,
+                BindScopeEnum.Constant,
+                whenArgumentClause
+                );
+
+            _bindingContainers.Add(bindingContainer);
+        }
+
+
         private void ProcessTransient(
             ExpressionStatementSyntax expressionNode,
             GenericNameSyntax bindGenericNode,
-            GenericNameSyntax toGenericNode,
             ArgumentSyntax? whenArgumentClause
-            //string bindFromTypeName,
-            //string bindToTypeName,
-            //string nodeVariableName,
-            //string containerVariableName,
-            //out StatementSyntax toReplace0Node,
-            //out StatementSyntax toReplace1Node
             )
         {
+            var genericNodes = expressionNode
+                .DescendantNodes()
+                .OfType<GenericNameSyntax>()
+                .ToList();
+
+            var toGenericNode = genericNodes[1];
+            var toMethodName = toGenericNode.Identifier.Text;
+            if (toMethodName != nameof(IToOrContantBinding.To))
+            {
+                throw new DpdtException(DpdtExceptionTypeEnum.InternalError, "Cannot find To clause for transient binding");
+            }
+
             var caExtractor = new ConstructorArgumentExtractor(
                 _compilation,
                 _semanticModel
@@ -241,7 +276,7 @@ namespace DpdtInject.Generator.Parser
             }
 
 
-            var bindingContainer = new BindingContainer(
+            var bindingContainer = new BindingContainerWithInstance(
                 bindFromTypeSematics,
                 bindToTypeSematic,
                 constructorArguments,
@@ -250,35 +285,26 @@ namespace DpdtInject.Generator.Parser
                 );
 
             _bindingContainers.Add(bindingContainer);
-
-
-
-
-            //            //transform it
-
-            //            toReplace0Node = SyntaxFactory.ParseStatement(
-            //                $"var {nodeVariableName} = " + expressionNode.WithoutLeadingTrivia().GetText().ToString()
-            //                ).WithLeadingTrivia(expressionNode.GetLeadingTrivia());
-
-            //            toReplace1Node = SyntaxFactory.ParseStatement($@"{Environment.NewLine}var {containerVariableName} = new {containerClassName}({nodeVariableName}.{nameof(DefineBindingNode.CreateConfiguration)}());
-            //                containers.Add({containerVariableName}.Configuration.BindNode.Name, {containerVariableName});
-            //");
-
         }
 
         private void ProcessSingleton(
             ExpressionStatementSyntax expressionNode,
             GenericNameSyntax bindGenericNode,
-            GenericNameSyntax toGenericNode,
             ArgumentSyntax? whenArgumentClause
-            //string bindFromTypeName,
-            //string bindToTypeName,
-            //string nodeVariableName,
-            //string containerVariableName,
-            //out StatementSyntax toReplace0Node,
-            //out StatementSyntax toReplace1Node
             )
         {
+            var genericNodes = expressionNode
+                .DescendantNodes()
+                .OfType<GenericNameSyntax>()
+                .ToList();
+
+            var toGenericNode = genericNodes[1];
+            var toMethodName = toGenericNode.Identifier.Text;
+            if (toMethodName != nameof(IToOrContantBinding.To))
+            {
+                throw new DpdtException(DpdtExceptionTypeEnum.InternalError, "Cannot find To clause for singleton binding");
+            }
+
             var caExtractor = new ConstructorArgumentExtractor(
                 _compilation,
                 _semanticModel
@@ -348,7 +374,7 @@ namespace DpdtInject.Generator.Parser
             }
 
 
-            var bindingContainer = new BindingContainer(
+            var bindingContainer = new BindingContainerWithInstance(
                 bindFromTypeSematics,
                 bindToTypeSematic,
                 constructorArguments,
@@ -357,20 +383,6 @@ namespace DpdtInject.Generator.Parser
                 );
 
             _bindingContainers.Add(bindingContainer);
-
-
-
-
-            //            //transform it
-
-            //            toReplace0Node = SyntaxFactory.ParseStatement(
-            //                $"var {nodeVariableName} = " + expressionNode.WithoutLeadingTrivia().GetText().ToString()
-            //                ).WithLeadingTrivia(expressionNode.GetLeadingTrivia());
-
-            //            toReplace1Node = SyntaxFactory.ParseStatement($@"{Environment.NewLine}var {containerVariableName} = new {containerClassName}({nodeVariableName}.{nameof(DefineBindingNode.CreateConfiguration)}());
-            //                containers.Add({containerVariableName}.Configuration.BindNode.Name, {containerVariableName});
-            //");
-
         }
 
         private void CheckForFromAndToTypes(
@@ -412,20 +424,29 @@ namespace DpdtInject.Generator.Parser
             }
         }
 
-        private ArgumentSyntax? DetermineBindingClause(
-            ExpressionStatementSyntax expressionNode
+        private ArgumentSyntax? DetermineArgumentSubClause(
+            ExpressionStatementSyntax expressionNode,
+            string identifierName
             )
         {
+            if (expressionNode is null)
+            {
+                throw new ArgumentNullException(nameof(expressionNode));
+            }
+
+            if (identifierName is null)
+            {
+                throw new ArgumentNullException(nameof(identifierName));
+            }
+
             var ednodes = expressionNode
                 .DescendantNodes()
                 .ToList()
                 ;
 
-            var whenSyntax = ednodes.OfType<IdentifierNameSyntax>().FirstOrDefault(j => j.Identifier.Text == nameof(IConditionalBinding.When));
-
             var index = ednodes.FindIndex(n => 
                 (n is IdentifierNameSyntax ins) 
-                && ins.Identifier.Text == nameof(IConditionalBinding.When)
+                && ins.Identifier.Text == identifierName
                 );
 
             if(index < 0)
@@ -470,11 +491,11 @@ namespace DpdtInject.Generator.Parser
                 return BindScopeEnum.Transient;
             }
 
-            //var constScope = dnodes.OfType<IdentifierNameSyntax>().Any(j => j.Identifier.Text == nameof(DefineBindingNode.WithConstScope));
-            //if(constScope)
-            //{
-            //    return BindScopeEnum.Constant;
-            //}
+            var constScope = dnodes.OfType<IdentifierNameSyntax>().Any(j => j.Identifier.Text == nameof(IToOrContantBinding.WithConstScope));
+            if (constScope)
+            {
+                return BindScopeEnum.Constant;
+            }
 
             throw new InvalidOperationException("unknown scope");
         }

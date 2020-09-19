@@ -72,7 +72,7 @@ namespace DpdtInject.Generator.Properties {
         ///
         ///namespace DpdtInject.Generator.Beautify
         ///{
-        ///    public class Beautifier
+        ///    public sealed class Beautifier
         ///    {
         ///        public FakeModule Module
         ///        {
@@ -84,7 +84,7 @@ namespace DpdtInject.Generator.Properties {
         ///            get;
         ///        }
         ///        public ReadOnlyListBeautifier ReadOnlyList
-        ///        { [rest of string was truncated]&quot;;.
+        ///   [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Beautifier {
             get {
@@ -101,14 +101,44 @@ namespace DpdtInject.Generator.Properties {
         ///
         ///namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
         ///{
-        ///    public sealed class SingletonInstanceContainer
+        ///    public sealed class ConstantInstanceContainer
         ///    {
         ///#nullable enable
-        ///        private volatile static Action? _currentDisposeAction = null;
-        ///        private volatile static Action _realDisposeAction =
-        ///            () =&gt;
-        ///            {
-        ///                if (Nested.Instan [rest of string was truncated]&quot;;.
+        ///        public static readonly FakeTarget? Instance;
+        ///#nullable disable
+        ///
+        ///        static ConstantInstanceContainer()
+        ///        {
+        ///            //GENERATOR: init constant
+        ///        }
+        ///
+        ///
+        ///        private [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ConstantInstanceContainer {
+            get {
+                return ResourceManager.GetString("ConstantInstanceContainer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector.Excp;
+        ///using DpdtInject.Injector.Module.RContext;
+        ///using System;
+        ///using System.Runtime.CompilerServices;
+        ///using System.Threading;
+        ///
+        ///namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
+        ///{
+        ///    public sealed class SingletonInstanceContainer
+        ///    {
+        ///        private SingletonInstanceContainer()
+        ///        {
+        ///        }
+        ///
+        ///#if UNDECLARED_SYMBOL
+        ///        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        ///        public static bool CheckPredicate(ResolutionContext reso [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SingletonInstanceContainer {
             get {
@@ -127,14 +157,13 @@ namespace DpdtInject.Generator.Properties {
         ///{
         ///    public sealed class TransientInstanceContainer
         ///    {
-        ///#nullable enable
         ///        private TransientInstanceContainer()
         ///        {
         ///        }
         ///
         ///#if UNDECLARED_SYMBOL
         ///        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        ///        public static bool CheckPredicate(Reso [rest of string was truncated]&quot;;.
+        ///        public static bool CheckPredicate(ResolutionContext reso [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string TransientInstanceContainer {
             get {
