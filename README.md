@@ -1,5 +1,7 @@
 # DpDtInject
 
+![Dpdt logo](logo.png)
+
 # Purpose
 
 Dpdt is a DI container based on C# Source Generators. Its goal is to remove everything possible from runtime and make resolving process as faster as we can. This is achieved by transferring huge piece of resolving logic to the compilation stage into the source generator.
