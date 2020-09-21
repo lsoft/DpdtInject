@@ -127,7 +127,7 @@ namespace DpdtInject.Generator
                 var modificationDescription = new ModificationDescription(
                     moduleType,
                     moduleType.Name + Guid.NewGuid().ConvertMinusToGround() + "_1.cs",
-                    modulePartGenerator.GetClassBody(itemGeneratorsContainer)
+                    modulePartGenerator.GenerateModuleBody(itemGeneratorsContainer)
                     );
 
                 if (!string.IsNullOrEmpty(_generatedFilePath))

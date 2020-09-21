@@ -47,7 +47,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Module
             ModuleSymbol = moduleSymbol;
         }
 
-        public string GetClassBody(
+        public string GenerateModuleBody(
             InstanceContainerGeneratorsContainer container
             )
         {
@@ -86,8 +86,9 @@ namespace {ModuleTypeNamespace}
 //#nullable enable
     public partial class {ModuleTypeName} : {nameof(DpdtModule)}
     {{
+        private static long _instanceCount = 0L;
 
-        private readonly Provider _provider;
+        private readonly {providerGenerator.ProviderClassName} _provider;
         private readonly {typeof(ReinventedContainer).FullName} _typeContainerGet;
         private readonly {typeof(ReinventedContainer).FullName} _typeContainerGetAll;
 
@@ -97,7 +98,12 @@ namespace {ModuleTypeNamespace}
 
         public {ModuleTypeName}()
         {{
-            _provider = new Provider(
+            if(Interlocked.Increment(ref _instanceCount) > 1L)
+            {{
+                throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, ""Module should not be instanciated more that once. This is a Dpdt's design axiom."");
+            }}
+
+            _provider = new {providerGenerator.ProviderClassName}(
                 );
 
             _typeContainerGet = new {typeof(ReinventedContainer).FullName}(
@@ -111,18 +117,6 @@ namespace {ModuleTypeNamespace}
                 this
                 );
         }}
-
-        //public {ModuleTypeName}()
-        //{{
-        //    if(Interlocked.Increment(ref _instanceCount) > 1L)
-        //    {{
-        //        throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, ""Module should not be instanciated more that once. This is a Dpdt's design axiom."");
-        //    }}
-
-        //    _beautifier = new {beautifyGenerator.ClassName}(
-        //        this
-        //        );
-        //}}
 
 
         public override void Dispose()
@@ -166,26 +160,8 @@ namespace {ModuleTypeNamespace}
 
 #region Provider
 
-        private class Provider : IDisposable
-            {providerGenerator.CombinedInterfaces}
-        {{
+        {providerGenerator.GenerateProviderBody(container)}
 
-            public Provider()
-            {{
-            }}
-
-            public void Dispose()
-            {{
-                {container.InstanceContainerGenerators.Where(icg => icg.BindingContainer.Scope.In(BindScopeEnum.Singleton)).Join(sc => sc.DisposeClause + ";")}
-            }}
-
-            {providerGenerator.CombinedImplementationSection}
-
-#region Instance Containers
-            {container.InstanceContainerGenerators.Join(sc => sc.GetClassBody(container))}
-#endregion
-
-        }}
 //#nullable disable
 
 #endregion
