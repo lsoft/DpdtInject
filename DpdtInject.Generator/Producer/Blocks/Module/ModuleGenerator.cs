@@ -180,18 +180,19 @@ namespace {ModuleTypeNamespace}
             }}
 
             {providerGenerator.CombinedImplementationSection}
+
+#region Instance Containers
+            {container.InstanceContainerGenerators.Join(sc => sc.GetClassBody(container))}
+#endregion
+
         }}
 //#nullable disable
 
 #endregion
 
-#region Instance Containers
-
-    {container.InstanceContainerGenerators.Join(sc => sc.GetClassBody(container))}
 
     }}
 
-#endregion
 }}
 ";
             return result;

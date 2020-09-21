@@ -27,7 +27,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
 
 
         public IReadOnlyList<ProviderInterfaceGenerator> InterfaceSection => _interfaceSection;
-
+        
         public string CombinedInterfaces
         {
             get
@@ -37,7 +37,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
                     return string.Empty;
                 }
 
-                return  "," + string.Join(",", InterfaceSection.Select(j => j.InterfaceSection));
+                return "," + string.Join(",", InterfaceSection.Select(j => j.InterfaceSection));
             }
         }
 
@@ -53,14 +53,14 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
                 return
                     string.Join(Environment.NewLine, InterfaceSection.Select(i => i.ResolutionFrameSection))
                     + string.Join(
-                        Environment.NewLine, 
+                        Environment.NewLine,
                         InterfaceSection.Select(j =>
                             j.GetExplicitImplementationSection
-                            + Environment.NewLine 
+                            + Environment.NewLine
                             + j.GetImplementationSection
                             + Environment.NewLine
                             + j.GetAllImplementationSection
-                            + Environment.NewLine 
+                            + Environment.NewLine
                             + j.GetAllExplicitImplementationSection
                             )
                         )
@@ -105,6 +105,12 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
                 }
             }
         }
+
+        //public string GenerateProviderBody(
+        //    )
+        //{
+
+        //}
 
     }
 
