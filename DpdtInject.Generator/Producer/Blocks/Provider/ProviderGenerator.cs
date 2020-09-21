@@ -21,7 +21,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
     {
         private readonly List<ProviderInterfaceGenerator> _interfaceSection;
         private readonly Compilation _compilation;
-        private readonly InstanceContainerGeneratorsContainer _container;
+        private readonly GeneratorsContainer _container;
         
         public string ProviderClassName
         {
@@ -31,7 +31,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
 
         public ProviderGenerator(
             Compilation compilation,
-            InstanceContainerGeneratorsContainer container
+            GeneratorsContainer container
             )
         {
             if (compilation is null)
@@ -48,10 +48,14 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
 
             _interfaceSection = new List<ProviderInterfaceGenerator>();
 
-            foreach (var (_, bindFromType) in _container.Groups.GetRegisteredKeys(false))
+            foreach (var (_, bindFromType) in _container.GeneratorTree.JointPayload.GetRegisteredKeys(false))
             {
-                if(_container.Groups.TryGetRegisteredGenerators(bindFromType, false, out var generators))
+                if(_container.GeneratorTree.JointPayload.TryGetRegisteredGeneratorGroups(bindFromType, false, out var groups))
                 {
+                    var generators = groups.Collapse(
+                        group => group.Generators
+                        );
+
                     _interfaceSection.Add(
                         new ProviderInterfaceGenerator(bindFromType, DpdtArgumentWrapperTypeEnum.None, generators)
                         );
@@ -82,13 +86,13 @@ private class {ProviderClassName} : IDisposable
 
     public void Dispose()
     {{
-        {_container.InstanceContainerGenerators.Where(icg => icg.BindingContainer.Scope.In(BindScopeEnum.Singleton)).Join(sc => sc.DisposeClause + ";")}
+        {_container.Generators.Where(icg => icg.BindingContainer.Scope.In(BindScopeEnum.Singleton)).Join(sc => sc.DisposeClause + ";")}
     }}
 
     {GetCombinedImplementationSection()}
 
 #region Instance Containers
-    {_container.InstanceContainerGenerators.Join(sc => sc.GetClassBody(_container))}
+    {_container.Generators.Join(sc => sc.GetClassBody(_container))}
 #endregion
 
 }}

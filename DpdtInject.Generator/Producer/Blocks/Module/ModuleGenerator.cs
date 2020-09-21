@@ -48,7 +48,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Module
         }
 
         public string GenerateModuleBody(
-            InstanceContainerGeneratorsContainer container
+            GeneratorsContainer container
             )
         {
             if (container is null)
@@ -79,7 +79,7 @@ using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Module;
 using DpdtInject.Injector.Module.Bind;
 
-{container.InstanceContainerGenerators.Join(sc => sc.Usings.Join(c => c))}
+{container.Generators.Join(sc => sc.Usings.Join(c => c))}
 
 namespace {ModuleTypeNamespace}
 {{

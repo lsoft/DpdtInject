@@ -15,7 +15,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
 {
     public class ProviderInterfaceGenerator
     {
-        private readonly IReadOnlyList<InstanceContainerGenerator> _instanceContainerGenerators;
+        private readonly IReadOnlyList<Binding.Generator> _instanceContainerGenerators;
 
         public ITypeSymbol BindFromType
         { 
@@ -32,7 +32,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
             get;
         }
 
-        public IReadOnlyList<InstanceContainerGenerator> InstanceContainerGenerators => _instanceContainerGenerators;
+        public IReadOnlyList<Binding.Generator> InstanceContainerGenerators => _instanceContainerGenerators;
 
         public string InterfaceSection
         {
@@ -66,7 +66,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
         public ProviderInterfaceGenerator(
             ITypeSymbol bindFromType,
             DpdtArgumentWrapperTypeEnum wrapperType,
-            IReadOnlyList<InstanceContainerGenerator> instanceContainerGenerators
+            IReadOnlyList<Binding.Generator> instanceContainerGenerators
             )
         {
             if (bindFromType is null)
@@ -106,7 +106,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
 
             foreach (var generator in _instanceContainerGenerators)
             {
-                var createContextVariableName = $"Context_{BindFromTypeFullName.ConvertDotLessGreatherToGround()}_{generator.BindingContainer.BindToType.GetFullName().ConvertDotLessGreatherToGround()}_{Guid.NewGuid().ConvertMinusToGround()}";
+                var createContextVariableName = $"Context_{BindFromTypeFullName.ConvertDotLessGreatherToGround()}_{generator.BindingContainer.BindToType.GetFullName().ConvertDotLessGreatherToGround()}_{Guid.NewGuid().RemoveMinuses()}";
                 createContextVariableNameDict[generator.GetVariableStableName()] = createContextVariableName;
             }
 

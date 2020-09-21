@@ -57,18 +57,11 @@ namespace DpdtInject.Generator.Helpers
             return s.Replace('.', '_').Replace('<', '_').Replace('>', '_');
         }
 
-        public static string ConvertMinusToGround(
+        public static string RemoveMinuses(
             this Guid g
             )
         {
-            return g.ToString().ConvertMinusToGround();
-        }
-
-        public static string ConvertMinusToGround(
-            this string s
-            )
-        {
-            return s.Replace('-', '_');
+            return g.ToString().Replace("-", "");
         }
 
         public static string FormatAdv(

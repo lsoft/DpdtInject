@@ -25,7 +25,7 @@ namespace DpdtInject.Generator.Beautify
 
             ModuleFullTypeName = moduleFullTypeName;
 
-            ClassName = $"{nameof(Beautifier)}_{Guid.NewGuid().ConvertMinusToGround()}";
+            ClassName = $"{nameof(Beautifier)}_{Guid.NewGuid().RemoveMinuses()}";
 
         }
 

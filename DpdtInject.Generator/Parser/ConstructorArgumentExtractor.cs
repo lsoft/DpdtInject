@@ -5,6 +5,7 @@ using DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer;
 using DpdtInject.Generator.Producer.Blocks.Exception;
 using DpdtInject.Generator.Producer.RContext;
 using DpdtInject.Injector.Excp;
+using DpdtInject.Injector.Helper;
 using DpdtInject.Injector.Module.Bind;
 using DpdtInject.Injector.Module.RContext;
 using Microsoft.CodeAnalysis;
@@ -136,7 +137,7 @@ namespace DpdtInject.Generator.Parser
         }
 
         public string GenerateProvideConstructorArgumentMethod(
-            InstanceContainerGeneratorsContainer container,
+            GeneratorsContainer container,
             IBindingContainer bindingContainer
             )
         {
@@ -168,7 +169,7 @@ namespace DpdtInject.Generator.Parser
             }
 
             DpdtArgumentWrapperTypeEnum wrapperType = DpdtArgumentWrapperTypeEnum.None;
-            if (container.Groups.GetRegisteredKeys(false).All(p => !SymbolEqualityComparer.Default.Equals(p.Item2, this.Type)))
+            if (container.GeneratorTree.JointPayload.GetRegisteredKeys(false).All(p => !SymbolEqualityComparer.Default.Equals(p.Item2, this.Type)))
             {
                 //this type is not registered in the module
                 if (!this.Type.TryDetectWrapperType(out wrapperType, out var innerType))
@@ -186,7 +187,7 @@ namespace DpdtInject.Generator.Parser
 
             var workingType = this.Type;
 
-            if(!container.Groups.TryGetRegisteredGenerators(workingType, true, out var instanceContainerGenerators))
+            if(!container.GeneratorTree.JointPayload.TryGetRegisteredGeneratorGroups(workingType, true, out var groups))
             {
                 throw new DpdtException(
                     DpdtExceptionTypeEnum.NoBindingAvailable,
@@ -195,8 +196,12 @@ namespace DpdtInject.Generator.Parser
                     );
             }
 
+            var generators = groups.Collapse(
+                group => group.Generators
+                );
+
             var exceptionSuffix =
-                instanceContainerGenerators.Count > 1
+                generators.Count > 1
                     ? ", but conditional bindings exists"
                     : string.Empty
                     ;
@@ -208,7 +213,7 @@ namespace DpdtInject.Generator.Parser
             var createFrameVariableNameDict = new Dictionary<string, string>();
             var createContextWithFrameVariableNameDict = new Dictionary<string, string>();
 
-            foreach (var generator in instanceContainerGenerators)
+            foreach (var generator in generators)
             {
                 var createFrameVariableName = $"Frame_{workingType.GetFullName().ConvertDotLessGreatherToGround()}_{generator.BindingContainer.BindToType.GetFullName().ConvertDotLessGreatherToGround()}_{Name}_{generator.GetVariableStableName()}";
                 createFrameVariableNameDict[generator.GetVariableStableName()] = createFrameVariableName;
@@ -218,7 +223,7 @@ namespace DpdtInject.Generator.Parser
             }
 
 
-            foreach (var generator in instanceContainerGenerators)
+            foreach (var generator in generators)
             {
                 var createFrameVariableName = createFrameVariableNameDict[generator.GetVariableStableName()];
 
@@ -231,7 +236,7 @@ private static readonly {nameof(ResolutionFrame)} {createFrameVariableName} =
             #endregion
 
 
-            if (instanceContainerGenerators.Count == 0)
+            if (generators.Count == 0)
             {
                 applyArgumentPiece = $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -241,9 +246,9 @@ private static {workingType.GetFullName()} Get_{Name}({nameof(ResolutionContext)
 }}
 ";
             }
-            else if (instanceContainerGenerators.Count == 1)
+            else if (generators.Count == 1)
             {
-                var instanceContainerGenerator = instanceContainerGenerators[0];
+                var instanceContainerGenerator = generators[0];
 
                 if (instanceContainerGenerator.ItselfOrAtLeastOneChildIsConditional)
                 {
@@ -279,7 +284,7 @@ private static {workingType.GetFullName()} Get_{Name}({nameof(ResolutionContext)
             }
             else
             {
-                if (instanceContainerGenerators.Count(cg => !cg.BindingContainer.IsConditional) > 1)
+                if (generators.Count(cg => !cg.BindingContainer.IsConditional) > 1)
                 {
                     applyArgumentPiece = $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -291,7 +296,7 @@ private static {workingType.GetFullName()} Get_{Name}({nameof(ResolutionContext)
                 }
                 else
                 {
-                    var nonConditionalGeneratorCount = instanceContainerGenerators.Count(g => !g.ItselfOrAtLeastOneChildIsConditional);
+                    var nonConditionalGeneratorCount = generators.Count(g => !g.ItselfOrAtLeastOneChildIsConditional);
 
                     applyArgumentPiece = $@"
 {createFrameClause}
@@ -303,7 +308,7 @@ private static {workingType.GetFullName()} Get_{Name}({nameof(ResolutionContext)
 ";
 
                     //var contextClauseApplied = false;
-                    foreach (var generator in instanceContainerGenerators)//.Where(g => g.BindingContainer.IsConditional))
+                    foreach (var generator in generators)//.Where(g => g.BindingContainer.IsConditional))
                     {
                         if (generator.ItselfOrAtLeastOneChildIsConditional)
                         {
@@ -352,10 +357,10 @@ if(allowedChildrenCount == 0)
 }}
 ";
 
-                    for(var gIndex = 0; gIndex < instanceContainerGenerators.Count; gIndex++)
+                    for(var gIndex = 0; gIndex < generators.Count; gIndex++)
                     {
-                        var generator = instanceContainerGenerators[gIndex];
-                        var isLastGenerator = gIndex == (instanceContainerGenerators.Count - 1);
+                        var generator = generators[gIndex];
+                        var isLastGenerator = gIndex == (generators.Count - 1);
 
                         if (generator.ItselfOrAtLeastOneChildIsConditional && !isLastGenerator)
                         {
@@ -386,7 +391,7 @@ return {generator.GetInstanceClause("null", wrapperType)};
         }
 
         public string GetApplyConstructorClause(
-            InstanceContainerGeneratorsContainer container
+            GeneratorsContainer container
             )
         {
             if (container is null)

@@ -1,5 +1,6 @@
 ﻿using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Parser.Binding;
+using DpdtInject.Generator.Tree;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
 using DpdtInject.Injector.Module.Bind;
@@ -50,9 +51,17 @@ namespace DpdtInject.Generator.Parser
         }
 
 
-        public BindingsContainer GetBindingsContainer()
+        public BindingsContainer GetBindingsContainer(
+            TreeJoint<string> clusterNameJoint
+            )
         {
+            if (clusterNameJoint is null)
+            {
+                throw new ArgumentNullException(nameof(clusterNameJoint));
+            }
+
             return new BindingsContainer(
+                clusterNameJoint,
                 _bindingContainers
                 );
         }
@@ -179,6 +188,7 @@ namespace DpdtInject.Generator.Parser
             }
 
             var bindingContainer = new ConstantBindingContainer(
+                "",
                 bindFromTypeSematics,
                 constTypeSymbol,
                 constantClause,
@@ -279,6 +289,7 @@ namespace DpdtInject.Generator.Parser
 
 
             var bindingContainer = new BindingContainerWithInstance(
+                "",
                 bindFromTypeSematics,
                 bindToTypeSematic,
                 constructorArguments,
@@ -377,6 +388,7 @@ namespace DpdtInject.Generator.Parser
 
 
             var bindingContainer = new BindingContainerWithInstance(
+                "",
                 bindFromTypeSematics,
                 bindToTypeSematic,
                 constructorArguments,

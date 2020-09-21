@@ -21,7 +21,8 @@ using System.Text;
 namespace DpdtInject.Generator.Producer.Blocks.Binding
 {
 
-    public class InstanceContainerGenerator
+    public class Generator
+
     {
         public IBindingContainer BindingContainer
         {
@@ -40,15 +41,11 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             get;
         }
 
-        public bool ItselfOrAtLeastOneChildIsConditional
-        {
-            get;
-        }
-        
-        public bool ItselfOrAtLeastOneParentIsConditional
-        {
-            get;
-        }
+        public bool ItselfOrAtLeastOneChildIsConditional =>
+                BindingContainer.IsConditional
+                || BindingContainer.AtLeastOneChildIsConditional
+            ;
+
 
         public string DisposeClause
         {
@@ -69,9 +66,8 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             ) => $"{ClassName}.GetInstance{wrapperType.GetPostfix()}({innerText})";
 
 
-        public InstanceContainerGenerator(
+        public Generator(
             IDiagnosticReporter diagnosticReporter,
-            BindingsContainer bindingsContainer,
             IBindingContainer bindingContainer
             )
         {
@@ -79,12 +75,6 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             {
                 throw new ArgumentNullException(nameof(diagnosticReporter));
             }
-
-            if (bindingsContainer is null)
-            {
-                throw new ArgumentNullException(nameof(bindingsContainer));
-            }
-
             if (bindingContainer is null)
             {
                 throw new ArgumentNullException(nameof(bindingContainer));
@@ -95,13 +85,13 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             switch (this.BindingContainer.Scope)
             {
                 case Injector.Module.Bind.BindScopeEnum.Transient:
-                    ClassName = $"{string.Join("_", bindingContainer.GetFromTypeFullNamesCombined().ConvertDotLessGreatherToGround())}_{bindingContainer.TargetRepresentation.ConvertDotLessGreatherToGround()}_{nameof(TransientInstanceContainer)}_{Guid.NewGuid().ConvertMinusToGround()}";
+                    ClassName = $"{string.Join("_", bindingContainer.GetFromTypeFullNamesCombined().ConvertDotLessGreatherToGround())}_{bindingContainer.BindToType.GetFullName().ConvertDotLessGreatherToGround()}_{nameof(TransientInstanceContainer)}_{Guid.NewGuid().RemoveMinuses()}";
                     break;
                 case Injector.Module.Bind.BindScopeEnum.Singleton:
-                    ClassName = $"{string.Join("_", bindingContainer.GetFromTypeFullNamesCombined().ConvertDotLessGreatherToGround())}_{bindingContainer.TargetRepresentation.ConvertDotLessGreatherToGround()}_{nameof(SingletonInstanceContainer)}_{Guid.NewGuid().ConvertMinusToGround()}";
+                    ClassName = $"{string.Join("_", bindingContainer.GetFromTypeFullNamesCombined().ConvertDotLessGreatherToGround())}_{bindingContainer.BindToType.GetFullName().ConvertDotLessGreatherToGround()}_{nameof(SingletonInstanceContainer)}_{Guid.NewGuid().RemoveMinuses()}";
                     break;
                 case Injector.Module.Bind.BindScopeEnum.Constant:
-                    ClassName = $"{string.Join("_", bindingContainer.GetFromTypeFullNamesCombined().ConvertDotLessGreatherToGround())}_{nameof(ConstantInstanceContainer)}_{Guid.NewGuid().ConvertMinusToGround()}";
+                    ClassName = $"{string.Join("_", bindingContainer.GetFromTypeFullNamesCombined().ConvertDotLessGreatherToGround())}_{nameof(ConstantInstanceContainer)}_{Guid.NewGuid().RemoveMinuses()}";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -114,23 +104,11 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             var usings = uds.ConvertAll(r => r.GetText().ToString());
             usings.Add($"using {typeof(ResolutionContext).Namespace};");
             Usings = usings;
-
-            ItselfOrAtLeastOneChildIsConditional = bindingContainer.IsConditional ||
-                bindingsContainer.CheckForAtLeastOneChildIsConditional(
-                    diagnosticReporter,
-                    bindingContainer
-                );
-
-            ItselfOrAtLeastOneParentIsConditional = bindingContainer.IsConditional ||
-                bindingsContainer.CheckForAtLeastOneParentIsConditional(
-                    diagnosticReporter,
-                    bindingContainer
-                );
         }
 
 
         public string GetClassBody(
-            InstanceContainerGeneratorsContainer container
+            GeneratorsContainer container
             )
         {
             if (container is null)
@@ -182,7 +160,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         public static string PrepareInstanceContainerCode(
             this string instanceContainerCode,
             IBindingContainer bindingContainer,
-            InstanceContainerGeneratorsContainer container
+            GeneratorsContainer container
             )
         {
             if (instanceContainerCode is null)

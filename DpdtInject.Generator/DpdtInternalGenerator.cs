@@ -1,7 +1,9 @@
 ﻿using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Parser;
+using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Producer.Blocks.Module;
+using DpdtInject.Generator.Tree;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Module;
@@ -107,9 +109,19 @@ namespace DpdtInject.Generator
 
                 bindExtractor.Visit(loadMethodSyntax);
 
-                var bindingsContainer = bindExtractor.GetBindingsContainer();
+                var clusterNameJoint = new TreeJoint<string>(
+                    BindingClusterTree.RootName
+                    );
 
-                var itemGeneratorsContainer = new InstanceContainerGeneratorsContainer(
+                var bindingsContainer = bindExtractor.GetBindingsContainer(
+                    clusterNameJoint
+                    );
+
+                bindingsContainer.BuildFlags(
+                    _diagnosticReporter
+                    );
+
+                var itemGeneratorsContainer = new GeneratorsContainer(
                     _diagnosticReporter,
                     compilation,
                     bindingsContainer
@@ -126,7 +138,7 @@ namespace DpdtInject.Generator
 
                 var modificationDescription = new ModificationDescription(
                     moduleType,
-                    moduleType.Name + Guid.NewGuid().ConvertMinusToGround() + "_1.cs",
+                    moduleType.Name + Guid.NewGuid().RemoveMinuses() + "_1.cs",
                     modulePartGenerator.GenerateModuleBody(itemGeneratorsContainer)
                     );
 

@@ -8,6 +8,11 @@ namespace DpdtInject.Generator.Parser.Binding
 {
     public interface IBindingContainer
     {
+        string Name
+        {
+            get;
+        }
+
         IReadOnlyList<ITypeSymbol> BindFromTypes
         {
             get;
@@ -53,11 +58,17 @@ namespace DpdtInject.Generator.Parser.Binding
             get;
         }
 
+        bool AtLeastOneChildIsConditional
+        {
+            get;
+            set;
+        }
+
         string GetFromTypeFullNamesCombined(string separator = "_");
 
         string PrepareInstanceContainerCode(
             string instanceContainerCode,
-            InstanceContainerGeneratorsContainer container
+            GeneratorsContainer container
             );
     }
 }

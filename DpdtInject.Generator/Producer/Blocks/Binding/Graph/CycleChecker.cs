@@ -14,13 +14,13 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
 {
     public class CycleChecker
     {
-        private readonly InstanceContainerGeneratorGroups _groups;
+        private readonly GeneratorCluster _cluster;
 
         public CycleChecker(
-            InstanceContainerGeneratorGroups groups
+            GeneratorCluster cluster
             )
         {
-            _groups = groups;
+            _cluster = cluster;
         }
 
         public void CheckForCycles(
@@ -36,7 +36,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
                 new OrderIndependentCycleFoundEqualityComparer()
                 );
 
-            foreach (var (wrapperType, wrapperSymbol) in _groups.GetRegisteredKeys(true).Shuffle())
+            foreach (var (wrapperType, wrapperSymbol) in _cluster.GetRegisteredKeys(true).Shuffle())
             {
                 try
                 {
@@ -80,31 +80,34 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
             ITypeSymbol requestedType
             )
         {
-            if (!_groups.TryGetRegisteredGenerators(requestedType, true, out var generators))
+            if (!_cluster.TryGetRegisteredGeneratorGroups(requestedType, true, out var groups))
             {
                 return;
             }
 
-            foreach (var generator in generators)
+            foreach (var group in groups)
             {
-                var used2 = used.Clone();
-
-                used2.AppendOrFailIfExists(
-                    requestedType,
-                    !generator.BindingContainer.IsConditional
-                    );
-
-                foreach (var constructorArgument in generator.BindingContainer.ConstructorArguments.Where(ca => !ca.DefineInBindNode).Shuffle())
+                foreach (var generator in group.Generators)
                 {
-                    if (constructorArgument.Type is null)
-                    {
-                        throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"constructorArgument.Type is null somehow");
-                    }
+                    var used2 = used.Clone();
 
-                    CheckForCyclesInternal(
-                        ref used2,
-                        constructorArgument.Type
+                    used2.AppendOrFailIfExists(
+                        requestedType,
+                        !generator.BindingContainer.IsConditional
                         );
+
+                    foreach (var constructorArgument in generator.BindingContainer.ConstructorArguments.Where(ca => !ca.DefineInBindNode).Shuffle())
+                    {
+                        if (constructorArgument.Type is null)
+                        {
+                            throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"constructorArgument.Type is null somehow");
+                        }
+
+                        CheckForCyclesInternal(
+                            ref used2,
+                            constructorArgument.Type
+                            );
+                    }
                 }
             }
         }

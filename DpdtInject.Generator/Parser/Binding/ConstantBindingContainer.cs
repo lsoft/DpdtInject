@@ -23,6 +23,11 @@ namespace DpdtInject.Generator.Parser.Binding
         private readonly ITypeSymbol _constTypeSymbol;
         private readonly ArgumentSyntax _constantSyntax;
 
+        public string Name
+        {
+            get;
+        }
+        
         public IReadOnlyList<ITypeSymbol> BindFromTypes
         {
             get;
@@ -61,11 +66,24 @@ namespace DpdtInject.Generator.Parser.Binding
         {
             get
             {
-                return $"constant[{_constTypeSymbol.GetFullName()}]";
+                if (string.IsNullOrEmpty(Name))
+                {
+                    return $"constant[{_constTypeSymbol.GetFullName()}]";
+                }
+
+                return $"constant[{Name} : {_constTypeSymbol.GetFullName()}]";
             }
         }
 
+        public bool AtLeastOneChildIsConditional
+        {
+            get;
+            set;
+        }
+
+
         public ConstantBindingContainer(
+            string name,
             IReadOnlyList<ITypeSymbol> bindFromTypes,
             ITypeSymbol constTypeSymbol,
             ArgumentSyntax constantSyntax,
@@ -73,6 +91,11 @@ namespace DpdtInject.Generator.Parser.Binding
             ArgumentSyntax? whenArgumentClause
             )
         {
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
             if (bindFromTypes is null)
             {
                 throw new ArgumentNullException(nameof(bindFromTypes));
@@ -87,7 +110,7 @@ namespace DpdtInject.Generator.Parser.Binding
             {
                 throw new ArgumentNullException(nameof(constantSyntax));
             }
-
+            Name = name;
             BindFromTypes = bindFromTypes;
             _constTypeSymbol = constTypeSymbol;
             _constantSyntax = constantSyntax;
@@ -102,7 +125,7 @@ namespace DpdtInject.Generator.Parser.Binding
 
         public string PrepareInstanceContainerCode(
             string instanceContainerCode,
-            InstanceContainerGeneratorsContainer container
+            GeneratorsContainer container
             )
         {
             if (instanceContainerCode is null)
