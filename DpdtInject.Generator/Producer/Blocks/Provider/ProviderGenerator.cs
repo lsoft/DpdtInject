@@ -21,14 +21,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
     {
         private readonly List<ProviderInterfaceGenerator> _interfaceSection;
         private readonly Compilation _compilation;
-
-        public InstanceContainerGeneratorsContainer Container
-        {
-            get;
-        }
-
-
-        public IReadOnlyList<ProviderInterfaceGenerator> InterfaceSection => _interfaceSection;
+        private readonly InstanceContainerGeneratorsContainer _container;
         
         public string ProviderClassName
         {
@@ -51,13 +44,13 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
                 throw new ArgumentNullException(nameof(container));
             }
             _compilation = compilation;
-            Container = container;
+            _container = container;
 
             _interfaceSection = new List<ProviderInterfaceGenerator>();
 
-            foreach (var (_, bindFromType) in Container.Groups.GetRegisteredKeys(false))
+            foreach (var (_, bindFromType) in _container.Groups.GetRegisteredKeys(false))
             {
-                if(Container.Groups.TryGetRegisteredGenerators(bindFromType, false, out var generators))
+                if(_container.Groups.TryGetRegisteredGenerators(bindFromType, false, out var generators))
                 {
                     _interfaceSection.Add(
                         new ProviderInterfaceGenerator(bindFromType, DpdtArgumentWrapperTypeEnum.None, generators)
@@ -76,14 +69,8 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
         }
 
         public string GenerateProviderBody(
-            InstanceContainerGeneratorsContainer container
             )
         {
-            if (container is null)
-            {
-                throw new ArgumentNullException(nameof(container));
-            }
-
             return $@"
 private class {ProviderClassName} : IDisposable
     {GetCombinedInterfaces()}
@@ -95,13 +82,13 @@ private class {ProviderClassName} : IDisposable
 
     public void Dispose()
     {{
-        {container.InstanceContainerGenerators.Where(icg => icg.BindingContainer.Scope.In(BindScopeEnum.Singleton)).Join(sc => sc.DisposeClause + ";")}
+        {_container.InstanceContainerGenerators.Where(icg => icg.BindingContainer.Scope.In(BindScopeEnum.Singleton)).Join(sc => sc.DisposeClause + ";")}
     }}
 
     {GetCombinedImplementationSection()}
 
 #region Instance Containers
-    {container.InstanceContainerGenerators.Join(sc => sc.GetClassBody(container))}
+    {_container.InstanceContainerGenerators.Join(sc => sc.GetClassBody(_container))}
 #endregion
 
 }}
@@ -115,7 +102,7 @@ private class {ProviderClassName} : IDisposable
                 return string.Empty;
             }
 
-            return "," + string.Join(",", InterfaceSection.Select(j => j.InterfaceSection));
+            return "," + string.Join(",", _interfaceSection.Select(j => j.InterfaceSection));
         }
 
         private string GetCombinedImplementationSection()
@@ -126,10 +113,10 @@ private class {ProviderClassName} : IDisposable
             }
 
             return
-                string.Join(Environment.NewLine, InterfaceSection.Select(i => i.ResolutionFrameSection))
+                string.Join(Environment.NewLine, _interfaceSection.Select(i => i.ResolutionFrameSection))
                 + string.Join(
                     Environment.NewLine,
-                    InterfaceSection.Select(j =>
+                    _interfaceSection.Select(j =>
                         j.GetExplicitImplementationSection
                         + Environment.NewLine
                         + j.GetImplementationSection

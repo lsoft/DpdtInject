@@ -160,7 +160,7 @@ namespace {ModuleTypeNamespace}
 
 #region Provider
 
-        {providerGenerator.GenerateProviderBody(container)}
+        {providerGenerator.GenerateProviderBody()}
 
 //#nullable disable
 
