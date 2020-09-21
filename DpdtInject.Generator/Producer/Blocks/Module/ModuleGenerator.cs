@@ -86,17 +86,16 @@ namespace {ModuleTypeNamespace}
 //#nullable enable
     public partial class {ModuleTypeName} : {nameof(DpdtModule)}
     {{
-        private static long _instanceCount = 0L;
 
-        private static readonly Provider _provider;
-        private static readonly {typeof(ReinventedContainer).FullName} _typeContainerGet;
-        private static readonly {typeof(ReinventedContainer).FullName} _typeContainerGetAll;
+        private readonly Provider _provider;
+        private readonly {typeof(ReinventedContainer).FullName} _typeContainerGet;
+        private readonly {typeof(ReinventedContainer).FullName} _typeContainerGetAll;
 
         private readonly {beautifyGenerator.ClassName} _beautifier;
 
         public {beautifyGenerator.ClassName} Beautifier => _beautifier;
 
-        static {ModuleTypeName}()
+        public {ModuleTypeName}()
         {{
             _provider = new Provider(
                 );
@@ -107,19 +106,23 @@ namespace {ModuleTypeNamespace}
             _typeContainerGetAll = new {typeof(ReinventedContainer).FullName}(
                 {container.GetReinventedContainerArgument("GetAll")}
                 );
-        }}
-
-        public {ModuleTypeName}()
-        {{
-            if(Interlocked.Increment(ref _instanceCount) > 1L)
-            {{
-                throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, ""Module should not be instanciated more that once. This is a Dpdt's design axiom."");
-            }}
 
             _beautifier = new {beautifyGenerator.ClassName}(
                 this
                 );
         }}
+
+        //public {ModuleTypeName}()
+        //{{
+        //    if(Interlocked.Increment(ref _instanceCount) > 1L)
+        //    {{
+        //        throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, ""Module should not be instanciated more that once. This is a Dpdt's design axiom."");
+        //    }}
+
+        //    _beautifier = new {beautifyGenerator.ClassName}(
+        //        this
+        //        );
+        //}}
 
 
         public override void Dispose()
