@@ -11,13 +11,9 @@ namespace DpdtInject.Generator.Parser.Binding
     public class BindingsContainer
     {
         private readonly List<IBindingContainer> _bindingContainers;
+        private readonly BindingContainerGroups _groups;
 
         public IReadOnlyList<IBindingContainer> BindingContainers => _bindingContainers;
-
-        public BindingContainerGroups Groups
-        {
-            get;
-        }
 
         public BindingsContainer(
             List<IBindingContainer> bindingContainers
@@ -30,9 +26,10 @@ namespace DpdtInject.Generator.Parser.Binding
 
             _bindingContainers = bindingContainers;
 
-            Groups = new BindingContainerGroups(
+            _groups = new BindingContainerGroups(
                 _bindingContainers
                 );
+
         }
 
         internal bool CheckForAtLeastOneParentIsConditional(
@@ -81,7 +78,7 @@ namespace DpdtInject.Generator.Parser.Binding
 
             foreach (var bindFromType in bindingContainer.BindFromTypes)
             {
-                if (!Groups.NotBindParentGroups.TryGetValue(bindFromType, out var parents))
+                if (!_groups.NotBindParentGroups.TryGetValue(bindFromType, out var parents))
                 {
                     //no parent for bindFromType exists
                     //so no conditional parent exists
@@ -100,7 +97,7 @@ namespace DpdtInject.Generator.Parser.Binding
                         diagnosticReporter,
                         rootBindingContainer,
                         parent,
-                        processed
+                        new HashSet<IBindingContainer>(processed)
                         ))
                     {
                         return true;
@@ -158,7 +155,7 @@ namespace DpdtInject.Generator.Parser.Binding
                     throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, $"ca.Type is null somehow");
                 }
 
-                if (!Groups.TryGetRegisteredBindingContainers(ca.Type!, true, out var children))
+                if (!_groups.TryGetRegisteredBindingContainers(ca.Type!, true, out var children))
                 {
                     throw new DpdtException(DpdtExceptionTypeEnum.NoBindingAvailable, $"Found unknown binding [{ca.Type!.GetFullName()}] from constructor of [{bindingContainer.TargetRepresentation}]", ca.Type.Name);
                 }
@@ -174,7 +171,7 @@ namespace DpdtInject.Generator.Parser.Binding
                         diagnosticReporter,
                         rootBindingContainer,
                         child,
-                        processed
+                        new HashSet<IBindingContainer>(processed)
                         ))
                     {
                         return true;
