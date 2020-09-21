@@ -37,11 +37,13 @@ namespace DpdtInject.Generator.Parser.Binding
             _bindingContainers = bindingContainers;
 
             _bindingClusterTree = new BindingClusterTree(
-                clusterNameJoint.ConvertTo(
-                   clusterName => new BindingContainerCluster(
-                        clusterName,
-                        bindingContainers.FindAll(c => c.Name == clusterName)
-                        )
+                clusterNameJoint.ConvertTo<BindingClusterJoint, BindingContainerCluster>(
+                   joint => new BindingClusterJoint(
+                       new BindingContainerCluster(
+                            joint.JointPayload,
+                            bindingContainers.FindAll(c => c.Name == joint.JointPayload)
+                            )
+                       )
                    )
                 );
         }

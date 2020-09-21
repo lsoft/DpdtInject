@@ -19,7 +19,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 {
     public class GeneratorTree
     {
-        public TreeJoint<GeneratorCluster> Joint
+        public GeneratorTreeJoint Joint
         {
             get;
         }
@@ -27,7 +27,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         public GeneratorCluster JointPayload => Joint.JointPayload;
 
         public GeneratorTree(
-            TreeJoint<GeneratorCluster> joint
+            GeneratorTreeJoint joint
             )
         {
             if (joint is null)
@@ -39,7 +39,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         }
 
         internal void Apply(
-            Action<TreeJoint<GeneratorCluster>> action
+            Action<GeneratorTreeJoint> action
             )
         {
             if (action is null)
@@ -47,7 +47,9 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                 throw new ArgumentNullException(nameof(action));
             }
 
-            Joint.Apply(action);
+            Action<TreeJoint<GeneratorCluster>> action2 = (payload) => action((GeneratorTreeJoint)payload);
+
+            Joint.Apply(action2);
         }
 
         public void Apply(
@@ -64,15 +66,66 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
         public bool TryFindInItsParents(
             Func<GeneratorCluster, bool> predicate,
-            [NotNullWhen(true)] out TreeJoint<GeneratorCluster>? foundJoint
+            [NotNullWhen(true)] out GeneratorTreeJoint? foundJoint
             )
         {
-            return
+            var r = 
                 Joint.TryFindInItsParents(
                     predicate,
-                    out foundJoint
+                    out var foundJoint2
                     );
+
+            if(!r)
+            {
+                foundJoint = null;
+                return false;
+            }
+
+            foundJoint = (GeneratorTreeJoint)foundJoint2!;
+            return true;
         }
+    }
+
+    public class GeneratorTreeJoint : TreeJoint<GeneratorCluster>
+    {
+        public GeneratorTreeJoint(GeneratorCluster jointPayload)
+            : base(jointPayload)
+        {
+        }
+
+        public IReadOnlyList<Point3> GenerateChildPoints()
+        {
+            var result = new List<Point3>();
+
+            this.Apply(
+                joint =>
+                {
+                    foreach (var pair in joint.JointPayload.GeneratorGroups)
+                    {
+                        foreach (var generator in pair.Value.Generators)
+                        {
+                            foreach (var ca in generator.BindingContainer.ConstructorArguments.Where(ca => !ca.DefineInBindNode))
+                            {
+                                if (ca.Type is null)
+                                {
+                                    throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, $"ca.Type is null somehow");
+                                }
+
+                                var point3 = new Point3(
+                                    this,
+                                    generator,
+                                    ca.Type
+                                    );
+
+                                result.Add(point3);
+                            }
+                        }
+                    }
+                });
+
+            return result;
+        }
+
     }
 
 
@@ -155,7 +208,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
     public static class GeneratorTreeHelper
     {
-        public static bool TryFindParents(
+        public static bool TryFindChildren(
             this Point3 point3,
             out IReadOnlyList<Point2> results
             )
@@ -167,13 +220,13 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
             var result = new List<Point2>();
 
-            FindParents(point3, ref result);
+            FindChildren(point3, ref result);
 
             results = result;
             return result.Count > 0;
         }
 
-        private static void FindParents(
+        private static void FindChildren(
             Point3 point3,
             ref List<Point2> results
             )
@@ -206,7 +259,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                     point3.TypeSymbol
                     );
 
-                FindParents(
+                FindChildren(
                     parentPoint3,
                     ref results
                     );
@@ -276,14 +329,15 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             BindingsContainer = bindingsContainer;
 
             GeneratorTree = new GeneratorTree(
-                bindingsContainer.BindingClusterTree.ClusterJoint.ConvertTo(
-                    cluster => new GeneratorCluster(
+                bindingsContainer.BindingClusterTree.ClusterJoint.ConvertTo<GeneratorTreeJoint, GeneratorCluster>(
+                    joint => new GeneratorTreeJoint(
+                    new GeneratorCluster(
                         diagnosticReporter,
                         compilation,
-                        cluster
+                        joint.JointPayload
                         )
                     )
-                );
+                ));
 
             _generators = new List<Generator>();
             _allRegisteredTypes = new HashSet<ITypeSymbol>(
@@ -351,38 +405,17 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         {
             //we need to check unknown bindings in the tree
 
-            GeneratorTree.Apply(
-                joint =>
+            foreach(var point3 in GeneratorTree.Joint.GenerateChildPoints())
+            {
+                if (!point3.TryFindChildren(out var _))
                 {
-                    foreach(var pair in joint.JointPayload.GeneratorGroups)
-                    {
-                        foreach(var generator in pair.Value.Generators)
-                        {
-                            foreach (var ca in generator.BindingContainer.ConstructorArguments.Where(ca => !ca.DefineInBindNode))
-                            {
-                                if (ca.Type is null)
-                                {
-                                    throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, $"ca.Type is null somehow");
-                                }
-
-                                var point3 = new Point3(
-                                    joint,
-                                    generator,
-                                    ca.Type
-                                    );
-
-                                if(!point3.TryFindParents(out var _))
-                                {
-                                    throw new DpdtException(
-                                        DpdtExceptionTypeEnum.NoBindingAvailable,
-                                        $"Found unknown binding [{ca.Type!.GetFullName()}] from constructor of [{generator.BindingContainer.TargetRepresentation}]",
-                                        ca.Type.Name
-                                        );
-                                }
-                            }
-                        }
-                    }
-                });
+                    throw new DpdtException(
+                        DpdtExceptionTypeEnum.NoBindingAvailable,
+                        $"Found unknown binding [{point3.TypeSymbol.GetFullName()}] from constructor of [{point3.Generator.BindingContainer.TargetRepresentation}]",
+                        point3.TypeSymbol.GetFullName()
+                        );
+                }
+            }
         }
 
         internal void AnalyzeForSingletonTakesTransient(
@@ -394,84 +427,107 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                 throw new ArgumentNullException(nameof(diagnosticReporter));
             }
 
-            foreach (var generator in _generators)
+            foreach (var point3 in GeneratorTree.Joint.GenerateChildPoints())
             {
-                AnalyzeForSingletonTakesTransientPrivate(
-                    diagnosticReporter,
-                    generator,
-                    new HashSet<Generator>()
-                    );
+                if (point3.Generator.BindingContainer.Scope.In(BindScopeEnum.Singleton))
+                {
+                    if (point3.TryFindChildren(out var children))
+                    {
+                        foreach(var child in children)
+                        {
+                            if (child.Generator.BindingContainer.Scope.In(BindScopeEnum.Transient))
+                            {
+                                diagnosticReporter.ReportWarning(
+                                    $"Singleton-transient relationship has been found.",
+                                    $"Searching for singleton-transient relationship has been found: singleton parent [{point3.Generator.BindingContainer.TargetRepresentation}] takes transient child [{child.Generator.BindingContainer.TargetRepresentation}]."
+                                    );
+                            }
+                        }
+                    }
+                }
+
             }
-        }
 
-        private void AnalyzeForSingletonTakesTransientPrivate(
-            IDiagnosticReporter diagnosticReporter,
-            Generator parent,
-            HashSet<Generator> processed
-            )
-        {
-            //if (diagnosticReporter is null)
-            //{
-            //    throw new ArgumentNullException(nameof(diagnosticReporter));
-            //}
 
-            //if (parent is null)
-            //{
-            //    throw new ArgumentNullException(nameof(parent));
-            //}
 
-            //if (processed is null)
+            //foreach (var generator in _generators)
             //{
-            //    throw new ArgumentNullException(nameof(processed));
-            //}
-
-            //if (processed.Contains(parent))
-            //{
-            //    //circular dependency found
-            //    //do not check this binding because of it's invalid a priori
-            //    diagnosticReporter.ReportWarning(
-            //        $"Searching for singleton-transient relationship has been skipped.",
-            //        $"Searching for singleton-transient relationship has been skipped, because of circular dependency found with {parent.BindingContainer.TargetRepresentation}."
+            //    AnalyzeForSingletonTakesTransientPrivate(
+            //        diagnosticReporter,
+            //        generator,
+            //        new HashSet<Generator>()
             //        );
-
-            //    return;
-            //}
-
-            //processed.Add(parent);
-
-            //foreach (var ca in parent.BindingContainer.ConstructorArguments.Where(j => !j.DefineInBindNode))
-            //{
-            //    if (ca.Type is null)
-            //    {
-            //        throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, $"ca.Type is null somehow");
-            //    }
-
-            //    if (!Groups.TryGetRegisteredGenerators(ca.Type!, true, out var children))
-            //    {
-            //        throw new DpdtException(DpdtExceptionTypeEnum.NoBindingAvailable, $"Found unknown binding [{ca.Type.GetFullName()}] from constructor of [{parent.BindingContainer.TargetRepresentation}]", ca.Type.Name);
-            //    }
-
-            //    foreach (var child in children)
-            //    {
-            //        if (parent.BindingContainer.Scope.In(BindScopeEnum.Singleton))
-            //        {
-            //            if (child.BindingContainer.Scope.In(BindScopeEnum.Transient))
-            //            {
-            //                diagnosticReporter.ReportWarning(
-            //                    $"Singleton-transient relationship has been found.",
-            //                    $"Searching for singleton-transient relationship has been found: singleton parent [{parent.BindingContainer.TargetRepresentation}] takes transient child [{child.BindingContainer.TargetRepresentation}]."
-            //                    );
-            //            }
-            //        }
-
-            //        AnalyzeForSingletonTakesTransientPrivate(
-            //            diagnosticReporter,
-            //            child,
-            //            new HashSet<Generator>(processed)
-            //            );
-            //    }
             //}
         }
+
+        //private void AnalyzeForSingletonTakesTransientPrivate(
+        //    IDiagnosticReporter diagnosticReporter,
+        //    Generator parent,
+        //    HashSet<Generator> processed
+        //    )
+        //{
+        //    //if (diagnosticReporter is null)
+        //    //{
+        //    //    throw new ArgumentNullException(nameof(diagnosticReporter));
+        //    //}
+
+        //    //if (parent is null)
+        //    //{
+        //    //    throw new ArgumentNullException(nameof(parent));
+        //    //}
+
+        //    //if (processed is null)
+        //    //{
+        //    //    throw new ArgumentNullException(nameof(processed));
+        //    //}
+
+        //    //if (processed.Contains(parent))
+        //    //{
+        //    //    //circular dependency found
+        //    //    //do not check this binding because of it's invalid a priori
+        //    //    diagnosticReporter.ReportWarning(
+        //    //        $"Searching for singleton-transient relationship has been skipped.",
+        //    //        $"Searching for singleton-transient relationship has been skipped, because of circular dependency found with {parent.BindingContainer.TargetRepresentation}."
+        //    //        );
+
+        //    //    return;
+        //    //}
+
+        //    //processed.Add(parent);
+
+        //    //foreach (var ca in parent.BindingContainer.ConstructorArguments.Where(j => !j.DefineInBindNode))
+        //    //{
+        //    //    if (ca.Type is null)
+        //    //    {
+        //    //        throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, $"ca.Type is null somehow");
+        //    //    }
+
+        //    //    if (!Groups.TryGetRegisteredGenerators(ca.Type!, true, out var children))
+        //    //    {
+        //    //        throw new DpdtException(DpdtExceptionTypeEnum.NoBindingAvailable, $"Found unknown binding [{ca.Type.GetFullName()}] from constructor of [{parent.BindingContainer.TargetRepresentation}]", ca.Type.Name);
+        //    //    }
+
+        //    //    foreach (var child in children)
+        //    //    {
+        //    //        if (parent.BindingContainer.Scope.In(BindScopeEnum.Singleton))
+        //    //        {
+        //    //            if (child.BindingContainer.Scope.In(BindScopeEnum.Transient))
+        //    //            {
+        //    //                diagnosticReporter.ReportWarning(
+        //    //                    $"Singleton-transient relationship has been found.",
+        //    //                    $"Searching for singleton-transient relationship has been found: singleton parent [{parent.BindingContainer.TargetRepresentation}] takes transient child [{child.BindingContainer.TargetRepresentation}]."
+        //    //                    );
+        //    //            }
+        //    //        }
+
+        //    //        AnalyzeForSingletonTakesTransientPrivate(
+        //    //            diagnosticReporter,
+        //    //            child,
+        //    //            new HashSet<Generator>(processed)
+        //    //            );
+        //    //    }
+        //    //}
+        //}
 
     }
 

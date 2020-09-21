@@ -14,13 +14,13 @@ namespace DpdtInject.Generator.Parser.Binding
     {
         public const string RootName = "";
 
-        public TreeJoint<BindingContainerCluster> ClusterJoint
+        public BindingClusterJoint ClusterJoint
         {
             get;
         }
 
         public BindingClusterTree(
-            TreeJoint<BindingContainerCluster> clusterJoint
+            BindingClusterJoint clusterJoint
             )
         {
             if (clusterJoint is null)
@@ -46,7 +46,7 @@ namespace DpdtInject.Generator.Parser.Binding
                 );
         }
 
-        public void BuildFlagsInternal(
+        private void BuildFlagsInternal(
             IDiagnosticReporter diagnosticReporter,
             TreeJoint<BindingContainerCluster> joint
             )
@@ -224,6 +224,15 @@ namespace DpdtInject.Generator.Parser.Binding
             return false;
         }
     }
+
+    public class BindingClusterJoint : TreeJoint<BindingContainerCluster>
+    {
+        public BindingClusterJoint(BindingContainerCluster jointPayload)
+            : base(jointPayload)
+        {
+        }
+    }
+
 
 
 

@@ -58,58 +58,36 @@ namespace DpdtInject.Generator.Tree
             _children = new List<TreeJoint<T>>();
         }
 
-        public TreeJoint<T> AddChild(
-            T jointPayload
+        public void AddChild(
+            TreeJoint<T> childJoint
             )
         {
-            if (jointPayload is null)
+            if (childJoint is null)
             {
-                throw new ArgumentNullException(nameof(jointPayload));
+                throw new ArgumentNullException(nameof(childJoint));
             }
 
-            var child = new TreeJoint<T>(this, jointPayload);
-            _children.Add(child);
-
-            return child;
+            _children.Add(childJoint);
         }
 
-        public TreeJoint<T2> ConvertTo<T2>(
-            Func<T, T2> converter
+        public T3 ConvertTo<T3, T2>(
+            Func<TreeJoint<T>, T3> converter
             )
+            where T3 : TreeJoint<T2>
         {
             if (converter is null)
             {
                 throw new ArgumentNullException(nameof(converter));
             }
 
-            var rootPayload = converter(JointPayload);
-            var root = new TreeJoint<T2>(rootPayload);
+            var convertedRoot = converter(this);
             foreach (var child in _children)
             {
-                var childPayload = converter(child.JointPayload);
-                root.AddChild(childPayload);
+                var convertedChild = converter(child);
+                convertedRoot.AddChild(convertedChild);
             }
 
-            return root;
-        }
-
-        public bool TryFindInThisAndItsParents(
-            Func<T, bool> predicate,
-            [NotNullWhen(true)] out TreeJoint<T>? foundJoint
-            )
-        {
-            if (predicate is null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
-
-            if (predicate(JointPayload))
-            {
-                foundJoint = this;
-                return true;
-            }
-
-            return TryFindInItsParents(predicate, out foundJoint);
+            return convertedRoot;
         }
 
         internal void Apply(
@@ -144,6 +122,25 @@ namespace DpdtInject.Generator.Tree
             {
                 Apply(action);
             }
+        }
+
+        public bool TryFindInThisAndItsParents(
+            Func<T, bool> predicate,
+            [NotNullWhen(true)] out TreeJoint<T>? foundJoint
+            )
+        {
+            if (predicate is null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+
+            if (predicate(JointPayload))
+            {
+                foundJoint = this;
+                return true;
+            }
+
+            return TryFindInItsParents(predicate, out foundJoint);
         }
 
         public bool TryFindInItsParents(
