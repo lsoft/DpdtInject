@@ -37,7 +37,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
                     return string.Empty;
                 }
 
-                return ":" + string.Join(",", InterfaceSection.Select(j => j.InterfaceSection));
+                return  "," + string.Join(",", InterfaceSection.Select(j => j.InterfaceSection));
             }
         }
 

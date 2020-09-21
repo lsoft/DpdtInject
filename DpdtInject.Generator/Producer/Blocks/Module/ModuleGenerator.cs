@@ -124,7 +124,7 @@ namespace {ModuleTypeNamespace}
 
         public override void Dispose()
         {{
-            {container.InstanceContainerGenerators.Where(icg => icg.BindingContainer.Scope.In(BindScopeEnum.Singleton)).Join(sc => sc.DisposeClause + ";")}
+            _provider.Dispose();
         }}
 
         public bool IsRegisteredFrom<T>()
@@ -163,12 +163,17 @@ namespace {ModuleTypeNamespace}
 
 #region Provider
 
-        private class Provider
+        private class Provider : IDisposable
             {providerGenerator.CombinedInterfaces}
         {{
 
             public Provider()
             {{
+            }}
+
+            public void Dispose()
+            {{
+                {container.InstanceContainerGenerators.Where(icg => icg.BindingContainer.Scope.In(BindScopeEnum.Singleton)).Join(sc => sc.DisposeClause + ";")}
             }}
 
             {providerGenerator.CombinedImplementationSection}
