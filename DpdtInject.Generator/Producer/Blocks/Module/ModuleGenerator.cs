@@ -56,9 +56,11 @@ namespace DpdtInject.Generator.Producer.Blocks.Module
                 throw new ArgumentNullException(nameof(container));
             }
 
+            var cluster = container.GeneratorClusters[0];
+
             var providerGenerator = new ProviderGenerator(
                 _compilation,
-                container
+                cluster
                 );
 
             var beautifyGenerator = new BeautifyGenerator(
@@ -79,7 +81,7 @@ using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Module;
 using DpdtInject.Injector.Module.Bind;
 
-{container.Generators.Join(sc => sc.Usings.Join(c => c))}
+{cluster.Generators.Join(sc => sc.Usings.Join(c => c))}
 
 namespace {ModuleTypeNamespace}
 {{
@@ -107,10 +109,10 @@ namespace {ModuleTypeNamespace}
                 );
 
             _typeContainerGet = new {typeof(ReinventedContainer).FullName}(
-                {container.GetReinventedContainerArgument("Get")}
+                {cluster.GetReinventedContainerArgument("Get")}
                 );
             _typeContainerGetAll = new {typeof(ReinventedContainer).FullName}(
-                {container.GetReinventedContainerArgument("GetAll")}
+                {cluster.GetReinventedContainerArgument("GetAll")}
                 );
 
             _beautifier = new {beautifyGenerator.ClassName}(

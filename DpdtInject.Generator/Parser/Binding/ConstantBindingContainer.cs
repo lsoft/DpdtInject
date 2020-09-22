@@ -18,68 +18,32 @@ using System.Threading.Tasks;
 namespace DpdtInject.Generator.Parser.Binding
 {
     [DebuggerDisplay("{BindFromTypes[0].Name} -> {TargetRepresentation}")]
-    public class ConstantBindingContainer : IBindingContainer
+    public class ConstantBindingContainer : BaseBindingContainer
     {
-        private readonly ITypeSymbol _constTypeSymbol;
         private readonly ArgumentSyntax _constantSyntax;
 
-        public string Name
-        {
-            get;
-        }
-        
-        public IReadOnlyList<ITypeSymbol> BindFromTypes
+        public override IReadOnlyList<DetectedConstructorArgument> ConstructorArguments
         {
             get;
         }
 
-        public ITypeSymbol BindToType => _constTypeSymbol;
-
-        public IReadOnlyList<DetectedConstructorArgument> ConstructorArguments
+        public override IReadOnlyCollection<ITypeSymbol> NotBindConstructorArgumentTypes
         {
             get;
         }
 
-        public IReadOnlyCollection<ITypeSymbol> NotBindConstructorArgumentTypes
-        {
-            get;
-        }
-
-        public BindScopeEnum Scope
-        {
-            get;
-        }
-
-        public ArgumentSyntax? WhenArgumentClause
-        {
-            get;
-        }
-
-        public IReadOnlyCollection<string> FromTypeFullNames
-        {
-            get;
-        }
-
-        public bool IsConditional => WhenArgumentClause is not null;
-
-        public string TargetRepresentation
+        public override string TargetRepresentation
         {
             get
             {
                 if (string.IsNullOrEmpty(Name))
                 {
-                    return $"constant[{_constTypeSymbol.GetFullName()}]";
+                    return $"constant[{BindToType.GetFullName()}]";
                 }
 
-                return $"constant[{Name} : {_constTypeSymbol.GetFullName()}]";
+                return $"constant[{Name} : {BindToType.GetFullName()}]";
             }
         }
-
-        //public bool AtLeastOneChildIsConditional
-        //{
-        //    get;
-        //    set;
-        //}
 
 
         public ConstantBindingContainer(
@@ -89,60 +53,37 @@ namespace DpdtInject.Generator.Parser.Binding
             ArgumentSyntax constantSyntax,
             BindScopeEnum scope,
             ArgumentSyntax? whenArgumentClause
-            )
+            ) : base(name, bindFromTypes, constTypeSymbol, scope, whenArgumentClause)
         {
-            if (name is null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
-            if (bindFromTypes is null)
-            {
-                throw new ArgumentNullException(nameof(bindFromTypes));
-            }
-
-            if (constTypeSymbol is null)
-            {
-                throw new ArgumentNullException(nameof(constTypeSymbol));
-            }
-
             if (constantSyntax is null)
             {
                 throw new ArgumentNullException(nameof(constantSyntax));
             }
-            Name = name;
-            BindFromTypes = bindFromTypes;
-            _constTypeSymbol = constTypeSymbol;
+
             _constantSyntax = constantSyntax;
             ConstructorArguments = new List<DetectedConstructorArgument>();
             NotBindConstructorArgumentTypes = new HashSet<ITypeSymbol>();
-            Scope = scope;
-            WhenArgumentClause = whenArgumentClause;
-            FromTypeFullNames = new HashSet<string>(BindFromTypes.ConvertAll(b => b.GetFullName()));
         }
 
-        public string GetFromTypeFullNamesCombined(string separator = "_") => string.Join(separator, FromTypeFullNames);
-
-        public string PrepareInstanceContainerCode(
-            string instanceContainerCode,
-            GeneratorsContainer container
+        public override string PrepareInstanceContainerCode(
+            GeneratorCluster cluster
             )
         {
-            if (instanceContainerCode is null)
+            if (cluster is null)
             {
-                throw new ArgumentNullException(nameof(instanceContainerCode));
+                throw new ArgumentNullException(nameof(cluster));
             }
 
-            if (container is null)
-            {
-                throw new ArgumentNullException(nameof(container));
-            }
+            GetInstanceContainerBody(out var className, out var resource);
+
+            var cus = SyntaxFactory.ParseCompilationUnit(resource);
+            var cds = cus.DescendantNodes().OfType<ClassDeclarationSyntax>().First();
+            var instanceContainerCode = cds.GetText().ToString();
 
             var result = instanceContainerCode
-                .CheckAndReplace(nameof(FakeTarget), _constTypeSymbol.GetFullName())
+                .CheckAndReplace(className, GetContainerStableClassName())
+                .CheckAndReplace(nameof(FakeTarget), BindToType.GetFullName())
                 .CheckAndReplace("//GENERATOR: init constant", $"{nameof(ConstantInstanceContainer.Instance)} = {_constantSyntax.GetText()};")
-                //.CheckAndReplace("//GENERATOR: argument methods", string.Join(Environment.NewLine, ConstructorArguments.Where(ca => !ca.DefineInBindNode).Select(ca => ca.GetRetrieveConstructorArgumentClause(container, this))))
-                //.CheckAndReplace("//GENERATOR: apply arguments", string.Join(",", ConstructorArguments.Select(ca => ca.GetApplyConstructorClause(container))))
                 .CheckAndReplace("//GENERATOR: predicate", (WhenArgumentClause?.ToString() ?? "rc => true"))
                 ;
 

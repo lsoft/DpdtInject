@@ -1,5 +1,6 @@
 ﻿using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Producer.Blocks.Binding;
+using DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer;
 using DpdtInject.Generator.Properties;
 using DpdtInject.Injector.Helper;
 using DpdtInject.Injector.Module.Bind;
@@ -17,52 +18,19 @@ using System.Threading.Tasks;
 namespace DpdtInject.Generator.Parser.Binding
 {
     [DebuggerDisplay("{BindFromTypes[0].Name} -> {TargetRepresentation}")]
-    public class BindingContainerWithInstance : IBindingContainer
+    public class BindingContainerWithInstance : BaseBindingContainer
     {
-        public string Name
+        public override IReadOnlyList<DetectedConstructorArgument> ConstructorArguments
         {
             get;
         }
 
-        public IReadOnlyList<ITypeSymbol> BindFromTypes
+        public override IReadOnlyCollection<ITypeSymbol> NotBindConstructorArgumentTypes
         {
             get;
         }
 
-        public ITypeSymbol BindToType
-        {
-            get;
-        }
-
-
-        public IReadOnlyList<DetectedConstructorArgument> ConstructorArguments
-        {
-            get;
-        }
-
-        public IReadOnlyCollection<ITypeSymbol> NotBindConstructorArgumentTypes
-        {
-            get;
-        }
-
-        public BindScopeEnum Scope
-        {
-            get;
-        }
-
-        public ArgumentSyntax? WhenArgumentClause
-        {
-            get;
-        }
-
-        public IReadOnlyCollection<string> FromTypeFullNames
-        {
-            get;
-        }
-
-        public bool IsConditional => WhenArgumentClause is not null;
-
-        public string TargetRepresentation
+        public override string TargetRepresentation
         {
             get
             {
@@ -75,13 +43,6 @@ namespace DpdtInject.Generator.Parser.Binding
             }
         }
 
-        //public bool AtLeastOneChildIsConditional
-        //{
-        //    get;
-        //    set;
-        //}
-
-
 
         public BindingContainerWithInstance(
             string name,
@@ -90,58 +51,37 @@ namespace DpdtInject.Generator.Parser.Binding
             IReadOnlyList<DetectedConstructorArgument> constructorArguments,
             BindScopeEnum scope,
             ArgumentSyntax? whenArgumentClause
-            )
+            ) : base(name, bindFromTypes, bindToType, scope, whenArgumentClause)
         {
-            if (name is null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
-            if (bindFromTypes is null)
-            {
-                throw new ArgumentNullException(nameof(bindFromTypes));
-            }
-
-            if (bindToType is null)
-            {
-                throw new ArgumentNullException(nameof(bindToType));
-            }
-
             if (constructorArguments is null)
             {
                 throw new ArgumentNullException(nameof(constructorArguments));
             }
-            Name = name;
-            BindFromTypes = bindFromTypes;
-            BindToType = bindToType;
+
             ConstructorArguments = constructorArguments;
             NotBindConstructorArgumentTypes = new HashSet<ITypeSymbol>(constructorArguments.Where(ca => !ca.DefineInBindNode).Select(ca => ca.Type!), new TypeSymbolEqualityComparer());
-            Scope = scope;
-            WhenArgumentClause = whenArgumentClause;
-            FromTypeFullNames = new HashSet<string>(BindFromTypes.ConvertAll(b => b.GetFullName()));
         }
 
-        public string GetFromTypeFullNamesCombined(string separator = "_") => string.Join(separator, FromTypeFullNames);
-
-        public string PrepareInstanceContainerCode(
-            string instanceContainerCode,
-            GeneratorsContainer container
+        public override string PrepareInstanceContainerCode(
+            GeneratorCluster cluster
             )
         {
-            if (instanceContainerCode is null)
+            if (cluster is null)
             {
-                throw new ArgumentNullException(nameof(instanceContainerCode));
+                throw new ArgumentNullException(nameof(cluster));
             }
 
-            if (container is null)
-            {
-                throw new ArgumentNullException(nameof(container));
-            }
+            GetInstanceContainerBody(out var className, out var resource);
+
+            var cus = SyntaxFactory.ParseCompilationUnit(resource);
+            var cds = cus.DescendantNodes().OfType<ClassDeclarationSyntax>().First();
+            var instanceContainerCode = cds.GetText().ToString();
 
             var result = instanceContainerCode
+                .CheckAndReplace(className, GetContainerStableClassName())
                 .CheckAndReplace(nameof(FakeTarget), BindToType.GetFullName())
-                .CheckAndReplace("//GENERATOR: argument methods", string.Join(Environment.NewLine, ConstructorArguments.Where(ca => !ca.DefineInBindNode).Select(ca => ca.GenerateProvideConstructorArgumentMethod(container, this))))
-                .CheckAndReplace("//GENERATOR: apply arguments", string.Join(",", ConstructorArguments.Select(ca => ca.GetApplyConstructorClause(container))))
+                .CheckAndReplace("//GENERATOR: argument methods", string.Join(Environment.NewLine, ConstructorArguments.Where(ca => !ca.DefineInBindNode).Select(ca => ca.GenerateProvideConstructorArgumentMethod(cluster, this))))
+                .CheckAndReplace("//GENERATOR: apply arguments", string.Join(",", ConstructorArguments.Select(ca => ca.GetApplyConstructorClause())))
                 .CheckAndReplace("//GENERATOR: predicate", (WhenArgumentClause?.ToString() ?? "rc => true"))
                 ;
 

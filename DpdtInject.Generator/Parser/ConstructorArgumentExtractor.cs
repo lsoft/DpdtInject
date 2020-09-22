@@ -137,13 +137,13 @@ namespace DpdtInject.Generator.Parser
         }
 
         public string GenerateProvideConstructorArgumentMethod(
-            GeneratorsContainer container,
+            GeneratorCluster cluster,
             IBindingContainer bindingContainer
             )
         {
-            if (container is null)
+            if (cluster is null)
             {
-                throw new ArgumentNullException(nameof(container));
+                throw new ArgumentNullException(nameof(cluster));
             }
 
             if (bindingContainer is null)
@@ -169,7 +169,7 @@ namespace DpdtInject.Generator.Parser
             }
 
             DpdtArgumentWrapperTypeEnum wrapperType = DpdtArgumentWrapperTypeEnum.None;
-            if (container.GeneratorTree.JointPayload.GetRegisteredKeys(false).All(p => !SymbolEqualityComparer.Default.Equals(p.Item2, this.Type)))
+            if (cluster.GetRegisteredKeys(false).All(p => !SymbolEqualityComparer.Default.Equals(p.Item2, this.Type)))
             {
                 //this type is not registered in the module
                 if (!this.Type.TryDetectWrapperType(out wrapperType, out var innerType))
@@ -187,7 +187,7 @@ namespace DpdtInject.Generator.Parser
 
             var workingType = this.Type;
 
-            if(!container.GeneratorTree.JointPayload.TryGetRegisteredGeneratorGroups(workingType, true, out var groups))
+            if(!cluster.TryGetRegisteredGeneratorGroups(workingType, true, out var groups))
             {
                 throw new DpdtException(
                     DpdtExceptionTypeEnum.NoBindingAvailable,
@@ -391,14 +391,8 @@ return {generator.GetInstanceClause("null", wrapperType)};
         }
 
         public string GetApplyConstructorClause(
-            GeneratorsContainer container
             )
         {
-            if (container is null)
-            {
-                throw new ArgumentNullException(nameof(container));
-            }
-
             if (DefineInBindNode)
             {
                 return $"{Name}: {Body}";

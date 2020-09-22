@@ -1,4 +1,5 @@
-﻿using DpdtInject.Generator.Parser;
+﻿using DpdtInject.Generator.Helpers;
+using DpdtInject.Generator.Parser;
 using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Helper;
@@ -13,6 +14,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
     {
         private readonly Compilation _compilation;
         private readonly Dictionary<ITypeSymbol, GeneratorGroup> _generatorGroups;
+        private readonly List<Generator> _generators;
 
         public BindingContainerCluster BindingContainerCluster
         {
@@ -20,6 +22,8 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         }
 
         public IReadOnlyDictionary<ITypeSymbol, GeneratorGroup> GeneratorGroups => _generatorGroups;
+
+        public IReadOnlyList<Generator> Generators => _generators;
 
         public IReadOnlyCollection<ITypeSymbol> BindsFrom => _generatorGroups.Keys;
 
@@ -46,6 +50,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
             _compilation = compilation;
             BindingContainerCluster = bindingContainerCluster;
+
             _generatorGroups = bindingContainerCluster.BindingContainerGroups.ToDictionary(
                 g => g.Key,
                 g => new GeneratorGroup(
@@ -58,7 +63,36 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                         )
                     )
                 );
+
+            _generators = new List<Generator>();
+            foreach(var pair in _generatorGroups)
+            {
+                _generators.AddRange(pair.Value.Generators);
+            }
         }
+
+        internal string GetReinventedContainerArgument(
+            string providerMethodNamePrefix
+            )
+        {
+            if (providerMethodNamePrefix is null)
+            {
+                throw new ArgumentNullException(nameof(providerMethodNamePrefix));
+            }
+
+            var clauses = new List<string>();
+
+            foreach (var (wrapperType, wrapperSymbol) in GetRegisteredKeys(true))
+            {
+                clauses.Add(
+                    $"new Tuple<Type, Func<object>>( typeof({wrapperSymbol.GetFullName()}), _provider.{providerMethodNamePrefix}_{wrapperSymbol.GetFullName().ConvertDotLessGreatherToGround()}{wrapperType.GetPostfix()} )"
+                    );
+            }
+
+            return string.Join(",", clauses);
+        }
+
+
 
         public IReadOnlyCollection<(DpdtArgumentWrapperTypeEnum, ITypeSymbol)> GetRegisteredKeys(bool includeWrappers)
         {

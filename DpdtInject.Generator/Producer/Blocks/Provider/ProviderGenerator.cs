@@ -21,7 +21,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
     {
         private readonly List<ProviderInterfaceGenerator> _interfaceSection;
         private readonly Compilation _compilation;
-        private readonly GeneratorsContainer _container;
+        private readonly GeneratorCluster _cluster;
         
         public string ProviderClassName
         {
@@ -31,7 +31,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
 
         public ProviderGenerator(
             Compilation compilation,
-            GeneratorsContainer container
+            GeneratorCluster cluster
             )
         {
             if (compilation is null)
@@ -39,18 +39,18 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
                 throw new ArgumentNullException(nameof(compilation));
             }
 
-            if (container is null)
+            if (cluster is null)
             {
-                throw new ArgumentNullException(nameof(container));
+                throw new ArgumentNullException(nameof(cluster));
             }
             _compilation = compilation;
-            _container = container;
+            _cluster = cluster;
 
             _interfaceSection = new List<ProviderInterfaceGenerator>();
 
-            foreach (var (_, bindFromType) in _container.GeneratorTree.JointPayload.GetRegisteredKeys(false))
+            foreach (var (_, bindFromType) in _cluster.GetRegisteredKeys(false))
             {
-                if(_container.GeneratorTree.JointPayload.TryGetRegisteredGeneratorGroups(bindFromType, false, out var groups))
+                if(_cluster.TryGetRegisteredGeneratorGroups(bindFromType, false, out var groups))
                 {
                     var generators = groups.Collapse(
                         group => group.Generators
@@ -86,13 +86,13 @@ private class {ProviderClassName} : IDisposable
 
     public void Dispose()
     {{
-        {_container.Generators.Where(icg => icg.BindingContainer.Scope.In(BindScopeEnum.Singleton)).Join(sc => sc.DisposeClause + ";")}
+        {_cluster.Generators.Where(icg => icg.BindingContainer.Scope.In(BindScopeEnum.Singleton)).Join(sc => sc.DisposeClause + ";")}
     }}
 
     {GetCombinedImplementationSection()}
 
 #region Instance Containers
-    {_container.Generators.Join(sc => sc.GetClassBody(_container))}
+    {_cluster.Generators.Join(sc => sc.GetClassBody(_cluster))}
 #endregion
 
 }}

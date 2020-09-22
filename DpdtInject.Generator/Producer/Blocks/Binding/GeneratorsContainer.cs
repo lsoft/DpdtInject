@@ -20,12 +20,15 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
     public class GeneratorsContainer
     {
         private readonly List<Generator> _generators;
+        private readonly List<GeneratorCluster> _generatorClusters;
         private readonly HashSet<ITypeSymbol>  _allRegisteredTypes;
 
         public BindingsContainer BindingsContainer
         {
             get;
         }
+
+        public IReadOnlyList<GeneratorCluster> GeneratorClusters => _generatorClusters;
 
         public IReadOnlyList<Generator> Generators => _generators;
 
@@ -72,6 +75,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             GeneratorTree.BuildFlags();
 
             _generators = new List<Generator>();
+            _generatorClusters = new List<GeneratorCluster>();
             _allRegisteredTypes = new HashSet<ITypeSymbol>(
                 new TypeSymbolEqualityComparer()
                 );
@@ -79,7 +83,9 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             GeneratorTree.Apply(
                 cluster =>
                 {
-                    foreach(var pair in cluster.GeneratorGroups)
+                    _generatorClusters.Add(cluster);
+
+                    foreach (var pair in cluster.GeneratorGroups)
                     {
                         foreach(var generator in pair.Value.Generators)
                         {
@@ -96,26 +102,26 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
         }
 
-        internal string GetReinventedContainerArgument(
-            string providerMethodNamePrefix
-            )
-        {
-            if (providerMethodNamePrefix is null)
-            {
-                throw new ArgumentNullException(nameof(providerMethodNamePrefix));
-            }
+        //internal string GetReinventedContainerArgument(
+        //    string providerMethodNamePrefix
+        //    )
+        //{
+        //    if (providerMethodNamePrefix is null)
+        //    {
+        //        throw new ArgumentNullException(nameof(providerMethodNamePrefix));
+        //    }
 
-            var clauses = new List<string>();
+        //    var clauses = new List<string>();
 
-            foreach(var (wrapperType, wrapperSymbol) in GeneratorTree.JointPayload.GetRegisteredKeys(true))
-            {
-                clauses.Add(
-                    $"new Tuple<Type, Func<object>>( typeof({wrapperSymbol.GetFullName()}), _provider.{providerMethodNamePrefix}_{wrapperSymbol.GetFullName().ConvertDotLessGreatherToGround()}{wrapperType.GetPostfix()} )"
-                    );
-            }
+        //    foreach(var (wrapperType, wrapperSymbol) in GeneratorTree.JointPayload.GetRegisteredKeys(true))
+        //    {
+        //        clauses.Add(
+        //            $"new Tuple<Type, Func<object>>( typeof({wrapperSymbol.GetFullName()}), _provider.{providerMethodNamePrefix}_{wrapperSymbol.GetFullName().ConvertDotLessGreatherToGround()}{wrapperType.GetPostfix()} )"
+        //            );
+        //    }
 
-            return string.Join(",", clauses);
-        }
+        //    return string.Join(",", clauses);
+        //}
 
         internal void AnalyzeForCircularDependencies(
             IDiagnosticReporter diagnosticReporter

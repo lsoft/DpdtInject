@@ -58,17 +58,14 @@ namespace DpdtInject.Generator.Parser.Binding
             get;
         }
 
-        //bool AtLeastOneChildIsConditional
-        //{
-        //    get;
-        //    set;
-        //}
-
         string GetFromTypeFullNamesCombined(string separator = "_");
 
         string PrepareInstanceContainerCode(
-            string instanceContainerCode,
-            GeneratorsContainer container
+            GeneratorCluster cluster
             );
+
+        string GetContainerStableClassName();
+
+        void GetInstanceContainerBody(out string className, out string resource);
     }
 }
