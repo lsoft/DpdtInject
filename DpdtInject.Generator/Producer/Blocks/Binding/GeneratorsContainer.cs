@@ -93,7 +93,61 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         {
         }
 
-        public IReadOnlyList<Point3> GenerateChildPoints()
+        public IReadOnlyList<Point2> GeneratePoints2(
+            )
+        {
+            var result = new List<Point2>();
+
+            this.Apply(
+                joint =>
+                {
+                    foreach (var pair in joint.JointPayload.GeneratorGroups)
+                    {
+                        foreach (var generator in pair.Value.Generators)
+                        {
+                            var point2 = new Point2(
+                                this,
+                                generator
+                                );
+
+                            result.Add(point2);
+                        }
+                    }
+                });
+
+            return result;
+        }
+
+        internal IReadOnlyList<Point3> GenerateRegisteredTypePoints()
+        {
+            var result = new List<Point3>();
+
+            this.Apply(
+                joint =>
+                {
+                    foreach (var pair in joint.JointPayload.GeneratorGroups)
+                    {
+                        foreach (var generator in pair.Value.Generators)
+                        {
+                            foreach(var bindFrom in generator.BindFromTypes)
+                            {
+                                var point3 = new Point3(
+                                    this,
+                                    generator,
+                                    bindFrom
+                                    );
+
+                                result.Add(point3);
+                            }
+                        }
+                    }
+                });
+
+            return result;
+        }
+
+
+        internal IReadOnlyList<Point3> GenerateChildPoints()
         {
             var result = new List<Point3>();
 
@@ -126,8 +180,39 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             return result;
         }
 
-    }
+        internal IReadOnlyList<GeneratorTreeJoint> GenerateJoints()
+        {
+            var result = new List<GeneratorTreeJoint>();
 
+            GenerateJointsInternal(this, result);
+
+            return result;
+        }
+
+        internal void GenerateJointsInternal(
+            GeneratorTreeJoint joint,
+            List<GeneratorTreeJoint> result
+            )
+        {
+            if (joint is null)
+            {
+                throw new ArgumentNullException(nameof(joint));
+            }
+
+            if (result is null)
+            {
+                throw new ArgumentNullException(nameof(result));
+            }
+
+            result.Add(joint);
+
+            foreach(var child in joint.Children)
+            {
+                GenerateJointsInternal((GeneratorTreeJoint)child, result);
+            }
+        }
+
+    }
 
     public class Point2
     {
@@ -173,6 +258,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         {
             get;
         }
+
         public ITypeSymbol TypeSymbol
         {
             get;
@@ -394,7 +480,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                 throw new ArgumentNullException(nameof(diagnosticReporter));
             }
 
-            new CycleChecker(GeneratorTree.JointPayload)
+            new CycleChecker(GeneratorTree.Joint)
                 .CheckForCycles(diagnosticReporter)
                 ;
         }

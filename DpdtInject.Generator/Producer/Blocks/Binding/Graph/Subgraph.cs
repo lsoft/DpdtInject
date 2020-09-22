@@ -5,35 +5,34 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
 {
     public class Subgraph
     {
-        private readonly HashSet<ITypeSymbol> _used;
-        private readonly List<ITypeSymbol> _usedInList;
+        private readonly HashSet<Generator> _used;
+        private readonly List<Generator> _usedInList;
 
         private bool _idempotent = true;
 
         public Subgraph()
         {
-            _used = new HashSet<ITypeSymbol>(
-                new TypeSymbolEqualityComparer()
+            _used = new HashSet<Generator>(
                 );
-            _usedInList = new List<ITypeSymbol>();
+            _usedInList = new List<Generator>();
         }
 
         private Subgraph(Subgraph subgraph)
         {
-            _used = new HashSet<ITypeSymbol>(subgraph._used, subgraph._used.Comparer);
-            _usedInList = new List<ITypeSymbol>(subgraph._usedInList);
+            _used = new HashSet<Generator>(subgraph._used, subgraph._used.Comparer);
+            _usedInList = new List<Generator>(subgraph._usedInList);
             _idempotent = subgraph._idempotent;
         }
 
         public void AppendOrFailIfExists(
-            ITypeSymbol node,
+            Generator generator,
             bool idempotent
             )
         {
-            if (_used.Contains(node))
+            if (_used.Contains(generator))
             {
-                var cycleList = new List<ITypeSymbol>(_usedInList);
-                cycleList.Add(node);
+                var cycleList = new List<Generator>(_usedInList);
+                cycleList.Add(generator);
 
                 throw new CycleFoundException(
                     cycleList,
@@ -41,8 +40,8 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
                     );
             }
 
-            _used.Add(node);
-            _usedInList.Add(node);
+            _used.Add(generator);
+            _usedInList.Add(generator);
             _idempotent &= idempotent;
         }
 

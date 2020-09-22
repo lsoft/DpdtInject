@@ -10,7 +10,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
 {
     internal class CycleFoundException : System.Exception
     {
-        public IReadOnlyList<ITypeSymbol> CycleList
+        public IReadOnlyList<Generator> CycleList
         {
             get;
         }
@@ -20,7 +20,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
         }
 
         public CycleFoundException(
-            List<ITypeSymbol> cycleList,
+            List<Generator> cycleList,
             bool strictConculsion
             )
         {
@@ -36,7 +36,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
         internal object GetStringRepresentation()
         {
             return
-                string.Join(" -> ", CycleList.Select(r => r.GetFullName()));
+                string.Join(" -> ", CycleList.Select(r => "[" + r.BindingContainer.TargetRepresentation + "]"));
         }
     }
 }

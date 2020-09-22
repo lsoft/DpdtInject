@@ -14,13 +14,13 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
 {
     public class CycleChecker
     {
-        private readonly GeneratorCluster _cluster;
+        private readonly GeneratorTreeJoint _joint;
 
         public CycleChecker(
-            GeneratorCluster cluster
+            GeneratorTreeJoint joint
             )
         {
-            _cluster = cluster;
+            _joint = joint;
         }
 
         public void CheckForCycles(
@@ -36,7 +36,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
                 new OrderIndependentCycleFoundEqualityComparer()
                 );
 
-            foreach (var (wrapperType, wrapperSymbol) in _cluster.GetRegisteredKeys(true).Shuffle())
+            foreach (var point2 in _joint.GeneratePoints2().Shuffle())
             {
                 try
                 {
@@ -44,7 +44,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
 
                     CheckForCyclesInternal(
                         ref used,
-                        wrapperSymbol
+                        point2
                         );
                 }
                 catch (CycleFoundException cfe)
@@ -55,6 +55,26 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
                     }
                 }
             }
+
+            //foreach (var (wrapperType, wrapperSymbol) in _joint.GetRegisteredKeys(true).Shuffle())
+            //{
+            //    try
+            //    {
+            //        var used = new Subgraph();
+
+            //        CheckForCyclesInternal(
+            //            ref used,
+            //            wrapperSymbol
+            //            );
+            //    }
+            //    catch (CycleFoundException cfe)
+            //    {
+            //        if (!cycles.Contains(cfe))
+            //        {
+            //            cycles.Add(cfe);
+            //        }
+            //    }
+            //}
 
             foreach (var cycle in cycles)
             {
@@ -77,39 +97,118 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
 
         private void CheckForCyclesInternal(
             ref Subgraph used,
-            ITypeSymbol requestedType
+            Point2 point2
             )
         {
-            if (!_cluster.TryGetRegisteredGeneratorGroups(requestedType, true, out var groups))
+            if (used is null)
             {
-                return;
+                throw new ArgumentNullException(nameof(used));
             }
 
-            foreach (var group in groups)
+            if (point2 is null)
             {
-                foreach (var generator in group.Generators)
+                throw new ArgumentNullException(nameof(point2));
+            }
+
+            used.AppendOrFailIfExists(
+                point2.Generator,
+                !point2.Generator.BindingContainer.IsConditional
+                );
+
+            foreach (var ca in point2.Generator.BindingContainer.ConstructorArguments.Where(ca => !ca.DefineInBindNode).Shuffle())
+            {
+                if (ca.Type is null)
                 {
-                    var used2 = used.Clone();
-
-                    used2.AppendOrFailIfExists(
-                        requestedType,
-                        !generator.BindingContainer.IsConditional
+                    throw new DpdtException(
+                        DpdtExceptionTypeEnum.InternalError,
+                        $"constructorArgument.Type is null somehow"
                         );
+                }
 
-                    foreach (var constructorArgument in generator.BindingContainer.ConstructorArguments.Where(ca => !ca.DefineInBindNode).Shuffle())
+                var childPoint3 = new Point3(
+                    point2.Joint,
+                    point2.Generator,
+                    ca.Type
+                    );
+
+                if (childPoint3.TryFindChildren(out var childrenPoint2))
+                {
+                    foreach(var childPoint2 in childrenPoint2)
                     {
-                        if (constructorArgument.Type is null)
-                        {
-                            throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"constructorArgument.Type is null somehow");
-                        }
+                        var used2 = used.Clone();
 
                         CheckForCyclesInternal(
                             ref used2,
-                            constructorArgument.Type
+                            childPoint2
                             );
                     }
                 }
             }
+
+
+
+            //if (point3.TryFindChildren(out var children))
+            //{
+            //    foreach(var point2 in children)
+            //    {
+            //        var used2 = used.Clone();
+
+            //        foreach (var ca in point2.Generator.BindingContainer.ConstructorArguments.Where(ca => !ca.DefineInBindNode).Shuffle())
+            //        {
+            //            if (ca.Type is null)
+            //            {
+            //                throw new DpdtException(
+            //                    DpdtExceptionTypeEnum.InternalError,
+            //                    $"constructorArgument.Type is null somehow"
+            //                    );
+            //            }
+
+            //            CheckForCyclesInternal(
+            //                ref used2,
+            //                new Point3(
+            //                    point2.Joint,
+            //                    point2.Generator,
+            //                    ca.Type
+            //                    )
+            //                );
+            //        }
+            //    }
+
+
+
+            //if (!_joint.TryGetRegisteredGeneratorGroups(requestedType, true, out var groups))
+            //{
+            //    return;
+            //}
+
+            //foreach (var group in groups)
+            //{
+            //    foreach (var generator in group.Generators)
+            //    {
+            //        var used2 = used.Clone();
+
+            //        used2.AppendOrFailIfExists(
+            //            point3.Generator,
+            //            !generator.BindingContainer.IsConditional
+            //            );
+
+            //        foreach (var constructorArgument in generator.BindingContainer.ConstructorArguments.Where(ca => !ca.DefineInBindNode).Shuffle())
+            //        {
+            //            if (constructorArgument.Type is null)
+            //            {
+            //                throw new DpdtException(
+            //                    DpdtExceptionTypeEnum.InternalError, 
+            //                    $"constructorArgument.Type is null somehow"
+            //                    );
+            //            }
+
+            //            CheckForCyclesInternal(
+            //                ref used2,
+            //                constructorArgument.Type
+            //                );
+            //        }
+            //    }
+            //}
         }
 
         private class OrderIndependentCycleFoundEqualityComparer : IEqualityComparer<CycleFoundException>
@@ -137,9 +236,9 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
             {
                 var result = obj.StrictConculsion ? int.MaxValue : 0;
 
-                foreach (var type in obj.CycleList.Skip(1))
+                foreach (var generator in obj.CycleList.Skip(1))
                 {
-                    result ^= type.GetFullName().GetHashCode();
+                    result ^= generator.BindingContainer.BindToType.GetFullName().GetHashCode();
                 }
 
                 return result;
