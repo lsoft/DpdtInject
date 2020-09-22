@@ -75,6 +75,85 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             foundJoint = (GeneratorTreeJoint)foundJoint2!;
             return true;
         }
+
+        internal void BuildFlags()
+        {
+            CheckForAtLeastOneChildIsConditionalInternal(
+                );
+        }
+
+        private void CheckForAtLeastOneChildIsConditionalInternal(
+            )
+        {
+            foreach (var point2 in Joint.GeneratePoints2())
+            {
+                var itselfOrAtLeastOneChildIsConditional = CheckForItselfOrAtLeastOneChildIsConditionalInternal2(
+                    point2,
+                    new HashSet<Generator>()
+                    );
+                point2.Generator.ItselfOrAtLeastOneChildIsConditional = itselfOrAtLeastOneChildIsConditional;
+            }
+        }
+        private bool CheckForItselfOrAtLeastOneChildIsConditionalInternal2(
+            Point2 point2,
+            HashSet<Generator> used
+            )
+        {
+            if (point2 is null)
+            {
+                throw new ArgumentNullException(nameof(point2));
+            }
+
+            if (used is null)
+            {
+                throw new ArgumentNullException(nameof(used));
+            }
+
+            if(used.Contains(point2.Generator))
+            {
+                //found cycle, skip this subtree as circular
+                return false;
+            }
+            used.Add(point2.Generator);
+
+            if(point2.Generator.BindingContainer.IsConditional)
+            {
+                return true;
+            }
+
+            foreach (var ca in point2.Generator.BindingContainer.ConstructorArguments.Where(ca => !ca.DefineInBindNode))
+            {
+                if (ca.Type is null)
+                {
+                    throw new DpdtException(
+                        DpdtExceptionTypeEnum.InternalError,
+                        $"constructorArgument.Type is null somehow"
+                        );
+                }
+
+                var childPoint3 = new Point3(
+                    point2.Joint,
+                    point2.Generator,
+                    ca.Type
+                    );
+
+                if (childPoint3.TryFindChildren(out var childrenPoint2))
+                {
+                    foreach (var childPoint2 in childrenPoint2)
+                    {
+                        if(CheckForItselfOrAtLeastOneChildIsConditionalInternal2(
+                            childPoint2,
+                            new HashSet<Generator>(used)
+                            ))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
     }
 
     public class GeneratorTreeJoint : TreeJoint<GeneratorCluster>

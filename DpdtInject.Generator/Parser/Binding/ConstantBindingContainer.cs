@@ -75,11 +75,11 @@ namespace DpdtInject.Generator.Parser.Binding
             }
         }
 
-        public bool AtLeastOneChildIsConditional
-        {
-            get;
-            set;
-        }
+        //public bool AtLeastOneChildIsConditional
+        //{
+        //    get;
+        //    set;
+        //}
 
 
         public ConstantBindingContainer(

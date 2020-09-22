@@ -56,26 +56,6 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
                 }
             }
 
-            //foreach (var (wrapperType, wrapperSymbol) in _joint.GetRegisteredKeys(true).Shuffle())
-            //{
-            //    try
-            //    {
-            //        var used = new Subgraph();
-
-            //        CheckForCyclesInternal(
-            //            ref used,
-            //            wrapperSymbol
-            //            );
-            //    }
-            //    catch (CycleFoundException cfe)
-            //    {
-            //        if (!cycles.Contains(cfe))
-            //        {
-            //            cycles.Add(cfe);
-            //        }
-            //    }
-            //}
-
             foreach (var cycle in cycles)
             {
                 if (cycle.StrictConculsion)
@@ -144,71 +124,6 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
                     }
                 }
             }
-
-
-
-            //if (point3.TryFindChildren(out var children))
-            //{
-            //    foreach(var point2 in children)
-            //    {
-            //        var used2 = used.Clone();
-
-            //        foreach (var ca in point2.Generator.BindingContainer.ConstructorArguments.Where(ca => !ca.DefineInBindNode).Shuffle())
-            //        {
-            //            if (ca.Type is null)
-            //            {
-            //                throw new DpdtException(
-            //                    DpdtExceptionTypeEnum.InternalError,
-            //                    $"constructorArgument.Type is null somehow"
-            //                    );
-            //            }
-
-            //            CheckForCyclesInternal(
-            //                ref used2,
-            //                new Point3(
-            //                    point2.Joint,
-            //                    point2.Generator,
-            //                    ca.Type
-            //                    )
-            //                );
-            //        }
-            //    }
-
-
-
-            //if (!_joint.TryGetRegisteredGeneratorGroups(requestedType, true, out var groups))
-            //{
-            //    return;
-            //}
-
-            //foreach (var group in groups)
-            //{
-            //    foreach (var generator in group.Generators)
-            //    {
-            //        var used2 = used.Clone();
-
-            //        used2.AppendOrFailIfExists(
-            //            point3.Generator,
-            //            !generator.BindingContainer.IsConditional
-            //            );
-
-            //        foreach (var constructorArgument in generator.BindingContainer.ConstructorArguments.Where(ca => !ca.DefineInBindNode).Shuffle())
-            //        {
-            //            if (constructorArgument.Type is null)
-            //            {
-            //                throw new DpdtException(
-            //                    DpdtExceptionTypeEnum.InternalError, 
-            //                    $"constructorArgument.Type is null somehow"
-            //                    );
-            //            }
-
-            //            CheckForCyclesInternal(
-            //                ref used2,
-            //                constructorArgument.Type
-            //                );
-            //        }
-            //    }
-            //}
         }
 
         private class OrderIndependentCycleFoundEqualityComparer : IEqualityComparer<CycleFoundException>

@@ -58,11 +58,11 @@ namespace DpdtInject.Generator.Parser.Binding
             get;
         }
 
-        bool AtLeastOneChildIsConditional
-        {
-            get;
-            set;
-        }
+        //bool AtLeastOneChildIsConditional
+        //{
+        //    get;
+        //    set;
+        //}
 
         string GetFromTypeFullNamesCombined(string separator = "_");
 

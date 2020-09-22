@@ -41,10 +41,16 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             get;
         }
 
-        public bool ItselfOrAtLeastOneChildIsConditional =>
-                BindingContainer.IsConditional
-                || BindingContainer.AtLeastOneChildIsConditional
-            ;
+        //public bool ItselfOrAtLeastOneChildIsConditional =>
+        //        BindingContainer.IsConditional
+        //        || BindingContainer.AtLeastOneChildIsConditional
+        //    ;
+
+        public bool ItselfOrAtLeastOneChildIsConditional
+        {
+            get;
+            set;
+        }
 
 
         public string DisposeClause

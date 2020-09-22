@@ -69,6 +69,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                         )
                     )
                 ));
+            GeneratorTree.BuildFlags();
 
             _generators = new List<Generator>();
             _allRegisteredTypes = new HashSet<ITypeSymbol>(
