@@ -10,24 +10,27 @@ using System.Linq;
 
 namespace DpdtInject.Generator.Producer.Blocks.Binding
 {
-    public class GeneratorCluster
+    public class InstanceContainerGeneratorCluster
+
     {
         private readonly Compilation _compilation;
-        private readonly Dictionary<ITypeSymbol, GeneratorGroup> _generatorGroups;
-        private readonly List<Generator> _generators;
+        private readonly Dictionary<ITypeSymbol, InstanceContainerGeneratorGroup> _generatorGroups;
+        private readonly List<InstanceContainerGenerator> _generators;
+
+        internal string Name => BindingContainerCluster.Name;
 
         public BindingContainerCluster BindingContainerCluster
         {
             get;
         }
 
-        public IReadOnlyDictionary<ITypeSymbol, GeneratorGroup> GeneratorGroups => _generatorGroups;
+        public IReadOnlyDictionary<ITypeSymbol, InstanceContainerGeneratorGroup> GeneratorGroups => _generatorGroups;
 
-        public IReadOnlyList<Generator> Generators => _generators;
+        public IReadOnlyList<InstanceContainerGenerator> Generators => _generators;
 
         public IReadOnlyCollection<ITypeSymbol> BindsFrom => _generatorGroups.Keys;
 
-        public GeneratorCluster(
+        public InstanceContainerGeneratorCluster(
             IDiagnosticReporter diagnosticReporter,
             Compilation compilation,
             BindingContainerCluster bindingContainerCluster
@@ -53,10 +56,10 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
             _generatorGroups = bindingContainerCluster.BindingContainerGroups.ToDictionary(
                 g => g.Key,
-                g => new GeneratorGroup(
+                g => new InstanceContainerGeneratorGroup(
                     g.Key,
                     g.Value.BindingContainers.ConvertAll(
-                        bc => new Generator(
+                        bc => new InstanceContainerGenerator(
                             diagnosticReporter,
                             bc
                             )
@@ -64,7 +67,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                     )
                 );
 
-            _generators = new List<Generator>();
+            _generators = new List<InstanceContainerGenerator>();
             foreach(var pair in _generatorGroups)
             {
                 _generators.AddRange(pair.Value.Generators);
@@ -85,7 +88,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             foreach (var (wrapperType, wrapperSymbol) in GetRegisteredKeys(true))
             {
                 clauses.Add(
-                    $"new Tuple<Type, Func<object>>( typeof({wrapperSymbol.GetFullName()}), _provider.{providerMethodNamePrefix}_{wrapperSymbol.GetFullName().ConvertDotLessGreatherToGround()}{wrapperType.GetPostfix()} )"
+                    $"new Tuple<Type, Func<object>>( typeof({wrapperSymbol.GetFullName()}), _cluster.{providerMethodNamePrefix}_{wrapperSymbol.GetFullName().ConvertDotLessGreatherToGround()}{wrapperType.GetPostfix()} )"
                     );
             }
 
@@ -123,7 +126,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         public bool TryGetRegisteredGeneratorGroups(
             ITypeSymbol type,
             bool includeWrappers,
-            out IReadOnlyList<GeneratorGroup> result
+            out IReadOnlyList<InstanceContainerGeneratorGroup> result
             )
         {
             if (type is null)
@@ -131,7 +134,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                 throw new ArgumentNullException(nameof(type));
             }
 
-            var rresult = new List<GeneratorGroup>();
+            var rresult = new List<InstanceContainerGeneratorGroup>();
 
             if (_generatorGroups.TryGetValue(type, out var group))
             {

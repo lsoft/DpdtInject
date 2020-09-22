@@ -14,10 +14,10 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
 {
     public class CycleChecker
     {
-        private readonly GeneratorTreeJoint _joint;
+        private readonly InstanceContainerGeneratorTreeJoint _joint;
 
         public CycleChecker(
-            GeneratorTreeJoint joint
+            InstanceContainerGeneratorTreeJoint joint
             )
         {
             _joint = joint;

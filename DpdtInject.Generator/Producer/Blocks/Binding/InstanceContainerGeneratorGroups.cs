@@ -9,20 +9,20 @@ using System.Linq;
 
 namespace DpdtInject.Generator.Producer.Blocks.Binding
 {
-    public class GeneratorGroup
+    public class InstanceContainerGeneratorGroup
     {
-        private readonly List<Generator> _generators;
+        private readonly List<InstanceContainerGenerator> _generators;
 
         public ITypeSymbol BindFrom
         {
             get;
         }
 
-        public IReadOnlyList<Generator> Generators => _generators;
+        public IReadOnlyList<InstanceContainerGenerator> Generators => _generators;
 
-        public GeneratorGroup(
+        public InstanceContainerGeneratorGroup(
             ITypeSymbol bindFrom,
-            List<Generator> generators
+            List<InstanceContainerGenerator> generators
             )
         {
             if (bindFrom is null)

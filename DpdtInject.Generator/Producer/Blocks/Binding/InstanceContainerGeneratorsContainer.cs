@@ -17,10 +17,11 @@ using System.Text;
 
 namespace DpdtInject.Generator.Producer.Blocks.Binding
 {
-    public class GeneratorsContainer
+    public class InstanceContainerGeneratorsContainer
+
     {
-        private readonly List<Generator> _generators;
-        private readonly List<GeneratorCluster> _generatorClusters;
+        private readonly List<InstanceContainerGenerator> _generators;
+        private readonly List<InstanceContainerGeneratorCluster> _generatorClusters;
         private readonly HashSet<ITypeSymbol>  _allRegisteredTypes;
 
         public BindingsContainer BindingsContainer
@@ -28,18 +29,18 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             get;
         }
 
-        public IReadOnlyList<GeneratorCluster> GeneratorClusters => _generatorClusters;
+        public IReadOnlyList<InstanceContainerGeneratorCluster> GeneratorClusters => _generatorClusters;
 
-        public IReadOnlyList<Generator> Generators => _generators;
+        public IReadOnlyList<InstanceContainerGenerator> Generators => _generators;
 
         public IReadOnlyCollection<ITypeSymbol> AllRegisteredTypes => _allRegisteredTypes;
 
-        public GeneratorTree GeneratorTree
+        public InstanceContainerGeneratorTree GeneratorTree
         {
             get;
         }
 
-        public GeneratorsContainer(
+        public InstanceContainerGeneratorsContainer(
             IDiagnosticReporter diagnosticReporter,
             Compilation compilation,
             BindingsContainer bindingsContainer
@@ -62,10 +63,10 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
             BindingsContainer = bindingsContainer;
 
-            GeneratorTree = new GeneratorTree(
-                bindingsContainer.BindingClusterTree.ClusterJoint.ConvertTo<GeneratorTreeJoint, GeneratorCluster>(
-                    joint => new GeneratorTreeJoint(
-                    new GeneratorCluster(
+            GeneratorTree = new InstanceContainerGeneratorTree(
+                bindingsContainer.BindingClusterTree.ClusterJoint.ConvertTo<InstanceContainerGeneratorTreeJoint, InstanceContainerGeneratorCluster>(
+                    joint => new InstanceContainerGeneratorTreeJoint(
+                    new InstanceContainerGeneratorCluster(
                         diagnosticReporter,
                         compilation,
                         joint.JointPayload
@@ -74,8 +75,8 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                 ));
             GeneratorTree.BuildFlags();
 
-            _generators = new List<Generator>();
-            _generatorClusters = new List<GeneratorCluster>();
+            _generators = new List<InstanceContainerGenerator>();
+            _generatorClusters = new List<InstanceContainerGeneratorCluster>();
             _allRegisteredTypes = new HashSet<ITypeSymbol>(
                 new TypeSymbolEqualityComparer()
                 );
@@ -101,27 +102,6 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
 
         }
-
-        //internal string GetReinventedContainerArgument(
-        //    string providerMethodNamePrefix
-        //    )
-        //{
-        //    if (providerMethodNamePrefix is null)
-        //    {
-        //        throw new ArgumentNullException(nameof(providerMethodNamePrefix));
-        //    }
-
-        //    var clauses = new List<string>();
-
-        //    foreach(var (wrapperType, wrapperSymbol) in GeneratorTree.JointPayload.GetRegisteredKeys(true))
-        //    {
-        //        clauses.Add(
-        //            $"new Tuple<Type, Func<object>>( typeof({wrapperSymbol.GetFullName()}), _provider.{providerMethodNamePrefix}_{wrapperSymbol.GetFullName().ConvertDotLessGreatherToGround()}{wrapperType.GetPostfix()} )"
-        //            );
-        //    }
-
-        //    return string.Join(",", clauses);
-        //}
 
         internal void AnalyzeForCircularDependencies(
             IDiagnosticReporter diagnosticReporter

@@ -29,16 +29,6 @@ namespace DpdtInject.Generator.Parser.Binding
 
             ClusterJoint = clusterJoint;
         }
-
-        public void BuildFlags(
-            IDiagnosticReporter diagnosticReporter
-            )
-        {
-            if (diagnosticReporter is null)
-            {
-                throw new ArgumentNullException(nameof(diagnosticReporter));
-            }
-        }
     }
 
     public class BindingClusterJoint : TreeJoint<BindingContainerCluster>

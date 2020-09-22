@@ -11,17 +11,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DpdtInject.Generator.Producer.Blocks.Provider
+namespace DpdtInject.Generator.Producer.Blocks.Cluster
 {
-    public class ProviderInterfaceGenerator
+    public class ClusterInterfaceGenerator
     {
-        private readonly IReadOnlyList<Binding.Generator> _instanceContainerGenerators;
+        private readonly IReadOnlyList<InstanceContainerGenerator> _instanceContainerGenerators;
 
         public ITypeSymbol BindFromType
-        { 
+        {
             get;
         }
-        
+
         public DpdtArgumentWrapperTypeEnum WrapperType
         {
             get;
@@ -32,7 +32,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
             get;
         }
 
-        public IReadOnlyList<Binding.Generator> InstanceContainerGenerators => _instanceContainerGenerators;
+        public IReadOnlyList<InstanceContainerGenerator> InstanceContainerGenerators => _instanceContainerGenerators;
 
         public string InterfaceSection
         {
@@ -63,10 +63,10 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
             get;
         } = string.Empty;
 
-        public ProviderInterfaceGenerator(
+        public ClusterInterfaceGenerator(
             ITypeSymbol bindFromType,
             DpdtArgumentWrapperTypeEnum wrapperType,
-            IReadOnlyList<Binding.Generator> instanceContainerGenerators
+            IReadOnlyList<InstanceContainerGenerator> instanceContainerGenerators
             )
         {
             if (bindFromType is null)
@@ -86,7 +86,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
 
             #region InterfaceSection 
 
-            InterfaceSection = $"{nameof(IBaseProvider<object>)}<{BindFromTypeFullName}>";
+            InterfaceSection = $"{nameof(IClusterProvider<object>)}<{BindFromTypeFullName}>";
 
             #endregion
 
@@ -135,7 +135,7 @@ private static readonly {nameof(ResolutionContext)} {createContextVariableName} 
 
             GetExplicitImplementationSection = $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-{BindFromTypeFullName} IBaseProvider<{BindFromTypeFullName}>.Get()
+{BindFromTypeFullName} {nameof(IClusterProvider<object>)}<{BindFromTypeFullName}>.Get()
 {{
     return {getImplementationMethodName}();
 }}
@@ -240,7 +240,7 @@ if(allowedChildrenCount == 0)
                     for (var gIndex = 0; gIndex < instanceContainerGenerators.Count; gIndex++)
                     {
                         var generator = instanceContainerGenerators[gIndex];
-                        var isLastGenerator = gIndex == (instanceContainerGenerators.Count - 1);
+                        var isLastGenerator = gIndex == instanceContainerGenerators.Count - 1;
 
                         if (generator.ItselfOrAtLeastOneChildIsConditional && !isLastGenerator)
                         {
@@ -277,7 +277,7 @@ return {generator.GetInstanceClause("null", WrapperType)};
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
 public IEnumerable<object> {getAllImplementationMethodName}()
 {{
-    return ((IBaseProvider<{BindFromTypeFullName}>)this).GetAll();
+    return (({nameof(IClusterProvider<object>)}<{BindFromTypeFullName}>)this).GetAll();
 }}
 ";
 
@@ -287,7 +287,7 @@ public IEnumerable<object> {getAllImplementationMethodName}()
             {
                 GetAllExplicitImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-List<{BindFromTypeFullName}> IBaseProvider<{BindFromTypeFullName}>.GetAll()
+List<{BindFromTypeFullName}> {nameof(IClusterProvider<object>)}<{BindFromTypeFullName}>.GetAll()
 {{
     var result = new List<{BindFromTypeFullName}>();
 ";

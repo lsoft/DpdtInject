@@ -10,7 +10,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
 {
     internal class CycleFoundException : System.Exception
     {
-        public IReadOnlyList<Generator> CycleList
+        public IReadOnlyList<InstanceContainerGenerator> CycleList
         {
             get;
         }
@@ -20,7 +20,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
         }
 
         public CycleFoundException(
-            List<Generator> cycleList,
+            List<InstanceContainerGenerator> cycleList,
             bool strictConculsion
             )
         {

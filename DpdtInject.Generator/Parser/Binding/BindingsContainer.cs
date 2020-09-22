@@ -47,20 +47,6 @@ namespace DpdtInject.Generator.Parser.Binding
                    )
                 );
         }
-
-        public void BuildFlags(
-            IDiagnosticReporter diagnosticReporter
-            )
-        {
-            if (diagnosticReporter is null)
-            {
-                throw new ArgumentNullException(nameof(diagnosticReporter));
-            }
-
-            _bindingClusterTree.BuildFlags(
-                diagnosticReporter
-                );
-        }
     }
 
 }

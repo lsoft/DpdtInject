@@ -8,17 +8,18 @@ using System.Linq;
 
 namespace DpdtInject.Generator.Producer.Blocks.Binding
 {
-    public class GeneratorTree
+    public class InstanceContainerGeneratorTree
+
     {
-        public GeneratorTreeJoint Joint
+        public InstanceContainerGeneratorTreeJoint Joint
         {
             get;
         }
 
-        public GeneratorCluster JointPayload => Joint.JointPayload;
+        public InstanceContainerGeneratorCluster JointPayload => Joint.JointPayload;
 
-        public GeneratorTree(
-            GeneratorTreeJoint joint
+        public InstanceContainerGeneratorTree(
+            InstanceContainerGeneratorTreeJoint joint
             )
         {
             if (joint is null)
@@ -30,7 +31,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         }
 
         internal void Apply(
-            Action<GeneratorTreeJoint> action
+            Action<InstanceContainerGeneratorTreeJoint> action
             )
         {
             if (action is null)
@@ -38,13 +39,13 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                 throw new ArgumentNullException(nameof(action));
             }
 
-            Action<TreeJoint<GeneratorCluster>> action2 = (payload) => action((GeneratorTreeJoint)payload);
+            Action<TreeJoint<InstanceContainerGeneratorCluster>> action2 = (payload) => action((InstanceContainerGeneratorTreeJoint)payload);
 
             Joint.Apply(action2);
         }
 
         public void Apply(
-            Action<GeneratorCluster> action
+            Action<InstanceContainerGeneratorCluster> action
             )
         {
             if (action is null)
@@ -56,8 +57,8 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         }
 
         public bool TryFindInItsParents(
-            Func<GeneratorCluster, bool> predicate,
-            [NotNullWhen(true)] out GeneratorTreeJoint? foundJoint
+            Func<InstanceContainerGeneratorCluster, bool> predicate,
+            [NotNullWhen(true)] out InstanceContainerGeneratorTreeJoint? foundJoint
             )
         {
             var r = 
@@ -72,7 +73,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                 return false;
             }
 
-            foundJoint = (GeneratorTreeJoint)foundJoint2!;
+            foundJoint = (InstanceContainerGeneratorTreeJoint)foundJoint2!;
             return true;
         }
 
@@ -89,14 +90,14 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             {
                 var itselfOrAtLeastOneChildIsConditional = CheckForItselfOrAtLeastOneChildIsConditionalInternal2(
                     point2,
-                    new HashSet<Generator>()
+                    new HashSet<InstanceContainerGenerator>()
                     );
                 point2.Generator.ItselfOrAtLeastOneChildIsConditional = itselfOrAtLeastOneChildIsConditional;
             }
         }
         private bool CheckForItselfOrAtLeastOneChildIsConditionalInternal2(
             Point2 point2,
-            HashSet<Generator> used
+            HashSet<InstanceContainerGenerator> used
             )
         {
             if (point2 is null)
@@ -143,7 +144,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                     {
                         if(CheckForItselfOrAtLeastOneChildIsConditionalInternal2(
                             childPoint2,
-                            new HashSet<Generator>(used)
+                            new HashSet<InstanceContainerGenerator>(used)
                             ))
                         {
                             return true;
@@ -156,9 +157,9 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         }
     }
 
-    public class GeneratorTreeJoint : TreeJoint<GeneratorCluster>
+    public class InstanceContainerGeneratorTreeJoint : TreeJoint<InstanceContainerGeneratorCluster>
     {
-        public GeneratorTreeJoint(GeneratorCluster jointPayload)
+        public InstanceContainerGeneratorTreeJoint(InstanceContainerGeneratorCluster jointPayload)
             : base(jointPayload)
         {
         }
@@ -222,7 +223,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             var result = new List<Point3>();
 
             this.Apply(
-                (TreeJoint<GeneratorCluster> joint) =>
+                (TreeJoint<InstanceContainerGeneratorCluster> joint) =>
                 {
                     foreach (var pair in joint.JointPayload.GeneratorGroups)
                     {
@@ -250,9 +251,9 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             return result;
         }
 
-        internal IReadOnlyList<GeneratorTreeJoint> GenerateJoints()
+        internal IReadOnlyList<InstanceContainerGeneratorTreeJoint> GenerateJoints()
         {
-            var result = new List<GeneratorTreeJoint>();
+            var result = new List<InstanceContainerGeneratorTreeJoint>();
 
             GenerateJointsInternal(this, result);
 
@@ -260,8 +261,8 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         }
 
         internal void GenerateJointsInternal(
-            GeneratorTreeJoint joint,
-            List<GeneratorTreeJoint> result
+            InstanceContainerGeneratorTreeJoint joint,
+            List<InstanceContainerGeneratorTreeJoint> result
             )
         {
             if (joint is null)
@@ -278,7 +279,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
             foreach (var child in joint.Children)
             {
-                GenerateJointsInternal((GeneratorTreeJoint)child, result);
+                GenerateJointsInternal((InstanceContainerGeneratorTreeJoint)child, result);
             }
         }
 
@@ -287,19 +288,19 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
     public class Point2
     {
-        public TreeJoint<GeneratorCluster> Joint
+        public TreeJoint<InstanceContainerGeneratorCluster> Joint
         {
             get;
         }
 
-        public Generator Generator
+        public InstanceContainerGenerator Generator
         {
             get;
         }
 
         public Point2(
-            TreeJoint<GeneratorCluster> joint,
-            Generator generator
+            TreeJoint<InstanceContainerGeneratorCluster> joint,
+            InstanceContainerGenerator generator
             )
         {
             if (joint is null)
@@ -320,12 +321,12 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
     public class Point3
     {
-        public TreeJoint<GeneratorCluster> Joint
+        public TreeJoint<InstanceContainerGeneratorCluster> Joint
         {
             get;
         }
 
-        public Generator Generator
+        public InstanceContainerGenerator Generator
         {
             get;
         }
@@ -336,8 +337,8 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         }
 
         public Point3(
-            TreeJoint<GeneratorCluster> joint,
-            Generator generator,
+            TreeJoint<InstanceContainerGeneratorCluster> joint,
+            InstanceContainerGenerator generator,
             ITypeSymbol typeSymbol
             )
         {

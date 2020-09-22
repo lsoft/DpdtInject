@@ -61,7 +61,7 @@ namespace DpdtInject.Generator.Parser.Binding
         string GetFromTypeFullNamesCombined(string separator = "_");
 
         string PrepareInstanceContainerCode(
-            GeneratorCluster cluster
+            InstanceContainerGeneratorCluster cluster
             );
 
         string GetContainerStableClassName();

@@ -3,6 +3,7 @@ using DpdtInject.Generator.Parser;
 using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Producer.Blocks.Exception;
+using DpdtInject.Generator.Tree;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
@@ -15,23 +16,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DpdtInject.Generator.Producer.Blocks.Provider
+namespace DpdtInject.Generator.Producer.Blocks.Cluster
 {
-    public class ProviderGenerator
+    public class ClusterGenerator
     {
-        private readonly List<ProviderInterfaceGenerator> _interfaceSection;
+        private readonly List<ClusterInterfaceGenerator> _interfaceSection;
         private readonly Compilation _compilation;
-        private readonly GeneratorCluster _cluster;
-        
-        public string ProviderClassName
+
+        public string ClusterClassName
         {
             get;
         }
 
+        public TreeJoint<InstanceContainerGeneratorCluster> Joint
+        {
+            get;
+        }
 
-        public ProviderGenerator(
+        public ClusterGenerator(
             Compilation compilation,
-            GeneratorCluster cluster
+            TreeJoint<InstanceContainerGeneratorCluster> joint
             )
         {
             if (compilation is null)
@@ -39,60 +43,62 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
                 throw new ArgumentNullException(nameof(compilation));
             }
 
-            if (cluster is null)
+            if (joint is null)
             {
-                throw new ArgumentNullException(nameof(cluster));
+                throw new ArgumentNullException(nameof(joint));
             }
             _compilation = compilation;
-            _cluster = cluster;
+            Joint = joint;
 
-            _interfaceSection = new List<ProviderInterfaceGenerator>();
+            _interfaceSection = new List<ClusterInterfaceGenerator>();
 
-            foreach (var (_, bindFromType) in _cluster.GetRegisteredKeys(false))
+            foreach (var (_, bindFromType) in Joint.JointPayload.GetRegisteredKeys(false))
             {
-                if(_cluster.TryGetRegisteredGeneratorGroups(bindFromType, false, out var groups))
+                if (Joint.JointPayload.TryGetRegisteredGeneratorGroups(bindFromType, false, out var groups))
                 {
                     var generators = groups.Collapse(
                         group => group.Generators
                         );
 
                     _interfaceSection.Add(
-                        new ProviderInterfaceGenerator(bindFromType, DpdtArgumentWrapperTypeEnum.None, generators)
+                        new ClusterInterfaceGenerator(bindFromType, DpdtArgumentWrapperTypeEnum.None, generators)
                         );
 
                     foreach (var (wrapperType, key) in bindFromType.GenerateWrapperTypes(_compilation))
                     {
                         _interfaceSection.Add(
-                            new ProviderInterfaceGenerator(key, wrapperType, generators)
+                            new ClusterInterfaceGenerator(key, wrapperType, generators)
                             );
                     }
                 }
             }
 
-            ProviderClassName = $"{nameof(Provider)}{this.GetHashCode()}";
+            ClusterClassName = $"BindCluster{GetHashCode()}";
         }
 
-        public string GenerateProviderBody(
+        public string GenerateClusterBody(
             )
         {
             return $@"
-private class {ProviderClassName} : IDisposable
+private class {ClusterClassName} : IDisposable
     {GetCombinedInterfaces()}
 {{
 
-    public {ProviderClassName}()
+    public string Name => ""{Joint.JointPayload.Name}"";
+
+    public {ClusterClassName}()
     {{
     }}
 
     public void Dispose()
     {{
-        {_cluster.Generators.Where(icg => icg.BindingContainer.Scope.In(BindScopeEnum.Singleton)).Join(sc => sc.DisposeClause + ";")}
+        {Joint.JointPayload.Generators.Where(icg => icg.BindingContainer.Scope.In(BindScopeEnum.Singleton)).Join(sc => sc.DisposeClause + ";")}
     }}
 
     {GetCombinedImplementationSection()}
 
 #region Instance Containers
-    {_cluster.Generators.Join(sc => sc.GetClassBody(_cluster))}
+    {Joint.JointPayload.Generators.Join(sc => sc.GetClassBody(Joint.JointPayload))}
 #endregion
 
 }}

@@ -117,11 +117,7 @@ namespace DpdtInject.Generator
                     clusterNameJoint
                     );
 
-                bindingsContainer.BuildFlags(
-                    _diagnosticReporter
-                    );
-
-                var itemGeneratorsContainer = new GeneratorsContainer(
+                var itemGeneratorsContainer = new InstanceContainerGeneratorsContainer(
                     _diagnosticReporter,
                     compilation,
                     bindingsContainer

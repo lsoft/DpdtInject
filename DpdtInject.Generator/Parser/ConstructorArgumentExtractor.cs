@@ -137,7 +137,7 @@ namespace DpdtInject.Generator.Parser
         }
 
         public string GenerateProvideConstructorArgumentMethod(
-            GeneratorCluster cluster,
+            InstanceContainerGeneratorCluster cluster,
             IBindingContainer bindingContainer
             )
         {

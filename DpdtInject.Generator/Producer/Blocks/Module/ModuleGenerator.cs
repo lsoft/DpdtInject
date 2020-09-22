@@ -1,8 +1,8 @@
 ﻿using DpdtInject.Generator.Beautify;
 using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Producer.Blocks.Binding;
+using DpdtInject.Generator.Producer.Blocks.Cluster;
 using DpdtInject.Generator.Producer.Blocks.Exception;
-using DpdtInject.Generator.Producer.Blocks.Provider;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Excp;
@@ -48,7 +48,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Module
         }
 
         public string GenerateModuleBody(
-            GeneratorsContainer container
+            InstanceContainerGeneratorsContainer container
             )
         {
             if (container is null)
@@ -56,12 +56,20 @@ namespace DpdtInject.Generator.Producer.Blocks.Module
                 throw new ArgumentNullException(nameof(container));
             }
 
-            var cluster = container.GeneratorClusters[0];
-
-            var providerGenerator = new ProviderGenerator(
-                _compilation,
-                cluster
+            var clusterGeneratorTree = new ClusterGeneratorTree(
+                container.GeneratorTree.Joint.ConvertTo<ClusterGeneratorTreeJoint, ClusterGenerator>(
+                    joint =>
+                    {
+                        return new ClusterGeneratorTreeJoint(
+                            new ClusterGenerator(
+                                _compilation,
+                                joint
+                                )
+                            );
+                    })
                 );
+
+            var temporalyFirstClusterGenerator = clusterGeneratorTree.Joint.JointPayload;
 
             var beautifyGenerator = new BeautifyGenerator(
                 ModuleTypeName
@@ -69,6 +77,8 @@ namespace DpdtInject.Generator.Producer.Blocks.Module
 
             var result = @$"
 #nullable disable
+
+#region usings
 
 using System;
 using System.Collections.Generic;
@@ -81,7 +91,9 @@ using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Module;
 using DpdtInject.Injector.Module.Bind;
 
-{cluster.Generators.Join(sc => sc.Usings.Join(c => c))}
+{temporalyFirstClusterGenerator.Joint.JointPayload.Generators.Join(sc => sc.Usings.Join(c => c))}
+
+#endregion
 
 namespace {ModuleTypeNamespace}
 {{
@@ -90,7 +102,7 @@ namespace {ModuleTypeNamespace}
     {{
         private static long _instanceCount = 0L;
 
-        private readonly {providerGenerator.ProviderClassName} _provider;
+        private readonly {temporalyFirstClusterGenerator.ClusterClassName} _cluster;
         private readonly {typeof(ReinventedContainer).FullName} _typeContainerGet;
         private readonly {typeof(ReinventedContainer).FullName} _typeContainerGetAll;
 
@@ -105,14 +117,14 @@ namespace {ModuleTypeNamespace}
                 throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, ""Module should not be instanciated more that once. This is a Dpdt's design axiom."");
             }}
 
-            _provider = new {providerGenerator.ProviderClassName}(
+            _cluster = new {temporalyFirstClusterGenerator.ClusterClassName}(
                 );
 
             _typeContainerGet = new {typeof(ReinventedContainer).FullName}(
-                {cluster.GetReinventedContainerArgument("Get")}
+                {temporalyFirstClusterGenerator.Joint.JointPayload.GetReinventedContainerArgument("Get")}
                 );
             _typeContainerGetAll = new {typeof(ReinventedContainer).FullName}(
-                {cluster.GetReinventedContainerArgument("GetAll")}
+                {temporalyFirstClusterGenerator.Joint.JointPayload.GetReinventedContainerArgument("GetAll")}
                 );
 
             _beautifier = new {beautifyGenerator.ClassName}(
@@ -123,22 +135,22 @@ namespace {ModuleTypeNamespace}
 
         public override void Dispose()
         {{
-            _provider.Dispose();
+            _cluster.Dispose();
         }}
 
         public bool IsRegisteredFrom<T>()
         {{
-            return _provider is IBaseProvider<T>;
+            return _cluster is {nameof(IClusterProvider<object>)}<T>;
         }}
 
 
         public T Get<T>()
         {{
-            return ((IBaseProvider<T>)_provider).Get();
+            return (({nameof(IClusterProvider<object>)}<T>)_cluster).Get();
         }}
         public List<T> GetAll<T>()
         {{
-            return ((IBaseProvider<T>)_provider).GetAll();
+            return (({nameof(IClusterProvider<object>)}<T>)_cluster).GetAll();
         }}
 
         public object Get({typeof(Type).FullName} requestedType)
@@ -160,9 +172,9 @@ namespace {ModuleTypeNamespace}
 
 #endregion
 
-#region Provider
+#region Clusters
 
-        {providerGenerator.GenerateProviderBody()}
+        {clusterGeneratorTree.GenerateClusterBodies()}
 
 //#nullable disable
 

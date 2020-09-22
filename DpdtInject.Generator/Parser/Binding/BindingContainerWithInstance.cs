@@ -63,7 +63,7 @@ namespace DpdtInject.Generator.Parser.Binding
         }
 
         public override string PrepareInstanceContainerCode(
-            GeneratorCluster cluster
+            InstanceContainerGeneratorCluster cluster
             )
         {
             if (cluster is null)

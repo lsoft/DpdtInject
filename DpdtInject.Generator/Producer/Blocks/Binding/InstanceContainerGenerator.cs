@@ -21,7 +21,8 @@ using System.Text;
 namespace DpdtInject.Generator.Producer.Blocks.Binding
 {
 
-    public class Generator
+    public class InstanceContainerGenerator
+
 
     {
         public IBindingContainer BindingContainer
@@ -37,11 +38,6 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         {
             get;
         }
-
-        //public bool ItselfOrAtLeastOneChildIsConditional =>
-        //        BindingContainer.IsConditional
-        //        || BindingContainer.AtLeastOneChildIsConditional
-        //    ;
 
         public bool ItselfOrAtLeastOneChildIsConditional
         {
@@ -69,7 +65,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             ) => $"{ClassName}.GetInstance{wrapperType.GetPostfix()}({innerText})";
 
 
-        public Generator(
+        public InstanceContainerGenerator(
             IDiagnosticReporter diagnosticReporter,
             IBindingContainer bindingContainer
             )
@@ -96,7 +92,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
 
         public string GetClassBody(
-            GeneratorCluster cluster
+            InstanceContainerGeneratorCluster cluster
             )
         {
             if (cluster is null)
