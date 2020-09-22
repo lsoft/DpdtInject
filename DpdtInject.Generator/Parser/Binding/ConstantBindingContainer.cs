@@ -36,24 +36,24 @@ namespace DpdtInject.Generator.Parser.Binding
         {
             get
             {
-                if (string.IsNullOrEmpty(Name))
+                if (IsRootCluster)
                 {
                     return $"constant[{BindToType.GetFullName()}]";
                 }
 
-                return $"constant[{Name} : {BindToType.GetFullName()}]";
+                return $"constant[{DeclaredClusterType!.GetFullName()} : {BindToType.GetFullName()}]";
             }
         }
 
 
         public ConstantBindingContainer(
-            string name,
+            ITypeSymbol? declaredClusterType,
             IReadOnlyList<ITypeSymbol> bindFromTypes,
             ITypeSymbol constTypeSymbol,
             ArgumentSyntax constantSyntax,
             BindScopeEnum scope,
             ArgumentSyntax? whenArgumentClause
-            ) : base(name, bindFromTypes, constTypeSymbol, scope, whenArgumentClause)
+            ) : base(declaredClusterType, bindFromTypes, constTypeSymbol, scope, whenArgumentClause)
         {
             if (constantSyntax is null)
             {

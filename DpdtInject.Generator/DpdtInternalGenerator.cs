@@ -1,6 +1,5 @@
 ﻿using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Parser;
-using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Producer.Blocks.Module;
 using DpdtInject.Generator.Tree;
@@ -109,12 +108,12 @@ namespace DpdtInject.Generator
 
                 bindExtractor.Visit(loadMethodSyntax);
 
-                var clusterNameJoint = new TreeJoint<string>(
-                    BindingClusterTree.RootName
+                var declaredClusterJoint = new TreeJoint<ITypeSymbol?>(
+                    null
                     );
 
                 var bindingsContainer = bindExtractor.GetBindingsContainer(
-                    clusterNameJoint
+                    declaredClusterJoint
                     );
 
                 var itemGeneratorsContainer = new InstanceContainerGeneratorsContainer(

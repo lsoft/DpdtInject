@@ -8,7 +8,12 @@ namespace DpdtInject.Generator.Parser.Binding
 {
     public interface IBindingContainer
     {
-        string Name
+        ITypeSymbol? DeclaredClusterType
+        {
+            get;
+        }
+
+        bool IsRootCluster
         {
             get;
         }

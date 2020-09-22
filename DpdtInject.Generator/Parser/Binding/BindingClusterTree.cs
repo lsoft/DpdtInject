@@ -11,8 +11,6 @@ namespace DpdtInject.Generator.Parser.Binding
 {
     public class BindingClusterTree
     {
-        public const string RootName = "";
-
         public BindingClusterJoint ClusterJoint
         {
             get;

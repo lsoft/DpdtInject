@@ -52,16 +52,16 @@ namespace DpdtInject.Generator.Parser
 
 
         public BindingsContainer GetBindingsContainer(
-            TreeJoint<string> clusterNameJoint
+            TreeJoint<ITypeSymbol?> declaredClusterJoint
             )
         {
-            if (clusterNameJoint is null)
+            if (declaredClusterJoint is null)
             {
-                throw new ArgumentNullException(nameof(clusterNameJoint));
+                throw new ArgumentNullException(nameof(declaredClusterJoint));
             }
 
             return new BindingsContainer(
-                clusterNameJoint,
+                declaredClusterJoint,
                 _bindingContainers
                 );
         }
@@ -188,7 +188,7 @@ namespace DpdtInject.Generator.Parser
             }
 
             var bindingContainer = new ConstantBindingContainer(
-                "",
+                null,
                 bindFromTypeSematics,
                 constTypeSymbol,
                 constantClause,
@@ -289,7 +289,7 @@ namespace DpdtInject.Generator.Parser
 
 
             var bindingContainer = new BindingContainerWithInstance(
-                "",
+                null,
                 bindFromTypeSematics,
                 bindToTypeSematic,
                 constructorArguments,
@@ -388,7 +388,7 @@ namespace DpdtInject.Generator.Parser
 
 
             var bindingContainer = new BindingContainerWithInstance(
-                "",
+                null,
                 bindFromTypeSematics,
                 bindToTypeSematic,
                 constructorArguments,

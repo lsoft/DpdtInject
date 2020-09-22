@@ -34,24 +34,24 @@ namespace DpdtInject.Generator.Parser.Binding
         {
             get
             {
-                if(string.IsNullOrEmpty(Name))
+                if(IsRootCluster)
                 {
                     return BindToType.GetFullName();
                 }
 
-                return  Name + ":" + BindToType.GetFullName();
+                return DeclaredClusterType!.GetFullName() + ":" + BindToType.GetFullName();
             }
         }
 
 
         public BindingContainerWithInstance(
-            string name,
+            ITypeSymbol? declaredClusterType,
             IReadOnlyList<ITypeSymbol> bindFromTypes,
             ITypeSymbol bindToType,
             IReadOnlyList<DetectedConstructorArgument> constructorArguments,
             BindScopeEnum scope,
             ArgumentSyntax? whenArgumentClause
-            ) : base(name, bindFromTypes, bindToType, scope, whenArgumentClause)
+            ) : base(declaredClusterType, bindFromTypes, bindToType, scope, whenArgumentClause)
         {
             if (constructorArguments is null)
             {

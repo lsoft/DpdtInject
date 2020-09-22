@@ -1,4 +1,5 @@
-﻿using DpdtInject.Injector.Module;
+﻿using DpdtInject.Injector.Beautify;
+using DpdtInject.Injector.Module;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +8,31 @@ using System.Threading.Tasks;
 
 namespace DpdtInject.Injector
 {
-    public class FakeModule  : IDisposable
+    public class FakeCluster
     {
-        public bool IsRegisteredFrom<T>()
+        public System.Type? DeclaredClusterType => null;
+
+        public IBeautifier Beautifier = null!;
+
+        public bool IsRootCluster => DeclaredClusterType is null;
+
+        public bool IsRegisteredFrom<TRequestedType>()
         {
             throw new NotImplementedException("This method should not be executed");
         }
+
+
+        public TRequestedType Get<TRequestedType>()
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+
+
+        public List<TRequestedType> GetAll<TRequestedType>()
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+
 
         public object Get(Type requestedType)
         {
@@ -23,17 +43,61 @@ namespace DpdtInject.Injector
         {
             throw new NotImplementedException("This method should not be executed");
         }
+    }
 
-        public T1 Get<T1>()
+    public class FakeModule  : IDisposable
+    {
+        public bool IsRegisteredFrom<TCluster, TRequestedType>()
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+
+        public bool IsRegisteredFrom<TRequestedType>()
         {
             throw new NotImplementedException("This method should not be executed");
         }
 
 
-        public List<T1> GetAll<T1>()
+        public TRequestedType Get<TRequestedType>()
         {
             throw new NotImplementedException("This method should not be executed");
         }
+        public TRequestedType Get<TCluster, TRequestedType>()
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+
+
+        public List<TRequestedType> GetAll<TRequestedType>()
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+        public List<TRequestedType> GetAll<TCluster, TRequestedType>()
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+
+
+
+        public object Get(Type requestedType)
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+        public object Get<TCluster>(Type requestedType)
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+
+        public IEnumerable<object> GetAll(Type requestedType)
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+        public IEnumerable<object> GetAll<TCluster>(Type requestedType)
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+
+
 
         public void Dispose()
         {
@@ -44,13 +108,43 @@ namespace DpdtInject.Injector
     public class FakeModule<T>  : IDisposable
         where T : DpdtModule
     {
-        public bool IsRegisteredFrom<T>()
+        public bool IsRegisteredFrom<TCluster, TRequestedType>()
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+
+        public bool IsRegisteredFrom<TRequestedType>()
         {
             throw new NotImplementedException("This method should not be executed");
         }
 
 
+        public TRequestedType Get<TRequestedType>()
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+        public TRequestedType Get<TCluster, TRequestedType>()
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+
+
+        public List<TRequestedType> GetAll<TRequestedType>()
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+        public List<TRequestedType> GetAll<TCluster, TRequestedType>()
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+
+
+
         public object Get(Type requestedType)
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+        public object Get<TCluster>(Type requestedType)
         {
             throw new NotImplementedException("This method should not be executed");
         }
@@ -59,17 +153,11 @@ namespace DpdtInject.Injector
         {
             throw new NotImplementedException("This method should not be executed");
         }
-
-        public T1 Get<T1>()
+        public IEnumerable<object> GetAll<TCluster>(Type requestedType)
         {
             throw new NotImplementedException("This method should not be executed");
         }
 
-
-        public List<T1> GetAll<T1>()
-        {
-            throw new NotImplementedException("This method should not be executed");
-        }
 
         public void Dispose()
         {

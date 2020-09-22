@@ -33,11 +33,7 @@ namespace DpdtInject.Generator.Tree
             {
                 throw new ArgumentNullException(nameof(parent));
             }
-            if (jointPayload is null)
-            {
-                throw new ArgumentNullException(nameof(jointPayload));
-            }
-
+            //jointPayload allowed to be null
 
             Parent = parent;
             JointPayload = jointPayload;
@@ -48,10 +44,7 @@ namespace DpdtInject.Generator.Tree
             T jointPayload
             )
         {
-            if (jointPayload is null)
-            {
-                throw new ArgumentNullException(nameof(jointPayload));
-            }
+            //jointPayload allowed to be null
 
             JointPayload = jointPayload;
             Parent = null;

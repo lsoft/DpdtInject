@@ -1,5 +1,6 @@
 ﻿using DpdtInject.Generator.Helpers;
 using DpdtInject.Injector;
+using DpdtInject.Injector.Beautify;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
@@ -12,18 +13,27 @@ namespace DpdtInject.Generator.Beautify
 {
     public sealed class BeautifyGenerator
     {
-        public string ModuleFullTypeName { get; }
-        public string ClassName { get; }
-
-
-        public BeautifyGenerator(string moduleFullTypeName)
+        public string ClusterTypeFullName
         {
-            if (moduleFullTypeName is null)
+            get;
+        }
+        
+        public string ClassName
+        {
+            get;
+        }
+
+
+        public BeautifyGenerator(
+            string clusterTypeFullName
+            )
+        {
+            if (clusterTypeFullName is null)
             {
-                throw new ArgumentNullException(nameof(moduleFullTypeName));
+                throw new ArgumentNullException(nameof(clusterTypeFullName));
             }
 
-            ModuleFullTypeName = moduleFullTypeName;
+            ClusterTypeFullName = clusterTypeFullName;
 
             ClassName = $"{nameof(Beautifier)}_{Guid.NewGuid().RemoveMinuses()}";
 
@@ -36,8 +46,11 @@ namespace DpdtInject.Generator.Beautify
             var bds = bus.DescendantNodes().OfType<ClassDeclarationSyntax>().First();
 
             var classBody = bds.GetText().ToString()
-                .CheckAndReplace(nameof(Beautifier), ClassName)
-                .CheckAndReplace(nameof(FakeModule), ModuleFullTypeName)
+                .CheckAndReplace(nameof(IBeautifier), typeof(IBeautifier).FullName!)
+                .CheckAndReplace(nameof(IListBeautifier), typeof(IListBeautifier).FullName!)
+                .CheckAndReplace(nameof(IReadOnlyListBeautifier), typeof(IReadOnlyListBeautifier).FullName!)
+                .CheckAndReplace($" {nameof(Beautifier)}", $" {ClassName}")
+                .CheckAndReplace(nameof(FakeCluster), ClusterTypeFullName)
                 //.CheckAndReplace("public sealed class", "private sealed class")
                 ;
 

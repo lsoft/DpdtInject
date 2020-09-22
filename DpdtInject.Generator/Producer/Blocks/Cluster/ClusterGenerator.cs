@@ -1,10 +1,12 @@
-﻿using DpdtInject.Generator.Helpers;
+﻿using DpdtInject.Generator.Beautify;
+using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Parser;
 using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Producer.Blocks.Exception;
 using DpdtInject.Generator.Tree;
 using DpdtInject.Injector;
+using DpdtInject.Injector.Beautify;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
 using DpdtInject.Injector.Module.Bind;
@@ -20,6 +22,8 @@ namespace DpdtInject.Generator.Producer.Blocks.Cluster
 {
     public class ClusterGenerator
     {
+        public const string ClusterDefaultInstanceName = "_defaultCluster";
+
         private readonly List<ClusterInterfaceGenerator> _interfaceSection;
         private readonly Compilation _compilation;
 
@@ -31,6 +35,18 @@ namespace DpdtInject.Generator.Producer.Blocks.Cluster
         public TreeJoint<InstanceContainerGeneratorCluster> Joint
         {
             get;
+        }
+        public string ClusterStableInstanceName
+        {
+            get
+            {
+                if (Joint.JointPayload.IsRootCluster)
+                {
+                    return ClusterDefaultInstanceName;
+                }
+
+                return $"{ClusterDefaultInstanceName}{this.GetHashCode()}";
+            }
         }
 
         public ClusterGenerator(
@@ -73,22 +89,92 @@ namespace DpdtInject.Generator.Producer.Blocks.Cluster
                 }
             }
 
-            ClusterClassName = $"BindCluster{GetHashCode()}";
+            if(Joint.JointPayload.IsRootCluster)
+            {
+                ClusterClassName = $"DefaultCluster";
+            }
+            else
+            {
+                ClusterClassName = $"Cluster{GetHashCode()}";
+            }
         }
 
         public string GenerateClusterBody(
             )
         {
+            var beautifyGenerator = new BeautifyGenerator(
+                ClusterClassName
+                );
+
             return $@"
-private class {ClusterClassName} : IDisposable
+private class {ClusterClassName} : {nameof(IDisposable)}, {nameof(IBindingProvider)}
     {GetCombinedInterfaces()}
 {{
+    private readonly {beautifyGenerator.ClassName} _beautifier;
 
-    public string Name => ""{Joint.JointPayload.Name}"";
+    public {typeof(ReinventedContainer).FullName} TypeContainerGet
+    {{
+        get;
+    }}
+
+    public {typeof(ReinventedContainer).FullName} TypeContainerGetAll
+    {{
+        get;
+    }}
+
+    public System.Type DeclaredClusterType => {Joint.JointPayload.PrepareDeclaredClusterType()};
+
+    public bool IsRootCluster => DeclaredClusterType is null;
+
+    public {typeof(IBeautifier).FullName} Beautifier => _beautifier;
 
     public {ClusterClassName}()
     {{
+        TypeContainerGet = new {typeof(ReinventedContainer).FullName}(
+            {Joint.JointPayload.GetReinventedContainerArgument("Get")}
+            );
+        TypeContainerGetAll = new {typeof(ReinventedContainer).FullName}(
+            {Joint.JointPayload.GetReinventedContainerArgument("GetAll")}
+            );
+
+        _beautifier = new {beautifyGenerator.ClassName}(
+            this
+            );
     }}
+
+    public bool IsRegisteredFrom<TRequestedType>()
+    {{
+        return this is {nameof(IBindingProvider<object>)}<TRequestedType>;
+    }}
+
+    public TRequestedType Get<TRequestedType>()
+    {{
+        return (({nameof(IBindingProvider<object>)}<TRequestedType>)this).Get();
+    }}
+
+    public List<TRequestedType> GetAll<TRequestedType>()
+    {{
+        return (({nameof(IBindingProvider<object>)}<TRequestedType>)this).GetAll();
+    }}
+
+    public object Get({typeof(Type).FullName} requestedType)
+    {{
+        var result = TypeContainerGet.{nameof(ReinventedContainer.GetGetObject)}(requestedType);
+
+        return result;
+    }}
+    public IEnumerable<object> GetAll({typeof(Type).FullName} requestedType)
+    {{
+        var result = TypeContainerGetAll.{nameof(ReinventedContainer.GetGetObject)}(requestedType);
+
+        return (IEnumerable<object>)result;
+    }}
+
+#region Beautify
+
+    {beautifyGenerator.GenerateBeautifierBody()}
+
+#endregion
 
     public void Dispose()
     {{

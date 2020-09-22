@@ -4,6 +4,7 @@ using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Producer.Blocks.Cluster;
 using DpdtInject.Generator.Producer.Blocks.Exception;
 using DpdtInject.Injector;
+using DpdtInject.Injector.Beautify;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
@@ -71,10 +72,6 @@ namespace DpdtInject.Generator.Producer.Blocks.Module
 
             var temporalyFirstClusterGenerator = clusterGeneratorTree.Joint.JointPayload;
 
-            var beautifyGenerator = new BeautifyGenerator(
-                ModuleTypeName
-                );
-
             var result = @$"
 #nullable disable
 
@@ -91,7 +88,7 @@ using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Module;
 using DpdtInject.Injector.Module.Bind;
 
-{temporalyFirstClusterGenerator.Joint.JointPayload.Generators.Join(sc => sc.Usings.Join(c => c))}
+{clusterGeneratorTree.GenerateUsingClauses()}
 
 #endregion
 
@@ -102,13 +99,10 @@ namespace {ModuleTypeNamespace}
     {{
         private static long _instanceCount = 0L;
 
-        private readonly {temporalyFirstClusterGenerator.ClusterClassName} _cluster;
+        {clusterGeneratorTree.GenerateClusterDeclarationClauses()}
+
         private readonly {typeof(ReinventedContainer).FullName} _typeContainerGet;
         private readonly {typeof(ReinventedContainer).FullName} _typeContainerGetAll;
-
-        private readonly {beautifyGenerator.ClassName} _beautifier;
-
-        public {beautifyGenerator.ClassName} Beautifier => _beautifier;
 
         public {ModuleTypeName}()
         {{
@@ -117,42 +111,49 @@ namespace {ModuleTypeNamespace}
                 throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, ""Module should not be instanciated more that once. This is a Dpdt's design axiom."");
             }}
 
-            _cluster = new {temporalyFirstClusterGenerator.ClusterClassName}(
-                );
+            {clusterGeneratorTree.GenerateClusterAssignClauses()}
 
-            _typeContainerGet = new {typeof(ReinventedContainer).FullName}(
-                {temporalyFirstClusterGenerator.Joint.JointPayload.GetReinventedContainerArgument("Get")}
-                );
-            _typeContainerGetAll = new {typeof(ReinventedContainer).FullName}(
-                {temporalyFirstClusterGenerator.Joint.JointPayload.GetReinventedContainerArgument("GetAll")}
-                );
-
-            _beautifier = new {beautifyGenerator.ClassName}(
-                this
-                );
+            _typeContainerGet = {ClusterGenerator.ClusterDefaultInstanceName}.TypeContainerGet;
+            _typeContainerGetAll = {ClusterGenerator.ClusterDefaultInstanceName}.TypeContainerGetAll;
         }}
 
 
         public override void Dispose()
         {{
-            _cluster.Dispose();
+            {clusterGeneratorTree.GenerateClusterDisposeClauses()}
         }}
 
-        public bool IsRegisteredFrom<T>()
+#region Get Beautifiers
+
+        public {typeof(IBeautifier).FullName} GetBeautifier()
         {{
-            return _cluster is {nameof(IClusterProvider<object>)}<T>;
+            return (({nameof(IBindingProvider)}){ClusterGenerator.ClusterDefaultInstanceName}).{nameof(FakeCluster.Beautifier)};
         }}
 
-
-        public T Get<T>()
+        public {typeof(IBeautifier).FullName} GetBeautifier<TCluster>()
         {{
-            return (({nameof(IClusterProvider<object>)}<T>)_cluster).Get();
-        }}
-        public List<T> GetAll<T>()
-        {{
-            return (({nameof(IClusterProvider<object>)}<T>)_cluster).GetAll();
+            var cluster = (({nameof(IClusterProvider<object>)}<TCluster>)_superCluster).GetCluster();
+            return (({nameof(IBindingProvider)})cluster).{nameof(FakeCluster.Beautifier)};
         }}
 
+
+#endregion
+
+
+#region default cluster
+
+        public bool IsRegisteredFrom<TRequestedType>()
+        {{
+            return {ClusterGenerator.ClusterDefaultInstanceName} is {nameof(IBindingProvider<object>)}<TRequestedType>;
+        }}
+        public TRequestedType Get<TRequestedType>()
+        {{
+            return (({nameof(IBindingProvider<object>)}<TRequestedType>){ClusterGenerator.ClusterDefaultInstanceName}).Get();
+        }}
+        public List<TRequestedType> GetAll<TRequestedType>()
+        {{
+            return (({nameof(IBindingProvider<object>)}<TRequestedType>){ClusterGenerator.ClusterDefaultInstanceName}).GetAll();
+        }}
         public object Get({typeof(Type).FullName} requestedType)
         {{
             var result = _typeContainerGet.{nameof(ReinventedContainer.GetGetObject)}(requestedType);
@@ -166,13 +167,46 @@ namespace {ModuleTypeNamespace}
             return (IEnumerable<object>)result;
         }}
 
-#region Beautify
+#endregion
 
-        {beautifyGenerator.GenerateBeautifierBody()}
+#region custom clusters
+
+        public bool IsRegisteredFrom<TCluster, TRequestedType>()
+        {{
+            if(_superCluster is {nameof(IClusterProvider<object>)}<TCluster>)
+            {{
+                return false;
+            }}
+
+            var cluster = (({nameof(IClusterProvider<object>)}<TCluster>)_superCluster).{nameof(IClusterProvider<object>.GetCluster)}();
+            return cluster is {nameof(IBindingProvider<object>)}<TRequestedType>;
+        }}
+        public TRequestedType Get<TCluster, TRequestedType>()
+        {{
+            var cluster = (({nameof(IClusterProvider<object>)}<TCluster>)_superCluster).{nameof(IClusterProvider<object>.GetCluster)}();
+            return (({nameof(IBindingProvider<object>)}<TRequestedType>)cluster).Get();
+        }}
+        public List<TRequestedType> GetAll<TCluster, TRequestedType>()
+        {{
+            var cluster = (({nameof(IClusterProvider<object>)}<TCluster>)_superCluster).{nameof(IClusterProvider<object>.GetCluster)}();
+            return (({nameof(IBindingProvider<object>)}<TRequestedType>)cluster).GetAll();
+        }}
+        public object Get<TCluster>(System.Type requestedType)
+        {{
+            var cluster = (({nameof(IClusterProvider<object>)}<TCluster>)_superCluster).{nameof(IClusterProvider<object>.GetCluster)}();
+            return (({nameof(IBindingProvider)})cluster).{nameof(IBindingProvider.TypeContainerGet)}.{nameof(ReinventedContainer.GetGetObject)}(requestedType);
+        }}
+        public IEnumerable<object> GetAll<TCluster>(System.Type requestedType)
+        {{
+            var cluster = (({nameof(IClusterProvider<object>)}<TCluster>)_superCluster).{nameof(IClusterProvider<object>.GetCluster)}();
+            return (IEnumerable<object>)(({nameof(IBindingProvider)})cluster).{nameof(IBindingProvider.TypeContainerGetAll)}.{nameof(ReinventedContainer.GetGetObject)}(requestedType);
+        }}
 
 #endregion
 
 #region Clusters
+
+        {clusterGeneratorTree.GenerateSuperClusterBody()}
 
         {clusterGeneratorTree.GenerateClusterBodies()}
 

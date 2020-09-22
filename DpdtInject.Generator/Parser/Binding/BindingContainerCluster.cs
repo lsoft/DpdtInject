@@ -16,10 +16,12 @@ namespace DpdtInject.Generator.Parser.Binding
         private readonly HashSet<ITypeSymbol> _bindsFrom;
         private readonly Dictionary<ITypeSymbol, BindingContainerGroup> _bindingContainerGroups;
 
-        public string Name
+        public ITypeSymbol? DeclaredClusterType
         {
             get;
         }
+
+        public bool IsRootCluster => DeclaredClusterType is null;
 
         public IReadOnlyCollection<ITypeSymbol> BindsFrom => _bindsFrom;
 
@@ -33,21 +35,16 @@ namespace DpdtInject.Generator.Parser.Binding
         }
 
         public BindingContainerCluster(
-            string name,
+            ITypeSymbol? declaredClusterType,
             List<IBindingContainer> bindingContainers
             )
         {
-            if (name is null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
             if (bindingContainers is null)
             {
                 throw new ArgumentNullException(nameof(bindingContainers));
             }
 
-            Name = name;
+            DeclaredClusterType = declaredClusterType;
             _bindingContainers = bindingContainers;
 
             _bindsFrom = new HashSet<ITypeSymbol>(

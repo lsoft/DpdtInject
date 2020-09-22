@@ -20,13 +20,13 @@ namespace DpdtInject.Generator.Parser.Binding
         public BindingClusterTree BindingClusterTree => _bindingClusterTree;
 
         public BindingsContainer(
-            TreeJoint<string> clusterNameJoint,
+            TreeJoint<ITypeSymbol?> declaredClusterJoint,
             List<IBindingContainer> bindingContainers
             )
         {
-            if (clusterNameJoint is null)
+            if (declaredClusterJoint is null)
             {
-                throw new ArgumentNullException(nameof(clusterNameJoint));
+                throw new ArgumentNullException(nameof(declaredClusterJoint));
             }
 
             if (bindingContainers is null)
@@ -37,11 +37,11 @@ namespace DpdtInject.Generator.Parser.Binding
             _bindingContainers = bindingContainers;
 
             _bindingClusterTree = new BindingClusterTree(
-                clusterNameJoint.ConvertTo<BindingClusterJoint, BindingContainerCluster>(
+                declaredClusterJoint.ConvertTo<BindingClusterJoint, BindingContainerCluster>(
                    joint => new BindingClusterJoint(
                        new BindingContainerCluster(
                             joint.JointPayload,
-                            bindingContainers.FindAll(c => c.Name == joint.JointPayload)
+                            bindingContainers.FindAll(c => SymbolEqualityComparer.Default.Equals(c.DeclaredClusterType, joint.JointPayload))
                             )
                        )
                    )

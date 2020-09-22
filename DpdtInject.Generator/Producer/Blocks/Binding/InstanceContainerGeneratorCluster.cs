@@ -11,13 +11,15 @@ using System.Linq;
 namespace DpdtInject.Generator.Producer.Blocks.Binding
 {
     public class InstanceContainerGeneratorCluster
-
     {
         private readonly Compilation _compilation;
         private readonly Dictionary<ITypeSymbol, InstanceContainerGeneratorGroup> _generatorGroups;
         private readonly List<InstanceContainerGenerator> _generators;
 
-        internal string Name => BindingContainerCluster.Name;
+        internal ITypeSymbol? DeclaredClusterType => BindingContainerCluster.DeclaredClusterType;
+
+        public bool IsRootCluster => DeclaredClusterType is null;
+
 
         public BindingContainerCluster BindingContainerCluster
         {
@@ -88,14 +90,22 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             foreach (var (wrapperType, wrapperSymbol) in GetRegisteredKeys(true))
             {
                 clauses.Add(
-                    $"new Tuple<Type, Func<object>>( typeof({wrapperSymbol.GetFullName()}), _cluster.{providerMethodNamePrefix}_{wrapperSymbol.GetFullName().ConvertDotLessGreatherToGround()}{wrapperType.GetPostfix()} )"
+                    $"new Tuple<Type, Func<object>>( typeof({wrapperSymbol.GetFullName()}), {providerMethodNamePrefix}_{wrapperSymbol.GetFullName().ConvertDotLessGreatherToGround()}{wrapperType.GetPostfix()} )"
                     );
             }
 
             return string.Join(",", clauses);
         }
 
+        internal string PrepareDeclaredClusterType()
+        {
+            if(IsRootCluster)
+            {
+                return "null";
+            }
 
+            return $"typeof({DeclaredClusterType!.GetFullName()})";
+        }
 
         public IReadOnlyCollection<(DpdtArgumentWrapperTypeEnum, ITypeSymbol)> GetRegisteredKeys(bool includeWrappers)
         {

@@ -86,7 +86,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Cluster
 
             #region InterfaceSection 
 
-            InterfaceSection = $"{nameof(IClusterProvider<object>)}<{BindFromTypeFullName}>";
+            InterfaceSection = $"{nameof(IBindingProvider<object>)}<{BindFromTypeFullName}>";
 
             #endregion
 
@@ -135,7 +135,7 @@ private static readonly {nameof(ResolutionContext)} {createContextVariableName} 
 
             GetExplicitImplementationSection = $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-{BindFromTypeFullName} {nameof(IClusterProvider<object>)}<{BindFromTypeFullName}>.Get()
+{BindFromTypeFullName} {nameof(IBindingProvider<object>)}<{BindFromTypeFullName}>.Get()
 {{
     return {getImplementationMethodName}();
 }}
@@ -277,7 +277,7 @@ return {generator.GetInstanceClause("null", WrapperType)};
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
 public IEnumerable<object> {getAllImplementationMethodName}()
 {{
-    return (({nameof(IClusterProvider<object>)}<{BindFromTypeFullName}>)this).GetAll();
+    return (({nameof(IBindingProvider<object>)}<{BindFromTypeFullName}>)this).GetAll();
 }}
 ";
 
@@ -287,7 +287,7 @@ public IEnumerable<object> {getAllImplementationMethodName}()
             {
                 GetAllExplicitImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-List<{BindFromTypeFullName}> {nameof(IClusterProvider<object>)}<{BindFromTypeFullName}>.GetAll()
+List<{BindFromTypeFullName}> {nameof(IBindingProvider<object>)}<{BindFromTypeFullName}>.GetAll()
 {{
     var result = new List<{BindFromTypeFullName}>();
 ";

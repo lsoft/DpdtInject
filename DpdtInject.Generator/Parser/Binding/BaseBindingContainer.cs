@@ -13,10 +13,12 @@ namespace DpdtInject.Generator.Parser.Binding
 {
     public abstract class BaseBindingContainer : IBindingContainer
     {
-        public string Name
+        public ITypeSymbol? DeclaredClusterType
         {
             get;
         }
+
+        public bool IsRootCluster => DeclaredClusterType is null;
 
         public IReadOnlyList<ITypeSymbol> BindFromTypes
         {
@@ -63,18 +65,13 @@ namespace DpdtInject.Generator.Parser.Binding
         
 
         public BaseBindingContainer(
-            string name,
+            ITypeSymbol? declaredClusterType,
             IReadOnlyList<ITypeSymbol> bindFromTypes,
             ITypeSymbol bindToType,
             BindScopeEnum scope,
             ArgumentSyntax? whenArgumentClause
             )
         {
-            if (name is null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
             if (bindFromTypes is null)
             {
                 throw new ArgumentNullException(nameof(bindFromTypes));
@@ -85,7 +82,7 @@ namespace DpdtInject.Generator.Parser.Binding
                 throw new ArgumentNullException(nameof(bindToType));
             }
 
-            Name = name;
+            DeclaredClusterType = declaredClusterType;
             BindFromTypes = bindFromTypes;
             BindToType = bindToType;
             Scope = scope;
