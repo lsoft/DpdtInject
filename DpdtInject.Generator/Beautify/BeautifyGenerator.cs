@@ -29,7 +29,7 @@ namespace DpdtInject.Generator.Beautify
 
         }
 
-        public string Generate(
+        public string GenerateBeautifierBody(
             )
         {
             var bus = SyntaxFactory.ParseCompilationUnit(Properties.Resources.Beautifier);

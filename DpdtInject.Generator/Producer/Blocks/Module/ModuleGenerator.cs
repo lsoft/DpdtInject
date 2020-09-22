@@ -154,7 +154,7 @@ namespace {ModuleTypeNamespace}
 
 #region Beautify
 
-        {beautifyGenerator.Generate()}
+        {beautifyGenerator.GenerateBeautifierBody()}
 
 #endregion
 
