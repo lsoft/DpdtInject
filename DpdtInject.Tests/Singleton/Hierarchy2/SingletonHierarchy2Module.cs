@@ -20,13 +20,20 @@ namespace DpdtInject.Tests.Singleton.Hierarchy2
             Bind<IA>()
                 .To<A>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 ;
 
             Bind<IB>()
                 .To<B>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 .Configure(new ConstructorArgument("message", Message))
                 ;
+        }
+
+        public partial class DefaultCluster
+        {
+
         }
 
         public class SingletonHierarchy2ModuleTester

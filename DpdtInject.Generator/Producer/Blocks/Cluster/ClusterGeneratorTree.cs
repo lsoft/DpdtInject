@@ -1,7 +1,16 @@
-﻿using DpdtInject.Generator.Helpers;
+﻿using DpdtInject.Generator.Beautify;
+using DpdtInject.Generator.Helpers;
+using DpdtInject.Generator.Parser;
+using DpdtInject.Generator.Parser.Binding;
+using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Tree;
 using DpdtInject.Injector;
+using DpdtInject.Injector.Beautify;
+using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
+using DpdtInject.Injector.Module;
+using DpdtInject.Injector.Module.Bind;
+using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,9 +43,12 @@ namespace DpdtInject.Generator.Producer.Blocks.Cluster
             var result = new StringBuilder();
             
             Joint.Apply(
-                (TreeJoint<ClusterGenerator> joint) =>
+                (TreeJoint<ClusterGenerator> jjoint) =>
                 {
-                    var item = joint.JointPayload.GenerateClusterBody();
+                    var joint = (ClusterGeneratorTreeJoint)jjoint;
+                    
+                    var item = joint.GenerateClusterBody(
+                        );
                     result.AppendLine(item);
                 }
                 );
@@ -68,7 +80,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Cluster
             Joint.Apply(
                 (TreeJoint<ClusterGenerator> joint) =>
                 {
-                    var item = $"private readonly {joint.JointPayload.ClusterClassName} {joint.JointPayload.ClusterStableInstanceName};";
+                    var item = $"private readonly {joint.JointPayload.Joint.JointPayload.DeclaredClusterType.Name} {joint.JointPayload.ClusterStableInstanceName};";
                     result.AppendLine(item);
                 }
                 );
@@ -88,7 +100,7 @@ _superCluster = new SuperCluster();
                 (TreeJoint<ClusterGenerator> joint) =>
                 {
                     var item = $@"
-{joint.JointPayload.ClusterStableInstanceName} = (({nameof(IClusterProvider<object>)}<{joint.JointPayload.ClusterClassName}>)_superCluster).{nameof(IClusterProvider<object>.GetCluster)}();
+{joint.JointPayload.ClusterStableInstanceName} = (({nameof(IClusterProvider<object>)}<{joint.JointPayload.Joint.JointPayload.DeclaredClusterType.Name}>)_superCluster).{nameof(IClusterProvider<object>.GetCluster)}();
 ";
                     result.AppendLine(item);
                 }
@@ -119,11 +131,11 @@ _superCluster = new SuperCluster();
             Joint.Apply(
                 (TreeJoint<ClusterGenerator> joint) =>
                 {
-                    var i = $"{nameof(IClusterProvider<object>)}<{joint.JointPayload.ClusterClassName}>";
+                    var i = $"{nameof(IClusterProvider<object>)}<{joint.JointPayload.Joint.JointPayload.DeclaredClusterType.Name}>";
                     interfaces.Add(i);
 
                     var m = $@"
-{joint.JointPayload.ClusterClassName} {nameof(IClusterProvider<object>)}<{joint.JointPayload.ClusterClassName}>.{nameof(IClusterProvider<object>.GetCluster)}()
+{joint.JointPayload.Joint.JointPayload.DeclaredClusterType.Name} {nameof(IClusterProvider<object>)}<{joint.JointPayload.Joint.JointPayload.DeclaredClusterType.Name}>.{nameof(IClusterProvider<object>.GetCluster)}()
 {{
     return {joint.JointPayload.ClusterStableInstanceName};
 }}
@@ -157,7 +169,7 @@ private class SuperCluster :
             Joint.Apply(
                 (TreeJoint<ClusterGenerator> joint) =>
                 {
-                    var item = $"private readonly {joint.JointPayload.ClusterClassName} {joint.JointPayload.ClusterStableInstanceName};";
+                    var item = $"private readonly {joint.JointPayload.Joint.JointPayload.DeclaredClusterType.Name} {joint.JointPayload.ClusterStableInstanceName};";
                     result.AppendLine(item);
                 }
                 );
@@ -172,10 +184,23 @@ private class SuperCluster :
             Joint.Apply(
                 (TreeJoint<ClusterGenerator> joint) =>
                 {
-                    var item = $@"
-{joint.JointPayload.ClusterStableInstanceName} = new {joint.JointPayload.ClusterClassName}(
+                    string item;
+                    if (joint.IsRoot)
+                    {
+                        item = $@"
+{joint.JointPayload.ClusterStableInstanceName} = new {joint.JointPayload.Joint.JointPayload.DeclaredClusterType.Name}(
     );
 ";
+                    }
+                    else
+                    {
+                        item = $@"
+{joint.JointPayload.ClusterStableInstanceName} = new {joint.JointPayload.Joint.JointPayload.DeclaredClusterType.Name}(
+    {joint.Parent!.JointPayload.ClusterStableInstanceName}
+    );
+";
+                    }
+
                     result.AppendLine(item);
                 }
                 );
@@ -187,10 +212,219 @@ private class SuperCluster :
 
     public class ClusterGeneratorTreeJoint : TreeJoint<ClusterGenerator>
     {
-        public ClusterGeneratorTreeJoint(ClusterGenerator jointPayload)
-            : base(jointPayload)
+        public ClusterGeneratorTreeJoint(TreeJoint<ClusterGenerator>? parent, ClusterGenerator jointPayload)
+            : base(parent, jointPayload)
         {
         }
+
+        public bool TryGetRegisteredKeys(
+            ITypeSymbol type,
+            bool includeWrappers,
+            ref List<(DpdtArgumentWrapperTypeEnum, ITypeSymbol)> result
+            )
+        {
+            var instanceContainerCluster = JointPayload.Joint.JointPayload;
+
+            var currentRegisteredKeys = instanceContainerCluster.GetRegisteredKeys(includeWrappers);
+            
+            result.AddRange(
+                currentRegisteredKeys.Where(pair => SymbolEqualityComparer.Default.Equals(pair.Item2, type))
+                );
+
+            if (TryGetParent<ClusterGeneratorTreeJoint>(out var parent))
+            {
+                parent.TryGetRegisteredKeys(
+                    type,
+                    includeWrappers,
+                    ref result
+                    );
+            }
+
+            return result.Count > 0;
+        }
+
+        public bool TryGetPairs(
+            ITypeSymbol type,
+            bool includeWrappers,
+            ref List<ClusterPair> result
+            )
+        {
+            if (type is null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+            if (result is null)
+            {
+                throw new ArgumentNullException(nameof(result));
+            }
+
+            var instanceContainerCluster = JointPayload.Joint.JointPayload;
+
+            if (instanceContainerCluster.TryGetRegisteredGeneratorGroups(type, includeWrappers, out var groups))
+            {
+                var rresult = new List<InstanceContainerGenerator>();
+
+                groups.ForEach(
+                    group => rresult.AddRange(group.Generators)
+                    );
+
+                result.AddRange(
+                    rresult.ConvertAll(a => new ClusterPair(this, a))
+                    );
+            }
+
+            if (TryGetParent<ClusterGeneratorTreeJoint>(out var parent))
+            {
+                parent.TryGetPairs(
+                    type,
+                    includeWrappers,
+                    ref result
+                    );
+            }
+
+            return result.Count > 0;
+        }
+
+        public string GenerateClusterBody(
+            )
+        {
+            var beautifyGenerator = new BeautifyGenerator(
+                JointPayload.Joint.JointPayload.DeclaredClusterType.Name
+                );
+
+            var fieldParentClusterClause = "";
+            var constructorArgumentParentClusterClause = "";
+            var assignParentClusterClause = "";
+            if (!IsRoot)
+            {
+                fieldParentClusterClause = $"private readonly {Parent!.JointPayload.Joint.JointPayload.DeclaredClusterType.Name} _parentCluster;";
+                constructorArgumentParentClusterClause = $"{Parent!.JointPayload.Joint.JointPayload.DeclaredClusterType.Name} parentCluster";
+                assignParentClusterClause = $"_parentCluster = parentCluster;";
+            }
+
+            
+
+            return $@"
+{JointPayload.Joint.JointPayload.DeclaredClusterType.DeclaredAccessibility.ToSource()} partial class {JointPayload.Joint.JointPayload.DeclaredClusterType.Name} : {nameof(IDisposable)}, {nameof(IBindingProvider)}
+    {JointPayload.GetCombinedInterfaces()}
+{{
+    {fieldParentClusterClause}
+    private readonly {beautifyGenerator.ClassName} _beautifier;
+
+    public {typeof(ReinventedContainer).FullName} TypeContainerGet
+    {{
+        get;
+    }}
+
+    public {typeof(ReinventedContainer).FullName} TypeContainerGetAll
+    {{
+        get;
+    }}
+
+    public string DeclaredClusterType => ""{JointPayload.Joint.JointPayload.DeclaredClusterType.Name}"";
+
+    public bool IsRootCluster => DeclaredClusterType == ""{((JointPayload.Joint.JointPayload.DeclaredClusterType.BaseType!.GetFullName() == "System.Object") ? "true" : "false")}"";
+
+    public {typeof(IBeautifier).FullName} Beautifier => _beautifier;
+
+    public {JointPayload.Joint.JointPayload.DeclaredClusterType.Name}({constructorArgumentParentClusterClause})
+    {{
+        {assignParentClusterClause}
+
+        TypeContainerGet = new {typeof(ReinventedContainer).FullName}(
+            {JointPayload.Joint.JointPayload.GetReinventedContainerArgument("Get")}
+            );
+        TypeContainerGetAll = new {typeof(ReinventedContainer).FullName}(
+            {JointPayload.Joint.JointPayload.GetReinventedContainerArgument("GetAll")}
+            );
+
+        _beautifier = new {beautifyGenerator.ClassName}(
+            this
+            );
+    }}
+
+    public bool IsRegisteredFrom<TRequestedType>()
+    {{
+        return this is {nameof(IBindingProvider<object>)}<TRequestedType>;
+    }}
+
+    public TRequestedType Get<TRequestedType>()
+    {{
+        return (({nameof(IBindingProvider<object>)}<TRequestedType>)this).Get();
+    }}
+
+    public List<TRequestedType> GetAll<TRequestedType>()
+    {{
+        return (({nameof(IBindingProvider<object>)}<TRequestedType>)this).GetAll();
+    }}
+
+    public object Get({typeof(Type).FullName} requestedType)
+    {{
+        var result = TypeContainerGet.{nameof(ReinventedContainer.GetGetObject)}(requestedType);
+
+        return result;
+    }}
+    public IEnumerable<object> GetAll({typeof(Type).FullName} requestedType)
+    {{
+        var result = TypeContainerGetAll.{nameof(ReinventedContainer.GetGetObject)}(requestedType);
+
+        return (IEnumerable<object>)result;
+    }}
+
+#region Beautify
+
+    {beautifyGenerator.GenerateBeautifierBody()}
+
+#endregion
+
+    public void Dispose()
+    {{
+        {JointPayload.Joint.JointPayload.Generators.Where(icg => icg.BindingContainer.Scope.In(BindScopeEnum.Singleton)).Join(sc => sc.DisposeClause + ";")}
+    }}
+
+    {JointPayload.GetCombinedImplementationSection()}
+
+#region Instance Containers
+    {JointPayload.Joint.JointPayload.Generators.Join(sc => sc.GetClassBody(this))}
+#endregion
+
+}}
+";
+        }
+
+    }
+
+    public class ClusterPair
+    {
+        public ClusterGeneratorTreeJoint Joint 
+        {
+            get;
+        }
+        
+        public InstanceContainerGenerator InstanceContainerGenerator
+        {
+            get;
+        }
+
+        public ClusterPair(
+            ClusterGeneratorTreeJoint joint,
+            InstanceContainerGenerator instanceContainerGenerator
+            )
+        {
+            if (joint is null)
+            {
+                throw new ArgumentNullException(nameof(joint));
+            }
+
+            if (instanceContainerGenerator is null)
+            {
+                throw new ArgumentNullException(nameof(instanceContainerGenerator));
+            }
+
+            Joint = joint;
+            InstanceContainerGenerator = instanceContainerGenerator;
+        }
+
     }
 
 }

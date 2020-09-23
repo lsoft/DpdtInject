@@ -18,16 +18,22 @@ namespace DpdtInject.Tests.Conditional.SingleObject
             Bind<IA1>()
                 .To<A>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 .When(rc => true)
                 ;
 
             Bind<IA2>()
                 .To<A>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 .When(rc => false)
                 ;
         }
 
+        public partial class DefaultCluster
+        {
+
+        }
         public class ConditionalSingleObjectModuleTester
         {
             public void PerformModuleTesting()

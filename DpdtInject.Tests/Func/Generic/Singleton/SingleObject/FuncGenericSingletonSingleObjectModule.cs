@@ -17,9 +17,14 @@ namespace DpdtInject.Tests.Func.Generic.Singleton.SingleObject
             Bind<IA>()
                 .To<A>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 ;
         }
 
+        public partial class DefaultCluster
+        {
+
+        }
         public class FuncGenericSingletonSingleObjectModuleTester
         {
             public void PerformModuleTesting()

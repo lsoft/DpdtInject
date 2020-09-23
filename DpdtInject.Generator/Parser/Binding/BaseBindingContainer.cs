@@ -1,8 +1,10 @@
 ﻿using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer;
+using DpdtInject.Generator.Producer.Blocks.Cluster;
 using DpdtInject.Generator.Properties;
 using DpdtInject.Injector.Helper;
+using DpdtInject.Injector.Module;
 using DpdtInject.Injector.Module.Bind;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -13,12 +15,12 @@ namespace DpdtInject.Generator.Parser.Binding
 {
     public abstract class BaseBindingContainer : IBindingContainer
     {
-        public ITypeSymbol? DeclaredClusterType
+        public ITypeSymbol DeclaredClusterType
         {
             get;
         }
 
-        public bool IsRootCluster => DeclaredClusterType is null;
+        public bool IsRootCluster => DeclaredClusterType.BaseType!.GetFullName() == "System.Object";
 
         public IReadOnlyList<ITypeSymbol> BindFromTypes
         {
@@ -65,13 +67,18 @@ namespace DpdtInject.Generator.Parser.Binding
         
 
         public BaseBindingContainer(
-            ITypeSymbol? declaredClusterType,
+            ITypeSymbol declaredClusterType,
             IReadOnlyList<ITypeSymbol> bindFromTypes,
             ITypeSymbol bindToType,
             BindScopeEnum scope,
             ArgumentSyntax? whenArgumentClause
             )
         {
+            if (declaredClusterType is null)
+            {
+                throw new ArgumentNullException(nameof(declaredClusterType));
+            }
+
             if (bindFromTypes is null)
             {
                 throw new ArgumentNullException(nameof(bindFromTypes));
@@ -93,7 +100,7 @@ namespace DpdtInject.Generator.Parser.Binding
         public string GetFromTypeFullNamesCombined(string separator = "_") => string.Join(separator, FromTypeFullNames);
 
         public abstract string PrepareInstanceContainerCode(
-            InstanceContainerGeneratorCluster cluster
+            ClusterGeneratorTreeJoint clusterGeneratorJoint
             );
 
         public string GetContainerStableClassName()

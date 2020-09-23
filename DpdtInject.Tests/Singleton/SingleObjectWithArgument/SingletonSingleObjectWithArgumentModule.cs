@@ -22,9 +22,15 @@ namespace DpdtInject.Tests.Singleton.SingleObjectWithArgument
             Bind<IA>()
                 .To<A>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 .Configure(new ConstructorArgument("message", Message))
                 .Configure(new ConstructorArgument("secondArgument", SecondArgument))
                 ;
+        }
+
+        public partial class DefaultCluster
+        {
+
         }
 
         public class SingletonSingleObjectWithArgumentModuleTester

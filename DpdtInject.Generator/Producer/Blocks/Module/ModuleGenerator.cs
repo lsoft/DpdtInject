@@ -58,13 +58,14 @@ namespace DpdtInject.Generator.Producer.Blocks.Module
             }
 
             var clusterGeneratorTree = new ClusterGeneratorTree(
-                container.GeneratorTree.Joint.ConvertTo<ClusterGeneratorTreeJoint, ClusterGenerator>(
-                    joint =>
+                container.GeneratorTree.Joint.ConvertTo2<ClusterGeneratorTreeJoint, ClusterGenerator>(
+                    (parentJoint, toConvertJoint) =>
                     {
                         return new ClusterGeneratorTreeJoint(
+                            parentJoint,
                             new ClusterGenerator(
                                 _compilation,
-                                joint
+                                toConvertJoint
                                 )
                             );
                     })

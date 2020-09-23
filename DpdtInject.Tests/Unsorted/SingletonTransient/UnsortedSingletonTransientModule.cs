@@ -20,12 +20,19 @@ namespace DpdtInject.Tests.Unsorted.SingletonTransient
             Bind<IA>()
                 .To<A>()
                 .WithTransientScope()
+                .InCluster<DefaultCluster>()
                 ;
 
             Bind<IB>()
                 .To<B>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 ;
+        }
+
+        public partial class DefaultCluster
+        {
+
         }
 
         public class UnsortedSingletonTransientTester

@@ -18,12 +18,19 @@ namespace DpdtInject.Tests.Transient.TwoSameBindings
             Bind<IA>()
                 .To<A1>()
                 .WithTransientScope()
+                .InCluster<DefaultCluster>()
                 ;
 
             Bind<IA>()
                 .To<A2>()
                 .WithTransientScope()
+                .InCluster<DefaultCluster>()
                 ;
+        }
+
+        public partial class DefaultCluster
+        {
+
         }
 
         public class TransientTwoSameBindingsModuleTester

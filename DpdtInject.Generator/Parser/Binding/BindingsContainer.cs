@@ -20,13 +20,13 @@ namespace DpdtInject.Generator.Parser.Binding
         public BindingClusterTree BindingClusterTree => _bindingClusterTree;
 
         public BindingsContainer(
-            TreeJoint<ITypeSymbol?> declaredClusterJoint,
+            ITypeSymbol moduleType,
             List<IBindingContainer> bindingContainers
             )
         {
-            if (declaredClusterJoint is null)
+            if (moduleType is null)
             {
-                throw new ArgumentNullException(nameof(declaredClusterJoint));
+                throw new ArgumentNullException(nameof(moduleType));
             }
 
             if (bindingContainers is null)
@@ -36,16 +36,125 @@ namespace DpdtInject.Generator.Parser.Binding
 
             _bindingContainers = bindingContainers;
 
+            //build declared cluster tree
+            var declaredClusterTreeRoot = BuildDeclaredClusterTree(
+                moduleType,
+                bindingContainers
+                );
+
             _bindingClusterTree = new BindingClusterTree(
-                declaredClusterJoint.ConvertTo<BindingClusterJoint, BindingContainerCluster>(
-                   joint => new BindingClusterJoint(
+                declaredClusterTreeRoot.ConvertTo2<BindingClusterJoint, BindingContainerCluster>(
+                   (parentJoint, toConvertJoint) => new BindingClusterJoint(
+                       parentJoint,
                        new BindingContainerCluster(
-                            joint.JointPayload,
-                            bindingContainers.FindAll(c => SymbolEqualityComparer.Default.Equals(c.DeclaredClusterType, joint.JointPayload))
+                            toConvertJoint.JointPayload,
+                            bindingContainers.FindAll(c => SymbolEqualityComparer.Default.Equals(c.DeclaredClusterType, toConvertJoint.JointPayload))
                             )
                        )
                    )
                 );
+        }
+
+        private TreeJoint<ITypeSymbol> BuildDeclaredClusterTree(
+            ITypeSymbol moduleType,
+            List<IBindingContainer> containers
+            )
+        {
+            if (moduleType is null)
+            {
+                throw new ArgumentNullException(nameof(moduleType));
+            }
+
+            if (containers is null)
+            {
+                throw new ArgumentNullException(nameof(containers));
+            }
+
+            var declaredClusterTypes = containers
+                .Select(c => c.DeclaredClusterType)
+                .Where(dct => dct.BaseType!.GetFullName() == "System.Object")
+                .Distinct()
+                .ToList()
+                ;
+
+            if (declaredClusterTypes.Count > 1)
+            {
+                throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, "Too many root clusters");
+            }
+
+            var declaredClusterType = declaredClusterTypes[0];
+
+            if (declaredClusterType.ContainingType is null
+                || !SymbolEqualityComparer.Default.Equals(declaredClusterType.ContainingType, moduleType))
+            {
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.IncorrectCluster,
+                    $"Cluster [{declaredClusterType.GetFullName()}] shound be nested in its parent module [{moduleType.GetFullName()}]",
+                    declaredClusterType.GetFullName()
+                    );
+            }
+
+            var rootJoint = new TreeJoint<ITypeSymbol>(
+                null,
+                declaredClusterType
+                );
+
+            BuildDeclaredClusterTree(
+                moduleType,
+                containers,
+                rootJoint
+                );
+
+            return rootJoint;
+        }
+
+
+        private void BuildDeclaredClusterTree(
+            ITypeSymbol moduleType,
+            List<IBindingContainer> containers,
+            TreeJoint<ITypeSymbol> joint
+            )
+        {
+            if (moduleType is null)
+            {
+                throw new ArgumentNullException(nameof(moduleType));
+            }
+
+            if (containers is null)
+            {
+                throw new ArgumentNullException(nameof(containers));
+            }
+
+            var childContainers = containers.FindAll(c => SymbolEqualityComparer.Default.Equals(c.DeclaredClusterType.BaseType, joint.JointPayload));
+            if (childContainers.Count > 0)
+            {
+                foreach (var childContainer in childContainers.Distinct())
+                {
+                    var declaredClusterType = childContainer.DeclaredClusterType;
+
+                    if (declaredClusterType.ContainingType is null
+                        || !SymbolEqualityComparer.Default.Equals(declaredClusterType.ContainingType, moduleType))
+                    {
+                        throw new DpdtException(
+                            DpdtExceptionTypeEnum.IncorrectCluster,
+                            $"Cluster [{declaredClusterType.GetFullName()}] shound be nested in its parent module [{moduleType.GetFullName()}]",
+                            declaredClusterType.GetFullName()
+                            );
+                    }
+
+                    var childJoint = new TreeJoint<ITypeSymbol>(
+                        joint,
+                        declaredClusterType
+                        );
+                    joint.AddChild(childJoint);
+
+                    BuildDeclaredClusterTree(
+                        moduleType,
+                        containers,
+                        childJoint
+                        );
+                }
+            }
         }
     }
 

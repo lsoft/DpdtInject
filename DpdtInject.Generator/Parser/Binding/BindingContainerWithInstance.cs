@@ -1,6 +1,7 @@
 ﻿using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer;
+using DpdtInject.Generator.Producer.Blocks.Cluster;
 using DpdtInject.Generator.Properties;
 using DpdtInject.Injector.Helper;
 using DpdtInject.Injector.Module.Bind;
@@ -39,13 +40,13 @@ namespace DpdtInject.Generator.Parser.Binding
                     return BindToType.GetFullName();
                 }
 
-                return DeclaredClusterType!.GetFullName() + ":" + BindToType.GetFullName();
+                return DeclaredClusterType!.GetFullName() + " : " + BindToType.GetFullName();
             }
         }
 
 
         public BindingContainerWithInstance(
-            ITypeSymbol? declaredClusterType,
+            ITypeSymbol declaredClusterType,
             IReadOnlyList<ITypeSymbol> bindFromTypes,
             ITypeSymbol bindToType,
             IReadOnlyList<DetectedConstructorArgument> constructorArguments,
@@ -63,12 +64,12 @@ namespace DpdtInject.Generator.Parser.Binding
         }
 
         public override string PrepareInstanceContainerCode(
-            InstanceContainerGeneratorCluster cluster
+            ClusterGeneratorTreeJoint clusterGeneratorJoint
             )
         {
-            if (cluster is null)
+            if (clusterGeneratorJoint is null)
             {
-                throw new ArgumentNullException(nameof(cluster));
+                throw new ArgumentNullException(nameof(clusterGeneratorJoint));
             }
 
             GetInstanceContainerBody(out var className, out var resource);
@@ -80,8 +81,23 @@ namespace DpdtInject.Generator.Parser.Binding
             var result = instanceContainerCode
                 .CheckAndReplace(className, GetContainerStableClassName())
                 .CheckAndReplace(nameof(FakeTarget), BindToType.GetFullName())
-                .CheckAndReplace("//GENERATOR: argument methods", string.Join(Environment.NewLine, ConstructorArguments.Where(ca => !ca.DefineInBindNode).Select(ca => ca.GenerateProvideConstructorArgumentMethod(cluster, this))))
-                .CheckAndReplace("//GENERATOR: apply arguments", string.Join(",", ConstructorArguments.Select(ca => ca.GetApplyConstructorClause())))
+                .CheckAndReplace(
+                    "//GENERATOR: argument methods",
+                    string.Join(
+                        Environment.NewLine,
+                        ConstructorArguments
+                            .Where(ca => !ca.DefineInBindNode)
+                            .Select(ca => ca.GenerateProvideConstructorArgumentMethod(clusterGeneratorJoint, this)
+                            )
+                        )
+                    )
+                .CheckAndReplace(
+                    "//GENERATOR: apply arguments",
+                    string.Join(
+                        ",",
+                        ConstructorArguments.Select(ca => ca.GetApplyConstructorClause())
+                        )
+                    )
                 .CheckAndReplace("//GENERATOR: predicate", (WhenArgumentClause?.ToString() ?? "rc => true"))
                 ;
 

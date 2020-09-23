@@ -16,9 +16,9 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         private readonly Dictionary<ITypeSymbol, InstanceContainerGeneratorGroup> _generatorGroups;
         private readonly List<InstanceContainerGenerator> _generators;
 
-        internal ITypeSymbol? DeclaredClusterType => BindingContainerCluster.DeclaredClusterType;
+        internal ITypeSymbol DeclaredClusterType => BindingContainerCluster.DeclaredClusterType;
 
-        public bool IsRootCluster => DeclaredClusterType is null;
+        public bool IsRootCluster => BindingContainerCluster.IsRootCluster;
 
 
         public BindingContainerCluster BindingContainerCluster
@@ -104,7 +104,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                 return "null";
             }
 
-            return $"typeof({DeclaredClusterType!.GetFullName()})";
+            return $"typeof({DeclaredClusterType.Name})";
         }
 
         public IReadOnlyCollection<(DpdtArgumentWrapperTypeEnum, ITypeSymbol)> GetRegisteredKeys(bool includeWrappers)

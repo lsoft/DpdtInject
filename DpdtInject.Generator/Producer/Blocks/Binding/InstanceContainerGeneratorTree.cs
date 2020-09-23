@@ -159,8 +159,11 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
     public class InstanceContainerGeneratorTreeJoint : TreeJoint<InstanceContainerGeneratorCluster>
     {
-        public InstanceContainerGeneratorTreeJoint(InstanceContainerGeneratorCluster jointPayload)
-            : base(jointPayload)
+        public InstanceContainerGeneratorTreeJoint(
+            TreeJoint<InstanceContainerGeneratorCluster>? parent,
+            InstanceContainerGeneratorCluster jointPayload
+            )
+            : base(parent, jointPayload)
         {
         }
 

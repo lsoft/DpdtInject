@@ -24,31 +24,28 @@ namespace DpdtInject.Generator.Tree
 
         public bool IsEndJoint => _children.Count == 0;
 
-        private TreeJoint(
-            TreeJoint<T> parent,
+        public TreeJoint(
+            TreeJoint<T>? parent,
             T jointPayload
             )
         {
-            if (parent is null)
+            if (jointPayload is null)
             {
-                throw new ArgumentNullException(nameof(parent));
+                throw new ArgumentNullException(nameof(jointPayload));
             }
-            //jointPayload allowed to be null
 
             Parent = parent;
             JointPayload = jointPayload;
             _children = new List<TreeJoint<T>>();
         }
 
-        public TreeJoint(
-            T jointPayload
+        public bool TryGetParent<TParent>(
+            [NotNullWhen(true)] out TParent? parent
             )
+            where TParent : TreeJoint<T>
         {
-            //jointPayload allowed to be null
-
-            JointPayload = jointPayload;
-            Parent = null;
-            _children = new List<TreeJoint<T>>();
+            parent = (TParent?)Parent;
+            return !(parent is null);
         }
 
         public void AddChild(
@@ -63,25 +60,49 @@ namespace DpdtInject.Generator.Tree
             _children.Add(childJoint);
         }
 
-        public T3 ConvertTo<T3, T2>(
-            Func<TreeJoint<T>, T3> converter
+        public T3 ConvertTo2<T3, T2>(
+            Func<T3?, TreeJoint<T>, T3> converter
             )
-            where T3 : TreeJoint<T2>
+            where T3 : notnull, TreeJoint<T2>
         {
             if (converter is null)
             {
                 throw new ArgumentNullException(nameof(converter));
             }
 
-            var convertedRoot = converter(this);
-            foreach (var child in _children)
+            if(!IsRoot)
             {
-                var convertedChild = converter(child);
-                convertedRoot.AddChild(convertedChild);
+                throw new InvalidOperationException();
             }
 
-            return convertedRoot;
+            var result = this.ConvertTo2<T3, T2>(
+                null,
+                converter
+                );
+
+            return result;
         }
+
+        private T3 ConvertTo2<T3, T2>(
+            T3? convertedParent,
+            Func<T3?, TreeJoint<T>, T3> converter
+            )
+            where T3 : notnull, TreeJoint<T2>
+        {
+            var converted = converter(convertedParent, this);
+
+            foreach (var child in this._children)
+            {
+                var convertedChild = child.ConvertTo2<T3, T2>(
+                    converted,
+                    converter
+                    );
+                converted.AddChild(convertedChild);
+            }
+
+            return converted;
+        }
+
 
         internal void Apply(
             Action<TreeJoint<T>> action
@@ -96,7 +117,7 @@ namespace DpdtInject.Generator.Tree
 
             foreach (var child in this.Children)
             {
-                Apply(action);
+                child.Apply(action);
             }
         }
 
@@ -113,7 +134,7 @@ namespace DpdtInject.Generator.Tree
 
             foreach(var child in this.Children)
             {
-                Apply(action);
+                child.Apply(action);
             }
         }
 

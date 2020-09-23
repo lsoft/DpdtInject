@@ -2,6 +2,7 @@
 using DpdtInject.Generator.Tree;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Excp;
+using DpdtInject.Injector.Module;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
@@ -16,12 +17,12 @@ namespace DpdtInject.Generator.Parser.Binding
         private readonly HashSet<ITypeSymbol> _bindsFrom;
         private readonly Dictionary<ITypeSymbol, BindingContainerGroup> _bindingContainerGroups;
 
-        public ITypeSymbol? DeclaredClusterType
+        public ITypeSymbol DeclaredClusterType
         {
             get;
         }
 
-        public bool IsRootCluster => DeclaredClusterType is null;
+        public bool IsRootCluster => DeclaredClusterType.BaseType!.GetFullName() == "System.Object";
 
         public IReadOnlyCollection<ITypeSymbol> BindsFrom => _bindsFrom;
 
@@ -35,10 +36,15 @@ namespace DpdtInject.Generator.Parser.Binding
         }
 
         public BindingContainerCluster(
-            ITypeSymbol? declaredClusterType,
+            ITypeSymbol declaredClusterType,
             List<IBindingContainer> bindingContainers
             )
         {
+            if (declaredClusterType is null)
+            {
+                throw new ArgumentNullException(nameof(declaredClusterType));
+            }
+
             if (bindingContainers is null)
             {
                 throw new ArgumentNullException(nameof(bindingContainers));

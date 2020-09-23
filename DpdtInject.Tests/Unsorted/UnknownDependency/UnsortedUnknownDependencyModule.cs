@@ -19,13 +19,20 @@ namespace DpdtInject.Tests.Unsorted.UnknownDependency
             Bind<IB>()
                 .To<B>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 ;
 
             Bind<IC>()
                 .To<C>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 ;
         }
+
+        public partial class DefaultCluster
+        { 
+        }
+
 
         public class UnsortedUnknownDependencyModuleTester
         {

@@ -20,20 +20,28 @@ namespace DpdtInject.Tests.Conditional.Hierarchy3First
             Bind<IA>()
                 .To<A>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 .When(rc => true)
                 ;
 
             Bind<IB>()
                 .To<B>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 .Configure(new ConstructorArgument("message", Message))
                 ;
 
             Bind<IC>()
                 .To<C>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 .When(rc => true)
                 ;
+        }
+
+        public partial class DefaultCluster
+        {
+
         }
 
         public class ConditionalHierarchy3FirstModuleTester

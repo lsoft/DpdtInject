@@ -20,14 +20,21 @@ namespace DpdtInject.Tests.Conditional.RContext.Hierarchy2
             Bind<IA>()
                 .To<A>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 .When(rc => !rc.IsRoot && rc.ParentFrame.RequestedType == typeof(IB))
                 ;
 
             Bind<IB>()
                 .To<B>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 .Configure(new ConstructorArgument("message", Message))
                 ;
+        }
+
+        public partial class DefaultCluster
+        {
+
         }
 
         public class ConditionalRContextHierarchy2ModuleTester

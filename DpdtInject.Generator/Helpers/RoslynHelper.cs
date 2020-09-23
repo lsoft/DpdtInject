@@ -11,47 +11,30 @@ namespace DpdtInject.Generator.Helpers
 {
     public static class RoslynHelper
     {
-        //public static SyntaxReference GetOnlyMethod(
-        //    this INamedTypeSymbol classSymbol,
-        //    string methodName
-        //    )
-        //{
-        //    IMethodSymbol foundMethodSymbol = null;
-        //    while (classSymbol != null)
-        //    {
-        //        var members = classSymbol.GetMembers(methodName);
+        public static string ToSource(
+            this Accessibility a
+            )
+        {
+            switch (a)
+            {
+                case Accessibility.Private:
+                    return "private";
+                case Accessibility.ProtectedAndInternal:
+                    return "protected internal";
+                case Accessibility.Protected:
+                    return "protected";
+                case Accessibility.Internal:
+                    return "internal";
+                case Accessibility.Public:
+                    return "public";
+                case Accessibility.ProtectedOrInternal:
+                case Accessibility.NotApplicable:
+                default:
+                    throw new ArgumentOutOfRangeException(a.ToString());
+            }
 
-        //        if (members.Length > 1)
-        //        {
-        //            throw new Exception($"Something wrong with type {classSymbol.GetFullName()}");
-        //        }
+        }
 
-        //        if (members.Length == 0)
-        //        {
-        //            classSymbol = classSymbol.BaseType;
-        //            continue;
-        //        }
-
-        //        foundMethodSymbol = (IMethodSymbol)members[0];
-        //        break;
-        //    }
-
-        //    if(foundMethodSymbol == null)
-        //    {
-        //        throw new Exception($"Not found {methodName}");
-        //    }
-
-        //    var refs = foundMethodSymbol.DeclaringSyntaxReferences;
-
-        //    if (refs.Length != 1)
-        //    {
-        //        throw new Exception($"Something wrong with method {foundMethodSymbol.GetFullName()}");
-        //    }
-
-        //    var methodRef = refs[0];
-
-        //    return methodRef;
-        //}
 
         [return: MaybeNull]
         public static T Root<T>(this SyntaxNode node)

@@ -21,18 +21,26 @@ namespace DpdtInject.Tests.Transient.Hierarchy3
             Bind<IA>()
                 .To<A>()
                 .WithTransientScope()
+                .InCluster<DefaultCluster>()
                 ;
 
             Bind<IB>()
                 .To<B>()
                 .WithTransientScope()
+                .InCluster<DefaultCluster>()
                 .Configure(new ConstructorArgument("message", Message))
                 ;
 
             Bind<IC>()
                 .To<C>()
                 .WithTransientScope()
+                .InCluster<DefaultCluster>()
                 ;
+        }
+
+        public partial class DefaultCluster
+        {
+
         }
 
         public class TransientHierarchy3ModuleTester

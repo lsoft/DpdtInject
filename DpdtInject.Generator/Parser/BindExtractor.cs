@@ -3,6 +3,7 @@ using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Generator.Tree;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
+using DpdtInject.Injector.Module;
 using DpdtInject.Injector.Module.Bind;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -52,16 +53,11 @@ namespace DpdtInject.Generator.Parser
 
 
         public BindingsContainer GetBindingsContainer(
-            TreeJoint<ITypeSymbol?> declaredClusterJoint
+            ITypeSymbol moduleType
             )
         {
-            if (declaredClusterJoint is null)
-            {
-                throw new ArgumentNullException(nameof(declaredClusterJoint));
-            }
-
             return new BindingsContainer(
-                declaredClusterJoint,
+                moduleType,
                 _bindingContainers
                 );
         }
@@ -88,6 +84,14 @@ namespace DpdtInject.Generator.Parser
             if (bindMethodName != "Bind")
             {
                 return base.VisitExpressionStatement(expressionNode)!;
+            }
+
+            var declaredClusterType = DetermineCluster(genericNodes);
+
+            if(declaredClusterType is null)
+            {
+                //cluster should be defined
+                throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, "Cluster should be defined");
             }
 
             var expressionText = expressionNode.GetText().ToString();
@@ -118,21 +122,24 @@ namespace DpdtInject.Generator.Parser
                     ProcessSingleton(
                         expressionNode,
                         bindGenericNode,
-                        whenArgumentClause
+                        whenArgumentClause,
+                        declaredClusterType
                         );
                     break;
                 case BindScopeEnum.Transient:
                     ProcessTransient(
                         expressionNode,
                         bindGenericNode,
-                        whenArgumentClause
+                        whenArgumentClause,
+                        declaredClusterType
                         );
                     break;
                 case BindScopeEnum.Constant:
                     ProcessConstant(
                         expressionNode,
                         bindGenericNode,
-                        whenArgumentClause
+                        whenArgumentClause,
+                        declaredClusterType
                         );
                     break;
                 default:
@@ -152,9 +159,15 @@ namespace DpdtInject.Generator.Parser
         private void ProcessConstant(
             ExpressionStatementSyntax expressionNode,
             GenericNameSyntax bindGenericNode,
-            ArgumentSyntax? whenArgumentClause
+            ArgumentSyntax? whenArgumentClause,
+            ITypeSymbol declaredClusterType
             )
         {
+            var genericNodes = expressionNode
+                .DescendantNodes()
+                .OfType<GenericNameSyntax>()
+                .ToList();
+
 
             var withScopeSyntax = expressionNode
                 .DescendantNodes()
@@ -188,7 +201,7 @@ namespace DpdtInject.Generator.Parser
             }
 
             var bindingContainer = new ConstantBindingContainer(
-                null,
+                declaredClusterType,
                 bindFromTypeSematics,
                 constTypeSymbol,
                 constantClause,
@@ -203,7 +216,8 @@ namespace DpdtInject.Generator.Parser
         private void ProcessTransient(
             ExpressionStatementSyntax expressionNode,
             GenericNameSyntax bindGenericNode,
-            ArgumentSyntax? whenArgumentClause
+            ArgumentSyntax? whenArgumentClause,
+            ITypeSymbol declaredClusterType
             )
         {
             var genericNodes = expressionNode
@@ -287,9 +301,8 @@ namespace DpdtInject.Generator.Parser
                 }
             }
 
-
             var bindingContainer = new BindingContainerWithInstance(
-                null,
+                declaredClusterType,
                 bindFromTypeSematics,
                 bindToTypeSematic,
                 constructorArguments,
@@ -303,7 +316,8 @@ namespace DpdtInject.Generator.Parser
         private void ProcessSingleton(
             ExpressionStatementSyntax expressionNode,
             GenericNameSyntax bindGenericNode,
-            ArgumentSyntax? whenArgumentClause
+            ArgumentSyntax? whenArgumentClause,
+            ITypeSymbol declaredClusterType
             )
         {
             var genericNodes = expressionNode
@@ -386,9 +400,8 @@ namespace DpdtInject.Generator.Parser
                 }
             }
 
-
             var bindingContainer = new BindingContainerWithInstance(
-                null,
+                declaredClusterType,
                 bindFromTypeSematics,
                 bindToTypeSematic,
                 constructorArguments,
@@ -436,6 +449,36 @@ namespace DpdtInject.Generator.Parser
                         );
                 }
             }
+        }
+
+        private ITypeSymbol? DetermineCluster(
+            List<GenericNameSyntax> genericNodes
+            )
+        {
+            if (genericNodes is null)
+            {
+                throw new ArgumentNullException(nameof(genericNodes));
+            }
+
+            ITypeSymbol? declaredClusterType = null;
+            var clusterGenericNode = genericNodes.FirstOrDefault(gn => gn.Identifier.Text == nameof(IClusterBinding.InCluster));
+            if (!(clusterGenericNode is null))
+            {
+                var clusterSyntax = clusterGenericNode.TypeArgumentList.DescendantNodes().First();
+                var clusterTypeSematic = _semanticModel.GetTypeInfo(clusterSyntax).Type;
+
+                if (clusterTypeSematic == null)
+                {
+                    throw new DpdtException(
+                        DpdtExceptionTypeEnum.InternalError,
+                        $"Unknown problem to access {nameof(clusterTypeSematic)}"
+                        );
+                }
+
+                declaredClusterType = clusterTypeSematic;
+            }
+
+            return declaredClusterType;
         }
 
         private ArgumentSyntax? DetermineArgumentSubClause(

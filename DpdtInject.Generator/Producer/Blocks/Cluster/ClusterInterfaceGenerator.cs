@@ -64,11 +64,17 @@ namespace DpdtInject.Generator.Producer.Blocks.Cluster
         } = string.Empty;
 
         public ClusterInterfaceGenerator(
+            ClusterGenerator clusterGenerator,
             ITypeSymbol bindFromType,
             DpdtArgumentWrapperTypeEnum wrapperType,
             IReadOnlyList<InstanceContainerGenerator> instanceContainerGenerators
             )
         {
+            if (clusterGenerator is null)
+            {
+                throw new ArgumentNullException(nameof(clusterGenerator));
+            }
+
             if (bindFromType is null)
             {
                 throw new ArgumentNullException(nameof(bindFromType));
@@ -169,7 +175,7 @@ public {BindFromTypeFullName} {getImplementationMethodName}()
 {{
     if({instanceContainerGenerator.ClassName}.CheckPredicate({createContextVariableName}))
     {{
-        return {instanceContainerGenerator.GetInstanceClause(createContextVariableName, WrapperType)};
+        return {instanceContainerGenerator.GetInstanceClause(clusterGenerator.Joint.JointPayload.DeclaredClusterType.Name, createContextVariableName, WrapperType)};
     }}
 
     {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings available for [{BindFromTypeFullName}]{exceptionSuffix}", BindFromTypeFullName)}
@@ -182,7 +188,7 @@ public {BindFromTypeFullName} {getImplementationMethodName}()
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
 public {BindFromTypeFullName} {getImplementationMethodName}()
 {{
-    return {instanceContainerGenerator.GetInstanceClause("null", WrapperType)};
+    return {instanceContainerGenerator.GetInstanceClause(clusterGenerator.Joint.JointPayload.DeclaredClusterType.Name, "null", WrapperType)};
 }}
 ";
                 }
@@ -249,14 +255,14 @@ if(allowedChildrenCount == 0)
                             GetImplementationSection += $@"
 if({generator.GetVariableStableName()})
 {{
-    return {generator.GetInstanceClause(createContextVariableName, WrapperType)};
+    return {generator.GetInstanceClause(clusterGenerator.Joint.JointPayload.DeclaredClusterType.Name, createContextVariableName, WrapperType)};
 }}
 ";
                         }
                         else
                         {
                             GetImplementationSection += $@"
-return {generator.GetInstanceClause("null", WrapperType)};
+return {generator.GetInstanceClause(clusterGenerator.Joint.JointPayload.DeclaredClusterType.Name, "null", WrapperType)};
 ";
                         }
                     }
@@ -302,14 +308,14 @@ List<{BindFromTypeFullName}> {nameof(IBindingProvider<object>)}<{BindFromTypeFul
                         GetAllExplicitImplementationSection += $@"
     if({instanceContainerGenerator.ClassName}.CheckPredicate({createContextVariableName}))
     {{
-        result.Add( {instanceContainerGenerator.GetInstanceClause(createContextVariableName, WrapperType)} );
+        result.Add( {instanceContainerGenerator.GetInstanceClause(clusterGenerator.Joint.JointPayload.DeclaredClusterType.Name, createContextVariableName, WrapperType)} );
     }}
 ";
                     }
                     else
                     {
                         GetAllExplicitImplementationSection += $@"
-    result.Add( {instanceContainerGenerator.GetInstanceClause("null", WrapperType)} );
+    result.Add( {instanceContainerGenerator.GetInstanceClause(clusterGenerator.Joint.JointPayload.DeclaredClusterType.Name, "null", WrapperType)} );
 ";
                     }
                 }

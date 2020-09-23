@@ -9,6 +9,7 @@ using DpdtInject.Injector;
 using DpdtInject.Injector.Beautify;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
+using DpdtInject.Injector.Module;
 using DpdtInject.Injector.Module.Bind;
 using Microsoft.CodeAnalysis;
 using System;
@@ -23,14 +24,10 @@ namespace DpdtInject.Generator.Producer.Blocks.Cluster
     public class ClusterGenerator
     {
         public const string ClusterDefaultInstanceName = "_defaultCluster";
+        public const string ClusterCustomInstanceName = "_cluster";
 
         private readonly List<ClusterInterfaceGenerator> _interfaceSection;
         private readonly Compilation _compilation;
-
-        public string ClusterClassName
-        {
-            get;
-        }
 
         public TreeJoint<InstanceContainerGeneratorCluster> Joint
         {
@@ -45,7 +42,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Cluster
                     return ClusterDefaultInstanceName;
                 }
 
-                return $"{ClusterDefaultInstanceName}{this.GetHashCode()}";
+                return $"{ClusterCustomInstanceName}{this.GetHashCode()}";
             }
         }
 
@@ -68,6 +65,15 @@ namespace DpdtInject.Generator.Producer.Blocks.Cluster
 
             _interfaceSection = new List<ClusterInterfaceGenerator>();
 
+            //if (Joint.JointPayload.IsRootCluster)
+            //{
+            //    ClusterClassName = $"DefaultCluster";
+            //}
+            //else
+            //{
+            //    ClusterClassName = $"Cluster{GetHashCode()}";
+            //}
+
             foreach (var (_, bindFromType) in Joint.JointPayload.GetRegisteredKeys(false))
             {
                 if (Joint.JointPayload.TryGetRegisteredGeneratorGroups(bindFromType, false, out var groups))
@@ -77,121 +83,20 @@ namespace DpdtInject.Generator.Producer.Blocks.Cluster
                         );
 
                     _interfaceSection.Add(
-                        new ClusterInterfaceGenerator(bindFromType, DpdtArgumentWrapperTypeEnum.None, generators)
+                        new ClusterInterfaceGenerator(this, bindFromType, DpdtArgumentWrapperTypeEnum.None, generators)
                         );
 
                     foreach (var (wrapperType, key) in bindFromType.GenerateWrapperTypes(_compilation))
                     {
                         _interfaceSection.Add(
-                            new ClusterInterfaceGenerator(key, wrapperType, generators)
+                            new ClusterInterfaceGenerator(this, key, wrapperType, generators)
                             );
                     }
                 }
             }
-
-            if(Joint.JointPayload.IsRootCluster)
-            {
-                ClusterClassName = $"DefaultCluster";
-            }
-            else
-            {
-                ClusterClassName = $"Cluster{GetHashCode()}";
-            }
         }
 
-        public string GenerateClusterBody(
-            )
-        {
-            var beautifyGenerator = new BeautifyGenerator(
-                ClusterClassName
-                );
-
-            return $@"
-private class {ClusterClassName} : {nameof(IDisposable)}, {nameof(IBindingProvider)}
-    {GetCombinedInterfaces()}
-{{
-    private readonly {beautifyGenerator.ClassName} _beautifier;
-
-    public {typeof(ReinventedContainer).FullName} TypeContainerGet
-    {{
-        get;
-    }}
-
-    public {typeof(ReinventedContainer).FullName} TypeContainerGetAll
-    {{
-        get;
-    }}
-
-    public System.Type DeclaredClusterType => {Joint.JointPayload.PrepareDeclaredClusterType()};
-
-    public bool IsRootCluster => DeclaredClusterType is null;
-
-    public {typeof(IBeautifier).FullName} Beautifier => _beautifier;
-
-    public {ClusterClassName}()
-    {{
-        TypeContainerGet = new {typeof(ReinventedContainer).FullName}(
-            {Joint.JointPayload.GetReinventedContainerArgument("Get")}
-            );
-        TypeContainerGetAll = new {typeof(ReinventedContainer).FullName}(
-            {Joint.JointPayload.GetReinventedContainerArgument("GetAll")}
-            );
-
-        _beautifier = new {beautifyGenerator.ClassName}(
-            this
-            );
-    }}
-
-    public bool IsRegisteredFrom<TRequestedType>()
-    {{
-        return this is {nameof(IBindingProvider<object>)}<TRequestedType>;
-    }}
-
-    public TRequestedType Get<TRequestedType>()
-    {{
-        return (({nameof(IBindingProvider<object>)}<TRequestedType>)this).Get();
-    }}
-
-    public List<TRequestedType> GetAll<TRequestedType>()
-    {{
-        return (({nameof(IBindingProvider<object>)}<TRequestedType>)this).GetAll();
-    }}
-
-    public object Get({typeof(Type).FullName} requestedType)
-    {{
-        var result = TypeContainerGet.{nameof(ReinventedContainer.GetGetObject)}(requestedType);
-
-        return result;
-    }}
-    public IEnumerable<object> GetAll({typeof(Type).FullName} requestedType)
-    {{
-        var result = TypeContainerGetAll.{nameof(ReinventedContainer.GetGetObject)}(requestedType);
-
-        return (IEnumerable<object>)result;
-    }}
-
-#region Beautify
-
-    {beautifyGenerator.GenerateBeautifierBody()}
-
-#endregion
-
-    public void Dispose()
-    {{
-        {Joint.JointPayload.Generators.Where(icg => icg.BindingContainer.Scope.In(BindScopeEnum.Singleton)).Join(sc => sc.DisposeClause + ";")}
-    }}
-
-    {GetCombinedImplementationSection()}
-
-#region Instance Containers
-    {Joint.JointPayload.Generators.Join(sc => sc.GetClassBody(Joint.JointPayload))}
-#endregion
-
-}}
-";
-        }
-
-        private string GetCombinedInterfaces()
+        public string GetCombinedInterfaces()
         {
             if (_interfaceSection.Count == 0)
             {
@@ -201,7 +106,7 @@ private class {ClusterClassName} : {nameof(IDisposable)}, {nameof(IBindingProvid
             return "," + string.Join(",", _interfaceSection.Select(j => j.InterfaceSection));
         }
 
-        private string GetCombinedImplementationSection()
+        public string GetCombinedImplementationSection()
         {
             if (_interfaceSection.Count == 0)
             {

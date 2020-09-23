@@ -108,12 +108,8 @@ namespace DpdtInject.Generator
 
                 bindExtractor.Visit(loadMethodSyntax);
 
-                var declaredClusterJoint = new TreeJoint<ITypeSymbol?>(
-                    null
-                    );
-
                 var bindingsContainer = bindExtractor.GetBindingsContainer(
-                    declaredClusterJoint
+                    moduleType
                     );
 
                 var itemGeneratorsContainer = new InstanceContainerGeneratorsContainer(

@@ -17,7 +17,13 @@ namespace DpdtInject.Tests.Func.NonGeneric.Transient.SingleObject
             Bind<IA>()
                 .To<A>()
                 .WithTransientScope()
+                .InCluster<DefaultCluster>()
                 ;
+        }
+
+        public partial class DefaultCluster
+        {
+
         }
 
         public class FuncNonGenericTransientSingleObjectModuleTester

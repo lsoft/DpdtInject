@@ -59,7 +59,7 @@ namespace DpdtInject.Generator.Beautify
                 var clusterSuffix = string.Empty;
                 if (!Cluster.IsRootCluster)
                 {
-                    clusterSuffix = $" in the cluster [{Cluster.DeclaredClusterType!.FullName}]";
+                    clusterSuffix = $" in the cluster [{Cluster.DeclaredClusterType}]";
                 }
 
                 throw new DpdtException(
@@ -81,7 +81,7 @@ namespace DpdtInject.Generator.Beautify
                 var clusterSuffix = string.Empty;
                 if (!Cluster.IsRootCluster)
                 {
-                    clusterSuffix = $" in the cluster [{Cluster.DeclaredClusterType!.FullName}]";
+                    clusterSuffix = $" in the cluster [{Cluster.DeclaredClusterType}]";
                 }
 
                 throw new DpdtException(
@@ -102,30 +102,6 @@ namespace DpdtInject.Generator.Beautify
             return Cluster.GetAll(requestedType);
         }
 
-        bool IBeautifier.IsRegisteredFrom<TRequestedType>()
-        {
-            throw new NotImplementedException();
-        }
-
-        TRequestedType IBeautifier.Get<TRequestedType>()
-        {
-            throw new NotImplementedException();
-        }
-
-        List<TRequestedType> IBeautifier.GetAll<TRequestedType>()
-        {
-            throw new NotImplementedException();
-        }
-
-        object IBeautifier.Get(Type requestedType)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<object> IBeautifier.GetAll(Type requestedType)
-        {
-            throw new NotImplementedException();
-        }
 
         public sealed class ReadOnlyListBeautifier : IReadOnlyListBeautifier
         {

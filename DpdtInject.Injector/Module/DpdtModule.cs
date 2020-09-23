@@ -4,6 +4,11 @@ using System.Collections.Generic;
 
 namespace DpdtInject.Injector.Module
 {
+    //public abstract class DpdtCluster
+    //{
+
+    //}
+
     public abstract class DpdtModule : IDisposable
     {
         public DpdtModule()

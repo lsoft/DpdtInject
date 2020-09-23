@@ -2,6 +2,7 @@
 using DpdtInject.Generator.Parser;
 using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer;
+using DpdtInject.Generator.Producer.Blocks.Cluster;
 using DpdtInject.Generator.Producer.Blocks.Exception;
 using DpdtInject.Generator.Properties;
 using DpdtInject.Injector.Compilation;
@@ -60,9 +61,10 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         }
 
         public string GetInstanceClause(
+            string clusterClassName,
             string innerText,
             DpdtArgumentWrapperTypeEnum wrapperType
-            ) => $"{ClassName}.GetInstance{wrapperType.GetPostfix()}({innerText})";
+            ) => $"{clusterClassName}.{ClassName}.GetInstance{wrapperType.GetPostfix()}({innerText})";
 
 
         public InstanceContainerGenerator(
@@ -92,16 +94,16 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
 
         public string GetClassBody(
-            InstanceContainerGeneratorCluster cluster
+            ClusterGeneratorTreeJoint clusterGeneratorJoint
             )
         {
-            if (cluster is null)
+            if (clusterGeneratorJoint is null)
             {
-                throw new ArgumentNullException(nameof(cluster));
+                throw new ArgumentNullException(nameof(clusterGeneratorJoint));
             }
 
-            var classBody = BindingContainer.PrepareInstanceContainerCode(cluster)
-                .CheckAndReplace("public sealed class", "private sealed class")
+            var classBody = BindingContainer.PrepareInstanceContainerCode(clusterGeneratorJoint)
+                //.CheckAndReplace("public sealed class", "private sealed class")
                 .CheckAndReplaceIfTrue(() => ItselfOrAtLeastOneChildIsConditional, "#if UNDECLARED_SYMBOL", "#if !UNDECLARED_SYMBOL")
                 ;
 

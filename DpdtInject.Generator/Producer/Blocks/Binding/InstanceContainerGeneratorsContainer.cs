@@ -64,13 +64,14 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             BindingsContainer = bindingsContainer;
 
             GeneratorTree = new InstanceContainerGeneratorTree(
-                bindingsContainer.BindingClusterTree.ClusterJoint.ConvertTo<InstanceContainerGeneratorTreeJoint, InstanceContainerGeneratorCluster>(
-                    joint => new InstanceContainerGeneratorTreeJoint(
-                    new InstanceContainerGeneratorCluster(
-                        diagnosticReporter,
-                        compilation,
-                        joint.JointPayload
-                        )
+                bindingsContainer.BindingClusterTree.ClusterJoint.ConvertTo2<InstanceContainerGeneratorTreeJoint, InstanceContainerGeneratorCluster>(
+                    (parentJoint, toConvertJoint) => new InstanceContainerGeneratorTreeJoint(
+                        parentJoint,
+                        new InstanceContainerGeneratorCluster(
+                            diagnosticReporter,
+                            compilation,
+                            toConvertJoint.JointPayload
+                            )
                     )
                 ));
             GeneratorTree.BuildFlags();

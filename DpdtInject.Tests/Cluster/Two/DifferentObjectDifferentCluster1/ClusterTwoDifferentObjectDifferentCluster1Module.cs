@@ -7,45 +7,48 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DpdtInject.Injector.Module.Bind;
 
-namespace DpdtInject.Tests.Func.Generic.Transient.Hierarchy2
+namespace DpdtInject.Tests.Cluster.Two.DifferentObjectDifferentCluster1
 {
-    public partial class FuncGenericTransientHierarchy2Module : DpdtModule
+    public partial class ClusterTwoDifferentObjectDifferentCluster1Module : DpdtModule
     {
         public override void Load()
         {
             Bind<IA>()
                 .To<A>()
-                .WithTransientScope()
+                .WithSingletonScope()
                 .InCluster<DefaultCluster>()
                 ;
 
             Bind<IB>()
                 .To<B>()
-                .WithTransientScope()
-                .InCluster<DefaultCluster>()
+                .WithSingletonScope()
+                .InCluster<ChildCluster>()
                 ;
         }
 
-        public partial class DefaultCluster
+        public partial class DefaultCluster //: DpdtCluster
         {
-
         }
 
-        public class FuncGenericTransientHierarchy2ModuleTester
+        public partial class ChildCluster : DefaultCluster
+        {
+        }
+
+
+        public class ClusterTwoDifferentObjectDifferentCluster1ModuleTester
         {
             public void PerformModuleTesting()
             {
-                var module = new FakeModule<FuncGenericTransientHierarchy2Module>();
+                var module = new FakeModule<ClusterTwoDifferentObjectDifferentCluster1Module>();
 
                 var a0 = module.Get<IA>();
                 Assert.IsNotNull(a0);
 
-                var b0 = module.Get<IB>();
+                var b0 = module.Get<ChildCluster, IB>();
                 Assert.IsNotNull(b0);
-                Assert.IsNotNull(b0.A);
-                Assert.AreNotSame(a0, b0.A);
+
+                Assert.AreSame(a0, b0.A);
             }
         }
 
@@ -62,16 +65,22 @@ namespace DpdtInject.Tests.Func.Generic.Transient.Hierarchy2
 
     public interface IB
     {
-        IA A { get; }
+        IA A
+        {
+            get;
+        }
     }
 
     public class B : IB
     {
-        public IA A { get; }
-
-        public B(Func<IA> af)
+        public IA A
         {
-            A = af();
+            get;
+        }
+
+        public B(IA a)
+        {
+            A = a;
         }
     }
 

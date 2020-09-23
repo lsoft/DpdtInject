@@ -31,8 +31,8 @@ namespace DpdtInject.Generator.Parser.Binding
 
     public class BindingClusterJoint : TreeJoint<BindingContainerCluster>
     {
-        public BindingClusterJoint(BindingContainerCluster jointPayload)
-            : base(jointPayload)
+        public BindingClusterJoint(TreeJoint<BindingContainerCluster>? parent, BindingContainerCluster jointPayload)
+            : base(parent, jointPayload)
         {
         }
     }

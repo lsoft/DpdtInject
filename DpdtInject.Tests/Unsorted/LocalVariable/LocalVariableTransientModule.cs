@@ -22,8 +22,14 @@ namespace DpdtInject.Tests.Unsorted.LocalVariable
             Bind<IA>()
                 .To<A>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 .Configure(new ConstructorArgument("message", currentMessage))
                 ;
+        }
+
+        public partial class DefaultCluster
+        {
+
         }
 
         public class LocalVariableTransientTester

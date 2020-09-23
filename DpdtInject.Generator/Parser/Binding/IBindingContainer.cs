@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Generator.Producer.Blocks.Binding;
+using DpdtInject.Generator.Producer.Blocks.Cluster;
 using DpdtInject.Injector.Module.Bind;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -8,7 +9,7 @@ namespace DpdtInject.Generator.Parser.Binding
 {
     public interface IBindingContainer
     {
-        ITypeSymbol? DeclaredClusterType
+        ITypeSymbol DeclaredClusterType
         {
             get;
         }
@@ -66,7 +67,7 @@ namespace DpdtInject.Generator.Parser.Binding
         string GetFromTypeFullNamesCombined(string separator = "_");
 
         string PrepareInstanceContainerCode(
-            InstanceContainerGeneratorCluster cluster
+            ClusterGeneratorTreeJoint clusterGeneratorJoint
             );
 
         string GetContainerStableClassName();

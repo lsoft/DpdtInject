@@ -10,11 +10,11 @@ namespace DpdtInject.Injector
 {
     public class FakeCluster
     {
-        public System.Type? DeclaredClusterType => null;
+        public string DeclaredClusterType => null!;
+
+        public bool IsRootCluster => true;
 
         public IBeautifier Beautifier = null!;
-
-        public bool IsRootCluster => DeclaredClusterType is null;
 
         public bool IsRegisteredFrom<TRequestedType>()
         {

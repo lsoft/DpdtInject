@@ -273,6 +273,32 @@ namespace DpdtInject.Tests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Cluster.Two.DifferentObjectDifferentCluster1
+        ///{
+        ///    public partial class ClusterTwoDifferentObjectDifferentCluster1Module : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///             [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ClusterTwoDifferentObjectDifferentCluster1Module {
+            get {
+                return ResourceManager.GetString("ClusterTwoDifferentObjectDifferentCluster1Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
         ///using DpdtInject.Injector.Module.Bind;
         ///
         ///namespace DpdtInject.Tests.Conditional.Hierarchy2
