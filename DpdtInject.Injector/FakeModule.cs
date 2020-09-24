@@ -10,7 +10,7 @@ namespace DpdtInject.Injector
 {
     public class FakeCluster
     {
-        public string DeclaredClusterType => null!;
+        public Type DeclaredClusterType => null!;
 
         public bool IsRootCluster => true;
 

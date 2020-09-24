@@ -332,7 +332,7 @@ protected {declaredClusterType.Name}()
         get;
     }}
 
-    public string DeclaredClusterType => ""{declaredClusterType.Name}"";
+    public System.Type DeclaredClusterType => typeof({declaredClusterType.Name});
 
     public bool IsRootCluster => {((declaredClusterType.BaseType!.GetFullName() == "System.Object") ? "true" : "false")};
 

@@ -59,7 +59,7 @@ namespace DpdtInject.Generator.Beautify
                 var clusterSuffix = string.Empty;
                 if (!Cluster.IsRootCluster)
                 {
-                    clusterSuffix = $" in the cluster [{Cluster.DeclaredClusterType}]";
+                    clusterSuffix = $" in the cluster [{Cluster.DeclaredClusterType.FullName}]";
                 }
 
                 throw new DpdtException(
@@ -81,7 +81,7 @@ namespace DpdtInject.Generator.Beautify
                 var clusterSuffix = string.Empty;
                 if (!Cluster.IsRootCluster)
                 {
-                    clusterSuffix = $" in the cluster [{Cluster.DeclaredClusterType}]";
+                    clusterSuffix = $" in the cluster [{Cluster.DeclaredClusterType.FullName}]";
                 }
 
                 throw new DpdtException(
