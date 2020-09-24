@@ -334,7 +334,7 @@ protected {declaredClusterType.Name}()
 
     public string DeclaredClusterType => ""{declaredClusterType.Name}"";
 
-    public bool IsRootCluster => DeclaredClusterType == ""{((declaredClusterType.BaseType!.GetFullName() == "System.Object") ? "true" : "false")}"";
+    public bool IsRootCluster => {((declaredClusterType.BaseType!.GetFullName() == "System.Object") ? "true" : "false")};
 
     public {typeof(IBeautifier).FullName} Beautifier => _beautifier;
 
