@@ -11,6 +11,11 @@
             string title,
             string message
             );
+
+        void ReportInfo(
+            string title,
+            string message
+            );
     }
 
 }

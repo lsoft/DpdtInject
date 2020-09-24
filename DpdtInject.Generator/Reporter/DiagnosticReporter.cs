@@ -47,6 +47,23 @@ namespace DpdtInject.Generator.Reporter
                     )
                 );
         }
+
+        public void ReportInfo(string title, string message)
+        {
+            _context.ReportDiagnostic(
+                Diagnostic.Create(
+                    new DiagnosticDescriptor(
+                        id: "DPDTINJECT100",
+                        title: title,
+                        messageFormat: message + " [it's an info message, not a real warning; swithing from 'warning' to 'message' results in no message are shown in 'Error List' window, don't know why]",
+                        category: "DpDtInject",
+                        DiagnosticSeverity.Warning,
+                        isEnabledByDefault: true
+                        ),
+                    Location.None
+                    )
+                );
+        }
     }
 
 }

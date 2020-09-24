@@ -78,7 +78,7 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ActivationExcessiveTooManyChildren0Module : DpdtModule
         ///    {
-        /// [rest of string was truncated]&quot;;.
+        ///        public co [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyChildren0Module {
             get {
@@ -104,7 +104,7 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ActivationExcessiveTooManyChildren1Module : DpdtModule
         ///    {
-        /// [rest of string was truncated]&quot;;.
+        ///        public co [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyChildren1Module {
             get {
@@ -130,7 +130,7 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ActivationExcessiveTooManyChildren2Module : DpdtModule
         ///    {
-        /// [rest of string was truncated]&quot;;.
+        ///        public co [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyChildren2Module {
             get {
@@ -155,7 +155,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren3
         ///{
-        ///    public partial class ActivationExcessiveTooManyChildren3M [rest of string was truncated]&quot;;.
+        ///    public partial class ActivationExcessiveTooManyChildren3Module : DpdtModu [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyChildren3Module {
             get {
@@ -180,7 +180,8 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots0
         ///{
-        ///    public partial class ActivationExcessiveTooManyRoots0Module  [rest of string was truncated]&quot;;.
+        ///    public partial class ActivationExcessiveTooManyRoots0Module : DpdtModule
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyRoots0Module {
             get {
@@ -205,7 +206,8 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots1
         ///{
-        ///    public partial class ActivationExcessiveTooManyRoots1Module  [rest of string was truncated]&quot;;.
+        ///    public partial class ActivationExcessiveTooManyRoots1Module : DpdtModule
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyRoots1Module {
             get {
@@ -230,7 +232,8 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots2
         ///{
-        ///    public partial class ActivationExcessiveTooManyRoots2Module  [rest of string was truncated]&quot;;.
+        ///    public partial class ActivationExcessiveTooManyRoots2Module : DpdtModule
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyRoots2Module {
             get {
@@ -255,7 +258,8 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots3
         ///{
-        ///    public partial class ActivationExcessiveTooManyRoots3Module  [rest of string was truncated]&quot;;.
+        ///    public partial class ActivationExcessiveTooManyRoots3Module : DpdtModule
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyRoots3Module {
             get {
@@ -283,7 +287,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
-        /// [rest of string was truncated]&quot;;.
+        ///                .Wi [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterConditional1Module {
             get {
@@ -309,7 +313,8 @@ namespace DpdtInject.Tests.Properties {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IA&gt;()
-        ///                .To [rest of string was truncated]&quot;;.
+        ///                .To&lt;A&gt;()
+        ///            [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterDifferentObjectDifferentCluster1Module {
             get {
@@ -335,7 +340,8 @@ namespace DpdtInject.Tests.Properties {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IA&gt;()
-        ///                .To [rest of string was truncated]&quot;;.
+        ///                .To&lt;A&gt;()
+        ///            [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterDifferentObjectDifferentCluster2Module {
             get {
@@ -361,7 +367,8 @@ namespace DpdtInject.Tests.Properties {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IA&gt;()
-        ///                .To [rest of string was truncated]&quot;;.
+        ///                .To&lt;A&gt;()
+        ///            [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterDifferentObjectDifferentCluster3Module {
             get {
@@ -387,7 +394,8 @@ namespace DpdtInject.Tests.Properties {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IA&gt;()
-        ///                .To [rest of string was truncated]&quot;;.
+        ///                .To&lt;A&gt;()
+        ///            [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterDifferentObjectDifferentCluster4Module {
             get {
@@ -413,7 +421,8 @@ namespace DpdtInject.Tests.Properties {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IA&gt;()
-        ///            [rest of string was truncated]&quot;;.
+        ///                .To&lt;A&gt;()
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterDifferentObjectDifferentCluster5FuncModule {
             get {
@@ -439,7 +448,9 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public override void L [rest of string was truncated]&quot;;.
+        ///        public override void Load()
+        ///        {
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalHierarchy2Module {
             get {
@@ -465,7 +476,8 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public overr [rest of string was truncated]&quot;;.
+        ///        public override void Load()
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalHierarchy3FirstModule {
             get {
@@ -491,7 +503,7 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public ove [rest of string was truncated]&quot;;.
+        ///        public override void Load() [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalHierarchy3SecondModule {
             get {
@@ -516,7 +528,9 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ConditionalOnlyOneModule : DpdtModule
         ///    {
-        ///        public const string Message = &quot;some mes [rest of string was truncated]&quot;;.
+        ///        public const string Message = &quot;some message&quot;;
+        ///
+        ///         [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalOnlyOneModule {
             get {
@@ -542,7 +556,7 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        publi [rest of string was truncated]&quot;;.
+        ///        public override void L [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalRContextHierarchy2Module {
             get {
@@ -566,7 +580,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ConditionalRContextHierarchy2Variant1Module : DpdtModule
         ///    {
-        ///        public const string BMessage = &quot;B some message [rest of string was truncated]&quot;;.
+        ///        public const string BMessage = &quot;B some message&quot;;
+        ///        publ [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalRContextHierarchy2Variant1Module {
             get {
@@ -590,7 +605,9 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ConditionalRContextHierarchy2Variant2Module : DpdtModule
         ///    {
-        ///        public const string Message = &quot;some message&quot;;        /// [rest of string was truncated]&quot;;.
+        ///        public const string Message = &quot;some message&quot;;
+        ///
+        ///        public [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalRContextHierarchy2Variant2Module {
             get {
@@ -617,7 +634,8 @@ namespace DpdtInject.Tests.Properties {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IA1&gt;()
-        ///                . [rest of string was truncated]&quot;;.
+        ///                .To&lt;A&gt;()
+        ///           [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalSingleObjectModule {
             get {
@@ -643,7 +661,8 @@ namespace DpdtInject.Tests.Properties {
         ///        public static A ConstantA1 = new A();
         ///        public static A ConstantA2 = new A();
         ///
-        ///        public overri [rest of string was truncated]&quot;;.
+        ///        public override void Load()
+        ///   [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConstantHierarchy2WithSameModule {
             get {
@@ -671,7 +690,7 @@ namespace DpdtInject.Tests.Properties {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IA&gt;()
-        ///          [rest of string was truncated]&quot;;.
+        ///                .WithConstSc [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConstantSingleObjectModule {
             get {
@@ -697,7 +716,8 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public override void Load()
         ///        {
-        ///            Bind&lt;IA [rest of string was truncated]&quot;;.
+        ///            Bind&lt;IA&gt;()
+        ///              [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FuncGenericSingletonHierarchy2Module {
             get {
@@ -724,7 +744,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
-        ///      [rest of string was truncated]&quot;;.
+        ///                .WithSi [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FuncGenericSingletonSingleObjectModule {
             get {
@@ -750,7 +770,8 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public override void Load()
         ///        {
-        ///            Bind&lt;IA [rest of string was truncated]&quot;;.
+        ///            Bind&lt;IA&gt;()
+        ///              [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FuncGenericTransientHierarchy2Module {
             get {
@@ -777,7 +798,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
-        ///      [rest of string was truncated]&quot;;.
+        ///                .WithTr [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FuncGenericTransientSingleObjectModule {
             get {
@@ -803,7 +824,8 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public override void Load()
         ///        {
-        ///            B [rest of string was truncated]&quot;;.
+        ///            Bind&lt;IA&gt;()
+        ///        [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FuncNonGenericSingletonHierarchy2Module {
             get {
@@ -829,7 +851,8 @@ namespace DpdtInject.Tests.Properties {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()        /// [rest of string was truncated]&quot;;.
+        ///                .To&lt;A&gt;()
+        ///                . [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FuncNonGenericSingletonSingleObjectModule {
             get {
@@ -855,7 +878,8 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public override void Load()
         ///        {
-        ///            B [rest of string was truncated]&quot;;.
+        ///            Bind&lt;IA&gt;()
+        ///        [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FuncNonGenericTransientHierarchy2Module {
             get {
@@ -881,7 +905,8 @@ namespace DpdtInject.Tests.Properties {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()        /// [rest of string was truncated]&quot;;.
+        ///                .To&lt;A&gt;()
+        ///                . [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FuncNonGenericTransientSingleObjectModule {
             get {
@@ -908,7 +933,8 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
-        ///                .WithTran [rest of string was truncated]&quot;;.
+        ///                .WithTransientScope()
+        ///      [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GenericIsRegisteredFromModule {
             get {
@@ -934,7 +960,9 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public override void  [rest of string was truncated]&quot;;.
+        ///        public override void Load()
+        ///        {
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string InvalidToTypeTransientModule {
             get {
@@ -960,7 +988,9 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public override void  [rest of string was truncated]&quot;;.
+        ///        public override void Load()
+        ///        {
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string LocalVariableTransientModule {
             get {
@@ -987,7 +1017,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
-        ///                .Wi [rest of string was truncated]&quot;;.
+        ///                .WithSingletonScope() [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string NonGenericDifferentObjectsModule {
             get {
@@ -1014,7 +1044,8 @@ namespace DpdtInject.Tests.Properties {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IA&gt;()
-        ///             [rest of string was truncated]&quot;;.
+        ///                .To&lt;A&gt;()
+        ///      [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string NonGenericIncorrectRequestModule {
             get {
@@ -1041,7 +1072,8 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
-        ///                .WithSingle [rest of string was truncated]&quot;;.
+        ///                .WithSingletonScope()
+        ///        [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string NonGenericSingleObjectModule {
             get {
@@ -1068,7 +1100,8 @@ namespace DpdtInject.Tests.Properties {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IA&gt;()
-        ///               [rest of string was truncated]&quot;;.
+        ///                .To&lt;A1&gt;()
+        ///       [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string NonGenericTwoSameBindingsModule {
             get {
@@ -1096,7 +1129,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithSingletonScope()
-        /// [rest of string was truncated]&quot;;.
+        ///                .In [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SingletonDisposeModule {
             get {
@@ -1255,11 +1288,38 @@ namespace DpdtInject.Tests.Properties {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IA&gt;()
-        ///                .T [rest of string was truncated]&quot;;.
+        ///                .To&lt;A&gt;()
+        ///            [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SingletonUnknownRequestModule {
             get {
                 return ResourceManager.GetString("SingletonUnknownRequestModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///
+        ///namespace DpdtInject.Tests.TimeConsume.BigTree0
+        ///{
+        ///    public partial class TimeConsumeBigTree0Module : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IInterface0&gt;().To&lt;Class0&gt;( [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TimeConsumeBigTree0Module {
+            get {
+                return ResourceManager.GetString("TimeConsumeBigTree0Module", resourceCulture);
             }
         }
         
@@ -1281,7 +1341,9 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public override void Load( [rest of string was truncated]&quot;;.
+        ///        public override void Load()
+        ///        {
+        ///      [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string TransientHierarchy2Module {
             get {
@@ -1308,7 +1370,7 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        p [rest of string was truncated]&quot;;.
+        ///        public override voi [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string TransientHierarchy3Module {
             get {
@@ -1335,7 +1397,8 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
-        ///                .WithTransien [rest of string was truncated]&quot;;.
+        ///                .WithTransientScope()
+        ///          [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string TransientSingleObjectModule {
             get {
@@ -1360,7 +1423,7 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class TransientSingleObjectWithArgumentModule : DpdtModule
         ///    {
-        ///        public con [rest of string was truncated]&quot;;.
+        ///        public const string Messag [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string TransientSingleObjectWithArgumentModule {
             get {
@@ -1387,7 +1450,8 @@ namespace DpdtInject.Tests.Properties {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IA&gt;()
-        ///                 [rest of string was truncated]&quot;;.
+        ///                .To&lt;A1&gt;()
+        ///         [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string TransientTwoSameBindingsModule {
             get {
@@ -1413,7 +1477,8 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public override void [rest of string was truncated]&quot;;.
+        ///        public override void Load()
+        ///        { [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedCannotBeCastedModule {
             get {
@@ -1465,7 +1530,7 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class UnsortedSameChildrenModule : DpdtModule
         ///    {
-        ///        public co [rest of string was truncated]&quot;;.
+        ///        public const string Messag [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedSameChildrenModule {
             get {
@@ -1491,7 +1556,8 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public overr [rest of string was truncated]&quot;;.
+        ///        public override void Load()
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedSingletonTransientModule {
             get {
@@ -1516,7 +1582,9 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class UnsortedTooManyChildrenModule : DpdtModule
         ///    {
-        ///        public const string Message = &quot;some messag [rest of string was truncated]&quot;;.
+        ///        public const string Message = &quot;some message&quot;;
+        ///
+        ///        pub [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedTooManyChildrenModule {
             get {
@@ -1542,7 +1610,8 @@ namespace DpdtInject.Tests.Properties {
         ///    public partial class UnsortedUnknownDependencyModule : DpdtModule
         ///    {
         ///        public override void Load()
-        ///        { [rest of string was truncated]&quot;;.
+        ///        {
+        ///            Bind [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedUnknownDependencyModule {
             get {

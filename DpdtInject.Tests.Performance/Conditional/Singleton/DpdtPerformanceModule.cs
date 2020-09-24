@@ -9,22 +9,30 @@ namespace DpdtInject.Tests.Performance.Conditional.Singleton
             Bind<IA>()
                 .To<A>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 .When(rc => true)
                 ;
 
             Bind<IB>()
                 .To<B>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 .When(rc => true)
                 ;
 
             Bind<IC>()
                 .To<C>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 .When(rc => true)
                 ;
 
         }
+
+        public partial class DefaultCluster
+        { 
+        }
+
     }
 
 }

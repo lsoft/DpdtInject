@@ -22,6 +22,12 @@ namespace DpdtInject.Tests
             private set;
         }
 
+        public int InfoCount
+        {
+            get;
+            private set;
+        }
+
         public List<Exception> Exceptions
         {
             get;
@@ -31,6 +37,7 @@ namespace DpdtInject.Tests
         {
             ErrorCount = 0;
             WarningCount = 0;
+            InfoCount = 0;
         }
 
         public void ReportError(string title, string message)
@@ -47,6 +54,14 @@ namespace DpdtInject.Tests
             Debug.WriteLine(message);
             Debug.WriteLine(string.Empty);
             WarningCount++;
+        }
+
+        public void ReportInfo(string title, string message)
+        {
+            Debug.WriteLine(title);
+            Debug.WriteLine(message);
+            Debug.WriteLine(string.Empty);
+            InfoCount++;
         }
 
         internal void ReportException(Exception excp)
@@ -81,5 +96,6 @@ namespace DpdtInject.Tests
         {
             return (T)Exceptions[index];
         }
+
     }
 }

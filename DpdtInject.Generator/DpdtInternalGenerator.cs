@@ -3,6 +3,7 @@ using DpdtInject.Generator.Parser;
 using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Producer.Blocks.Module;
 using DpdtInject.Generator.Tree;
+using DpdtInject.Injector;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Module;
@@ -51,8 +52,21 @@ namespace DpdtInject.Generator
             _diagnosticReporter = diagnosticReporter;
             _generatedFilePath = generatedFilePath;
         }
+        public IReadOnlyList<ModificationDescription> Execute(
+            Compilation compilation
+            )
+        {
+            using (new DTimer(_diagnosticReporter, "Dpdt total time taken"))
+            {
+                var result = ExecutePrivate(
+                    compilation
+                ).ToList();
 
-        public IEnumerable<ModificationDescription> Execute(
+                return result;
+            }
+        }
+
+        private IEnumerable<ModificationDescription> ExecutePrivate(
             Compilation compilation
             )
         {

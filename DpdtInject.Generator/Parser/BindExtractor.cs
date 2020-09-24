@@ -96,7 +96,7 @@ namespace DpdtInject.Generator.Parser
 
             var expressionText = expressionNode.GetText().ToString();
 
-            if(!expressionText.Contains(nameof(IToOrContantBinding.WithConstScope)))
+            if(!expressionText.Contains(nameof(IToOrConstantBinding.WithConstScope)))
             {
                 if (!expressionText.Contains(nameof(IScopeBinding.WithSingletonScope)))
                 {
@@ -171,14 +171,14 @@ namespace DpdtInject.Generator.Parser
 
             var withScopeSyntax = expressionNode
                 .DescendantNodes()
-                .Where(s => s.GetText().ToString() == nameof(IToOrContantBinding.WithConstScope))
+                .Where(s => s.GetText().ToString() == nameof(IToOrConstantBinding.WithConstScope))
                 .First();
 
             var constTypeSymbol = (_semanticModel.GetSymbolInfo(withScopeSyntax).Symbol as IMethodSymbol)!.TypeArguments[0];
 
             var constantClause = DetermineArgumentSubClause(
                 expressionNode,
-                nameof(IToOrContantBinding.WithConstScope)
+                nameof(IToOrConstantBinding.WithConstScope)
                 );
 
             if(constantClause is null)
@@ -227,7 +227,7 @@ namespace DpdtInject.Generator.Parser
 
             var toGenericNode = genericNodes[1];
             var toMethodName = toGenericNode.Identifier.Text;
-            if (toMethodName != nameof(IToOrContantBinding.To))
+            if (toMethodName != nameof(IToOrConstantBinding.To))
             {
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, "Cannot find To clause for transient binding");
             }
@@ -327,7 +327,7 @@ namespace DpdtInject.Generator.Parser
 
             var toGenericNode = genericNodes[1];
             var toMethodName = toGenericNode.Identifier.Text;
-            if (toMethodName != nameof(IToOrContantBinding.To))
+            if (toMethodName != nameof(IToOrConstantBinding.To))
             {
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, "Cannot find To clause for singleton binding");
             }
@@ -548,7 +548,7 @@ namespace DpdtInject.Generator.Parser
                 return BindScopeEnum.Transient;
             }
 
-            var constScope = dnodes.OfType<IdentifierNameSyntax>().Any(j => j.Identifier.Text == nameof(IToOrContantBinding.WithConstScope));
+            var constScope = dnodes.OfType<IdentifierNameSyntax>().Any(j => j.Identifier.Text == nameof(IToOrConstantBinding.WithConstScope));
             if (constScope)
             {
                 return BindScopeEnum.Constant;

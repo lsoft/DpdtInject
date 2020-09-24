@@ -101,9 +101,8 @@ namespace DpdtInject.Tests
                     DiagnosticReporter,
                     generatedSourceFilePath
                     );
-                internalGenerator.Execute(compilation);
 
-                var modificationDescriptions = internalGenerator.Execute(compilation).ToList();
+                var modificationDescriptions = internalGenerator.Execute(compilation);
 
                 Assert.AreEqual(1, modificationDescriptions.Count, "Allowed only one module per request");
 

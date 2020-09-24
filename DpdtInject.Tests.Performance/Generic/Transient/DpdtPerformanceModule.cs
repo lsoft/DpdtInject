@@ -9,17 +9,24 @@ namespace DpdtInject.Tests.Performance.Generic.Transient
             Bind<IA>()
                 .To<A>()
                 .WithTransientScope()
+                .InCluster<DefaultCluster>()
                 ;
 
             Bind<IB>()
                 .To<B>()
                 .WithTransientScope()
+                .InCluster<DefaultCluster>()
                 ;
 
             Bind<IC>()
                 .To<C>()
                 .WithTransientScope()
+                .InCluster<DefaultCluster>()
                 ;
+
+        }
+        public partial class DefaultCluster
+        {
 
         }
     }

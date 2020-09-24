@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Generator.Reporter;
+using DpdtInject.Injector;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.FindSymbols;
 using Microsoft.CodeAnalysis.Text;
@@ -24,18 +25,13 @@ namespace DpdtInject.Generator
         {
             try
             {
-                var internalGenerator = new DpdtInternalGenerator(
-                    new DiagnosticReporter(
-                        context
-                        )
+                var diagnosticReporter = new DiagnosticReporter(
+                    context
                     );
 
-                //if(context.AnalyzerConfigOptions.GlobalOptions.TryGetValue($"build_property.Dpdt_Generator_GeneratedSourceFolder", out var generatedSourceFolder))
-                //    File.AppendAllText("c:\\temp\\__sg.txt", ": " + generatedSourceFolder + Environment.NewLine);
-                //else
-                //    File.AppendAllText("c:\\temp\\__sg.txt", "no" + Environment.NewLine);
-
-                //File.AppendAllText("c:\\temp\\__sg.txt", "cd: " + Directory.GetCurrentDirectory());
+                var internalGenerator = new DpdtInternalGenerator(
+                    diagnosticReporter
+                    );
 
                 var needToStoreGeneratedSources = context.AnalyzerConfigOptions.GlobalOptions.TryGetValue(
                     $"build_property.Dpdt_Generator_GeneratedSourceFolder",
@@ -49,7 +45,7 @@ namespace DpdtInject.Generator
 
                 if (needToStoreGeneratedSources)
                 {
-                    if(Directory.Exists(generatedSourceFolderFullPath))
+                    if (Directory.Exists(generatedSourceFolderFullPath))
                     {
                         Directory.Delete(generatedSourceFolderFullPath, true);
                     }
@@ -76,19 +72,9 @@ namespace DpdtInject.Generator
                     unitsGenerated++;
                 }
 
-                context.ReportDiagnostic(
-                    Diagnostic.Create(
-                        new DiagnosticDescriptor(
-                            id: "DPDTINJECT001",
-                            title: "Dpdt generator successfully finished its work",
-                            messageFormat: "Dpdt generator successfully finished its work, {0} compilation unit(s) generated. [it's an info message, not a real warning; swithing from 'warning' to 'message' results in no message are shown in 'Error List' window, don't know why]",
-                            category: "DpDtInject",
-                            DiagnosticSeverity.Warning,
-                            isEnabledByDefault: true
-                            ),
-                        Location.None,
-                        unitsGenerated
-                        )
+                diagnosticReporter.ReportWarning(
+                    "Dpdt generator successfully finished its work",
+                    $"Dpdt generator successfully finished its work, {unitsGenerated} compilation unit(s) generated."
                     );
             }
             catch (Exception excp)

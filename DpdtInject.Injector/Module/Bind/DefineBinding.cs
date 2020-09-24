@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace DpdtInject.Injector.Module.Bind
 {
-    public interface IToOrContantBinding
+    public interface IToOrConstantBinding
     {
         IScopeBinding To<T>();
 
