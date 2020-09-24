@@ -24,14 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Cluster\DifferentObjectDifferentCluster4\ClusterTwoDifferentObjectDifferentCluster4Module.Pregenerated.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Cluster\DifferentObjectDifferentCluster4\ClusterTwoDifferentObjectDifferentCluster4Module.Pregenerated.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.8.0-3.final" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0-3.final" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.0-preview-20200812-03" />

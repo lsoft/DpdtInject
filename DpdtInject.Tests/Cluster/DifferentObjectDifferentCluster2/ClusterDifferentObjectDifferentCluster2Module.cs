@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DpdtInject.Tests.Cluster.DifferentObjectDifferentCluster5Func
+namespace DpdtInject.Tests.Cluster.DifferentObjectDifferentCluster2
 {
-    public partial class ClusterTwoDifferentObjectDifferentCluster5FuncModule : DpdtModule
+    public partial class ClusterDifferentObjectDifferentCluster2Module : DpdtModule
     {
         public override void Load()
         {
@@ -20,6 +20,12 @@ namespace DpdtInject.Tests.Cluster.DifferentObjectDifferentCluster5Func
                 .InCluster<DefaultCluster>()
                 ;
 
+            Bind<IA>()
+                .To<A>()
+                .WithSingletonScope()
+                .InCluster<ChildCluster2>()
+                ;
+
             Bind<IB>()
                 .To<B>()
                 .WithSingletonScope()
@@ -27,7 +33,7 @@ namespace DpdtInject.Tests.Cluster.DifferentObjectDifferentCluster5Func
                 ;
         }
 
-        public partial class DefaultCluster
+        public partial class DefaultCluster //: DpdtCluster
         {
         }
 
@@ -35,14 +41,22 @@ namespace DpdtInject.Tests.Cluster.DifferentObjectDifferentCluster5Func
         {
         }
 
-        public class ClusterTwoDifferentObjectDifferentCluster5FuncModuleTester
+        public partial class ChildCluster2 : DefaultCluster
+        {
+        }
+
+        public class ClusterDifferentObjectDifferentCluster2ModuleTester
         {
             public void PerformModuleTesting()
             {
-                var module = new FakeModule<ClusterTwoDifferentObjectDifferentCluster5FuncModule>();
+                var module = new FakeModule<ClusterDifferentObjectDifferentCluster2Module>();
 
                 var a0 = module.Get<IA>();
                 Assert.IsNotNull(a0);
+
+                var a1 = module.Get<ChildCluster2, IA>();
+                Assert.IsNotNull(a1);
+                Assert.AreNotSame(a0, a1);
 
                 var b0 = module.Get<ChildCluster1, IB>();
                 Assert.IsNotNull(b0);
@@ -76,9 +90,9 @@ namespace DpdtInject.Tests.Cluster.DifferentObjectDifferentCluster5Func
             get;
         }
 
-        public B(Func<IA> af)
+        public B(IA a)
         {
-            A = af();
+            A = a;
         }
     }
 

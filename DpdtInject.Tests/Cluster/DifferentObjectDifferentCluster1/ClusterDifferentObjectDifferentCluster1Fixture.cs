@@ -4,10 +4,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace DpdtInject.Tests.Cluster.DifferentObjectDifferentCluster5Func
+namespace DpdtInject.Tests.Cluster.DifferentObjectDifferentCluster1
 {
     [TestClass]
-    public class ClusterTwoDifferentObjectDifferentCluster5FuncFixture
+    public class ClusterDifferentObjectDifferentCluster1Fixture
     {
         public TestContext TestContext { get; set; }
 
@@ -16,9 +16,9 @@ namespace DpdtInject.Tests.Cluster.DifferentObjectDifferentCluster5Func
         {
             var preparation = new Preparator(
                 TestContext,
-                nameof(ClusterTwoDifferentObjectDifferentCluster5FuncModule.ClusterTwoDifferentObjectDifferentCluster5FuncModuleTester),
-                nameof(TestResources.ClusterTwoDifferentObjectDifferentCluster5FuncModule),
-                TestResources.ClusterTwoDifferentObjectDifferentCluster5FuncModule
+                nameof(ClusterDifferentObjectDifferentCluster1Module.ClusterDifferentObjectDifferentCluster1ModuleTester),
+                nameof(TestResources.ClusterDifferentObjectDifferentCluster1Module),
+                TestResources.ClusterDifferentObjectDifferentCluster1Module
                 );
 
             preparation.Check();

@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 namespace DpdtInject.Tests.Cluster.DifferentObjectDifferentCluster4
 {
     [TestClass]
-    public class ClusterTwoDifferentObjectDifferentCluster4Fixture
+    public class ClusterDifferentObjectDifferentCluster4Fixture
     {
         public TestContext TestContext { get; set; }
 
@@ -16,9 +16,9 @@ namespace DpdtInject.Tests.Cluster.DifferentObjectDifferentCluster4
         {
             var preparation = new Preparator(
                 TestContext,
-                nameof(ClusterTwoDifferentObjectDifferentCluster4Module.ClusterTwoDifferentObjectDifferentCluster4ModuleTester),
-                nameof(TestResources.ClusterTwoDifferentObjectDifferentCluster4Module),
-                TestResources.ClusterTwoDifferentObjectDifferentCluster4Module
+                nameof(ClusterDifferentObjectDifferentCluster4Module.ClusterDifferentObjectDifferentCluster4ModuleTester),
+                nameof(TestResources.ClusterDifferentObjectDifferentCluster4Module),
+                TestResources.ClusterDifferentObjectDifferentCluster4Module
                 );
 
             preparation.Check();

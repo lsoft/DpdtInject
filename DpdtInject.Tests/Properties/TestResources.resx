@@ -142,20 +142,20 @@
   <data name="ActivationExcessiveTooManyRoots3Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Activation\Excessive\TooManyRoots3\ActivationExcessiveTooManyRoots3Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ClusterTwoDifferentObjectDifferentCluster1Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Cluster\DifferentObjectDifferentCluster1\ClusterTwoDifferentObjectDifferentCluster1Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ClusterDifferentObjectDifferentCluster1Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Cluster\DifferentObjectDifferentCluster1\ClusterDifferentObjectDifferentCluster1Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ClusterTwoDifferentObjectDifferentCluster2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Cluster\DifferentObjectDifferentCluster2\ClusterTwoDifferentObjectDifferentCluster2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ClusterDifferentObjectDifferentCluster2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Cluster\DifferentObjectDifferentCluster2\ClusterDifferentObjectDifferentCluster2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ClusterTwoDifferentObjectDifferentCluster3Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Cluster\DifferentObjectDifferentCluster3\ClusterTwoDifferentObjectDifferentCluster3Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ClusterDifferentObjectDifferentCluster3Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Cluster\DifferentObjectDifferentCluster3\ClusterDifferentObjectDifferentCluster3Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ClusterTwoDifferentObjectDifferentCluster4Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Cluster\DifferentObjectDifferentCluster4\ClusterTwoDifferentObjectDifferentCluster4Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ClusterDifferentObjectDifferentCluster4Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Cluster\DifferentObjectDifferentCluster4\ClusterDifferentObjectDifferentCluster4Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ClusterTwoDifferentObjectDifferentCluster5FuncModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Cluster\DifferentObjectDifferentCluster5Func\ClusterTwoDifferentObjectDifferentCluster5FuncModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ClusterDifferentObjectDifferentCluster5FuncModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Cluster\DifferentObjectDifferentCluster5Func\ClusterDifferentObjectDifferentCluster5FuncModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ConditionalHierarchy2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Conditional\Hierarchy2\ConditionalHierarchy2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
@@ -165,6 +165,9 @@
   </data>
   <data name="ConditionalHierarchy3SecondModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Conditional\Hierarchy3Second\ConditionalHierarchy3SecondModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ConditionalOnlyOneModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Conditional\OnlyOne\ConditionalOnlyOneModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ConditionalRContextHierarchy2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Conditional\RContext\Hierarchy2\ConditionalRContextHierarchy2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
