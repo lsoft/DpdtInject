@@ -1,116 +1,43 @@
 ﻿using DpdtInject.Generator.Parser;
+using DpdtInject.Generator.Parser.Binding;
+using DpdtInject.Injector.Compilation;
+using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DpdtInject.Generator.Producer.Blocks.Binding
 {
-    public class InstanceContainerGeneratorGroups
+    public class InstanceContainerGeneratorGroup
     {
-        private readonly Compilation _compilation;
-        private readonly Dictionary<ITypeSymbol, List<InstanceContainerGenerator>> _containerGroups;
+        private readonly List<InstanceContainerGenerator> _generators;
 
-        public List<InstanceContainerGenerator> InstanceContainerGenerators
+        public ITypeSymbol BindFrom
         {
             get;
         }
 
-        public InstanceContainerGeneratorGroups(
-            Compilation compilation,
-            List<InstanceContainerGenerator> instanceContainerGenerators
+        public IReadOnlyList<InstanceContainerGenerator> Generators => _generators;
+
+        public InstanceContainerGeneratorGroup(
+            ITypeSymbol bindFrom,
+            List<InstanceContainerGenerator> generators
             )
         {
-            if (compilation is null)
+            if (bindFrom is null)
             {
-                throw new ArgumentNullException(nameof(compilation));
+                throw new ArgumentNullException(nameof(bindFrom));
             }
 
-            if (instanceContainerGenerators is null)
+            if (generators is null)
             {
-                throw new ArgumentNullException(nameof(instanceContainerGenerators));
+                throw new ArgumentNullException(nameof(generators));
             }
 
-            var processorGroups = new Dictionary<ITypeSymbol, List<InstanceContainerGenerator>>(
-                new TypeSymbolEqualityComparer()
-                );
-
-            foreach (var icg in instanceContainerGenerators)
-            {
-                foreach (var bindFromType in icg.BindFromTypes)
-                {
-                    if (!processorGroups.ContainsKey(bindFromType))
-                    {
-                        processorGroups[bindFromType] = new List<InstanceContainerGenerator>();
-                    }
-
-                    processorGroups[bindFromType].Add(icg);
-                }
-            }
-
-            _containerGroups = processorGroups;
-            _compilation = compilation;
-            InstanceContainerGenerators = instanceContainerGenerators;
+            BindFrom = bindFrom;
+            _generators = generators;
         }
-
-        public IReadOnlyCollection<(DpdtArgumentWrapperTypeEnum, ITypeSymbol)> GetRegisteredKeys(bool withWrappers)
-        {
-            var result = new HashSet<(DpdtArgumentWrapperTypeEnum, ITypeSymbol)>();
-
-            foreach (var key in _containerGroups.Keys)
-            {
-                result.Add((DpdtArgumentWrapperTypeEnum.None, key));
-
-                if (withWrappers)
-                {
-                    if (key.TryDetectWrapperType(out var _, out var _))
-                    {
-                        //Func<T> registered, probably we does not want to register Func<Func<T>>
-                        continue;
-                    }
-
-                    foreach(var pair in key.GenerateWrapperTypes(_compilation))
-                    {
-                        result.Add(pair);
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        public bool TryGetRegisteredGenerators(
-            ITypeSymbol type,
-            bool withWrappers,
-            out IReadOnlyList<InstanceContainerGenerator> result
-            )
-        {
-            if (type is null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
-
-            var rresult = new List<InstanceContainerGenerator>();
-
-            if (_containerGroups.TryGetValue(type, out var list))
-            {
-                rresult.AddRange(list);
-            }
-
-            if (withWrappers)
-            {
-                if (type.TryDetectWrapperType(out var wrapperType, out var internalType))
-                {
-                    if (_containerGroups.TryGetValue(internalType, out var wrappedList))
-                    {
-                        rresult.AddRange(wrappedList);
-                    }
-                }
-            }
-
-            result = rresult;
-            return rresult.Count > 0;
-        }
-
     }
 
 }

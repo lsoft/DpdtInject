@@ -1,5 +1,7 @@
 ﻿using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Producer.Blocks.Binding;
+using DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer;
+using DpdtInject.Generator.Producer.Blocks.Cluster;
 using DpdtInject.Generator.Properties;
 using DpdtInject.Injector.Helper;
 using DpdtInject.Injector.Module.Bind;
@@ -17,109 +19,85 @@ using System.Threading.Tasks;
 namespace DpdtInject.Generator.Parser.Binding
 {
     [DebuggerDisplay("{BindFromTypes[0].Name} -> {TargetRepresentation}")]
-    public class BindingContainerWithInstance : IBindingContainer
+    public class BindingContainerWithInstance : BaseBindingContainer
     {
-
-        public IReadOnlyList<ITypeSymbol> BindFromTypes
+        public override IReadOnlyList<DetectedConstructorArgument> ConstructorArguments
         {
             get;
         }
 
-        public ITypeSymbol BindToType
+        public override IReadOnlyCollection<ITypeSymbol> NotBindConstructorArgumentTypes
         {
             get;
         }
 
-
-        public IReadOnlyList<DetectedConstructorArgument> ConstructorArguments
-        {
-            get;
-        }
-
-        public IReadOnlyCollection<ITypeSymbol> NotBindConstructorArgumentTypes
-        {
-            get;
-        }
-
-        public BindScopeEnum Scope
-        {
-            get;
-        }
-
-        public ArgumentSyntax? WhenArgumentClause
-        {
-            get;
-        }
-
-        public IReadOnlyCollection<string> FromTypeFullNames
-        {
-            get;
-        }
-
-        public bool IsConditional => WhenArgumentClause is not null;
-
-        public string TargetRepresentation
+        public override string TargetRepresentation
         {
             get
             {
-                return BindToType.GetFullName();
+                if(IsRootCluster)
+                {
+                    return BindToType.GetFullName();
+                }
+
+                return DeclaredClusterType!.GetFullName() + " : " + BindToType.GetFullName();
             }
         }
 
 
         public BindingContainerWithInstance(
+            ITypeSymbol declaredClusterType,
             IReadOnlyList<ITypeSymbol> bindFromTypes,
             ITypeSymbol bindToType,
             IReadOnlyList<DetectedConstructorArgument> constructorArguments,
             BindScopeEnum scope,
             ArgumentSyntax? whenArgumentClause
-            )
+            ) : base(declaredClusterType, bindFromTypes, bindToType, scope, whenArgumentClause)
         {
-            if (bindFromTypes is null)
-            {
-                throw new ArgumentNullException(nameof(bindFromTypes));
-            }
-
-            if (bindToType is null)
-            {
-                throw new ArgumentNullException(nameof(bindToType));
-            }
-
             if (constructorArguments is null)
             {
                 throw new ArgumentNullException(nameof(constructorArguments));
             }
 
-            BindFromTypes = bindFromTypes;
-            BindToType = bindToType;
             ConstructorArguments = constructorArguments;
             NotBindConstructorArgumentTypes = new HashSet<ITypeSymbol>(constructorArguments.Where(ca => !ca.DefineInBindNode).Select(ca => ca.Type!), new TypeSymbolEqualityComparer());
-            Scope = scope;
-            WhenArgumentClause = whenArgumentClause;
-            FromTypeFullNames = new HashSet<string>(BindFromTypes.ConvertAll(b => b.GetFullName()));
         }
 
-        public string GetFromTypeFullNamesCombined(string separator = "_") => string.Join(separator, FromTypeFullNames);
-
-        public string PrepareInstanceContainerCode(
-            string instanceContainerCode,
-            InstanceContainerGeneratorsContainer container
+        public override string PrepareInstanceContainerCode(
+            ClusterGeneratorTreeJoint clusterGeneratorJoint
             )
         {
-            if (instanceContainerCode is null)
+            if (clusterGeneratorJoint is null)
             {
-                throw new ArgumentNullException(nameof(instanceContainerCode));
+                throw new ArgumentNullException(nameof(clusterGeneratorJoint));
             }
 
-            if (container is null)
-            {
-                throw new ArgumentNullException(nameof(container));
-            }
+            GetInstanceContainerBody(out var className, out var resource);
+
+            var cus = SyntaxFactory.ParseCompilationUnit(resource);
+            var cds = cus.DescendantNodes().OfType<ClassDeclarationSyntax>().First();
+            var instanceContainerCode = cds.GetText().ToString();
 
             var result = instanceContainerCode
+                .CheckAndReplace(className, GetContainerStableClassName())
                 .CheckAndReplace(nameof(FakeTarget), BindToType.GetFullName())
-                .CheckAndReplace("//GENERATOR: argument methods", string.Join(Environment.NewLine, ConstructorArguments.Where(ca => !ca.DefineInBindNode).Select(ca => ca.GenerateProvideConstructorArgumentMethod(container, this))))
-                .CheckAndReplace("//GENERATOR: apply arguments", string.Join(",", ConstructorArguments.Select(ca => ca.GetApplyConstructorClause(container))))
+                .CheckAndReplace(
+                    "//GENERATOR: argument methods",
+                    string.Join(
+                        Environment.NewLine,
+                        ConstructorArguments
+                            .Where(ca => !ca.DefineInBindNode)
+                            .Select(ca => ca.GenerateProvideConstructorArgumentMethod(clusterGeneratorJoint, this)
+                            )
+                        )
+                    )
+                .CheckAndReplace(
+                    "//GENERATOR: apply arguments",
+                    string.Join(
+                        ",",
+                        ConstructorArguments.Select(ca => ca.GetApplyConstructorClause())
+                        )
+                    )
                 .CheckAndReplace("//GENERATOR: predicate", (WhenArgumentClause?.ToString() ?? "rc => true"))
                 ;
 

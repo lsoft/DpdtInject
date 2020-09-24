@@ -9,6 +9,56 @@ namespace DpdtInject.Injector.Helper
 {
     public static class ListHelper
     {
+        public static void ForEach<T>(
+            this IEnumerable<T> list,
+            Action<T> action
+            )
+        {
+            if (list is null)
+            {
+                throw new ArgumentNullException(nameof(list));
+            }
+
+            if (action is null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
+            foreach (var a in list)
+            {
+                action(a);
+            }
+
+        }
+
+        public static List<T1> Collapse<T1, T2>(
+            this IEnumerable<T2> list,
+            Func<T2, IEnumerable<T1>> converter
+            )
+        {
+            if (list is null)
+            {
+                throw new ArgumentNullException(nameof(list));
+            }
+
+            if (converter is null)
+            {
+                throw new ArgumentNullException(nameof(converter));
+            }
+
+            var result = new List<T1>();
+
+            foreach(var a in list)
+            {
+                foreach(var b in converter(a))
+                {
+                    result.Add(b);
+                }
+            }
+
+            return result;
+        }
+
         public static List<T> Shuffle<T>(
             this IEnumerable<T> list
             )

@@ -22,9 +22,15 @@ namespace DpdtInject.Tests.Unsorted.CannotBeCasted
             Bind<IA>()
                 .To<A>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 .Configure(new ConstructorArgument("message", Message))
                 ;
 //#endif
+        }
+
+        public partial class DefaultCluster
+        {
+
         }
 
         public class UnsortedCannotBeCastedTester

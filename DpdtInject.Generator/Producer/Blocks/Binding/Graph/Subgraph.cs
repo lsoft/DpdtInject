@@ -5,35 +5,34 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
 {
     public class Subgraph
     {
-        private readonly HashSet<ITypeSymbol> _used;
-        private readonly List<ITypeSymbol> _usedInList;
+        private readonly HashSet<InstanceContainerGenerator> _used;
+        private readonly List<InstanceContainerGenerator> _usedInList;
 
         private bool _idempotent = true;
 
         public Subgraph()
         {
-            _used = new HashSet<ITypeSymbol>(
-                new TypeSymbolEqualityComparer()
+            _used = new HashSet<InstanceContainerGenerator>(
                 );
-            _usedInList = new List<ITypeSymbol>();
+            _usedInList = new List<InstanceContainerGenerator>();
         }
 
         private Subgraph(Subgraph subgraph)
         {
-            _used = new HashSet<ITypeSymbol>(subgraph._used, subgraph._used.Comparer);
-            _usedInList = new List<ITypeSymbol>(subgraph._usedInList);
+            _used = new HashSet<InstanceContainerGenerator>(subgraph._used, subgraph._used.Comparer);
+            _usedInList = new List<InstanceContainerGenerator>(subgraph._usedInList);
             _idempotent = subgraph._idempotent;
         }
 
         public void AppendOrFailIfExists(
-            ITypeSymbol node,
+            InstanceContainerGenerator generator,
             bool idempotent
             )
         {
-            if (_used.Contains(node))
+            if (_used.Contains(generator))
             {
-                var cycleList = new List<ITypeSymbol>(_usedInList);
-                cycleList.Add(node);
+                var cycleList = new List<InstanceContainerGenerator>(_usedInList);
+                cycleList.Add(generator);
 
                 throw new CycleFoundException(
                     cycleList,
@@ -41,8 +40,8 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
                     );
             }
 
-            _used.Add(node);
-            _usedInList.Add(node);
+            _used.Add(generator);
+            _usedInList.Add(generator);
             _idempotent &= idempotent;
         }
 

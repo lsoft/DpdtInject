@@ -18,12 +18,19 @@ namespace DpdtInject.Tests.Func.NonGeneric.Transient.Hierarchy2
             Bind<IA>()
                 .To<A>()
                 .WithTransientScope()
+                .InCluster<DefaultCluster>()
                 ;
 
             Bind<IB>()
                 .To<B>()
                 .WithTransientScope()
+                .InCluster<DefaultCluster>()
                 ;
+        }
+
+        public partial class DefaultCluster
+        {
+
         }
 
         public class FuncNonGenericTransientHierarchy2ModuleTester

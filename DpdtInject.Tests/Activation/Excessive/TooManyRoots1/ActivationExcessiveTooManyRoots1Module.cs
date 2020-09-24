@@ -21,14 +21,21 @@ namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots1
             Bind<IA>()
                 .To<A1>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 .When(rc => false)
                 ;
 
             Bind<IA>()
                 .To<A2>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 .When(rc => true)
                 ;
+        }
+
+        public partial class DefaultCluster
+        {
+
         }
 
         public class ActivationExcessiveTooManyRoots1Tester

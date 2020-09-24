@@ -4,6 +4,11 @@ namespace DpdtInject.Injector.Module.RContext
 {
     public interface IResolutionFrame
     {
+        Type ClusterDeclaredType
+        {
+            get;
+        }
+
         Type RequestedType
         {
             get;

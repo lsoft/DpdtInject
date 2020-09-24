@@ -11,17 +11,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DpdtInject.Generator.Producer.Blocks.Provider
+namespace DpdtInject.Generator.Producer.Blocks.Cluster
 {
-    public class ProviderInterfaceGenerator
+    public class ClusterInterfaceGenerator
     {
         private readonly IReadOnlyList<InstanceContainerGenerator> _instanceContainerGenerators;
 
         public ITypeSymbol BindFromType
-        { 
+        {
             get;
         }
-        
+
         public DpdtArgumentWrapperTypeEnum WrapperType
         {
             get;
@@ -63,12 +63,18 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
             get;
         } = string.Empty;
 
-        public ProviderInterfaceGenerator(
+        public ClusterInterfaceGenerator(
+            ClusterGenerator clusterGenerator,
             ITypeSymbol bindFromType,
             DpdtArgumentWrapperTypeEnum wrapperType,
             IReadOnlyList<InstanceContainerGenerator> instanceContainerGenerators
             )
         {
+            if (clusterGenerator is null)
+            {
+                throw new ArgumentNullException(nameof(clusterGenerator));
+            }
+
             if (bindFromType is null)
             {
                 throw new ArgumentNullException(nameof(bindFromType));
@@ -86,7 +92,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
 
             #region InterfaceSection 
 
-            InterfaceSection = $"{nameof(IBaseProvider<object>)}<{BindFromTypeFullName}>";
+            InterfaceSection = $"{nameof(IBindingProvider<object>)}<{BindFromTypeFullName}>";
 
             #endregion
 
@@ -98,7 +104,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
 
             var emptyContextReference = $"{typeof(ResolutionContext).FullName}.{nameof(ResolutionContext.EmptyContext)}";
 
-            var createContextClause = "";
+            var resolutionFrameSection = "";
 
             #region ResolutionContext variables
 
@@ -106,7 +112,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
 
             foreach (var generator in _instanceContainerGenerators)
             {
-                var createContextVariableName = $"Context_{BindFromTypeFullName.ConvertDotLessGreatherToGround()}_{generator.BindingContainer.BindToType.GetFullName().ConvertDotLessGreatherToGround()}_{Guid.NewGuid().ConvertMinusToGround()}";
+                var createContextVariableName = $"Context_{BindFromTypeFullName.ConvertDotLessGreatherToGround()}_{generator.BindingContainer.BindToType.GetFullName().ConvertDotLessGreatherToGround()}_{Guid.NewGuid().RemoveMinuses()}";
                 createContextVariableNameDict[generator.GetVariableStableName()] = createContextVariableName;
             }
 
@@ -116,16 +122,16 @@ namespace DpdtInject.Generator.Producer.Blocks.Provider
             {
                 var createContextVariableName = createContextVariableNameDict[generator.GetVariableStableName()];
 
-                createContextClause += $@"
+                resolutionFrameSection += $@"
 private static readonly {nameof(ResolutionContext)} {createContextVariableName} = {emptyContextReference}.{nameof(ResolutionContext.AddFrame)}(
-    {ResolutionFrameGenerator.GetNewFrameClause(BindFromTypeFullName, generator.BindingContainer.BindToType.GetFullName())}
+    {ResolutionFrameGenerator.GetNewFrameClause(clusterGenerator.Joint.JointPayload.DeclaredClusterType.Name, BindFromTypeFullName, generator.BindingContainer.BindToType.GetFullName())}
     );
 ";
             }
 
             #region ResolutionFrameSection
 
-            ResolutionFrameSection = createContextClause;
+            ResolutionFrameSection = resolutionFrameSection;
 
             #endregion
 
@@ -135,7 +141,7 @@ private static readonly {nameof(ResolutionContext)} {createContextVariableName} 
 
             GetExplicitImplementationSection = $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-{BindFromTypeFullName} IBaseProvider<{BindFromTypeFullName}>.Get()
+{BindFromTypeFullName} {nameof(IBindingProvider<object>)}<{BindFromTypeFullName}>.Get()
 {{
     return {getImplementationMethodName}();
 }}
@@ -169,7 +175,7 @@ public {BindFromTypeFullName} {getImplementationMethodName}()
 {{
     if({instanceContainerGenerator.ClassName}.CheckPredicate({createContextVariableName}))
     {{
-        return {instanceContainerGenerator.GetInstanceClause(createContextVariableName, WrapperType)};
+        return {instanceContainerGenerator.GetInstanceClause(clusterGenerator.Joint.JointPayload.DeclaredClusterType.Name, createContextVariableName, WrapperType)};
     }}
 
     {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.NoBindingAvailable, $"No bindings available for [{BindFromTypeFullName}]{exceptionSuffix}", BindFromTypeFullName)}
@@ -182,7 +188,7 @@ public {BindFromTypeFullName} {getImplementationMethodName}()
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
 public {BindFromTypeFullName} {getImplementationMethodName}()
 {{
-    return {instanceContainerGenerator.GetInstanceClause("null", WrapperType)};
+    return {instanceContainerGenerator.GetInstanceClause(clusterGenerator.Joint.JointPayload.DeclaredClusterType.Name, "null", WrapperType)};
 }}
 ";
                 }
@@ -240,7 +246,7 @@ if(allowedChildrenCount == 0)
                     for (var gIndex = 0; gIndex < instanceContainerGenerators.Count; gIndex++)
                     {
                         var generator = instanceContainerGenerators[gIndex];
-                        var isLastGenerator = gIndex == (instanceContainerGenerators.Count - 1);
+                        var isLastGenerator = gIndex == instanceContainerGenerators.Count - 1;
 
                         if (generator.ItselfOrAtLeastOneChildIsConditional && !isLastGenerator)
                         {
@@ -249,14 +255,14 @@ if(allowedChildrenCount == 0)
                             GetImplementationSection += $@"
 if({generator.GetVariableStableName()})
 {{
-    return {generator.GetInstanceClause(createContextVariableName, WrapperType)};
+    return {generator.GetInstanceClause(clusterGenerator.Joint.JointPayload.DeclaredClusterType.Name, createContextVariableName, WrapperType)};
 }}
 ";
                         }
                         else
                         {
                             GetImplementationSection += $@"
-return {generator.GetInstanceClause("null", WrapperType)};
+return {generator.GetInstanceClause(clusterGenerator.Joint.JointPayload.DeclaredClusterType.Name, "null", WrapperType)};
 ";
                         }
                     }
@@ -277,7 +283,7 @@ return {generator.GetInstanceClause("null", WrapperType)};
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
 public IEnumerable<object> {getAllImplementationMethodName}()
 {{
-    return ((IBaseProvider<{BindFromTypeFullName}>)this).GetAll();
+    return (({nameof(IBindingProvider<object>)}<{BindFromTypeFullName}>)this).GetAll();
 }}
 ";
 
@@ -287,7 +293,7 @@ public IEnumerable<object> {getAllImplementationMethodName}()
             {
                 GetAllExplicitImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-List<{BindFromTypeFullName}> IBaseProvider<{BindFromTypeFullName}>.GetAll()
+List<{BindFromTypeFullName}> {nameof(IBindingProvider<object>)}<{BindFromTypeFullName}>.GetAll()
 {{
     var result = new List<{BindFromTypeFullName}>();
 ";
@@ -302,14 +308,14 @@ List<{BindFromTypeFullName}> IBaseProvider<{BindFromTypeFullName}>.GetAll()
                         GetAllExplicitImplementationSection += $@"
     if({instanceContainerGenerator.ClassName}.CheckPredicate({createContextVariableName}))
     {{
-        result.Add( {instanceContainerGenerator.GetInstanceClause(createContextVariableName, WrapperType)} );
+        result.Add( {instanceContainerGenerator.GetInstanceClause(clusterGenerator.Joint.JointPayload.DeclaredClusterType.Name, createContextVariableName, WrapperType)} );
     }}
 ";
                     }
                     else
                     {
                         GetAllExplicitImplementationSection += $@"
-    result.Add( {instanceContainerGenerator.GetInstanceClause("null", WrapperType)} );
+    result.Add( {instanceContainerGenerator.GetInstanceClause(clusterGenerator.Joint.JointPayload.DeclaredClusterType.Name, "null", WrapperType)} );
 ";
                     }
                 }

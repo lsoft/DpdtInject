@@ -21,19 +21,27 @@ namespace DpdtInject.Tests.Unsorted.TooManyChildren
             Bind<IA>()
                 .To<A1>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 .When(rc => true)
                 ;
 
             Bind<IA>()
                 .To<A2>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 .When(rc => true)
                 ;
 
             Bind<IB>()
                 .To<B>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 ;
+        }
+
+        public partial class DefaultCluster
+        {
+
         }
 
         public class UnsortedTooManyChildrenModuleTester

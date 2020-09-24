@@ -10,20 +10,31 @@ namespace DpdtInject.Injector.Module.Bind
     {
         IScopeBinding To<T>();
 
-        IConstantConditionalBinding WithConstScope<T>(T? constant);
+        IConstantClusterBinding WithConstScope<T>(T? constant);
     }
 
     public interface IScopeBinding 
     {
-        IConfigureAndConditionalBinding WithTransientScope();
+        IClusterBinding WithTransientScope();
 
-        IConfigureAndConditionalBinding WithSingletonScope();
+        IClusterBinding WithSingletonScope();
     }
+
+    public interface IClusterBinding
+    {
+        IConfigureAndConditionalBinding InCluster<T>();
+    }
+
 
     public interface IConfigureAndConditionalBinding :
         IConditionalBinding, IConfigureBinding
     {
 
+    }
+
+    public interface IConstantClusterBinding
+    {
+        IConstantConditionalBinding InCluster<T>();
     }
 
     public interface IConstantConditionalBinding

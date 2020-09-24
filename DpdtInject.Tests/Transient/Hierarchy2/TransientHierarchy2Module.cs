@@ -20,13 +20,20 @@ namespace DpdtInject.Tests.Transient.Hierarchy2
             Bind<IA>()
                 .To<A>()
                 .WithTransientScope()
+                .InCluster<DefaultCluster>()
                 ;
 
             Bind<IB>()
                 .To<B>()
                 .WithTransientScope()
+                .InCluster<DefaultCluster>()
                 .Configure(new ConstructorArgument("message", Message))
                 ;
+        }
+
+        public partial class DefaultCluster
+        {
+
         }
 
         public class TransientHierarchy2ModuleTester

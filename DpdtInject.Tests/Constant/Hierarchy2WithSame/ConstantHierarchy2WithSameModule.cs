@@ -19,23 +19,32 @@ namespace DpdtInject.Tests.Constant.Hierarchy2WithSame
         {
             Bind<IA>()
                 .WithConstScope(ConstantA1)
+                .InCluster<DefaultCluster>()
                 .When(rc => rc.ParentFrame.TargetType == typeof(B1))
                 ;
 
             Bind<IA>()
                 .WithConstScope(ConstantA2)
+                .InCluster<DefaultCluster>()
                 .When(rc => rc.ParentFrame.TargetType == typeof(B2))
                 ;
 
             Bind<IB1>()
                 .To<B1>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 ;
 
             Bind<IB2>()
                 .To<B2>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 ;
+        }
+
+        public partial class DefaultCluster
+        {
+
         }
 
         public class ConstantHierarchy2WithSameModuleTester

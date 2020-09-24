@@ -20,11 +20,13 @@ namespace DpdtInject.Tests.Conditional.Hierarchy3Second
             Bind<IA>()
                 .To<A>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 ;
 
             Bind<IB>()
                 .To<B>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 .When(rc => true)
                 .Configure(new ConstructorArgument("message", Message))
                 ;
@@ -32,8 +34,13 @@ namespace DpdtInject.Tests.Conditional.Hierarchy3Second
             Bind<IC>()
                 .To<C>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 ;
         }
+
+        public partial class DefaultCluster
+        { }
+
 
         public class ConditionalHierarchy3SecondModuleTester
         {

@@ -6,5 +6,4 @@
         Singleton,
         Constant
     }
-
 }

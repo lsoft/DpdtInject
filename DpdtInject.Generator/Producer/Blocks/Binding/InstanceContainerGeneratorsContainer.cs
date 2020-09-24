@@ -2,6 +2,7 @@
 using DpdtInject.Generator.Parser;
 using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Generator.Producer.Blocks.Binding.Graph;
+using DpdtInject.Generator.Tree;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Excp;
@@ -10,23 +11,31 @@ using DpdtInject.Injector.Module.Bind;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 
 namespace DpdtInject.Generator.Producer.Blocks.Binding
 {
     public class InstanceContainerGeneratorsContainer
+
     {
-        private readonly List<InstanceContainerGenerator> _instanceContainerGenerators;
+        private readonly List<InstanceContainerGenerator> _generators;
+        private readonly List<InstanceContainerGeneratorCluster> _generatorClusters;
+        private readonly HashSet<ITypeSymbol>  _allRegisteredTypes;
 
         public BindingsContainer BindingsContainer
         {
             get;
         }
 
-        public IReadOnlyList<InstanceContainerGenerator> InstanceContainerGenerators => _instanceContainerGenerators;
+        public IReadOnlyList<InstanceContainerGeneratorCluster> GeneratorClusters => _generatorClusters;
 
-        public InstanceContainerGeneratorGroups Groups
+        public IReadOnlyList<InstanceContainerGenerator> Generators => _generators;
+
+        public IReadOnlyCollection<ITypeSymbol> AllRegisteredTypes => _allRegisteredTypes;
+
+        public InstanceContainerGeneratorTree GeneratorTree
         {
             get;
         }
@@ -47,44 +56,52 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                 throw new ArgumentNullException(nameof(compilation));
             }
 
+            if (bindingsContainer is null)
+            {
+                throw new ArgumentNullException(nameof(bindingsContainer));
+            }
+
             BindingsContainer = bindingsContainer;
 
-            _instanceContainerGenerators = new List<InstanceContainerGenerator>();
-            foreach (var bindingContainer in bindingsContainer.BindingContainers)
-            {
-                _instanceContainerGenerators.Add(
-                    new InstanceContainerGenerator(
-                        diagnosticReporter,
-                        bindingsContainer,
-                        bindingContainer
-                        ));
-            }
+            GeneratorTree = new InstanceContainerGeneratorTree(
+                bindingsContainer.BindingClusterTree.ClusterJoint.ConvertTo2<InstanceContainerGeneratorTreeJoint, InstanceContainerGeneratorCluster>(
+                    (parentJoint, toConvertJoint) => new InstanceContainerGeneratorTreeJoint(
+                        parentJoint,
+                        new InstanceContainerGeneratorCluster(
+                            diagnosticReporter,
+                            compilation,
+                            toConvertJoint.JointPayload
+                            )
+                    )
+                ));
+            GeneratorTree.BuildFlags();
 
-            Groups = new InstanceContainerGeneratorGroups(
-                compilation,
-                _instanceContainerGenerators
+            _generators = new List<InstanceContainerGenerator>();
+            _generatorClusters = new List<InstanceContainerGeneratorCluster>();
+            _allRegisteredTypes = new HashSet<ITypeSymbol>(
+                new TypeSymbolEqualityComparer()
                 );
-        }
 
-        internal string GetReinventedContainerArgument(
-            string providerMethodNamePrefix
-            )
-        {
-            if (providerMethodNamePrefix is null)
-            {
-                throw new ArgumentNullException(nameof(providerMethodNamePrefix));
-            }
+            GeneratorTree.Apply(
+                cluster =>
+                {
+                    _generatorClusters.Add(cluster);
 
-            var clauses = new List<string>();
+                    foreach (var pair in cluster.GeneratorGroups)
+                    {
+                        foreach(var generator in pair.Value.Generators)
+                        {
+                            _generators.Add(generator);
+                            foreach (var bindFrom in generator.BindFromTypes)
+                            {
+                                _allRegisteredTypes.Add(bindFrom);
+                            }
+                        }
+                    }
+                }
+                );
 
-            foreach(var (wrapperType, wrapperSymbol) in Groups.GetRegisteredKeys(true))
-            {
-                clauses.Add(
-                    $"new Tuple<Type, Func<object>>( typeof({wrapperSymbol.GetFullName()}), _provider.{providerMethodNamePrefix}_{wrapperSymbol.GetFullName().ConvertDotLessGreatherToGround()}{wrapperType.GetPostfix()} )"
-                    );
-            }
 
-            return string.Join(",", clauses);
         }
 
         internal void AnalyzeForCircularDependencies(
@@ -96,7 +113,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                 throw new ArgumentNullException(nameof(diagnosticReporter));
             }
 
-            new CycleChecker(Groups)
+            new CycleChecker(GeneratorTree.Joint)
                 .CheckForCycles(diagnosticReporter)
                 ;
         }
@@ -105,23 +122,17 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             IDiagnosticReporter diagnosticReporter
             )
         {
-            foreach (var generator in _instanceContainerGenerators)
-            {
-                foreach (var ca in generator.BindingContainer.ConstructorArguments.Where(j => !j.DefineInBindNode))
-                {
-                    if (ca.Type is null)
-                    {
-                        throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, $"ca.Type is null somehow");
-                    }
+            //we need to check unknown bindings in the tree
 
-                    if (Groups.GetRegisteredKeys(true).All(p => !SymbolEqualityComparer.Default.Equals(p.Item2, ca.Type)))
-                    {
-                        throw new DpdtException(
-                            DpdtExceptionTypeEnum.NoBindingAvailable,
-                            $"Found unknown binding [{ca.Type!.GetFullName()}] from constructor of [{generator.BindingContainer.TargetRepresentation}]",
-                            ca.Type.Name
-                            );
-                    }
+            foreach(var point3 in GeneratorTree.Joint.GenerateChildPoints())
+            {
+                if (!point3.TryFindChildren(out var _))
+                {
+                    throw new DpdtException(
+                        DpdtExceptionTypeEnum.NoBindingAvailable,
+                        $"Found unknown binding [{point3.TypeSymbol.GetFullName()}] from constructor of [{point3.Generator.BindingContainer.TargetRepresentation}]",
+                        point3.TypeSymbol.GetFullName()
+                        );
                 }
             }
         }
@@ -135,85 +146,27 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                 throw new ArgumentNullException(nameof(diagnosticReporter));
             }
 
-            foreach (var generator in _instanceContainerGenerators)
+            foreach (var point3 in GeneratorTree.Joint.GenerateChildPoints())
             {
-                AnalyzeForSingletonTakesTransientPrivate(
-                    diagnosticReporter,
-                    generator,
-                    new HashSet<InstanceContainerGenerator>()
-                    );
-            }
-        }
-
-        private void AnalyzeForSingletonTakesTransientPrivate(
-            IDiagnosticReporter diagnosticReporter,
-            InstanceContainerGenerator parent,
-            HashSet<InstanceContainerGenerator> processed
-            )
-        {
-            if (diagnosticReporter is null)
-            {
-                throw new ArgumentNullException(nameof(diagnosticReporter));
-            }
-
-            if (parent is null)
-            {
-                throw new ArgumentNullException(nameof(parent));
-            }
-
-            if (processed is null)
-            {
-                throw new ArgumentNullException(nameof(processed));
-            }
-
-            if (processed.Contains(parent))
-            {
-                //circular dependency found
-                //do not check this binding because of it's invalid a priori
-                diagnosticReporter.ReportWarning(
-                    $"Searching for singleton-transient relationship has been skipped.",
-                    $"Searching for singleton-transient relationship has been skipped, because of circular dependency found with {parent.BindingContainer.TargetRepresentation}."
-                    );
-
-                return;
-            }
-
-            processed.Add(parent);
-
-            foreach (var ca in parent.BindingContainer.ConstructorArguments.Where(j => !j.DefineInBindNode))
-            {
-                if (ca.Type is null)
+                if (point3.Generator.BindingContainer.Scope.In(BindScopeEnum.Singleton))
                 {
-                    throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, $"ca.Type is null somehow");
-                }
-
-                if (!Groups.TryGetRegisteredGenerators(ca.Type!, true, out var children))
-                {
-                    throw new DpdtException(DpdtExceptionTypeEnum.NoBindingAvailable, $"Found unknown binding [{ca.Type.GetFullName()}] from constructor of [{parent.BindingContainer.TargetRepresentation}]", ca.Type.Name);
-                }
-
-                foreach (var child in children)
-                {
-                    if (parent.BindingContainer.Scope.In(BindScopeEnum.Singleton))
+                    if (point3.TryFindChildren(out var children))
                     {
-                        if (child.BindingContainer.Scope.In(BindScopeEnum.Transient))
+                        foreach(var child in children)
                         {
-                            diagnosticReporter.ReportWarning(
-                                $"Singleton-transient relationship has been found.",
-                                $"Searching for singleton-transient relationship has been found: singleton parent [{parent.BindingContainer.TargetRepresentation}] takes transient child [{child.BindingContainer.TargetRepresentation}]."
-                                );
+                            if (child.Generator.BindingContainer.Scope.In(BindScopeEnum.Transient))
+                            {
+                                diagnosticReporter.ReportWarning(
+                                    $"Singleton-transient relationship has been found.",
+                                    $"Searching for singleton-transient relationship has been found: singleton parent [{point3.Generator.BindingContainer.TargetRepresentation}] takes transient child [{child.Generator.BindingContainer.TargetRepresentation}]."
+                                    );
+                            }
                         }
                     }
-
-                    AnalyzeForSingletonTakesTransientPrivate(
-                        diagnosticReporter,
-                        child,
-                        new HashSet<InstanceContainerGenerator>(processed)
-                        );
                 }
+
             }
         }
-
     }
 
 }

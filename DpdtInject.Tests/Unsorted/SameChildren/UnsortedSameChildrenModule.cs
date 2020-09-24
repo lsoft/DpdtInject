@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DpdtInject.Injector.Module.Bind;
 using DpdtInject.Injector.Excp;
+using System.Runtime.InteropServices;
 
 namespace DpdtInject.Tests.Unsorted.SameChildren
 {
@@ -21,19 +22,27 @@ namespace DpdtInject.Tests.Unsorted.SameChildren
             Bind<IA>()
                 .To<A1>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 .When(rc => rc.CurrentFrame.ConstructorArgumentName == "a1")
                 ;
 
             Bind<IA>()
                 .To<A2>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 .When(rc => rc.CurrentFrame.ConstructorArgumentName == "a2")
                 ;
 
             Bind<IB>()
                 .To<B>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 ;
+        }
+
+        public partial class DefaultCluster
+        {
+
         }
 
         public class UnsortedSameChildrenTester

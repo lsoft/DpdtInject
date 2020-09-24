@@ -17,7 +17,13 @@ namespace DpdtInject.Tests.Singleton.Dispose
             Bind<IA>()
                 .To<A>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 ;
+        }
+
+        public partial class DefaultCluster
+        {
+
         }
 
         public class SingletonDisposeModuleTester

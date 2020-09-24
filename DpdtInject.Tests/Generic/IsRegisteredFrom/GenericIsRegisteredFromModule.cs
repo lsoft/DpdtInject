@@ -17,12 +17,19 @@ namespace DpdtInject.Tests.Generic.IsRegisteredFrom
             Bind<IA>()
                 .To<A>()
                 .WithTransientScope()
+                .InCluster<DefaultCluster>()
                 ;
 
             Bind<IB>()
                 .To<B>()
                 .WithTransientScope()
+                .InCluster<DefaultCluster>()
                 ;
+        }
+
+        public partial class DefaultCluster
+        {
+
         }
 
         public class GenericIsRegisteredFromModuleTester

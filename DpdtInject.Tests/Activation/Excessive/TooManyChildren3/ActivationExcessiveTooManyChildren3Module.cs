@@ -23,19 +23,26 @@ namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren3
             Bind<IA>()
                 .To<A1>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 .When(rc => false)
                 ;
 
             Bind<IA>()
                 .To<A2>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 .When(rc => false)
                 ;
 
             Bind<IB>()
                 .To<B>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 ;
+        }
+
+        public partial class DefaultCluster
+        {
         }
 
         public class ActivationExcessiveTooManyChildren3Tester

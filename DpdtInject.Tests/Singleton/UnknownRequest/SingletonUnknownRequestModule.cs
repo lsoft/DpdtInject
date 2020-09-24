@@ -18,7 +18,13 @@ namespace DpdtInject.Tests.Singleton.UnknownRequest
             Bind<IA>()
                 .To<A>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 ;
+        }
+
+        public partial class DefaultCluster
+        {
+
         }
 
         public class SingletonUnknownRequestModuleTester

@@ -18,7 +18,13 @@ namespace DpdtInject.Tests.Constant.SingleObject
         {
             Bind<IA>()
                 .WithConstScope(ConstantA)
+                .InCluster<DefaultCluster>()
                 ;
+        }
+
+        public partial class DefaultCluster
+        {
+
         }
 
         public class ConstantSingleObjectModuleTester

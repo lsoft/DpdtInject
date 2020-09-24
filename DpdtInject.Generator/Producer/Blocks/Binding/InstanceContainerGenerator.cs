@@ -2,6 +2,7 @@
 using DpdtInject.Generator.Parser;
 using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer;
+using DpdtInject.Generator.Producer.Blocks.Cluster;
 using DpdtInject.Generator.Producer.Blocks.Exception;
 using DpdtInject.Generator.Properties;
 using DpdtInject.Injector.Compilation;
@@ -22,6 +23,8 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 {
 
     public class InstanceContainerGenerator
+
+
     {
         public IBindingContainer BindingContainer
         {
@@ -30,10 +33,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
         public IReadOnlyList<ITypeSymbol> BindFromTypes => BindingContainer.BindFromTypes;
 
-        public string ClassName
-        {
-            get;
-        }
+        public string ClassName => BindingContainer.GetContainerStableClassName();
 
         public IReadOnlyList<string> Usings
         {
@@ -43,12 +43,9 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         public bool ItselfOrAtLeastOneChildIsConditional
         {
             get;
+            set;
         }
-        
-        public bool ItselfOrAtLeastOneParentIsConditional
-        {
-            get;
-        }
+
 
         public string DisposeClause
         {
@@ -64,14 +61,14 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         }
 
         public string GetInstanceClause(
+            string clusterClassName,
             string innerText,
             DpdtArgumentWrapperTypeEnum wrapperType
-            ) => $"{ClassName}.GetInstance{wrapperType.GetPostfix()}({innerText})";
+            ) => $"{clusterClassName}.{ClassName}.GetInstance{wrapperType.GetPostfix()}({innerText})";
 
 
         public InstanceContainerGenerator(
             IDiagnosticReporter diagnosticReporter,
-            BindingsContainer bindingsContainer,
             IBindingContainer bindingContainer
             )
         {
@@ -79,12 +76,6 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             {
                 throw new ArgumentNullException(nameof(diagnosticReporter));
             }
-
-            if (bindingsContainer is null)
-            {
-                throw new ArgumentNullException(nameof(bindingsContainer));
-            }
-
             if (bindingContainer is null)
             {
                 throw new ArgumentNullException(nameof(bindingContainer));
@@ -92,80 +83,28 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
             BindingContainer = bindingContainer;
 
-            switch (this.BindingContainer.Scope)
-            {
-                case Injector.Module.Bind.BindScopeEnum.Transient:
-                    ClassName = $"{string.Join("_", bindingContainer.GetFromTypeFullNamesCombined().ConvertDotLessGreatherToGround())}_{bindingContainer.TargetRepresentation.ConvertDotLessGreatherToGround()}_{nameof(TransientInstanceContainer)}_{Guid.NewGuid().ConvertMinusToGround()}";
-                    break;
-                case Injector.Module.Bind.BindScopeEnum.Singleton:
-                    ClassName = $"{string.Join("_", bindingContainer.GetFromTypeFullNamesCombined().ConvertDotLessGreatherToGround())}_{bindingContainer.TargetRepresentation.ConvertDotLessGreatherToGround()}_{nameof(SingletonInstanceContainer)}_{Guid.NewGuid().ConvertMinusToGround()}";
-                    break;
-                case Injector.Module.Bind.BindScopeEnum.Constant:
-                    ClassName = $"{string.Join("_", bindingContainer.GetFromTypeFullNamesCombined().ConvertDotLessGreatherToGround())}_{nameof(ConstantInstanceContainer)}_{Guid.NewGuid().ConvertMinusToGround()}";
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-
-            var cus = SyntaxFactory.ParseCompilationUnit(Resources.SingletonInstanceContainer);
+            bindingContainer.GetInstanceContainerBody(out var _, out var resource);
+            var cus = SyntaxFactory.ParseCompilationUnit(resource);
             var uds = cus.DescendantNodes().OfType<UsingDirectiveSyntax>().ToList();
 
             var usings = uds.ConvertAll(r => r.GetText().ToString());
             usings.Add($"using {typeof(ResolutionContext).Namespace};");
             Usings = usings;
-
-            ItselfOrAtLeastOneChildIsConditional = bindingContainer.IsConditional ||
-                bindingsContainer.CheckForAtLeastOneChildIsConditional(
-                    diagnosticReporter,
-                    bindingContainer
-                );
-
-            ItselfOrAtLeastOneParentIsConditional = bindingContainer.IsConditional ||
-                bindingsContainer.CheckForAtLeastOneParentIsConditional(
-                    diagnosticReporter,
-                    bindingContainer
-                );
         }
 
 
         public string GetClassBody(
-            InstanceContainerGeneratorsContainer container
+            ClusterGeneratorTreeJoint clusterGeneratorJoint
             )
         {
-            if (container is null)
+            if (clusterGeneratorJoint is null)
             {
-                throw new ArgumentNullException(nameof(container));
+                throw new ArgumentNullException(nameof(clusterGeneratorJoint));
             }
 
-            string className;
-            string resource;
-            switch (this.BindingContainer.Scope)
-            {
-                case Injector.Module.Bind.BindScopeEnum.Transient:
-                    className = nameof(TransientInstanceContainer);
-                    resource = Resources.TransientInstanceContainer;
-                    break;
-                case Injector.Module.Bind.BindScopeEnum.Singleton:
-                    className = nameof(SingletonInstanceContainer);
-                    resource = Resources.SingletonInstanceContainer;
-                    break;
-                case Injector.Module.Bind.BindScopeEnum.Constant:
-                    className = nameof(ConstantInstanceContainer);
-                    resource = Resources.ConstantInstanceContainer;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            var cus = SyntaxFactory.ParseCompilationUnit(resource);
-            var cds = cus.DescendantNodes().OfType<ClassDeclarationSyntax>().First();
-
-            var classBody = cds.GetText().ToString()
-                .CheckAndReplace(className, ClassName)
-                .CheckAndReplace("public sealed class", "private sealed class")
+            var classBody = BindingContainer.PrepareInstanceContainerCode(clusterGeneratorJoint)
+                //.CheckAndReplace("public sealed class", "private sealed class")
                 .CheckAndReplaceIfTrue(() => ItselfOrAtLeastOneChildIsConditional, "#if UNDECLARED_SYMBOL", "#if !UNDECLARED_SYMBOL")
-                .PrepareInstanceContainerCode(BindingContainer, container)
                 ;
 
             return classBody;
@@ -174,33 +113,6 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         internal string GetVariableStableName()
         {
             return $"generator{this.GetHashCode()}";
-        }
-    }
-
-    public static class InstanceContainerGeneratorHelper
-    {
-        public static string PrepareInstanceContainerCode(
-            this string instanceContainerCode,
-            IBindingContainer bindingContainer,
-            InstanceContainerGeneratorsContainer container
-            )
-        {
-            if (instanceContainerCode is null)
-            {
-                throw new ArgumentNullException(nameof(instanceContainerCode));
-            }
-
-            if (bindingContainer is null)
-            {
-                throw new ArgumentNullException(nameof(bindingContainer));
-            }
-
-            if (container is null)
-            {
-                throw new ArgumentNullException(nameof(container));
-            }
-
-            return bindingContainer.PrepareInstanceContainerCode(instanceContainerCode, container);
         }
     }
 }

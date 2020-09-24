@@ -18,12 +18,19 @@ namespace DpdtInject.Tests.Func.Generic.Singleton.Hierarchy2
             Bind<IA>()
                 .To<A>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 ;
 
             Bind<IB>()
                 .To<B>()
                 .WithSingletonScope()
+                .InCluster<DefaultCluster>()
                 ;
+        }
+
+        public partial class DefaultCluster
+        {
+
         }
 
         public class FuncGenericSingletonHierarchy2ModuleTester

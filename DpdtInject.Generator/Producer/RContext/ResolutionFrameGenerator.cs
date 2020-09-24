@@ -10,24 +10,41 @@ namespace DpdtInject.Generator.Producer.RContext
     public static class ResolutionFrameGenerator
     {
         public static string GetNewFrameClause(
+            string declaredClusterType,
             string fromType,
             string toType
             )
         {
+            if (declaredClusterType is null)
+            {
+                throw new ArgumentNullException(nameof(declaredClusterType));
+            }
+
             if (fromType is null)
             {
                 throw new ArgumentNullException(nameof(fromType));
             }
 
-            return $"new {typeof(ResolutionFrame).FullName}( typeof({fromType}), typeof({toType}) )";
+            if (toType is null)
+            {
+                throw new ArgumentNullException(nameof(toType));
+            }
+
+            return $"new {typeof(ResolutionFrame).FullName}(typeof({declaredClusterType}), typeof({fromType}), typeof({toType}) )";
         }
 
         public static string GetNewFrameClause(
+            string declaredClusterType,
             string fromType,
             string toType,
             string constructorArgumentName
             )
         {
+            if (declaredClusterType is null)
+            {
+                throw new ArgumentNullException(nameof(declaredClusterType));
+            }
+
             if (fromType is null)
             {
                 throw new ArgumentNullException(nameof(fromType));
@@ -43,7 +60,7 @@ namespace DpdtInject.Generator.Producer.RContext
                 throw new ArgumentNullException(nameof(constructorArgumentName));
             }
 
-            return $"new {typeof(ResolutionFrame).FullName}(typeof({fromType}), typeof({toType}), \"{constructorArgumentName}\")";
+            return $"new {typeof(ResolutionFrame).FullName}(typeof({declaredClusterType}), typeof({fromType}), typeof({toType}), \"{constructorArgumentName}\")";
         }
     }
 }

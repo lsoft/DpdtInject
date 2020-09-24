@@ -1,9 +1,11 @@
 ﻿using DpdtInject.Generator.Helpers;
+using DpdtInject.Generator.Tree;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Excp;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace DpdtInject.Generator.Parser.Binding
@@ -11,18 +13,22 @@ namespace DpdtInject.Generator.Parser.Binding
     public class BindingsContainer
     {
         private readonly List<IBindingContainer> _bindingContainers;
+        private readonly BindingClusterTree _bindingClusterTree;
 
         public IReadOnlyList<IBindingContainer> BindingContainers => _bindingContainers;
 
-        public BindingContainerGroups Groups
-        {
-            get;
-        }
+        public BindingClusterTree BindingClusterTree => _bindingClusterTree;
 
         public BindingsContainer(
+            ITypeSymbol moduleType,
             List<IBindingContainer> bindingContainers
             )
         {
+            if (moduleType is null)
+            {
+                throw new ArgumentNullException(nameof(moduleType));
+            }
+
             if (bindingContainers is null)
             {
                 throw new ArgumentNullException(nameof(bindingContainers));
@@ -30,159 +36,126 @@ namespace DpdtInject.Generator.Parser.Binding
 
             _bindingContainers = bindingContainers;
 
-            Groups = new BindingContainerGroups(
-                _bindingContainers
+            //build declared cluster tree
+            var declaredClusterTreeRoot = BuildDeclaredClusterTree(
+                moduleType,
+                bindingContainers
+                );
+
+            _bindingClusterTree = new BindingClusterTree(
+                declaredClusterTreeRoot.ConvertTo2<BindingClusterJoint, BindingContainerCluster>(
+                   (parentJoint, toConvertJoint) => new BindingClusterJoint(
+                       parentJoint,
+                       new BindingContainerCluster(
+                            toConvertJoint.JointPayload,
+                            bindingContainers.FindAll(c => SymbolEqualityComparer.Default.Equals(c.DeclaredClusterType, toConvertJoint.JointPayload))
+                            )
+                       )
+                   )
                 );
         }
 
-        internal bool CheckForAtLeastOneParentIsConditional(
-            IDiagnosticReporter diagnosticReporter,
-            IBindingContainer bindingContainer
+        private TreeJoint<ITypeSymbol> BuildDeclaredClusterTree(
+            ITypeSymbol moduleType,
+            List<IBindingContainer> containers
             )
         {
-            return
-                CheckForAtLeastOneParentIsConditionalPrivate(
-                    diagnosticReporter,
-                    bindingContainer,
-                    bindingContainer,
-                    new HashSet<IBindingContainer>()
+            if (moduleType is null)
+            {
+                throw new ArgumentNullException(nameof(moduleType));
+            }
+
+            if (containers is null)
+            {
+                throw new ArgumentNullException(nameof(containers));
+            }
+
+            var declaredClusterTypes = containers
+                .Select(c => c.DeclaredClusterType)
+                .Where(dct => dct.BaseType!.GetFullName() == "System.Object")
+                .Distinct()
+                .ToList()
+                ;
+
+            if (declaredClusterTypes.Count > 1)
+            {
+                throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, "Too many root clusters");
+            }
+
+            var declaredClusterType = declaredClusterTypes[0];
+
+            if (declaredClusterType.ContainingType is null
+                || !SymbolEqualityComparer.Default.Equals(declaredClusterType.ContainingType, moduleType))
+            {
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.IncorrectCluster,
+                    $"Cluster [{declaredClusterType.GetFullName()}] shound be nested in its parent module [{moduleType.GetFullName()}]",
+                    declaredClusterType.GetFullName()
                     );
+            }
+
+            var rootJoint = new TreeJoint<ITypeSymbol>(
+                null,
+                declaredClusterType
+                );
+
+            BuildDeclaredClusterTree(
+                moduleType,
+                containers,
+                rootJoint
+                );
+
+            return rootJoint;
         }
 
-        private bool CheckForAtLeastOneParentIsConditionalPrivate(
-            IDiagnosticReporter diagnosticReporter,
-            IBindingContainer rootBindingContainer,
-            IBindingContainer bindingContainer,
-            HashSet<IBindingContainer> processed
+
+        private void BuildDeclaredClusterTree(
+            ITypeSymbol moduleType,
+            List<IBindingContainer> containers,
+            TreeJoint<ITypeSymbol> joint
             )
         {
-            if (diagnosticReporter is null)
+            if (moduleType is null)
             {
-                throw new ArgumentNullException(nameof(diagnosticReporter));
+                throw new ArgumentNullException(nameof(moduleType));
             }
 
-            if (bindingContainer is null)
+            if (containers is null)
             {
-                throw new ArgumentNullException(nameof(bindingContainer));
+                throw new ArgumentNullException(nameof(containers));
             }
 
-            if(processed.Contains(bindingContainer))
+            var childContainers = containers.FindAll(c => SymbolEqualityComparer.Default.Equals(c.DeclaredClusterType.BaseType, joint.JointPayload));
+            if (childContainers.Count > 0)
             {
-                //circular dependency found
-                //do not check this binding because of it's invalid a priori
-                diagnosticReporter.ReportWarning(
-                    $"Searching for undeterministic resolution path has been skipped",
-                    $"Searching for undeterministic resolution path for [{rootBindingContainer.TargetRepresentation}] has been skipped, because of circular dependency found."
-                    );
-                return false;
-            }
-
-            processed.Add(bindingContainer);
-
-            foreach (var bindFromType in bindingContainer.BindFromTypes)
-            {
-                if (!Groups.NotBindParentGroups.TryGetValue(bindFromType, out var parents))
+                foreach (var childContainer in childContainers.Distinct())
                 {
-                    //no parent for bindFromType exists
-                    //so no conditional parent exists
-                    //it's completely ok
-                    return false;
-                }
+                    var declaredClusterType = childContainer.DeclaredClusterType;
 
-                foreach (var parent in parents)
-                {
-                    if(parent.IsConditional)
+                    if (declaredClusterType.ContainingType is null
+                        || !SymbolEqualityComparer.Default.Equals(declaredClusterType.ContainingType, moduleType))
                     {
-                        return true;
+                        throw new DpdtException(
+                            DpdtExceptionTypeEnum.IncorrectCluster,
+                            $"Cluster [{declaredClusterType.GetFullName()}] shound be nested in its parent module [{moduleType.GetFullName()}]",
+                            declaredClusterType.GetFullName()
+                            );
                     }
 
-                    if (CheckForAtLeastOneParentIsConditionalPrivate(
-                        diagnosticReporter,
-                        rootBindingContainer,
-                        parent,
-                        processed
-                        ))
-                    {
-                        return true;
-                    }
+                    var childJoint = new TreeJoint<ITypeSymbol>(
+                        joint,
+                        declaredClusterType
+                        );
+                    joint.AddChild(childJoint);
+
+                    BuildDeclaredClusterTree(
+                        moduleType,
+                        containers,
+                        childJoint
+                        );
                 }
             }
-
-            return false;
-        }
-
-        internal bool CheckForAtLeastOneChildIsConditional(
-            IDiagnosticReporter diagnosticReporter,
-            IBindingContainer bindingContainer
-            )
-        {
-            return
-                CheckForAtLeastOneChildIsConditionalPrivate(
-                    diagnosticReporter,
-                    bindingContainer,
-                    bindingContainer,
-                    new HashSet<IBindingContainer>()
-                    );
-
-        }
-
-        private bool CheckForAtLeastOneChildIsConditionalPrivate(
-            IDiagnosticReporter diagnosticReporter,
-            IBindingContainer rootBindingContainer,
-            IBindingContainer bindingContainer,
-            HashSet<IBindingContainer> processed
-            )
-        {
-            if (bindingContainer is null)
-            {
-                throw new ArgumentNullException(nameof(bindingContainer));
-            }
-
-            if (processed.Contains(bindingContainer))
-            {
-                //circular dependency found
-                //do not check this binding because of it's invalid a priori
-                diagnosticReporter.ReportWarning(
-                    $"Searching for undeterministic resolution path (up) has been skipped.",
-                    $"Searching for undeterministic resolution path (up) for [{rootBindingContainer.TargetRepresentation}] has been skipped, because of circular dependency found."
-                    );
-                return false;
-            }
-
-            processed.Add(bindingContainer);
-
-            foreach (var ca in bindingContainer.ConstructorArguments.Where(j => !j.DefineInBindNode))
-            {
-                if (ca.Type is null)
-                {
-                    throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, $"ca.Type is null somehow");
-                }
-
-                if (!Groups.TryGetRegisteredBindingContainers(ca.Type!, true, out var children))
-                {
-                    throw new DpdtException(DpdtExceptionTypeEnum.NoBindingAvailable, $"Found unknown binding [{ca.Type!.GetFullName()}] from constructor of [{bindingContainer.TargetRepresentation}]", ca.Type.Name);
-                }
-
-                foreach (var child in children)
-                {
-                    if (child.IsConditional)
-                    {
-                        return true;
-                    }
-
-                    if (CheckForAtLeastOneChildIsConditionalPrivate(
-                        diagnosticReporter,
-                        rootBindingContainer,
-                        child,
-                        processed
-                        ))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
         }
     }
+
 }

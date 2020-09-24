@@ -4,6 +4,11 @@ namespace DpdtInject.Injector.Module.RContext
 {
     public class ResolutionFrame : IResolutionFrame
     {
+        public Type ClusterDeclaredType
+        {
+            get;
+        }
+
         public Type RequestedType
         {
             get;
@@ -20,6 +25,7 @@ namespace DpdtInject.Injector.Module.RContext
         }
 
         public ResolutionFrame(
+            Type clusterDeclaredType,
             Type requestedType,
             Type targetType,
             string? constructorArgumentName = null
@@ -34,7 +40,7 @@ namespace DpdtInject.Injector.Module.RContext
             {
                 throw new ArgumentNullException(nameof(targetType));
             }
-
+            ClusterDeclaredType = clusterDeclaredType;
             RequestedType = requestedType;
             TargetType = targetType;
             ConstructorArgumentName = constructorArgumentName;

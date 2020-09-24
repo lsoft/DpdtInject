@@ -14,13 +14,13 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
 {
     public class CycleChecker
     {
-        private readonly InstanceContainerGeneratorGroups _groups;
+        private readonly InstanceContainerGeneratorTreeJoint _joint;
 
         public CycleChecker(
-            InstanceContainerGeneratorGroups groups
+            InstanceContainerGeneratorTreeJoint joint
             )
         {
-            _groups = groups;
+            _joint = joint;
         }
 
         public void CheckForCycles(
@@ -36,7 +36,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
                 new OrderIndependentCycleFoundEqualityComparer()
                 );
 
-            foreach (var (wrapperType, wrapperSymbol) in _groups.GetRegisteredKeys(true).Shuffle())
+            foreach (var point2 in _joint.GeneratePoints2().Shuffle())
             {
                 try
                 {
@@ -44,7 +44,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
 
                     CheckForCyclesInternal(
                         ref used,
-                        wrapperSymbol
+                        point2
                         );
                 }
                 catch (CycleFoundException cfe)
@@ -77,34 +77,51 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
 
         private void CheckForCyclesInternal(
             ref Subgraph used,
-            ITypeSymbol requestedType
+            Point2 point2
             )
         {
-            if (!_groups.TryGetRegisteredGenerators(requestedType, true, out var generators))
+            if (used is null)
             {
-                return;
+                throw new ArgumentNullException(nameof(used));
             }
 
-            foreach (var generator in generators)
+            if (point2 is null)
             {
-                var used2 = used.Clone();
+                throw new ArgumentNullException(nameof(point2));
+            }
 
-                used2.AppendOrFailIfExists(
-                    requestedType,
-                    !generator.BindingContainer.IsConditional
+            used.AppendOrFailIfExists(
+                point2.Generator,
+                !point2.Generator.BindingContainer.IsConditional
+                );
+
+            foreach (var ca in point2.Generator.BindingContainer.ConstructorArguments.Where(ca => !ca.DefineInBindNode).Shuffle())
+            {
+                if (ca.Type is null)
+                {
+                    throw new DpdtException(
+                        DpdtExceptionTypeEnum.InternalError,
+                        $"constructorArgument.Type is null somehow"
+                        );
+                }
+
+                var childPoint3 = new Point3(
+                    point2.Joint,
+                    point2.Generator,
+                    ca.Type
                     );
 
-                foreach (var constructorArgument in generator.BindingContainer.ConstructorArguments.Where(ca => !ca.DefineInBindNode).Shuffle())
+                if (childPoint3.TryFindChildren(out var childrenPoint2))
                 {
-                    if (constructorArgument.Type is null)
+                    foreach(var childPoint2 in childrenPoint2)
                     {
-                        throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"constructorArgument.Type is null somehow");
-                    }
+                        var used2 = used.Clone();
 
-                    CheckForCyclesInternal(
-                        ref used2,
-                        constructorArgument.Type
-                        );
+                        CheckForCyclesInternal(
+                            ref used2,
+                            childPoint2
+                            );
+                    }
                 }
             }
         }
@@ -134,9 +151,9 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
             {
                 var result = obj.StrictConculsion ? int.MaxValue : 0;
 
-                foreach (var type in obj.CycleList.Skip(1))
+                foreach (var generator in obj.CycleList.Skip(1))
                 {
-                    result ^= type.GetFullName().GetHashCode();
+                    result ^= generator.BindingContainer.BindToType.GetFullName().GetHashCode();
                 }
 
                 return result;
