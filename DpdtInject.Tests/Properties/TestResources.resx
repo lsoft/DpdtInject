@@ -143,7 +143,16 @@
     <value>..\Activation\Excessive\TooManyRoots3\ActivationExcessiveTooManyRoots3Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ClusterTwoDifferentObjectDifferentCluster1Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Cluster\Two\DifferentObjectDifferentCluster1\ClusterTwoDifferentObjectDifferentCluster1Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>..\Cluster\DifferentObjectDifferentCluster1\ClusterTwoDifferentObjectDifferentCluster1Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ClusterTwoDifferentObjectDifferentCluster2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Cluster\DifferentObjectDifferentCluster2\ClusterTwoDifferentObjectDifferentCluster2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ClusterTwoDifferentObjectDifferentCluster3Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Cluster\DifferentObjectDifferentCluster3\ClusterTwoDifferentObjectDifferentCluster3Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ClusterTwoDifferentObjectDifferentCluster4Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Cluster\DifferentObjectDifferentCluster4\ClusterTwoDifferentObjectDifferentCluster4Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ConditionalHierarchy2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Conditional\Hierarchy2\ConditionalHierarchy2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>

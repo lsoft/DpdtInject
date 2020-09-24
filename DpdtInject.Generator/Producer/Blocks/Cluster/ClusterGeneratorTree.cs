@@ -288,24 +288,35 @@ private class SuperCluster :
         public string GenerateClusterBody(
             )
         {
+            var declaredClusterType = (INamedTypeSymbol)JointPayload.Joint.JointPayload.DeclaredClusterType;
+
             var beautifyGenerator = new BeautifyGenerator(
-                JointPayload.Joint.JointPayload.DeclaredClusterType.Name
+                declaredClusterType.Name
                 );
 
-            var fieldParentClusterClause = "";
-            var constructorArgumentParentClusterClause = "";
-            var assignParentClusterClause = "";
+            var fieldParentClusterClause = string.Empty;
+            var constructorArgumentParentClusterClause = string.Empty;
+            var assignParentClusterClause = string.Empty;
+            var parameterlessConstructorClause = string.Empty;
             if (!IsRoot)
             {
                 fieldParentClusterClause = $"private readonly {Parent!.JointPayload.Joint.JointPayload.DeclaredClusterType.Name} _parentCluster;";
                 constructorArgumentParentClusterClause = $"{Parent!.JointPayload.Joint.JointPayload.DeclaredClusterType.Name} parentCluster";
                 assignParentClusterClause = $"_parentCluster = parentCluster;";
+
+                var parameterlessConstructor = declaredClusterType.InstanceConstructors.FirstOrDefault(c => c.Parameters.Length == 0);
+                if (parameterlessConstructor?.IsImplicitlyDeclared ?? false)
+                {
+                    parameterlessConstructorClause = $@"
+protected {declaredClusterType.Name}()
+{{
+}}
+";
+                }
             }
 
-            
-
             return $@"
-{JointPayload.Joint.JointPayload.DeclaredClusterType.DeclaredAccessibility.ToSource()} partial class {JointPayload.Joint.JointPayload.DeclaredClusterType.Name} : {nameof(IDisposable)}, {nameof(IBindingProvider)}
+{declaredClusterType.DeclaredAccessibility.ToSource()} partial class {declaredClusterType.Name} : {nameof(IDisposable)}, {nameof(IBindingProvider)}
     {JointPayload.GetCombinedInterfaces()}
 {{
     {fieldParentClusterClause}
@@ -321,13 +332,15 @@ private class SuperCluster :
         get;
     }}
 
-    public string DeclaredClusterType => ""{JointPayload.Joint.JointPayload.DeclaredClusterType.Name}"";
+    public string DeclaredClusterType => ""{declaredClusterType.Name}"";
 
-    public bool IsRootCluster => DeclaredClusterType == ""{((JointPayload.Joint.JointPayload.DeclaredClusterType.BaseType!.GetFullName() == "System.Object") ? "true" : "false")}"";
+    public bool IsRootCluster => DeclaredClusterType == ""{((declaredClusterType.BaseType!.GetFullName() == "System.Object") ? "true" : "false")}"";
 
     public {typeof(IBeautifier).FullName} Beautifier => _beautifier;
 
-    public {JointPayload.Joint.JointPayload.DeclaredClusterType.Name}({constructorArgumentParentClusterClause})
+    {parameterlessConstructorClause}
+
+    public {declaredClusterType.Name}({constructorArgumentParentClusterClause})
     {{
         {assignParentClusterClause}
 

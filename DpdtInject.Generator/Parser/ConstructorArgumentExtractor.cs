@@ -172,30 +172,6 @@ namespace DpdtInject.Generator.Parser
             var workingType = this.Type;
             DpdtArgumentWrapperTypeEnum wrapperType = DpdtArgumentWrapperTypeEnum.None;
 
-            //var pairs = new List<ClusterPair>();
-            //if (!clusterGeneratorJoint.TryGetPairs(
-            //    workingType,
-            //    false,
-            //    ref pairs
-            //    ))
-            //{
-            //    //this type is not registered in the current cluster and its parent clusters
-
-            //    if (!workingType.TryDetectWrapperType(out wrapperType, out var innerType))
-            //    {
-            //        //no, it's not a wrapper
-            //        throw new DpdtException(
-            //            DpdtExceptionTypeEnum.NoBindingAvailable,
-            //            $"No bindings [{workingType.GetFullName()}] available for [{bindingContainer.TargetRepresentation}]",
-            //            workingType.GetFullName()
-            //            );
-            //    }
-
-            //    //it's a wrapper
-            //}
-
-
-
             var registeredKeys = new List<(DpdtArgumentWrapperTypeEnum, ITypeSymbol)>();
             if (!clusterGeneratorJoint.TryGetRegisteredKeys(workingType, false, ref registeredKeys))
             {
@@ -222,43 +198,6 @@ namespace DpdtInject.Generator.Parser
                     workingType.GetFullName()
                     );
             }
-
-
-
-
-
-            //var instanceContainerCluster = clusterGeneratorJoint.JointPayload.Joint.JointPayload;
-
-            //DpdtArgumentWrapperTypeEnum wrapperType = DpdtArgumentWrapperTypeEnum.None;
-            //if (instanceContainerCluster.GetRegisteredKeys(false).All(p => !SymbolEqualityComparer.Default.Equals(p.Item2, workingType)))
-            //{
-            //    //this type is not registered in the cluster
-            //    if (!workingType.TryDetectWrapperType(out wrapperType, out var innerType))
-            //    {
-            //        //no, it's not a wrapper
-            //        throw new DpdtException(
-            //            DpdtExceptionTypeEnum.NoBindingAvailable,
-            //            $"No bindings [{workingType.GetFullName()}] available for [{bindingContainer.TargetRepresentation}]",
-            //            workingType.GetFullName()
-            //            );
-            //    }
-
-            //    //it's a wrapper
-            //}
-
-
-            //if(!instanceContainerCluster.TryGetRegisteredGeneratorGroups(workingType, true, out var groups))
-            //{
-            //    throw new DpdtException(
-            //        DpdtExceptionTypeEnum.NoBindingAvailable,
-            //        $"No bindings [{workingType.GetFullName()}] available for [{bindingContainer.TargetRepresentation}]",
-            //        workingType.GetFullName()
-            //        );
-            //}
-
-            //var generators = groups.Collapse(
-            //    group => group.Generators
-            //    );
 
             var exceptionSuffix =
                 pairs.Count > 1
@@ -391,22 +330,6 @@ if({pair.InstanceContainerGenerator.ClassName}.CheckPredicate({createContextWith
 }}
 ";
                         }
-                        else
-                        {
-                            applyArgumentPiece += $@"
-var {pair.InstanceContainerGenerator.GetVariableStableName()} = false;
-if({pair.InstanceContainerGenerator.ClassName}.CheckPredicate(null))
-{{
-    if(++allowedChildrenCount > 1)
-    {{
-        {ExceptionGenerator.GenerateThrowExceptionClause(DpdtExceptionTypeEnum.DuplicateBinding, $"Too many bindings [{workingType.GetFullName()}] available for [{bindingContainer.TargetRepresentation}]", workingType.GetFullName())}
-    }}
-
-    {pair.InstanceContainerGenerator.GetVariableStableName()} = true;
-}}
-";
-                        }
-                        
                     }
 
                     applyArgumentPiece += $@"

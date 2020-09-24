@@ -180,7 +180,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                         foreach (var generator in pair.Value.Generators)
                         {
                             var point2 = new Point2(
-                                this,
+                                joint,
                                 generator
                                 );
 
@@ -206,7 +206,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                             foreach (var bindFrom in generator.BindFromTypes)
                             {
                                 var point3 = new Point3(
-                                    this,
+                                    joint,
                                     generator,
                                     bindFrom
                                     );
@@ -240,7 +240,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                                 }
 
                                 var point3 = new Point3(
-                                    this,
+                                    joint,
                                     generator,
                                     ca.Type
                                     );

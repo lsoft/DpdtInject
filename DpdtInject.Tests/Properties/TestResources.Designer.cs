@@ -274,18 +274,96 @@ namespace DpdtInject.Tests.Properties {
         ///using System.Text;
         ///using System.Threading.Tasks;
         ///
-        ///namespace DpdtInject.Tests.Cluster.Two.DifferentObjectDifferentCluster1
+        ///namespace DpdtInject.Tests.Cluster.DifferentObjectDifferentCluster1
         ///{
         ///    public partial class ClusterTwoDifferentObjectDifferentCluster1Module : DpdtModule
         ///    {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IA&gt;()
-        ///             [rest of string was truncated]&quot;;.
+        ///                 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterTwoDifferentObjectDifferentCluster1Module {
             get {
                 return ResourceManager.GetString("ClusterTwoDifferentObjectDifferentCluster1Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Cluster.DifferentObjectDifferentCluster2
+        ///{
+        ///    public partial class ClusterTwoDifferentObjectDifferentCluster2Module : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ClusterTwoDifferentObjectDifferentCluster2Module {
+            get {
+                return ResourceManager.GetString("ClusterTwoDifferentObjectDifferentCluster2Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Cluster.DifferentObjectDifferentCluster3
+        ///{
+        ///    public partial class ClusterTwoDifferentObjectDifferentCluster3Module : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ClusterTwoDifferentObjectDifferentCluster3Module {
+            get {
+                return ResourceManager.GetString("ClusterTwoDifferentObjectDifferentCluster3Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Cluster.DifferentObjectDifferentCluster4
+        ///{
+        ///    public partial class ClusterTwoDifferentObjectDifferentCluster4Module : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ClusterTwoDifferentObjectDifferentCluster4Module {
+            get {
+                return ResourceManager.GetString("ClusterTwoDifferentObjectDifferentCluster4Module", resourceCulture);
             }
         }
         
@@ -1302,13 +1380,13 @@ namespace DpdtInject.Tests.Properties {
         ///using System.Threading.Tasks;
         ///using DpdtInject.Injector.Module.Bind;
         ///using DpdtInject.Injector.Excp;
+        ///using System.Runtime.InteropServices;
         ///
         ///namespace DpdtInject.Tests.Unsorted.SameChildren
         ///{
         ///    public partial class UnsortedSameChildrenModule : DpdtModule
         ///    {
-        ///        public const string Message = &quot;some message&quot;;
-        ///        /// [rest of string was truncated]&quot;;.
+        ///        public co [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedSameChildrenModule {
             get {

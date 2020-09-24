@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DpdtInject.Tests.Cluster.Two.DifferentObjectDifferentCluster1
+namespace DpdtInject.Tests.Cluster.DifferentObjectDifferentCluster2
 {
-    public partial class ClusterTwoDifferentObjectDifferentCluster1Module : DpdtModule
+    public partial class ClusterTwoDifferentObjectDifferentCluster2Module : DpdtModule
     {
         public override void Load()
         {
@@ -20,10 +20,16 @@ namespace DpdtInject.Tests.Cluster.Two.DifferentObjectDifferentCluster1
                 .InCluster<DefaultCluster>()
                 ;
 
+            Bind<IA>()
+                .To<A>()
+                .WithSingletonScope()
+                .InCluster<ChildCluster2>()
+                ;
+
             Bind<IB>()
                 .To<B>()
                 .WithSingletonScope()
-                .InCluster<ChildCluster>()
+                .InCluster<ChildCluster1>()
                 ;
         }
 
@@ -31,23 +37,29 @@ namespace DpdtInject.Tests.Cluster.Two.DifferentObjectDifferentCluster1
         {
         }
 
-        public partial class ChildCluster : DefaultCluster
+        public partial class ChildCluster1 : DefaultCluster
         {
         }
 
+        public partial class ChildCluster2 : DefaultCluster
+        {
+        }
 
-        public class ClusterTwoDifferentObjectDifferentCluster1ModuleTester
+        public class ClusterTwoDifferentObjectDifferentCluster2ModuleTester
         {
             public void PerformModuleTesting()
             {
-                var module = new FakeModule<ClusterTwoDifferentObjectDifferentCluster1Module>();
+                var module = new FakeModule<ClusterTwoDifferentObjectDifferentCluster2Module>();
 
                 var a0 = module.Get<IA>();
                 Assert.IsNotNull(a0);
 
-                var b0 = module.Get<ChildCluster, IB>();
-                Assert.IsNotNull(b0);
+                var a1 = module.Get<ChildCluster2, IA>();
+                Assert.IsNotNull(a1);
+                Assert.AreNotSame(a0, a1);
 
+                var b0 = module.Get<ChildCluster1, IB>();
+                Assert.IsNotNull(b0);
                 Assert.AreSame(a0, b0.A);
             }
         }

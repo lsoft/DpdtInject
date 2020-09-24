@@ -575,13 +575,8 @@ namespace DpdtInject.Generator.Parser
             //constructor argument names exists
             //we should choose appropriate constructor
             IMethodSymbol chosenConstructor = null!;
-            foreach (var constructor in fullBindToTypeName.Constructors)
+            foreach (var constructor in fullBindToTypeName.InstanceConstructors)
             {
-                if(constructor.IsStatic)
-                {
-                    continue;
-                }
-
                 if (!ContainsAllArguments(constructor, constructorArguments))
                 {
                     continue;

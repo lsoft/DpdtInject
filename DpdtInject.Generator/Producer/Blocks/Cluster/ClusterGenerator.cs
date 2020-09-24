@@ -65,15 +65,6 @@ namespace DpdtInject.Generator.Producer.Blocks.Cluster
 
             _interfaceSection = new List<ClusterInterfaceGenerator>();
 
-            //if (Joint.JointPayload.IsRootCluster)
-            //{
-            //    ClusterClassName = $"DefaultCluster";
-            //}
-            //else
-            //{
-            //    ClusterClassName = $"Cluster{GetHashCode()}";
-            //}
-
             foreach (var (_, bindFromType) in Joint.JointPayload.GetRegisteredKeys(false))
             {
                 if (Joint.JointPayload.TryGetRegisteredGeneratorGroups(bindFromType, false, out var groups))
