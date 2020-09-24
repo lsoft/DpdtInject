@@ -17,8 +17,54 @@ using System.Text;
 
 namespace DpdtInject.Generator.Producer.Blocks.Binding
 {
-    public class InstanceContainerGeneratorsContainer
+    internal interface IInstanceContainerGeneratorsContainer
+    {
+        InstanceContainerGeneratorTree GeneratorTree
+        {
+            get;
+        }
 
+        void Analyze(
+            IDiagnosticReporter diagnosticReporter
+            );
+    }
+
+    internal class TimedInstanceContainerGeneratorsContainer : IInstanceContainerGeneratorsContainer
+    {
+        private readonly IDiagnosticReporter _diagnosticReporter;
+        private readonly IInstanceContainerGeneratorsContainer _container;
+
+        public InstanceContainerGeneratorTree GeneratorTree => _container.GeneratorTree;
+
+        public TimedInstanceContainerGeneratorsContainer(
+            IDiagnosticReporter diagnosticReporter,
+            IInstanceContainerGeneratorsContainer container
+            )
+        {
+            if (diagnosticReporter is null)
+            {
+                throw new ArgumentNullException(nameof(diagnosticReporter));
+            }
+
+            if (container is null)
+            {
+                throw new ArgumentNullException(nameof(container));
+            }
+            _diagnosticReporter = diagnosticReporter;
+            _container = container;
+        }
+
+        public void Analyze(IDiagnosticReporter diagnosticReporter)
+        {
+            using (new DTimer(_diagnosticReporter, "Dpdt analyze time taken"))
+            {
+                _container.Analyze(diagnosticReporter);
+            }
+        }
+    }
+
+
+    internal class InstanceContainerGeneratorsContainer : IInstanceContainerGeneratorsContainer
     {
         private readonly List<InstanceContainerGenerator> _generators;
         private readonly List<InstanceContainerGeneratorCluster> _generatorClusters;
@@ -104,7 +150,16 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
         }
 
-        internal void AnalyzeForCircularDependencies(
+        public void Analyze(
+            IDiagnosticReporter diagnosticReporter
+            )
+        {
+            AnalyzeForUnknownBindings(diagnosticReporter);
+            AnalyzeForCircularDependencies(diagnosticReporter);
+            AnalyzeForSingletonTakesTransient(diagnosticReporter);
+        }
+
+        private void AnalyzeForCircularDependencies(
             IDiagnosticReporter diagnosticReporter
             )
         {
@@ -113,12 +168,15 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                 throw new ArgumentNullException(nameof(diagnosticReporter));
             }
 
-            new CycleChecker(GeneratorTree.Joint)
-                .CheckForCycles(diagnosticReporter)
-                ;
+            new TimedCycleChecker(
+                diagnosticReporter,
+                new CycleChecker(
+                    diagnosticReporter
+                    )
+                ).CheckForCycles(GeneratorTree.Joint);
         }
 
-        internal void AnalyzeForUnknownBindings(
+        private void AnalyzeForUnknownBindings(
             IDiagnosticReporter diagnosticReporter
             )
         {
@@ -137,7 +195,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             }
         }
 
-        internal void AnalyzeForSingletonTakesTransient(
+        private void AnalyzeForSingletonTakesTransient(
             IDiagnosticReporter diagnosticReporter
             )
         {

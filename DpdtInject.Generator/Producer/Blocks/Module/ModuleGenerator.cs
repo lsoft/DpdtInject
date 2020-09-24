@@ -17,7 +17,7 @@ using System.Threading;
 
 namespace DpdtInject.Generator.Producer.Blocks.Module
 {
-    internal class ModuleGenerator
+    internal class ModuleGenerator : IModuleGenerator
     {
         private readonly Compilation _compilation;
 
@@ -49,7 +49,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Module
         }
 
         public string GenerateModuleBody(
-            InstanceContainerGeneratorsContainer container
+            IInstanceContainerGeneratorsContainer container
             )
         {
             if (container is null)

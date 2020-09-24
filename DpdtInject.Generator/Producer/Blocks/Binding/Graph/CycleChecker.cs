@@ -12,18 +12,11 @@ using System.Linq;
 
 namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
 {
-    public class CycleChecker
+    public class CycleChecker : ICycleChecker
     {
-        private readonly InstanceContainerGeneratorTreeJoint _joint;
+        private readonly IDiagnosticReporter _reporter;
 
         public CycleChecker(
-            InstanceContainerGeneratorTreeJoint joint
-            )
-        {
-            _joint = joint;
-        }
-
-        public void CheckForCycles(
             IDiagnosticReporter reporter
             )
         {
@@ -32,11 +25,23 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
                 throw new ArgumentNullException(nameof(reporter));
             }
 
+            _reporter = reporter;
+        }
+
+        public void CheckForCycles(
+            InstanceContainerGeneratorTreeJoint joint
+            )
+        {
+            if (joint is null)
+            {
+                throw new ArgumentNullException(nameof(joint));
+            }
+
             var cycles = new HashSet<CycleFoundException>(
                 new OrderIndependentCycleFoundEqualityComparer()
                 );
 
-            foreach (var point2 in _joint.GeneratePoints2().Shuffle())
+            foreach (var point2 in joint.GeneratePoints2().Shuffle())
             {
                 try
                 {
@@ -67,7 +72,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
                 }
                 else
                 {
-                    reporter.ReportWarning(
+                    _reporter.ReportWarning(
                         $"Perhaps a circular dependency was found",
                         $"Perhaps a circular dependency was found, please take a look: [{cycle.GetStringRepresentation()}]"
                         );
@@ -113,7 +118,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.Graph
 
                 if (childPoint3.TryFindChildren(out var childrenPoint2))
                 {
-                    foreach(var childPoint2 in childrenPoint2)
+                    foreach (var childPoint2 in childrenPoint2)
                     {
                         var used2 = used.Clone();
 

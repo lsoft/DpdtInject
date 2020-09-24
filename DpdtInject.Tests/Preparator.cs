@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Generator;
+using DpdtInject.Injector;
 using DpdtInject.Injector.Excp;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -15,7 +16,7 @@ using System.Text.RegularExpressions;
 
 namespace DpdtInject.Tests
 {
-    internal class Preparator //: IKernelProvider
+    internal class Preparator
     {
         private readonly TestContext _testContext;
         private readonly string _testerClassName;
@@ -73,7 +74,6 @@ namespace DpdtInject.Tests
 
                 var trustedAssembliesPaths = ((string)AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")).Split(Path.PathSeparator);
                 var references = trustedAssembliesPaths
-                    //.Where(p => this.GetType().Assembly.GetReferencedAssemblies().Any(ra => ra.Name == Path.GetFileNameWithoutExtension(p)))
                     .Where(path => !IsSkippedAssembly(path))
                     .Select(p => MetadataReference.CreateFromFile(p))
                     .ToList();
@@ -83,7 +83,6 @@ namespace DpdtInject.Tests
                 var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
                     .WithOverflowChecks(true)
                     .WithOptimizationLevel(OptimizationLevel.Debug)
-                    //.WithUsings(DefaultNamespaces)
                     ;
 
                 var compilation = CSharpCompilation.Create(
@@ -122,9 +121,13 @@ namespace DpdtInject.Tests
                     modificationDescription.ModifiedTypeName + ".dll"
                     );
 
-                var emitResult = compilation.Emit(compiledDllPath);
+                Microsoft.CodeAnalysis.Emit.EmitResult emitResult;
+                using (new DTimer(DiagnosticReporter, "Dpdt unit test actual compilation time taken"))
+                {
+                    emitResult = compilation.Emit(compiledDllPath);
 
-                Assert.IsTrue(emitResult.Success, string.Join(Environment.NewLine, emitResult.Diagnostics));
+                    Assert.IsTrue(emitResult.Success, string.Join(Environment.NewLine, emitResult.Diagnostics));
+                }
 
                 TestAssemblyLoadContext talContext = null;
                 try
@@ -133,7 +136,6 @@ namespace DpdtInject.Tests
 
                     var compiledAssembly = talContext.LoadFromAssemblyPath(compiledDllPath);
 
-                    //var moduleTypeName = modificationDescription.ModifiedTypeFullName;
                     var testerType = compiledAssembly.GetTypes().FirstOrDefault(t => t.Name == _testerClassName);
 
                     if (testerType == null)
@@ -153,28 +155,6 @@ namespace DpdtInject.Tests
                         );
 
                     method.Invoke(tester, null);
-
-                    //var testerInterface = testerType.GetInterface(nameof(IDpdtModuleTester));
-                    //if (testerInterface == null || testerInterface.FullName != typeof(IDpdtModuleTester).FullName)
-                    //{
-                    //    throw new DpdtException(
-                    //        DpdpExceptionTypeEnum.InvalidTestConfiguration,
-                    //        $"Module tester {testerType.Name} must implement {nameof(IDpdtModuleTester)}.",
-                    //        testerType.Name
-                    //        );
-                    //}
-
-                    //var tester = (IDpdtModuleTester)Activator.CreateInstance(testerType);
-
-                    //try
-                    //{
-                    //    var method = testerType.GetMethod(nameof(IDpdtModuleTester.PerformModuleTesting));
-                    //    method.Invoke(tester, new[] { this } );
-                    //}
-                    //catch (Exception excp)
-                    //{
-                    //    throw;
-                    //}
                 }
                 finally
                 {
@@ -190,87 +170,6 @@ namespace DpdtInject.Tests
                 //throw;
             }
         }
-
-        //public (DpdtKernel, ResolutionRoot) CreateAndConfigure(BindingNameTree bindingNameTree, DpdtModule module)
-        //{
-        //    if (bindingNameTree is null)
-        //    {
-        //        throw new ArgumentNullException(nameof(bindingNameTree));
-        //    }
-
-        //    if (module is null)
-        //    {
-        //        throw new ArgumentNullException(nameof(module));
-        //    }
-
-        //    var kernel = new DpdtKernel(bindingNameTree);
-        //    kernel.Load(module);
-        //    var resolutionRoot = kernel.FixConfiguration();
-
-        //    return (kernel, resolutionRoot);
-        //}
-
-        //public (DpdtKernel, ResolutionRoot) CreateAndConfigure(
-        //    DpdtSettings settings,
-        //    DpdtModule module
-        //    )
-        //{
-        //    if (settings is null)
-        //    {
-        //        throw new ArgumentNullException(nameof(settings));
-        //    }
-
-        //    if (module is null)
-        //    {
-        //        throw new ArgumentNullException(nameof(module));
-        //    }
-
-        //    var kernel = new DpdtKernel(settings);
-        //    kernel.Load(module);
-        //    var resolutionRoot = kernel.FixConfiguration();
-
-        //    return (kernel, resolutionRoot);
-        //}
-
-        //public (DpdtKernel, ResolutionRoot) CreateAndConfigure(
-        //    DpdtSettings settings,
-        //    BindingNameTree bindingNameTree,
-        //    DpdtModule module
-        //    )
-        //{
-        //    if (settings is null)
-        //    {
-        //        throw new ArgumentNullException(nameof(settings));
-        //    }
-
-        //    if (bindingNameTree is null)
-        //    {
-        //        throw new ArgumentNullException(nameof(bindingNameTree));
-        //    }
-
-        //    if (module is null)
-        //    {
-        //        throw new ArgumentNullException(nameof(module));
-        //    }
-
-        //    var kernel = new DpdtKernel(settings, bindingNameTree);
-        //    kernel.Load(module);
-        //    var resolutionRoot = kernel.FixConfiguration();
-
-        //    return (kernel, resolutionRoot);
-        //}
-
-
-        //public (DpdtKernel, ResolutionRoot) CreateAndConfigure(DpdtModule module)
-        //{
-        //    if (module is null)
-        //    {
-        //        throw new ArgumentNullException(nameof(module));
-        //    }
-
-        //    return CreateAndConfigure(new EmptyBindingNameTree(), module);
-        //}
-
 
         public static bool IsSkippedAssembly(
             string assemblyPath

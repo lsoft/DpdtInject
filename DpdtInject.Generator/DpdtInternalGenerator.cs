@@ -2,6 +2,7 @@
 using DpdtInject.Generator.Parser;
 using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Producer.Blocks.Module;
+using DpdtInject.Generator.Scanner;
 using DpdtInject.Generator.Tree;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Compilation;
@@ -60,13 +61,13 @@ namespace DpdtInject.Generator
             {
                 var result = ExecutePrivate(
                     compilation
-                ).ToList();
+                );
 
                 return result;
             }
         }
 
-        private IEnumerable<ModificationDescription> ExecutePrivate(
+        private IReadOnlyList<ModificationDescription> ExecutePrivate(
             Compilation compilation
             )
         {
@@ -75,38 +76,44 @@ namespace DpdtInject.Generator
                 throw new ArgumentNullException(nameof(compilation));
             }
 
-            var allTypes = compilation.GlobalNamespace.GetAllTypes().ToList();
-            var moduleTypes = allTypes
-                //.Where(t => !t.ContainingAssembly.GetAttributes().Any(a => a.AttributeClass.GetFullName() == typeof(DpDtSkipAssembly).FullName))
-                .Where(t => t.BaseType != null)
-                .Where(t => t.BaseType!.GetFullName() == typeof(DpdtModule).FullName)
-                //.Where(t => t.GetFullName() == "DpdtInject.TestConsole.xxx")
-                .ToList()
-                ;
+            var result = new List<ModificationDescription>();
+
+            var scanner = new TimedTypeScanner(
+                _diagnosticReporter,
+                new DefaultTypeScanner(
+                    )
+                );
+
+            var moduleTypes = scanner.Scan(
+                compilation
+                );
 
             foreach (var moduleType in moduleTypes)
             {
-                var loadMethods = moduleType.GetMembers(nameof(DpdtModule.Load));
-
-                if (loadMethods.Length != 1)
+                MethodDeclarationSyntax loadMethodSyntax;
+                CompilationUnitSyntax? compilationUnitSyntax;
+                using (new DTimer(_diagnosticReporter, "unsorted time taken"))
                 {
-                    throw new Exception($"Something wrong with type {moduleType.GetFullName()}");
+                    var loadMethods = moduleType.GetMembers(nameof(DpdtModule.Load));
+                    if (loadMethods.Length != 1)
+                    {
+                        throw new Exception($"Something wrong with type {moduleType.GetFullName()}");
+                    }
+
+                    var loadMethod = loadMethods[0];
+
+                    var loadMethodRefs = loadMethod.DeclaringSyntaxReferences;
+                    if (loadMethodRefs.Length != 1)
+                    {
+                        throw new Exception($"Something wrong with method {loadMethod.GetFullName()} : {loadMethodRefs.Length}");
+                    }
+
+                    var loadMethodRef = loadMethodRefs[0];
+
+                    loadMethodSyntax = (MethodDeclarationSyntax)loadMethodRef.GetSyntax();
+                    compilationUnitSyntax = loadMethodSyntax.Root<CompilationUnitSyntax>();
                 }
 
-                var loadMethod = loadMethods[0];
-
-                var loadMethodRefs = loadMethod.DeclaringSyntaxReferences;
-
-                if (loadMethodRefs.Length != 1)
-                {
-                    throw new Exception($"Something wrong with method {loadMethod.GetFullName()} : {loadMethodRefs.Length}");
-                }
-
-                var loadMethodRef = loadMethodRefs[0];
-
-                var loadMethodSyntax = (MethodDeclarationSyntax)loadMethodRef.GetSyntax();
-
-                var compilationUnitSyntax = loadMethodSyntax.Root<CompilationUnitSyntax>();
                 if (compilationUnitSyntax == null)
                 {
                     throw new DpdtException(
@@ -115,9 +122,12 @@ namespace DpdtInject.Generator
                         );
                 }
 
-                var bindExtractor = new BindExtractor(
-                    compilation,
-                    compilationUnitSyntax
+                var bindExtractor = new TimedBindExtractor(
+                    _diagnosticReporter,
+                    new BindExtractor(
+                        compilation,
+                        compilationUnitSyntax
+                        )
                     );
 
                 bindExtractor.Visit(loadMethodSyntax);
@@ -126,26 +136,40 @@ namespace DpdtInject.Generator
                     moduleType
                     );
 
-                var itemGeneratorsContainer = new InstanceContainerGeneratorsContainer(
+                var itemGeneratorsContainer =
+                    new TimedInstanceContainerGeneratorsContainer(
+                        _diagnosticReporter,
+                        new InstanceContainerGeneratorsContainer(
+                            _diagnosticReporter,
+                            compilation,
+                            bindingsContainer
+                            )
+                        );
+
+                itemGeneratorsContainer.Analyze(_diagnosticReporter);
+
+                var moduleGenerator = new TimedModuleGenerator(
                     _diagnosticReporter,
-                    compilation,
-                    bindingsContainer
+                    new ModuleGenerator(
+                        compilation,
+                        moduleType
+                        )
                     );
 
-                itemGeneratorsContainer.AnalyzeForUnknownBindings(_diagnosticReporter);
-                itemGeneratorsContainer.AnalyzeForCircularDependencies(_diagnosticReporter);
-                itemGeneratorsContainer.AnalyzeForSingletonTakesTransient(_diagnosticReporter);
-
-                var modulePartGenerator = new ModuleGenerator(
-                    compilation,
-                    moduleType
+                var moduleSourceCode = moduleGenerator.GenerateModuleBody(
+                    itemGeneratorsContainer
                     );
 
-                var modificationDescription = new ModificationDescription(
-                    moduleType,
-                    moduleType.Name + Guid.NewGuid().RemoveMinuses() + "_1.cs",
-                    modulePartGenerator.GenerateModuleBody(itemGeneratorsContainer)
-                    );
+                ModificationDescription modificationDescription;
+                using (new DTimer(_diagnosticReporter, "Dpdt beautify generated code time taken"))
+                {
+                    modificationDescription = new ModificationDescription(
+                        moduleType,
+                        moduleType.Name + Guid.NewGuid().RemoveMinuses() + "_1.cs",
+                        moduleSourceCode,
+                        !string.IsNullOrEmpty(_generatedFilePath)
+                        );
+                }
 
                 if (!string.IsNullOrEmpty(_generatedFilePath))
                 {
@@ -159,9 +183,10 @@ namespace DpdtInject.Generator
                     File.WriteAllText(_generatedFilePath, generatedSource);
                 }
 
-                yield return modificationDescription;
+                result.Add(modificationDescription);
             }
 
+            return result;
         }
     }
 }

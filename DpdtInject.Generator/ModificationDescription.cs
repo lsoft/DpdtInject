@@ -24,7 +24,8 @@ namespace DpdtInject.Generator
         public ModificationDescription(
             INamedTypeSymbol modifiedType,
             string newFileName,
-            string newFileBody
+            string newFileBody,
+            bool needToNormalizeWhitespaces
             )
         {
             if (modifiedType is null)
@@ -41,7 +42,14 @@ namespace DpdtInject.Generator
             NewFileName = newFileName;
 
             //make this generated code beautify a bit
-            NewFileBody = SyntaxFactory.ParseCompilationUnit(newFileBody).NormalizeWhitespace().GetText().ToString();
+            if(needToNormalizeWhitespaces)
+            {
+                NewFileBody = SyntaxFactory.ParseCompilationUnit(newFileBody).NormalizeWhitespace().GetText().ToString();
+            }
+            else
+            {
+                NewFileBody = newFileBody;
+            }
         }
 
     }

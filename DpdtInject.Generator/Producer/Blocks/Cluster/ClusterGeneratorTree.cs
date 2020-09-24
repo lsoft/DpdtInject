@@ -63,8 +63,16 @@ namespace DpdtInject.Generator.Producer.Blocks.Cluster
             Joint.Apply(
                 (TreeJoint<ClusterGenerator> joint) =>
                 {
-                    var usings = joint.JointPayload.Joint.JointPayload.Generators.Join(sc => sc.Usings.Join(c => c));
-                    container.Add(usings);
+                    foreach(var generator in joint.JointPayload.Joint.JointPayload.Generators)
+                    {
+                        foreach(var usingz in generator.Usings)
+                        {
+                            container.Add(usingz);
+                        }
+                    }
+
+                    //var usings = joint.JointPayload.Joint.JointPayload.Generators.Join(sc => sc.Usings.Join(c => c));
+                    //container.Add(usings);
                 }
                 );
 

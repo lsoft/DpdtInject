@@ -88,7 +88,7 @@ namespace DpdtInject.Generator.Parser
 
             var declaredClusterType = DetermineCluster(genericNodes);
 
-            if(declaredClusterType is null)
+            if (declaredClusterType is null)
             {
                 //cluster should be defined
                 throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, "Cluster should be defined");
@@ -96,7 +96,7 @@ namespace DpdtInject.Generator.Parser
 
             var expressionText = expressionNode.GetText().ToString();
 
-            if(!expressionText.Contains(nameof(IToOrConstantBinding.WithConstScope)))
+            if (!expressionText.Contains(nameof(IToOrConstantBinding.WithConstScope)))
             {
                 if (!expressionText.Contains(nameof(IScopeBinding.WithSingletonScope)))
                 {
@@ -181,7 +181,7 @@ namespace DpdtInject.Generator.Parser
                 nameof(IToOrConstantBinding.WithConstScope)
                 );
 
-            if(constantClause is null)
+            if (constantClause is null)
             {
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"Cannot find constant clause");
             }
@@ -501,12 +501,12 @@ namespace DpdtInject.Generator.Parser
                 .ToList()
                 ;
 
-            var index = ednodes.FindIndex(n => 
-                (n is IdentifierNameSyntax ins) 
+            var index = ednodes.FindIndex(n =>
+                (n is IdentifierNameSyntax ins)
                 && ins.Identifier.Text == identifierName
                 );
 
-            if(index < 0)
+            if (index < 0)
             {
                 return null;
             }
@@ -517,7 +517,7 @@ namespace DpdtInject.Generator.Parser
 
             var ai = ednodes[index + 1];
 
-            if(ai is not ArgumentListSyntax als)
+            if (ai is not ArgumentListSyntax als)
             {
                 return null;
             }
