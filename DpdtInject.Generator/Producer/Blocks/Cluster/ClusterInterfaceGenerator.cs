@@ -104,7 +104,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Cluster
 
             var emptyContextReference = $"{typeof(ResolutionContext).FullName}.{nameof(ResolutionContext.EmptyContext)}";
 
-            var createContextClause = "";
+            var resolutionFrameSection = "";
 
             #region ResolutionContext variables
 
@@ -122,16 +122,16 @@ namespace DpdtInject.Generator.Producer.Blocks.Cluster
             {
                 var createContextVariableName = createContextVariableNameDict[generator.GetVariableStableName()];
 
-                createContextClause += $@"
+                resolutionFrameSection += $@"
 private static readonly {nameof(ResolutionContext)} {createContextVariableName} = {emptyContextReference}.{nameof(ResolutionContext.AddFrame)}(
-    {ResolutionFrameGenerator.GetNewFrameClause(BindFromTypeFullName, generator.BindingContainer.BindToType.GetFullName())}
+    {ResolutionFrameGenerator.GetNewFrameClause(clusterGenerator.Joint.JointPayload.DeclaredClusterType.Name, BindFromTypeFullName, generator.BindingContainer.BindToType.GetFullName())}
     );
 ";
             }
 
             #region ResolutionFrameSection
 
-            ResolutionFrameSection = createContextClause;
+            ResolutionFrameSection = resolutionFrameSection;
 
             #endregion
 

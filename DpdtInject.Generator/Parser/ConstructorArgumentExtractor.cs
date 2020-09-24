@@ -228,7 +228,7 @@ namespace DpdtInject.Generator.Parser
 
                 createFrameClause += $@"
 private static readonly {nameof(ResolutionFrame)} {createFrameVariableName} =
-    {ResolutionFrameGenerator.GetNewFrameClause(workingType.GetFullName(), pair.InstanceContainerGenerator.BindingContainer.BindToType.GetFullName(), Name)};
+    {ResolutionFrameGenerator.GetNewFrameClause(pair.Joint.JointPayload.Joint.JointPayload.DeclaredClusterType.Name, workingType.GetFullName(), pair.InstanceContainerGenerator.BindingContainer.BindToType.GetFullName(), Name)};
 ";
             }
 
