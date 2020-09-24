@@ -154,6 +154,9 @@
   <data name="ClusterTwoDifferentObjectDifferentCluster4Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Cluster\DifferentObjectDifferentCluster4\ClusterTwoDifferentObjectDifferentCluster4Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="ClusterTwoDifferentObjectDifferentCluster5FuncModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Cluster\DifferentObjectDifferentCluster5Func\ClusterTwoDifferentObjectDifferentCluster5FuncModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="ConditionalHierarchy2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Conditional\Hierarchy2\ConditionalHierarchy2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
