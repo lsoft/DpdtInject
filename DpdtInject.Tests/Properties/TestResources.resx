@@ -280,11 +280,17 @@
   <data name="UnsortedCircularDependency3Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\CircularDependency3\UnsortedCircularDependency3Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="UnsortedNativeTypeArgument0Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\NativeTypeArgument0\UnsortedNativeTypeArgument0Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="UnsortedOptionalArgument0Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\OptionalArgument0\UnsortedOptionalArgument0Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="UnsortedOptionalArgument1Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\OptionalArgument1\UnsortedOptionalArgument1Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="UnsortedSameChildren2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\SameChildren2\UnsortedSameChildren2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="UnsortedSameChildrenModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\SameChildren\UnsortedSameChildrenModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>

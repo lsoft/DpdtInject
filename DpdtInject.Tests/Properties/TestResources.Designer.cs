@@ -1524,6 +1524,32 @@ namespace DpdtInject.Tests.Properties {
         ///using System.Threading.Tasks;
         ///using DpdtInject.Injector.Module.Bind;
         ///
+        ///namespace DpdtInject.Tests.Unsorted.NativeTypeArgument0
+        ///{
+        ///    public partial class UnsortedNativeTypeArgument0Module : DpdtModule
+        ///    {
+        ///        public const string DefaultMessage = &quot;default message&quot;;
+        ///
+        ///         [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedNativeTypeArgument0Module {
+            get {
+                return ResourceManager.GetString("UnsortedNativeTypeArgument0Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///
         ///namespace DpdtInject.Tests.Unsorted.OptionalArgument0
         ///{
         ///    public partial class UnsortedOptionalArgument0Module : DpdtModule
@@ -1560,6 +1586,32 @@ namespace DpdtInject.Tests.Properties {
         internal static string UnsortedOptionalArgument1Module {
             get {
                 return ResourceManager.GetString("UnsortedOptionalArgument1Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using DpdtInject.Injector.Excp;
+        ///using System.Runtime.InteropServices;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.SameChildren2
+        ///{
+        ///    public partial class UnsortedSameChildren2Module : DpdtModule
+        ///    {
+        ///        public const string Mess [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedSameChildren2Module {
+            get {
+                return ResourceManager.GetString("UnsortedSameChildren2Module", resourceCulture);
             }
         }
         
