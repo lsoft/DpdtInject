@@ -27,7 +27,7 @@ namespace DpdtInject.Tests.Cluster.DifferentObjectDifferentCluster1
                 ;
         }
 
-        public partial class DefaultCluster //: DpdtCluster
+        public partial class DefaultCluster 
         {
         }
 

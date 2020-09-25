@@ -221,7 +221,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         }
 
 
-        internal IReadOnlyList<Point3> GenerateChildPoints()
+        internal IReadOnlyList<Point3> GenerateChildPoints(bool includeArgumentsWithDefaultValue)
         {
             var result = new List<Point3>();
 
@@ -232,11 +232,22 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                     {
                         foreach (var generator in pair.Value.Generators)
                         {
-                            foreach (var ca in generator.BindingContainer.ConstructorArguments.Where(ca => !ca.DefineInBindNode))
+                            foreach (var ca in generator.BindingContainer.ConstructorArguments)
                             {
                                 if (ca.Type is null)
                                 {
-                                    throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, $"ca.Type is null somehow");
+                                    continue;
+                                }
+                                if (ca.DefineInBindNode)
+                                {
+                                    continue;
+                                }
+                                if (ca.HasExplicitDefaultValue)
+                                {
+                                    if(!includeArgumentsWithDefaultValue)
+                                    {
+                                        continue;
+                                    }
                                 }
 
                                 var point3 = new Point3(

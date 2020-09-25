@@ -9,6 +9,26 @@ namespace DpdtInject.Injector.Helper
 {
     public static class ListHelper
     {
+        public static IReadOnlyList<T> RemoveAll<T>(
+            this IEnumerable<T> source,
+            Func<T, bool> selector
+            )
+        {
+            var list = new List<T>();
+
+            foreach(var s in source)
+            {
+                if(selector(s))
+                {
+                    continue;
+                }
+
+                list.Add(s);
+            }
+
+            return list;
+        }
+
         public static void ForEach<T>(
             this IEnumerable<T> list,
             Action<T> action

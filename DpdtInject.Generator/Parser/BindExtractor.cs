@@ -232,12 +232,6 @@ namespace DpdtInject.Generator.Parser
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, "Cannot find To clause for transient binding");
             }
 
-            var caExtractor = new ConstructorArgumentExtractor(
-                _compilation,
-                _semanticModel
-                );
-            caExtractor.Visit(expressionNode);
-
             var bindFromTypeSematics = new List<ITypeSymbol>();
             foreach (var node in bindGenericNode.TypeArgumentList.DescendantNodes())
             {
@@ -277,29 +271,16 @@ namespace DpdtInject.Generator.Parser
                     );
             }
 
-            var constructorArguments = caExtractor.GetConstructorArguments();
-
-            var chosenConstructor = ChooseConstructor(
-                fullBindToTypeName,
-                constructorArguments
+            var caExtractor = new ConstructorArgumentExtractor(
+                _compilation,
+                _semanticModel
                 );
+            caExtractor.Visit(expressionNode);
 
-            foreach (var cParameter in chosenConstructor.Parameters)
-            {
-                var cParameterName = cParameter.Name;
-                var cParameterType = cParameter.Type;
-
-                var found = constructorArguments.FirstOrDefault(ca => ca.Name == cParameterName);
-                if (found is null)
-                {
-                    constructorArguments.Add(
-                        new DetectedConstructorArgument(
-                            cParameterName,
-                            cParameterType
-                            )
-                        );
-                }
-            }
+            var constructorArguments = GetConstructorArguments(
+                caExtractor,
+                fullBindToTypeName
+                );
 
             var bindingContainer = new BindingContainerWithInstance(
                 declaredClusterType,
@@ -312,6 +293,7 @@ namespace DpdtInject.Generator.Parser
 
             _bindingContainers.Add(bindingContainer);
         }
+
 
         private void ProcessSingleton(
             ExpressionStatementSyntax expressionNode,
@@ -332,12 +314,6 @@ namespace DpdtInject.Generator.Parser
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, "Cannot find To clause for singleton binding");
             }
 
-            var caExtractor = new ConstructorArgumentExtractor(
-                _compilation,
-                _semanticModel
-                );
-            caExtractor.Visit(expressionNode);
-
             var bindFromTypeSematics = new List<ITypeSymbol>();
             foreach (var node in bindGenericNode.TypeArgumentList.DescendantNodes())
             {
@@ -376,12 +352,51 @@ namespace DpdtInject.Generator.Parser
                     );
             }
 
-            var constructorArguments = caExtractor.GetConstructorArguments();
+            var caExtractor = new ConstructorArgumentExtractor(
+                _compilation,
+                _semanticModel
+                );
+            caExtractor.Visit(expressionNode);
+
+            var constructorArguments = GetConstructorArguments(
+                caExtractor,
+                fullBindToTypeName
+                );
+
+            var bindingContainer = new BindingContainerWithInstance(
+                declaredClusterType,
+                bindFromTypeSematics,
+                bindToTypeSematic,
+                constructorArguments,
+                BindScopeEnum.Singleton,
+                whenArgumentClause
+                );
+
+            _bindingContainers.Add(bindingContainer);
+        }
+
+        private List<DetectedConstructorArgument> GetConstructorArguments(
+            ConstructorArgumentExtractor extractor,
+            INamedTypeSymbol fullBindToTypeName
+            )
+        {
+            if (extractor is null)
+            {
+                throw new ArgumentNullException(nameof(extractor));
+            }
+
+            if (fullBindToTypeName is null)
+            {
+                throw new ArgumentNullException(nameof(fullBindToTypeName));
+            }
+
+            var constructorArguments = extractor.GetConstructorArguments();
 
             var chosenConstructor = ChooseConstructor(
                 fullBindToTypeName,
                 constructorArguments
                 );
+
 
             foreach (var cParameter in chosenConstructor.Parameters)
             {
@@ -394,22 +409,14 @@ namespace DpdtInject.Generator.Parser
                     constructorArguments.Add(
                         new DetectedConstructorArgument(
                             cParameterName,
-                            cParameterType
+                            cParameterType,
+                            cParameter.HasExplicitDefaultValue
                             )
                         );
                 }
             }
 
-            var bindingContainer = new BindingContainerWithInstance(
-                declaredClusterType,
-                bindFromTypeSematics,
-                bindToTypeSematic,
-                constructorArguments,
-                BindScopeEnum.Singleton,
-                whenArgumentClause
-                );
-
-            _bindingContainers.Add(bindingContainer);
+            return constructorArguments;
         }
 
         private void CheckForFromAndToTypes(

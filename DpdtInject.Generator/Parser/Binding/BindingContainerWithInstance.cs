@@ -95,7 +95,9 @@ namespace DpdtInject.Generator.Parser.Binding
                     "//GENERATOR: apply arguments",
                     string.Join(
                         ",",
-                        ConstructorArguments.Select(ca => ca.GetApplyConstructorClause())
+                        ConstructorArguments
+                            .Select(ca => ca.GetApplyConstructorClause())
+                            .RemoveAll(ca => string.IsNullOrEmpty(ca))
                         )
                     )
                 .CheckAndReplace("//GENERATOR: predicate", (WhenArgumentClause?.ToString() ?? "rc => true"))

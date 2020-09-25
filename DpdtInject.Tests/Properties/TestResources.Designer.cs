@@ -1523,6 +1523,57 @@ namespace DpdtInject.Tests.Properties {
         ///using System.Text;
         ///using System.Threading.Tasks;
         ///using DpdtInject.Injector.Module.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.OptionalArgument0
+        ///{
+        ///    public partial class UnsortedOptionalArgument0Module : DpdtModule
+        ///    {
+        ///        public const string DefaultMessage = &quot;default message&quot;;
+        ///        public [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedOptionalArgument0Module {
+            get {
+                return ResourceManager.GetString("UnsortedOptionalArgument0Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.OptionalArgument1
+        ///{
+        ///    public partial class UnsortedOptionalArgument1Module : DpdtModule
+        ///    {
+        ///        public const string DefaultMessage = &quot;default message&quot;;
+        ///
+        ///        publ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedOptionalArgument1Module {
+            get {
+                return ResourceManager.GetString("UnsortedOptionalArgument1Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
         ///using DpdtInject.Injector.Excp;
         ///using System.Runtime.InteropServices;
         ///

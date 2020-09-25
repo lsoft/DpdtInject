@@ -1,4 +1,5 @@
-﻿using DpdtInject.Generator.Helpers;
+﻿using DpdtInject.Generator.ArgumentWrapper;
+using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Tree;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Excp;

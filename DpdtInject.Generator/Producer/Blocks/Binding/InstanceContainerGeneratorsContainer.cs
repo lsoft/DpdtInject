@@ -182,7 +182,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         {
             //we need to check unknown bindings in the tree
 
-            foreach(var point3 in GeneratorTree.Joint.GenerateChildPoints())
+            foreach(var point3 in GeneratorTree.Joint.GenerateChildPoints(false))
             {
                 if (!point3.TryFindChildren(out var _))
                 {
@@ -204,7 +204,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                 throw new ArgumentNullException(nameof(diagnosticReporter));
             }
 
-            foreach (var point3 in GeneratorTree.Joint.GenerateChildPoints())
+            foreach (var point3 in GeneratorTree.Joint.GenerateChildPoints(false))
             {
                 if (point3.Generator.BindingContainer.Scope.In(BindScopeEnum.Singleton))
                 {
