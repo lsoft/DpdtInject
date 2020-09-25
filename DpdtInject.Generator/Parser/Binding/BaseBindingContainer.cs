@@ -108,13 +108,13 @@ namespace DpdtInject.Generator.Parser.Binding
             switch (Scope)
             {
                 case Injector.Module.Bind.BindScopeEnum.Transient:
-                    return $"{string.Join("_", GetFromTypeFullNamesCombined().ConvertDotLessGreatherToGround())}_{BindToType.GetFullName().ConvertDotLessGreatherToGround()}_{nameof(TransientInstanceContainer)}_{this.GetHashCode()}";
+                    return $"{string.Join("_", GetFromTypeFullNamesCombined().EscapeSpecialTypeSymbols())}_{BindToType.GetFullName().EscapeSpecialTypeSymbols()}_{nameof(TransientInstanceContainer)}_{this.GetHashCode()}";
                     break;
                 case Injector.Module.Bind.BindScopeEnum.Singleton:
-                    return $"{string.Join("_", GetFromTypeFullNamesCombined().ConvertDotLessGreatherToGround())}_{BindToType.GetFullName().ConvertDotLessGreatherToGround()}_{nameof(SingletonInstanceContainer)}_{this.GetHashCode()}";
+                    return $"{string.Join("_", GetFromTypeFullNamesCombined().EscapeSpecialTypeSymbols())}_{BindToType.GetFullName().EscapeSpecialTypeSymbols()}_{nameof(SingletonInstanceContainer)}_{this.GetHashCode()}";
                     break;
                 case Injector.Module.Bind.BindScopeEnum.Constant:
-                    return $"{string.Join("_", GetFromTypeFullNamesCombined().ConvertDotLessGreatherToGround())}_{nameof(ConstantInstanceContainer)}_{this.GetHashCode()}";
+                    return $"{string.Join("_", GetFromTypeFullNamesCombined().EscapeSpecialTypeSymbols())}_{nameof(ConstantInstanceContainer)}_{this.GetHashCode()}";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

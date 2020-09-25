@@ -90,7 +90,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             foreach (var (wrapperType, wrapperSymbol) in GetRegisteredKeys(true))
             {
                 clauses.Add(
-                    $"new Tuple<Type, Func<object>>( typeof({wrapperSymbol.GetFullName()}), {providerMethodNamePrefix}_{wrapperSymbol.GetFullName().ConvertDotLessGreatherToGround()}{wrapperType.GetPostfix()} )"
+                    $"new Tuple<Type, Func<object>>( typeof({wrapperSymbol.GetFullName()}), {providerMethodNamePrefix}_{wrapperSymbol.GetFullName().EscapeSpecialTypeSymbols()}{wrapperType.GetPostfix()} )"
                     );
             }
 

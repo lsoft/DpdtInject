@@ -1524,6 +1524,31 @@ namespace DpdtInject.Tests.Properties {
         ///using System.Threading.Tasks;
         ///using DpdtInject.Injector.Module.Bind;
         ///
+        ///namespace DpdtInject.Tests.Unsorted.ComplexTypeArgument0
+        ///{
+        ///    public partial class UnsortedComplexTypeArgument0Module : DpdtModule
+        ///    {
+        ///        public static Func&lt;Func&lt;object&gt;, Func&lt;string&gt;&gt; Funca =&gt;
+        ///         [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedComplexTypeArgument0Module {
+            get {
+                return ResourceManager.GetString("UnsortedComplexTypeArgument0Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///
         ///namespace DpdtInject.Tests.Unsorted.NativeTypeArgument0
         ///{
         ///    public partial class UnsortedNativeTypeArgument0Module : DpdtModule

@@ -160,7 +160,7 @@ namespace DpdtInject.Generator.Parser
 
             foreach (var pair in pairs)
             {
-                var createFrameVariableName = $"Frame_{workingType.GetFullName().ConvertDotLessGreatherToGround()}_{pair.InstanceContainerGenerator.BindingContainer.BindToType.GetFullName().ConvertDotLessGreatherToGround()}_{Name}_{pair.InstanceContainerGenerator.GetVariableStableName()}";
+                var createFrameVariableName = $"Frame_{workingType.GetFullName().EscapeSpecialTypeSymbols()}_{pair.InstanceContainerGenerator.BindingContainer.BindToType.GetFullName().EscapeSpecialTypeSymbols()}_{Name}_{pair.InstanceContainerGenerator.GetVariableStableName()}";
                 createFrameVariableNameDict[pair.InstanceContainerGenerator.GetVariableStableName()] = createFrameVariableName;
                 
                 var contextWithFrameVariableName = $"contextWithFrame_{createFrameVariableName}";

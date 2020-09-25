@@ -112,7 +112,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Cluster
 
             foreach (var generator in _instanceContainerGenerators)
             {
-                var createContextVariableName = $"Context_{BindFromTypeFullName.ConvertDotLessGreatherToGround()}_{generator.BindingContainer.BindToType.GetFullName().ConvertDotLessGreatherToGround()}_{Guid.NewGuid().RemoveMinuses()}";
+                var createContextVariableName = $"Context_{BindFromTypeFullName.EscapeSpecialTypeSymbols()}_{generator.BindingContainer.BindToType.GetFullName().EscapeSpecialTypeSymbols()}_{Guid.NewGuid().RemoveMinuses()}";
                 createContextVariableNameDict[generator.GetVariableStableName()] = createContextVariableName;
             }
 
@@ -135,7 +135,7 @@ private static readonly {nameof(ResolutionContext)} {createContextVariableName} 
 
             #endregion
 
-            var getImplementationMethodName = $"Get_{BindFromTypeFullName.ConvertDotLessGreatherToGround()}{wrapperType.GetPostfix()}";
+            var getImplementationMethodName = $"Get_{BindFromTypeFullName.EscapeSpecialTypeSymbols()}{wrapperType.GetPostfix()}";
 
             #region GetGenericImplementationSection
 
@@ -275,7 +275,7 @@ return {generator.GetInstanceClause(clusterGenerator.Joint.JointPayload.Declared
 
             #endregion
 
-            var getAllImplementationMethodName = $"GetAll_{BindFromTypeFullName.ConvertDotLessGreatherToGround()}{wrapperType.GetPostfix()}";
+            var getAllImplementationMethodName = $"GetAll_{BindFromTypeFullName.EscapeSpecialTypeSymbols()}{wrapperType.GetPostfix()}";
 
             #region GetAllImplementation
 

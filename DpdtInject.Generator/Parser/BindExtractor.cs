@@ -186,19 +186,9 @@ namespace DpdtInject.Generator.Parser
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"Cannot find constant clause");
             }
 
-            var bindFromTypeSematics = new List<ITypeSymbol>();
-            foreach (var node in bindGenericNode.TypeArgumentList.DescendantNodes())
-            {
-                var bindFromTypeSematic = _semanticModel.GetTypeInfo(node).Type;
-                if (bindFromTypeSematic == null)
-                {
-                    throw new DpdtException(
-                        DpdtExceptionTypeEnum.InternalError,
-                        $"Unknown problem to access {nameof(bindFromTypeSematic)}"
-                        );
-                }
-                bindFromTypeSematics.Add(bindFromTypeSematic);
-            }
+            var bindFromTypeSematics = GetBindFromTypes(
+                bindGenericNode
+                );
 
             var bindingContainer = new ConstantBindingContainer(
                 declaredClusterType,
@@ -232,21 +222,11 @@ namespace DpdtInject.Generator.Parser
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, "Cannot find To clause for transient binding");
             }
 
-            var bindFromTypeSematics = new List<ITypeSymbol>();
-            foreach (var node in bindGenericNode.TypeArgumentList.DescendantNodes())
-            {
-                var bindFromTypeSematic = _semanticModel.GetTypeInfo(node).Type;
-                if (bindFromTypeSematic == null)
-                {
-                    throw new DpdtException(
-                        DpdtExceptionTypeEnum.InternalError,
-                        $"Unknown problem to access {nameof(bindFromTypeSematic)}"
-                        );
-                }
-                bindFromTypeSematics.Add(bindFromTypeSematic);
-            }
+            var bindFromTypeSematics = GetBindFromTypes(
+                bindGenericNode
+                );
 
-            var bindToSyntax = toGenericNode.TypeArgumentList.DescendantNodes().First();
+            var bindToSyntax = toGenericNode.TypeArgumentList.Arguments.First();
             var bindToTypeSematic = _semanticModel.GetTypeInfo(bindToSyntax).Type;
 
             if (bindToTypeSematic == null)
@@ -314,21 +294,11 @@ namespace DpdtInject.Generator.Parser
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, "Cannot find To clause for singleton binding");
             }
 
-            var bindFromTypeSematics = new List<ITypeSymbol>();
-            foreach (var node in bindGenericNode.TypeArgumentList.DescendantNodes())
-            {
-                var bindFromTypeSematic = _semanticModel.GetTypeInfo(node).Type;
-                if (bindFromTypeSematic == null)
-                {
-                    throw new DpdtException(
-                        DpdtExceptionTypeEnum.InternalError,
-                        $"Unknown problem to access {nameof(bindFromTypeSematic)}"
-                        );
-                }
-                bindFromTypeSematics.Add(bindFromTypeSematic);
-            }
+            var bindFromTypeSematics = GetBindFromTypes(
+                bindGenericNode
+                );
 
-            var bindToSyntax = toGenericNode.TypeArgumentList.DescendantNodes().First();
+            var bindToSyntax = toGenericNode.TypeArgumentList.Arguments.First();
             var bindToTypeSematic = _semanticModel.GetTypeInfo(bindToSyntax).Type;
             if (bindToTypeSematic == null)
             {
@@ -373,6 +343,25 @@ namespace DpdtInject.Generator.Parser
                 );
 
             _bindingContainers.Add(bindingContainer);
+        }
+
+        private List<ITypeSymbol> GetBindFromTypes(GenericNameSyntax bindGenericNode)
+        {
+            var bindFromTypeSematics = new List<ITypeSymbol>();
+            foreach (var node in bindGenericNode.TypeArgumentList.Arguments)
+            {
+                var bindFromTypeSematic = _semanticModel.GetTypeInfo(node).Type;
+                if (bindFromTypeSematic == null)
+                {
+                    throw new DpdtException(
+                        DpdtExceptionTypeEnum.InternalError,
+                        $"Unknown problem to access {nameof(bindFromTypeSematic)}"
+                        );
+                }
+                bindFromTypeSematics.Add(bindFromTypeSematic);
+            }
+
+            return bindFromTypeSematics;
         }
 
         private List<DetectedConstructorArgument> GetConstructorArguments(
