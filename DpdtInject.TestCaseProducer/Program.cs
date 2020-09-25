@@ -22,7 +22,7 @@ namespace DpdtInject.TestCaseProducer
                 BitConverter.ToInt32(Guid.NewGuid().ToByteArray(), 0)
                 );
 
-            for (var i = 1; i < 1000; i++)
+            for (var i = 1; i < 10; i++)
             {
                 var index = rnd.Next(createdNodes.Count + 1) - 1;
 

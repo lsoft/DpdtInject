@@ -43,10 +43,11 @@ namespace DpdtInject.Injector
         {
             _after = DateTime.Now;
 
-            _diagnosticReporter.ReportInfo(
-                _message,
-                $"{_message}: {Diff}"
-                );
+            //disable time logging, we are not profiling it now
+            //_diagnosticReporter.ReportInfo(
+            //    _message,
+            //    $"{_message}: {Diff}"
+            //    );
         }
     }
 }
