@@ -2,12 +2,12 @@
 using BenchmarkDotNet.Jobs;
 using DryIoc;
 
-namespace DpdtInject.Tests.Performance.Generic.Singleton
+namespace DpdtInject.Tests.Performance.Generic.Transient
 {
     [SimpleJob(RuntimeMoniker.NetCoreApp31)]
     [MemoryDiagnoser]
     [GcServer(true)]
-    public class Dryloc
+    public class DryIoc
     {
         protected Container _kernel;
 
@@ -16,9 +16,9 @@ namespace DpdtInject.Tests.Performance.Generic.Singleton
         {
             _kernel = new Container();
 
-            _kernel.Register<IA, A>(Reuse.Singleton);
-            _kernel.Register<IB, B>(Reuse.Singleton);
-            _kernel.Register<IC, C>(Reuse.Singleton);
+            _kernel.Register<IA, A>(Reuse.Transient);
+            _kernel.Register<IB, B>(Reuse.Transient);
+            _kernel.Register<IC, C>(Reuse.Transient);
 
             _kernel.Resolve<IA>();
             _kernel.Resolve<IB>();
@@ -26,7 +26,7 @@ namespace DpdtInject.Tests.Performance.Generic.Singleton
         }
 
         [Benchmark]
-        public void GenericSingleton()
+        public void GenericTransient()
         {
             _kernel.Resolve<IA>();
             _kernel.Resolve<IB>();
