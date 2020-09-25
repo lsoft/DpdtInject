@@ -1,40 +1,22 @@
 ﻿using DpdtInject.Injector.Excp;
+using DpdtInject.Injector.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace DpdtInject.Injector
+namespace DpdtInject.Injector.Reinvented
 {
     /// <summary>
     /// Special thanks to neuecc from https://github.com/neuecc for amazing idea.
     /// </summary>
-    public class ReinventedContainer
+    public sealed class FixedSizeFactoryContainer
     {
-        public struct HashTuple
-        {
-            public Type Type;
-            public Func<object> Factory;
-
-            public HashTuple(Type type, Func<object> factory)
-                //: this()
-            {
-                Type = type;
-                Factory = factory;
-            }
-
-            //public HashTuple()
-            //{
-            //    Type = typeof(NonUsedClass);
-            //    Factory = null;
-            //}
-        }
-
         private readonly int _length;
         private readonly int _mask;
-        private readonly HashTuple[][] _table;
+        private readonly HashTupleFunc[][] _table;
 
-        public ReinventedContainer(
+        public FixedSizeFactoryContainer(
             params Tuple<Type, Func<object>>[] pairs
             )
         {
@@ -62,10 +44,10 @@ namespace DpdtInject.Injector
 
             #endregion
 
-            _length = GetPower2Length(pairs.Length);
+            _length = MathHelper.GetPower2Length(pairs.Length);
             _mask = _length - 1;
 
-            var preTable = new List<HashTuple>[_length];
+            var preTable = new List<HashTupleFunc>[_length];
             foreach (var pair in pairs)
             {
                 var type = pair.Item1;
@@ -73,22 +55,22 @@ namespace DpdtInject.Injector
 
                 var index = CalculateIndex(type);
 
-                if(preTable[index] is null)
+                if (preTable[index] is null)
                 {
-                    preTable[index] = new List<HashTuple>();
+                    preTable[index] = new List<HashTupleFunc>();
                 }
 
                 preTable[index].Add(
-                    new HashTuple(type, func)
+                    new HashTupleFunc(type, func)
                     );
             }
 
-            _table = new HashTuple[_length][];
+            _table = new HashTupleFunc[_length][];
             for (var i = 0; i < preTable.Length; i++)
             {
                 if (preTable[i] is null)
                 {
-                    _table[i] = new HashTuple[0];
+                    _table[i] = new HashTupleFunc[0];
                 }
                 else
                 {
@@ -130,13 +112,18 @@ namespace DpdtInject.Injector
             return index;
         }
 
-        private static int GetPower2Length(int number)
+        public struct HashTupleFunc
         {
-            var log = Math.Log(number, 2);
-            var power = (int)Math.Ceiling(log);
+            public readonly Type Type;
+            public readonly Func<object> Factory;
 
-            return (int)Math.Pow(2, power);
+            public HashTupleFunc(Type type, Func<object> factory)
+            {
+                Type = type;
+                Factory = factory;
+            }
         }
+
     }
 
 }

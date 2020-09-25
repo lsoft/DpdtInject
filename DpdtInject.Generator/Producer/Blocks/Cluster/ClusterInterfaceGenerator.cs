@@ -102,7 +102,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Cluster
                     : string.Empty
                     ;
 
-            var emptyContextReference = $"{typeof(ResolutionContext).FullName}.{nameof(ResolutionContext.EmptyContext)}";
+            var emptyContextReference = $"{nameof(ResolutionContext)}.{nameof(ResolutionContext.EmptyContext)}";
 
             var resolutionFrameSection = "";
 
@@ -112,7 +112,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Cluster
 
             foreach (var generator in _instanceContainerGenerators)
             {
-                var createContextVariableName = $"Context_{BindFromTypeFullName.EscapeSpecialTypeSymbols()}_{generator.BindingContainer.BindToType.GetFullName().EscapeSpecialTypeSymbols()}_{Guid.NewGuid().RemoveMinuses()}";
+                var createContextVariableName = $"Context_{Guid.NewGuid().RemoveMinuses()}";
                 createContextVariableNameDict[generator.GetVariableStableName()] = createContextVariableName;
             }
 

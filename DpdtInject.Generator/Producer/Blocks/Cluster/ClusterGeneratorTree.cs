@@ -1,21 +1,18 @@
 ﻿using DpdtInject.Generator.ArgumentWrapper;
 using DpdtInject.Generator.Beautify;
 using DpdtInject.Generator.Helpers;
-using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Tree;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Beautify;
-using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
-using DpdtInject.Injector.Module;
 using DpdtInject.Injector.Module.Bind;
+using DpdtInject.Injector.Reinvented;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DpdtInject.Generator.Producer.Blocks.Cluster
 {
@@ -330,12 +327,12 @@ protected {declaredClusterType.Name}()
     {fieldParentClusterClause}
     private readonly {beautifyGenerator.ClassName} _beautifier;
 
-    public {typeof(ReinventedContainer).FullName} TypeContainerGet
+    public {nameof(FixedSizeFactoryContainer)} TypeContainerGet
     {{
         get;
     }}
 
-    public {typeof(ReinventedContainer).FullName} TypeContainerGetAll
+    public {nameof(FixedSizeFactoryContainer)} TypeContainerGetAll
     {{
         get;
     }}
@@ -352,10 +349,10 @@ protected {declaredClusterType.Name}()
     {{
         {assignParentClusterClause}
 
-        TypeContainerGet = new {typeof(ReinventedContainer).FullName}(
+        TypeContainerGet = new {nameof(FixedSizeFactoryContainer)}(
             {JointPayload.Joint.JointPayload.GetReinventedContainerArgument("Get")}
             );
-        TypeContainerGetAll = new {typeof(ReinventedContainer).FullName}(
+        TypeContainerGetAll = new {nameof(FixedSizeFactoryContainer)}(
             {JointPayload.Joint.JointPayload.GetReinventedContainerArgument("GetAll")}
             );
 
@@ -381,13 +378,13 @@ protected {declaredClusterType.Name}()
 
     public object Get({typeof(Type).FullName} requestedType)
     {{
-        var result = TypeContainerGet.{nameof(ReinventedContainer.GetGetObject)}(requestedType);
+        var result = TypeContainerGet.{nameof(FixedSizeFactoryContainer.GetGetObject)}(requestedType);
 
         return result;
     }}
     public IEnumerable<object> GetAll({typeof(Type).FullName} requestedType)
     {{
-        var result = TypeContainerGetAll.{nameof(ReinventedContainer.GetGetObject)}(requestedType);
+        var result = TypeContainerGetAll.{nameof(FixedSizeFactoryContainer.GetGetObject)}(requestedType);
 
         return (IEnumerable<object>)result;
     }}

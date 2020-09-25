@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Injector.Beautify;
+using DpdtInject.Injector.Reinvented;
 using System;
 using System.Collections.Generic;
 
@@ -16,12 +17,12 @@ namespace DpdtInject.Injector
             get;
         }
 
-        ReinventedContainer TypeContainerGet
+        FixedSizeFactoryContainer TypeContainerGet
         {
             get;
         }
 
-        ReinventedContainer TypeContainerGetAll
+        FixedSizeFactoryContainer TypeContainerGetAll
         {
             get;
         }

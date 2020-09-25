@@ -1,19 +1,13 @@
-﻿using DpdtInject.Generator.Beautify;
-using DpdtInject.Generator.Helpers;
+﻿using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Producer.Blocks.Cluster;
-using DpdtInject.Generator.Producer.Blocks.Exception;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Beautify;
-using DpdtInject.Injector.Compilation;
-using DpdtInject.Injector.Excp;
-using DpdtInject.Injector.Helper;
 using DpdtInject.Injector.Module;
-using DpdtInject.Injector.Module.Bind;
+using DpdtInject.Injector.Module.RContext;
+using DpdtInject.Injector.Reinvented;
 using Microsoft.CodeAnalysis;
 using System;
-using System.Linq;
-using System.Threading;
 
 namespace DpdtInject.Generator.Producer.Blocks.Module
 {
@@ -88,6 +82,9 @@ using DpdtInject.Injector;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Module;
 using DpdtInject.Injector.Module.Bind;
+using {typeof(ResolutionContext).Namespace};
+using {typeof(ResolutionFrame).Namespace};
+using {typeof(FixedSizeFactoryContainer).Namespace};
 
 {clusterGeneratorTree.GenerateUsingClauses()}
 
@@ -102,8 +99,8 @@ namespace {ModuleTypeNamespace}
 
         {clusterGeneratorTree.GenerateClusterDeclarationClauses()}
 
-        private readonly {typeof(ReinventedContainer).FullName} _typeContainerGet;
-        private readonly {typeof(ReinventedContainer).FullName} _typeContainerGetAll;
+        private readonly {nameof(FixedSizeFactoryContainer)} _typeContainerGet;
+        private readonly {nameof(FixedSizeFactoryContainer)} _typeContainerGetAll;
 
         public {ModuleTypeName}()
         {{
@@ -157,13 +154,13 @@ namespace {ModuleTypeNamespace}
         }}
         public object Get({typeof(Type).FullName} requestedType)
         {{
-            var result = _typeContainerGet.{nameof(ReinventedContainer.GetGetObject)}(requestedType);
+            var result = _typeContainerGet.{nameof(FixedSizeFactoryContainer.GetGetObject)}(requestedType);
 
             return result;
         }}
         public IEnumerable<object> GetAll({typeof(Type).FullName} requestedType)
         {{
-            var result = _typeContainerGetAll.{nameof(ReinventedContainer.GetGetObject)}(requestedType);
+            var result = _typeContainerGetAll.{nameof(FixedSizeFactoryContainer.GetGetObject)}(requestedType);
 
             return (IEnumerable<object>)result;
         }}
@@ -195,12 +192,12 @@ namespace {ModuleTypeNamespace}
         public object Get<TCluster>(System.Type requestedType)
         {{
             var cluster = (({nameof(IClusterProvider<object>)}<TCluster>)_superCluster).{nameof(IClusterProvider<object>.GetCluster)}();
-            return (({nameof(IBindingProvider)})cluster).{nameof(IBindingProvider.TypeContainerGet)}.{nameof(ReinventedContainer.GetGetObject)}(requestedType);
+            return (({nameof(IBindingProvider)})cluster).{nameof(IBindingProvider.TypeContainerGet)}.{nameof(FixedSizeFactoryContainer.GetGetObject)}(requestedType);
         }}
         public IEnumerable<object> GetAll<TCluster>(System.Type requestedType)
         {{
             var cluster = (({nameof(IClusterProvider<object>)}<TCluster>)_superCluster).{nameof(IClusterProvider<object>.GetCluster)}();
-            return (IEnumerable<object>)(({nameof(IBindingProvider)})cluster).{nameof(IBindingProvider.TypeContainerGetAll)}.{nameof(ReinventedContainer.GetGetObject)}(requestedType);
+            return (IEnumerable<object>)(({nameof(IBindingProvider)})cluster).{nameof(IBindingProvider.TypeContainerGetAll)}.{nameof(FixedSizeFactoryContainer.GetGetObject)}(requestedType);
         }}
 
 #endregion
