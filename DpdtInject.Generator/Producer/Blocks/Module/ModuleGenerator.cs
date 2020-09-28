@@ -4,10 +4,13 @@ using DpdtInject.Generator.Producer.Blocks.Cluster;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Beautify;
 using DpdtInject.Injector.Module;
+using DpdtInject.Injector.Module.Bind;
+using DpdtInject.Injector.Module.CustomScope;
 using DpdtInject.Injector.Module.RContext;
 using DpdtInject.Injector.Reinvented;
 using Microsoft.CodeAnalysis;
 using System;
+using System.Linq;
 
 namespace DpdtInject.Generator.Producer.Blocks.Module
 {
@@ -65,7 +68,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Module
                     })
                 );
 
-            var temporalyFirstClusterGenerator = clusterGeneratorTree.Joint.JointPayload;
+            var customBindCount = container.Generators.Count(g => g.BindingContainer.Scope == BindScopeEnum.Custom);
 
             var result = @$"
 #nullable disable
@@ -85,6 +88,7 @@ using DpdtInject.Injector.Module.Bind;
 using {typeof(ResolutionContext).Namespace};
 using {typeof(ResolutionFrame).Namespace};
 using {typeof(FixedSizeFactoryContainer).Namespace};
+using {typeof(CustomScopeObject).Namespace};
 
 {clusterGeneratorTree.GenerateUsingClauses()}
 
@@ -113,6 +117,13 @@ namespace {ModuleTypeNamespace}
 
             _typeContainerGet = {ClusterGenerator.ClusterDefaultInstanceName}.TypeContainerGet;
             _typeContainerGetAll = {ClusterGenerator.ClusterDefaultInstanceName}.TypeContainerGetAll;
+        }}
+
+        public {nameof(CustomScopeObject)} CreateCustomScope()
+        {{
+            return CreateCustomScope(
+                {customBindCount}
+                );
         }}
 
 

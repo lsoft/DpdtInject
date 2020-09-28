@@ -1,5 +1,5 @@
 ﻿using DpdtInject.Injector.Beautify;
-using DpdtInject.Injector.Module.RContext;
+using DpdtInject.Injector.Module.CustomScope;
 using DpdtInject.Injector.Reinvented;
 using System;
 using System.Collections.Generic;

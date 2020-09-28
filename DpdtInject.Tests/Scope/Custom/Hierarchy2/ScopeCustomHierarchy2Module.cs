@@ -43,8 +43,8 @@ namespace DpdtInject.Tests.Scope.Custom.Hierarchy2
             {
                 var module = new FakeModule<ScopeCustomHierarchy2Module>();
 
-                var scope0 = new CustomScopeObject();
-                var scope1 = new CustomScopeObject();
+                var scope0 = module.CreateCustomScope();
+                var scope1 = module.CreateCustomScope();
 
                 var b0_0 = module.Get<IB>(scope0);
                 Assert.IsNotNull(b0_0);

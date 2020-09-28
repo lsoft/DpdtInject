@@ -19,6 +19,21 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 {
     internal interface IInstanceContainerGeneratorsContainer
     {
+        public BindingsContainer BindingsContainer
+        {
+            get;
+        }
+        public IReadOnlyList<InstanceContainerGeneratorCluster> GeneratorClusters
+        {
+            get;
+        }
+
+        public IReadOnlyList<InstanceContainerGenerator> Generators
+        {
+            get;
+        }
+        
+
         InstanceContainerGeneratorTree GeneratorTree
         {
             get;
@@ -33,6 +48,13 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
     {
         private readonly IDiagnosticReporter _diagnosticReporter;
         private readonly IInstanceContainerGeneratorsContainer _container;
+
+
+        public BindingsContainer BindingsContainer => _container.BindingsContainer;
+
+        public IReadOnlyList<InstanceContainerGeneratorCluster> GeneratorClusters => _container.GeneratorClusters;
+
+        public IReadOnlyList<InstanceContainerGenerator> Generators => _container.Generators;
 
         public InstanceContainerGeneratorTree GeneratorTree => _container.GeneratorTree;
 

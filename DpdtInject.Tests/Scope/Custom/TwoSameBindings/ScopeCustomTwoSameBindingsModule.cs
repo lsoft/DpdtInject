@@ -44,7 +44,7 @@ namespace DpdtInject.Tests.Scope.Custom.TwoSameBindings
                 Assert.IsNotNull(aa);
                 Assert.AreEqual(1, aa.Count);
 
-                var scope1 = new CustomScopeObject();
+                var scope1 = module.CreateCustomScope();
 
                 var bb = module.GetAll<IA>(scope1);
                 Assert.IsNotNull(bb);

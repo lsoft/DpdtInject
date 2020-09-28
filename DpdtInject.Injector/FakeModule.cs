@@ -1,6 +1,6 @@
 ﻿using DpdtInject.Injector.Beautify;
 using DpdtInject.Injector.Module;
-using DpdtInject.Injector.Module.RContext;
+using DpdtInject.Injector.Module.CustomScope;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +48,14 @@ namespace DpdtInject.Injector
 
     public class FakeModule  : IDisposable
     {
+        public CustomScopeObject CreateCustomScope()
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+
+
+
+
         public bool IsRegisteredFrom<TCluster, TRequestedType>()
         {
             throw new NotImplementedException("This method should not be executed");
@@ -117,6 +125,13 @@ namespace DpdtInject.Injector
     public class FakeModule<T>  : IDisposable
         where T : DpdtModule
     {
+        public CustomScopeObject CreateCustomScope()
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+
+
+
         public bool IsRegisteredFrom<TCluster, TRequestedType>()
         {
             throw new NotImplementedException("This method should not be executed");

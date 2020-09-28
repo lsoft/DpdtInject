@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Injector.Module.Bind;
+using DpdtInject.Injector.Module.CustomScope;
 using System;
 using System.Collections.Generic;
 
@@ -13,6 +14,11 @@ namespace DpdtInject.Injector.Module
     {
         public DpdtModule()
         {
+        }
+
+        protected CustomScopeObject CreateCustomScope(int estimatedTypeCount)
+        {
+            return new CustomScopeObject(estimatedTypeCount);
         }
 
         public abstract void Load();

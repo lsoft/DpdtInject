@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Injector.Excp;
+using DpdtInject.Injector.Module.CustomScope;
 using DpdtInject.Injector.Reinvented;
 using System;
 using System.Collections.Generic;
@@ -9,51 +10,6 @@ using System.Threading.Tasks;
 
 namespace DpdtInject.Injector.Module.RContext
 {
-//#nullable disable
-
-    public interface ICustomScopeObject
-    {
-        //bool TryGetObject(
-        //    Type requestedType,
-        //    [NotNullWhen(true)] out object? result
-        //    );
-    }
-
-    public sealed class CustomScopeObject : ICustomScopeObject, IDisposable
-    {
-        private FlexibleSizeObjectContainer _dependencyContainer;
-
-        public CustomScopeObject()
-        {
-            _dependencyContainer = new FlexibleSizeObjectContainer(
-                1
-                );
-        }
-
-        //public bool TryGetObject(
-        //    Type requestedType,
-        //    [NotNullWhen(true)] out object? result
-        //    )
-        //{
-        //    return _dependencyContainer.TryGetObject(requestedType, out result);
-        //}
-
-        public object GetOrAdd(
-            Guid uniqueId,
-            Func<object> objectProvider
-            )
-        {
-            var result = _dependencyContainer.GetOrAdd(uniqueId, objectProvider);
-
-            return result;
-        }
-
-        public void Dispose()
-        {
-            _dependencyContainer.Dispose();
-        }
-    }
-
     public class ResolutionContext : IResolutionContext
     {
         private readonly List<ResolutionFrame> _frames;
@@ -76,21 +32,19 @@ namespace DpdtInject.Injector.Module.RContext
         }
 
         public ResolutionContext(
-            ResolutionFrame newFrame
-            //,CustomScopeObject? scopeObject
+            ResolutionFrame firstFrame
             )
         {
-            if (newFrame is null)
+            if (firstFrame is null)
             {
-                throw new ArgumentNullException(nameof(newFrame));
+                throw new ArgumentNullException(nameof(firstFrame));
             }
 
             _frames = new List<ResolutionFrame>
             {
-                newFrame
+                firstFrame
             };
 
-            //ScopeObject = scopeObject;
             ScopeObject = null;
         }
 

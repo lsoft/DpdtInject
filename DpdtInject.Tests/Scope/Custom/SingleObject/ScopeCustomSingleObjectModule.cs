@@ -46,8 +46,8 @@ namespace DpdtInject.Tests.Scope.Custom.SingleObject
                     //this is ok, test is green
                 }
 
-                var scope1 = new CustomScopeObject();
-                var scope2 = new CustomScopeObject();
+                var scope1 = module.CreateCustomScope();
+                var scope2 = module.CreateCustomScope();
 
                 var a1 = module.Get<IA>(scope1);
                 Assert.IsNotNull(a1);

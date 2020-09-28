@@ -5,6 +5,7 @@ using DpdtInject.Generator.Producer.Blocks.Exception;
 using DpdtInject.Generator.Producer.RContext;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Excp;
+using DpdtInject.Injector.Module.CustomScope;
 using DpdtInject.Injector.Module.RContext;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
