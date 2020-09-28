@@ -229,7 +229,7 @@ private static {workingType.GetFullName()} Get_{Name}({nameof(ResolutionContext)
             }
             else
             {
-                if (pairs.Count(p => !p.InstanceContainerGenerator.BindingContainer.IsConditional) > 1)
+                if (pairs.Count(p => !p.InstanceContainerGenerator.ItselfOrAtLeastOneChildIsConditional) > 1)
                 {
                     applyArgumentPiece = $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]

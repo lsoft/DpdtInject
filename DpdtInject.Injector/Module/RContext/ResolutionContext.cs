@@ -18,11 +18,11 @@ namespace DpdtInject.Injector.Module.RContext
         //    );
     }
 
-    public abstract class BaseScopeObject : ICustomScopeObject, IDisposable
+    public sealed class BaseScopeObject : ICustomScopeObject, IDisposable
     {
         private FlexibleSizeObjectContainer _dependencyContainer;
 
-        protected BaseScopeObject()
+        public BaseScopeObject()
         {
             _dependencyContainer = new FlexibleSizeObjectContainer(
                 1
@@ -49,22 +49,14 @@ namespace DpdtInject.Injector.Module.RContext
 
         public void Dispose()
         {
-            try
-            {
-                DoDispose();
-            }
-            finally
-            {
-                _dependencyContainer.Dispose();
-            }
+            _dependencyContainer.Dispose();
         }
-
-        protected abstract void DoDispose();
     }
 
     public class ResolutionContext : IResolutionContext
     {
-        public static readonly ResolutionContext EmptyContext = new ResolutionContext();
+        //public static readonly ResolutionContext EmptyContext = new ResolutionContext();
+
         private readonly List<ResolutionFrame> _frames;
 
         public IReadOnlyList<IResolutionFrame> Frames => _frames;
@@ -84,20 +76,28 @@ namespace DpdtInject.Injector.Module.RContext
             get;
         }
 
-        public ResolutionContext()
-        {
-            _frames = new List<ResolutionFrame>();
-            ScopeObject = null;
-        }
+        //public ResolutionContext()
+        //    : this(null, )
+        //{
+        //    _frames = new List<ResolutionFrame>();
+        //    ScopeObject = null;
+        //}
 
-        public ResolutionContext(BaseScopeObject scopeObject)
+        public ResolutionContext(
+            ResolutionFrame newFrame,
+            BaseScopeObject? scopeObject
+            )
         {
-            if (scopeObject is null)
+            if (newFrame is null)
             {
-                throw new ArgumentNullException(nameof(scopeObject));
+                throw new ArgumentNullException(nameof(newFrame));
             }
 
-            _frames = new List<ResolutionFrame>();
+            _frames = new List<ResolutionFrame>
+            {
+                newFrame
+            };
+
             ScopeObject = scopeObject;
         }
 
@@ -106,7 +106,14 @@ namespace DpdtInject.Injector.Module.RContext
             ResolutionFrame newFrame
             )
         {
+            if (newFrame is null)
+            {
+                throw new ArgumentNullException(nameof(newFrame));
+            }
+
             _frames = new List<ResolutionFrame>(parentResolutionContext._frames); //clone this
+            ScopeObject = parentResolutionContext.ScopeObject;
+
             _frames.Add(newFrame);
         }
 

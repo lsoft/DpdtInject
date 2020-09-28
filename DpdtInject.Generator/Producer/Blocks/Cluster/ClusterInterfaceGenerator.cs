@@ -102,8 +102,6 @@ namespace DpdtInject.Generator.Producer.Blocks.Cluster
                     : string.Empty
                     ;
 
-            var emptyContextReference = $"{nameof(ResolutionContext)}.{nameof(ResolutionContext.EmptyContext)}";
-
             var resolutionFrameSection = "";
 
             #region ResolutionContext variables
@@ -123,8 +121,9 @@ namespace DpdtInject.Generator.Producer.Blocks.Cluster
                 var createContextVariableName = createContextVariableNameDict[generator.GetVariableStableName()];
 
                 resolutionFrameSection += $@"
-private static readonly {nameof(ResolutionContext)} {createContextVariableName} = {emptyContextReference}.{nameof(ResolutionContext.AddFrame)}(
-    {ResolutionFrameGenerator.GetNewFrameClause(clusterGenerator.Joint.JointPayload.DeclaredClusterType.Name, BindFromTypeFullName, generator.BindingContainer.BindToType.GetFullName())}
+private static readonly {nameof(ResolutionContext)} {createContextVariableName} = new {nameof(ResolutionContext)}(
+    {ResolutionFrameGenerator.GetNewFrameClause(clusterGenerator.Joint.JointPayload.DeclaredClusterType.Name, BindFromTypeFullName, generator.BindingContainer.BindToType.GetFullName())},
+    null
     );
 ";
             }
@@ -195,7 +194,7 @@ public {BindFromTypeFullName} {getImplementationMethodName}()
             }
             else
             {
-                if (instanceContainerGenerators.Count(cg => !cg.BindingContainer.IsConditional) > 1)
+                if (instanceContainerGenerators.Count(cg => !cg.ItselfOrAtLeastOneChildIsConditional) > 1)
                 {
                     GetImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -207,7 +206,7 @@ public {BindFromTypeFullName} {getImplementationMethodName}()
                 }
                 else
                 {
-                    var nonConditionalGeneratorCount = instanceContainerGenerators.Count(g => !g.BindingContainer.IsConditional);
+                    var nonConditionalGeneratorCount = instanceContainerGenerators.Count(g => !g.ItselfOrAtLeastOneChildIsConditional);
 
                     GetImplementationSection = $@"
 //[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -217,7 +216,7 @@ public {BindFromTypeFullName} {getImplementationMethodName}()
 ";
 
 
-                    foreach (var conditionalGenerator in instanceContainerGenerators.Where(g => g.BindingContainer.IsConditional))
+                    foreach (var conditionalGenerator in instanceContainerGenerators.Where(g => g.ItselfOrAtLeastOneChildIsConditional))
                     {
                         var createContextVariableName = createContextVariableNameDict[conditionalGenerator.GetVariableStableName()];
 
