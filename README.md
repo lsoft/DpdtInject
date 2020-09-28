@@ -19,6 +19,7 @@ It's only a proof-of-concept. Nor alpha, neither beta.
 0. Custom constructor arguments `... Configure(new ConstructorArgument("message", Message))`.
 0. Transient, singleton and constant scopes.
 0. Child kernels (aka child clusters).
+0. Custom scopes.
 0. [Additional compile-time safety](https://github.com/lsoft/DpdtInject/wiki#compile-time-safety)
 0. At last, it's very, very fast.
 
