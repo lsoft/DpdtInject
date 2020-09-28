@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DpdtInject.Injector.Module.CustomScope;
+using System;
 using System.Collections.Generic;
 
 namespace DpdtInject.Injector.Beautify
@@ -24,16 +25,18 @@ namespace DpdtInject.Injector.Beautify
 
 
 
-        TRequestedType Get<TRequestedType>();
-
-        List<TRequestedType> GetAll<TRequestedType>();
+        TRequestedType Get<TRequestedType>(CustomScopeObject? scope = null);
 
 
+        List<TRequestedType> GetAll<TRequestedType>(CustomScopeObject? scope = null);
 
 
-        object Get(Type requestedType);
-        
-        IEnumerable<object> GetAll(Type requestedType);
+
+
+        object Get(Type requestedType, CustomScopeObject? scope = null);
+
+
+        IEnumerable<object> GetAll(Type requestedType, CustomScopeObject? scope = null);
 
     }
 }

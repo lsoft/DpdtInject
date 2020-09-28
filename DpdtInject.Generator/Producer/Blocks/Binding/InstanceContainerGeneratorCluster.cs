@@ -3,6 +3,7 @@ using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Helper;
+using DpdtInject.Injector.Module.CustomScope;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
@@ -74,6 +75,27 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             {
                 _generators.AddRange(pair.Value.Generators);
             }
+        }
+
+        internal string GetReinventedContainerArgumentCustomScope(
+            string providerMethodNamePrefix
+            )
+        {
+            if (providerMethodNamePrefix is null)
+            {
+                throw new ArgumentNullException(nameof(providerMethodNamePrefix));
+            }
+
+            var clauses = new List<string>();
+
+            foreach (var (wrapperType, wrapperSymbol) in GetRegisteredKeys(true))
+            {
+                clauses.Add(
+                    $"new Tuple<Type, Func<{nameof(CustomScopeObject)}, object>>( typeof({wrapperSymbol.GetFullName()}), {providerMethodNamePrefix}_{wrapperSymbol.GetFullName().EscapeSpecialTypeSymbols()}{wrapperType.GetPostfix()} )"
+                    );
+            }
+
+            return string.Join(",", clauses);
         }
 
         internal string GetReinventedContainerArgument(

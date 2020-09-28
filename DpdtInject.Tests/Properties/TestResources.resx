@@ -235,8 +235,14 @@
   <data name="NonGenericTwoSameBindingsModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\NonGeneric\TwoSameBindings\NonGenericTwoSameBindingsModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="ScopeCustomHierarchy2ChildClusterModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Custom\Hierarchy2ChildCluster\ScopeCustomHierarchy2ChildClusterModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="ScopeCustomHierarchy2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Scope\Custom\Hierarchy2\ScopeCustomHierarchy2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ScopeCustomNonGenericSingleObjectModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Custom\NonGenericSingleObject\ScopeCustomNonGenericSingleObjectModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ScopeCustomSingleObjectModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Scope\Custom\SingleObject\ScopeCustomSingleObjectModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>

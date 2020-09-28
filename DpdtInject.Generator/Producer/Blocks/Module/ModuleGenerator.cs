@@ -105,6 +105,8 @@ namespace {ModuleTypeNamespace}
 
         private readonly {nameof(FixedSizeFactoryContainer)} _typeContainerGet;
         private readonly {nameof(FixedSizeFactoryContainer)} _typeContainerGetAll;
+        private readonly {nameof(FixedSizeFactoryContainerCustomScope)} _typeContainerGetCustomScope;
+        private readonly {nameof(FixedSizeFactoryContainerCustomScope)} _typeContainerGetAllCustomScope;
 
         public {ModuleTypeName}()
         {{
@@ -117,6 +119,8 @@ namespace {ModuleTypeNamespace}
 
             _typeContainerGet = {ClusterGenerator.ClusterDefaultInstanceName}.TypeContainerGet;
             _typeContainerGetAll = {ClusterGenerator.ClusterDefaultInstanceName}.TypeContainerGetAll;
+            _typeContainerGetCustomScope = {ClusterGenerator.ClusterDefaultInstanceName}.TypeContainerGetCustomScope;
+            _typeContainerGetAllCustomScope = {ClusterGenerator.ClusterDefaultInstanceName}.TypeContainerGetAllCustomScope;
         }}
 
         public {nameof(CustomScopeObject)} CreateCustomScope()
@@ -194,18 +198,18 @@ namespace {ModuleTypeNamespace}
             return (({nameof(IBindingProvider<object>)}<TRequestedType>){ClusterGenerator.ClusterDefaultInstanceName}).GetAll(scope);
         }}
 
-        //public object Get({typeof(Type).FullName} requestedType, {nameof(CustomScopeObject)} scope)
-        //{{
-        //    var result = _typeContainerGet.{nameof(FixedSizeFactoryContainer.GetGetObject)}(requestedType);
+        public object Get({typeof(Type).FullName} requestedType, {nameof(CustomScopeObject)} scope)
+        {{
+            var result = _typeContainerGetCustomScope.{nameof(FixedSizeFactoryContainerCustomScope.GetGetObject)}(requestedType, scope);
 
-        //    return result;
-        //}}
-        //public IEnumerable<object> GetAll({typeof(Type).FullName} requestedType, {nameof(CustomScopeObject)} scope)
-        //{{
-        //    var result = _typeContainerGetAll.{nameof(FixedSizeFactoryContainer.GetGetObject)}(requestedType);
+            return result;
+        }}
+        public IEnumerable<object> GetAll({typeof(Type).FullName} requestedType, {nameof(CustomScopeObject)} scope)
+        {{
+            var result = _typeContainerGetAllCustomScope.{nameof(FixedSizeFactoryContainerCustomScope.GetGetObject)}(requestedType, scope);
 
-        //    return (IEnumerable<object>)result;
-        //}}
+            return (IEnumerable<object>)result;
+        }}
 
 #endregion
 
@@ -224,6 +228,9 @@ namespace {ModuleTypeNamespace}
             var cluster = (({nameof(IClusterProvider<object>)}<TCluster>)_superCluster).{nameof(IClusterProvider<object>.GetCluster)}();
             return cluster is {nameof(IBindingProvider<object>)}<TRequestedType>;
         }}
+
+#region embedded scope
+
         public TRequestedType Get<TCluster, TRequestedType>()
         {{
             var cluster = (({nameof(IClusterProvider<object>)}<TCluster>)_superCluster).{nameof(IClusterProvider<object>.GetCluster)}();
@@ -234,6 +241,8 @@ namespace {ModuleTypeNamespace}
             var cluster = (({nameof(IClusterProvider<object>)}<TCluster>)_superCluster).{nameof(IClusterProvider<object>.GetCluster)}();
             return (({nameof(IBindingProvider<object>)}<TRequestedType>)cluster).GetAll();
         }}
+
+
         public object Get<TCluster>(System.Type requestedType)
         {{
             var cluster = (({nameof(IClusterProvider<object>)}<TCluster>)_superCluster).{nameof(IClusterProvider<object>.GetCluster)}();
@@ -244,6 +253,36 @@ namespace {ModuleTypeNamespace}
             var cluster = (({nameof(IClusterProvider<object>)}<TCluster>)_superCluster).{nameof(IClusterProvider<object>.GetCluster)}();
             return (IEnumerable<object>)(({nameof(IBindingProvider)})cluster).{nameof(IBindingProvider.TypeContainerGetAll)}.{nameof(FixedSizeFactoryContainer.GetGetObject)}(requestedType);
         }}
+
+#endregion
+
+
+#region custom scope
+
+        public TRequestedType Get<TCluster, TRequestedType>({nameof(CustomScopeObject)} scope)
+        {{
+            var cluster = (({nameof(IClusterProvider<object>)}<TCluster>)_superCluster).{nameof(IClusterProvider<object>.GetCluster)}();
+            return (({nameof(IBindingProvider<object>)}<TRequestedType>)cluster).Get(scope);
+        }}
+        public List<TRequestedType> GetAll<TCluster, TRequestedType>({nameof(CustomScopeObject)} scope)
+        {{
+            var cluster = (({nameof(IClusterProvider<object>)}<TCluster>)_superCluster).{nameof(IClusterProvider<object>.GetCluster)}();
+            return (({nameof(IBindingProvider<object>)}<TRequestedType>)cluster).GetAll(scope);
+        }}
+
+
+        public object Get<TCluster>(System.Type requestedType, {nameof(CustomScopeObject)} scope)
+        {{
+            var cluster = (({nameof(IClusterProvider<object>)}<TCluster>)_superCluster).{nameof(IClusterProvider<object>.GetCluster)}();
+            return (({nameof(IBindingProvider)})cluster).{nameof(IBindingProvider.TypeContainerGetCustomScope)}.{nameof(FixedSizeFactoryContainerCustomScope.GetGetObject)}(requestedType, scope);
+        }}
+        public IEnumerable<object> GetAll<TCluster>(System.Type requestedType, {nameof(CustomScopeObject)} scope)
+        {{
+            var cluster = (({nameof(IClusterProvider<object>)}<TCluster>)_superCluster).{nameof(IClusterProvider<object>.GetCluster)}();
+            return (IEnumerable<object>)(({nameof(IBindingProvider)})cluster).{nameof(IBindingProvider.TypeContainerGetAllCustomScope)}.{nameof(FixedSizeFactoryContainerCustomScope.GetGetObject)}(requestedType, scope);
+        }}
+
+#endregion
 
 #endregion
 

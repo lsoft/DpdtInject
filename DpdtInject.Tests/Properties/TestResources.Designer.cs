@@ -1122,6 +1122,31 @@ namespace DpdtInject.Tests.Properties {
         ///using DpdtInject.Injector.Module.Bind;
         ///using DpdtInject.Injector.Module.RContext;
         ///
+        ///namespace DpdtInject.Tests.Scope.Custom.Hierarchy2ChildCluster
+        ///{
+        ///    public partial class ScopeCustomHierarchy2ChildClusterModule : DpdtModule
+        ///    {
+        ///        public con [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeCustomHierarchy2ChildClusterModule {
+            get {
+                return ResourceManager.GetString("ScopeCustomHierarchy2ChildClusterModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using DpdtInject.Injector.Module.RContext;
+        ///
         ///namespace DpdtInject.Tests.Scope.Custom.Hierarchy2
         ///{
         ///    public partial class ScopeCustomHierarchy2Module : DpdtModule
@@ -1131,6 +1156,31 @@ namespace DpdtInject.Tests.Properties {
         internal static string ScopeCustomHierarchy2Module {
             get {
                 return ResourceManager.GetString("ScopeCustomHierarchy2Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using DpdtInject.Injector.Module;
+        ///using DpdtInject.Injector.Module.RContext;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Custom.NonGenericSingleObject
+        ///{
+        ///    public partial class ScopeCustomNonGenericSingleObjectModule : DpdtModule
+        ///    {
+        ///        public override v [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeCustomNonGenericSingleObjectModule {
+            get {
+                return ResourceManager.GetString("ScopeCustomNonGenericSingleObjectModule", resourceCulture);
             }
         }
         

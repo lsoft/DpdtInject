@@ -23,7 +23,17 @@ namespace DpdtInject.Injector
             get;
         }
 
+        FixedSizeFactoryContainerCustomScope TypeContainerGetCustomScope
+        {
+            get;
+        }
+
         FixedSizeFactoryContainer TypeContainerGetAll
+        {
+            get;
+        }
+
+        FixedSizeFactoryContainerCustomScope TypeContainerGetAllCustomScope
         {
             get;
         }

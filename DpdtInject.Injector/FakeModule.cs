@@ -27,9 +27,17 @@ namespace DpdtInject.Injector
         {
             throw new NotImplementedException("This method should not be executed");
         }
+        public TRequestedType Get<TRequestedType>(CustomScopeObject scope)
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
 
 
         public List<TRequestedType> GetAll<TRequestedType>()
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+        public List<TRequestedType> GetAll<TRequestedType>(CustomScopeObject scope)
         {
             throw new NotImplementedException("This method should not be executed");
         }
@@ -39,8 +47,16 @@ namespace DpdtInject.Injector
         {
             throw new NotImplementedException("This method should not be executed");
         }
+        public object Get(Type requestedType, CustomScopeObject scope)
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
 
         public IEnumerable<object> GetAll(Type requestedType)
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+        public IEnumerable<object> GetAll(Type requestedType, CustomScopeObject scope)
         {
             throw new NotImplementedException("This method should not be executed");
         }
@@ -100,12 +116,20 @@ namespace DpdtInject.Injector
         {
             throw new NotImplementedException("This method should not be executed");
         }
+        public object Get(Type requestedType, CustomScopeObject scope)
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
         public object Get<TCluster>(Type requestedType)
         {
             throw new NotImplementedException("This method should not be executed");
         }
 
         public IEnumerable<object> GetAll(Type requestedType)
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+        public IEnumerable<object> GetAll(Type requestedType, CustomScopeObject scope)
         {
             throw new NotImplementedException("This method should not be executed");
         }
@@ -155,6 +179,10 @@ namespace DpdtInject.Injector
         {
             throw new NotImplementedException("This method should not be executed");
         }
+        public TRequestedType Get<TCluster, TRequestedType>(CustomScopeObject scope)
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
 
 
         public List<TRequestedType> GetAll<TRequestedType>()
@@ -169,6 +197,10 @@ namespace DpdtInject.Injector
         {
             throw new NotImplementedException("This method should not be executed");
         }
+        public List<TRequestedType> GetAll<TCluster, TRequestedType>(CustomScopeObject scope)
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
 
 
 
@@ -176,16 +208,35 @@ namespace DpdtInject.Injector
         {
             throw new NotImplementedException("This method should not be executed");
         }
+        public object Get(Type requestedType, CustomScopeObject scope)
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
         public object Get<TCluster>(Type requestedType)
         {
             throw new NotImplementedException("This method should not be executed");
         }
+        public object Get<TCluster>(Type requestedType, CustomScopeObject scope)
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+
+
+
 
         public IEnumerable<object> GetAll(Type requestedType)
         {
             throw new NotImplementedException("This method should not be executed");
         }
+        public IEnumerable<object> GetAll(Type requestedType, CustomScopeObject scope)
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
         public IEnumerable<object> GetAll<TCluster>(Type requestedType)
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+        public IEnumerable<object> GetAll<TCluster>(Type requestedType, CustomScopeObject scope)
         {
             throw new NotImplementedException("This method should not be executed");
         }

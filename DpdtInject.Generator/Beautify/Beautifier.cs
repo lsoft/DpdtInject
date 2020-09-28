@@ -1,6 +1,7 @@
 ﻿using DpdtInject.Injector;
 using DpdtInject.Injector.Beautify;
 using DpdtInject.Injector.Excp;
+using DpdtInject.Injector.Module.CustomScope;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,11 +49,20 @@ namespace DpdtInject.Generator.Beautify
             return Cluster.IsRegisteredFrom<TRequestedType>();
         }
 
-        public TRequestedType Get<TRequestedType>()
+
+
+        public TRequestedType Get<TRequestedType>(
+            CustomScopeObject? scope = null
+            )
         {
             try
             {
-                return Cluster.Get<TRequestedType>();
+                if(scope is null)
+                {
+                    return Cluster.Get<TRequestedType>();
+                }
+
+                return Cluster.Get<TRequestedType>(scope);
             }
             catch (InvalidCastException)
             {
@@ -70,11 +80,18 @@ namespace DpdtInject.Generator.Beautify
             }
         }
 
-        public List<TRequestedType> GetAll<TRequestedType>()
+        public List<TRequestedType> GetAll<TRequestedType>(
+            CustomScopeObject? scope = null
+            )
         {
             try
             {
-                return Cluster.GetAll<TRequestedType>();
+                if (scope is null)
+                {
+                    return Cluster.GetAll<TRequestedType>();
+                }
+
+                return Cluster.GetAll<TRequestedType>(scope);
             }
             catch (InvalidCastException)
             {
@@ -92,14 +109,30 @@ namespace DpdtInject.Generator.Beautify
             }
         }
 
-        public object Get(Type requestedType)
+        public object Get(
+            Type requestedType,
+            CustomScopeObject? scope = null
+            )
         {
-            return Cluster.Get(requestedType);
+            if (scope is null)
+            {
+                return Cluster.Get(requestedType);
+            }
+
+            return Cluster.Get(requestedType, scope);
         }
 
-        public IEnumerable<object> GetAll(Type requestedType)
+        public IEnumerable<object> GetAll(
+            Type requestedType,
+            CustomScopeObject? scope = null
+            )
         {
-            return Cluster.GetAll(requestedType);
+            if (scope is null)
+            {
+                return Cluster.GetAll(requestedType);
+            }
+
+            return Cluster.GetAll(requestedType, scope);
         }
 
 
@@ -124,24 +157,34 @@ namespace DpdtInject.Generator.Beautify
                 return _beautifier.IsRegisteredFrom<T>();
             }
 
-            public T Get<T>()
+            public T Get<T>(
+                CustomScopeObject? scope = null
+                )
             {
-                return _beautifier.Get<T>();
+                return _beautifier.Get<T>(scope);
             }
 
-            public IReadOnlyList<T> GetAll<T>()
+            public IReadOnlyList<T> GetAll<T>(
+                CustomScopeObject? scope = null
+                )
             {
-                return _beautifier.GetAll<T>();
+                return _beautifier.GetAll<T>(scope);
             }
 
-            public object Get(Type requestedType)
+            public object Get(
+                Type requestedType,
+                CustomScopeObject? scope = null
+                )
             {
-                return _beautifier.Get(requestedType);
+                return _beautifier.Get(requestedType, scope);
             }
 
-            public IReadOnlyList<object> GetAll(Type requestedType)
+            public IReadOnlyList<object> GetAll(
+                Type requestedType,
+                CustomScopeObject? scope = null
+                )
             {
-                return _beautifier.GetAll(requestedType).ToList();
+                return _beautifier.GetAll(requestedType, scope).ToList();
             }
         }
 
@@ -166,24 +209,34 @@ namespace DpdtInject.Generator.Beautify
                 return _beautifier.IsRegisteredFrom<T>();
             }
 
-            public T Get<T>()
+            public T Get<T>(
+                CustomScopeObject? scope = null
+                )
             {
-                return _beautifier.Get<T>();
+                return _beautifier.Get<T>(scope);
             }
 
-            public List<T> GetAll<T>()
+            public List<T> GetAll<T>(
+                CustomScopeObject? scope = null
+                )
             {
-                return _beautifier.GetAll<T>();
+                return _beautifier.GetAll<T>(scope);
             }
 
-            public object Get(Type requestedType)
+            public object Get(
+                Type requestedType,
+                CustomScopeObject? scope = null
+                )
             {
-                return _beautifier.Get(requestedType);
+                return _beautifier.Get(requestedType, scope);
             }
 
-            public List<object> GetAll(Type requestedType)
+            public List<object> GetAll(
+                Type requestedType,
+                CustomScopeObject? scope = null
+                )
             {
-                return _beautifier.GetAll(requestedType).ToList();
+                return _beautifier.GetAll(requestedType, scope).ToList();
             }
         }
     }

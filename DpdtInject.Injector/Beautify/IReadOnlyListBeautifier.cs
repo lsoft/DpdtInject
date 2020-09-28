@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DpdtInject.Injector.Module.CustomScope;
+using System;
 using System.Collections.Generic;
 
 namespace DpdtInject.Injector.Beautify
@@ -8,11 +9,11 @@ namespace DpdtInject.Injector.Beautify
         bool IsRegisteredFrom<T>();
 
 
-        T Get<T>();
-        IReadOnlyList<T> GetAll<T>();
+        T Get<T>(CustomScopeObject? scope = null);
+        IReadOnlyList<T> GetAll<T>(CustomScopeObject? scope = null);
 
 
-        object Get(Type requestedType);
-        IReadOnlyList<object> GetAll(Type requestedType);
+        object Get(Type requestedType, CustomScopeObject? scope = null);
+        IReadOnlyList<object> GetAll(Type requestedType, CustomScopeObject? scope = null);
     }
 }

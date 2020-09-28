@@ -7,6 +7,7 @@ using DpdtInject.Injector;
 using DpdtInject.Injector.Beautify;
 using DpdtInject.Injector.Helper;
 using DpdtInject.Injector.Module.Bind;
+using DpdtInject.Injector.Module.CustomScope;
 using DpdtInject.Injector.Reinvented;
 using Microsoft.CodeAnalysis;
 using System;
@@ -337,6 +338,16 @@ protected {declaredClusterType.Name}()
         get;
     }}
 
+    public {nameof(FixedSizeFactoryContainerCustomScope)} TypeContainerGetCustomScope
+    {{
+        get;
+    }}
+
+    public {nameof(FixedSizeFactoryContainerCustomScope)} TypeContainerGetAllCustomScope
+    {{
+        get;
+    }}
+
     public System.Type DeclaredClusterType => typeof({declaredClusterType.Name});
 
     public bool IsRootCluster => {((declaredClusterType.BaseType!.GetFullName() == "System.Object") ? "true" : "false")};
@@ -355,6 +366,12 @@ protected {declaredClusterType.Name}()
         TypeContainerGetAll = new {nameof(FixedSizeFactoryContainer)}(
             {JointPayload.Joint.JointPayload.GetReinventedContainerArgument("GetAll")}
             );
+        TypeContainerGetCustomScope = new {nameof(FixedSizeFactoryContainerCustomScope)}(
+            {JointPayload.Joint.JointPayload.GetReinventedContainerArgumentCustomScope("Get")}
+            );
+        TypeContainerGetAllCustomScope = new {nameof(FixedSizeFactoryContainerCustomScope)}(
+            {JointPayload.Joint.JointPayload.GetReinventedContainerArgumentCustomScope("GetAll")}
+            );
 
         _beautifier = new {beautifyGenerator.ClassName}(
             this
@@ -366,19 +383,36 @@ protected {declaredClusterType.Name}()
         return this is {nameof(IBindingProvider<object>)}<TRequestedType>;
     }}
 
+
     public TRequestedType Get<TRequestedType>()
     {{
         return (({nameof(IBindingProvider<object>)}<TRequestedType>)this).Get();
     }}
+    public TRequestedType Get<TRequestedType>({nameof(CustomScopeObject)} scope)
+    {{
+        return (({nameof(IBindingProvider<object>)}<TRequestedType>)this).Get(scope);
+    }}
+
 
     public List<TRequestedType> GetAll<TRequestedType>()
     {{
         return (({nameof(IBindingProvider<object>)}<TRequestedType>)this).GetAll();
     }}
+    public List<TRequestedType> GetAll<TRequestedType>({nameof(CustomScopeObject)} scope)
+    {{
+        return (({nameof(IBindingProvider<object>)}<TRequestedType>)this).GetAll(scope);
+    }}
+
 
     public object Get({typeof(Type).FullName} requestedType)
     {{
         var result = TypeContainerGet.{nameof(FixedSizeFactoryContainer.GetGetObject)}(requestedType);
+
+        return result;
+    }}
+    public object Get({typeof(Type).FullName} requestedType, {nameof(CustomScopeObject)} scope)
+    {{
+        var result = TypeContainerGetCustomScope.{nameof(FixedSizeFactoryContainerCustomScope.GetGetObject)}(requestedType, scope);
 
         return result;
     }}
@@ -388,6 +422,14 @@ protected {declaredClusterType.Name}()
 
         return (IEnumerable<object>)result;
     }}
+    public IEnumerable<object> GetAll({typeof(Type).FullName} requestedType, {nameof(CustomScopeObject)} scope)
+    {{
+        var result = TypeContainerGetAllCustomScope.{nameof(FixedSizeFactoryContainerCustomScope.GetGetObject)}(requestedType, scope);
+
+        return (IEnumerable<object>)result;
+    }}
+
+
 
 #region Beautify
 
