@@ -1,5 +1,6 @@
 ﻿using DpdtInject.Injector.Beautify;
 using DpdtInject.Injector.Module;
+using DpdtInject.Injector.Module.RContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,6 +63,10 @@ namespace DpdtInject.Injector
         {
             throw new NotImplementedException("This method should not be executed");
         }
+        public TRequestedType Get<TRequestedType>(CustomScopeObject scope)
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
         public TRequestedType Get<TCluster, TRequestedType>()
         {
             throw new NotImplementedException("This method should not be executed");
@@ -69,6 +74,10 @@ namespace DpdtInject.Injector
 
 
         public List<TRequestedType> GetAll<TRequestedType>()
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+        public List<TRequestedType> GetAll<TRequestedType>(CustomScopeObject scope)
         {
             throw new NotImplementedException("This method should not be executed");
         }
@@ -123,6 +132,10 @@ namespace DpdtInject.Injector
         {
             throw new NotImplementedException("This method should not be executed");
         }
+        public TRequestedType Get<TRequestedType>(CustomScopeObject scope)
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
         public TRequestedType Get<TCluster, TRequestedType>()
         {
             throw new NotImplementedException("This method should not be executed");
@@ -130,6 +143,10 @@ namespace DpdtInject.Injector
 
 
         public List<TRequestedType> GetAll<TRequestedType>()
+        {
+            throw new NotImplementedException("This method should not be executed");
+        }
+        public List<TRequestedType> GetAll<TRequestedType>(CustomScopeObject scope)
         {
             throw new NotImplementedException("This method should not be executed");
         }

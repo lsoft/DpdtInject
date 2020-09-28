@@ -101,6 +101,11 @@ namespace DpdtInject.Generator.Parser.Binding
                         )
                     )
                 .CheckAndReplace("//GENERATOR: predicate", (WhenArgumentClause?.ToString() ?? "rc => true"))
+                .CheckAndReplaceIfTrue(
+                    () => Scope == BindScopeEnum.Custom,
+                    "/*GENERATOR: put here unique guid*/",
+                    Guid.NewGuid().ToString()
+                    )
                 ;
 
             return result;

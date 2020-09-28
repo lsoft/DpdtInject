@@ -104,6 +104,8 @@ namespace DpdtInject.Injector.Reinvented
 
         public void Dispose()
         {
+            var excps = new List<Exception>();
+
             for(var r = 0; r < _table.Length; r++)
             {
                 var row = _table[r];
@@ -111,9 +113,21 @@ namespace DpdtInject.Injector.Reinvented
                 {
                     if (row[c].Object is IDisposable d)
                     {
-                        d.Dispose();
+                        try
+                        {
+                            d.Dispose();
+                        }
+                        catch(Exception excp)
+                        {
+                            excps.Add(excp);
+                        }
                     }
                 }
+            }
+
+            if(excps.Count > 0)
+            {
+                throw new AggregateException(excps);
             }
         }
 

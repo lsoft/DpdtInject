@@ -1,5 +1,6 @@
 ﻿using DpdtInject.Generator.Tree;
 using DpdtInject.Injector.Excp;
+using DpdtInject.Injector.Module.Bind;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
@@ -79,23 +80,23 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
         internal void BuildFlags()
         {
-            CheckForAtLeastOneChildIsConditionalInternal(
+            CheckForNeedToProcessResolutionContextInternal(
                 );
         }
 
-        private void CheckForAtLeastOneChildIsConditionalInternal(
+        private void CheckForNeedToProcessResolutionContextInternal(
             )
         {
             foreach (var point2 in Joint.GeneratePoints2())
             {
-                var itselfOrAtLeastOneChildIsConditional = CheckForItselfOrAtLeastOneChildIsConditionalInternal2(
+                var needToProcessResolutionContext = CheckForNeedToProcessResolutionContextInternal2(
                     point2,
                     new HashSet<InstanceContainerGenerator>()
                     );
-                point2.Generator.ItselfOrAtLeastOneChildIsConditional = itselfOrAtLeastOneChildIsConditional;
+                point2.Generator.NeedToProcessResolutionContext = needToProcessResolutionContext;
             }
         }
-        private bool CheckForItselfOrAtLeastOneChildIsConditionalInternal2(
+        private bool CheckForNeedToProcessResolutionContextInternal2(
             Point2 point2,
             HashSet<InstanceContainerGenerator> used
             )
@@ -121,6 +122,10 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             {
                 return true;
             }
+            if (point2.Generator.BindingContainer.Scope == BindScopeEnum.Custom)
+            {
+                return true;
+            }
 
             foreach (var ca in point2.Generator.BindingContainer.ConstructorArguments.Where(ca => !ca.DefineInBindNode))
             {
@@ -142,7 +147,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                 {
                     foreach (var childPoint2 in childrenPoint2)
                     {
-                        if(CheckForItselfOrAtLeastOneChildIsConditionalInternal2(
+                        if(CheckForNeedToProcessResolutionContextInternal2(
                             childPoint2,
                             new HashSet<InstanceContainerGenerator>(used)
                             ))

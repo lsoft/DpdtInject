@@ -15,14 +15,24 @@ namespace DpdtInject.Injector.Beautify
             get;
         }
 
+
+
+
         bool IsRegisteredFrom<TRequestedType>();
 
 
+
+
+
         TRequestedType Get<TRequestedType>();
+
         List<TRequestedType> GetAll<TRequestedType>();
 
 
+
+
         object Get(Type requestedType);
+        
         IEnumerable<object> GetAll(Type requestedType);
 
     }

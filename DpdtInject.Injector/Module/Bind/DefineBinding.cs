@@ -18,6 +18,8 @@ namespace DpdtInject.Injector.Module.Bind
         IClusterBinding WithTransientScope();
 
         IClusterBinding WithSingletonScope();
+
+        IClusterBinding WithCustomScope();
     }
 
     public interface IClusterBinding

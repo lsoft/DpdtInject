@@ -144,6 +144,9 @@ namespace {ModuleTypeNamespace}
         {{
             return {ClusterGenerator.ClusterDefaultInstanceName} is {nameof(IBindingProvider<object>)}<TRequestedType>;
         }}
+
+#region embedded scope
+
         public TRequestedType Get<TRequestedType>()
         {{
             return (({nameof(IBindingProvider<object>)}<TRequestedType>){ClusterGenerator.ClusterDefaultInstanceName}).Get();
@@ -152,6 +155,7 @@ namespace {ModuleTypeNamespace}
         {{
             return (({nameof(IBindingProvider<object>)}<TRequestedType>){ClusterGenerator.ClusterDefaultInstanceName}).GetAll();
         }}
+
         public object Get({typeof(Type).FullName} requestedType)
         {{
             var result = _typeContainerGet.{nameof(FixedSizeFactoryContainer.GetGetObject)}(requestedType);
@@ -164,6 +168,36 @@ namespace {ModuleTypeNamespace}
 
             return (IEnumerable<object>)result;
         }}
+
+#endregion
+
+
+#region custom scope
+
+        public TRequestedType Get<TRequestedType>({nameof(CustomScopeObject)} scope)
+        {{
+            return (({nameof(IBindingProvider<object>)}<TRequestedType>){ClusterGenerator.ClusterDefaultInstanceName}).Get(scope);
+        }}
+        public List<TRequestedType> GetAll<TRequestedType>({nameof(CustomScopeObject)} scope)
+        {{
+            return (({nameof(IBindingProvider<object>)}<TRequestedType>){ClusterGenerator.ClusterDefaultInstanceName}).GetAll(scope);
+        }}
+
+        //public object Get({typeof(Type).FullName} requestedType, {nameof(CustomScopeObject)} scope)
+        //{{
+        //    var result = _typeContainerGet.{nameof(FixedSizeFactoryContainer.GetGetObject)}(requestedType);
+
+        //    return result;
+        //}}
+        //public IEnumerable<object> GetAll({typeof(Type).FullName} requestedType, {nameof(CustomScopeObject)} scope)
+        //{{
+        //    var result = _typeContainerGetAll.{nameof(FixedSizeFactoryContainer.GetGetObject)}(requestedType);
+
+        //    return (IEnumerable<object>)result;
+        //}}
+
+#endregion
+
 
 #endregion
 

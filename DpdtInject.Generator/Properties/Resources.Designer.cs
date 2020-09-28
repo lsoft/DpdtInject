@@ -62,8 +62,8 @@ namespace DpdtInject.Generator.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Beautify;
         ///using DpdtInject.Injector.Excp;
-        ///using DpdtInject.Injector.Module;
         ///using System;
         ///using System.Collections.Generic;
         ///using System.Linq;
@@ -72,9 +72,9 @@ namespace DpdtInject.Generator.Properties {
         ///
         ///namespace DpdtInject.Generator.Beautify
         ///{
-        ///    public sealed class Beautifier
+        ///    public sealed class Beautifier : IBeautifier
         ///    {
-        ///        public FakeModule Module
+        ///        public FakeCluster Cluster
         ///        {
         ///            get;
         ///        }
@@ -84,7 +84,7 @@ namespace DpdtInject.Generator.Properties {
         ///            get;
         ///        }
         ///        public ReadOnlyListBeautifier ReadOnlyList
-        ///   [rest of string was truncated]&quot;;.
+        ///        [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Beautifier {
             get {
@@ -118,6 +118,31 @@ namespace DpdtInject.Generator.Properties {
         internal static string ConstantInstanceContainer {
             get {
                 return ResourceManager.GetString("ConstantInstanceContainer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector.Excp;
+        ///using DpdtInject.Injector.Module.RContext;
+        ///using System;
+        ///using System.Runtime.CompilerServices;
+        ///using System.Threading;
+        ///
+        ///namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
+        ///{
+        ///    public sealed class CustomInstanceContainer
+        ///    {
+        ///        private CustomInstanceContainer()
+        ///        {
+        ///        }
+        ///
+        ///#if UNDECLARED_SYMBOL
+        ///        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        ///        public static bool CheckPredicate(ResolutionContext resolution [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string CustomInstanceContainer {
+            get {
+                return ResourceManager.GetString("CustomInstanceContainer", resourceCulture);
             }
         }
         

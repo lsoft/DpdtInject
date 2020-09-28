@@ -105,19 +105,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Cluster
             }
 
             return
-                string.Join(Environment.NewLine, _interfaceSection.Select(i => i.ResolutionFrameSection))
-                + string.Join(
-                    Environment.NewLine,
-                    _interfaceSection.Select(j =>
-                        j.GetExplicitImplementationSection
-                        + Environment.NewLine
-                        + j.GetImplementationSection
-                        + Environment.NewLine
-                        + j.GetAllImplementationSection
-                        + Environment.NewLine
-                        + j.GetAllExplicitImplementationSection
-                        )
-                    )
+                string.Join(Environment.NewLine, _interfaceSection.Select(i => i.GetGeneratedCode()))
                 ;
         }
 

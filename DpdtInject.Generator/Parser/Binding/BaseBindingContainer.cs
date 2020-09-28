@@ -109,13 +109,12 @@ namespace DpdtInject.Generator.Parser.Binding
             {
                 case Injector.Module.Bind.BindScopeEnum.Transient:
                     return $"{string.Join("_", GetFromTypeFullNamesCombined().EscapeSpecialTypeSymbols())}_{BindToType.GetFullName().EscapeSpecialTypeSymbols()}_{nameof(TransientInstanceContainer)}_{this.GetHashCode()}";
-                    break;
                 case Injector.Module.Bind.BindScopeEnum.Singleton:
                     return $"{string.Join("_", GetFromTypeFullNamesCombined().EscapeSpecialTypeSymbols())}_{BindToType.GetFullName().EscapeSpecialTypeSymbols()}_{nameof(SingletonInstanceContainer)}_{this.GetHashCode()}";
-                    break;
                 case Injector.Module.Bind.BindScopeEnum.Constant:
                     return $"{string.Join("_", GetFromTypeFullNamesCombined().EscapeSpecialTypeSymbols())}_{nameof(ConstantInstanceContainer)}_{this.GetHashCode()}";
-                    break;
+                case Injector.Module.Bind.BindScopeEnum.Custom:
+                    return $"{string.Join("_", GetFromTypeFullNamesCombined().EscapeSpecialTypeSymbols())}_{BindToType.GetFullName().EscapeSpecialTypeSymbols()}_{nameof(CustomInstanceContainer)}_{this.GetHashCode()}";
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -136,6 +135,10 @@ namespace DpdtInject.Generator.Parser.Binding
                 case Injector.Module.Bind.BindScopeEnum.Singleton:
                     className = nameof(SingletonInstanceContainer);
                     resource = Resources.SingletonInstanceContainer;
+                    break;
+                case Injector.Module.Bind.BindScopeEnum.Custom:
+                    className = nameof(CustomInstanceContainer);
+                    resource = Resources.CustomInstanceContainer;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(Scope.ToString());

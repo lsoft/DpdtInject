@@ -195,7 +195,7 @@ private static {workingType.GetFullName()} Get_{Name}({nameof(ResolutionContext)
             {
                 var pair0 = pairs[0];
 
-                if (pair0.InstanceContainerGenerator.ItselfOrAtLeastOneChildIsConditional)
+                if (pair0.InstanceContainerGenerator.NeedToProcessResolutionContext)
                 {
                     var createFrameVariableName = createFrameVariableNameDict[pair0.InstanceContainerGenerator.GetVariableStableName()];
 
@@ -229,7 +229,7 @@ private static {workingType.GetFullName()} Get_{Name}({nameof(ResolutionContext)
             }
             else
             {
-                if (pairs.Count(p => !p.InstanceContainerGenerator.ItselfOrAtLeastOneChildIsConditional) > 1)
+                if (pairs.Count(p => !p.InstanceContainerGenerator.NeedToProcessResolutionContext) > 1)
                 {
                     applyArgumentPiece = $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -241,7 +241,7 @@ private static {workingType.GetFullName()} Get_{Name}({nameof(ResolutionContext)
                 }
                 else
                 {
-                    var nonConditionalGeneratorCount = pairs.Count(p => !p.InstanceContainerGenerator.ItselfOrAtLeastOneChildIsConditional);
+                    var nonConditionalGeneratorCount = pairs.Count(p => !p.InstanceContainerGenerator.NeedToProcessResolutionContext);
 
                     applyArgumentPiece = $@"
 {createFrameClause}
@@ -254,7 +254,7 @@ private static {workingType.GetFullName()} Get_{Name}({nameof(ResolutionContext)
 
                     foreach (var pair in pairs)
                     {
-                        if (pair.InstanceContainerGenerator.ItselfOrAtLeastOneChildIsConditional)
+                        if (pair.InstanceContainerGenerator.NeedToProcessResolutionContext)
                         {
                             var createFrameVariableName = createFrameVariableNameDict[pair.InstanceContainerGenerator.GetVariableStableName()];
                             var createContextWithFrameVariableName = createContextWithFrameVariableNameDict[pair.InstanceContainerGenerator.GetVariableStableName()];
@@ -290,7 +290,7 @@ if(allowedChildrenCount == 0)
                         var pair = pairs[pIndex];
                         var isLast = pIndex == (pairs.Count - 1);
 
-                        if (pair.InstanceContainerGenerator.ItselfOrAtLeastOneChildIsConditional && !isLast)
+                        if (pair.InstanceContainerGenerator.NeedToProcessResolutionContext && !isLast)
                         {
                             var createContextWithFrameVariableName = createContextWithFrameVariableNameDict[pair.InstanceContainerGenerator.GetVariableStableName()];
 

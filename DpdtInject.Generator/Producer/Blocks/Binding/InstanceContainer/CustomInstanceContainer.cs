@@ -16,8 +16,13 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CheckPredicate(ResolutionContext resolutionContext)
         {
+            if(resolutionContext.ScopeObject is null)
+            {
+                return false;
+            }
+
             Func<IResolutionContext, bool> predicate = //GENERATOR: predicate
-            ;
+                ;
 
             var result = predicate(resolutionContext);
             return result;
@@ -40,7 +45,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
 #nullable enable
         private class Nested
         {
-            private static readonly Guid CustomScopeUniqueId = new Guid(" /*GENERATOR: put here unique guid*/ ");
+            private static readonly Guid CustomScopeUniqueId = new Guid("/*GENERATOR: put here unique guid*/");
 
             // Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
             static Nested()
@@ -52,11 +57,10 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding.InstanceContainer
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static FakeTarget GetInstance(ResolutionContext resolutionContext)
             {
-
                 var instance = (FakeTarget)resolutionContext.ScopeObject!.GetOrAdd(
                     CustomScopeUniqueId,
                     () => new FakeTarget(
-                    //GENERATOR: apply arguments
+                        //GENERATOR: apply arguments
                     )
                 );
 

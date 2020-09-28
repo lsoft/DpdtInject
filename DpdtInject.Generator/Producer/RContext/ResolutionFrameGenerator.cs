@@ -1,4 +1,5 @@
-﻿using DpdtInject.Injector.Module.RContext;
+﻿using DpdtInject.Generator.Producer.Blocks.Binding;
+using DpdtInject.Injector.Module.RContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;

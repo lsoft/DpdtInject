@@ -21,10 +21,7 @@ using System.Text;
 
 namespace DpdtInject.Generator.Producer.Blocks.Binding
 {
-
     public class InstanceContainerGenerator
-
-
     {
         public IBindingContainer BindingContainer
         {
@@ -40,12 +37,11 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             get;
         }
 
-        public bool ItselfOrAtLeastOneChildIsConditional
+        public bool NeedToProcessResolutionContext
         {
             get;
             set;
         }
-
 
         public string DisposeClause
         {
@@ -104,7 +100,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
 
             var classBody = BindingContainer.PrepareInstanceContainerCode(clusterGeneratorJoint)
                 //.CheckAndReplace("public sealed class", "private sealed class")
-                .CheckAndReplaceIfTrue(() => ItselfOrAtLeastOneChildIsConditional, "#if UNDECLARED_SYMBOL", "#if !UNDECLARED_SYMBOL")
+                .CheckAndReplaceIfTrue(() => NeedToProcessResolutionContext, "#if UNDECLARED_SYMBOL", "#if !UNDECLARED_SYMBOL")
                 ;
 
             return classBody;

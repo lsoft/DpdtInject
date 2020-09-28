@@ -102,7 +102,10 @@ namespace DpdtInject.Generator.Parser
                 {
                     if (!expressionText.Contains(nameof(IScopeBinding.WithTransientScope)))
                     {
-                        return base.VisitExpressionStatement(expressionNode)!;
+                        if (!expressionText.Contains(nameof(IScopeBinding.WithCustomScope)))
+                        {
+                            return base.VisitExpressionStatement(expressionNode)!;
+                        }
                     }
                 }
             }
@@ -134,6 +137,14 @@ namespace DpdtInject.Generator.Parser
                         declaredClusterType
                         );
                     break;
+                case BindScopeEnum.Custom:
+                    ProcessCustom(
+                        expressionNode,
+                        bindGenericNode,
+                        whenArgumentClause,
+                        declaredClusterType
+                        );
+                    break;
                 case BindScopeEnum.Constant:
                     ProcessConstant(
                         expressionNode,
@@ -156,7 +167,7 @@ namespace DpdtInject.Generator.Parser
             //return block;
         }
 
-        private void ProcessConstant(
+        private void ProcessSingleton(
             ExpressionStatementSyntax expressionNode,
             GenericNameSyntax bindGenericNode,
             ArgumentSyntax? whenArgumentClause,
@@ -168,40 +179,63 @@ namespace DpdtInject.Generator.Parser
                 .OfType<GenericNameSyntax>()
                 .ToList();
 
-
-            var withScopeSyntax = expressionNode
-                .DescendantNodes()
-                .Where(s => s.GetText().ToString() == nameof(IToOrConstantBinding.WithConstScope))
-                .First();
-
-            var constTypeSymbol = (_semanticModel.GetSymbolInfo(withScopeSyntax).Symbol as IMethodSymbol)!.TypeArguments[0];
-
-            var constantClause = DetermineArgumentSubClause(
-                expressionNode,
-                nameof(IToOrConstantBinding.WithConstScope)
-                );
-
-            if (constantClause is null)
+            var toGenericNode = genericNodes[1];
+            var toMethodName = toGenericNode.Identifier.Text;
+            if (toMethodName != nameof(IToOrConstantBinding.To))
             {
-                throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"Cannot find constant clause");
+                throw new DpdtException(DpdtExceptionTypeEnum.InternalError, "Cannot find To clause for singleton binding");
             }
 
             var bindFromTypeSematics = GetBindFromTypes(
                 bindGenericNode
                 );
 
-            var bindingContainer = new ConstantBindingContainer(
+            var bindToSyntax = toGenericNode.TypeArgumentList.Arguments.First();
+            var bindToTypeSematic = _semanticModel.GetTypeInfo(bindToSyntax).Type;
+            if (bindToTypeSematic == null)
+            {
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.InternalError,
+                    $"Unknown problem to access {nameof(bindToTypeSematic)}"
+                    );
+            }
+
+            CheckForFromAndToTypes(
+                bindFromTypeSematics,
+                bindToTypeSematic
+                );
+
+            var fullBindToTypeName = _compilation.GetTypeByMetadataName(bindToTypeSematic.GetFullName());
+            if (fullBindToTypeName == null)
+            {
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.InternalError,
+                    $"Unknown problem to access type for {bindToTypeSematic.GetFullName()}"
+                    );
+            }
+
+            var caExtractor = new ConstructorArgumentExtractor(
+                _compilation,
+                _semanticModel
+                );
+            caExtractor.Visit(expressionNode);
+
+            var constructorArguments = GetConstructorArguments(
+                caExtractor,
+                fullBindToTypeName
+                );
+
+            var bindingContainer = new BindingContainerWithInstance(
                 declaredClusterType,
                 bindFromTypeSematics,
-                constTypeSymbol,
-                constantClause,
-                BindScopeEnum.Constant,
+                bindToTypeSematic,
+                constructorArguments,
+                BindScopeEnum.Singleton,
                 whenArgumentClause
                 );
 
             _bindingContainers.Add(bindingContainer);
         }
-
 
         private void ProcessTransient(
             ExpressionStatementSyntax expressionNode,
@@ -274,8 +308,7 @@ namespace DpdtInject.Generator.Parser
             _bindingContainers.Add(bindingContainer);
         }
 
-
-        private void ProcessSingleton(
+        private void ProcessCustom(
             ExpressionStatementSyntax expressionNode,
             GenericNameSyntax bindGenericNode,
             ArgumentSyntax? whenArgumentClause,
@@ -291,7 +324,7 @@ namespace DpdtInject.Generator.Parser
             var toMethodName = toGenericNode.Identifier.Text;
             if (toMethodName != nameof(IToOrConstantBinding.To))
             {
-                throw new DpdtException(DpdtExceptionTypeEnum.InternalError, "Cannot find To clause for singleton binding");
+                throw new DpdtException(DpdtExceptionTypeEnum.InternalError, "Cannot find To clause for custom binding");
             }
 
             var bindFromTypeSematics = GetBindFromTypes(
@@ -300,6 +333,7 @@ namespace DpdtInject.Generator.Parser
 
             var bindToSyntax = toGenericNode.TypeArgumentList.Arguments.First();
             var bindToTypeSematic = _semanticModel.GetTypeInfo(bindToSyntax).Type;
+
             if (bindToTypeSematic == null)
             {
                 throw new DpdtException(
@@ -338,12 +372,59 @@ namespace DpdtInject.Generator.Parser
                 bindFromTypeSematics,
                 bindToTypeSematic,
                 constructorArguments,
-                BindScopeEnum.Singleton,
+                BindScopeEnum.Custom,
                 whenArgumentClause
                 );
 
             _bindingContainers.Add(bindingContainer);
         }
+
+        private void ProcessConstant(
+            ExpressionStatementSyntax expressionNode,
+            GenericNameSyntax bindGenericNode,
+            ArgumentSyntax? whenArgumentClause,
+            ITypeSymbol declaredClusterType
+            )
+        {
+            var genericNodes = expressionNode
+                .DescendantNodes()
+                .OfType<GenericNameSyntax>()
+                .ToList();
+
+
+            var withScopeSyntax = expressionNode
+                .DescendantNodes()
+                .Where(s => s.GetText().ToString() == nameof(IToOrConstantBinding.WithConstScope))
+                .First();
+
+            var constTypeSymbol = (_semanticModel.GetSymbolInfo(withScopeSyntax).Symbol as IMethodSymbol)!.TypeArguments[0];
+
+            var constantClause = DetermineArgumentSubClause(
+                expressionNode,
+                nameof(IToOrConstantBinding.WithConstScope)
+                );
+
+            if (constantClause is null)
+            {
+                throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"Cannot find constant clause");
+            }
+
+            var bindFromTypeSematics = GetBindFromTypes(
+                bindGenericNode
+                );
+
+            var bindingContainer = new ConstantBindingContainer(
+                declaredClusterType,
+                bindFromTypeSematics,
+                constTypeSymbol,
+                constantClause,
+                BindScopeEnum.Constant,
+                whenArgumentClause
+                );
+
+            _bindingContainers.Add(bindingContainer);
+        }
+
 
         private List<ITypeSymbol> GetBindFromTypes(GenericNameSyntax bindGenericNode)
         {
@@ -548,6 +629,12 @@ namespace DpdtInject.Generator.Parser
             if (constScope)
             {
                 return BindScopeEnum.Constant;
+            }
+
+            var customScope = dnodes.OfType<IdentifierNameSyntax>().Any(j => j.Identifier.Text == nameof(IScopeBinding.WithCustomScope));
+            if (customScope)
+            {
+                return BindScopeEnum.Custom;
             }
 
             throw new InvalidOperationException("unknown scope");

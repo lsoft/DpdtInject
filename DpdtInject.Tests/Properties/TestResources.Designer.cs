@@ -1119,6 +1119,83 @@ namespace DpdtInject.Tests.Properties {
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using DpdtInject.Injector.Module.RContext;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Custom.Hierarchy2
+        ///{
+        ///    public partial class ScopeCustomHierarchy2Module : DpdtModule
+        ///    {
+        ///        public const string Message = &quot;som [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeCustomHierarchy2Module {
+            get {
+                return ResourceManager.GetString("ScopeCustomHierarchy2Module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using DpdtInject.Injector.Module;
+        ///using DpdtInject.Injector.Module.RContext;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Custom.SingleObject
+        ///{
+        ///    public partial class ScopeCustomSingleObjectModule : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///         [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeCustomSingleObjectModule {
+            get {
+                return ResourceManager.GetString("ScopeCustomSingleObjectModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using DpdtInject.Injector.Module;
+        ///using DpdtInject.Injector.Module.RContext;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Custom.TwoSameBindings
+        ///{
+        ///    public partial class ScopeCustomTwoSameBindingsModule : DpdtModule
+        ///    {
+        ///        public override void Load()
+        ///   [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeCustomTwoSameBindingsModule {
+            get {
+                return ResourceManager.GetString("ScopeCustomTwoSameBindingsModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
         ///
         ///namespace DpdtInject.Tests.Singleton.Dispose
         ///{
@@ -1663,6 +1740,33 @@ namespace DpdtInject.Tests.Properties {
         internal static string UnsortedSameChildrenModule {
             get {
                 return ResourceManager.GetString("UnsortedSameChildrenModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.SingletonCustom
+        ///{
+        ///    public partial class UnsortedSingletonCustomModule : DpdtModule
+        ///    {
+        ///        public const string Message = &quot;some message&quot;;
+        ///
+        ///        public override void Load()
+        ///        [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedSingletonCustomModule {
+            get {
+                return ResourceManager.GetString("UnsortedSingletonCustomModule", resourceCulture);
             }
         }
         

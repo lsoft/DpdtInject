@@ -1,4 +1,5 @@
-﻿using DpdtInject.Injector.Reinvented;
+﻿using DpdtInject.Injector.Excp;
+using DpdtInject.Injector.Reinvented;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -18,11 +19,11 @@ namespace DpdtInject.Injector.Module.RContext
         //    );
     }
 
-    public sealed class BaseScopeObject : ICustomScopeObject, IDisposable
+    public sealed class CustomScopeObject : ICustomScopeObject, IDisposable
     {
         private FlexibleSizeObjectContainer _dependencyContainer;
 
-        public BaseScopeObject()
+        public CustomScopeObject()
         {
             _dependencyContainer = new FlexibleSizeObjectContainer(
                 1
@@ -55,8 +56,6 @@ namespace DpdtInject.Injector.Module.RContext
 
     public class ResolutionContext : IResolutionContext
     {
-        //public static readonly ResolutionContext EmptyContext = new ResolutionContext();
-
         private readonly List<ResolutionFrame> _frames;
 
         public IReadOnlyList<IResolutionFrame> Frames => _frames;
@@ -71,21 +70,14 @@ namespace DpdtInject.Injector.Module.RContext
 
         public ICustomScopeObject? CustomScopeObject => ScopeObject;
 
-        public BaseScopeObject? ScopeObject
+        public CustomScopeObject? ScopeObject
         {
             get;
         }
 
-        //public ResolutionContext()
-        //    : this(null, )
-        //{
-        //    _frames = new List<ResolutionFrame>();
-        //    ScopeObject = null;
-        //}
-
         public ResolutionContext(
-            ResolutionFrame newFrame,
-            BaseScopeObject? scopeObject
+            ResolutionFrame newFrame
+            //,CustomScopeObject? scopeObject
             )
         {
             if (newFrame is null)
@@ -98,6 +90,26 @@ namespace DpdtInject.Injector.Module.RContext
                 newFrame
             };
 
+            //ScopeObject = scopeObject;
+            ScopeObject = null;
+        }
+
+        private ResolutionContext(
+            ResolutionContext sourceResolutionContext,
+            CustomScopeObject scopeObject
+            )
+        {
+            if (sourceResolutionContext is null)
+            {
+                throw new ArgumentNullException(nameof(sourceResolutionContext));
+            }
+
+            if (scopeObject is null)
+            {
+                throw new ArgumentNullException(nameof(scopeObject));
+            }
+
+            _frames = new List<ResolutionFrame>(sourceResolutionContext._frames); //clone this
             ScopeObject = scopeObject;
         }
 
@@ -115,6 +127,14 @@ namespace DpdtInject.Injector.Module.RContext
             ScopeObject = parentResolutionContext.ScopeObject;
 
             _frames.Add(newFrame);
+        }
+
+        public ResolutionContext ModifyWith(CustomScopeObject scope)
+        {
+            return new ResolutionContext(
+                this,
+                scope
+                );
         }
 
         public ResolutionContext AddFrame(ResolutionFrame newFrame)

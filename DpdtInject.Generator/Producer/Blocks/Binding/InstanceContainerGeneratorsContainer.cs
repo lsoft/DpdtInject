@@ -156,7 +156,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
         {
             AnalyzeForUnknownBindings(diagnosticReporter);
             AnalyzeForCircularDependencies(diagnosticReporter);
-            AnalyzeForSingletonTakesTransient(diagnosticReporter);
+            AnalyzeForSingletonTakesTransientOrCustom(diagnosticReporter);
         }
 
         private void AnalyzeForCircularDependencies(
@@ -195,7 +195,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
             }
         }
 
-        private void AnalyzeForSingletonTakesTransient(
+        private void AnalyzeForSingletonTakesTransientOrCustom(
             IDiagnosticReporter diagnosticReporter
             )
         {
@@ -212,11 +212,11 @@ namespace DpdtInject.Generator.Producer.Blocks.Binding
                     {
                         foreach(var child in children)
                         {
-                            if (child.Generator.BindingContainer.Scope.In(BindScopeEnum.Transient))
+                            if (child.Generator.BindingContainer.Scope.In(BindScopeEnum.Transient, BindScopeEnum.Custom))
                             {
                                 diagnosticReporter.ReportWarning(
-                                    $"Singleton-transient relationship has been found.",
-                                    $"Searching for singleton-transient relationship has been found: singleton parent [{point3.Generator.BindingContainer.TargetRepresentation}] takes transient child [{child.Generator.BindingContainer.TargetRepresentation}]."
+                                    $"Singleton-transient/custom relationship has been found.",
+                                    $"Searching for singleton-transient/custom relationship has been found: singleton parent [{point3.Generator.BindingContainer.TargetRepresentation}] takes transient/custom child [{child.Generator.BindingContainer.TargetRepresentation}]."
                                     );
                             }
                         }

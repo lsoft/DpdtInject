@@ -4,6 +4,7 @@
     {
         Transient,
         Singleton,
-        Constant
+        Constant,
+        Custom
     }
 }
