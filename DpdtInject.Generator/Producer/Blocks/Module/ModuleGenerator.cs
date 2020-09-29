@@ -90,6 +90,8 @@ using {typeof(ResolutionFrame).Namespace};
 using {typeof(FixedSizeFactoryContainer).Namespace};
 using {typeof(CustomScopeObject).Namespace};
 using {typeof(ICustomScopeFactory).Namespace};
+using {typeof(ListBeautifier).Namespace};
+using {typeof(ReadOnlyListBeautifier).Namespace};
 
 {clusterGeneratorTree.GenerateUsingClauses()}
 
@@ -131,28 +133,18 @@ namespace {ModuleTypeNamespace}
                 );
         }}
 
+        public TCluster GetCluster<TCluster>()
+            where TCluster : {nameof(ICluster)}
+        {{
+            var cluster = (({nameof(IClusterProvider<object>)}<TCluster>)_superCluster).{nameof(IClusterProvider<object>.GetCluster)}();
+            return cluster;
+        }}
+
 
         public override void Dispose()
         {{
             {clusterGeneratorTree.GenerateClusterDisposeClauses()}
         }}
-
-#region Get Beautifiers
-
-        public {typeof(IBeautifier).FullName} GetBeautifier()
-        {{
-            return (({nameof(IBindingProvider)}){ClusterGenerator.ClusterDefaultInstanceName}).{nameof(FakeCluster.Beautifier)};
-        }}
-
-        public {typeof(IBeautifier).FullName} GetBeautifier<TCluster>()
-        {{
-            var cluster = (({nameof(IClusterProvider<object>)}<TCluster>)_superCluster).GetCluster();
-            return (({nameof(IBindingProvider)})cluster).{nameof(FakeCluster.Beautifier)};
-        }}
-
-
-#endregion
-
 
 #region default cluster
 

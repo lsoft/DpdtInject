@@ -1,23 +1,11 @@
 ﻿using DpdtInject.Generator.ArgumentWrapper;
-using DpdtInject.Generator.Beautify;
-using DpdtInject.Generator.Helpers;
-using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Generator.Producer.Blocks.Binding;
-using DpdtInject.Generator.Producer.Blocks.Exception;
 using DpdtInject.Generator.Tree;
-using DpdtInject.Injector;
-using DpdtInject.Injector.Beautify;
-using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
-using DpdtInject.Injector.Module;
-using DpdtInject.Injector.Module.Bind;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DpdtInject.Generator.Producer.Blocks.Cluster
 {

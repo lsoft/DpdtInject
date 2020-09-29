@@ -1,5 +1,4 @@
 ﻿using DpdtInject.Injector;
-using DpdtInject.Injector.Beautify;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Module.CustomScope;
 using System;
@@ -8,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DpdtInject.Generator.Beautify
+namespace DpdtInject.Injector.Beautify
 {
 #nullable disable
 
     public sealed class Beautifier : IBeautifier
     {
-        public FakeCluster Cluster
+        public ICluster Cluster
         {
             get;
         }
@@ -33,7 +32,7 @@ namespace DpdtInject.Generator.Beautify
         IReadOnlyListBeautifier IBeautifier.ReadOnlyList => ReadOnlyList;
 
         public Beautifier(
-            FakeCluster cluster
+            ICluster cluster
             )
         {
             if (cluster is null)
@@ -111,103 +110,6 @@ namespace DpdtInject.Generator.Beautify
             )
         {
             return Cluster.GetAll(requestedType);
-        }
-
-
-        public sealed class ReadOnlyListBeautifier : IReadOnlyListBeautifier
-        {
-            private readonly Beautifier _beautifier;
-
-            public ReadOnlyListBeautifier(
-                Beautifier beautifier
-                )
-            {
-                if (beautifier is null)
-                {
-                    throw new ArgumentNullException(nameof(beautifier));
-                }
-
-                _beautifier = beautifier;
-            }
-
-            public bool IsRegisteredFrom<T>()
-            {
-                return _beautifier.IsRegisteredFrom<T>();
-            }
-
-            public T Get<T>(
-                )
-            {
-                return _beautifier.Get<T>();
-            }
-
-            public IReadOnlyList<T> GetAll<T>(
-                )
-            {
-                return _beautifier.GetAll<T>();
-            }
-
-            public object Get(
-                Type requestedType
-                )
-            {
-                return _beautifier.Get(requestedType);
-            }
-
-            public IReadOnlyList<object> GetAll(
-                Type requestedType
-                )
-            {
-                return _beautifier.GetAll(requestedType).ToList();
-            }
-        }
-
-        public sealed class ListBeautifier : IListBeautifier
-        {
-            private readonly Beautifier _beautifier;
-
-            public ListBeautifier(
-                Beautifier beautifier
-                )
-            {
-                if (beautifier is null)
-                {
-                    throw new ArgumentNullException(nameof(beautifier));
-                }
-
-                _beautifier = beautifier;
-            }
-
-            public bool IsRegisteredFrom<T>()
-            {
-                return _beautifier.IsRegisteredFrom<T>();
-            }
-
-            public T Get<T>(
-                )
-            {
-                return _beautifier.Get<T>();
-            }
-
-            public List<T> GetAll<T>(
-                )
-            {
-                return _beautifier.GetAll<T>();
-            }
-
-            public object Get(
-                Type requestedType
-                )
-            {
-                return _beautifier.Get(requestedType);
-            }
-
-            public List<object> GetAll(
-                Type requestedType
-                )
-            {
-                return _beautifier.GetAll(requestedType).ToList();
-            }
         }
     }
 }

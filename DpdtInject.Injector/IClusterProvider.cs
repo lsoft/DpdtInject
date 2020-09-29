@@ -13,11 +13,6 @@ namespace DpdtInject.Injector
 
     public interface IBindingProvider
     {
-        IBeautifier Beautifier
-        {
-            get;
-        }
-
         FixedSizeFactoryContainer TypeContainerGet
         {
             get;

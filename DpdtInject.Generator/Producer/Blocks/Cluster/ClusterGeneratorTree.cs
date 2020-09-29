@@ -1,10 +1,8 @@
 ﻿using DpdtInject.Generator.ArgumentWrapper;
-using DpdtInject.Generator.Beautify;
 using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Producer.Blocks.Binding;
 using DpdtInject.Generator.Tree;
 using DpdtInject.Injector;
-using DpdtInject.Injector.Beautify;
 using DpdtInject.Injector.Helper;
 using DpdtInject.Injector.Module.Bind;
 using DpdtInject.Injector.Module.CustomScope;
@@ -296,10 +294,6 @@ private class SuperCluster :
         {
             var declaredClusterType = (INamedTypeSymbol)JointPayload.Joint.JointPayload.DeclaredClusterType;
 
-            var beautifyGenerator = new BeautifyGenerator(
-                declaredClusterType.Name
-                );
-
             var fieldParentClusterClause = string.Empty;
             var constructorArgumentParentClusterClause = string.Empty;
             var assignParentClusterClause = string.Empty;
@@ -322,11 +316,10 @@ protected {declaredClusterType.Name}()
             }
 
             return $@"
-{declaredClusterType.DeclaredAccessibility.ToSource()} partial class {declaredClusterType.Name} : {nameof(IDisposable)}, {nameof(IBindingProvider)}
+{declaredClusterType.DeclaredAccessibility.ToSource()} partial class {declaredClusterType.Name} : {nameof(IDisposable)}, {nameof(IBindingProvider)}, {nameof(ICluster)}
     {JointPayload.GetCombinedInterfaces()}
 {{
     {fieldParentClusterClause}
-    private readonly {beautifyGenerator.ClassName} _beautifier;
 
     public {nameof(FixedSizeFactoryContainer)} TypeContainerGet
     {{
@@ -352,7 +345,6 @@ protected {declaredClusterType.Name}()
 
     public bool IsRootCluster => {((declaredClusterType.BaseType!.GetFullName() == "System.Object") ? "true" : "false")};
 
-    public {typeof(IBeautifier).FullName} Beautifier => _beautifier;
 
     {parameterlessConstructorClause}
 
@@ -371,10 +363,6 @@ protected {declaredClusterType.Name}()
             );
         TypeContainerGetAllCustomScope = new {nameof(FixedSizeFactoryContainerCustomScope)}(
             {JointPayload.Joint.JointPayload.GetReinventedContainerArgumentCustomScope("GetAll")}
-            );
-
-        _beautifier = new {beautifyGenerator.ClassName}(
-            this
             );
     }}
 
@@ -428,14 +416,6 @@ protected {declaredClusterType.Name}()
 
         return (IEnumerable<object>)result;
     }}
-
-
-
-#region Beautify
-
-    {beautifyGenerator.GenerateBeautifierBody()}
-
-#endregion
 
     public void Dispose()
     {{

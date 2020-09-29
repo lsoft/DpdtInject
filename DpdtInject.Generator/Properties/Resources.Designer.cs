@@ -61,38 +61,6 @@ namespace DpdtInject.Generator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Beautify;
-        ///using DpdtInject.Injector.Excp;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///
-        ///namespace DpdtInject.Generator.Beautify
-        ///{
-        ///    public sealed class Beautifier : IBeautifier
-        ///    {
-        ///        public FakeCluster Cluster
-        ///        {
-        ///            get;
-        ///        }
-        ///
-        ///        public ListBeautifier List
-        ///        {
-        ///            get;
-        ///        }
-        ///        public ReadOnlyListBeautifier ReadOnlyList
-        ///        [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string Beautifier {
-            get {
-                return ResourceManager.GetString("Beautifier", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector.Excp;
         ///using DpdtInject.Injector.Module.RContext;
         ///using System;

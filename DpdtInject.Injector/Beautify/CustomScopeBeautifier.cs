@@ -1,5 +1,4 @@
 ﻿using DpdtInject.Injector;
-using DpdtInject.Injector.Beautify;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Module;
 using DpdtInject.Injector.Module.CustomScope;
@@ -9,22 +8,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DpdtInject.Generator.Beautify
+namespace DpdtInject.Injector.Beautify
 {
     public class CustomScopeBeautifier : IBeautifier
     {
         private readonly CustomScopeObject _customScope;
 
-        public FakeCluster Cluster
+        public ICluster Cluster
         {
             get;
         }
 
-        public CustomScopeListBeautifier List
+        public ListBeautifier List
         {
             get;
         }
-        public CustomScopeReadOnlyListBeautifier ReadOnlyList
+        public ReadOnlyListBeautifier ReadOnlyList
         {
             get;
         }
@@ -36,7 +35,7 @@ namespace DpdtInject.Generator.Beautify
 
         public CustomScopeBeautifier(
             ICustomScopeFactory customScopeFactory,
-            FakeCluster cluster
+            ICluster cluster
             )
         {
             if (customScopeFactory is null)
@@ -52,8 +51,8 @@ namespace DpdtInject.Generator.Beautify
             _customScope = customScopeFactory.CreateCustomScope();
 
             Cluster = cluster;
-            List = new CustomScopeListBeautifier(this);
-            ReadOnlyList = new CustomScopeReadOnlyListBeautifier(this);
+            List = new ListBeautifier(this);
+            ReadOnlyList = new ReadOnlyListBeautifier(this);
         }
 
 
@@ -123,102 +122,6 @@ namespace DpdtInject.Generator.Beautify
         {
             return Cluster.GetAll(requestedType, _customScope);
         }
-
-
-        public sealed class CustomScopeReadOnlyListBeautifier : IReadOnlyListBeautifier
-        {
-            private readonly CustomScopeBeautifier _beautifier;
-
-            public CustomScopeReadOnlyListBeautifier(
-                CustomScopeBeautifier beautifier
-                )
-            {
-                if (beautifier is null)
-                {
-                    throw new ArgumentNullException(nameof(beautifier));
-                }
-
-                _beautifier = beautifier;
-            }
-
-            public bool IsRegisteredFrom<T>()
-            {
-                return _beautifier.IsRegisteredFrom<T>();
-            }
-
-            public T Get<T>(
-                )
-            {
-                return _beautifier.Get<T>();
-            }
-
-            public IReadOnlyList<T> GetAll<T>(
-                )
-            {
-                return _beautifier.GetAll<T>();
-            }
-
-            public object Get(
-                Type requestedType
-                )
-            {
-                return _beautifier.Get(requestedType);
-            }
-
-            public IReadOnlyList<object> GetAll(
-                Type requestedType
-                )
-            {
-                return _beautifier.GetAll(requestedType).ToList();
-            }
-        }
-
-        public sealed class CustomScopeListBeautifier : IListBeautifier
-        {
-            private readonly CustomScopeBeautifier _beautifier;
-
-            public CustomScopeListBeautifier(
-                CustomScopeBeautifier beautifier
-                )
-            {
-                if (beautifier is null)
-                {
-                    throw new ArgumentNullException(nameof(beautifier));
-                }
-
-                _beautifier = beautifier;
-            }
-
-            public bool IsRegisteredFrom<T>()
-            {
-                return _beautifier.IsRegisteredFrom<T>();
-            }
-
-            public T Get<T>(
-                )
-            {
-                return _beautifier.Get<T>();
-            }
-
-            public List<T> GetAll<T>(
-                )
-            {
-                return _beautifier.GetAll<T>();
-            }
-
-            public object Get(
-                Type requestedType
-                )
-            {
-                return _beautifier.Get(requestedType);
-            }
-
-            public List<object> GetAll(
-                Type requestedType
-                )
-            {
-                return _beautifier.GetAll(requestedType).ToList();
-            }
-        }
     }
+
 }
