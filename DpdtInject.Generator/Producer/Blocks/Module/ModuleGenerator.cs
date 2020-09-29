@@ -23,7 +23,7 @@ namespace DpdtInject.Generator.Producer.Blocks.Module
             get;
         }
 
-        public string ModuleTypeNamespace => ModuleSymbol.ContainingNamespace.GetFullName();
+        public string ModuleTypeNamespace => ModuleSymbol.ContainingNamespace.ToDisplayString();
 
         public string ModuleTypeName => ModuleSymbol.Name;
 

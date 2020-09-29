@@ -1,7 +1,6 @@
 ﻿using DpdtInject.Generator.Reporter;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Excp;
-using Microsoft.CodeAnalysis.CodeFixes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

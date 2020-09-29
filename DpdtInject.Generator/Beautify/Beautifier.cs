@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 
 namespace DpdtInject.Generator.Beautify
 {
+#nullable disable
+
     public sealed class Beautifier : IBeautifier
     {
         public FakeCluster Cluster
@@ -52,7 +54,7 @@ namespace DpdtInject.Generator.Beautify
 
 
         public TRequestedType Get<TRequestedType>(
-            CustomScopeObject? scope = null
+            CustomScopeObject scope = null
             )
         {
             try
@@ -81,7 +83,7 @@ namespace DpdtInject.Generator.Beautify
         }
 
         public List<TRequestedType> GetAll<TRequestedType>(
-            CustomScopeObject? scope = null
+            CustomScopeObject scope = null
             )
         {
             try
@@ -111,7 +113,7 @@ namespace DpdtInject.Generator.Beautify
 
         public object Get(
             Type requestedType,
-            CustomScopeObject? scope = null
+            CustomScopeObject scope = null
             )
         {
             if (scope is null)
@@ -124,7 +126,7 @@ namespace DpdtInject.Generator.Beautify
 
         public IEnumerable<object> GetAll(
             Type requestedType,
-            CustomScopeObject? scope = null
+            CustomScopeObject scope = null
             )
         {
             if (scope is null)
@@ -158,14 +160,14 @@ namespace DpdtInject.Generator.Beautify
             }
 
             public T Get<T>(
-                CustomScopeObject? scope = null
+                CustomScopeObject scope = null
                 )
             {
                 return _beautifier.Get<T>(scope);
             }
 
             public IReadOnlyList<T> GetAll<T>(
-                CustomScopeObject? scope = null
+                CustomScopeObject scope = null
                 )
             {
                 return _beautifier.GetAll<T>(scope);
@@ -173,7 +175,7 @@ namespace DpdtInject.Generator.Beautify
 
             public object Get(
                 Type requestedType,
-                CustomScopeObject? scope = null
+                CustomScopeObject scope = null
                 )
             {
                 return _beautifier.Get(requestedType, scope);
@@ -181,7 +183,7 @@ namespace DpdtInject.Generator.Beautify
 
             public IReadOnlyList<object> GetAll(
                 Type requestedType,
-                CustomScopeObject? scope = null
+                CustomScopeObject scope = null
                 )
             {
                 return _beautifier.GetAll(requestedType, scope).ToList();
@@ -210,14 +212,14 @@ namespace DpdtInject.Generator.Beautify
             }
 
             public T Get<T>(
-                CustomScopeObject? scope = null
+                CustomScopeObject scope = null
                 )
             {
                 return _beautifier.Get<T>(scope);
             }
 
             public List<T> GetAll<T>(
-                CustomScopeObject? scope = null
+                CustomScopeObject scope = null
                 )
             {
                 return _beautifier.GetAll<T>(scope);
@@ -225,7 +227,7 @@ namespace DpdtInject.Generator.Beautify
 
             public object Get(
                 Type requestedType,
-                CustomScopeObject? scope = null
+                CustomScopeObject scope = null
                 )
             {
                 return _beautifier.Get(requestedType, scope);
@@ -233,7 +235,7 @@ namespace DpdtInject.Generator.Beautify
 
             public List<object> GetAll(
                 Type requestedType,
-                CustomScopeObject? scope = null
+                CustomScopeObject scope = null
                 )
             {
                 return _beautifier.GetAll(requestedType, scope).ToList();
