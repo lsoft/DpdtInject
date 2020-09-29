@@ -5,10 +5,11 @@ using System.Collections.Generic;
 
 namespace DpdtInject.Injector.Module
 {
-    //public abstract class DpdtCluster
-    //{
+    public interface ICustomScopeFactory
+    {
+        CustomScopeObject CreateCustomScope();
+    }
 
-    //}
 
     public abstract class DpdtModule : IDisposable
     {

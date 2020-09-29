@@ -25,18 +25,18 @@ namespace DpdtInject.Injector.Beautify
 
 
 
-        TRequestedType Get<TRequestedType>(CustomScopeObject? scope = null);
+        TRequestedType Get<TRequestedType>();
 
 
-        List<TRequestedType> GetAll<TRequestedType>(CustomScopeObject? scope = null);
+        List<TRequestedType> GetAll<TRequestedType>();
 
 
 
 
-        object Get(Type requestedType, CustomScopeObject? scope = null);
+        object Get(Type requestedType);
 
 
-        IEnumerable<object> GetAll(Type requestedType, CustomScopeObject? scope = null);
+        IEnumerable<object> GetAll(Type requestedType);
 
     }
 }

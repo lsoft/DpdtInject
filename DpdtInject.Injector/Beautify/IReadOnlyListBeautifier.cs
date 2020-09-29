@@ -9,11 +9,11 @@ namespace DpdtInject.Injector.Beautify
         bool IsRegisteredFrom<T>();
 
 
-        T Get<T>(CustomScopeObject? scope = null);
-        IReadOnlyList<T> GetAll<T>(CustomScopeObject? scope = null);
+        T Get<T>();
+        IReadOnlyList<T> GetAll<T>();
 
 
-        object Get(Type requestedType, CustomScopeObject? scope = null);
-        IReadOnlyList<object> GetAll(Type requestedType, CustomScopeObject? scope = null);
+        object Get(Type requestedType);
+        IReadOnlyList<object> GetAll(Type requestedType);
     }
 }

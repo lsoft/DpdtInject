@@ -89,6 +89,7 @@ using {typeof(ResolutionContext).Namespace};
 using {typeof(ResolutionFrame).Namespace};
 using {typeof(FixedSizeFactoryContainer).Namespace};
 using {typeof(CustomScopeObject).Namespace};
+using {typeof(ICustomScopeFactory).Namespace};
 
 {clusterGeneratorTree.GenerateUsingClauses()}
 
@@ -97,7 +98,7 @@ using {typeof(CustomScopeObject).Namespace};
 namespace {ModuleTypeNamespace}
 {{
 //#nullable enable
-    public partial class {ModuleTypeName} : {nameof(DpdtModule)}
+    public partial class {ModuleTypeName} : {nameof(DpdtModule)}, {nameof(ICustomScopeFactory)}
     {{
         private static long _instanceCount = 0L;
 

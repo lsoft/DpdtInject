@@ -1,6 +1,7 @@
 ﻿using DpdtInject.Injector;
 using DpdtInject.Injector.Beautify;
 using DpdtInject.Injector.Excp;
+using DpdtInject.Injector.Module;
 using DpdtInject.Injector.Module.CustomScope;
 using System;
 using System.Collections.Generic;
@@ -10,20 +11,20 @@ using System.Threading.Tasks;
 
 namespace DpdtInject.Generator.Beautify
 {
-#nullable disable
-
-    public sealed class Beautifier : IBeautifier
+    public class CustomScopeBeautifier : IBeautifier
     {
+        private readonly CustomScopeObject _customScope;
+
         public FakeCluster Cluster
         {
             get;
         }
 
-        public ListBeautifier List
+        public CustomScopeListBeautifier List
         {
             get;
         }
-        public ReadOnlyListBeautifier ReadOnlyList
+        public CustomScopeReadOnlyListBeautifier ReadOnlyList
         {
             get;
         }
@@ -32,19 +33,29 @@ namespace DpdtInject.Generator.Beautify
 
         IReadOnlyListBeautifier IBeautifier.ReadOnlyList => ReadOnlyList;
 
-        public Beautifier(
+
+        public CustomScopeBeautifier(
+            ICustomScopeFactory customScopeFactory,
             FakeCluster cluster
             )
         {
+            if (customScopeFactory is null)
+            {
+                throw new ArgumentNullException(nameof(customScopeFactory));
+            }
+
             if (cluster is null)
             {
                 throw new ArgumentNullException(nameof(cluster));
             }
 
+            _customScope = customScopeFactory.CreateCustomScope();
+
             Cluster = cluster;
-            List = new ListBeautifier(this);
-            ReadOnlyList = new ReadOnlyListBeautifier(this);
+            List = new CustomScopeListBeautifier(this);
+            ReadOnlyList = new CustomScopeReadOnlyListBeautifier(this);
         }
+
 
         public bool IsRegisteredFrom<TRequestedType>()
         {
@@ -58,7 +69,7 @@ namespace DpdtInject.Generator.Beautify
         {
             try
             {
-                return Cluster.Get<TRequestedType>();
+                return Cluster.Get<TRequestedType>(_customScope);
             }
             catch (InvalidCastException)
             {
@@ -81,7 +92,7 @@ namespace DpdtInject.Generator.Beautify
         {
             try
             {
-                return Cluster.GetAll<TRequestedType>();
+                return Cluster.GetAll<TRequestedType>(_customScope);
             }
             catch (InvalidCastException)
             {
@@ -103,23 +114,23 @@ namespace DpdtInject.Generator.Beautify
             Type requestedType
             )
         {
-            return Cluster.Get(requestedType);
+            return Cluster.Get(requestedType, _customScope);
         }
 
         public IEnumerable<object> GetAll(
             Type requestedType
             )
         {
-            return Cluster.GetAll(requestedType);
+            return Cluster.GetAll(requestedType, _customScope);
         }
 
 
-        public sealed class ReadOnlyListBeautifier : IReadOnlyListBeautifier
+        public sealed class CustomScopeReadOnlyListBeautifier : IReadOnlyListBeautifier
         {
-            private readonly Beautifier _beautifier;
+            private readonly CustomScopeBeautifier _beautifier;
 
-            public ReadOnlyListBeautifier(
-                Beautifier beautifier
+            public CustomScopeReadOnlyListBeautifier(
+                CustomScopeBeautifier beautifier
                 )
             {
                 if (beautifier is null)
@@ -162,12 +173,12 @@ namespace DpdtInject.Generator.Beautify
             }
         }
 
-        public sealed class ListBeautifier : IListBeautifier
+        public sealed class CustomScopeListBeautifier : IListBeautifier
         {
-            private readonly Beautifier _beautifier;
+            private readonly CustomScopeBeautifier _beautifier;
 
-            public ListBeautifier(
-                Beautifier beautifier
+            public CustomScopeListBeautifier(
+                CustomScopeBeautifier beautifier
                 )
             {
                 if (beautifier is null)
