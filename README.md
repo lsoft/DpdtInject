@@ -92,37 +92,12 @@ Please refer to Dpdt.Injector nuget package at nuget.org. Keep in mind you need 
 
 # Design
 
-## Debugging your clusters and conditional clauses
+## Design drawbacks
 
-Because of source generators are generating new code based on your code, it's impossible to direclty debug your cluster code, including its `When` predicates (because this code is not actually executed at runtime). It's a disadvantage of Dpdt design. For conditional clauses, you need to call another class to obtain an ability to catch a breakpoint:
-
-```
-    public partial class MyCluster : DefaultCluster
-    {
-        public override void Load()
-        {
-            Bind<IA, IA2>()
-                .To<A>()
-                .WithSingletonScope()
-                .When(rt =>
-                {
-                    //here debugger is NOT working
-
-                    return Debugger.Debug(rt);
-                })
-                ;
-        }
-    }
-
-    public static class Debugger
-    {
-        public static bool Debug(IResolutionTarget rt)
-        {
-            //here debugger is working
-            return true;
-        }
-    }
-```
+0. Because of design, it's impossible to `Unbind`.
+0. Because of source generators, it's impossible to direclty debug your bind code, including its `When` predicates.
+0. Because of massive rewriting the body of the cluster, it's impossible to use a local variables (local methods and other local stuff) in `ConstructorArgument` and `When` predicates. To make bind works use instance based fields, properties and methods instead. To make bind debuggable use fields, properties and methods of the other, helper class.
+0. No deferred bindings by design with exception of cluster hierarchy.
 
 ## Syntax
 
@@ -182,28 +157,22 @@ Dpdt will break ongoing compilation if binding has useless `ConstructorArgument`
 
 ### Singleton takes transient or custom
 
-Dpdt can detect cases of singleton takes a transient or custom as its dependency, and make signals to the programmer. It's not always a bug, but warning might be useful.
+Dpdt can detect cases of singleton binding takes a transient/custom binding as its dependency, and make signals to the programmer. It's not always a bug, but warning might be useful.
 
 ### Circular dependencies
 
 Dpdt is available to determine circular dependencies in your dependency tree. In that cases it raise a compilation error. One additional point: if that circle contains a conditional binding, Dpdt can't determine if circular dependency will exists at runtime, so Dpdt raises a compile-time warning instead of error.
 
+## More than 1 unconditional child
+
+If for some binding more than 1 unconditional child exists it renders parent unresolvable, so Dpdt will break the compilation is that case.
+
 ## Cluster life cycle
 
-The life cycle of the cluster begins by creating it with `new`. The cluster can take other cluster as its parent, so each unknown dependency will be targeted to the parent.
+The life cycle of the cluster begins by creating it with `new`. The cluster can take other cluster as its parent, so each unknown dependency will be resolved from the parent (if parent exists, otherwise exception would be thrown).
 
 The end of the life cycle of a cluster occurs after the call to its `Dispose` method. At this point, all of its disposable singleton bindings are also being disposed. It is prohibited to dispose of the cluster and use it for resolving in parallel . It is forbidden to resolve after a `Dispose`.
 
-# More than 1 unconditional child
-
-More than 1 unconditional child makes parent binding unresolvable so Dpdt will break the compilation is that case.
-
-## Design drawbacks
-
-0. Because of design, it's impossible to `Unbind`.
-0. Because of source generators, it's impossible to direclty debug your bind code, including its `When` predicates.
-0. Because of massive rewriting the body of the cluster, it's impossible to use a local variables (local methods and other local stuff) in `ConstructorArgument` and `When` predicates. To make bind works use instance based fields, properties and methods instead. To make bind debuggable use fields, properties and methods of the other, helper class.
-0. No deferred bindings by design with exception of cluster hierarchy.
 
 ## Artifact folder
 
@@ -228,27 +197,6 @@ Dpdt's source generator is able to store pregenerated C# code at the disk. The o
 
 `Dpdt_Generator_GeneratedSourceFolder` is a builtin variable name; `c:\temp\Dpdt.Pregenerated` is an **absolute** folder name for Dpdt artifacts and allowed to be changed.
 
-## Child clusters
-
-```
-    public partial class RootCluster : DefaultCluster
-    { ... }
-
-    public partial class ChildCluster : DefaultCluster
-    { ... }
-
-...
-
-            var rootCluster = new RootCluster(
-                null
-                );
-            var childCluster = new ChildCluster(
-                rootCluster
-                );
-```
-
-Clusters are organized into a tree. This tree cannot have a circular dependency, since it is based on class inheritance. Dependencies, consumed by the binding in the child cluster, are resolved from the native cluster if exists, if not - from **parent cluster**.
-
 ## Custom scopes
 
 ```csharp
@@ -268,4 +216,59 @@ Clusters are organized into a tree. This tree cannot have a circular dependency,
                     var a2 = cluster.Get<IA>(scope2);
                 }
             }
+```
+
+`IDisposable` custom-binded objects will be disposed at the moment of the scope object dispose. Keep in mind, custom-scoped bindings are resolved much slower than singleton/transient/constant bindings.
+
+## Child clusters
+
+```
+    public partial class RootCluster : DefaultCluster
+    { ... }
+
+    public partial class ChildCluster : DefaultCluster
+    { ... }
+
+...
+
+            var rootCluster = new RootCluster(
+                null
+                );
+            var childCluster = new ChildCluster(
+                rootCluster
+                );
+```
+
+Clusters are organized into a tree. This tree cannot have a circular dependency, since it is based on constructor argument. Dependencies, consumed by the binding in the child cluster, are resolved from the native cluster if exists, if not - from **parent cluster**.
+
+## Debugging your clusters and conditional clauses
+
+Because of source generators are generating new code based on your code, it's impossible to direclty debug your cluster code, including its `When` predicates (because this code is not actually executed at runtime). It's a disadvantage of Dpdt design. For conditional clauses, you need to call another class to obtain an ability to catch a breakpoint:
+
+```
+    public partial class MyCluster : DefaultCluster
+    {
+        public override void Load()
+        {
+            Bind<IA, IA2>()
+                .To<A>()
+                .WithSingletonScope()
+                .When(rt =>
+                {
+                    //here debugger is NOT working
+
+                    return Debugger.Debug(rt);
+                })
+                ;
+        }
+    }
+
+    public static class Debugger
+    {
+        public static bool Debug(IResolutionTarget rt)
+        {
+            //here debugger is working
+            return true;
+        }
+    }
 ```
