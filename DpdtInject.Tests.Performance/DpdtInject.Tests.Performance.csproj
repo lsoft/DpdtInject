@@ -15,10 +15,6 @@
     <Compile Remove="Dpdt.Pregenerated\**" />
     <EmbeddedResource Remove="Dpdt.Pregenerated\**" />
     <None Remove="Dpdt.Pregenerated\**" />
-
-    <Compile Remove="NonGeneric\PreProgrammed\**" />
-    <EmbeddedResource Remove="NonGeneric\PreProgrammed\**" />
-    <None Remove="NonGeneric\PreProgrammed\**" />
   </ItemGroup>
 
   <ItemGroup>

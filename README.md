@@ -32,6 +32,30 @@ More to come!
 
 ``` ini
 
+BenchmarkDotNet=v0.12.0, OS=Windows 10.0.19041
+Intel Core i5-4200U CPU 1.60GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
+.NET Core SDK=5.0.100-rc.1.20452.10
+  [Host]     : .NET Core 3.1.7 (CoreCLR 4.700.20.36602, CoreFX 4.700.20.37001), X64 RyuJIT
+  Job-JBGCKX : .NET Core 3.1.7 (CoreCLR 4.700.20.36602, CoreFX 4.700.20.37001), X64 RyuJIT
+
+Runtime=.NET Core 3.1  Server=True  
+
+```
+|                                         Namespace |          Type |              Method |      Mean |    Error |   StdDev |  Gen 0 | Gen 1 | Gen 2 | Allocated |
+|-------------------------------------------------- |-------------- |-------------------- |----------:|---------:|---------:|-------:|------:|------:|----------:|
+|    DpdtInject.Tests.Performance.Generic.Singleton |          Dpdt |    GenericSingleton |  34.57 ns | 0.388 ns | 0.344 ns |      - |     - |     - |         - |
+|    DpdtInject.Tests.Performance.Generic.Transient |          Dpdt |    GenericTransient |  77.68 ns | 0.634 ns | 0.593 ns | 0.0188 |     - |     - |     144 B |
+| DpdtInject.Tests.Performance.NonGeneric.Singleton |          Dpdt | NonGenericSingleton |  46.93 ns | 0.490 ns | 0.458 ns |      - |     - |     - |         - |
+| DpdtInject.Tests.Performance.NonGeneric.Transient |          Dpdt | NonGenericTransient |  90.45 ns | 0.401 ns | 0.335 ns | 0.0187 |     - |     - |     144 B |
+|    DpdtInject.Tests.Performance.Generic.Singleton |        DryIoc |    GenericSingleton |  92.27 ns | 1.372 ns | 1.283 ns |      - |     - |     - |         - |
+|    DpdtInject.Tests.Performance.Generic.Transient |        DryIoc |    GenericTransient | 131.53 ns | 1.351 ns | 1.128 ns | 0.0188 |     - |     - |     144 B |
+| DpdtInject.Tests.Performance.NonGeneric.Singleton |        DryIoc | NonGenericSingleton |  52.20 ns | 0.616 ns | 0.547 ns |      - |     - |     - |         - |
+| DpdtInject.Tests.Performance.NonGeneric.Transient |        DryIoc | NonGenericTransient |  96.62 ns | 0.702 ns | 0.656 ns | 0.0187 |     - |     - |     144 B |
+|    DpdtInject.Tests.Performance.Generic.Singleton | Microresolver |    GenericSingleton |  56.35 ns | 0.473 ns | 0.420 ns |      - |     - |     - |         - |
+|    DpdtInject.Tests.Performance.Generic.Transient | Microresolver |    GenericTransient | 100.44 ns | 1.173 ns | 1.098 ns | 0.0187 |     - |     - |     144 B |
+| DpdtInject.Tests.Performance.NonGeneric.Singleton | Microresolver | NonGenericSingleton |  28.88 ns | 0.392 ns | 0.348 ns |      - |     - |     - |         - |
+| DpdtInject.Tests.Performance.NonGeneric.Transient | Microresolver | NonGenericTransient |  74.49 ns | 0.717 ns | 0.599 ns | 0.0187 |     - |     - |     144 B |
+
 
 
 
