@@ -19,6 +19,15 @@ namespace DpdtInject.Injector.Reinvented
             int estimatedObjectCountPerHash = 3
             )
         {
+            if(estimatedTypeCount < 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(estimatedTypeCount));
+            }
+            if (estimatedObjectCountPerHash < 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(estimatedObjectCountPerHash));
+            }
+
             _length = MathHelper.GetPower2Length(estimatedTypeCount);
             _mask = _length - 1;
 
@@ -35,6 +44,7 @@ namespace DpdtInject.Injector.Reinvented
             )
         {
             var index = CalculateIndex(uniqueId);
+
             var list = _table[index];
 
             for (var i = 0; i < list.Count; i++)

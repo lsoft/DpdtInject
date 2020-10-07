@@ -1,5 +1,4 @@
-﻿using DpdtInject.Generator.Reporter;
-using DpdtInject.Injector.Compilation;
+﻿using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Excp;
 using System;
 using System.Collections.Generic;

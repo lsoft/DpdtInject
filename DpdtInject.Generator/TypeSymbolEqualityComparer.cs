@@ -23,7 +23,7 @@ namespace DpdtInject.Generator
                 return false;
             }
 
-            if (x.GetFullName() == y.GetFullName())
+            if (x.ToDisplayString() == y.ToDisplayString())
             {
                 return true;
             }
@@ -33,7 +33,7 @@ namespace DpdtInject.Generator
 
         public int GetHashCode([DisallowNull] ITypeSymbol obj)
         {
-            return obj.GetFullName().GetHashCode();
+            return obj.ToDisplayString().GetHashCode();
         }
     }
 }

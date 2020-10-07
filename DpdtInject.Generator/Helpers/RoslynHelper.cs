@@ -73,40 +73,6 @@ namespace DpdtInject.Generator.Helpers
                 yield return nestedType;
         }
 
-        public static string GetFullName(
-            this ITypeSymbol symbol
-            )
-        {
-            if (symbol is null)
-            {
-                throw new ArgumentNullException(nameof(symbol));
-            }
-
-            if(symbol is INamedTypeSymbol namedSymbol)
-            {
-                if(namedSymbol.TypeArguments.Length > 0)
-                {
-                    var combined = string.Join(",", namedSymbol.TypeArguments.Select(s => s.GetFullName()));
-
-                    return $"{symbol.ContainingNamespace}.{symbol.Name}<{combined}>";
-                }
-            }
-
-            return symbol.ContainingNamespace + "." + symbol.Name;
-        }
-
-        public static string GetFullName(
-            this ISymbol symbol
-            )
-        {
-            if (symbol is null)
-            {
-                throw new ArgumentNullException(nameof(symbol));
-            }
-
-            return symbol.ContainingNamespace + "." + symbol.Name;
-        }
-
         public static bool TryGetCompileTimeString(
             this ExpressionSyntax expression,
             SemanticModel semanticModel,
@@ -154,7 +120,7 @@ namespace DpdtInject.Generator.Helpers
 
             foreach (INamedTypeSymbol @interface in target.AllInterfaces)
             {
-                var roslynInterfaceFullName = @interface.GetFullName();
+                var roslynInterfaceFullName = @interface.ToDisplayString();
 
                 if (StringComparer.InvariantCultureIgnoreCase.Compare(roslynInterfaceFullName, subjectTypeFullName) == 0)
                 {

@@ -7,19 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="**\*.Pregenerated.cs" />
-    <Compile Remove="Func\Generic\SingleObject\**" />
+    <Compile Remove="**\*.Pregenerated*.cs" />
     <Compile Remove="TestResults\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="**\*.Pregenerated.cs" />
+    <None Include="**\*.Pregenerated*.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Remove="Func\Generic\SingleObject\**" />
     <EmbeddedResource Remove="TestResults\**" />
-    <None Remove="Func\Generic\SingleObject\**" />
     <None Remove="TestResults\**" />
   </ItemGroup>
 

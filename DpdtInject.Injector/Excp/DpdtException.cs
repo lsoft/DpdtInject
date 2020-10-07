@@ -24,7 +24,8 @@ namespace DpdtInject.Injector.Excp
         IncorrectBinding,
         IncorrectBinding_CantCast,
         IncorrectBinding_IncorrectTarget,
-        IncorrectCluster
+        IncorrectCluster,
+        CustomScopeObjectDoesNotFound
     }
 
     public class DpdtException : Exception

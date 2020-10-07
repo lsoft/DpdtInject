@@ -12,4 +12,8 @@
     <NoWarn>$(NoWarn);nullable;CS8766;CS8767</NoWarn>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Reinvented\FixedSizeFactoryContainerCustomScope.cs" />
+  </ItemGroup>
+
 </Project>

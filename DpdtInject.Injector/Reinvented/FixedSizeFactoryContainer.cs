@@ -1,5 +1,6 @@
 ﻿using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
+using DpdtInject.Injector.Module.RContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace DpdtInject.Injector.Reinvented
         private readonly HashTupleFunc[][] _table;
 
         public FixedSizeFactoryContainer(
-            params Tuple<Type, Func<object>>[] pairs
+            params Tuple<Type, Func<IResolutionRequest, object>>[] pairs
             )
         {
             if (pairs is null)
@@ -81,19 +82,25 @@ namespace DpdtInject.Injector.Reinvented
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public object? GetGetObject(Type requestedType)
+        public object? GetGetObject(
+            Type requestedType,
+            IResolutionRequest resolutionRequest
+            )
         {
             var index = CalculateIndex(requestedType);
 
-            var list = _table[index];
-
-            for (var i = 0; i < list.Length; i++)
+            if (_table.Length > index)
             {
-                var item = list[i];
+                var list = _table[index];
 
-                if (item.Type == requestedType)
+                for (var i = 0; i < list.Length; i++)
                 {
-                    return item.Factory();
+                    var item = list[i];
+
+                    if (item.Type == requestedType)
+                    {
+                        return item.Factory(resolutionRequest);
+                    }
                 }
             }
 
@@ -102,6 +109,28 @@ namespace DpdtInject.Injector.Reinvented
                 $"No bindings available for {requestedType.FullName}",
                 requestedType.FullName!
                 );
+        }
+
+        public bool IsRegisteredFrom(Type requestedType)
+        {
+            var index = CalculateIndex(requestedType);
+
+            if (_table.Length > index)
+            {
+                var list = _table[index];
+
+                for (var i = 0; i < list.Length; i++)
+                {
+                    var item = list[i];
+
+                    if (item.Type == requestedType)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -115,9 +144,9 @@ namespace DpdtInject.Injector.Reinvented
         public struct HashTupleFunc
         {
             public readonly Type Type;
-            public readonly Func<object> Factory;
+            public readonly Func<IResolutionRequest, object> Factory;
 
-            public HashTupleFunc(Type type, Func<object> factory)
+            public HashTupleFunc(Type type, Func<IResolutionRequest, object> factory)
             {
                 Type = type;
                 Factory = factory;

@@ -20,8 +20,8 @@ namespace DpdtInject.Tests
     {
         private readonly TestContext _testContext;
         private readonly string _testerClassName;
-        private readonly string _moduleFileName;
-        private readonly string _moduleSource;
+        private readonly string _clusterFileName;
+        private readonly string _clusterSource;
         private readonly string _callerFilePath;
         
         internal FakeDiagnosticReporter DiagnosticReporter
@@ -32,8 +32,8 @@ namespace DpdtInject.Tests
         public Preparator(
             TestContext testContext,
             string testerClassName,
-            string moduleFileName,
-            string moduleSource,
+            string clusterFileName,
+            string clusterSource,
             [CallerFilePath] string callerFilePath = ""
             )
         {
@@ -47,19 +47,19 @@ namespace DpdtInject.Tests
                 throw new ArgumentException($"'{nameof(testerClassName)}' cannot be null or empty", nameof(testerClassName));
             }
 
-            if (string.IsNullOrEmpty(moduleFileName))
+            if (string.IsNullOrEmpty(clusterFileName))
             {
-                throw new ArgumentException($"'{nameof(moduleFileName)}' cannot be null or empty", nameof(moduleFileName));
+                throw new ArgumentException($"'{nameof(clusterFileName)}' cannot be null or empty", nameof(clusterFileName));
             }
 
-            if (string.IsNullOrEmpty(moduleSource))
+            if (string.IsNullOrEmpty(clusterSource))
             {
-                throw new ArgumentException($"'{nameof(moduleSource)}' cannot be null or empty", nameof(moduleSource));
+                throw new ArgumentException($"'{nameof(clusterSource)}' cannot be null or empty", nameof(clusterSource));
             }
             _testContext = testContext;
             _testerClassName = testerClassName;
-            _moduleFileName = moduleFileName;
-            _moduleSource = "#define IN_UNIT_TEST_SYMBOL" + Environment.NewLine + Regex.Replace(moduleSource, @"FakeModule<(?i:([a-zA-z\d]+))>", "$1");
+            _clusterFileName = clusterFileName;
+            _clusterSource = "#define IN_UNIT_TEST_SYMBOL" + Environment.NewLine + Regex.Replace(clusterSource, @"FakeCluster<(?i:([a-zA-z\d]+))>", "$1");
             _callerFilePath = callerFilePath;
 
             DiagnosticReporter = new FakeDiagnosticReporter();
@@ -69,8 +69,8 @@ namespace DpdtInject.Tests
         {
             try
             {
-                var moduleSourceText = SourceText.From(_moduleSource, Encoding.UTF8);
-                var moduleSyntaxTree = SyntaxFactory.ParseSyntaxTree(moduleSourceText, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest), "");
+                var clusterSourceText = SourceText.From(_clusterSource, Encoding.UTF8);
+                var clusterSyntaxTree = SyntaxFactory.ParseSyntaxTree(clusterSourceText, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest), "");
 
                 var trustedAssembliesPaths = ((string)AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")).Split(Path.PathSeparator);
                 var references = trustedAssembliesPaths
@@ -87,38 +87,37 @@ namespace DpdtInject.Tests
 
                 var compilation = CSharpCompilation.Create(
                     Guid.NewGuid() + ".dll",
-                    new SyntaxTree[] { moduleSyntaxTree }
+                    new SyntaxTree[] { clusterSyntaxTree }
                     , references
                     , compilationOptions
                     );
 
-                var generatedSourceFilePath = Path.Combine(
-                    new FileInfo(_callerFilePath).Directory.FullName,
-                    _moduleFileName
-                    ) + ".Pregenerated.cs";
                 var internalGenerator = new DpdtInternalGenerator(
-                    DiagnosticReporter,
-                    generatedSourceFilePath
+                    DiagnosticReporter
                     );
 
-                var modificationDescriptions = internalGenerator.Execute(compilation);
-
-                Assert.AreEqual(1, modificationDescriptions.Count, "Allowed only one module per request");
-
-                var modificationDescription = modificationDescriptions[0];
-
-                var generatorSyntaxTree = SyntaxFactory.ParseSyntaxTree(
-                    SourceText.From(modificationDescription.NewFileBody),
-                    CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest),
-                    ""
+                var modificationDescriptions = internalGenerator.Execute(
+                    compilation,
+                    index => Path.Combine(
+                        new FileInfo(_callerFilePath).Directory.FullName,
+                        _clusterFileName
+                        ) + $".Pregenerated{index}.cs"
                     );
 
-                compilation = compilation.AddSyntaxTrees(generatorSyntaxTree);
+                foreach (var modificationDescription in modificationDescriptions)
+                {
+                    var generatorSyntaxTree = SyntaxFactory.ParseSyntaxTree(
+                        SourceText.From(modificationDescription.NewFileBody),
+                        CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest),
+                        ""
+                        );
 
+                    compilation = compilation.AddSyntaxTrees(generatorSyntaxTree);
+                }
 
                 var compiledDllPath = Path.Combine(
                     _testContext.TestResultsDirectory,
-                    modificationDescription.ModifiedTypeName + ".dll"
+                    Guid.NewGuid() + ".dll"
                     );
 
                 Microsoft.CodeAnalysis.Emit.EmitResult emitResult;
@@ -150,7 +149,7 @@ namespace DpdtInject.Tests
                     var tester = Activator.CreateInstance(testerType);
 
                     var method = testerType.GetMethod(
-                        "PerformModuleTesting",
+                        "PerformClusterTesting",
                         BindingFlags.Public | BindingFlags.Instance
                         );
 
@@ -166,8 +165,6 @@ namespace DpdtInject.Tests
                 this.DiagnosticReporter.ReportException(
                     excp
                     );
-
-                //throw;
             }
         }
 

@@ -9,6 +9,34 @@ namespace DpdtInject.Injector.Helper
 {
     public static class ListHelper
     {
+        public static IReadOnlyList<T> FindAll<T>(
+            this IReadOnlyList<T> list,
+            Func<T, bool> predicate
+            )
+        {
+            if (list is null)
+            {
+                throw new ArgumentNullException(nameof(list));
+            }
+
+            if (predicate is null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+
+            var result = new List<T>();
+
+            foreach(var i in list)
+            {
+                if(predicate(i))
+                {
+                    result.Add(i);
+                }
+            }
+
+            return result;
+        }
+
         public static IReadOnlyList<T> RemoveAll<T>(
             this IEnumerable<T> source,
             Func<T, bool> selector

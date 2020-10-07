@@ -4,73 +4,36 @@ using System.Text;
 
 namespace DpdtInject.Tests.Performance.Generic.Transient
 {
-    public interface IA
-    {
-        string Message
-        {
-            get;
-        }
-    }
 
+    public interface IA { }
     public class A : IA
     {
-        public string Message
-        {
-            get;
-        }
-
-        public A()
-        {
-            Message = "no message";
-        }
-
-        //public A(string message)
-        //{
-        //    Message = message;
-        //}
-
-        //public string GetMessage()
-        //{
-        //    return Message;
-        //}
     }
 
     public interface IB
     {
-        IA A
-        {
-            get;
-        }
+        IA A { get; }
     }
 
     public class B : IB
     {
-        public IA A
-        {
-            get;
-        }
+        public IA A { get; }
 
         public B(IA a)
         {
             A = a;
         }
+
     }
 
     public interface IC
     {
-        IB B
-        {
-            get;
-        }
-
+        IB B { get; }
     }
 
     public class C : IC
     {
-        public IB B
-        {
-            get;
-        }
+        public IB B { get; }
 
         public C(IB b)
         {

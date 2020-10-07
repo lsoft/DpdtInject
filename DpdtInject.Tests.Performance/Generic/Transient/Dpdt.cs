@@ -1,5 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
+using DpdtInject.Generator;
 
 namespace DpdtInject.Tests.Performance.Generic.Transient
 {
@@ -9,12 +10,13 @@ namespace DpdtInject.Tests.Performance.Generic.Transient
     [GcServer(true)]
     public class Dpdt
     {
-        private DpdtPerformanceModule _kernel;
+        private DpdtCluster _kernel;
 
         [GlobalSetup]
         public void Setup()
         {
-            _kernel = new DpdtPerformanceModule(
+            _kernel = new DpdtCluster(
+                null
                 );
 
             _kernel.Get<IA>();
@@ -25,9 +27,9 @@ namespace DpdtInject.Tests.Performance.Generic.Transient
         [Benchmark]
         public void GenericTransient()
         {
-            _kernel.Get<IA>();
-            _kernel.Get<IB>();
-            _kernel.Get<IC>();
+            _kernel!.Get<IA>();
+            _kernel!.Get<IB>();
+            _kernel!.Get<IC>();
         }
 
     }

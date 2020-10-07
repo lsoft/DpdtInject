@@ -54,7 +54,9 @@ namespace DpdtInject.Generator
                 }
 
                 var unitsGenerated = 0;
-                foreach (var modificationDescription in internalGenerator.Execute(context.Compilation))
+                foreach (var modificationDescription in internalGenerator.Execute(
+                    context.Compilation,
+                    null))
                 {
                     if (needToStoreGeneratedSources)
                     {

@@ -24,13 +24,13 @@ namespace DpdtInject.Generator.Scanner
             }
 
             var allTypes = compilation.GlobalNamespace.GetAllTypes().ToList();
-            var moduleTypes = allTypes
+            var foundTypes = allTypes
                 .Where(t => t.BaseType != null)
-                .Where(t => t.BaseType!.GetFullName() == typeof(DpdtModule).FullName)
+                .Where(t => t.BaseType!.ToDisplayString() == typeof(DefaultCluster).FullName)
                 .ToList()
                 ;
 
-            return moduleTypes;
+            return foundTypes;
         }
     }
 }

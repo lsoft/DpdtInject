@@ -15,7 +15,7 @@ namespace DpdtInject.Generator
 
         public string ModifiedTypeName => ModifiedType.Name;
 
-        public string ModifiedTypeFullName => ModifiedType.GetFullName();
+        public string ModifiedTypeFullName => ModifiedType.ToDisplayString();
 
         public string NewFileName { get; }
 

@@ -76,13 +76,13 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren0
         ///{
-        ///    public partial class ActivationExcessiveTooManyChildren0Module : DpdtModule
+        ///    public partial class ActivationExcessiveTooManyChildren0_Cluster : DefaultCluster
         ///    {
-        ///        public co [rest of string was truncated]&quot;;.
+        ///        pub [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string ActivationExcessiveTooManyChildren0Module {
+        internal static string ActivationExcessiveTooManyChildren0_Cluster {
             get {
-                return ResourceManager.GetString("ActivationExcessiveTooManyChildren0Module", resourceCulture);
+                return ResourceManager.GetString("ActivationExcessiveTooManyChildren0_Cluster", resourceCulture);
             }
         }
         
@@ -102,13 +102,13 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren1
         ///{
-        ///    public partial class ActivationExcessiveTooManyChildren1Module : DpdtModule
+        ///    public partial class ActivationExcessiveTooManyChildren1_Cluster : DefaultCluster
         ///    {
-        ///        public co [rest of string was truncated]&quot;;.
+        ///        pub [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string ActivationExcessiveTooManyChildren1Module {
+        internal static string ActivationExcessiveTooManyChildren1_Cluster {
             get {
-                return ResourceManager.GetString("ActivationExcessiveTooManyChildren1Module", resourceCulture);
+                return ResourceManager.GetString("ActivationExcessiveTooManyChildren1_Cluster", resourceCulture);
             }
         }
         
@@ -128,13 +128,13 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren2
         ///{
-        ///    public partial class ActivationExcessiveTooManyChildren2Module : DpdtModule
+        ///    public partial class ActivationExcessiveTooManyChildren2_Cluster : DefaultCluster
         ///    {
-        ///        public co [rest of string was truncated]&quot;;.
+        ///        pub [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string ActivationExcessiveTooManyChildren2Module {
+        internal static string ActivationExcessiveTooManyChildren2_Cluster {
             get {
-                return ResourceManager.GetString("ActivationExcessiveTooManyChildren2Module", resourceCulture);
+                return ResourceManager.GetString("ActivationExcessiveTooManyChildren2_Cluster", resourceCulture);
             }
         }
         
@@ -155,11 +155,11 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren3
         ///{
-        ///    public partial class ActivationExcessiveTooManyChildren3Module : DpdtModu [rest of string was truncated]&quot;;.
+        ///    public partial class ActivationExcessiveTooManyChildren3_Cluster : Defaul [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string ActivationExcessiveTooManyChildren3Module {
+        internal static string ActivationExcessiveTooManyChildren3_Cluster {
             get {
-                return ResourceManager.GetString("ActivationExcessiveTooManyChildren3Module", resourceCulture);
+                return ResourceManager.GetString("ActivationExcessiveTooManyChildren3_Cluster", resourceCulture);
             }
         }
         
@@ -180,12 +180,11 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots0
         ///{
-        ///    public partial class ActivationExcessiveTooManyRoots0Module : DpdtModule
-        ///    [rest of string was truncated]&quot;;.
+        ///    public partial class ActivationExcessiveTooManyRoots0_Cluster : DefaultClust [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string ActivationExcessiveTooManyRoots0Module {
+        internal static string ActivationExcessiveTooManyRoots0_Cluster {
             get {
-                return ResourceManager.GetString("ActivationExcessiveTooManyRoots0Module", resourceCulture);
+                return ResourceManager.GetString("ActivationExcessiveTooManyRoots0_Cluster", resourceCulture);
             }
         }
         
@@ -206,12 +205,11 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots1
         ///{
-        ///    public partial class ActivationExcessiveTooManyRoots1Module : DpdtModule
-        ///    [rest of string was truncated]&quot;;.
+        ///    public partial class ActivationExcessiveTooManyRoots1_Cluster : DefaultClust [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string ActivationExcessiveTooManyRoots1Module {
+        internal static string ActivationExcessiveTooManyRoots1_Cluster {
             get {
-                return ResourceManager.GetString("ActivationExcessiveTooManyRoots1Module", resourceCulture);
+                return ResourceManager.GetString("ActivationExcessiveTooManyRoots1_Cluster", resourceCulture);
             }
         }
         
@@ -232,12 +230,11 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots2
         ///{
-        ///    public partial class ActivationExcessiveTooManyRoots2Module : DpdtModule
-        ///    [rest of string was truncated]&quot;;.
+        ///    public partial class ActivationExcessiveTooManyRoots2_Cluster : DefaultClust [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string ActivationExcessiveTooManyRoots2Module {
+        internal static string ActivationExcessiveTooManyRoots2_Cluster {
             get {
-                return ResourceManager.GetString("ActivationExcessiveTooManyRoots2Module", resourceCulture);
+                return ResourceManager.GetString("ActivationExcessiveTooManyRoots2_Cluster", resourceCulture);
             }
         }
         
@@ -258,405 +255,261 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots3
         ///{
-        ///    public partial class ActivationExcessiveTooManyRoots3Module : DpdtModule
+        ///    public partial class ActivationExcessiveTooManyRoots3_Cluster : DefaultClust [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ActivationExcessiveTooManyRoots3_Cluster {
+            get {
+                return ResourceManager.GetString("ActivationExcessiveTooManyRoots3_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Cluster.Generic.Different
+        ///{
+        ///    public partial class ClusterGenericDifferent_RootCluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithTransientScope()
+        ///                ;
+        ///        } [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ClusterGenericDifferent_Cluster {
+            get {
+                return ResourceManager.GetString("ClusterGenericDifferent_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional0
+        ///{
+        ///    public partial class ClusterGenericDifferentConditional0_FirstCluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithTransientScope()
         ///    [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string ActivationExcessiveTooManyRoots3Module {
+        internal static string ClusterGenericDifferentConditional0_Cluster {
             get {
-                return ResourceManager.GetString("ActivationExcessiveTooManyRoots3Module", resourceCulture);
+                return ResourceManager.GetString("ClusterGenericDifferentConditional0_Cluster", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Excp;
-        ///using DpdtInject.Injector.Module;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Collections.Generic;
-        ///using System.IO;
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
         ///
-        ///namespace DpdtInject.Tests.Cluster.Conditional1
+        ///namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional1
         ///{
-        ///    public partial class ClusterConditional1Module : DpdtModule
+        ///    public partial class ClusterGenericDifferentConditional1_FirstCluster : DefaultCluster
         ///    {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
-        ///                .Wi [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string ClusterConditional1Module {
-            get {
-                return ResourceManager.GetString("ClusterConditional1Module", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///
-        ///namespace DpdtInject.Tests.Cluster.DifferentObjectDifferentCluster1
-        ///{
-        ///    public partial class ClusterDifferentObjectDifferentCluster1Module : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()
-        ///            [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string ClusterDifferentObjectDifferentCluster1Module {
-            get {
-                return ResourceManager.GetString("ClusterDifferentObjectDifferentCluster1Module", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///
-        ///namespace DpdtInject.Tests.Cluster.DifferentObjectDifferentCluster2
-        ///{
-        ///    public partial class ClusterDifferentObjectDifferentCluster2Module : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()
-        ///            [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string ClusterDifferentObjectDifferentCluster2Module {
-            get {
-                return ResourceManager.GetString("ClusterDifferentObjectDifferentCluster2Module", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///
-        ///namespace DpdtInject.Tests.Cluster.DifferentObjectDifferentCluster3
-        ///{
-        ///    public partial class ClusterDifferentObjectDifferentCluster3Module : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()
-        ///            [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string ClusterDifferentObjectDifferentCluster3Module {
-            get {
-                return ResourceManager.GetString("ClusterDifferentObjectDifferentCluster3Module", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///
-        ///namespace DpdtInject.Tests.Cluster.DifferentObjectDifferentCluster4
-        ///{
-        ///    public partial class ClusterDifferentObjectDifferentCluster4Module : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()
-        ///            [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string ClusterDifferentObjectDifferentCluster4Module {
-            get {
-                return ResourceManager.GetString("ClusterDifferentObjectDifferentCluster4Module", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///
-        ///namespace DpdtInject.Tests.Cluster.DifferentObjectDifferentCluster5Func
-        ///{
-        ///    public partial class ClusterDifferentObjectDifferentCluster5FuncModule : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()
+        ///                .WithTransientScope()
         ///    [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string ClusterDifferentObjectDifferentCluster5FuncModule {
+        internal static string ClusterGenericDifferentConditional1_Cluster {
             get {
-                return ResourceManager.GetString("ClusterDifferentObjectDifferentCluster5FuncModule", resourceCulture);
+                return ResourceManager.GetString("ClusterGenericDifferentConditional1_Cluster", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///
-        ///namespace DpdtInject.Tests.Conditional.Hierarchy2
-        ///{
-        ///    public partial class ConditionalHierarchy2Module : DpdtModule
-        ///    {
-        ///        public const string Message = &quot;some message&quot;;
-        ///
-        ///        public override void Load()
-        ///        {
-        ///  [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string ConditionalHierarchy2Module {
-            get {
-                return ResourceManager.GetString("ConditionalHierarchy2Module", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///
-        ///namespace DpdtInject.Tests.Conditional.Hierarchy3First
-        ///{
-        ///    public partial class ConditionalHierarchy3FirstModule : DpdtModule
-        ///    {
-        ///        public const string Message = &quot;some message&quot;;
-        ///
-        ///        public override void Load()
-        ///  [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string ConditionalHierarchy3FirstModule {
-            get {
-                return ResourceManager.GetString("ConditionalHierarchy3FirstModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///
-        ///namespace DpdtInject.Tests.Conditional.Hierarchy3Second
-        ///{
-        ///    public partial class ConditionalHierarchy3SecondModule : DpdtModule
-        ///    {
-        ///        public const string Message = &quot;some message&quot;;
-        ///
-        ///        public override void Load() [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string ConditionalHierarchy3SecondModule {
-            get {
-                return ResourceManager.GetString("ConditionalHierarchy3SecondModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///using System.ComponentModel.DataAnnotations;
-        ///
-        ///namespace DpdtInject.Tests.Conditional.OnlyOne
-        ///{
-        ///    public partial class ConditionalOnlyOneModule : DpdtModule
-        ///    {
-        ///        public const string Message = &quot;some message&quot;;
-        ///
-        ///         [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string ConditionalOnlyOneModule {
-            get {
-                return ResourceManager.GetString("ConditionalOnlyOneModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///
-        ///namespace DpdtInject.Tests.Conditional.RContext.Hierarchy2
-        ///{
-        ///    public partial class ConditionalRContextHierarchy2Module : DpdtModule
-        ///    {
-        ///        public const string Message = &quot;some message&quot;;
-        ///
-        ///        public override void L [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string ConditionalRContextHierarchy2Module {
-            get {
-                return ResourceManager.GetString("ConditionalRContextHierarchy2Module", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///
-        ///namespace DpdtInject.Tests.Conditional.RContext.Hierarchy2Variant1
-        ///{
-        ///    public partial class ConditionalRContextHierarchy2Variant1Module : DpdtModule
-        ///    {
-        ///        public const string BMessage = &quot;B some message&quot;;
-        ///        publ [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string ConditionalRContextHierarchy2Variant1Module {
-            get {
-                return ResourceManager.GetString("ConditionalRContextHierarchy2Variant1Module", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///
-        ///namespace DpdtInject.Tests.Conditional.RContext.Hierarchy2Variant2
-        ///{
-        ///    public partial class ConditionalRContextHierarchy2Variant2Module : DpdtModule
-        ///    {
-        ///        public const string Message = &quot;some message&quot;;
-        ///
-        ///        public [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string ConditionalRContextHierarchy2Variant2Module {
-            get {
-                return ResourceManager.GetString("ConditionalRContextHierarchy2Variant2Module", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Excp;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
         ///
-        ///namespace DpdtInject.Tests.Conditional.SingleObject
+        ///namespace DpdtInject.Tests.Cluster.Generic.DifferentFunc
         ///{
-        ///    public partial class ConditionalSingleObjectModule : DpdtModule
+        ///    public partial class ClusterGenericDifferentFunc_RootCluster : DefaultCluster
         ///    {
         ///        public override void Load()
         ///        {
-        ///            Bind&lt;IA1&gt;()
+        ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
-        ///           [rest of string was truncated]&quot;;.
+        ///                .WithTransientScope()
+        ///                ;
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string ConditionalSingleObjectModule {
+        internal static string ClusterGenericDifferentFunc_Cluster {
             get {
-                return ResourceManager.GetString("ConditionalSingleObjectModule", resourceCulture);
+                return ResourceManager.GetString("ClusterGenericDifferentFunc_Cluster", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Collections.Generic;
-        ///using System.IO;
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
         ///
-        ///namespace DpdtInject.Tests.Constant.Hierarchy2WithSame
+        ///namespace DpdtInject.Tests.Cluster.NonGeneric.Different
         ///{
-        ///    public partial class ConstantHierarchy2WithSameModule : DpdtModule
+        ///    public partial class ClusterNonGenericDifferent_RootCluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithTransientScope()
+        ///                ;
+        ///    [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ClusterNonGenericDifferent_Cluster {
+            get {
+                return ResourceManager.GetString("ClusterNonGenericDifferent_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Cluster.NonGeneric.DifferentConditional0
+        ///{
+        ///    public partial class ClusterNonGenericDifferentConditional0_FirstCluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithTransientScope( [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ClusterNonGenericDifferentConditional0_Cluster {
+            get {
+                return ResourceManager.GetString("ClusterNonGenericDifferentConditional0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Cluster.NonGeneric.DifferentConditional1
+        ///{
+        ///    public partial class ClusterNonGenericDifferentConditional1_FirstCluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithTransientScope( [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ClusterNonGenericDifferentConditional1_Cluster {
+            get {
+                return ResourceManager.GetString("ClusterNonGenericDifferentConditional1_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Cluster.NonGeneric.DifferentFunc
+        ///{
+        ///    public partial class ClusterNonGenericDifferentFunc_RootCluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithTransientScope()
+        ///               [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ClusterNonGenericDifferentFunc_Cluster {
+            get {
+                return ResourceManager.GetString("ClusterNonGenericDifferentFunc_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Conditional.Generic.Hierarchy2
+        ///{
+        ///    public partial class ConditionalGenericHierarchy2_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A0&gt;()
+        ///                .WithTransientScope()
+        ///                .When [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ConditionalGenericHierarchy2_Cluster {
+            get {
+                return ResourceManager.GetString("ConditionalGenericHierarchy2_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Conditional.Generic.Hierarchy2SameConstant
+        ///{
+        ///    public partial class ConditionalGenericHierarchy2SameConstant_Cluster : DefaultCluster
         ///    {
         ///        public static A ConstantA1 = new A();
         ///        public static A ConstantA2 = new A();
@@ -664,952 +517,1078 @@ namespace DpdtInject.Tests.Properties {
         ///        public override void Load()
         ///   [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string ConstantHierarchy2WithSameModule {
+        internal static string ConditionalGenericHierarchy2SameConstant_Cluster {
             get {
-                return ResourceManager.GetString("ConstantHierarchy2WithSameModule", resourceCulture);
+                return ResourceManager.GetString("ConditionalGenericHierarchy2SameConstant_Cluster", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///
-        ///namespace DpdtInject.Tests.Constant.SingleObject
-        ///{
-        ///    public partial class ConstantSingleObjectModule : DpdtModule
-        ///    {
-        ///        public static A ConstantA = new A();
-        ///
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                .WithConstSc [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string ConstantSingleObjectModule {
-            get {
-                return ResourceManager.GetString("ConstantSingleObjectModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
         ///using DpdtInject.Injector.Module.Bind;
-        ///
-        ///namespace DpdtInject.Tests.Func.Generic.Singleton.Hierarchy2
-        ///{
-        ///    public partial class FuncGenericSingletonHierarchy2Module : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///              [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string FuncGenericSingletonHierarchy2Module {
-            get {
-                return ResourceManager.GetString("FuncGenericSingletonHierarchy2Module", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Collections.Generic;
-        ///using System.IO;
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
         ///
-        ///namespace DpdtInject.Tests.Func.Generic.Singleton.SingleObject
+        ///namespace DpdtInject.Tests.Conditional.Generic.Hierarchy3First
         ///{
-        ///    public partial class FuncGenericSingletonSingleObjectModule : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()
-        ///                .WithSi [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string FuncGenericSingletonSingleObjectModule {
-            get {
-                return ResourceManager.GetString("FuncGenericSingletonSingleObjectModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///
-        ///namespace DpdtInject.Tests.Func.Generic.Transient.Hierarchy2
-        ///{
-        ///    public partial class FuncGenericTransientHierarchy2Module : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///              [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string FuncGenericTransientHierarchy2Module {
-            get {
-                return ResourceManager.GetString("FuncGenericTransientHierarchy2Module", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///
-        ///namespace DpdtInject.Tests.Func.Generic.Transient.SingleObject
-        ///{
-        ///    public partial class FuncGenericTransientSingleObjectModule : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()
-        ///                .WithTr [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string FuncGenericTransientSingleObjectModule {
-            get {
-                return ResourceManager.GetString("FuncGenericTransientSingleObjectModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///
-        ///namespace DpdtInject.Tests.Func.NonGeneric.Singleton.Hierarchy2
-        ///{
-        ///    public partial class FuncNonGenericSingletonHierarchy2Module : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///        [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string FuncNonGenericSingletonHierarchy2Module {
-            get {
-                return ResourceManager.GetString("FuncNonGenericSingletonHierarchy2Module", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///
-        ///namespace DpdtInject.Tests.Func.NonGeneric.Singleton.SingleObject
-        ///{
-        ///    public partial class FuncNonGenericSingletonSingleObjectModule : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()
-        ///                . [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string FuncNonGenericSingletonSingleObjectModule {
-            get {
-                return ResourceManager.GetString("FuncNonGenericSingletonSingleObjectModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///
-        ///namespace DpdtInject.Tests.Func.NonGeneric.Transient.Hierarchy2
-        ///{
-        ///    public partial class FuncNonGenericTransientHierarchy2Module : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///        [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string FuncNonGenericTransientHierarchy2Module {
-            get {
-                return ResourceManager.GetString("FuncNonGenericTransientHierarchy2Module", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///
-        ///namespace DpdtInject.Tests.Func.NonGeneric.Transient.SingleObject
-        ///{
-        ///    public partial class FuncNonGenericTransientSingleObjectModule : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()
-        ///                . [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string FuncNonGenericTransientSingleObjectModule {
-            get {
-                return ResourceManager.GetString("FuncNonGenericTransientSingleObjectModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///
-        ///namespace DpdtInject.Tests.Generic.IsRegisteredFrom
-        ///{
-        ///    public partial class GenericIsRegisteredFromModule : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()
-        ///                .WithTransientScope()
-        ///      [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string GenericIsRegisteredFromModule {
-            get {
-                return ResourceManager.GetString("GenericIsRegisteredFromModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///
-        ///namespace DpdtInject.Tests.Unsorted.InvalidToType
-        ///{
-        ///    public partial class InvalidToTypeTransientModule : DpdtModule
+        ///    public partial class ConditionalGenericHierarchy3First_Cluster : DefaultCluster
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
         ///        public override void Load()
         ///        {
-        /// [rest of string was truncated]&quot;;.
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string InvalidToTypeTransientModule {
+        internal static string ConditionalGenericHierarchy3First_Cluster {
             get {
-                return ResourceManager.GetString("InvalidToTypeTransientModule", resourceCulture);
+                return ResourceManager.GetString("ConditionalGenericHierarchy3First_Cluster", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
+        ///using DpdtInject.Injector.Module.Bind;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Collections.Generic;
-        ///using System.IO;
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
         ///
-        ///namespace DpdtInject.Tests.Unsorted.LocalVariable
+        ///namespace DpdtInject.Tests.Conditional.Generic.Hierarchy3Second
         ///{
-        ///    public partial class LocalVariableTransientModule : DpdtModule
+        ///    public partial class ConditionalGenericHierarchy3Second_Cluster : DefaultCluster
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
         ///        public override void Load()
         ///        {
-        /// [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string LocalVariableTransientModule {
-            get {
-                return ResourceManager.GetString("LocalVariableTransientModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///
-        ///namespace DpdtInject.Tests.NonGeneric.DifferentObjects
-        ///{
-        ///    public partial class NonGenericDifferentObjectsModule : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()
-        ///                .WithSingletonScope() [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string NonGenericDifferentObjectsModule {
-            get {
-                return ResourceManager.GetString("NonGenericDifferentObjectsModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Excp;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///
-        ///namespace DpdtInject.Tests.NonGeneric.IncorrectRequest
-        ///{
-        ///    public partial class NonGenericIncorrectRequestModule : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()
-        ///      [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string NonGenericIncorrectRequestModule {
-            get {
-                return ResourceManager.GetString("NonGenericIncorrectRequestModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///
-        ///namespace DpdtInject.Tests.NonGeneric.SingleObject
-        ///{
-        ///    public partial class NonGenericSingleObjectModule : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()
-        ///                .WithSingletonScope()
-        ///        [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string NonGenericSingleObjectModule {
-            get {
-                return ResourceManager.GetString("NonGenericSingleObjectModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Excp;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///
-        ///namespace DpdtInject.Tests.NonGeneric.TwoSameBindings
-        ///{
-        ///    public partial class NonGenericTwoSameBindingsModule : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A1&gt;()
-        ///       [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string NonGenericTwoSameBindingsModule {
-            get {
-                return ResourceManager.GetString("NonGenericTwoSameBindingsModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///using DpdtInject.Injector.Module.RContext;
-        ///
-        ///namespace DpdtInject.Tests.Scope.Custom.Hierarchy2ChildCluster
-        ///{
-        ///    public partial class ScopeCustomHierarchy2ChildClusterModule : DpdtModule
-        ///    {
-        ///        public con [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string ScopeCustomHierarchy2ChildClusterModule {
-            get {
-                return ResourceManager.GetString("ScopeCustomHierarchy2ChildClusterModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///using DpdtInject.Injector.Module.RContext;
-        ///
-        ///namespace DpdtInject.Tests.Scope.Custom.Hierarchy2
-        ///{
-        ///    public partial class ScopeCustomHierarchy2Module : DpdtModule
-        ///    {
-        ///        public const string Message = &quot;som [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string ScopeCustomHierarchy2Module {
-            get {
-                return ResourceManager.GetString("ScopeCustomHierarchy2Module", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Excp;
-        ///using DpdtInject.Injector.Module;
-        ///using DpdtInject.Injector.Module.RContext;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///
-        ///namespace DpdtInject.Tests.Scope.Custom.NonGenericSingleObject
-        ///{
-        ///    public partial class ScopeCustomNonGenericSingleObjectModule : DpdtModule
-        ///    {
-        ///        public override v [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string ScopeCustomNonGenericSingleObjectModule {
-            get {
-                return ResourceManager.GetString("ScopeCustomNonGenericSingleObjectModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Excp;
-        ///using DpdtInject.Injector.Module;
-        ///using DpdtInject.Injector.Module.RContext;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///
-        ///namespace DpdtInject.Tests.Scope.Custom.SingleObject
-        ///{
-        ///    public partial class ScopeCustomSingleObjectModule : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///         [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string ScopeCustomSingleObjectModule {
-            get {
-                return ResourceManager.GetString("ScopeCustomSingleObjectModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Excp;
-        ///using DpdtInject.Injector.Module;
-        ///using DpdtInject.Injector.Module.RContext;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///
-        ///namespace DpdtInject.Tests.Scope.Custom.TwoSameBindings
-        ///{
-        ///    public partial class ScopeCustomTwoSameBindingsModule : DpdtModule
-        ///    {
-        ///        public override void Load()
         ///   [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string ScopeCustomTwoSameBindingsModule {
+        internal static string ConditionalGenericHierarchy3Second_Cluster {
             get {
-                return ResourceManager.GetString("ScopeCustomTwoSameBindingsModule", resourceCulture);
+                return ResourceManager.GetString("ConditionalGenericHierarchy3Second_Cluster", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///
-        ///namespace DpdtInject.Tests.Singleton.Dispose
-        ///{
-        ///    public partial class SingletonDisposeModule : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()
-        ///                .WithSingletonScope()
-        ///                .In [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string SingletonDisposeModule {
-            get {
-                return ResourceManager.GetString("SingletonDisposeModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///
-        ///namespace DpdtInject.Tests.Singleton.Hierarchy2
-        ///{
-        ///    public partial class SingletonHierarchy2Module : DpdtModule
-        ///    {
-        ///        public const string Message = &quot;some message&quot;;
-        ///
-        ///        public override void Load( [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string SingletonHierarchy2Module {
-            get {
-                return ResourceManager.GetString("SingletonHierarchy2Module", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///using NuGet.Frameworks;
-        ///
-        ///namespace DpdtInject.Tests.Singleton.Hierarchy3
-        ///{
-        ///    public partial class SingletonHierarchy3Module : DpdtModule
-        ///    {
-        ///        public const string Message = &quot;some message&quot;;
-        ///
-        ///        p [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string SingletonHierarchy3Module {
-            get {
-                return ResourceManager.GetString("SingletonHierarchy3Module", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///
-        ///namespace DpdtInject.Tests.Singleton.SingleObject
-        ///{
-        ///    public partial class SingletonSingleObjectModule : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()
-        ///                .WithSingleto [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string SingletonSingleObjectModule {
-            get {
-                return ResourceManager.GetString("SingletonSingleObjectModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
         ///using DpdtInject.Injector.Module.Bind;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Reflection.PortableExecutable;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///
-        ///namespace DpdtInject.Tests.Singleton.SingleObjectWithArgument
-        ///{
-        ///    public partial class SingletonSingleObjectWithArgumentModule : DpdtModule
-        ///    {
-        ///        public con [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string SingletonSingleObjectWithArgumentModule {
-            get {
-                return ResourceManager.GetString("SingletonSingleObjectWithArgumentModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Excp;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
         ///
-        ///namespace DpdtInject.Tests.Singleton.TwoSameBindings
+        ///namespace DpdtInject.Tests.Conditional.Generic.OnlyOneInMiddle
         ///{
-        ///    public partial class SingletonTwoSameBindingsModule : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                 [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string SingletonTwoSameBindingsModule {
-            get {
-                return ResourceManager.GetString("SingletonTwoSameBindingsModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Excp;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///
-        ///namespace DpdtInject.Tests.Singleton.UnknownRequest
-        ///{
-        ///    public partial class SingletonUnknownRequestModule : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()
-        ///            [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string SingletonUnknownRequestModule {
-            get {
-                return ResourceManager.GetString("SingletonUnknownRequestModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///
-        ///namespace DpdtInject.Tests.TimeConsume.BigTree0
-        ///{
-        ///    public partial class TimeConsumeBigTree0Module : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IInterface0&gt;().To&lt;Class0&gt;( [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string TimeConsumeBigTree0Module {
-            get {
-                return ResourceManager.GetString("TimeConsumeBigTree0Module", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///
-        ///namespace DpdtInject.Tests.Transient.Hierarchy2
-        ///{
-        ///    public partial class TransientHierarchy2Module : DpdtModule
+        ///    public partial class ConditionalGenericOnlyOneInMiddle_Cluster : DefaultCluster
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
         ///        public override void Load()
         ///        {
-        ///      [rest of string was truncated]&quot;;.
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string TransientHierarchy2Module {
+        internal static string ConditionalGenericOnlyOneInMiddle_Cluster {
             get {
-                return ResourceManager.GetString("TransientHierarchy2Module", resourceCulture);
+                return ResourceManager.GetString("ConditionalGenericOnlyOneInMiddle_Cluster", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///using NuGet.Frameworks;
-        ///
-        ///namespace DpdtInject.Tests.Transient.Hierarchy3
-        ///{
-        ///    public partial class TransientHierarchy3Module : DpdtModule
-        ///    {
-        ///        public const string Message = &quot;some message&quot;;
-        ///
-        ///        public override voi [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string TransientHierarchy3Module {
-            get {
-                return ResourceManager.GetString("TransientHierarchy3Module", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
         ///
-        ///namespace DpdtInject.Tests.Transient.SingleObject
+        ///namespace DpdtInject.Tests.Conditional.NonGeneric.Hierarchy2
         ///{
-        ///    public partial class TransientSingleObjectModule : DpdtModule
+        ///    public partial class ConditionalNonGenericHierarchy2_Cluster : DefaultCluster
         ///    {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()
+        ///                .To&lt;A0&gt;()
         ///                .WithTransientScope()
-        ///          [rest of string was truncated]&quot;;.
+        ///                [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string TransientSingleObjectModule {
+        internal static string ConditionalNonGenericHierarchy2_Cluster {
             get {
-                return ResourceManager.GetString("TransientSingleObjectModule", resourceCulture);
+                return ResourceManager.GetString("ConditionalNonGenericHierarchy2_Cluster", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Conditional.NonGeneric.Hierarchy2SameConstant
+        ///{
+        ///    public partial class ConditionalNonGenericHierarchy2SameConstant_Cluster : DefaultCluster
+        ///    {
+        ///        public static A ConstantA1 = new A();
+        ///        public static A ConstantA2 = new A();
+        ///
+        ///        public override void Load [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ConditionalNonGenericHierarchy2SameConstant_Cluster {
+            get {
+                return ResourceManager.GetString("ConditionalNonGenericHierarchy2SameConstant_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
         ///using DpdtInject.Injector.Module.Bind;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Reflection.PortableExecutable;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///
-        ///namespace DpdtInject.Tests.Transient.SingleObjectWithArgument
-        ///{
-        ///    public partial class TransientSingleObjectWithArgumentModule : DpdtModule
-        ///    {
-        ///        public const string Messag [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string TransientSingleObjectWithArgumentModule {
-            get {
-                return ResourceManager.GetString("TransientSingleObjectWithArgumentModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Excp;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
         ///
-        ///namespace DpdtInject.Tests.Transient.TwoSameBindings
+        ///namespace DpdtInject.Tests.Conditional.NonGeneric.Hierarchy3First
         ///{
-        ///    public partial class TransientTwoSameBindingsModule : DpdtModule
-        ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A1&gt;()
-        ///         [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string TransientTwoSameBindingsModule {
-            get {
-                return ResourceManager.GetString("TransientTwoSameBindingsModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///
-        ///namespace DpdtInject.Tests.Unsorted.CannotBeCasted
-        ///{
-        ///    public partial class UnsortedCannotBeCastedModule : DpdtModule
+        ///    public partial class ConditionalNonGenericHierarchy3First_Cluster : DefaultCluster
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
         ///        public override void Load()
         ///        { [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string UnsortedCannotBeCastedModule {
+        internal static string ConditionalNonGenericHierarchy3First_Cluster {
             get {
-                return ResourceManager.GetString("UnsortedCannotBeCastedModule", resourceCulture);
+                return ResourceManager.GetString("ConditionalNonGenericHierarchy3First_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Conditional.NonGeneric.Hierarchy3Second
+        ///{
+        ///    public partial class ConditionalNonGenericHierarchy3Second_Cluster : DefaultCluster
+        ///    {
+        ///        public const string Message = &quot;some message&quot;;
+        ///
+        ///        public override void Load()
+        ///        [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ConditionalNonGenericHierarchy3Second_Cluster {
+            get {
+                return ResourceManager.GetString("ConditionalNonGenericHierarchy3Second_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Conditional.NonGeneric.OnlyOneInMiddle
+        ///{
+        ///    public partial class ConditionalNonGenericOnlyOneInMiddle_Cluster : DefaultCluster
+        ///    {
+        ///        public const string Message = &quot;some message&quot;;
+        ///
+        ///        public override void Load()
+        ///        { [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ConditionalNonGenericOnlyOneInMiddle_Cluster {
+            get {
+                return ResourceManager.GetString("ConditionalNonGenericOnlyOneInMiddle_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.GetAll.Generic.Hierarchy2Conditional
+        ///{
+        ///    public partial class GetAllGenericHierarchy2Conditional_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IZ&gt;()
+        ///                .To&lt;Z&gt;()
+        ///                .WithSingletonSco [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string GetAllGenericHierarchy2Conditional_Cluster {
+            get {
+                return ResourceManager.GetString("GetAllGenericHierarchy2Conditional_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.GetAll.Generic.NoBinding
+        ///{
+        ///    public partial class GetAllGenericNoBinding_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            //nothing!
+        ///        }
+        ///
+        ///        public class GetAllGenericNoBinding_ClusterTe [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string GetAllGenericNoBinding_Cluster {
+            get {
+                return ResourceManager.GetString("GetAllGenericNoBinding_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.GetAll.Generic.SingleObject
+        ///{
+        ///    public partial class GetAllGenericSingleObject_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithSingletonScop [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string GetAllGenericSingleObject_Cluster {
+            get {
+                return ResourceManager.GetString("GetAllGenericSingleObject_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.GetAll.Generic.TwoObjects
+        ///{
+        ///    public partial class GetAllGenericTwoObjects_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A0&gt;()
+        ///                .WithSingletonScope() [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string GetAllGenericTwoObjects_Cluster {
+            get {
+                return ResourceManager.GetString("GetAllGenericTwoObjects_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.GetAll.Generic.TwoObjectsConditional0
+        ///{
+        ///    public partial class GetAllGenericTwoObjectsConditional0_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A0&gt;()
+        ///              [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string GetAllGenericTwoObjectsConditional0_Cluster {
+            get {
+                return ResourceManager.GetString("GetAllGenericTwoObjectsConditional0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.GetAll.Generic.TwoObjectsConditional1
+        ///{
+        ///    public partial class GetAllGenericTwoObjectsConditional1_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A0&gt;()
+        ///              [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string GetAllGenericTwoObjectsConditional1_Cluster {
+            get {
+                return ResourceManager.GetString("GetAllGenericTwoObjectsConditional1_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.GetAll.NonGeneric.Hierarchy2Conditional
+        ///{
+        ///    public partial class GetAllNonGenericHierarchy2Conditional_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IZ&gt;()
+        ///                .To&lt;Z&gt;()
+        ///                .WithSingle [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string GetAllNonGenericHierarchy2Conditional_Cluster {
+            get {
+                return ResourceManager.GetString("GetAllNonGenericHierarchy2Conditional_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.GetAll.NonGeneric.NoBinding
+        ///{
+        ///    public partial class GetAllNonGenericNoBinding_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            //nothing!
+        ///        }
+        ///
+        ///        public class GetAllNonGenericNoBinding_ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string GetAllNonGenericNoBinding_Cluster {
+            get {
+                return ResourceManager.GetString("GetAllNonGenericNoBinding_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.GetAll.NonGeneric.SingleObject
+        ///{
+        ///    public partial class GetAllNonGenericSingleObject_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithSinglet [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string GetAllNonGenericSingleObject_Cluster {
+            get {
+                return ResourceManager.GetString("GetAllNonGenericSingleObject_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.GetAll.NonGeneric.TwoObjects
+        ///{
+        ///    public partial class GetAllNonGenericTwoObjects_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A0&gt;()
+        ///                .WithSingletonS [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string GetAllNonGenericTwoObjects_Cluster {
+            get {
+                return ResourceManager.GetString("GetAllNonGenericTwoObjects_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.GetAll.NonGeneric.TwoObjectsConditional0
+        ///{
+        ///    public partial class GetAllNonGenericTwoObjectsConditional0_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A0&gt;()
+        ///        [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string GetAllNonGenericTwoObjectsConditional0_Cluster {
+            get {
+                return ResourceManager.GetString("GetAllNonGenericTwoObjectsConditional0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.GetAll.NonGeneric.TwoObjectsConditional1
+        ///{
+        ///    public partial class GetAllNonGenericTwoObjectsConditional1_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A0&gt;()
+        ///        [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string GetAllNonGenericTwoObjectsConditional1_Cluster {
+            get {
+                return ResourceManager.GetString("GetAllNonGenericTwoObjectsConditional1_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Scope.NonGeneric.IncorrectRequest
+        ///{
+        ///    public partial class NonGenericIncorrectRequest_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithSingle [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string NonGenericIncorrectRequest_Cluster {
+            get {
+                return ResourceManager.GetString("NonGenericIncorrectRequest_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Constant.Generic.SingleInterfaceSingleObject
+        ///{
+        ///    public partial class ScopeConstantGenericSingleInterfaceSingleObject_Cluster : DefaultCluster
+        ///    {
+        ///        private static readonly A AInstance = new A();
+        ///
+        ///        public override void Load()
+        ///        {
+        ///            Bi [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeConstantGenericSingleInterfaceSingleObject_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeConstantGenericSingleInterfaceSingleObject_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Constant.NonGeneric.SingleInterfaceSingleObject
+        ///{
+        ///    public partial class ScopeConstantNonGenericSingleInterfaceSingleObject_Cluster : DefaultCluster
+        ///    {
+        ///        private static readonly A AInstance = new A();
+        ///
+        ///        public override void Load()
+        ///        {
+        ///         [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeConstantNonGenericSingleInterfaceSingleObject_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeConstantNonGenericSingleInterfaceSingleObject_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using DpdtInject.Injector.Module.RContext;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Custom.Generic.Hierarchy2
+        ///{
+        ///    public partial class ScopeCustomGenericHierarchy2_Cluster : DefaultCluster
+        ///    {
+        ///        public const  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeCustomGenericHierarchy2_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeCustomGenericHierarchy2_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using DpdtInject.Injector.Module.RContext;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Custom.Generic.Hierarchy2DifferentCluster
+        ///{
+        ///    public partial class ScopeCustomGenericHierarchy2DifferentCluster_FirstCluster : Default [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeCustomGenericHierarchy2DifferentCluster_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeCustomGenericHierarchy2DifferentCluster_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using DpdtInject.Injector.Module;
+        ///using DpdtInject.Injector.Module.RContext;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Custom.Generic.SingleObject
+        ///{
+        ///    public partial class ScopeCustomGenericSingleObject_Cluster : DefaultCluster
+        ///    {
+        ///        public override  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeCustomGenericSingleObject_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeCustomGenericSingleObject_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using DpdtInject.Injector.Module.RContext;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Custom.NonGeneric.Hierarchy2
+        ///{
+        ///    public partial class ScopeCustomNonGenericHierarchy2_Cluster : DefaultCluster
+        ///    {
+        ///        public  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeCustomNonGenericHierarchy2_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeCustomNonGenericHierarchy2_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using DpdtInject.Injector.Module.RContext;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Custom.NonGeneric.Hierarchy2DifferentCluster
+        ///{
+        ///    public partial class ScopeCustomNonGenericHierarchy2DifferentCluster_FirstCluster : D [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeCustomNonGenericHierarchy2DifferentCluster_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeCustomNonGenericHierarchy2DifferentCluster_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using DpdtInject.Injector.Module;
+        ///using DpdtInject.Injector.Module.RContext;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Custom.NonGeneric.SingleObject
+        ///{
+        ///    public partial class ScopeCustomNonGenericSingleObject_Cluster : DefaultCluster
+        ///    {
+        ///        public ove [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeCustomNonGenericSingleObject_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeCustomNonGenericSingleObject_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Singleton.Generic.Hierarchy2
+        ///{
+        ///    public partial class ScopeSingletonGenericHierarchy2_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithSingletonScope()
+        ///                [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeSingletonGenericHierarchy2_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeSingletonGenericHierarchy2_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Singleton.Generic.SingleInterfaceSingleObject
+        ///{
+        ///    public partial class ScopeSingletonGenericSingleInterfaceSingleObject_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .Wit [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeSingletonGenericSingleInterfaceSingleObject_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeSingletonGenericSingleInterfaceSingleObject_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Singleton.Generic.SingleObjectDefinedArgument
+        ///{
+        ///    public partial class ScopeSingletonGenericSingleObjectDefinedArgument_Cluster : DefaultCluster
+        ///    {
+        ///        const string CustomMesage = &quot;custom message&quot;;
+        ///
+        ///        public overri [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeSingletonGenericSingleObjectDefinedArgument_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeSingletonGenericSingleObjectDefinedArgument_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Singleton.Generic.TwoInterfacesSingleObject
+        ///{
+        ///    public partial class ScopeSingletonGenericTwoInterfacesSingleObject_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA0, IA1&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .W [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeSingletonGenericTwoInterfacesSingleObject_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeSingletonGenericTwoInterfacesSingleObject_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Singleton.NonGeneric.Hierarchy2
+        ///{
+        ///    public partial class ScopeSingletonNonGenericHierarchy2_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithSingletonScope()
+        ///          [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeSingletonNonGenericHierarchy2_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeSingletonNonGenericHierarchy2_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Singleton.NonGeneric.SingleInterfaceSingleObject
+        ///{
+        ///    public partial class ScopeSingletonNonGenericSingleInterfaceSingleObject_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///               [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeSingletonNonGenericSingleInterfaceSingleObject_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeSingletonNonGenericSingleInterfaceSingleObject_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Singleton.NonGeneric.TwoInterfacesSingleObject
+        ///{
+        ///    public partial class ScopeSingletonNonGenericTwoInterfacesSingleObject_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA0, IA1&gt;()
+        ///                .To&lt;A&gt;()
+        ///             [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeSingletonNonGenericTwoInterfacesSingleObject_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeSingletonNonGenericTwoInterfacesSingleObject_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Transient.Generic.Hierarchy2
+        ///{
+        ///    public partial class ScopeTransientGenericHierarchy2_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithTransientScope()
+        ///                [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeTransientGenericHierarchy2_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeTransientGenericHierarchy2_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Transient.Generic.SingleInterfaceSingleObject
+        ///{
+        ///    public partial class ScopeTransientGenericSingleInterfaceSingleObject_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .Wit [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeTransientGenericSingleInterfaceSingleObject_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeTransientGenericSingleInterfaceSingleObject_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Transient.Generic.SingleObjectDefinedArgument
+        ///{
+        ///    public partial class ScopeTransientGenericSingleObjectDefinedArgument_Cluster : DefaultCluster
+        ///    {
+        ///        const string CustomMesage = &quot;custom message&quot;;
+        ///
+        ///        public overri [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeTransientGenericSingleObjectDefinedArgument_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeTransientGenericSingleObjectDefinedArgument_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Transient.Generic.TwoInterfacesSingleObject
+        ///{
+        ///    public partial class ScopeTransientGenericTwoInterfacesSingleObject_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA0, IA1&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .W [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeTransientGenericTwoInterfacesSingleObject_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeTransientGenericTwoInterfacesSingleObject_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.IO;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Singleton.Dispose
+        ///{
+        ///    public partial class SingletonDispose_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithSingletonScope()
+        ///        [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SingletonDispose_Cluster {
+            get {
+                return ResourceManager.GetString("SingletonDispose_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.CannotBeCasted
+        ///{
+        ///    public partial class UnsortedCannotBeCasted_Cluster : DefaultCluster
+        ///    {
+        ///        public const string Message = &quot;some message&quot;;
+        ///
+        ///        public override void Load()
+        ///      [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedCannotBeCasted_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedCannotBeCasted_Cluster", resourceCulture);
             }
         }
         
@@ -1627,277 +1606,449 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///namespace DpdtInject.Tests.Unsorted.CircularDependency3
         ///{
-        ///    public partial class UnsortedCircularDependency3Module : DpdtModule
+        ///    public partial class UnsortedCircularDependency3_Cluster : DefaultCluster
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public ove [rest of string was truncated]&quot;;.
+        ///        publ [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string UnsortedCircularDependency3Module {
+        internal static string UnsortedCircularDependency3_Cluster {
             get {
-                return ResourceManager.GetString("UnsortedCircularDependency3Module", resourceCulture);
+                return ResourceManager.GetString("UnsortedCircularDependency3_Cluster", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
+        ///using DpdtInject.Injector.Excp;
+        ///using DpdtInject.Injector.Module.Bind;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Collections.Generic;
-        ///using System.IO;
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
         ///
         ///namespace DpdtInject.Tests.Unsorted.ComplexTypeArgument0
         ///{
-        ///    public partial class UnsortedComplexTypeArgument0Module : DpdtModule
+        ///    public partial class UnsortedComplexTypeArgument0_Cluster : DefaultCluster
         ///    {
         ///        public static Func&lt;Func&lt;object&gt;, Func&lt;string&gt;&gt; Funca =&gt;
-        ///         [rest of string was truncated]&quot;;.
+        ///            fo =&gt; new  [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string UnsortedComplexTypeArgument0Module {
+        internal static string UnsortedComplexTypeArgument0_Cluster {
             get {
-                return ResourceManager.GetString("UnsortedComplexTypeArgument0Module", resourceCulture);
+                return ResourceManager.GetString("UnsortedComplexTypeArgument0_Cluster", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///
-        ///namespace DpdtInject.Tests.Unsorted.NativeTypeArgument0
-        ///{
-        ///    public partial class UnsortedNativeTypeArgument0Module : DpdtModule
-        ///    {
-        ///        public const string DefaultMessage = &quot;default message&quot;;
-        ///
-        ///         [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string UnsortedNativeTypeArgument0Module {
-            get {
-                return ResourceManager.GetString("UnsortedNativeTypeArgument0Module", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///
-        ///namespace DpdtInject.Tests.Unsorted.OptionalArgument0
-        ///{
-        ///    public partial class UnsortedOptionalArgument0Module : DpdtModule
-        ///    {
-        ///        public const string DefaultMessage = &quot;default message&quot;;
-        ///        public [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string UnsortedOptionalArgument0Module {
-            get {
-                return ResourceManager.GetString("UnsortedOptionalArgument0Module", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///
-        ///namespace DpdtInject.Tests.Unsorted.OptionalArgument1
-        ///{
-        ///    public partial class UnsortedOptionalArgument1Module : DpdtModule
-        ///    {
-        ///        public const string DefaultMessage = &quot;default message&quot;;
-        ///
-        ///        publ [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string UnsortedOptionalArgument1Module {
-            get {
-                return ResourceManager.GetString("UnsortedOptionalArgument1Module", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
         ///using DpdtInject.Injector.Excp;
-        ///using System.Runtime.InteropServices;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
         ///
-        ///namespace DpdtInject.Tests.Unsorted.SameChildren2
+        ///namespace DpdtInject.Tests.Unsorted.Generic.IsRegistered
         ///{
-        ///    public partial class UnsortedSameChildren2Module : DpdtModule
+        ///    public partial class UnsortedGenericIsRegistered_Cluster : DefaultCluster
         ///    {
-        ///        public const string Mess [rest of string was truncated]&quot;;.
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithTransient [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string UnsortedSameChildren2Module {
+        internal static string UnsortedGenericIsRegistered_Cluster {
             get {
-                return ResourceManager.GetString("UnsortedSameChildren2Module", resourceCulture);
+                return ResourceManager.GetString("UnsortedGenericIsRegistered_Cluster", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
         ///using DpdtInject.Injector.Excp;
-        ///using System.Runtime.InteropServices;
-        ///
-        ///namespace DpdtInject.Tests.Unsorted.SameChildren
-        ///{
-        ///    public partial class UnsortedSameChildrenModule : DpdtModule
-        ///    {
-        ///        public const string Messag [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string UnsortedSameChildrenModule {
-            get {
-                return ResourceManager.GetString("UnsortedSameChildrenModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
+        ///using DpdtInject.Injector.Module.Bind;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Collections.Generic;
-        ///using System.IO;
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
         ///
-        ///namespace DpdtInject.Tests.Unsorted.SingletonCustom
+        ///namespace DpdtInject.Tests.Unsorted.InvalidToType
         ///{
-        ///    public partial class UnsortedSingletonCustomModule : DpdtModule
+        ///    public partial class UnsortedInvalidToType_Cluster : DefaultCluster
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
         ///        public override void Load()
         ///        [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string UnsortedSingletonCustomModule {
+        internal static string UnsortedInvalidToType_Cluster {
             get {
-                return ResourceManager.GetString("UnsortedSingletonCustomModule", resourceCulture);
+                return ResourceManager.GetString("UnsortedInvalidToType_Cluster", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///
-        ///namespace DpdtInject.Tests.Unsorted.SingletonTransient
-        ///{
-        ///    public partial class UnsortedSingletonTransientModule : DpdtModule
-        ///    {
-        ///        public const string Message = &quot;some message&quot;;
-        ///
-        ///        public override void Load()
-        ///  [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string UnsortedSingletonTransientModule {
-            get {
-                return ResourceManager.GetString("UnsortedSingletonTransientModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using System;
-        ///using System.Collections.Generic;
-        ///using System.IO;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
         ///using DpdtInject.Injector.Excp;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
         ///
-        ///namespace DpdtInject.Tests.Unsorted.TooManyChildren
+        ///namespace DpdtInject.Tests.Unsorted.NativeTypeArgument0
         ///{
-        ///    public partial class UnsortedTooManyChildrenModule : DpdtModule
+        ///    public partial class UnsortedNativeTypeArgument0_Cluster : DefaultCluster
         ///    {
-        ///        public const string Message = &quot;some message&quot;;
+        ///        public const string DefaultMessage = &quot;default message&quot;;
         ///
-        ///        pub [rest of string was truncated]&quot;;.
+        ///        public overrid [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string UnsortedTooManyChildrenModule {
+        internal static string UnsortedNativeTypeArgument0_Cluster {
             get {
-                return ResourceManager.GetString("UnsortedTooManyChildrenModule", resourceCulture);
+                return ResourceManager.GetString("UnsortedNativeTypeArgument0_Cluster", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Module;
+        ///using DpdtInject.Injector.Excp;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Collections.Generic;
-        ///using System.IO;
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
-        ///using DpdtInject.Injector.Module.Bind;
-        ///using DpdtInject.Injector.Excp;
         ///
-        ///namespace DpdtInject.Tests.Unsorted.UnknownDependency
+        ///namespace DpdtInject.Tests.Unsorted.NonGeneric.IsRegistered
         ///{
-        ///    public partial class UnsortedUnknownDependencyModule : DpdtModule
+        ///    public partial class UnsortedNonGenericIsRegistered_Cluster : DefaultCluster
         ///    {
         ///        public override void Load()
         ///        {
-        ///            Bind [rest of string was truncated]&quot;;.
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithTra [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string UnsortedUnknownDependencyModule {
+        internal static string UnsortedNonGenericIsRegistered_Cluster {
             get {
-                return ResourceManager.GetString("UnsortedUnknownDependencyModule", resourceCulture);
+                return ResourceManager.GetString("UnsortedNonGenericIsRegistered_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.OptionalArgument0
+        ///{
+        ///    public partial class UnsortedOptionalArgument0_Cluster : DefaultCluster
+        ///    {
+        ///        public const string DefaultMessage = &quot;default message&quot;;
+        ///        public const string  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedOptionalArgument0_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedOptionalArgument0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.OptionalArgument1
+        ///{
+        ///    public partial class UnsortedOptionalArgument1_Cluster : DefaultCluster
+        ///    {
+        ///        public const string DefaultMessage = &quot;default message&quot;;
+        ///
+        ///        public override vo [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedOptionalArgument1_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedOptionalArgument1_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.SingletonCustom
+        ///{
+        ///    public partial class UnsortedSingletonCustom_Cluster : DefaultCluster
+        ///    {
+        ///        public const string DefaultMessage = &quot;default message&quot;;
+        ///
+        ///        public override void L [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedSingletonCustom_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedSingletonCustom_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.SingletonTransient
+        ///{
+        ///    public partial class UnsortedSingletonTransient_Cluster : DefaultCluster
+        ///    {
+        ///        public const string DefaultMessage = &quot;default message&quot;;
+        ///
+        ///        public override  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedSingletonTransient_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedSingletonTransient_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.TooManyChildren
+        ///{
+        ///    public partial class UnsortedTooManyChildren_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A0&gt;()
+        ///                .WithTransientScope()        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedTooManyChildren_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedTooManyChildren_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Wrapper.Func.Generic.DeclaredFunc
+        ///{
+        ///    public partial class WrapperFuncGenericDeclaredFunc_Cluster : DefaultCluster
+        ///    {
+        ///        public static readonly A AInstance = new A();
+        ///        public static readonly Func&lt;IA&gt; Funca = () =&gt; AInstance;
+        ///
+        ///        public override void Lo [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string WrapperFuncGenericDeclaredFunc_Cluster {
+            get {
+                return ResourceManager.GetString("WrapperFuncGenericDeclaredFunc_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Wrapper.Func.Generic.Hierarchy2
+        ///{
+        ///    public partial class WrapperFuncGenericHierarchy2_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithTransientScope()
+        ///                ;
+        ///
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string WrapperFuncGenericHierarchy2_Cluster {
+            get {
+                return ResourceManager.GetString("WrapperFuncGenericHierarchy2_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Wrapper.Func.Generic.SingleInterfaceSingleObject
+        ///{
+        ///    public partial class WrapperFuncGenericSingleInterfaceSingleObject_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithTrans [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string WrapperFuncGenericSingleInterfaceSingleObject_Cluster {
+            get {
+                return ResourceManager.GetString("WrapperFuncGenericSingleInterfaceSingleObject_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Wrapper.Func.NonGeneric.DeclaredFunc
+        ///{
+        ///    public partial class WrapperFuncNonGenericDeclaredFunc_Cluster : DefaultCluster
+        ///    {
+        ///        public static readonly A AInstance = new A();
+        ///        public static readonly Func&lt;IA&gt; Funca = () =&gt; AInstance;
+        ///
+        ///        public override v [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string WrapperFuncNonGenericDeclaredFunc_Cluster {
+            get {
+                return ResourceManager.GetString("WrapperFuncNonGenericDeclaredFunc_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Wrapper.Func.NonGeneric.Hierarchy2
+        ///{
+        ///    public partial class WrapperFuncNonGenericHierarchy2_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithTransientScope()
+        ///                [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string WrapperFuncNonGenericHierarchy2_Cluster {
+            get {
+                return ResourceManager.GetString("WrapperFuncNonGenericHierarchy2_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Wrapper.Func.NonGeneric.SingleInterfaceSingleObject
+        ///{
+        ///    public partial class WrapperFuncNonGenericSingleInterfaceSingleObject_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .Wit [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string WrapperFuncNonGenericSingleInterfaceSingleObject_Cluster {
+            get {
+                return ResourceManager.GetString("WrapperFuncNonGenericSingleInterfaceSingleObject_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Wrapper.Func.Singleton
+        ///{
+        ///    public partial class WrapperFuncSingleton_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithSingletonScope()
+        ///                ;
+        ///
+        ///        }
+        ///
+        ///     [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string WrapperFuncSingleton_Cluster {
+            get {
+                return ResourceManager.GetString("WrapperFuncSingleton_Cluster", resourceCulture);
             }
         }
     }

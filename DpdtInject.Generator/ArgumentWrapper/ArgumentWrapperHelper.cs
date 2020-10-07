@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using DpdtInject.Injector;
+using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -7,21 +8,38 @@ namespace DpdtInject.Generator.ArgumentWrapper
 {
     public static class ArgumentWrapperHelper
     {
-        public static IEnumerable<(DpdtArgumentWrapperTypeEnum, ITypeSymbol)> GenerateWrapperTypes(
-            this ITypeSymbol type,
-            Compilation compilation
+        public static int WrapperCount => Enum.GetValues(typeof(DpdtArgumentWrapperTypeEnum)).Length;
+
+        public static IEnumerable<DpdtArgumentWrapperTypeEnum> GenerateWrapperEnumTypes(
             )
         {
             foreach (DpdtArgumentWrapperTypeEnum wrapperType in Enum.GetValues(typeof(DpdtArgumentWrapperTypeEnum)))
             {
-                INamedTypeSymbol wrapperSymbol;
+                yield return wrapperType;
+            }
+        }
+
+        public static IEnumerable<(DpdtArgumentWrapperTypeEnum, ITypeSymbol)> GenerateWrapperTypes(
+            this ITypeSymbol type,
+            Compilation compilation,
+            bool includeNone
+            )
+        {
+            foreach (DpdtArgumentWrapperTypeEnum wrapperType in Enum.GetValues(typeof(DpdtArgumentWrapperTypeEnum)))
+            {
+                ITypeSymbol wrapperSymbol;
                 switch (wrapperType)
                 {
                     case DpdtArgumentWrapperTypeEnum.None:
-                        continue;
+                        if (!includeNone)
+                        {
+                            continue;
+                        }
+                        wrapperSymbol = type;
+                        break;
                     case DpdtArgumentWrapperTypeEnum.Func:
-                        wrapperSymbol = compilation.GetTypeByMetadataName("System.Func`1")!;
-                        wrapperSymbol = wrapperSymbol.Construct(type);
+                        var createdByMetadata = compilation.GetTypeByMetadataName("System.Func`1")!;
+                        wrapperSymbol = createdByMetadata.Construct(type);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(wrapperType.ToString());

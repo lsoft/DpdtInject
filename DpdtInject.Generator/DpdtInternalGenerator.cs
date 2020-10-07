@@ -1,26 +1,22 @@
-﻿using DpdtInject.Generator.Helpers;
-using DpdtInject.Generator.Parser;
-using DpdtInject.Generator.Producer.Blocks.Binding;
-using DpdtInject.Generator.Producer.Blocks.Module;
+﻿using DpdtInject.Generator.BindExtractor;
+using DpdtInject.Generator.Helpers;
+using DpdtInject.Generator.Producer;
 using DpdtInject.Generator.Scanner;
-using DpdtInject.Generator.Tree;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Excp;
-using DpdtInject.Injector.Module;
+using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace DpdtInject.Generator
 {
     public class DpdtInternalGenerator
     {
         private readonly IDiagnosticReporter _diagnosticReporter;
-        private readonly string? _generatedFilePath;
 
         public DpdtInternalGenerator(
             IDiagnosticReporter diagnosticReporter
@@ -31,36 +27,19 @@ namespace DpdtInject.Generator
                 throw new ArgumentNullException(nameof(diagnosticReporter));
             }
 
-            _generatedFilePath = null;
             _diagnosticReporter = diagnosticReporter;
         }
 
-        public DpdtInternalGenerator(
-            IDiagnosticReporter diagnosticReporter,
-            string generatedFilePath
-            )
-        {
-            if (diagnosticReporter is null)
-            {
-                throw new ArgumentNullException(nameof(diagnosticReporter));
-            }
-
-            if (string.IsNullOrEmpty(generatedFilePath))
-            {
-                throw new ArgumentException($"'{nameof(generatedFilePath)}' cannot be null or empty", nameof(generatedFilePath));
-            }
-
-            _diagnosticReporter = diagnosticReporter;
-            _generatedFilePath = generatedFilePath;
-        }
         public IReadOnlyList<ModificationDescription> Execute(
-            Compilation compilation
+            Compilation compilation,
+            Func<int, string>? generatedFilePathFunc
             )
         {
             using (new DTimer(_diagnosticReporter, "Dpdt total time taken"))
             {
                 var result = ExecutePrivate(
-                    compilation
+                    compilation,
+                    generatedFilePathFunc
                 );
 
                 return result;
@@ -68,7 +47,8 @@ namespace DpdtInject.Generator
         }
 
         private IReadOnlyList<ModificationDescription> ExecutePrivate(
-            Compilation compilation
+            Compilation compilation,
+            Func<int, string>? generatedFilePathFunc
             )
         {
             if (compilation is null)
@@ -84,20 +64,22 @@ namespace DpdtInject.Generator
                     )
                 );
 
-            var moduleTypes = scanner.Scan(
+            var clusterTypes = scanner.Scan(
                 compilation
                 );
 
-            foreach (var moduleType in moduleTypes)
+            for(var clusterTypeIndex = 0; clusterTypeIndex < clusterTypes.Count; clusterTypeIndex++)
             {
+                var clusterType = clusterTypes[clusterTypeIndex];
+
                 MethodDeclarationSyntax loadMethodSyntax;
                 CompilationUnitSyntax? compilationUnitSyntax;
                 using (new DTimer(_diagnosticReporter, "unsorted time taken"))
                 {
-                    var loadMethods = moduleType.GetMembers(nameof(DpdtModule.Load));
+                    var loadMethods = clusterType.GetMembers(nameof(DefaultCluster.Load));
                     if (loadMethods.Length != 1)
                     {
-                        throw new Exception($"Something wrong with type {moduleType.GetFullName()}");
+                        throw new Exception($"Something wrong with type {clusterType.ToDisplayString()}");
                     }
 
                     var loadMethod = loadMethods[0];
@@ -105,7 +87,7 @@ namespace DpdtInject.Generator
                     var loadMethodRefs = loadMethod.DeclaringSyntaxReferences;
                     if (loadMethodRefs.Length != 1)
                     {
-                        throw new Exception($"Something wrong with method {loadMethod.GetFullName()} : {loadMethodRefs.Length}");
+                        throw new Exception($"Something wrong with method {loadMethod.ToDisplayString()} : {loadMethodRefs.Length}");
                     }
 
                     var loadMethodRef = loadMethodRefs[0];
@@ -124,7 +106,7 @@ namespace DpdtInject.Generator
 
                 var bindExtractor = new TimedBindExtractor(
                     _diagnosticReporter,
-                    new BindExtractor(
+                    new DefaultBindExtractor(
                         compilation,
                         compilationUnitSyntax
                         )
@@ -132,46 +114,36 @@ namespace DpdtInject.Generator
 
                 bindExtractor.Visit(loadMethodSyntax);
 
-                var bindingsContainer = bindExtractor.GetBindingsContainer(
-                    moduleType
+                var clusterBindings = bindExtractor.GetClusterBindings(
+                    clusterType
                     );
 
-                var itemGeneratorsContainer =
-                    new TimedInstanceContainerGeneratorsContainer(
-                        _diagnosticReporter,
-                        new InstanceContainerGeneratorsContainer(
-                            _diagnosticReporter,
-                            compilation,
-                            bindingsContainer
-                            )
-                        );
-
-                itemGeneratorsContainer.Analyze(_diagnosticReporter);
-
-                var moduleGenerator = new TimedModuleGenerator(
-                    _diagnosticReporter,
-                    new ModuleGenerator(
-                        compilation,
-                        moduleType
-                        )
+                clusterBindings.BuildFlags(
                     );
 
-                var moduleSourceCode = moduleGenerator.GenerateModuleBody(
-                    itemGeneratorsContainer
+                clusterBindings.Analyze(
+                    _diagnosticReporter
                     );
+
+                var clusterProducer = new ClusterProducer(
+                    compilation,
+                    clusterBindings
+                    );
+
+                var moduleSourceCode = clusterProducer.Produce();
 
                 ModificationDescription modificationDescription;
                 using (new DTimer(_diagnosticReporter, "Dpdt beautify generated code time taken"))
                 {
                     modificationDescription = new ModificationDescription(
-                        moduleType,
-                        moduleType.Name + Guid.NewGuid().RemoveMinuses() + "_1.cs",
+                        clusterType,
+                        clusterType.Name + Guid.NewGuid().RemoveMinuses() + "_1.cs",
                         moduleSourceCode,
-                        !string.IsNullOrEmpty(_generatedFilePath)
+                        generatedFilePathFunc is not null
                         );
                 }
 
-                if (!string.IsNullOrEmpty(_generatedFilePath))
+                if (generatedFilePathFunc is not null)
                 {
                     //var generatedSource = string.Join(Environment.NewLine,
                     //    modificationDescription.NewFileBody
@@ -180,7 +152,9 @@ namespace DpdtInject.Generator
                     //    );
                     var generatedSource = modificationDescription.NewFileBody;
 
-                    File.WriteAllText(_generatedFilePath, generatedSource);
+                    var generatedFilePath = generatedFilePathFunc(clusterTypeIndex);
+
+                    File.WriteAllText(generatedFilePath, generatedSource);
                 }
 
                 result.Add(modificationDescription);

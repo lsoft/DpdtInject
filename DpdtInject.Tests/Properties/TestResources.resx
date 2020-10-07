@@ -118,211 +118,238 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ActivationExcessiveTooManyChildren0Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Activation\Excessive\TooManyChildren0\ActivationExcessiveTooManyChildren0Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ActivationExcessiveTooManyChildren0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Activation\Excessive\TooManyChildren0\ActivationExcessiveTooManyChildren0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ActivationExcessiveTooManyChildren1Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Activation\Excessive\TooManyChildren1\ActivationExcessiveTooManyChildren1Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ActivationExcessiveTooManyChildren1_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Activation\Excessive\TooManyChildren1\ActivationExcessiveTooManyChildren1_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ActivationExcessiveTooManyChildren2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Activation\Excessive\TooManyChildren2\ActivationExcessiveTooManyChildren2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ActivationExcessiveTooManyChildren2_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Activation\Excessive\TooManyChildren2\ActivationExcessiveTooManyChildren2_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ActivationExcessiveTooManyChildren3Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Activation\Excessive\TooManyChildren3\ActivationExcessiveTooManyChildren3Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ActivationExcessiveTooManyChildren3_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Activation\Excessive\TooManyChildren3\ActivationExcessiveTooManyChildren3_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ActivationExcessiveTooManyRoots0Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Activation\Excessive\TooManyRoots0\ActivationExcessiveTooManyRoots0Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ActivationExcessiveTooManyRoots0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Activation\Excessive\TooManyRoots0\ActivationExcessiveTooManyRoots0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ActivationExcessiveTooManyRoots1Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Activation\Excessive\TooManyRoots1\ActivationExcessiveTooManyRoots1Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ActivationExcessiveTooManyRoots1_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Activation\Excessive\TooManyRoots1\ActivationExcessiveTooManyRoots1_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ActivationExcessiveTooManyRoots2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Activation\Excessive\TooManyRoots2\ActivationExcessiveTooManyRoots2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ActivationExcessiveTooManyRoots2_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Activation\Excessive\TooManyRoots2\ActivationExcessiveTooManyRoots2_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ActivationExcessiveTooManyRoots3Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Activation\Excessive\TooManyRoots3\ActivationExcessiveTooManyRoots3Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ActivationExcessiveTooManyRoots3_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Activation\Excessive\TooManyRoots3\ActivationExcessiveTooManyRoots3_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ClusterConditional1Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Cluster\Conditional1\ClusterConditional1Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ClusterGenericDifferentConditional0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Cluster\Generic\DifferentConditional0\ClusterGenericDifferentConditional0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ClusterDifferentObjectDifferentCluster1Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Cluster\DifferentObjectDifferentCluster1\ClusterDifferentObjectDifferentCluster1Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ClusterGenericDifferentConditional1_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Cluster\Generic\DifferentConditional1\ClusterGenericDifferentConditional1_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ClusterDifferentObjectDifferentCluster2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Cluster\DifferentObjectDifferentCluster2\ClusterDifferentObjectDifferentCluster2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ClusterGenericDifferentFunc_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Cluster\Generic\DifferentFunc\ClusterGenericDifferentFunc_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ClusterDifferentObjectDifferentCluster3Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Cluster\DifferentObjectDifferentCluster3\ClusterDifferentObjectDifferentCluster3Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ClusterGenericDifferent_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Cluster\Generic\Different\ClusterGenericDifferent_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ClusterDifferentObjectDifferentCluster4Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Cluster\DifferentObjectDifferentCluster4\ClusterDifferentObjectDifferentCluster4Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ClusterNonGenericDifferentConditional0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Cluster\NonGeneric\DifferentConditional0\ClusterNonGenericDifferentConditional0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ClusterDifferentObjectDifferentCluster5FuncModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Cluster\DifferentObjectDifferentCluster5Func\ClusterDifferentObjectDifferentCluster5FuncModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ClusterNonGenericDifferentConditional1_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Cluster\NonGeneric\DifferentConditional1\ClusterNonGenericDifferentConditional1_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ConditionalHierarchy2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Conditional\Hierarchy2\ConditionalHierarchy2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ClusterNonGenericDifferentFunc_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Cluster\NonGeneric\DifferentFunc\ClusterNonGenericDifferentFunc_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ConditionalHierarchy3FirstModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Conditional\Hierarchy3First\ConditionalHierarchy3FirstModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ClusterNonGenericDifferent_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Cluster\NonGeneric\Different\ClusterNonGenericDifferent_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ConditionalHierarchy3SecondModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Conditional\Hierarchy3Second\ConditionalHierarchy3SecondModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ConditionalGenericHierarchy2SameConstant_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Conditional\Generic\Hierarchy2SameConstant\ConditionalGenericHierarchy2SameConstant_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ConditionalOnlyOneModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Conditional\OnlyOne\ConditionalOnlyOneModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ConditionalGenericHierarchy2_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Conditional\Generic\Hierarchy2\ConditionalGenericHierarchy2_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ConditionalRContextHierarchy2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Conditional\RContext\Hierarchy2\ConditionalRContextHierarchy2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ConditionalGenericHierarchy3First_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Conditional\Generic\Hierarchy3First\ConditionalGenericHierarchy3First_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ConditionalRContextHierarchy2Variant1Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Conditional\RContext\Hierarchy2Variant1\ConditionalRContextHierarchy2Variant1Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ConditionalGenericHierarchy3Second_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Conditional\Generic\Hierarchy3Second\ConditionalGenericHierarchy3Second_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ConditionalRContextHierarchy2Variant2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Conditional\RContext\Hierarchy2Variant2\ConditionalRContextHierarchy2Variant2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ConditionalGenericOnlyOneInMiddle_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Conditional\Generic\OnlyOneInMiddle\ConditionalGenericOnlyOneInMiddle_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ConditionalSingleObjectModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Conditional\SingleObject\ConditionalSingleObjectModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ConditionalNonGenericHierarchy2SameConstant_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Conditional\NonGeneric\Hierarchy2SameConstant\ConditionalNonGenericHierarchy2SameConstant_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ConstantHierarchy2WithSameModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Constant\Hierarchy2WithSame\ConstantHierarchy2WithSameModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ConditionalNonGenericHierarchy2_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Conditional\NonGeneric\Hierarchy2\ConditionalNonGenericHierarchy2_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ConstantSingleObjectModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Constant\SingleObject\ConstantSingleObjectModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ConditionalNonGenericHierarchy3First_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Conditional\NonGeneric\Hierarchy3First\ConditionalNonGenericHierarchy3First_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="FuncGenericSingletonHierarchy2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Func\Generic\Singleton\Hierarchy2\FuncGenericSingletonHierarchy2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ConditionalNonGenericHierarchy3Second_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Conditional\NonGeneric\Hierarchy3Second\ConditionalNonGenericHierarchy3Second_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="FuncGenericSingletonSingleObjectModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Func\Generic\Singleton\SingleObject\FuncGenericSingletonSingleObjectModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ConditionalNonGenericOnlyOneInMiddle_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Conditional\NonGeneric\OnlyOneInMiddle\ConditionalNonGenericOnlyOneInMiddle_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="FuncGenericTransientHierarchy2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Func\Generic\Transient\Hierarchy2\FuncGenericTransientHierarchy2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="GetAllGenericHierarchy2Conditional_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\GetAll\Generic\Hierarchy2Conditional\GetAllGenericHierarchy2Conditional_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
-  <data name="FuncGenericTransientSingleObjectModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Func\Generic\Transient\SingleObject\FuncGenericTransientSingleObjectModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="GetAllGenericNoBinding_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\GetAll\Generic\NoBinding\GetAllGenericNoBinding_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="FuncNonGenericSingletonHierarchy2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Func\NonGeneric\Singleton\Hierarchy2\FuncNonGenericSingletonHierarchy2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="GetAllGenericSingleObject_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\GetAll\Generic\SingleObject\GetAllGenericSingleObject_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="FuncNonGenericSingletonSingleObjectModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Func\NonGeneric\Singleton\SingleObject\FuncNonGenericSingletonSingleObjectModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="GetAllGenericTwoObjectsConditional0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\GetAll\Generic\TwoObjectsConditional0\GetAllGenericTwoObjectsConditional0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="FuncNonGenericTransientHierarchy2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Func\NonGeneric\Transient\Hierarchy2\FuncNonGenericTransientHierarchy2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="GetAllGenericTwoObjectsConditional1_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\GetAll\Generic\TwoObjectsConditional1\GetAllGenericTwoObjectsConditional1_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="FuncNonGenericTransientSingleObjectModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Func\NonGeneric\Transient\SingleObject\FuncNonGenericTransientSingleObjectModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="GetAllGenericTwoObjects_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\GetAll\Generic\TwoObjects\GetAllGenericTwoObjects_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="GenericIsRegisteredFromModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Generic\IsRegisteredFrom\GenericIsRegisteredFromModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="GetAllNonGenericHierarchy2Conditional_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\GetAll\NonGeneric\Hierarchy2Conditional\GetAllNonGenericHierarchy2Conditional_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
-  <data name="InvalidToTypeTransientModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Unsorted\InvalidToType\InvalidToTypeTransientModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="GetAllNonGenericNoBinding_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\GetAll\NonGeneric\NoBinding\GetAllNonGenericNoBinding_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="LocalVariableTransientModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Unsorted\LocalVariable\LocalVariableTransientModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="GetAllNonGenericSingleObject_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\GetAll\NonGeneric\SingleObject\GetAllNonGenericSingleObject_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="NonGenericDifferentObjectsModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\NonGeneric\DifferentObjects\NonGenericDifferentObjectsModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="GetAllNonGenericTwoObjectsConditional0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\GetAll\NonGeneric\TwoObjectsConditional0\GetAllNonGenericTwoObjectsConditional0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="NonGenericIncorrectRequestModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\NonGeneric\IncorrectRequest\NonGenericIncorrectRequestModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="GetAllNonGenericTwoObjectsConditional1_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\GetAll\NonGeneric\TwoObjectsConditional1\GetAllNonGenericTwoObjectsConditional1_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="NonGenericSingleObjectModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\NonGeneric\SingleObject\NonGenericSingleObjectModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="GetAllNonGenericTwoObjects_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\GetAll\NonGeneric\TwoObjects\GetAllNonGenericTwoObjects_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="NonGenericTwoSameBindingsModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\NonGeneric\TwoSameBindings\NonGenericTwoSameBindingsModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="NonGenericIncorrectRequest_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\NonGeneric\IncorrectRequest\NonGenericIncorrectRequest_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ScopeCustomHierarchy2ChildClusterModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Scope\Custom\Hierarchy2ChildCluster\ScopeCustomHierarchy2ChildClusterModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ScopeConstantGenericSingleInterfaceSingleObject_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Constant\Generic\SingleInterfaceSingleObject\ScopeConstantGenericSingleInterfaceSingleObject_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ScopeCustomHierarchy2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Scope\Custom\Hierarchy2\ScopeCustomHierarchy2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ScopeConstantNonGenericSingleInterfaceSingleObject_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Constant\NonGeneric\SingleInterfaceSingleObject\ScopeConstantNonGenericSingleInterfaceSingleObject_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ScopeCustomNonGenericSingleObjectModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Scope\Custom\NonGenericSingleObject\ScopeCustomNonGenericSingleObjectModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ScopeCustomGenericHierarchy2DifferentCluster_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Custom\Generic\Hierarchy2DifferentCluster\ScopeCustomGenericHierarchy2DifferentCluster_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ScopeCustomSingleObjectModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Scope\Custom\SingleObject\ScopeCustomSingleObjectModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ScopeCustomGenericHierarchy2_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Custom\Generic\Hierarchy2\ScopeCustomGenericHierarchy2_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ScopeCustomTwoSameBindingsModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Scope\Custom\TwoSameBindings\ScopeCustomTwoSameBindingsModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ScopeCustomGenericSingleObject_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Custom\Generic\SingleObject\ScopeCustomGenericSingleObject_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="SingletonDisposeModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Singleton\Dispose\SingletonDisposeModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ScopeCustomNonGenericHierarchy2DifferentCluster_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Custom\NonGeneric\Hierarchy2DifferentCluster\ScopeCustomNonGenericHierarchy2DifferentCluster_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="SingletonHierarchy2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Singleton\Hierarchy2\SingletonHierarchy2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ScopeCustomNonGenericHierarchy2_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Custom\NonGeneric\Hierarchy2\ScopeCustomNonGenericHierarchy2_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="SingletonHierarchy3Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Singleton\Hierarchy3\SingletonHierarchy3Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ScopeCustomNonGenericSingleObject_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Custom\NonGeneric\SingleObject\ScopeCustomNonGenericSingleObject_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="SingletonSingleObjectModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Singleton\SingleObject\SingletonSingleObjectModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ScopeSingletonGenericHierarchy2_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Singleton\Generic\Hierarchy2\ScopeSingletonGenericHierarchy2_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="SingletonSingleObjectWithArgumentModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Singleton\SingleObjectWithArgument\SingletonSingleObjectWithArgumentModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ScopeSingletonGenericSingleInterfaceSingleObject_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Singleton\Generic\SingleInterfaceSingleObject\ScopeSingletonGenericSingleInterfaceSingleObject_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="SingletonTwoSameBindingsModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Singleton\TwoSameBindings\SingletonTwoSameBindingsModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ScopeSingletonGenericSingleObjectDefinedArgument_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Singleton\Generic\SingleObjectDefinedArgument\ScopeSingletonGenericSingleObjectDefinedArgument_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="SingletonUnknownRequestModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Singleton\UnknownRequest\SingletonUnknownRequestModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ScopeSingletonGenericTwoInterfacesSingleObject_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Singleton\Generic\TwoInterfacesSingleObject\ScopeSingletonGenericTwoInterfacesSingleObject_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="TimeConsumeBigTree0Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\TimeConsume\BigTree0\TimeConsumeBigTree0Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  <data name="ScopeSingletonNonGenericHierarchy2_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Singleton\NonGeneric\Hierarchy2\ScopeSingletonNonGenericHierarchy2_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="TransientHierarchy2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Transient\Hierarchy2\TransientHierarchy2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ScopeSingletonNonGenericSingleInterfaceSingleObject_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Singleton\NonGeneric\SingleInterfaceSingleObject\ScopeSingletonNonGenericSingleInterfaceSingleObject_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="TransientHierarchy3Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Transient\Hierarchy3\TransientHierarchy3Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ScopeSingletonNonGenericTwoInterfacesSingleObject_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Singleton\NonGeneric\TwoInterfacesSingleObject\ScopeSingletonNonGenericTwoInterfacesSingleObject_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="TransientSingleObjectModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Transient\SingleObject\TransientSingleObjectModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ScopeTransientGenericHierarchy2_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Transient\Generic\Hierarchy2\ScopeTransientGenericHierarchy2_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="TransientSingleObjectWithArgumentModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Transient\SingleObjectWithArgument\TransientSingleObjectWithArgumentModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ScopeTransientGenericSingleInterfaceSingleObject_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Transient\Generic\SingleInterfaceSingleObject\ScopeTransientGenericSingleInterfaceSingleObject_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="TransientTwoSameBindingsModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Transient\TwoSameBindings\TransientTwoSameBindingsModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ScopeTransientGenericSingleObjectDefinedArgument_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Transient\Generic\SingleObjectDefinedArgument\ScopeTransientGenericSingleObjectDefinedArgument_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="UnsortedCannotBeCastedModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Unsorted\CannotBeCasted\UnsortedCannotBeCastedModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ScopeTransientGenericTwoInterfacesSingleObject_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Transient\Generic\TwoInterfacesSingleObject\ScopeTransientGenericTwoInterfacesSingleObject_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="UnsortedCircularDependency3Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Unsorted\CircularDependency3\UnsortedCircularDependency3Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="SingletonDispose_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Singleton\Dispose\SingletonDispose_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="UnsortedComplexTypeArgument0Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Unsorted\ComplexTypeArgument0\UnsortedComplexTypeArgument0Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="UnsortedCannotBeCasted_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\CannotBeCasted\UnsortedCannotBeCasted_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="UnsortedNativeTypeArgument0Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Unsorted\NativeTypeArgument0\UnsortedNativeTypeArgument0Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="UnsortedCircularDependency3_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\CircularDependency3\UnsortedCircularDependency3_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="UnsortedOptionalArgument0Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Unsorted\OptionalArgument0\UnsortedOptionalArgument0Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="UnsortedComplexTypeArgument0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\ComplexTypeArgument0\UnsortedComplexTypeArgument0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="UnsortedOptionalArgument1Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Unsorted\OptionalArgument1\UnsortedOptionalArgument1Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="UnsortedGenericIsRegistered_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\Generic\IsRegistered\UnsortedGenericIsRegistered_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="UnsortedSameChildren2Module" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Unsorted\SameChildren2\UnsortedSameChildren2Module.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="UnsortedInvalidToType_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\InvalidToType\UnsortedInvalidToType_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="UnsortedSameChildrenModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Unsorted\SameChildren\UnsortedSameChildrenModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="UnsortedNativeTypeArgument0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\NativeTypeArgument0\UnsortedNativeTypeArgument0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="UnsortedSingletonCustomModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Unsorted\SingletonCustom\UnsortedSingletonCustomModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="UnsortedNonGenericIsRegistered_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\NonGeneric\IsRegistered\UnsortedNonGenericIsRegistered_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="UnsortedSingletonTransientModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Unsorted\SingletonTransient\UnsortedSingletonTransientModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="UnsortedOptionalArgument0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\OptionalArgument0\UnsortedOptionalArgument0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="UnsortedTooManyChildrenModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Unsorted\TooManyChildren\UnsortedTooManyChildrenModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="UnsortedOptionalArgument1_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\OptionalArgument1\UnsortedOptionalArgument1_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="UnsortedUnknownDependencyModule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Unsorted\UnknownDependency\UnsortedUnknownDependencyModule.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="UnsortedSingletonCustom_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\SingletonCustom\UnsortedSingletonCustom_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="UnsortedSingletonTransient_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\SingletonTransient\UnsortedSingletonTransient_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="UnsortedTooManyChildren_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\TooManyChildren\UnsortedTooManyChildren_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="WrapperFuncGenericDeclaredFunc_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Wrapper\Func\Generic\DeclaredFunc\WrapperFuncGenericDeclaredFunc_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="WrapperFuncGenericHierarchy2_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Wrapper\Func\Generic\Hierarchy2\WrapperFuncGenericHierarchy2_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="WrapperFuncGenericSingleInterfaceSingleObject_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Wrapper\Func\Generic\SingleInterfaceSingleObject\WrapperFuncGenericSingleInterfaceSingleObject_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="WrapperFuncNonGenericDeclaredFunc_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Wrapper\Func\NonGeneric\DeclaredFunc\WrapperFuncNonGenericDeclaredFunc_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="WrapperFuncNonGenericHierarchy2_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Wrapper\Func\NonGeneric\Hierarchy2\WrapperFuncNonGenericHierarchy2_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="WrapperFuncNonGenericSingleInterfaceSingleObject_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Wrapper\Func\NonGeneric\SingleInterfaceSingleObject\WrapperFuncNonGenericSingleInterfaceSingleObject_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="WrapperFuncSingleton_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Wrapper\Func\Singleton\WrapperFuncSingleton_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>
