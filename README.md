@@ -57,6 +57,37 @@ Runtime=.NET Core 3.1  Server=True
 | DpdtInject.Tests.Performance.NonGeneric.Transient | Microresolver | NonGenericTransient |  74.49 ns | 0.717 ns | 0.599 ns | 0.0187 |     - |     - |     144 B |
 
 
+# How to try
+
+Please refer to Dpdt.Injector nuget package at nuget.org. Keep in mind you need to set 'net5' target framework and 'preview' language version. For example:
+
+```
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5</TargetFramework>
+    <LangVersion>preview</LangVersion>
+
+    <Dpdt_Generator_GeneratedSourceFolder>C:\Temp\ConsoleApp1\ConsoleApp1\Dpdt.Pregenerated</Dpdt_Generator_GeneratedSourceFolder>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <CompilerVisibleProperty Include="Dpdt_Generator_GeneratedSourceFolder" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Dpdt.Pregenerated\**" />
+    <EmbeddedResource Remove="Dpdt.Pregenerated\**" />
+    <None Remove="Dpdt.Pregenerated\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dpdt.Injector" Version="0.2.0-alpha" />
+  </ItemGroup>
+
+</Project>
+```
 
 
 # Design

@@ -58,7 +58,7 @@
     <PackageId>Dpdt.Injector</PackageId>
     <PackageVersion>0.2.0.0-alpha</PackageVersion>
     <Authors>ls</Authors>
-    <!-- <PackageLicenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</PackageLicenseUrl> -->
+     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/lsoft/DpdtInject</PackageProjectUrl>
     <!--<PackageIconUrl>https://github.com/lsoft/DpdtInject/raw/master/logo.png</PackageIconUrl>-->
     <RepositoryUrl>https://github.com/lsoft/DpdtInject</RepositoryUrl>
