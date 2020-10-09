@@ -15,9 +15,33 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class0 : IInterface0
     {
-        public int ChildCount => 0;
-        public Class0()
+        public int ChildCount => 4;
+        public IInterface1 Argument1
         {
+            get;
+        }
+
+        public IInterface18 Argument18
+        {
+            get;
+        }
+
+        public IInterface23 Argument23
+        {
+            get;
+        }
+
+        public IInterface39 Argument39
+        {
+            get;
+        }
+
+        public Class0(IInterface1 argument1, IInterface18 argument18, IInterface23 argument23, IInterface39 argument39)
+        {
+            Argument1 = argument1;
+            Argument18 = argument18;
+            Argument23 = argument23;
+            Argument39 = argument39;
         }
     }
 
@@ -31,9 +55,39 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class1 : IInterface1
     {
-        public int ChildCount => 0;
-        public Class1()
+        public int ChildCount => 5;
+        public IInterface2 Argument2
         {
+            get;
+        }
+
+        public IInterface4 Argument4
+        {
+            get;
+        }
+
+        public IInterface5 Argument5
+        {
+            get;
+        }
+
+        public IInterface6 Argument6
+        {
+            get;
+        }
+
+        public IInterface20 Argument20
+        {
+            get;
+        }
+
+        public Class1(IInterface2 argument2, IInterface4 argument4, IInterface5 argument5, IInterface6 argument6, IInterface20 argument20)
+        {
+            Argument2 = argument2;
+            Argument4 = argument4;
+            Argument5 = argument5;
+            Argument6 = argument6;
+            Argument20 = argument20;
         }
     }
 
@@ -47,9 +101,15 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class2 : IInterface2
     {
-        public int ChildCount => 0;
-        public Class2()
+        public int ChildCount => 1;
+        public IInterface7 Argument7
         {
+            get;
+        }
+
+        public Class2(IInterface7 argument7)
+        {
+            Argument7 = argument7;
         }
     }
 
@@ -63,9 +123,21 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class3 : IInterface3
     {
-        public int ChildCount => 0;
-        public Class3()
+        public int ChildCount => 2;
+        public IInterface9 Argument9
         {
+            get;
+        }
+
+        public IInterface22 Argument22
+        {
+            get;
+        }
+
+        public Class3(IInterface9 argument9, IInterface22 argument22)
+        {
+            Argument9 = argument9;
+            Argument22 = argument22;
         }
     }
 
@@ -79,9 +151,21 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class4 : IInterface4
     {
-        public int ChildCount => 0;
-        public Class4()
+        public int ChildCount => 2;
+        public IInterface12 Argument12
         {
+            get;
+        }
+
+        public IInterface41 Argument41
+        {
+            get;
+        }
+
+        public Class4(IInterface12 argument12, IInterface41 argument41)
+        {
+            Argument12 = argument12;
+            Argument41 = argument41;
         }
     }
 
@@ -95,9 +179,21 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class5 : IInterface5
     {
-        public int ChildCount => 0;
-        public Class5()
+        public int ChildCount => 2;
+        public IInterface11 Argument11
         {
+            get;
+        }
+
+        public IInterface43 Argument43
+        {
+            get;
+        }
+
+        public Class5(IInterface11 argument11, IInterface43 argument43)
+        {
+            Argument11 = argument11;
+            Argument43 = argument43;
         }
     }
 
@@ -111,9 +207,21 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class6 : IInterface6
     {
-        public int ChildCount => 0;
-        public Class6()
+        public int ChildCount => 2;
+        public IInterface8 Argument8
         {
+            get;
+        }
+
+        public IInterface25 Argument25
+        {
+            get;
+        }
+
+        public Class6(IInterface8 argument8, IInterface25 argument25)
+        {
+            Argument8 = argument8;
+            Argument25 = argument25;
         }
     }
 
@@ -127,9 +235,15 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class7 : IInterface7
     {
-        public int ChildCount => 0;
-        public Class7()
+        public int ChildCount => 1;
+        public IInterface10 Argument10
         {
+            get;
+        }
+
+        public Class7(IInterface10 argument10)
+        {
+            Argument10 = argument10;
         }
     }
 
@@ -159,9 +273,27 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class9 : IInterface9
     {
-        public int ChildCount => 0;
-        public Class9()
+        public int ChildCount => 3;
+        public IInterface19 Argument19
         {
+            get;
+        }
+
+        public IInterface35 Argument35
+        {
+            get;
+        }
+
+        public IInterface44 Argument44
+        {
+            get;
+        }
+
+        public Class9(IInterface19 argument19, IInterface35 argument35, IInterface44 argument44)
+        {
+            Argument19 = argument19;
+            Argument35 = argument35;
+            Argument44 = argument44;
         }
     }
 
@@ -191,9 +323,27 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class11 : IInterface11
     {
-        public int ChildCount => 0;
-        public Class11()
+        public int ChildCount => 3;
+        public IInterface15 Argument15
         {
+            get;
+        }
+
+        public IInterface21 Argument21
+        {
+            get;
+        }
+
+        public IInterface38 Argument38
+        {
+            get;
+        }
+
+        public Class11(IInterface15 argument15, IInterface21 argument21, IInterface38 argument38)
+        {
+            Argument15 = argument15;
+            Argument21 = argument21;
+            Argument38 = argument38;
         }
     }
 
@@ -207,9 +357,27 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class12 : IInterface12
     {
-        public int ChildCount => 0;
-        public Class12()
+        public int ChildCount => 3;
+        public IInterface13 Argument13
         {
+            get;
+        }
+
+        public IInterface27 Argument27
+        {
+            get;
+        }
+
+        public IInterface37 Argument37
+        {
+            get;
+        }
+
+        public Class12(IInterface13 argument13, IInterface27 argument27, IInterface37 argument37)
+        {
+            Argument13 = argument13;
+            Argument27 = argument27;
+            Argument37 = argument37;
         }
     }
 
@@ -223,9 +391,15 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class13 : IInterface13
     {
-        public int ChildCount => 0;
-        public Class13()
+        public int ChildCount => 1;
+        public IInterface16 Argument16
         {
+            get;
+        }
+
+        public Class13(IInterface16 argument16)
+        {
+            Argument16 = argument16;
         }
     }
 
@@ -239,9 +413,15 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class14 : IInterface14
     {
-        public int ChildCount => 0;
-        public Class14()
+        public int ChildCount => 1;
+        public IInterface40 Argument40
         {
+            get;
+        }
+
+        public Class14(IInterface40 argument40)
+        {
+            Argument40 = argument40;
         }
     }
 
@@ -255,9 +435,27 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class15 : IInterface15
     {
-        public int ChildCount => 0;
-        public Class15()
+        public int ChildCount => 3;
+        public IInterface17 Argument17
         {
+            get;
+        }
+
+        public IInterface31 Argument31
+        {
+            get;
+        }
+
+        public IInterface36 Argument36
+        {
+            get;
+        }
+
+        public Class15(IInterface17 argument17, IInterface31 argument31, IInterface36 argument36)
+        {
+            Argument17 = argument17;
+            Argument31 = argument31;
+            Argument36 = argument36;
         }
     }
 
@@ -271,9 +469,15 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class16 : IInterface16
     {
-        public int ChildCount => 0;
-        public Class16()
+        public int ChildCount => 1;
+        public IInterface30 Argument30
         {
+            get;
+        }
+
+        public Class16(IInterface30 argument30)
+        {
+            Argument30 = argument30;
         }
     }
 
@@ -287,9 +491,15 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class17 : IInterface17
     {
-        public int ChildCount => 0;
-        public Class17()
+        public int ChildCount => 1;
+        public IInterface28 Argument28
         {
+            get;
+        }
+
+        public Class17(IInterface28 argument28)
+        {
+            Argument28 = argument28;
         }
     }
 
@@ -303,9 +513,21 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class18 : IInterface18
     {
-        public int ChildCount => 0;
-        public Class18()
+        public int ChildCount => 2;
+        public IInterface42 Argument42
         {
+            get;
+        }
+
+        public IInterface46 Argument46
+        {
+            get;
+        }
+
+        public Class18(IInterface42 argument42, IInterface46 argument46)
+        {
+            Argument42 = argument42;
+            Argument46 = argument46;
         }
     }
 
@@ -319,9 +541,15 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class19 : IInterface19
     {
-        public int ChildCount => 0;
-        public Class19()
+        public int ChildCount => 1;
+        public IInterface33 Argument33
         {
+            get;
+        }
+
+        public Class19(IInterface33 argument33)
+        {
+            Argument33 = argument33;
         }
     }
 
@@ -383,9 +611,21 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class23 : IInterface23
     {
-        public int ChildCount => 0;
-        public Class23()
+        public int ChildCount => 2;
+        public IInterface24 Argument24
         {
+            get;
+        }
+
+        public IInterface26 Argument26
+        {
+            get;
+        }
+
+        public Class23(IInterface24 argument24, IInterface26 argument26)
+        {
+            Argument24 = argument24;
+            Argument26 = argument26;
         }
     }
 
@@ -399,9 +639,15 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class24 : IInterface24
     {
-        public int ChildCount => 0;
-        public Class24()
+        public int ChildCount => 1;
+        public IInterface29 Argument29
         {
+            get;
+        }
+
+        public Class24(IInterface29 argument29)
+        {
+            Argument29 = argument29;
         }
     }
 
@@ -415,9 +661,15 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class25 : IInterface25
     {
-        public int ChildCount => 0;
-        public Class25()
+        public int ChildCount => 1;
+        public IInterface34 Argument34
         {
+            get;
+        }
+
+        public Class25(IInterface34 argument34)
+        {
+            Argument34 = argument34;
         }
     }
 
@@ -431,9 +683,15 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class26 : IInterface26
     {
-        public int ChildCount => 0;
-        public Class26()
+        public int ChildCount => 1;
+        public IInterface32 Argument32
         {
+            get;
+        }
+
+        public Class26(IInterface32 argument32)
+        {
+            Argument32 = argument32;
         }
     }
 
@@ -575,9 +833,15 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class35 : IInterface35
     {
-        public int ChildCount => 0;
-        public Class35()
+        public int ChildCount => 1;
+        public IInterface47 Argument47
         {
+            get;
+        }
+
+        public Class35(IInterface47 argument47)
+        {
+            Argument47 = argument47;
         }
     }
 
@@ -703,9 +967,15 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class43 : IInterface43
     {
-        public int ChildCount => 0;
-        public Class43()
+        public int ChildCount => 1;
+        public IInterface45 Argument45
         {
+            get;
+        }
+
+        public Class43(IInterface45 argument45)
+        {
+            Argument45 = argument45;
         }
     }
 
@@ -735,9 +1005,15 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
     public class Class45 : IInterface45
     {
-        public int ChildCount => 0;
-        public Class45()
+        public int ChildCount => 1;
+        public IInterface49 Argument49
         {
+            get;
+        }
+
+        public Class45(IInterface49 argument49)
+        {
+            Argument49 = argument49;
         }
     }
 
@@ -801,806 +1077,6 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
     {
         public int ChildCount => 0;
         public Class49()
-        {
-        }
-    }
-
-    public interface IInterface50
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class50 : IInterface50
-    {
-        public int ChildCount => 0;
-        public Class50()
-        {
-        }
-    }
-
-    public interface IInterface51
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class51 : IInterface51
-    {
-        public int ChildCount => 0;
-        public Class51()
-        {
-        }
-    }
-
-    public interface IInterface52
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class52 : IInterface52
-    {
-        public int ChildCount => 0;
-        public Class52()
-        {
-        }
-    }
-
-    public interface IInterface53
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class53 : IInterface53
-    {
-        public int ChildCount => 0;
-        public Class53()
-        {
-        }
-    }
-
-    public interface IInterface54
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class54 : IInterface54
-    {
-        public int ChildCount => 0;
-        public Class54()
-        {
-        }
-    }
-
-    public interface IInterface55
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class55 : IInterface55
-    {
-        public int ChildCount => 0;
-        public Class55()
-        {
-        }
-    }
-
-    public interface IInterface56
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class56 : IInterface56
-    {
-        public int ChildCount => 0;
-        public Class56()
-        {
-        }
-    }
-
-    public interface IInterface57
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class57 : IInterface57
-    {
-        public int ChildCount => 0;
-        public Class57()
-        {
-        }
-    }
-
-    public interface IInterface58
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class58 : IInterface58
-    {
-        public int ChildCount => 0;
-        public Class58()
-        {
-        }
-    }
-
-    public interface IInterface59
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class59 : IInterface59
-    {
-        public int ChildCount => 0;
-        public Class59()
-        {
-        }
-    }
-
-    public interface IInterface60
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class60 : IInterface60
-    {
-        public int ChildCount => 0;
-        public Class60()
-        {
-        }
-    }
-
-    public interface IInterface61
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class61 : IInterface61
-    {
-        public int ChildCount => 0;
-        public Class61()
-        {
-        }
-    }
-
-    public interface IInterface62
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class62 : IInterface62
-    {
-        public int ChildCount => 0;
-        public Class62()
-        {
-        }
-    }
-
-    public interface IInterface63
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class63 : IInterface63
-    {
-        public int ChildCount => 0;
-        public Class63()
-        {
-        }
-    }
-
-    public interface IInterface64
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class64 : IInterface64
-    {
-        public int ChildCount => 0;
-        public Class64()
-        {
-        }
-    }
-
-    public interface IInterface65
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class65 : IInterface65
-    {
-        public int ChildCount => 0;
-        public Class65()
-        {
-        }
-    }
-
-    public interface IInterface66
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class66 : IInterface66
-    {
-        public int ChildCount => 0;
-        public Class66()
-        {
-        }
-    }
-
-    public interface IInterface67
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class67 : IInterface67
-    {
-        public int ChildCount => 0;
-        public Class67()
-        {
-        }
-    }
-
-    public interface IInterface68
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class68 : IInterface68
-    {
-        public int ChildCount => 0;
-        public Class68()
-        {
-        }
-    }
-
-    public interface IInterface69
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class69 : IInterface69
-    {
-        public int ChildCount => 0;
-        public Class69()
-        {
-        }
-    }
-
-    public interface IInterface70
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class70 : IInterface70
-    {
-        public int ChildCount => 0;
-        public Class70()
-        {
-        }
-    }
-
-    public interface IInterface71
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class71 : IInterface71
-    {
-        public int ChildCount => 0;
-        public Class71()
-        {
-        }
-    }
-
-    public interface IInterface72
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class72 : IInterface72
-    {
-        public int ChildCount => 0;
-        public Class72()
-        {
-        }
-    }
-
-    public interface IInterface73
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class73 : IInterface73
-    {
-        public int ChildCount => 0;
-        public Class73()
-        {
-        }
-    }
-
-    public interface IInterface74
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class74 : IInterface74
-    {
-        public int ChildCount => 0;
-        public Class74()
-        {
-        }
-    }
-
-    public interface IInterface75
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class75 : IInterface75
-    {
-        public int ChildCount => 0;
-        public Class75()
-        {
-        }
-    }
-
-    public interface IInterface76
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class76 : IInterface76
-    {
-        public int ChildCount => 0;
-        public Class76()
-        {
-        }
-    }
-
-    public interface IInterface77
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class77 : IInterface77
-    {
-        public int ChildCount => 0;
-        public Class77()
-        {
-        }
-    }
-
-    public interface IInterface78
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class78 : IInterface78
-    {
-        public int ChildCount => 0;
-        public Class78()
-        {
-        }
-    }
-
-    public interface IInterface79
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class79 : IInterface79
-    {
-        public int ChildCount => 0;
-        public Class79()
-        {
-        }
-    }
-
-    public interface IInterface80
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class80 : IInterface80
-    {
-        public int ChildCount => 0;
-        public Class80()
-        {
-        }
-    }
-
-    public interface IInterface81
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class81 : IInterface81
-    {
-        public int ChildCount => 0;
-        public Class81()
-        {
-        }
-    }
-
-    public interface IInterface82
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class82 : IInterface82
-    {
-        public int ChildCount => 0;
-        public Class82()
-        {
-        }
-    }
-
-    public interface IInterface83
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class83 : IInterface83
-    {
-        public int ChildCount => 0;
-        public Class83()
-        {
-        }
-    }
-
-    public interface IInterface84
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class84 : IInterface84
-    {
-        public int ChildCount => 0;
-        public Class84()
-        {
-        }
-    }
-
-    public interface IInterface85
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class85 : IInterface85
-    {
-        public int ChildCount => 0;
-        public Class85()
-        {
-        }
-    }
-
-    public interface IInterface86
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class86 : IInterface86
-    {
-        public int ChildCount => 0;
-        public Class86()
-        {
-        }
-    }
-
-    public interface IInterface87
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class87 : IInterface87
-    {
-        public int ChildCount => 0;
-        public Class87()
-        {
-        }
-    }
-
-    public interface IInterface88
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class88 : IInterface88
-    {
-        public int ChildCount => 0;
-        public Class88()
-        {
-        }
-    }
-
-    public interface IInterface89
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class89 : IInterface89
-    {
-        public int ChildCount => 0;
-        public Class89()
-        {
-        }
-    }
-
-    public interface IInterface90
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class90 : IInterface90
-    {
-        public int ChildCount => 0;
-        public Class90()
-        {
-        }
-    }
-
-    public interface IInterface91
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class91 : IInterface91
-    {
-        public int ChildCount => 0;
-        public Class91()
-        {
-        }
-    }
-
-    public interface IInterface92
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class92 : IInterface92
-    {
-        public int ChildCount => 0;
-        public Class92()
-        {
-        }
-    }
-
-    public interface IInterface93
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class93 : IInterface93
-    {
-        public int ChildCount => 0;
-        public Class93()
-        {
-        }
-    }
-
-    public interface IInterface94
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class94 : IInterface94
-    {
-        public int ChildCount => 0;
-        public Class94()
-        {
-        }
-    }
-
-    public interface IInterface95
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class95 : IInterface95
-    {
-        public int ChildCount => 0;
-        public Class95()
-        {
-        }
-    }
-
-    public interface IInterface96
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class96 : IInterface96
-    {
-        public int ChildCount => 0;
-        public Class96()
-        {
-        }
-    }
-
-    public interface IInterface97
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class97 : IInterface97
-    {
-        public int ChildCount => 0;
-        public Class97()
-        {
-        }
-    }
-
-    public interface IInterface98
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class98 : IInterface98
-    {
-        public int ChildCount => 0;
-        public Class98()
-        {
-        }
-    }
-
-    public interface IInterface99
-    {
-        int ChildCount
-        {
-            get;
-        }
-    }
-
-    public class Class99 : IInterface99
-    {
-        public int ChildCount => 0;
-        public Class99()
         {
         }
     }

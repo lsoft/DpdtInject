@@ -2,10 +2,15 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>preview</LangVersion>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>nullable;CS8766;CS8767</WarningsAsErrors>
+
+    <TieredCompilation>false</TieredCompilation>
+    <TieredCompilationQuickJit>false</TieredCompilationQuickJit>
+    <TieredCompilationQuickJitForLoops>false</TieredCompilationQuickJitForLoops>
+
   </PropertyGroup>
 
   <ItemGroup>

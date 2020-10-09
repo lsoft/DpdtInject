@@ -53,12 +53,16 @@ namespace DpdtInject.Tests.Performance.ConsoleApp
 
             var sw = new Stopwatch();
             sw.Start();
-            for (var index = 0; index < 5000; index++)
+            for (var index = 0; index < 100; index++)
             {
                 doTest();
             }
             sw.Stop();
             Console.WriteLine($"{type}: Elapsed ms: {sw.ElapsedMilliseconds}");
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
         }
     }
 }

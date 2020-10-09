@@ -3,6 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>preview</LangVersion>
+    <TieredCompilation>false</TieredCompilation>
+    <TieredCompilationQuickJit>false</TieredCompilationQuickJit>
+    <TieredCompilationQuickJitForLoops>false</TieredCompilationQuickJitForLoops>
 
     <Dpdt_Generator_GeneratedSourceFolder>Dpdt.Pregenerated</Dpdt_Generator_GeneratedSourceFolder>
   </PropertyGroup>

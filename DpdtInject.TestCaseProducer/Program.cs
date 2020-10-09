@@ -10,8 +10,8 @@ namespace DpdtInject.TestCaseProducer
 {
     class Program
     {
-        public const int BindCount = 100;
-        public const BindResolveTypeEnum Type = BindResolveTypeEnum.NonGenericSingleton;
+        public const int BindCount = 50;
+        public const BindResolveTypeEnum Type = BindResolveTypeEnum.GenericTransient;
 
         public static int Seed =
             //BitConverter.ToInt32(Guid.NewGuid().ToByteArray(), 0);
@@ -20,8 +20,8 @@ namespace DpdtInject.TestCaseProducer
         static void Main(string[] args)
         {
             var createdNodes =
-                GeneratePlainNodes(Seed);
-                //GenerateNodesInTree(Seed);
+                //GeneratePlainNodes(Seed);
+                GenerateNodesInTree(Seed);
 
             var targetDirectory = @"../../../../DpdtInject.Tests.Performance/TimeConsume/BigTree0";
             var nameSpace = "DpdtInject.Tests.Performance.TimeConsume.BigTree0";

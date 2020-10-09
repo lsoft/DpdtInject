@@ -20,7 +20,8 @@ It's only a proof-of-concept. Nor alpha, neither beta.
 0. Transient, singleton and constant scopes.
 0. Custom scopes.
 0. Child kernels (aka child clusters).
-0. Additional compile-time safety
+0. Additional compile-time safety.
+0. Same performance on the platforms with no compilation at runtine.
 0. At last, it's very, very fast.
 
 More to come!
@@ -55,6 +56,18 @@ Runtime=.NET Core 3.1  Server=True
 |    DpdtInject.Tests.Performance.Generic.Transient | Microresolver |    GenericTransient | 100.44 ns | 1.173 ns | 1.098 ns | 0.0187 |     - |     - |     144 B |
 | DpdtInject.Tests.Performance.NonGeneric.Singleton | Microresolver | NonGenericSingleton |  28.88 ns | 0.392 ns | 0.348 ns |      - |     - |     - |         - |
 | DpdtInject.Tests.Performance.NonGeneric.Transient | Microresolver | NonGenericTransient |  74.49 ns | 0.717 ns | 0.599 ns | 0.0187 |     - |     - |     144 B |
+
+
+For unknown reason BenchmarkDotNet has failed to produce relevant result when binding count exceeds 2000, probably because of slow JIT compilation. So I did a quick and dirty test with 5000 bindings:
+
+|          Type |              Method |     Total |
+|-------------- |-------------------- |----------:|
+|          Dpdt |    GenericSingleton |     39 ms |
+|          Dpdt |    GenericTransient |    235 ms |
+|        DryIoc |    GenericSingleton |    221 ms |
+|        DryIoc |    GenericTransient |    606 ms |
+| Microresolver |    GenericSingleton |    144 ms |
+| Microresolver |    GenericTransient |    451 ms |
 
 
 # How to try
@@ -98,6 +111,7 @@ Please refer to Dpdt.Injector nuget package at nuget.org. Keep in mind you need 
 0. Because of source generators, it's impossible to direclty debug your bind code, including its `When` predicates.
 0. Because of massive rewriting the body of the cluster, it's impossible to use a local variables (local methods and other local stuff) in `ConstructorArgument` and `When` predicates. To make bind works use instance based fields, properties and methods instead. To make bind debuggable use fields, properties and methods of the other, helper class.
 0. No deferred bindings by design with exception of cluster hierarchy.
+0. Because of performance reasons if binding does not exists, Dpdt throw an invalid cast exception, but no DpdtException. I'm trying to fix that without performance lost.
 
 ## Syntax
 
