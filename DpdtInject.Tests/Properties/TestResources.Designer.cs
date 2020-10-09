@@ -77,8 +77,7 @@ namespace DpdtInject.Tests.Properties {
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren0
         ///{
         ///    public partial class ActivationExcessiveTooManyChildren0_Cluster : DefaultCluster
-        ///    {
-        ///        pub [rest of string was truncated]&quot;;.
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyChildren0_Cluster {
             get {
@@ -103,8 +102,7 @@ namespace DpdtInject.Tests.Properties {
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren1
         ///{
         ///    public partial class ActivationExcessiveTooManyChildren1_Cluster : DefaultCluster
-        ///    {
-        ///        pub [rest of string was truncated]&quot;;.
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyChildren1_Cluster {
             get {
@@ -129,8 +127,7 @@ namespace DpdtInject.Tests.Properties {
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren2
         ///{
         ///    public partial class ActivationExcessiveTooManyChildren2_Cluster : DefaultCluster
-        ///    {
-        ///        pub [rest of string was truncated]&quot;;.
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyChildren2_Cluster {
             get {
@@ -155,7 +152,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren3
         ///{
-        ///    public partial class ActivationExcessiveTooManyChildren3_Cluster : Defaul [rest of string was truncated]&quot;;.
+        ///    public partial class ActivationExcessiveTooManyChildren3_ [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyChildren3_Cluster {
             get {
@@ -180,7 +177,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots0
         ///{
-        ///    public partial class ActivationExcessiveTooManyRoots0_Cluster : DefaultClust [rest of string was truncated]&quot;;.
+        ///    public partial class ActivationExcessiveTooManyRoots0_Cluste [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyRoots0_Cluster {
             get {
@@ -205,7 +202,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots1
         ///{
-        ///    public partial class ActivationExcessiveTooManyRoots1_Cluster : DefaultClust [rest of string was truncated]&quot;;.
+        ///    public partial class ActivationExcessiveTooManyRoots1_Cluste [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyRoots1_Cluster {
             get {
@@ -230,7 +227,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots2
         ///{
-        ///    public partial class ActivationExcessiveTooManyRoots2_Cluster : DefaultClust [rest of string was truncated]&quot;;.
+        ///    public partial class ActivationExcessiveTooManyRoots2_Cluste [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyRoots2_Cluster {
             get {
@@ -255,7 +252,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots3
         ///{
-        ///    public partial class ActivationExcessiveTooManyRoots3_Cluster : DefaultClust [rest of string was truncated]&quot;;.
+        ///    public partial class ActivationExcessiveTooManyRoots3_Cluste [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyRoots3_Cluster {
             get {
@@ -744,7 +741,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;IZ&gt;()
         ///                .To&lt;Z&gt;()
-        ///                .WithSingletonSco [rest of string was truncated]&quot;;.
+        ///                 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllGenericHierarchy2Conditional_Cluster {
             get {
@@ -901,7 +898,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;IZ&gt;()
         ///                .To&lt;Z&gt;()
-        ///                .WithSingle [rest of string was truncated]&quot;;.
+        ///           [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllNonGenericHierarchy2Conditional_Cluster {
             get {
@@ -1557,8 +1554,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
-        ///                .WithSingletonScope()
-        ///        [rest of string was truncated]&quot;;.
+        ///                .WithSingle [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SingletonDispose_Cluster {
             get {

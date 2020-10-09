@@ -3,14 +3,252 @@ using Microsoft.CodeAnalysis.CSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace DpdtInject.TestCaseProducer
 {
     class Program
     {
+        public const int BindCount = 100;
+        public const BindResolveTypeEnum Type = BindResolveTypeEnum.NonGenericSingleton;
+
+        public static int Seed =
+            //BitConverter.ToInt32(Guid.NewGuid().ToByteArray(), 0);
+            -624853138;
+
         static void Main(string[] args)
         {
+            var createdNodes =
+                GeneratePlainNodes(Seed);
+                //GenerateNodesInTree(Seed);
+
+            var targetDirectory = @"../../../../DpdtInject.Tests.Performance/TimeConsume/BigTree0";
+            var nameSpace = "DpdtInject.Tests.Performance.TimeConsume.BigTree0";
+
+            if (!Directory.Exists(targetDirectory))
+            {
+                Directory.CreateDirectory(targetDirectory);
+            }
+
+            #region subject
+
+            var subjectFileName = "Subject.cs";
+            var subjectFilePath = Path.Combine(targetDirectory, subjectFileName);
+
+            var subjectSourceCode = $@"
+//seed: {Seed}
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace {nameSpace}
+{{
+    {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetSubjectCode()))};
+}}
+";
+
+            subjectSourceCode = SyntaxFactory.ParseCompilationUnit(subjectSourceCode).NormalizeWhitespace().GetText().ToString();
+
+            File.WriteAllText(
+                subjectFilePath,
+                subjectSourceCode
+                );
+
+            #endregion
+
+            #region dpdt cluster
+
+            var clusterFileName = "DpdtCluster.cs";
+            var clusterFilePath = Path.Combine(targetDirectory, clusterFileName);
+            var clusterClassName = "TimeConsumeBigTree0_Cluster";
+
+            var dpdtClusterCode = $@"
+//seed: {Seed}
+using DpdtInject.Injector;
+using DpdtInject.Injector.Excp;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Diagnostics;
+
+namespace {nameSpace}
+{{
+    public partial class {clusterClassName} : DefaultCluster
+    {{
+        public const int BindCount = {BindCount};
+        public const string BindCountString = ""{BindCount}"";
+        public const string TestPrefix = ""{Type}{BindCount}"";
+
+        public override void Load()
+        {{
+#region bind code
+            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDpdtBindCode(Type)))};
+#endregion
+        }}
+
+        public static void ResolveDpdt({clusterClassName} cluster)
+        {{
+#region resolution code
+            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDpdtResolutionCode(Type)))};
+#endregion
+        }}
+
+    }}
+}}
+";
+
+            dpdtClusterCode = SyntaxFactory.ParseCompilationUnit(dpdtClusterCode).NormalizeWhitespace().GetText().ToString();
+
+            File.WriteAllText(
+                clusterFilePath,
+                dpdtClusterCode
+                );
+
+            #endregion
+
+            #region dryioc related
+
+            var dryiocFileName = "DryIocRelated.cs";
+            var dryiocFilePath = Path.Combine(targetDirectory, dryiocFileName);
+            var dryiocClassName = "DryIocRelated";
+
+            var dryiocCode = $@"
+//seed: {Seed}
+using DpdtInject.Injector;
+using DpdtInject.Injector.Excp;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Diagnostics;
+using DryIoc;
+
+namespace {nameSpace}
+{{
+    public static class {dryiocClassName}
+    {{
+        public const int BindCount = {BindCount};
+        public const string BindCountString = ""{BindCount}"";
+        public const string TestPrefix = ""{Type}{BindCount}"";
+
+        public static void Bind(Container container)
+        {{
+#region bind code
+            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDryIocBindCode(Type)))};
+#endregion
+        }}
+
+        public static void Resolve(Container container)
+        {{
+#region resolution code
+            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDryIocResolutionCode(Type)))};
+#endregion
+        }}
+
+    }}
+}}
+";
+
+            dryiocCode = SyntaxFactory.ParseCompilationUnit(dryiocCode).NormalizeWhitespace().GetText().ToString();
+
+            File.WriteAllText(
+                dryiocFilePath,
+                dryiocCode
+                );
+
+            #endregion
+
+            #region microresolver related
+
+            var mrFileName = "MicroResolverRelated.cs";
+            var mrFilePath = Path.Combine(targetDirectory, mrFileName);
+            var mrClassName = "MicroResolverRelated";
+
+            var mrCode = $@"
+//seed: {Seed}
+using DpdtInject.Injector;
+using DpdtInject.Injector.Excp;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Diagnostics;
+using MicroResolver;
+
+namespace {nameSpace}
+{{
+    public static class {mrClassName}
+    {{
+        public const int BindCount = {BindCount};
+        public const string BindCountString = ""{BindCount}"";
+        public const string TestPrefix = ""{Type}{BindCount}"";
+
+        public static void Bind(ObjectResolver container)
+        {{
+#region bind code
+            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetMicroresolverBindCode(Type)))};
+#endregion
+        }}
+
+        public static void Resolve(ObjectResolver container)
+        {{
+#region resolution code
+            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetMicroresolverResolutionCode(Type)))};
+#endregion
+        }}
+
+    }}
+}}
+";
+
+            mrCode = SyntaxFactory.ParseCompilationUnit(mrCode).NormalizeWhitespace().GetText().ToString();
+
+            File.WriteAllText(
+                mrFilePath,
+                mrCode
+                );
+
+            #endregion
+        }
+
+        private static List<Node> GeneratePlainNodes(
+            int seed
+            )
+        {
+            var rnd = new Random(
+                seed
+                );
+
+            var createdNodes = new List<Node>
+            {
+                new Node(null, 0)
+            };
+
+            for (var i = 1; i < BindCount; i++)
+            {
+                var newNode = new Node(null, i);
+                createdNodes.Add(newNode);
+            }
+
+            return createdNodes;
+        }
+
+        private static List<Node> GenerateNodesInTree(
+            int seed
+            )
+        {
+            var rnd = new Random(
+                seed
+                );
+
             var nodeIndex = 0;
 
             var createdNodes = new List<Node>
@@ -18,11 +256,7 @@ namespace DpdtInject.TestCaseProducer
                 new Node(null, nodeIndex++)
             };
 
-            var rnd = new Random(
-                BitConverter.ToInt32(Guid.NewGuid().ToByteArray(), 0)
-                );
-
-            for (var i = 1; i < 10; i++)
+            for (var i = 1; i < BindCount; i++)
             {
                 var index = rnd.Next(createdNodes.Count + 1) - 1;
 
@@ -41,195 +275,7 @@ namespace DpdtInject.TestCaseProducer
                 }
             }
 
-
-            //generate source code
-            var subjectCodeBuilder = new StringBuilder();
-            var bindCodeBuilder = new StringBuilder();
-            var resolutionCodeBuilder = new StringBuilder();
-            foreach (var node in createdNodes)
-            {
-                subjectCodeBuilder.AppendLine(node.GetSubjectCode());
-                bindCodeBuilder.AppendLine(node.GetBindCode());
-                resolutionCodeBuilder.AppendLine(node.GetResolutionCode());
-            }
-
-            var relativePath = @"DpdtInject.Tests/TimeConsume/BigTree0/TimeConsumeBigTree0Module.cs";
-            var nameSpace = "DpdtInject.Tests.TimeConsume.BigTree0";
-            var moduleClassName = "TimeConsumeBigTree0Module";
-            var moduleTesterClassName = $"{moduleClassName}Tester";
-
-
-            var sourceCode = $@"
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DpdtInject.Injector.Module.Bind;
-using DpdtInject.Injector;
-using DpdtInject.Injector.Module;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace {nameSpace}
-{{
-    public partial class {moduleClassName} : DpdtModule
-    {{
-        public override void Load()
-        {{
-            {bindCodeBuilder.ToString()}
-        }}
-
-        public partial class DefaultCluster
-        {{
-        }}
-
-        public class {moduleTesterClassName}
-        {{
-            public void PerformModuleTesting()
-            {{
-                var module = new FakeModule<{moduleClassName}>();
-/*
-                {resolutionCodeBuilder.ToString()}
-//*/
-            }}
-        }}
-
-    }}
-
-    {subjectCodeBuilder.ToString()}
-}}
-";
-
-            sourceCode = SyntaxFactory.ParseCompilationUnit(sourceCode).NormalizeWhitespace().GetText().ToString();
-
-            File.WriteAllText(
-                @$"../../../../{relativePath}",
-                sourceCode
-                );
-
-            //Console.WriteLine(sourceCode);
-        }
-    }
-
-    public static class RndHelper
-    {
-        public static T GetRandom<T>(
-            this Random rnd,
-            IReadOnlyList<T> list
-            )
-        {
-            return list[rnd.Next(list.Count)];
-        }
-    }
-
-    public class Node
-    {
-        public Node? Parent
-        {
-            get;
-        }
-
-        public List<Node> Children
-        {
-            get;
-        }
-
-        public string InterfaceName
-        {
-            get;
-        }
-
-        public string ClassName
-        {
-            get;
-        }
-
-        public string PropertyName
-        {
-            get;
-        }
-
-        public string ArgumentName
-        {
-            get;
-        }
-
-        public Node(Node? parent, int index)
-        {
-            Parent = parent;
-            InterfaceName = $"IInterface{index}";
-            ClassName = $"Class{index}";
-            PropertyName = $"Argument{index}";
-            ArgumentName = $"argument{index}";
-            Children = new List<Node>();
-        }
-
-        public string GetResolutionCode()
-        {
-            return $@"
-{{
-    var resolvedInstance = module.Get<{InterfaceName}>();
-    Assert.IsNotNull(resolvedInstance);
-}}
-";
-        }
-
-        public string GetBindCode()
-        {
-            return $@"
-Bind<{InterfaceName}>()
-    .To<{ClassName}>()
-    .WithSingletonScope()
-    .InCluster<DefaultCluster>()
-    ;
-";
-        }
-
-
-        public string GetSubjectCode()
-        {
-            var properties = new List<string>();
-            foreach (var child in Children)
-            {
-                properties.Add(
-                    $"public {child.InterfaceName} {child.PropertyName} {{ get; }}"
-                    );
-            }
-
-            var arguments = new List<string>();
-            foreach(var child in Children)
-            {
-                arguments.Add(
-                    $"{child.InterfaceName} {child.ArgumentName}"
-                    );
-            }
-
-            var assigns = new List<string>();
-            foreach (var child in Children)
-            {
-                assigns.Add(
-                    $"{child.PropertyName} = {child.ArgumentName};"
-                    );
-            }
-
-            return $@"
-public interface {InterfaceName}
-{{
-}}
-
-public class {ClassName} : {InterfaceName}
-{{
-    {string.Join(Environment.NewLine, properties)}
-
-    public {ClassName}(
-        {string.Join(",", arguments)}
-        )
-    {{
-        {string.Join(Environment.NewLine, assigns)}
-    }}
-}}
-";
+            return createdNodes;
         }
     }
 

@@ -163,7 +163,7 @@ Dpdt can detect cases of singleton binding takes a transient/custom binding as i
 
 Dpdt is available to determine circular dependencies in your dependency tree. In that cases it raise a compilation error. One additional point: if that circle contains a conditional binding, Dpdt can't determine if circular dependency will exists at runtime, so Dpdt raises a compile-time warning instead of error.
 
-## More than 1 unconditional child
+### More than 1 unconditional child
 
 If for some binding more than 1 unconditional child exists it renders parent unresolvable, so Dpdt will break the compilation is that case.
 

@@ -13,6 +13,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Dpdt.Pregenerated\**" />
+    <EmbeddedResource Remove="Dpdt.Pregenerated\**" />
+    <None Remove="Dpdt.Pregenerated\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Reinvented\FixedSizeFactoryContainerCustomScope.cs" />
   </ItemGroup>
 

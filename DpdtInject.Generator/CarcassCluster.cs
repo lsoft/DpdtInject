@@ -117,37 +117,48 @@ namespace DpdtInject.Generator
 
         public T Get<T>()
         {
-            if (this is IResolution<T> r)
-            {
-                return r.Get(
-                    null
-                    );
-            }
-
-            throw new DpdtException(
-                DpdtExceptionTypeEnum.NoBindingAvailable,
-                $"No bindings available for {typeof(T).FullName}",
-                typeof(T).FullName
+            return ((IResolution<T>)this).Get(
+                null
                 );
+
+            //if (this is IResolution<T> r)
+            //{
+            //    return r.Get(
+            //        null
+            //        );
+            //}
+
+            //throw new DpdtException(
+            //    DpdtExceptionTypeEnum.NoBindingAvailable,
+            //    $"No bindings available for {typeof(T).FullName}",
+            //    typeof(T).FullName
+            //    );
         }
 
         public T Get<T>(CustomScopeObject customScope)
         {
-            if (this is IResolution<T> r)
-            {
-                return r.Get(
+            return ((IResolution<T>)this).Get(
                     new ResolutionRequest<CarcassCluster, T>(
                         false,
                         customScope
                         )
-                    );
-            }
-
-            throw new DpdtException(
-                DpdtExceptionTypeEnum.NoBindingAvailable,
-                $"No bindings available for {typeof(T).FullName}",
-                typeof(T).FullName
                 );
+
+            //if (this is IResolution<T> r)
+            //{
+            //    return r.Get(
+            //        new ResolutionRequest<CarcassCluster, T>(
+            //            false,
+            //            customScope
+            //            )
+            //        );
+            //}
+
+            //throw new DpdtException(
+            //    DpdtExceptionTypeEnum.NoBindingAvailable,
+            //    $"No bindings available for {typeof(T).FullName}",
+            //    typeof(T).FullName
+            //    );
         }
 
         #endregion
@@ -156,37 +167,48 @@ namespace DpdtInject.Generator
 
         public List<T> GetAll<T>()
         {
-            if (this is IResolution<T> r)
-            {
-                return r.GetAll(
-                    null
-                    );
-            }
-
-            throw new DpdtException(
-                DpdtExceptionTypeEnum.NoBindingAvailable,
-                $"No bindings available for {typeof(T).FullName}",
-                typeof(T).FullName
+            return ((IResolution<T>)this).GetAll(
+                null
                 );
+
+            //if (this is IResolution<T> r)
+            //{
+            //    return r.GetAll(
+            //        null
+            //        );
+            //}
+
+            //throw new DpdtException(
+            //    DpdtExceptionTypeEnum.NoBindingAvailable,
+            //    $"No bindings available for {typeof(T).FullName}",
+            //    typeof(T).FullName
+            //    );
         }
 
         public List<T> GetAll<T>(CustomScopeObject customScope)
         {
-            if (this is IResolution<T> r)
-            {
-                return r.GetAll(
+            return ((IResolution<T>)this).GetAll(
                     new ResolutionRequest<CarcassCluster, T>(
                         true,
                         customScope
                         )
-                    );
-            }
-
-            throw new DpdtException(
-                DpdtExceptionTypeEnum.NoBindingAvailable,
-                $"No bindings available for {typeof(T).FullName}",
-                typeof(T).FullName
                 );
+
+            //if (this is IResolution<T> r)
+            //{
+            //    return r.GetAll(
+            //        new ResolutionRequest<CarcassCluster, T>(
+            //            true,
+            //            customScope
+            //            )
+            //        );
+            //}
+
+            //throw new DpdtException(
+            //    DpdtExceptionTypeEnum.NoBindingAvailable,
+            //    $"No bindings available for {typeof(T).FullName}",
+            //    typeof(T).FullName
+            //    );
         }
 
         #endregion

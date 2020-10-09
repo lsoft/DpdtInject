@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DpdtInject.Tests.Performanc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DpdtInject.TestCaseProducer", "DpdtInject.TestCaseProducer\DpdtInject.TestCaseProducer.csproj", "{228036BB-BEA8-4659-A123-8C57B174DFED}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DpdtInject.Tests.Performance.ConsoleApp", "DpdtInject.Tests.Performance.ConsoleApp\DpdtInject.Tests.Performance.ConsoleApp.csproj", "{D7FBF931-3837-4844-851F-F3C0CC62FBBD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{228036BB-BEA8-4659-A123-8C57B174DFED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{228036BB-BEA8-4659-A123-8C57B174DFED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{228036BB-BEA8-4659-A123-8C57B174DFED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7FBF931-3837-4844-851F-F3C0CC62FBBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7FBF931-3837-4844-851F-F3C0CC62FBBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7FBF931-3837-4844-851F-F3C0CC62FBBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7FBF931-3837-4844-851F-F3C0CC62FBBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
