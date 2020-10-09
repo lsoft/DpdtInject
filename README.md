@@ -69,6 +69,8 @@ For unknown reason BenchmarkDotNet has failed to produce relevant result when bi
 | Microresolver |    GenericSingleton |    144 ms |
 | Microresolver |    GenericTransient |    451 ms |
 
+I recommend disable tiered compilation for composition root assembly. With tiered compilation quick and dirty tests (above) gives sad numbers for Dpdt :)
+
 
 # How to try
 
@@ -81,6 +83,11 @@ Please refer to Dpdt.Injector nuget package at nuget.org. Keep in mind you need 
     <OutputType>Exe</OutputType>
     <TargetFramework>net5</TargetFramework>
     <LangVersion>preview</LangVersion>
+
+    <!-- disable tiered compilation for composition root assembly -->
+    <TieredCompilation>false</TieredCompilation>
+    <TieredCompilationQuickJit>false</TieredCompilationQuickJit>
+    <TieredCompilationQuickJitForLoops>false</TieredCompilationQuickJitForLoops>
 
     <Dpdt_Generator_GeneratedSourceFolder>C:\Temp\ConsoleApp1\ConsoleApp1\Dpdt.Pregenerated</Dpdt_Generator_GeneratedSourceFolder>
   </PropertyGroup>
