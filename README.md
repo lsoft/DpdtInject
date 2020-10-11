@@ -63,7 +63,7 @@ Runtime=.NET Core 3.1  Server=True
 | DpdtInject.Tests.Performance.NonGeneric.Transient | Microresolver | NonGenericTransient |  81.541 ns | 1.7322 ns | 3.4991 ns |  80.248 ns | 0.0188 |     - |     - |     144 B |
 ```
 
-Few more numbers for complex tree total of 1000 bingings (make note NonGeneric now is faster than Generic for DryIoc and Microresolver):
+Few more numbers for complex tree total of 1000 bindings (make note NonGeneric now is faster than Generic for DryIoc and Microresolver):
 
 ``` ini
 
@@ -186,6 +186,10 @@ Each bind clause may have an additional filter e.g.
 
 Please refer unit tests to see the examples. Please note, than any filter makes a resolution process slower (a much slower! 10x slower in compare of unconditional binding!), so use this feature responsibly. Resolution slowdown with conditional bindings has an effect even on those bindings that do not have conditions, but they directly or indirectly takes conditional binding as its dependency. Therefore, it is advisable to place conditions as close to the dependency tree root as possible.
 
+## Fast resolutions
+
+Dpdt contains a special resolution type named 'fast'. Its syntax is `cluster.GetFast(default(IMyInterface));`. In general this syntax is faster that generic resolutions, but it has one additional constraint: you need to resolve directly from cluster type, it is impossible to cast cluster to the one of its interface (like `ICluster` or `IResolution`) and do fast resolutions.
+
 ## Compile-time safety
 
 Each safety checks are processed in the scope of concrete cluster. Dpdt cannot check for cross-cluster issues because clusters tree is built at runtime.
@@ -215,30 +219,6 @@ If for some binding more than 1 unconditional child exists it renders parent unr
 The life cycle of the cluster begins by creating it with `new`. The cluster can take other cluster as its parent, so each unknown dependency will be resolved from the parent (if parent exists, otherwise exception would be thrown).
 
 The end of the life cycle of a cluster occurs after the call to its `Dispose` method. At this point, all of its disposable singleton bindings are also being disposed. It is prohibited to dispose of the cluster and use it for resolving in parallel . It is forbidden to resolve after a `Dispose`.
-
-
-## Artifact folder
-
-Dpdt's source generator is able to store pregenerated C# code at the disk. The only thing you need is correctly setup your csproj. For example:
-
-```
-  <PropertyGroup>
-    <Dpdt_Generator_GeneratedSourceFolder>c:\temp\Dpdt.Pregenerated</Dpdt_Generator_GeneratedSourceFolder>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <CompilerVisibleProperty Include="Dpdt_Generator_GeneratedSourceFolder" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Dpdt.Pregenerated\**" />
-    <EmbeddedResource Remove="Dpdt.Pregenerated\**" />
-    <None Remove="Dpdt.Pregenerated\**" />
-  </ItemGroup>
-
-```
-
-`Dpdt_Generator_GeneratedSourceFolder` is a builtin variable name; `c:\temp\Dpdt.Pregenerated` is an **absolute** folder name for Dpdt artifacts and allowed to be changed.
 
 ## Custom scopes
 
@@ -315,3 +295,26 @@ Because of source generators are generating new code based on your code, it's im
         }
     }
 ```
+
+## Artifact folder
+
+Dpdt's source generator is able to store pregenerated C# code at the disk. The only thing you need is correctly setup your csproj. For example:
+
+```
+  <PropertyGroup>
+    <Dpdt_Generator_GeneratedSourceFolder>c:\temp\Dpdt.Pregenerated</Dpdt_Generator_GeneratedSourceFolder>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <CompilerVisibleProperty Include="Dpdt_Generator_GeneratedSourceFolder" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Dpdt.Pregenerated\**" />
+    <EmbeddedResource Remove="Dpdt.Pregenerated\**" />
+    <None Remove="Dpdt.Pregenerated\**" />
+  </ItemGroup>
+
+```
+
+`Dpdt_Generator_GeneratedSourceFolder` is a builtin variable name; `c:\temp\Dpdt.Pregenerated` is an **absolute** folder name for Dpdt artifacts and allowed to be changed.
