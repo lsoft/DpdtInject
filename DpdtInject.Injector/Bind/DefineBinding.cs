@@ -10,6 +10,8 @@ namespace DpdtInject.Injector.Module.Bind
     {
         IScopeBinding To<T>();
 
+        IScopeBinding ToFactory<T>();
+
         IConstantConditionalBinding WithConstScope<T>(T? constant);
     }
 

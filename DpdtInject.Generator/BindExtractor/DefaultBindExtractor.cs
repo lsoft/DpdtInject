@@ -154,36 +154,38 @@ namespace DpdtInject.Generator.BindExtractor
 
             var toGenericNode = genericNodes[1];
             var toMethodName = toGenericNode.Identifier.Text;
-            if (toMethodName != nameof(IToOrConstantBinding.To))
+            if (toMethodName.NotIn( nameof(IToOrConstantBinding.To), nameof(IToOrConstantBinding.ToFactory) ))
             {
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, "Cannot find To clause for singleton binding");
             }
 
-            var bindFromTypeSematics = GetBindFromTypes(
+            var toFactory = toMethodName == nameof(IToOrConstantBinding.ToFactory);
+
+            var bindFromTypeSemantics = GetBindFromTypes(
                 bindGenericNode
                 );
 
             var bindToSyntax = toGenericNode.TypeArgumentList.Arguments.First();
-            var bindToTypeSematic = _semanticModel.GetTypeInfo(bindToSyntax).Type;
-            if (bindToTypeSematic == null)
+            var bindToTypeSemantic = _semanticModel.GetTypeInfo(bindToSyntax).Type;
+            if (bindToTypeSemantic == null)
             {
                 throw new DpdtException(
                     DpdtExceptionTypeEnum.InternalError,
-                    $"Unknown problem to access {nameof(bindToTypeSematic)}"
+                    $"Unknown problem to access {nameof(bindToTypeSemantic)}"
                     );
             }
 
             CheckForFromAndToTypes(
-                bindFromTypeSematics,
-                bindToTypeSematic
+                bindFromTypeSemantics,
+                bindToTypeSemantic
                 );
 
-            var fullBindToTypeName = _compilation.GetTypeByMetadataName(bindToTypeSematic.ToDisplayString());
+            var fullBindToTypeName = _compilation.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
             if (fullBindToTypeName == null)
             {
                 throw new DpdtException(
                     DpdtExceptionTypeEnum.InternalError,
-                    $"Unknown problem to access type for {bindToTypeSematic.ToDisplayString()}"
+                    $"Unknown problem to access type for {bindToTypeSemantic.ToDisplayString()}"
                     );
             }
 
@@ -199,11 +201,12 @@ namespace DpdtInject.Generator.BindExtractor
                 );
 
             var bindingContainer = new BindingContainerWithInstance(
-                bindFromTypeSematics,
-                bindToTypeSematic,
+                bindFromTypeSemantics,
+                bindToTypeSemantic,
                 constructorArguments,
                 BindScopeEnum.Singleton,
-                whenArgumentClause
+                whenArgumentClause,
+                toFactory
                 );
 
             _bindingContainers.Add(bindingContainer);
@@ -222,37 +225,39 @@ namespace DpdtInject.Generator.BindExtractor
 
             var toGenericNode = genericNodes[1];
             var toMethodName = toGenericNode.Identifier.Text;
-            if (toMethodName != nameof(IToOrConstantBinding.To))
+            if (toMethodName.NotIn(nameof(IToOrConstantBinding.To), nameof(IToOrConstantBinding.ToFactory)))
             {
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, "Cannot find To clause for transient binding");
             }
 
-            var bindFromTypeSematics = GetBindFromTypes(
+            var toFactory = toMethodName == nameof(IToOrConstantBinding.ToFactory);
+
+            var bindFromTypeSemantics = GetBindFromTypes(
                 bindGenericNode
                 );
 
             var bindToSyntax = toGenericNode.TypeArgumentList.Arguments.First();
-            var bindToTypeSematic = _semanticModel.GetTypeInfo(bindToSyntax).Type;
+            var bindToTypeSemantic = _semanticModel.GetTypeInfo(bindToSyntax).Type;
 
-            if (bindToTypeSematic == null)
+            if (bindToTypeSemantic == null)
             {
                 throw new DpdtException(
                     DpdtExceptionTypeEnum.InternalError,
-                    $"Unknown problem to access {nameof(bindToTypeSematic)}"
+                    $"Unknown problem to access {nameof(bindToTypeSemantic)}"
                     );
             }
 
             CheckForFromAndToTypes(
-                bindFromTypeSematics,
-                bindToTypeSematic
+                bindFromTypeSemantics,
+                bindToTypeSemantic
                 );
 
-            var fullBindToTypeName = _compilation.GetTypeByMetadataName(bindToTypeSematic.ToDisplayString());
+            var fullBindToTypeName = _compilation.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
             if (fullBindToTypeName == null)
             {
                 throw new DpdtException(
                     DpdtExceptionTypeEnum.InternalError,
-                    $"Unknown problem to access type for {bindToTypeSematic.ToDisplayString()}"
+                    $"Unknown problem to access type for {bindToTypeSemantic.ToDisplayString()}"
                     );
             }
 
@@ -268,11 +273,12 @@ namespace DpdtInject.Generator.BindExtractor
                 );
 
             var bindingContainer = new BindingContainerWithInstance(
-                bindFromTypeSematics,
-                bindToTypeSematic,
+                bindFromTypeSemantics,
+                bindToTypeSemantic,
                 constructorArguments,
                 BindScopeEnum.Transient,
-                whenArgumentClause
+                whenArgumentClause,
+                toFactory
                 );
 
             _bindingContainers.Add(bindingContainer);
@@ -291,37 +297,39 @@ namespace DpdtInject.Generator.BindExtractor
 
             var toGenericNode = genericNodes[1];
             var toMethodName = toGenericNode.Identifier.Text;
-            if (toMethodName != nameof(IToOrConstantBinding.To))
+            if (toMethodName.NotIn(nameof(IToOrConstantBinding.To), nameof(IToOrConstantBinding.ToFactory)))
             {
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, "Cannot find To clause for custom binding");
             }
 
-            var bindFromTypeSematics = GetBindFromTypes(
+            var toFactory = toMethodName == nameof(IToOrConstantBinding.ToFactory);
+
+            var bindFromTypeSemantics = GetBindFromTypes(
                 bindGenericNode
                 );
 
             var bindToSyntax = toGenericNode.TypeArgumentList.Arguments.First();
-            var bindToTypeSematic = _semanticModel.GetTypeInfo(bindToSyntax).Type;
+            var bindToTypeSemantic = _semanticModel.GetTypeInfo(bindToSyntax).Type;
 
-            if (bindToTypeSematic == null)
+            if (bindToTypeSemantic == null)
             {
                 throw new DpdtException(
                     DpdtExceptionTypeEnum.InternalError,
-                    $"Unknown problem to access {nameof(bindToTypeSematic)}"
+                    $"Unknown problem to access {nameof(bindToTypeSemantic)}"
                     );
             }
 
             CheckForFromAndToTypes(
-                bindFromTypeSematics,
-                bindToTypeSematic
+                bindFromTypeSemantics,
+                bindToTypeSemantic
                 );
 
-            var fullBindToTypeName = _compilation.GetTypeByMetadataName(bindToTypeSematic.ToDisplayString());
+            var fullBindToTypeName = _compilation.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
             if (fullBindToTypeName == null)
             {
                 throw new DpdtException(
                     DpdtExceptionTypeEnum.InternalError,
-                    $"Unknown problem to access type for {bindToTypeSematic.ToDisplayString()}"
+                    $"Unknown problem to access type for {bindToTypeSemantic.ToDisplayString()}"
                     );
             }
 
@@ -337,11 +345,12 @@ namespace DpdtInject.Generator.BindExtractor
                 );
 
             var bindingContainer = new BindingContainerWithInstance(
-                bindFromTypeSematics,
-                bindToTypeSematic,
+                bindFromTypeSemantics,
+                bindToTypeSemantic,
                 constructorArguments,
                 BindScopeEnum.Custom,
-                whenArgumentClause
+                whenArgumentClause,
+                toFactory
                 );
 
             _bindingContainers.Add(bindingContainer);
@@ -376,12 +385,12 @@ namespace DpdtInject.Generator.BindExtractor
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"Cannot find constant clause");
             }
 
-            var bindFromTypeSematics = GetBindFromTypes(
+            var bindFromTypeSemantics = GetBindFromTypes(
                 bindGenericNode
                 );
 
             var bindingContainer = new ConstantBindingContainer(
-                bindFromTypeSematics,
+                bindFromTypeSemantics,
                 constTypeSymbol,
                 constantClause,
                 BindScopeEnum.Constant,
@@ -394,21 +403,21 @@ namespace DpdtInject.Generator.BindExtractor
 
         private List<ITypeSymbol> GetBindFromTypes(GenericNameSyntax bindGenericNode)
         {
-            var bindFromTypeSematics = new List<ITypeSymbol>();
+            var bindFromTypeSemantics = new List<ITypeSymbol>();
             foreach (var node in bindGenericNode.TypeArgumentList.Arguments)
             {
-                var bindFromTypeSematic = _semanticModel.GetTypeInfo(node).Type;
-                if (bindFromTypeSematic == null)
+                var bindFromTypeSemantic = _semanticModel.GetTypeInfo(node).Type;
+                if (bindFromTypeSemantic == null)
                 {
                     throw new DpdtException(
                         DpdtExceptionTypeEnum.InternalError,
-                        $"Unknown problem to access {nameof(bindFromTypeSematic)}"
+                        $"Unknown problem to access {nameof(bindFromTypeSemantic)}"
                         );
                 }
-                bindFromTypeSematics.Add(bindFromTypeSematic);
+                bindFromTypeSemantics.Add(bindFromTypeSemantic);
             }
 
-            return bindFromTypeSematics;
+            return bindFromTypeSemantics;
         }
 
         private List<DetectedConstructorArgument> GetConstructorArguments(
@@ -456,39 +465,39 @@ namespace DpdtInject.Generator.BindExtractor
         }
 
         private void CheckForFromAndToTypes(
-            List<ITypeSymbol> bindFromTypeSematics,
-            ITypeSymbol bindToTypeSematic
+            List<ITypeSymbol> bindFromTypeSemantics,
+            ITypeSymbol bindToTypeSemantic
             )
         {
-            if (bindFromTypeSematics is null)
+            if (bindFromTypeSemantics is null)
             {
-                throw new ArgumentNullException(nameof(bindFromTypeSematics));
+                throw new ArgumentNullException(nameof(bindFromTypeSemantics));
             }
 
-            if (bindToTypeSematic is null)
+            if (bindToTypeSemantic is null)
             {
-                throw new ArgumentNullException(nameof(bindToTypeSematic));
+                throw new ArgumentNullException(nameof(bindToTypeSemantic));
             }
 
             //check for target type correct
-            if (bindToTypeSematic.TypeKind.NotIn(TypeKind.Class, TypeKind.Struct))
+            if (bindToTypeSemantic.TypeKind.NotIn(TypeKind.Class, TypeKind.Struct))
             {
                 throw new DpdtException(
                     DpdtExceptionTypeEnum.IncorrectBinding_IncorrectTarget,
-                    $"Type [{bindToTypeSematic.ToDisplayString()}] is not a class or struct",
-                    bindToTypeSematic.ToDisplayString()
+                    $"Type [{bindToTypeSemantic.ToDisplayString()}] is not a class or struct",
+                    bindToTypeSemantic.ToDisplayString()
                     );
             }
 
             //check for cast exists
-            foreach (var bindFromSemantic in bindFromTypeSematics)
+            foreach (var bindFromSemantic in bindFromTypeSemantics)
             {
-                if (!bindToTypeSematic.CanBeCastedTo(bindFromSemantic.ToDisplayString()))
+                if (!bindToTypeSemantic.CanBeCastedTo(bindFromSemantic.ToDisplayString()))
                 {
                     throw new DpdtException(
                         DpdtExceptionTypeEnum.IncorrectBinding_CantCast,
-                        $"Type [{bindToTypeSematic.ToDisplayString()}] cannot be casted to [{bindFromSemantic.ToDisplayString()}]",
-                        bindToTypeSematic.ToDisplayString()
+                        $"Type [{bindToTypeSemantic.ToDisplayString()}] cannot be casted to [{bindFromSemantic.ToDisplayString()}]",
+                        bindToTypeSemantic.ToDisplayString()
                         );
                 }
             }

@@ -19,7 +19,12 @@ namespace DpdtInject.Generator.Parser.Binding
         {
             get;
         }
-
+        
+        public bool ToFactory 
+        { 
+            get; 
+        }
+        
         public override IReadOnlyCollection<ITypeSymbol> NotBindConstructorArgumentTypes
         {
             get;
@@ -39,7 +44,8 @@ namespace DpdtInject.Generator.Parser.Binding
             ITypeSymbol bindToType,
             IReadOnlyList<DetectedConstructorArgument> constructorArguments,
             BindScopeEnum scope,
-            ArgumentSyntax? whenArgumentClause
+            ArgumentSyntax? whenArgumentClause,
+            bool toFactory
             ) : base(bindFromTypes, bindToType, scope, whenArgumentClause, null)
         {
             if (constructorArguments is null)
@@ -48,6 +54,7 @@ namespace DpdtInject.Generator.Parser.Binding
             }
 
             ConstructorArguments = constructorArguments;
+            ToFactory = toFactory;
             NotBindConstructorArgumentTypes = new HashSet<ITypeSymbol>(
                 constructorArguments
                     .Where(ca => !ca.DefineInBindNode)
