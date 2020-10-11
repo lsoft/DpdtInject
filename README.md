@@ -90,7 +90,7 @@ Runtime=.NET Core 3.1  Server=True
 ```
 
 
-Also I recommend disable tiered compilation for composition root assembly.
+Also I recommend disable tiered compilation for composition root assembly if you want to obtain full performance at the start.
 
 
 # How to try
@@ -245,7 +245,7 @@ The end of the life cycle of a cluster occurs after the call to its `Dispose` me
 
 ## Child clusters
 
-```
+```csharp
     public partial class RootCluster : DefaultCluster
     { ... }
 
@@ -268,7 +268,7 @@ Clusters are organized into a tree. This tree cannot have a circular dependency,
 
 Because of source generators are generating new code based on your code, it's impossible to direclty debug your cluster code, including its `When` predicates (because this code is not actually executed at runtime). It's a disadvantage of Dpdt design. For conditional clauses, you need to call another class to obtain an ability to catch a breakpoint:
 
-```
+```csharp
     public partial class MyCluster : DefaultCluster
     {
         public override void Load()
