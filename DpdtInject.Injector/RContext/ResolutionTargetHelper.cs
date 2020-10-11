@@ -9,14 +9,15 @@ namespace DpdtInject.Injector.Module.RContext
             Type targetType
             )
         {
-            while(!(rt is null))
+            IResolutionTarget? crt = rt;
+            while (!(crt is null))
             {
-                if (rt.TargetType == targetType)
+                if (crt.TargetType == targetType)
                 {
                     return true;
                 }
 
-                rt = rt.ParentTarget;
+                crt = crt.ParentTarget;
             }
 
             return false;

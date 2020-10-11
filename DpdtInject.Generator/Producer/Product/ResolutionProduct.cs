@@ -13,7 +13,10 @@ namespace DpdtInject.Generator.Producer
         {
             get;
         }
-        
+        public InterfaceProduct InterfaceFastProduct
+        {
+            get;
+        }
         public MethodProduct RetrieveMethod
         {
             get;
@@ -38,20 +41,31 @@ namespace DpdtInject.Generator.Producer
         { 
             get; 
         }
+        public MethodProduct RetrieveFastMethod 
+        {
+            get;
+        }
 
         public ResolutionProduct(
             InterfaceProduct interfaceProduct,
+            InterfaceProduct interfaceFastProduct,
             MethodProduct retrieveMethod,
             MethodProduct retrieveExplicitMethod,
             CreateTupleProduct nonGenericGetTuple,
             MethodProduct retrieveAllMethod,
             MethodProduct retrieveAllExplicitMethod,
-            CreateTupleProduct nonGenericGetAllTuple
+            CreateTupleProduct nonGenericGetAllTuple,
+            MethodProduct retrieveFastMethod
             )
         {
             if (interfaceProduct is null)
             {
                 throw new ArgumentNullException(nameof(interfaceProduct));
+            }
+
+            if (interfaceFastProduct is null)
+            {
+                throw new ArgumentNullException(nameof(interfaceFastProduct));
             }
 
             if (retrieveMethod is null)
@@ -79,19 +93,26 @@ namespace DpdtInject.Generator.Producer
                 throw new ArgumentNullException(nameof(nonGenericGetAllTuple));
             }
 
+            if (retrieveFastMethod is null)
+            {
+                throw new ArgumentNullException(nameof(retrieveFastMethod));
+            }
+
             InterfaceProduct = interfaceProduct;
+            InterfaceFastProduct = interfaceFastProduct;
             RetrieveMethod = retrieveMethod;
             RetrieveExplicitMethod = retrieveExplicitMethod;
             NonGenericGetTuple = nonGenericGetTuple;
             RetrieveAllMethod = retrieveAllMethod;
             RetrieveAllExplicitMethod = retrieveAllExplicitMethod;
             NonGenericGetAllTuple = nonGenericGetAllTuple;
+            RetrieveFastMethod = retrieveFastMethod;
         }
 
         public string GetInterface()
         {
             return $@"
-{InterfaceProduct.InterfaceDeclaration}
+{InterfaceProduct.InterfaceDeclaration}, {InterfaceFastProduct.InterfaceDeclaration}
 ";
         }
 
@@ -111,6 +132,12 @@ namespace DpdtInject.Generator.Producer
 {RetrieveAllExplicitMethod.MethodBody}
 
 {RetrieveAllMethod.MethodBody}
+
+#endregion
+
+#region GetFast
+
+{RetrieveFastMethod.MethodBody}
 
 #endregion
 ";

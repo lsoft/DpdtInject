@@ -14,8 +14,9 @@ It's only a proof-of-concept. Nor alpha, neither beta.
 
 0. Easy-to-read syntax `Bind<IA>().To<A>().WithTransientScope()`.
 0. Custom constructor arguments `... Configure(new ConstructorArgument("message", Message))`.
-0. Generic `Get<T>` and non generic `Get(Type t)` resolution.
-0. Single object `Get` or collection `GetAll` resolution.
+0. Generic `Get<T>` and non generic `Get(Type t)` resolutions.
+0. Constained `GetFast` fast resolutions.
+0. Single object `Get` or collection `GetAll` resolutions.
 0. `Func<T>` resolutions.
 0. Transient, singleton and constant scopes.
 0. Custom scopes.
@@ -28,7 +29,8 @@ More to come!
 
 # Performance
 
-0. Very impressive Generic resolution performance.
+0. Very impressive Fast resolutions.
+0. Good Generic resolution performance.
 0. Not best Non Generic resolution - Microresolver is fantastically fast; what's the magic? :)
 
 ``` ini
@@ -37,25 +39,27 @@ BenchmarkDotNet=v0.12.0, OS=Windows 10.0.19041
 Intel Core i5-4200U CPU 1.60GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
 .NET Core SDK=5.0.100-rc.1.20452.10
   [Host]     : .NET Core 3.1.7 (CoreCLR 4.700.20.36602, CoreFX 4.700.20.37001), X64 RyuJIT
-  Job-JBGCKX : .NET Core 3.1.7 (CoreCLR 4.700.20.36602, CoreFX 4.700.20.37001), X64 RyuJIT
+  Job-DOJUWL : .NET Core 3.1.7 (CoreCLR 4.700.20.36602, CoreFX 4.700.20.37001), X64 RyuJIT
 
 Runtime=.NET Core 3.1  Server=True  
 
+|                                         Namespace |          Type |              Method |       Mean |     Error |    StdDev |     Median |  Gen 0 | Gen 1 | Gen 2 | Allocated |
+|-------------------------------------------------- |-------------- |-------------------- |-----------:|----------:|----------:|-----------:|-------:|------:|------:|----------:|
+|       DpdtInject.Tests.Performance.Fast.Singleton |          Dpdt |       FastSingleton |   9.390 ns | 0.1064 ns | 0.0889 ns |   9.398 ns |      - |     - |     - |         - |
+|       DpdtInject.Tests.Performance.Fast.Transient |          Dpdt |       FastTransient |  47.154 ns | 0.4834 ns | 0.4522 ns |  47.110 ns | 0.0156 |     - |     - |     120 B |
+|    DpdtInject.Tests.Performance.Generic.Singleton |          Dpdt |    GenericSingleton |  15.656 ns | 0.2481 ns | 0.2199 ns |  15.701 ns |      - |     - |     - |         - |
+|    DpdtInject.Tests.Performance.Generic.Transient |          Dpdt |    GenericTransient |  61.170 ns | 1.1193 ns | 0.8739 ns |  61.359 ns | 0.0187 |     - |     - |     144 B |
+| DpdtInject.Tests.Performance.NonGeneric.Singleton |          Dpdt | NonGenericSingleton |  47.878 ns | 0.6966 ns | 0.6516 ns |  47.760 ns |      - |     - |     - |         - |
+| DpdtInject.Tests.Performance.NonGeneric.Transient |          Dpdt | NonGenericTransient |  96.832 ns | 1.3139 ns | 1.0971 ns |  96.587 ns | 0.0187 |     - |     - |     144 B |
+|    DpdtInject.Tests.Performance.Generic.Singleton |        DryIoc |    GenericSingleton |  96.620 ns | 1.0785 ns | 1.0088 ns |  96.710 ns |      - |     - |     - |         - |
+|    DpdtInject.Tests.Performance.Generic.Transient |        DryIoc |    GenericTransient | 140.565 ns | 2.8101 ns | 2.7598 ns | 141.088 ns | 0.0186 |     - |     - |     144 B |
+| DpdtInject.Tests.Performance.NonGeneric.Singleton |        DryIoc | NonGenericSingleton |  56.725 ns | 0.6225 ns | 0.5198 ns |  56.826 ns |      - |     - |     - |         - |
+| DpdtInject.Tests.Performance.NonGeneric.Transient |        DryIoc | NonGenericTransient | 104.145 ns | 2.1310 ns | 2.0929 ns | 103.582 ns | 0.0188 |     - |     - |     144 B |
+|    DpdtInject.Tests.Performance.Generic.Singleton | Microresolver |    GenericSingleton |  59.431 ns | 1.0300 ns | 0.9634 ns |  59.484 ns |      - |     - |     - |         - |
+|    DpdtInject.Tests.Performance.Generic.Transient | Microresolver |    GenericTransient | 119.079 ns | 2.3919 ns | 2.9375 ns | 118.693 ns | 0.0186 |     - |     - |     144 B |
+| DpdtInject.Tests.Performance.NonGeneric.Singleton | Microresolver | NonGenericSingleton |  31.869 ns | 1.1528 ns | 3.3991 ns |  30.088 ns |      - |     - |     - |         - |
+| DpdtInject.Tests.Performance.NonGeneric.Transient | Microresolver | NonGenericTransient |  81.541 ns | 1.7322 ns | 3.4991 ns |  80.248 ns | 0.0188 |     - |     - |     144 B |
 ```
-|                                         Namespace |          Type |              Method |      Mean |    Error |   StdDev |  Gen 0 | Gen 1 | Gen 2 | Allocated |
-|-------------------------------------------------- |-------------- |-------------------- |----------:|---------:|---------:|-------:|------:|------:|----------:|
-|    DpdtInject.Tests.Performance.Generic.Singleton |          Dpdt |    GenericSingleton |  34.57 ns | 0.388 ns | 0.344 ns |      - |     - |     - |         - |
-|    DpdtInject.Tests.Performance.Generic.Transient |          Dpdt |    GenericTransient |  77.68 ns | 0.634 ns | 0.593 ns | 0.0188 |     - |     - |     144 B |
-| DpdtInject.Tests.Performance.NonGeneric.Singleton |          Dpdt | NonGenericSingleton |  46.93 ns | 0.490 ns | 0.458 ns |      - |     - |     - |         - |
-| DpdtInject.Tests.Performance.NonGeneric.Transient |          Dpdt | NonGenericTransient |  90.45 ns | 0.401 ns | 0.335 ns | 0.0187 |     - |     - |     144 B |
-|    DpdtInject.Tests.Performance.Generic.Singleton |        DryIoc |    GenericSingleton |  92.27 ns | 1.372 ns | 1.283 ns |      - |     - |     - |         - |
-|    DpdtInject.Tests.Performance.Generic.Transient |        DryIoc |    GenericTransient | 131.53 ns | 1.351 ns | 1.128 ns | 0.0188 |     - |     - |     144 B |
-| DpdtInject.Tests.Performance.NonGeneric.Singleton |        DryIoc | NonGenericSingleton |  52.20 ns | 0.616 ns | 0.547 ns |      - |     - |     - |         - |
-| DpdtInject.Tests.Performance.NonGeneric.Transient |        DryIoc | NonGenericTransient |  96.62 ns | 0.702 ns | 0.656 ns | 0.0187 |     - |     - |     144 B |
-|    DpdtInject.Tests.Performance.Generic.Singleton | Microresolver |    GenericSingleton |  56.35 ns | 0.473 ns | 0.420 ns |      - |     - |     - |         - |
-|    DpdtInject.Tests.Performance.Generic.Transient | Microresolver |    GenericTransient | 100.44 ns | 1.173 ns | 1.098 ns | 0.0187 |     - |     - |     144 B |
-| DpdtInject.Tests.Performance.NonGeneric.Singleton | Microresolver | NonGenericSingleton |  28.88 ns | 0.392 ns | 0.348 ns |      - |     - |     - |         - |
-| DpdtInject.Tests.Performance.NonGeneric.Transient | Microresolver | NonGenericTransient |  74.49 ns | 0.717 ns | 0.599 ns | 0.0187 |     - |     - |     144 B |
 
 
 For unknown reason BenchmarkDotNet has failed to produce relevant result when binding count exceeds 2000, probably because of slow JIT compilation. So I did a quick and dirty test with 5000 bindings:
@@ -119,6 +123,7 @@ Please refer to Dpdt.Injector nuget package at nuget.org. Keep in mind you need 
 0. Because of massive rewriting the body of the cluster, it's impossible to use a local variables (local methods and other local stuff) in `ConstructorArgument` and `When` predicates. To make bind works use instance based fields, properties and methods instead. To make bind debuggable use fields, properties and methods of the other, helper class.
 0. No deferred bindings by design with exception of cluster hierarchy.
 0. Because of performance reasons if binding does not exists, Dpdt throw an invalid cast exception, but no DpdtException. I'm trying to fix that without performance lost.
+0. Slower source-to-IL compilation, slower JIT compilation.
 
 ## Syntax
 

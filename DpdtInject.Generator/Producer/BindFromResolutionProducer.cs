@@ -99,6 +99,9 @@ namespace DpdtInject.Generator.Producer
             var interfaceProduct = new InterfaceProduct(
                 $"{nameof(IResolution<object>)}<{wrapperSymbol.ToDisplayString()}>"
                 );
+            var interfaceFastProduct = new InterfaceProduct(
+                $"{nameof(IResolutionFast<object>)}<{wrapperSymbol.ToDisplayString()}>"
+                );
 
             #region get
 
@@ -162,14 +165,38 @@ namespace DpdtInject.Generator.Producer
 
             #endregion
 
+            var getFastMethodProduct = new MethodProduct(
+                nameof(IResolutionFast<object>.GetFast),
+                wrapperSymbol,
+                (methodName, returnType) =>
+                {
+                    return $@"
+[MethodImpl(MethodImplOptions.AggressiveInlining)]
+public {returnType.ToDisplayString()} {methodName}({returnType.ToDisplayString()} unused)
+{{
+    return {getMethodProduct.MethodName}(
+        null
+        );
+}}
+";
+                }
+                );
+
+            #region get fast
+
+
+            #endregion
+
             var resolutionProduct = new ResolutionProduct(
                 interfaceProduct,
+                interfaceFastProduct,
                 getMethodProduct,
                 getExplicitMethodProduct,
                 nonGenericGetProduct,
                 getAllMethodProduct,
                 getAllExplicitMethodProduct,
-                nonGenericGetAllProduct
+                nonGenericGetAllProduct,
+                getFastMethodProduct
                 );
 
             return resolutionProduct;

@@ -1,11 +1,16 @@
 ﻿namespace DpdtInject.TestCaseProducer
 {
-    public enum BindResolveTypeEnum
+    public enum ResolveTypeEnum
     {
-        GenericTransient,
-        GenericSingleton,
-        
-        NonGenericSingleton
+        Generic,
+        NonGeneric,
+        Fast
+    }
+
+    public enum ScopeTypeEnum
+    {
+        Transient,
+        Singleton,
     }
 
 }

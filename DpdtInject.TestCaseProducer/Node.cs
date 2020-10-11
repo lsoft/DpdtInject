@@ -56,34 +56,37 @@ namespace DpdtInject.TestCaseProducer
             ResolvedInstanceName = $"resolvedInstance{Index}";
         }
 
-        public string GetDpdtResolutionCode(BindResolveTypeEnum type)
+        public string GetDpdtResolutionCode(ResolveTypeEnum type)
         {
             switch (type)
             {
-                case BindResolveTypeEnum.GenericSingleton:
-                case BindResolveTypeEnum.GenericTransient:
+                case ResolveTypeEnum.Generic:
                     return $@"
 var {ResolvedInstanceName} = cluster.Get<{InterfaceName}>();
 ";
-                case BindResolveTypeEnum.NonGenericSingleton:
+                case ResolveTypeEnum.NonGeneric:
                     return $@"
 var {ResolvedInstanceName} = cluster.Get(typeof({InterfaceName}));
 ";
+                case ResolveTypeEnum.Fast:
+                    return $@"
+var {ResolvedInstanceName} = cluster.GetFast(default({InterfaceName}));
+";
                 default:
                     throw new ArgumentOutOfRangeException(type.ToString());
             }
         }
 
-        public string GetDryIocResolutionCode(BindResolveTypeEnum type)
+        public string GetDryIocResolutionCode(ResolveTypeEnum type)
         {
             switch (type)
             {
-                case BindResolveTypeEnum.GenericSingleton:
-                case BindResolveTypeEnum.GenericTransient:
+                case ResolveTypeEnum.Generic:
+                case ResolveTypeEnum.Fast:
                     return $@"
 var {ResolvedInstanceName} = container.Resolve<{InterfaceName}>();
 ";
-                case BindResolveTypeEnum.NonGenericSingleton:
+                case ResolveTypeEnum.NonGeneric:
                     return $@"
 var {ResolvedInstanceName} = container.Resolve(typeof({InterfaceName}));
 ";
@@ -92,16 +95,16 @@ var {ResolvedInstanceName} = container.Resolve(typeof({InterfaceName}));
             }
         }
 
-        public string GetMicroresolverResolutionCode(BindResolveTypeEnum type)
+        public string GetMicroresolverResolutionCode(ResolveTypeEnum type)
         {
             switch (type)
             {
-                case BindResolveTypeEnum.GenericSingleton:
-                case BindResolveTypeEnum.GenericTransient:
+                case ResolveTypeEnum.Generic:
+                case ResolveTypeEnum.Fast:
                     return $@"
 var {ResolvedInstanceName} = container.Resolve<{InterfaceName}>();
 ";
-                case BindResolveTypeEnum.NonGenericSingleton:
+                case ResolveTypeEnum.NonGeneric:
                     return $@"
 var {ResolvedInstanceName} = container.Resolve(typeof({InterfaceName}));
 ";
@@ -113,9 +116,9 @@ var {ResolvedInstanceName} = container.Resolve(typeof({InterfaceName}));
 
 
 
-        public string GetDpdtBindCode(BindResolveTypeEnum type)
+        public string GetDpdtBindCode(ScopeTypeEnum scope)
         {
-            var suffix = GetSuffix(type);
+            var suffix = GetSuffix(scope);
 
             return $@"
 Bind<{InterfaceName}>()
@@ -125,9 +128,9 @@ Bind<{InterfaceName}>()
 ";
         }
 
-        public string GetDryIocBindCode(BindResolveTypeEnum type)
+        public string GetDryIocBindCode(ScopeTypeEnum scope)
         {
-            var suffix = GetSuffix(type);
+            var suffix = GetSuffix(scope);
 
 
             return $@"
@@ -135,9 +138,9 @@ container.Register<{InterfaceName}, {ClassName}>(Reuse.{suffix});
 ";
         }
 
-        public string GetMicroresolverBindCode(BindResolveTypeEnum type)
+        public string GetMicroresolverBindCode(ScopeTypeEnum scope)
         {
-            var suffix = GetSuffix(type);
+            var suffix = GetSuffix(scope);
 
             return $@"
 container.Register<{InterfaceName}, {ClassName}>(Lifestyle.{suffix});
@@ -194,20 +197,19 @@ public class {ClassName} : {InterfaceName}
         }
 
 
-        private static string GetSuffix(BindResolveTypeEnum type)
+        private static string GetSuffix(ScopeTypeEnum scope)
         {
             var suffix = "";
-            switch (type)
+            switch (scope)
             {
-                case BindResolveTypeEnum.GenericTransient:
+                case ScopeTypeEnum.Transient:
                     suffix = "Transient";
                     break;
-                case BindResolveTypeEnum.GenericSingleton:
-                case BindResolveTypeEnum.NonGenericSingleton:
+                case ScopeTypeEnum.Singleton:
                     suffix = "Singleton";
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(type.ToString());
+                    throw new ArgumentOutOfRangeException(scope.ToString());
             }
 
             return suffix;

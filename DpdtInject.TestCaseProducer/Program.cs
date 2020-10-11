@@ -11,7 +11,8 @@ namespace DpdtInject.TestCaseProducer
     class Program
     {
         public const int BindCount = 50;
-        public const BindResolveTypeEnum Type = BindResolveTypeEnum.GenericTransient;
+        public const ScopeTypeEnum Scope = ScopeTypeEnum.Singleton;
+        public const ResolveTypeEnum ResolveType = ResolveTypeEnum.Fast;
 
         public static int Seed =
             //BitConverter.ToInt32(Guid.NewGuid().ToByteArray(), 0);
@@ -67,7 +68,6 @@ namespace {nameSpace}
 //seed: {Seed}
 using DpdtInject.Injector;
 using DpdtInject.Injector.Excp;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,19 +81,19 @@ namespace {nameSpace}
     {{
         public const int BindCount = {BindCount};
         public const string BindCountString = ""{BindCount}"";
-        public const string TestPrefix = ""{Type}{BindCount}"";
+        public const string TestPrefix = ""{ResolveType}{Scope}{BindCount}"";
 
         public override void Load()
         {{
 #region bind code
-            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDpdtBindCode(Type)))};
+            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDpdtBindCode(Scope)))};
 #endregion
         }}
 
         public static void ResolveDpdt({clusterClassName} cluster)
         {{
 #region resolution code
-            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDpdtResolutionCode(Type)))};
+            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDpdtResolutionCode(ResolveType)))};
 #endregion
         }}
 
@@ -120,7 +120,6 @@ namespace {nameSpace}
 //seed: {Seed}
 using DpdtInject.Injector;
 using DpdtInject.Injector.Excp;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -135,19 +134,19 @@ namespace {nameSpace}
     {{
         public const int BindCount = {BindCount};
         public const string BindCountString = ""{BindCount}"";
-        public const string TestPrefix = ""{Type}{BindCount}"";
+        public const string TestPrefix = ""{ResolveType}{Scope}{BindCount}"";
 
         public static void Bind(Container container)
         {{
 #region bind code
-            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDryIocBindCode(Type)))};
+            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDryIocBindCode(Scope)))};
 #endregion
         }}
 
         public static void Resolve(Container container)
         {{
 #region resolution code
-            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDryIocResolutionCode(Type)))};
+            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDryIocResolutionCode(ResolveType)))};
 #endregion
         }}
 
@@ -174,7 +173,6 @@ namespace {nameSpace}
 //seed: {Seed}
 using DpdtInject.Injector;
 using DpdtInject.Injector.Excp;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -189,19 +187,19 @@ namespace {nameSpace}
     {{
         public const int BindCount = {BindCount};
         public const string BindCountString = ""{BindCount}"";
-        public const string TestPrefix = ""{Type}{BindCount}"";
+        public const string TestPrefix = ""{ResolveType}{Scope}{BindCount}"";
 
         public static void Bind(ObjectResolver container)
         {{
 #region bind code
-            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetMicroresolverBindCode(Type)))};
+            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetMicroresolverBindCode(Scope)))};
 #endregion
         }}
 
         public static void Resolve(ObjectResolver container)
         {{
 #region resolution code
-            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetMicroresolverResolutionCode(Type)))};
+            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetMicroresolverResolutionCode(ResolveType)))};
 #endregion
         }}
 
