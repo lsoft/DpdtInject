@@ -10,9 +10,8 @@ namespace DpdtInject.TestCaseProducer
 {
     class Program
     {
-        public const int BindCount = 50;
+        public const int BindCount = 1000;
         public const ScopeTypeEnum Scope = ScopeTypeEnum.Singleton;
-        public const ResolveTypeEnum ResolveType = ResolveTypeEnum.Fast;
 
         public static int Seed =
             //BitConverter.ToInt32(Guid.NewGuid().ToByteArray(), 0);
@@ -23,6 +22,7 @@ namespace DpdtInject.TestCaseProducer
             var createdNodes =
                 //GeneratePlainNodes(Seed);
                 GenerateNodesInTree(Seed);
+                //GenerateNodesInColumn(Seed);
 
             var targetDirectory = @"../../../../DpdtInject.Tests.Performance/TimeConsume/BigTree0";
             var nameSpace = "DpdtInject.Tests.Performance.TimeConsume.BigTree0";
@@ -81,7 +81,9 @@ namespace {nameSpace}
     {{
         public const int BindCount = {BindCount};
         public const string BindCountString = ""{BindCount}"";
-        public const string TestPrefix = ""{ResolveType}{Scope}{BindCount}"";
+        public const string GenericTestName = ""{ResolveTypeEnum.Generic}{Scope}{BindCount}"";
+        public const string NonGenericTestName = ""{ResolveTypeEnum.NonGeneric}{Scope}{BindCount}"";
+        public const string FastTestName = ""{ResolveTypeEnum.Fast}{Scope}{BindCount}"";
 
         public override void Load()
         {{
@@ -90,12 +92,22 @@ namespace {nameSpace}
 #endregion
         }}
 
-        public static void ResolveDpdt({clusterClassName} cluster)
-        {{
 #region resolution code
-            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDpdtResolutionCode(ResolveType)))};
-#endregion
+        public static void ResolveGeneric({clusterClassName} cluster)
+        {{
+            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDpdtResolutionCode(ResolveTypeEnum.Generic)))};
         }}
+
+        public static void ResolveNonGeneric({clusterClassName} cluster)
+        {{
+            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDpdtResolutionCode(ResolveTypeEnum.NonGeneric)))};
+        }}
+
+        public static void ResolveFast({clusterClassName} cluster)
+        {{
+            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDpdtResolutionCode(ResolveTypeEnum.Fast)))};
+        }}
+#endregion
 
     }}
 }}
@@ -134,7 +146,8 @@ namespace {nameSpace}
     {{
         public const int BindCount = {BindCount};
         public const string BindCountString = ""{BindCount}"";
-        public const string TestPrefix = ""{ResolveType}{Scope}{BindCount}"";
+        public const string GenericTestName = ""{ResolveTypeEnum.Generic}{Scope}{BindCount}"";
+        public const string NonGenericTestName = ""{ResolveTypeEnum.NonGeneric}{Scope}{BindCount}"";
 
         public static void Bind(Container container)
         {{
@@ -143,13 +156,17 @@ namespace {nameSpace}
 #endregion
         }}
 
-        public static void Resolve(Container container)
-        {{
 #region resolution code
-            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDryIocResolutionCode(ResolveType)))};
-#endregion
+        public static void ResolveGeneric(Container container)
+        {{
+            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDryIocResolutionCode(ResolveTypeEnum.Generic)))};
         }}
 
+        public static void ResolveNonGeneric(Container container)
+        {{
+            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDryIocResolutionCode(ResolveTypeEnum.NonGeneric)))};
+        }}
+#endregion
     }}
 }}
 ";
@@ -187,7 +204,8 @@ namespace {nameSpace}
     {{
         public const int BindCount = {BindCount};
         public const string BindCountString = ""{BindCount}"";
-        public const string TestPrefix = ""{ResolveType}{Scope}{BindCount}"";
+        public const string GenericTestName = ""{ResolveTypeEnum.Generic}{Scope}{BindCount}"";
+        public const string NonGenericTestName = ""{ResolveTypeEnum.NonGeneric}{Scope}{BindCount}"";
 
         public static void Bind(ObjectResolver container)
         {{
@@ -196,13 +214,17 @@ namespace {nameSpace}
 #endregion
         }}
 
-        public static void Resolve(ObjectResolver container)
-        {{
 #region resolution code
-            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetMicroresolverResolutionCode(ResolveType)))};
-#endregion
+        public static void ResolveGeneric(ObjectResolver container)
+        {{
+            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetMicroresolverResolutionCode(ResolveTypeEnum.Generic)))};
         }}
 
+        public static void ResolveNonGeneric(ObjectResolver container)
+        {{
+            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetMicroresolverResolutionCode(ResolveTypeEnum.NonGeneric)))};
+        }}
+#endregion
     }}
 }}
 ";
@@ -221,10 +243,6 @@ namespace {nameSpace}
             int seed
             )
         {
-            var rnd = new Random(
-                seed
-                );
-
             var createdNodes = new List<Node>
             {
                 new Node(null, 0)
@@ -238,6 +256,28 @@ namespace {nameSpace}
 
             return createdNodes;
         }
+
+        private static List<Node> GenerateNodesInColumn(
+            int seed
+            )
+        {
+            var createdNodes = new List<Node>
+            {
+                new Node(null, 0)
+            };
+
+            for (var i = 1; i < BindCount; i++)
+            {
+                var parent = createdNodes.Last();
+                var newNode = new Node(parent, i);
+
+                parent.Children.Add(newNode);
+                createdNodes.Add(newNode);
+            }
+
+            return createdNodes;
+        }
+
 
         private static List<Node> GenerateNodesInTree(
             int seed

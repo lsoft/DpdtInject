@@ -90,6 +90,12 @@ namespace DpdtInject.Generator.Producer
             {
                 if (BindingExtender.NeedToProcessResolutionContext)
                 {
+                    //actually it's not faster but a bit slower
+                    //return
+                    //    new ConstructorArgumentProduct(
+                    //        $"{ConstructorArgument.Name}: GetFast(default({ConstructorArgument.Type!.ToDisplayString()}), resolutionTarget, \"{ConstructorArgument.Name}\" )"
+                    //        );
+
                     return
                         new ConstructorArgumentProduct(
                             $"{ConstructorArgument.Name}: GetFromLocalUnsafely<{ConstructorArgument.Type!.ToDisplayString()}>( resolutionTarget, \"{ConstructorArgument.Name}\" )"
@@ -97,6 +103,12 @@ namespace DpdtInject.Generator.Producer
                 }
                 else
                 {
+                    //actually it's not faster but a bit slower
+                    //return
+                    //    new ConstructorArgumentProduct(
+                    //        $"{ConstructorArgument.Name}: GetFast(default({ConstructorArgument.Type!.ToDisplayString()}))"
+                    //        );
+
                     return
                         new ConstructorArgumentProduct(
                             $"{ConstructorArgument.Name}: GetFromLocalUnsafely<{ConstructorArgument.Type!.ToDisplayString()}>()"

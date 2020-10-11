@@ -51,29 +51,46 @@ Runtime=.NET Core 3.1  Server=True
 |    DpdtInject.Tests.Performance.Generic.Transient |          Dpdt |    GenericTransient |  61.170 ns | 1.1193 ns | 0.8739 ns |  61.359 ns | 0.0187 |     - |     - |     144 B |
 | DpdtInject.Tests.Performance.NonGeneric.Singleton |          Dpdt | NonGenericSingleton |  47.878 ns | 0.6966 ns | 0.6516 ns |  47.760 ns |      - |     - |     - |         - |
 | DpdtInject.Tests.Performance.NonGeneric.Transient |          Dpdt | NonGenericTransient |  96.832 ns | 1.3139 ns | 1.0971 ns |  96.587 ns | 0.0187 |     - |     - |     144 B |
+|-------------------------------------------------- |-------------- |-------------------- |-----------:|----------:|----------:|-----------:|-------:|------:|------:|----------:|
 |    DpdtInject.Tests.Performance.Generic.Singleton |        DryIoc |    GenericSingleton |  96.620 ns | 1.0785 ns | 1.0088 ns |  96.710 ns |      - |     - |     - |         - |
 |    DpdtInject.Tests.Performance.Generic.Transient |        DryIoc |    GenericTransient | 140.565 ns | 2.8101 ns | 2.7598 ns | 141.088 ns | 0.0186 |     - |     - |     144 B |
 | DpdtInject.Tests.Performance.NonGeneric.Singleton |        DryIoc | NonGenericSingleton |  56.725 ns | 0.6225 ns | 0.5198 ns |  56.826 ns |      - |     - |     - |         - |
 | DpdtInject.Tests.Performance.NonGeneric.Transient |        DryIoc | NonGenericTransient | 104.145 ns | 2.1310 ns | 2.0929 ns | 103.582 ns | 0.0188 |     - |     - |     144 B |
+|-------------------------------------------------- |-------------- |-------------------- |-----------:|----------:|----------:|-----------:|-------:|------:|------:|----------:|
 |    DpdtInject.Tests.Performance.Generic.Singleton | Microresolver |    GenericSingleton |  59.431 ns | 1.0300 ns | 0.9634 ns |  59.484 ns |      - |     - |     - |         - |
 |    DpdtInject.Tests.Performance.Generic.Transient | Microresolver |    GenericTransient | 119.079 ns | 2.3919 ns | 2.9375 ns | 118.693 ns | 0.0186 |     - |     - |     144 B |
 | DpdtInject.Tests.Performance.NonGeneric.Singleton | Microresolver | NonGenericSingleton |  31.869 ns | 1.1528 ns | 3.3991 ns |  30.088 ns |      - |     - |     - |         - |
 | DpdtInject.Tests.Performance.NonGeneric.Transient | Microresolver | NonGenericTransient |  81.541 ns | 1.7322 ns | 3.4991 ns |  80.248 ns | 0.0188 |     - |     - |     144 B |
 ```
 
+Few more numbers for complex tree total of 1000 bingings (make note NonGeneric now is faster than Generic for DryIoc and Microresolver):
 
-For unknown reason BenchmarkDotNet has failed to produce relevant result when binding count exceeds 2000, probably because of slow JIT compilation. So I did a quick and dirty test with 5000 bindings:
+``` ini
 
-|          Type |              Method |     Total |
-|-------------- |-------------------- |----------:|
-|          Dpdt |    GenericSingleton |     39 ms |
-|          Dpdt |    GenericTransient |    235 ms |
-|        DryIoc |    GenericSingleton |    221 ms |
-|        DryIoc |    GenericTransient |    606 ms |
-| Microresolver |    GenericSingleton |    144 ms |
-| Microresolver |    GenericTransient |    451 ms |
+BenchmarkDotNet=v0.12.0, OS=Windows 10.0.19041
+Intel Core i5-4200U CPU 1.60GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
+.NET Core SDK=5.0.100-rc.1.20452.10
+  [Host]     : .NET Core 3.1.7 (CoreCLR 4.700.20.36602, CoreFX 4.700.20.37001), X64 RyuJIT
+  Job-ACPELA : .NET Core 3.1.7 (CoreCLR 4.700.20.36602, CoreFX 4.700.20.37001), X64 RyuJIT
 
-I recommend disable tiered compilation for composition root assembly. With tiered compilation quick and dirty tests (above) gives sad numbers for Dpdt :)
+Runtime=.NET Core 3.1  Server=True  
+
+|          Type |                  Method |      Mean |    Error |   StdDev | Gen 0 | Gen 1 | Gen 2 | Allocated |
+|---------------|------------------------ |----------:|---------:|---------:|------:|------:|------:|----------:|
+|          Dpdt |    GenericSingleton1000 |  51.83 us | 0.441 us | 0.412 us |     - |     - |     - |         - |
+|          Dpdt | NonGenericSingleton1000 | 100.29 us | 0.747 us | 0.662 us |     - |     - |     - |         - |
+|          Dpdt |       FastSingleton1000 |  22.71 us | 0.238 us | 0.211 us |     - |     - |     - |         - |
+|---------------|------------------------ |----------:|---------:|---------:|------:|------:|------:|----------:|
+|        DryIoc |    GenericSingleton1000 | 136.04 us | 2.497 us | 2.336 us |     - |     - |     - |         - |
+|        DryIoc | NonGenericSingleton1000 |  93.73 us | 1.393 us | 1.235 us |     - |     - |     - |         - |
+|---------------|------------------------ |----------:|---------:|---------:|------:|------:|------:|----------:|
+| Microresolver |    GenericSingleton1000 |  75.04 us | 1.461 us | 2.095 us |     - |     - |     - |         - |
+| Microresolver | NonGenericSingleton1000 |  29.61 us | 0.411 us | 0.384 us |     - |     - |     - |         - |
+
+```
+
+
+Also I recommend disable tiered compilation for composition root assembly.
 
 
 # How to try

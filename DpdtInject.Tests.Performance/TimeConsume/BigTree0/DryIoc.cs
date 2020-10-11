@@ -18,14 +18,20 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
             DryIocRelated.Bind(_container);
 
-            DryIocRelated.Resolve(_container);
+            DryIocRelated.ResolveGeneric(_container);
+            DryIocRelated.ResolveNonGeneric(_container);
         }
 
-        [Benchmark(Description = DryIocRelated.TestPrefix)]
-        public void DoTest()
+        [Benchmark(Description = DryIocRelated.GenericTestName)]
+        public void GenericTest()
         {
-            DryIocRelated.Resolve(_container);
+            DryIocRelated.ResolveGeneric(_container);
         }
 
+        [Benchmark(Description = DryIocRelated.NonGenericTestName)]
+        public void NonGenericTest()
+        {
+            DryIocRelated.ResolveNonGeneric(_container);
+        }
     }
 }

@@ -20,15 +20,28 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
                 null
                 );
 
-            TimeConsumeBigTree0_Cluster.ResolveDpdt(_cluster);
+            TimeConsumeBigTree0_Cluster.ResolveGeneric(_cluster);
+            TimeConsumeBigTree0_Cluster.ResolveNonGeneric(_cluster);
+            TimeConsumeBigTree0_Cluster.ResolveFast(_cluster);
         }
 
-        [Benchmark(Description = TimeConsumeBigTree0_Cluster.TestPrefix)]
-        public void DoTest()
+        [Benchmark(Description = TimeConsumeBigTree0_Cluster.GenericTestName)]
+        public void GenericTest()
         {
-            TimeConsumeBigTree0_Cluster.ResolveDpdt(_cluster);
+            TimeConsumeBigTree0_Cluster.ResolveGeneric(_cluster);
         }
 
+        [Benchmark(Description = TimeConsumeBigTree0_Cluster.NonGenericTestName)]
+        public void NonGenericTest()
+        {
+            TimeConsumeBigTree0_Cluster.ResolveNonGeneric(_cluster);
+        }
+
+        [Benchmark(Description = TimeConsumeBigTree0_Cluster.FastTestName)]
+        public void FastTest()
+        {
+            TimeConsumeBigTree0_Cluster.ResolveFast(_cluster);
+        }
     }
 
 }

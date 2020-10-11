@@ -165,6 +165,8 @@ namespace DpdtInject.Generator.Producer
 
             #endregion
 
+            #region get fast
+
             var getFastMethodProduct = new MethodProduct(
                 nameof(IResolutionFast<object>.GetFast),
                 wrapperSymbol,
@@ -181,8 +183,6 @@ public {returnType.ToDisplayString()} {methodName}({returnType.ToDisplayString()
 ";
                 }
                 );
-
-            #region get fast
 
 
             #endregion

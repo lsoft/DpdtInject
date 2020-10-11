@@ -20,13 +20,20 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
 
             _container.Compile();
 
-            MicroResolverRelated.Resolve(_container);
+            MicroResolverRelated.ResolveGeneric(_container);
+            MicroResolverRelated.ResolveNonGeneric(_container);
         }
 
-        [Benchmark(Description = MicroResolverRelated.TestPrefix)]
-        public void DoTest()
+        [Benchmark(Description = MicroResolverRelated.GenericTestName)]
+        public void GenericTest()
         {
-            MicroResolverRelated.Resolve(_container);
+            MicroResolverRelated.ResolveGeneric(_container);
+        }
+
+        [Benchmark(Description = MicroResolverRelated.NonGenericTestName)]
+        public void NonGenericTest()
+        {
+            MicroResolverRelated.ResolveNonGeneric(_container);
         }
 
     }
