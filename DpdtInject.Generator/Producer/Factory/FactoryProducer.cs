@@ -1,5 +1,6 @@
 ﻿using DpdtInject.Generator.Binding;
 using DpdtInject.Generator.Producer.Product;
+using DpdtInject.Generator.TypeInfo;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace DpdtInject.Generator.Producer.Factory
 {
     internal class FactoryProducer
     {
-        private readonly Compilation _compilation;
+        private readonly ITypeInfoProvider _typeInfoProvider;
         
         public ClusterBindings ClusterBindings
         {
@@ -19,13 +20,13 @@ namespace DpdtInject.Generator.Producer.Factory
         }
 
         public FactoryProducer(
-            Compilation compilation,
+            ITypeInfoProvider typeInfoProvider,
             ClusterBindings clusterBindings
             )
         {
-            if (compilation is null)
+            if (typeInfoProvider is null)
             {
-                throw new ArgumentNullException(nameof(compilation));
+                throw new ArgumentNullException(nameof(typeInfoProvider));
             }
 
             if (clusterBindings is null)
@@ -33,7 +34,7 @@ namespace DpdtInject.Generator.Producer.Factory
                 throw new ArgumentNullException(nameof(clusterBindings));
             }
 
-            _compilation = compilation;
+            _typeInfoProvider = typeInfoProvider;
             ClusterBindings = clusterBindings;
         }
 
@@ -45,10 +46,24 @@ namespace DpdtInject.Generator.Producer.Factory
                 {
                     continue;
                 }
+
+                yield return new FactoryProduct(
+                    bindingContainer.BindToType,
+                    $@"
+namespace DpdtInject.Tests.Factory.Simple0
+{{
+    public partial class AFactory : IAFactory
+    {{
+        public IA Create()
+        {{
+            return new A();
+        }}
+    }}
+}}
+");
             }
 
             yield break;
-            //throw new NotImplementedException();
         }
     }
 }

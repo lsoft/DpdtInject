@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Generator.Helpers;
+using DpdtInject.Generator.TypeInfo;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Module;
@@ -15,15 +16,16 @@ namespace DpdtInject.Generator.Scanner
 
     {
         public IReadOnlyList<INamedTypeSymbol> Scan(
-            Compilation compilation
+            ITypeInfoProvider typeInfoProvider
             )
         {
-            if (compilation is null)
+            if (typeInfoProvider is null)
             {
-                throw new ArgumentNullException(nameof(compilation));
+                throw new ArgumentNullException(nameof(typeInfoProvider));
             }
 
-            var allTypes = compilation.GlobalNamespace.GetAllTypes().ToList();
+            var allTypes = typeInfoProvider.GetAllTypes().ToList();
+
             var foundTypes = allTypes
                 .Where(t => t.BaseType != null)
                 .Where(t => t.BaseType!.ToDisplayString() == typeof(DefaultCluster).FullName)

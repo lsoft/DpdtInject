@@ -3,6 +3,7 @@ using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Producer;
 using DpdtInject.Generator.Producer.Factory;
 using DpdtInject.Generator.Scanner;
+using DpdtInject.Generator.TypeInfo;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Excp;
@@ -31,33 +32,29 @@ namespace DpdtInject.Generator
             _diagnosticReporter = diagnosticReporter;
         }
 
-        public IReadOnlyList<ModificationDescription> Execute(
-            Compilation compilation,
+        public void Execute(
+            ITypeInfoContainer typeInfoContainer,
             string? generatedFolder
             )
         {
             using (new DTimer(_diagnosticReporter, "Dpdt total time taken"))
             {
-                var result = ExecutePrivate(
-                    compilation,
+                ExecutePrivate(
+                    typeInfoContainer,
                     generatedFolder
                 );
-
-                return result;
             }
         }
 
-        private IReadOnlyList<ModificationDescription> ExecutePrivate(
-            Compilation compilation,
+        private void ExecutePrivate(
+            ITypeInfoContainer typeInfoContainer,
             string? generatedFolder
             )
         {
-            if (compilation is null)
+            if (typeInfoContainer is null)
             {
-                throw new ArgumentNullException(nameof(compilation));
+                throw new ArgumentNullException(nameof(typeInfoContainer));
             }
-
-            var result = new List<ModificationDescription>();
 
             var scanner = new TimedTypeScanner(
                 _diagnosticReporter,
@@ -66,7 +63,7 @@ namespace DpdtInject.Generator
                 );
 
             var clusterTypes = scanner.Scan(
-                compilation
+                typeInfoContainer
                 );
 
             for(var clusterTypeIndex = 0; clusterTypeIndex < clusterTypes.Count; clusterTypeIndex++)
@@ -108,7 +105,7 @@ namespace DpdtInject.Generator
                 var bindExtractor = new TimedBindExtractor(
                     _diagnosticReporter,
                     new DefaultBindExtractor(
-                        compilation,
+                        typeInfoContainer,
                         compilationUnitSyntax
                         )
                     );
@@ -127,13 +124,13 @@ namespace DpdtInject.Generator
                     );
 
                 var factoryProducer = new FactoryProducer(
-                    compilation,
+                    typeInfoContainer,
                     clusterBindings
                     );
 
                 foreach (var factoryProduct in factoryProducer.Produce())
                 {
-                    var fileName = $"{factoryProduct.FactoryType.ToDisplayString().EscapeSpecialTypeSymbols()}.cs";
+                    var fileName = $"{factoryProduct.FactoryType.ToDisplayString().EscapeSpecialTypeSymbols()}.Pregenerated.cs";
 
                     ModificationDescription factoryModificationDescription;
                     using (new DTimer(_diagnosticReporter, $"Dpdt factory {factoryProduct.FactoryType.ToDisplayString()} beautify generated code time taken"))
@@ -155,12 +152,12 @@ namespace DpdtInject.Generator
                             );
                     }
 
-                    result.Add(factoryModificationDescription);
+                    typeInfoContainer.AddSource(factoryModificationDescription);
                 }
 
 
                 var clusterProducer = new ClusterProducer(
-                    compilation,
+                    typeInfoContainer,
                     clusterBindings
                     );
 
@@ -186,10 +183,8 @@ namespace DpdtInject.Generator
                         );
                 }
 
-                result.Add(modificationDescription);
+                typeInfoContainer.AddSource(modificationDescription);
             }
-
-            return result;
         }
     }
 }

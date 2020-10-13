@@ -2,6 +2,7 @@
 using DpdtInject.Generator.Binding;
 using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Producer.Product;
+using DpdtInject.Generator.TypeInfo;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
@@ -16,7 +17,7 @@ namespace DpdtInject.Generator.Producer
 {
     internal class BindFromResolutionProducer
     {
-        private readonly Compilation _compilation;
+        private readonly ITypeInfoProvider _typeInfoProvider;
 
         public ClusterBindings ClusterBindings 
         { 
@@ -32,15 +33,15 @@ namespace DpdtInject.Generator.Producer
         }
 
         public BindFromResolutionProducer(
-            Compilation compilation,
+            ITypeInfoProvider typeInfoProvider,
             ClusterBindings clusterBindings,
             ITypeSymbol bindFrom,
             IReadOnlyList<InstanceProduct> instanceProducts
             )
         {
-            if (compilation is null)
+            if (typeInfoProvider is null)
             {
-                throw new ArgumentNullException(nameof(compilation));
+                throw new ArgumentNullException(nameof(typeInfoProvider));
             }
 
             if (clusterBindings is null)
@@ -57,7 +58,7 @@ namespace DpdtInject.Generator.Producer
             {
                 throw new ArgumentNullException(nameof(instanceProducts));
             }
-            _compilation = compilation;
+            _typeInfoProvider = typeInfoProvider;
             ClusterBindings = clusterBindings;
             BindFrom = bindFrom;
             InstanceProducts = instanceProducts;
@@ -70,7 +71,7 @@ namespace DpdtInject.Generator.Producer
 
             var filteredInstanceProducts = InstanceProducts.FindAll(ip => ip.BindingExtender.BindingContainer.IsRegisteredFrom(BindFrom));
 
-            foreach (var (wrapperType, wrapperSymbol) in BindFrom.GenerateWrapperTypes(_compilation, true))
+            foreach (var (wrapperType, wrapperSymbol) in BindFrom.GenerateWrapperTypes(_typeInfoProvider, true))
             {
                 var resolutionProduct = CreateResolutionProduct(
                     filteredInstanceProducts,
@@ -120,13 +121,13 @@ namespace DpdtInject.Generator.Producer
 
             var nonGenericGetProduct = new CreateTupleProduct(
                 (
-                    _compilation.SystemType(),
+                    _typeInfoProvider.SystemType(),
                     $"typeof({wrapperSymbol.ToDisplayString()})"
                 ),
                 (
-                    _compilation.Func(
-                        _compilation.GetTypeByMetadataName(typeof(IResolutionRequest).FullName!)!,
-                        _compilation.Object()!
+                    _typeInfoProvider.Func(
+                        _typeInfoProvider.GetTypeByMetadataName(typeof(IResolutionRequest).FullName!)!,
+                        _typeInfoProvider.Object()!
                         ),
                     getMethodProduct.MethodName
                 )
@@ -151,13 +152,13 @@ namespace DpdtInject.Generator.Producer
 
             var nonGenericGetAllProduct = new CreateTupleProduct(
                 (
-                    _compilation.SystemType(),
+                    _typeInfoProvider.SystemType(),
                     $"typeof({wrapperSymbol.ToDisplayString()})"
                 ),
                 (
-                    _compilation.Func(
-                        _compilation.GetTypeByMetadataName(typeof(IResolutionRequest).FullName!)!,
-                        _compilation.Object()!
+                    _typeInfoProvider.Func(
+                        _typeInfoProvider.GetTypeByMetadataName(typeof(IResolutionRequest).FullName!)!,
+                        _typeInfoProvider.Object()!
                         ),
                     getAllMethodProduct.MethodName
                 )
@@ -234,7 +235,7 @@ public {returnType.ToDisplayString()} {methodName}({returnType.ToDisplayString()
                 $"GetAll_{wrapperSymbol.ToDisplayString().EscapeSpecialTypeSymbols()}_{Guid.NewGuid().RemoveMinuses()}"
                 ;
 
-            var returnType = _compilation
+            var returnType = _typeInfoProvider
                 .GetTypeByMetadataName("System.Collections.Generic.List`1")!
                 .Construct(wrapperSymbol)
                 ;

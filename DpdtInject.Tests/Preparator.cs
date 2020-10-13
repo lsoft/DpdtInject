@@ -92,25 +92,18 @@ namespace DpdtInject.Tests
                     , compilationOptions
                     );
 
+                var typeInfoContainer = new PreparatorTypeInfoContainer(
+                    compilation
+                    );
+
                 var internalGenerator = new DpdtInternalGenerator(
                     DiagnosticReporter
                     );
 
-                var modificationDescriptions = internalGenerator.Execute(
-                    compilation,
+                internalGenerator.Execute(
+                    typeInfoContainer,
                     new FileInfo(_callerFilePath).Directory.FullName
                     );
-
-                foreach (var modificationDescription in modificationDescriptions)
-                {
-                    var generatorSyntaxTree = SyntaxFactory.ParseSyntaxTree(
-                        SourceText.From(modificationDescription.NewFileBody),
-                        CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest),
-                        ""
-                        );
-
-                    compilation = compilation.AddSyntaxTrees(generatorSyntaxTree);
-                }
 
                 var compiledDllPath = Path.Combine(
                     _testContext.TestResultsDirectory,
@@ -118,9 +111,9 @@ namespace DpdtInject.Tests
                     );
 
                 Microsoft.CodeAnalysis.Emit.EmitResult emitResult;
-                using (new DTimer(DiagnosticReporter, "Dpdt unit test actual compilation time taken"))
+                using (new DTimer(DiagnosticReporter, "Dpdt unit test emit time taken"))
                 {
-                    emitResult = compilation.Emit(compiledDllPath);
+                    emitResult = typeInfoContainer.Emit(compiledDllPath);
 
                     Assert.IsTrue(emitResult.Success, string.Join(Environment.NewLine, emitResult.Diagnostics));
                 }
@@ -224,4 +217,5 @@ namespace DpdtInject.Tests
         }
 
     }
+
 }

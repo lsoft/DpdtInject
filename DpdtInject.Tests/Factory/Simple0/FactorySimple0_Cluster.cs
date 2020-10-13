@@ -12,11 +12,6 @@ namespace DpdtInject.Tests.Factory.Simple0
     {
         public override void Load()
         {
-            Bind<IA>()
-                .To<A>()
-                .WithTransientScope()
-                ;
-
             Bind<IAFactory>()
                 .ToFactory<AFactory>()
                 .WithSingletonScope()
@@ -31,13 +26,16 @@ namespace DpdtInject.Tests.Factory.Simple0
                     null
                     );
 
-                var a0 = cluster.Get<IA>();
+                var af = cluster.Get<IAFactory>();
+                Assert.IsNotNull(af);
+
+                var a0 = af.Create();
                 Assert.IsNotNull(a0);
 
-                var a1 = cluster.Get<IA>();
+                var a1 = af.Create();
                 Assert.IsNotNull(a1);
 
-                Assert.AreSame(a0, a1);
+                Assert.AreNotSame(a0, a1);
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using DpdtInject.Generator.TypeInfo;
+using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,67 +11,67 @@ namespace DpdtInject.Generator.Helpers
     public static class CompilationHelper
     {
         public static INamedTypeSymbol Func(
-            this Compilation compilation,
+            this ITypeInfoProvider typeInfoProvider,
             params ITypeSymbol[] genericParameters
             )
         {
-            if (compilation is null)
+            if (typeInfoProvider is null)
             {
-                throw new ArgumentNullException(nameof(compilation));
+                throw new ArgumentNullException(nameof(typeInfoProvider));
             }
 
             return
-                compilation.GetTypeByMetadataName("System.Func`" + genericParameters.Length)!
+                typeInfoProvider.GetTypeByMetadataName("System.Func`" + genericParameters.Length)!
                 .Construct(genericParameters)
                 ;
         }
 
         public static INamedTypeSymbol SystemType(
-            this Compilation compilation
+            this ITypeInfoProvider typeInfoProvider
             )
         {
-            if (compilation is null)
+            if (typeInfoProvider is null)
             {
-                throw new ArgumentNullException(nameof(compilation));
+                throw new ArgumentNullException(nameof(typeInfoProvider));
             }
 
-            return compilation.GetTypeByMetadataName("System.Type")!;
+            return typeInfoProvider.GetTypeByMetadataName("System.Type")!;
         }
 
         public static INamedTypeSymbol Object(
-            this Compilation compilation
+            this ITypeInfoProvider typeInfoProvider
             )
         {
-            if (compilation is null)
+            if (typeInfoProvider is null)
             {
-                throw new ArgumentNullException(nameof(compilation));
+                throw new ArgumentNullException(nameof(typeInfoProvider));
             }
 
-            return compilation.GetTypeByMetadataName("System.Object")!;
+            return typeInfoProvider.GetTypeByMetadataName("System.Object")!;
         }
 
         public static INamedTypeSymbol Bool(
-            this Compilation compilation
+            this ITypeInfoProvider typeInfoProvider
             )
         {
-            if (compilation is null)
+            if (typeInfoProvider is null)
             {
-                throw new ArgumentNullException(nameof(compilation));
+                throw new ArgumentNullException(nameof(typeInfoProvider));
             }
 
-            return compilation.GetTypeByMetadataName("System.Boolean")!;
+            return typeInfoProvider.GetTypeByMetadataName("System.Boolean")!;
         }
 
         public static INamedTypeSymbol Void(
-            this Compilation compilation
+            this ITypeInfoProvider typeInfoProvider
             )
         {
-            if (compilation is null)
+            if (typeInfoProvider is null)
             {
-                throw new ArgumentNullException(nameof(compilation));
+                throw new ArgumentNullException(nameof(typeInfoProvider));
             }
 
-            return compilation.GetTypeByMetadataName("System.Void")!;
+            return typeInfoProvider.GetTypeByMetadataName("System.Void")!;
         }
     }
 }

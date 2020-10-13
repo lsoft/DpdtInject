@@ -10,7 +10,7 @@ namespace DpdtInject.TestCaseProducer
 {
     class Program
     {
-        public const int BindCount = 50;
+        public const int BindCount = 10;
         public const ScopeTypeEnum Scope = ScopeTypeEnum.Singleton;
 
         public static int Seed =

@@ -1,4 +1,6 @@
-﻿using DpdtInject.Injector;
+﻿using DpdtInject.Generator.Helpers;
+using DpdtInject.Generator.TypeInfo;
+using DpdtInject.Injector;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
@@ -21,7 +23,7 @@ namespace DpdtInject.Generator.ArgumentWrapper
 
         public static IEnumerable<(DpdtArgumentWrapperTypeEnum, ITypeSymbol)> GenerateWrapperTypes(
             this ITypeSymbol type,
-            Compilation compilation,
+            ITypeInfoProvider typeInfoProvider,
             bool includeNone
             )
         {
@@ -38,8 +40,7 @@ namespace DpdtInject.Generator.ArgumentWrapper
                         wrapperSymbol = type;
                         break;
                     case DpdtArgumentWrapperTypeEnum.Func:
-                        var createdByMetadata = compilation.GetTypeByMetadataName("System.Func`1")!;
-                        wrapperSymbol = createdByMetadata.Construct(type);
+                        wrapperSymbol = typeInfoProvider.Func(type);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(wrapperType.ToString());

@@ -1,9 +1,13 @@
-﻿using DpdtInject.Generator.Reporter;
+﻿using DpdtInject.Generator.Helpers;
+using DpdtInject.Generator.Reporter;
+using DpdtInject.Generator.TypeInfo;
 using DpdtInject.Injector;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.FindSymbols;
 using Microsoft.CodeAnalysis.Text;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -29,10 +33,6 @@ namespace DpdtInject.Generator
                     context
                     );
 
-                var internalGenerator = new DpdtInternalGenerator(
-                    diagnosticReporter
-                    );
-
                 var needToStoreGeneratedSources = context.AnalyzerConfigOptions.GlobalOptions.TryGetValue(
                     $"build_property.Dpdt_Generator_GeneratedSourceFolder",
                     out var generatedSourceFolder
@@ -42,6 +42,16 @@ namespace DpdtInject.Generator
                     Path.GetFullPath(
                         generatedSourceFolder ?? "Dpdt.Pregenerated"
                         );
+
+                var typeInfoContainer = new GeneratorTypeInfoContainer(
+                    ref context,
+                    needToStoreGeneratedSources,
+                    generatedSourceFolderFullPath
+                    );
+
+                var internalGenerator = new DpdtInternalGenerator(
+                    diagnosticReporter
+                    );
 
                 if (needToStoreGeneratedSources)
                 {
@@ -53,30 +63,14 @@ namespace DpdtInject.Generator
                     Directory.CreateDirectory(generatedSourceFolderFullPath);
                 }
 
-                var unitsGenerated = 0;
-                foreach (var modificationDescription in internalGenerator.Execute(
-                    context.Compilation,
-                    null))
-                {
-                    if (needToStoreGeneratedSources)
-                    {
-                        File.WriteAllText(
-                            Path.Combine(generatedSourceFolderFullPath, modificationDescription.NewFileName),
-                            modificationDescription.NewFileBody
-                            );
-                    }
-
-                    context.AddSource(
-                        modificationDescription.NewFileName,
-                        SourceText.From(modificationDescription.NewFileBody, Encoding.UTF8)
-                        );
-
-                    unitsGenerated++;
-                }
+                internalGenerator.Execute(
+                    typeInfoContainer,
+                    null
+                    );
 
                 diagnosticReporter.ReportWarning(
                     "Dpdt generator successfully finished its work",
-                    $"Dpdt generator successfully finished its work, {unitsGenerated} compilation unit(s) generated."
+                    $"Dpdt generator successfully finished its work, {typeInfoContainer.UnitsGenerated} compilation unit(s) generated."
                     );
             }
             catch (Exception excp)

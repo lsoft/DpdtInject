@@ -63,7 +63,9 @@ Runtime=.NET Core 3.1  Server=True
 | DpdtInject.Tests.Performance.NonGeneric.Transient | Microresolver | NonGenericTransient |  81.541 ns | 1.7322 ns | 3.4991 ns |  80.248 ns | 0.0188 |     - |     - |     144 B |
 ```
 
-Few more numbers for complex tree total of 1000 bindings (make note NonGeneric now is faster than Generic for DryIoc and Microresolver):
+Make note: Dpdt's timings is Fast < Generic < NonGeneric (from fastest to slowest), but for DryIoc and Microresolver is NonGeneric < Generic (reverse order). Interesting!
+
+Few more numbers for complex tree total of 1000 bindings:
 
 ``` ini
 

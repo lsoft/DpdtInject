@@ -2,6 +2,7 @@
 using DpdtInject.Generator.Binding;
 using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Parser.Binding;
+using DpdtInject.Generator.TypeInfo;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
@@ -17,19 +18,19 @@ namespace DpdtInject.Generator.Producer
 
     internal class TransientInstanceProducer : IInstanceProducer
     {
-        private readonly Compilation _compilation;
+        private readonly ITypeInfoProvider _typeInfoProvider;
         private readonly ClusterBindings _clusterBindings;
         private readonly BindingContainerExtender _bindingExtender;
 
         public TransientInstanceProducer(
-            Compilation compilation,
+            ITypeInfoProvider typeInfoProvider,
             ClusterBindings clusterBindings,
             BindingContainerExtender bindingExtender
             )
         {
-            if (compilation is null)
+            if (typeInfoProvider is null)
             {
-                throw new ArgumentNullException(nameof(compilation));
+                throw new ArgumentNullException(nameof(typeInfoProvider));
             }
 
             if (clusterBindings is null)
@@ -41,7 +42,7 @@ namespace DpdtInject.Generator.Producer
             {
                 throw new ArgumentNullException(nameof(bindingExtender));
             }
-            _compilation = compilation;
+            _typeInfoProvider = typeInfoProvider;
             _clusterBindings = clusterBindings;
             _bindingExtender = bindingExtender;
         }
@@ -66,7 +67,7 @@ namespace DpdtInject.Generator.Producer
             {
                 predicateMethod = new MethodProduct(
                     $"CheckPredicate_{_bindingExtender.BindingContainer.GetStableSuffix()}_{ _bindingExtender.BindingContainer.BindToType.ToDisplayString().EscapeSpecialTypeSymbols()}",
-                    _compilation.Bool(),
+                    _typeInfoProvider.Bool(),
                     (methodName, returnType) => $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
 private {returnType.ToDisplayString()} {methodName}(IResolutionTarget resolutionTarget)
@@ -98,7 +99,7 @@ private {returnType.ToDisplayString()} {methodName}(
 
             var funcMethod = new MethodProduct(
                 $"GetInstance_{_bindingExtender.BindingContainer.GetStableSuffix()}_{ _bindingExtender.BindingContainer.BindToType.ToDisplayString().EscapeSpecialTypeSymbols()}{DpdtArgumentWrapperTypeEnum.Func.GetPostfix()}",
-                _compilation.Func(_bindingExtender.BindingContainer.BindToType),
+                _typeInfoProvider.Func(_bindingExtender.BindingContainer.BindToType),
                 (methodName, returnType) => $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
 private {returnType.ToDisplayString()} {methodName}(

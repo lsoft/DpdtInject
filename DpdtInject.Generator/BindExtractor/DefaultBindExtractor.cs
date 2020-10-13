@@ -1,6 +1,7 @@
 ﻿using DpdtInject.Generator.Binding;
 using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Parser.Binding;
+using DpdtInject.Generator.TypeInfo;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
 using DpdtInject.Injector.Module.Bind;
@@ -17,20 +18,19 @@ namespace DpdtInject.Generator.BindExtractor
     {
         public static readonly string ComplexSeparator = "," + Environment.NewLine;
 
-        private readonly Compilation _compilation;
+        private readonly ITypeInfoProvider _typeInfoProvider;
         private readonly CompilationUnitSyntax _compilationUnitSyntax;
         private readonly SemanticModel _semanticModel;
-
         private readonly List<IBindingContainer> _bindingContainers;
 
         public DefaultBindExtractor(
-            Compilation compilation,
+            ITypeInfoProvider typeInfoProvider,
             CompilationUnitSyntax compilationUnitSyntax
             )
         {
-            if (compilation is null)
+            if (typeInfoProvider is null)
             {
-                throw new ArgumentNullException(nameof(compilation));
+                throw new ArgumentNullException(nameof(typeInfoProvider));
             }
 
             if (compilationUnitSyntax is null)
@@ -38,9 +38,9 @@ namespace DpdtInject.Generator.BindExtractor
                 throw new ArgumentNullException(nameof(compilationUnitSyntax));
             }
 
-            _compilation = compilation;
+            _typeInfoProvider = typeInfoProvider;
             _compilationUnitSyntax = compilationUnitSyntax;
-            _semanticModel = _compilation.GetSemanticModel(compilationUnitSyntax.SyntaxTree);
+            _semanticModel = typeInfoProvider.GetSemanticModel(compilationUnitSyntax.SyntaxTree);
 
             _bindingContainers = new List<IBindingContainer>();
         }
@@ -181,7 +181,7 @@ namespace DpdtInject.Generator.BindExtractor
                 toFactory
                 );
 
-            var fullBindToTypeName = _compilation.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
+            var fullBindToTypeName = _typeInfoProvider.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
             if (fullBindToTypeName == null)
             {
                 throw new DpdtException(
@@ -191,7 +191,7 @@ namespace DpdtInject.Generator.BindExtractor
             }
 
             var caExtractor = new ConstructorArgumentExtractor(
-                _compilation,
+                _typeInfoProvider,
                 _semanticModel
                 );
             caExtractor.Visit(expressionNode);
@@ -254,7 +254,7 @@ namespace DpdtInject.Generator.BindExtractor
                 toFactory
                 );
 
-            var fullBindToTypeName = _compilation.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
+            var fullBindToTypeName = _typeInfoProvider.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
             if (fullBindToTypeName == null)
             {
                 throw new DpdtException(
@@ -264,7 +264,7 @@ namespace DpdtInject.Generator.BindExtractor
             }
 
             var caExtractor = new ConstructorArgumentExtractor(
-                _compilation,
+                _typeInfoProvider,
                 _semanticModel
                 );
             caExtractor.Visit(expressionNode);
@@ -327,7 +327,7 @@ namespace DpdtInject.Generator.BindExtractor
                 toFactory
                 );
 
-            var fullBindToTypeName = _compilation.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
+            var fullBindToTypeName = _typeInfoProvider.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
             if (fullBindToTypeName == null)
             {
                 throw new DpdtException(
@@ -337,7 +337,7 @@ namespace DpdtInject.Generator.BindExtractor
             }
 
             var caExtractor = new ConstructorArgumentExtractor(
-                _compilation,
+                _typeInfoProvider,
                 _semanticModel
                 );
             caExtractor.Visit(expressionNode);

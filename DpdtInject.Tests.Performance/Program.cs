@@ -17,14 +17,28 @@ namespace DpdtInject.Tests.Performance
             //    );
 
             var summary0 = BenchmarkRunner.Run(
-                typeof(DpdtInject.Tests.Performance.TimeConsume.BigTree0.Dpdt)
+                typeof(DpdtInject.Tests.Performance.Generic.Singleton.Microresolver)
                 );
             var summary1 = BenchmarkRunner.Run(
-                typeof(DpdtInject.Tests.Performance.TimeConsume.BigTree0.DryIoc)
+                typeof(DpdtInject.Tests.Performance.NonGeneric.Singleton.Microresolver)
                 );
             var summary2 = BenchmarkRunner.Run(
-                typeof(DpdtInject.Tests.Performance.TimeConsume.BigTree0.Microresolver)
+                typeof(DpdtInject.Tests.Performance.Generic.Singleton.DryIoc)
                 );
+            var summary3 = BenchmarkRunner.Run(
+                typeof(DpdtInject.Tests.Performance.NonGeneric.Singleton.DryIoc)
+                );
+
+
+            //var summary0 = BenchmarkRunner.Run(
+            //    typeof(DpdtInject.Tests.Performance.TimeConsume.BigTree0.Dpdt)
+            //    );
+            //var summary1 = BenchmarkRunner.Run(
+            //    typeof(DpdtInject.Tests.Performance.TimeConsume.BigTree0.DryIoc)
+            //    );
+            //var summary2 = BenchmarkRunner.Run(
+            //    typeof(DpdtInject.Tests.Performance.TimeConsume.BigTree0.Microresolver)
+            //    );
         }
     }
 

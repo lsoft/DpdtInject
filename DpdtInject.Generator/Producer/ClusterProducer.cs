@@ -1,6 +1,7 @@
 ﻿using DpdtInject.Generator.ArgumentWrapper;
 using DpdtInject.Generator.Binding;
 using DpdtInject.Generator.Parser.Binding;
+using DpdtInject.Generator.TypeInfo;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Helper;
 using DpdtInject.Injector.Module.Bind;
@@ -18,7 +19,7 @@ namespace DpdtInject.Generator.Producer
 {
     internal class ClusterProducer
     {
-        private readonly Compilation _compilation;
+        private readonly ITypeInfoProvider _typeInfoProvider;
 
         public ClusterBindings ClusterBindings
         {
@@ -26,20 +27,20 @@ namespace DpdtInject.Generator.Producer
         }
 
         public ClusterProducer(
-            Compilation compilation,
+            ITypeInfoProvider typeInfoProvider,
             ClusterBindings clusterBindings
             )
         {
-            if (compilation is null)
+            if (typeInfoProvider is null)
             {
-                throw new ArgumentNullException(nameof(compilation));
+                throw new ArgumentNullException(nameof(typeInfoProvider));
             }
 
             if (clusterBindings is null)
             {
                 throw new ArgumentNullException(nameof(clusterBindings));
             }
-            _compilation = compilation;
+            _typeInfoProvider = typeInfoProvider;
             ClusterBindings = clusterBindings;
         }
 
@@ -57,28 +58,28 @@ namespace DpdtInject.Generator.Producer
                 {
                     case Injector.Module.Bind.BindScopeEnum.Transient:
                         instanceProducer = new TransientInstanceProducer(
-                            _compilation,
+                            _typeInfoProvider,
                             ClusterBindings,
                             bindingExtender
                             );
                         break;
                     case Injector.Module.Bind.BindScopeEnum.Singleton:
                         instanceProducer = new SingletonInstanceProducer(
-                            _compilation,
+                            _typeInfoProvider,
                             ClusterBindings,
                             bindingExtender
                             );
                         break;
                     case Injector.Module.Bind.BindScopeEnum.Constant:
                         instanceProducer = new ConstantInstanceProducer(
-                            _compilation,
+                            _typeInfoProvider,
                             ClusterBindings,
                             bindingExtender
                             );
                         break;
                     case Injector.Module.Bind.BindScopeEnum.Custom:
                         instanceProducer = new CustomInstanceProducer(
-                            _compilation,
+                            _typeInfoProvider,
                             ClusterBindings,
                             bindingExtender
                             );
@@ -95,7 +96,7 @@ namespace DpdtInject.Generator.Producer
             foreach (var bindFrom in ClusterBindings.BindsFrom)
             {
                 var resolutionInterfaceProducer = new BindFromResolutionProducer(
-                    _compilation,
+                    _typeInfoProvider,
                     ClusterBindings,
                     bindFrom,
                     instanceProducts

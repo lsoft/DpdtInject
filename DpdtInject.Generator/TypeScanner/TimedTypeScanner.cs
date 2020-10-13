@@ -1,4 +1,5 @@
-﻿using DpdtInject.Injector;
+﻿using DpdtInject.Generator.TypeInfo;
+using DpdtInject.Injector;
 using DpdtInject.Injector.Compilation;
 using Microsoft.CodeAnalysis;
 using System;
@@ -30,11 +31,11 @@ namespace DpdtInject.Generator.Scanner
             _typeScanner = typeScanner;
         }
 
-        public IReadOnlyList<INamedTypeSymbol> Scan(Compilation compilation)
+        public IReadOnlyList<INamedTypeSymbol> Scan(ITypeInfoProvider typeInfoProvider)
         {
             using (new DTimer(_diagnosticReporter, "Dpdt scan for types taken"))
             {
-                return _typeScanner.Scan(compilation);
+                return _typeScanner.Scan(typeInfoProvider);
             }
         }
     }

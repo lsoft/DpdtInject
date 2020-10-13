@@ -1,5 +1,6 @@
 ﻿using DpdtInject.Generator.Binding;
 using DpdtInject.Generator.Helpers;
+using DpdtInject.Generator.TypeInfo;
 using DpdtInject.Injector.Module.Bind;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -12,24 +13,24 @@ namespace DpdtInject.Generator.BindExtractor
     public class ConstructorArgumentExtractor : CSharpSyntaxRewriter
     {
         private readonly List<DetectedConstructorArgument> _constructorArguments;
-        private readonly Compilation _compilation;
+        private readonly ITypeInfoProvider _typeInfoProvider;
         private readonly SemanticModel _semanticModel;
 
         public ConstructorArgumentExtractor(
-            Compilation compilation,
+            ITypeInfoProvider typeInfoProvider,
             SemanticModel semanticModel
             )
         {
-            if (compilation is null)
+            if (typeInfoProvider is null)
             {
-                throw new ArgumentNullException(nameof(compilation));
+                throw new ArgumentNullException(nameof(typeInfoProvider));
             }
 
             if (semanticModel is null)
             {
                 throw new ArgumentNullException(nameof(semanticModel));
             }
-            _compilation = compilation;
+            _typeInfoProvider = typeInfoProvider;
             _semanticModel = semanticModel;
 
             _constructorArguments = new List<DetectedConstructorArgument>();

@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using DpdtInject.Generator.TypeInfo;
+using Microsoft.CodeAnalysis;
 using System.Collections.Generic;
 
 namespace DpdtInject.Generator.Scanner
@@ -6,7 +7,7 @@ namespace DpdtInject.Generator.Scanner
     public interface ITypeScanner
     {
         IReadOnlyList<INamedTypeSymbol> Scan(
-            Compilation compilation
+            ITypeInfoProvider typeInfoProvider
             );
     }
 }
