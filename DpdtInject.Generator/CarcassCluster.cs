@@ -265,6 +265,15 @@ namespace DpdtInject.Generator
 
         #endregion
 
+        #region GetFast
+
+        public TR GetFast<TR>(TR unused)
+        {
+            return RaiseNoBindingAvailable<TR>();
+        }
+
+        #endregion
+
 
         #region cross cluster methods
 

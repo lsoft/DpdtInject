@@ -52,5 +52,16 @@ namespace DpdtInject.Generator
             }
         }
 
+        public void SaveToDisk(
+            string generatedFilePath
+            )
+        {
+            if (generatedFilePath is null)
+            {
+                throw new ArgumentNullException(nameof(generatedFilePath));
+            }
+
+            File.WriteAllText(generatedFilePath, NewFileBody);
+        }
     }
 }

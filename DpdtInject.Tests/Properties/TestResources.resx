@@ -196,6 +196,9 @@
   <data name="ConditionalNonGenericOnlyOneInMiddle_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Conditional\NonGeneric\OnlyOneInMiddle\ConditionalNonGenericOnlyOneInMiddle_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="FactorySimple0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Factory\Simple0\FactorySimple0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="GetAllGenericHierarchy2Conditional_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\GetAll\Generic\Hierarchy2Conditional\GetAllGenericHierarchy2Conditional_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>

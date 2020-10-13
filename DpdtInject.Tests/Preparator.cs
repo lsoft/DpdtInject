@@ -98,10 +98,7 @@ namespace DpdtInject.Tests
 
                 var modificationDescriptions = internalGenerator.Execute(
                     compilation,
-                    index => Path.Combine(
-                        new FileInfo(_callerFilePath).Directory.FullName,
-                        _clusterFileName
-                        ) + $".Pregenerated{index}.cs"
+                    new FileInfo(_callerFilePath).Directory.FullName
                     );
 
                 foreach (var modificationDescription in modificationDescriptions)

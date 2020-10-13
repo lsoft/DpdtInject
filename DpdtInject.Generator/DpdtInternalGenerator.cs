@@ -1,6 +1,7 @@
 ﻿using DpdtInject.Generator.BindExtractor;
 using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Producer;
+using DpdtInject.Generator.Producer.Factory;
 using DpdtInject.Generator.Scanner;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Compilation;
@@ -32,14 +33,14 @@ namespace DpdtInject.Generator
 
         public IReadOnlyList<ModificationDescription> Execute(
             Compilation compilation,
-            Func<int, string>? generatedFilePathFunc
+            string? generatedFolder
             )
         {
             using (new DTimer(_diagnosticReporter, "Dpdt total time taken"))
             {
                 var result = ExecutePrivate(
                     compilation,
-                    generatedFilePathFunc
+                    generatedFolder
                 );
 
                 return result;
@@ -48,7 +49,7 @@ namespace DpdtInject.Generator
 
         private IReadOnlyList<ModificationDescription> ExecutePrivate(
             Compilation compilation,
-            Func<int, string>? generatedFilePathFunc
+            string? generatedFolder
             )
         {
             if (compilation is null)
@@ -125,6 +126,39 @@ namespace DpdtInject.Generator
                     _diagnosticReporter
                     );
 
+                var factoryProducer = new FactoryProducer(
+                    compilation,
+                    clusterBindings
+                    );
+
+                foreach (var factoryProduct in factoryProducer.Produce())
+                {
+                    var fileName = $"{factoryProduct.FactoryType.ToDisplayString().EscapeSpecialTypeSymbols()}.cs";
+
+                    ModificationDescription factoryModificationDescription;
+                    using (new DTimer(_diagnosticReporter, $"Dpdt factory {factoryProduct.FactoryType.ToDisplayString()} beautify generated code time taken"))
+                    {
+                        factoryModificationDescription = new ModificationDescription(
+                            clusterType,
+                            fileName,
+                            factoryProduct.SourceCode,
+                            generatedFolder is not null
+                            );
+                    }
+
+                    if (generatedFolder is not null)
+                    {
+                        var generatedFilePath = Path.Combine(generatedFolder, fileName);
+
+                        factoryModificationDescription.SaveToDisk(
+                            generatedFilePath
+                            );
+                    }
+
+                    result.Add(factoryModificationDescription);
+                }
+
+
                 var clusterProducer = new ClusterProducer(
                     compilation,
                     clusterBindings
@@ -133,28 +167,23 @@ namespace DpdtInject.Generator
                 var moduleSourceCode = clusterProducer.Produce();
 
                 ModificationDescription modificationDescription;
-                using (new DTimer(_diagnosticReporter, "Dpdt beautify generated code time taken"))
+                using (new DTimer(_diagnosticReporter, "Dpdt cluster beautify generated code time taken"))
                 {
                     modificationDescription = new ModificationDescription(
                         clusterType,
                         clusterType.Name + Guid.NewGuid().RemoveMinuses() + "_1.cs",
                         moduleSourceCode,
-                        generatedFilePathFunc is not null
+                        generatedFolder is not null
                         );
                 }
 
-                if (generatedFilePathFunc is not null)
+                if (generatedFolder is not null)
                 {
-                    //var generatedSource = string.Join(Environment.NewLine,
-                    //    modificationDescription.NewFileBody
-                    //        .Split(new[] { Environment.NewLine }, StringSplitOptions.None)
-                    //        .Select(l => "//" + l)
-                    //    );
-                    var generatedSource = modificationDescription.NewFileBody;
+                    var generatedFilePath = Path.Combine(generatedFolder, $"{clusterType.Name}.Pregenerated{clusterTypeIndex}.cs");
 
-                    var generatedFilePath = generatedFilePathFunc(clusterTypeIndex);
-
-                    File.WriteAllText(generatedFilePath, generatedSource);
+                    modificationDescription.SaveToDisk(
+                        generatedFilePath
+                        );
                 }
 
                 result.Add(modificationDescription);

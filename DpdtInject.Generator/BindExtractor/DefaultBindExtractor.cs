@@ -177,7 +177,8 @@ namespace DpdtInject.Generator.BindExtractor
 
             CheckForFromAndToTypes(
                 bindFromTypeSemantics,
-                bindToTypeSemantic
+                bindToTypeSemantic,
+                toFactory
                 );
 
             var fullBindToTypeName = _compilation.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
@@ -249,7 +250,8 @@ namespace DpdtInject.Generator.BindExtractor
 
             CheckForFromAndToTypes(
                 bindFromTypeSemantics,
-                bindToTypeSemantic
+                bindToTypeSemantic,
+                toFactory
                 );
 
             var fullBindToTypeName = _compilation.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
@@ -321,7 +323,8 @@ namespace DpdtInject.Generator.BindExtractor
 
             CheckForFromAndToTypes(
                 bindFromTypeSemantics,
-                bindToTypeSemantic
+                bindToTypeSemantic,
+                toFactory
                 );
 
             var fullBindToTypeName = _compilation.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
@@ -466,7 +469,8 @@ namespace DpdtInject.Generator.BindExtractor
 
         private void CheckForFromAndToTypes(
             List<ITypeSymbol> bindFromTypeSemantics,
-            ITypeSymbol bindToTypeSemantic
+            ITypeSymbol bindToTypeSemantic,
+            bool toFactory
             )
         {
             if (bindFromTypeSemantics is null)
@@ -489,16 +493,42 @@ namespace DpdtInject.Generator.BindExtractor
                     );
             }
 
-            //check for cast exists
-            foreach (var bindFromSemantic in bindFromTypeSemantics)
+            if (!toFactory)
             {
-                if (!bindToTypeSemantic.CanBeCastedTo(bindFromSemantic.ToDisplayString()))
+                //check for cast exists
+                foreach (var bindFromSemantic in bindFromTypeSemantics)
                 {
-                    throw new DpdtException(
-                        DpdtExceptionTypeEnum.IncorrectBinding_CantCast,
-                        $"Type [{bindToTypeSemantic.ToDisplayString()}] cannot be casted to [{bindFromSemantic.ToDisplayString()}]",
-                        bindToTypeSemantic.ToDisplayString()
-                        );
+                    if (!bindToTypeSemantic.CanBeCastedTo(bindFromSemantic.ToDisplayString()))
+                    {
+                        throw new DpdtException(
+                            DpdtExceptionTypeEnum.IncorrectBinding_CantCast,
+                            $"Type [{bindToTypeSemantic.ToDisplayString()}] cannot be casted to [{bindFromSemantic.ToDisplayString()}]",
+                            bindToTypeSemantic.ToDisplayString()
+                            );
+                    }
+                }
+            }
+            else
+            {
+                //check for partial clause
+                if (bindToTypeSemantic.DeclaringSyntaxReferences.Length > 1)
+                {
+                    //it's partial!
+                }
+                else
+                {
+                    var syntax = bindToTypeSemantic.DeclaringSyntaxReferences[0].GetSyntax();
+                    if(syntax is ClassDeclarationSyntax cds)
+                    {
+                        if(!cds.Modifiers.Any(m => m.IsKind(SyntaxKind.PartialKeyword)))
+                        {
+                            throw new DpdtException(
+                                DpdtExceptionTypeEnum.TargetClassMustBePartial,
+                                $"Type [{bindToTypeSemantic.ToDisplayString()}] must be partial",
+                                bindToTypeSemantic.ToDisplayString()
+                                );
+                        }
+                    }
                 }
             }
         }

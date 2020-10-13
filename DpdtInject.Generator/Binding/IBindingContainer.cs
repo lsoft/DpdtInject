@@ -58,6 +58,11 @@ namespace DpdtInject.Generator.Parser.Binding
             get;
         }
 
+        bool ToFactory
+        { 
+            get;
+        }
+
         string GetFromTypeFullNamesCombined(string separator = "_");
 
         //string PrepareInstanceContainerCode(

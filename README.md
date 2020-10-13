@@ -169,6 +169,30 @@ Each resolution call results with new instance. `Dispose` for targets will not b
 
 Constant scope is a scope when the cluster receive an outside-created object. Its `Dispose` will not be invoked, because the cluster was not a parent of the constant object.
 
+### Custom
+
+```csharp
+            Bind<IA>()
+                .To<A>()
+                .WithCustomScope()
+                ;
+
+...
+
+            using(var scope1 = cluster.CreateCustomScope())
+            {
+                var a1 = cluster.Get<IA>(scope1);
+
+                using(var scope2 = cluster.CreateCustomScope())
+                {
+                    var a2 = cluster.Get<IA>(scope2);
+                }
+            }
+```
+
+`IDisposable` custom-binded objects will be disposed at the moment of the scope object dispose. Keep in mind, custom-scoped bindings are resolved much slower than singleton/transient/constant bindings.
+
+
 ## Conditional binding
 
 Each bind clause may have an additional filter e.g.
@@ -219,29 +243,6 @@ If for some binding more than 1 unconditional child exists it renders parent unr
 The life cycle of the cluster begins by creating it with `new`. The cluster can take other cluster as its parent, so each unknown dependency will be resolved from the parent (if parent exists, otherwise exception would be thrown).
 
 The end of the life cycle of a cluster occurs after the call to its `Dispose` method. At this point, all of its disposable singleton bindings are also being disposed. It is prohibited to dispose of the cluster and use it for resolving in parallel . It is forbidden to resolve after a `Dispose`.
-
-## Custom scopes
-
-```csharp
-            Bind<IA>()
-                .To<A>()
-                .WithCustomScope()
-                ;
-
-...
-
-            using(var scope1 = cluster.CreateCustomScope())
-            {
-                var a1 = cluster.Get<IA>(scope1);
-
-                using(var scope2 = cluster.CreateCustomScope())
-                {
-                    var a2 = cluster.Get<IA>(scope2);
-                }
-            }
-```
-
-`IDisposable` custom-binded objects will be disposed at the moment of the scope object dispose. Keep in mind, custom-scoped bindings are resolved much slower than singleton/transient/constant bindings.
 
 ## Child clusters
 
