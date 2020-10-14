@@ -97,118 +97,122 @@ namespace DpdtInject.Generator
                 );
         }
 
-        #region IsRegisteredFrom<> and IsRegisteredFrom(Type)
+#region IsRegisteredFrom<> and IsRegisteredFrom(Type)
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //GENERATOR: aggressive inline and optimize
         public bool IsRegisteredFrom<T>()
         {
             return this is IResolution<T>;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //GENERATOR: aggressive inline and optimize
         public bool IsRegisteredFrom(System.Type requestedType)
         {
             return _typeContainerGet.IsRegisteredFrom(requestedType);
         }
 
-        #endregion
+#endregion
 
-        #region Get<>
+#region Get<>
 
+        //GENERATOR: aggressive inline and optimize
         public T Get<T>()
         {
-            return ((IResolution<T>)this).Get(
-                null
-                );
-
-            //if (this is IResolution<T> r)
-            //{
-            //    return r.Get(
-            //        null
-            //        );
-            //}
-
-            //throw new DpdtException(
-            //    DpdtExceptionTypeEnum.NoBindingAvailable,
-            //    $"No bindings available for {typeof(T).FullName}",
-            //    typeof(T).FullName
+            //return ((IResolution<T>)this).Get(
+            //    null
             //    );
+
+            if (this is IResolution<T> r)
+            {
+                return r.Get(
+                    null
+                    );
+            }
+            else
+            {
+                return RaiseNoBindingAvailable<T>();
+            }
         }
 
+        //GENERATOR: aggressive inline and optimize
         public T Get<T>(CustomScopeObject customScope)
         {
-            return ((IResolution<T>)this).Get(
-                    new ResolutionRequest<CarcassCluster, T>(
-                        false,
-                        customScope
-                        )
-                );
-
-            //if (this is IResolution<T> r)
-            //{
-            //    return r.Get(
+            //return ((IResolution<T>)this).Get(
             //        new ResolutionRequest<CarcassCluster, T>(
             //            false,
             //            customScope
             //            )
-            //        );
-            //}
-
-            //throw new DpdtException(
-            //    DpdtExceptionTypeEnum.NoBindingAvailable,
-            //    $"No bindings available for {typeof(T).FullName}",
-            //    typeof(T).FullName
             //    );
+
+            if (this is IResolution<T> r)
+            {
+                return r.Get(
+                    new ResolutionRequest<CarcassCluster, T>(
+                        false,
+                        customScope
+                        )
+                    );
+            }
+            else
+            {
+                return RaiseNoBindingAvailable<T>();
+            }
         }
 
         #endregion
 
         #region GetAll<>
 
+        //GENERATOR: aggressive inline and optimize
         public List<T> GetAll<T>()
         {
-            return ((IResolution<T>)this).GetAll(
-                null
-                );
-
-            //if (this is IResolution<T> r)
-            //{
-            //    return r.GetAll(
-            //        null
-            //        );
-            //}
-
-            //throw new DpdtException(
-            //    DpdtExceptionTypeEnum.NoBindingAvailable,
-            //    $"No bindings available for {typeof(T).FullName}",
-            //    typeof(T).FullName
+            //return ((IResolution<T>)this).GetAll(
+            //    null
             //    );
+
+            if (this is IResolution<T> r)
+            {
+                return r.GetAll(
+                    null
+                    );
+            }
+            else
+            {
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.NoBindingAvailable,
+                    $"No bindings available for {typeof(T).FullName}",
+                    typeof(T).FullName
+                    );
+            }
         }
 
+        //GENERATOR: aggressive inline and optimize
         public List<T> GetAll<T>(CustomScopeObject customScope)
         {
-            return ((IResolution<T>)this).GetAll(
-                    new ResolutionRequest<CarcassCluster, T>(
-                        true,
-                        customScope
-                        )
-                );
-
-            //if (this is IResolution<T> r)
-            //{
-            //    return r.GetAll(
+            //return ((IResolution<T>)this).GetAll(
             //        new ResolutionRequest<CarcassCluster, T>(
             //            true,
             //            customScope
             //            )
-            //        );
-            //}
-
-            //throw new DpdtException(
-            //    DpdtExceptionTypeEnum.NoBindingAvailable,
-            //    $"No bindings available for {typeof(T).FullName}",
-            //    typeof(T).FullName
             //    );
+
+            if (this is IResolution<T> r)
+            {
+                return r.GetAll(
+                    new ResolutionRequest<CarcassCluster, T>(
+                        true,
+                        customScope
+                        )
+                    );
+            }
+            else
+            {
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.NoBindingAvailable,
+                    $"No bindings available for {typeof(T).FullName}",
+                    typeof(T).FullName
+                    );
+            }
         }
 
         #endregion
@@ -236,9 +240,9 @@ namespace DpdtInject.Generator
             return result;
         }
 
-        #endregion
+#endregion
 
-        #region GetAll(Type)
+#region GetAll(Type)
 
 
         public IEnumerable<object> GetAll(Type requestedType)
@@ -263,19 +267,19 @@ namespace DpdtInject.Generator
             return (IEnumerable<object>)result;
         }
 
-        #endregion
+#endregion
 
-        #region GetFast
+#region GetFast
 
         public TR GetFast<TR>(TR unused)
         {
             return RaiseNoBindingAvailable<TR>();
         }
 
-        #endregion
+#endregion
 
 
-        #region cross cluster methods
+#region cross cluster methods
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public T GetToChild<T>(IResolutionRequest resolutionRequest)
@@ -313,9 +317,9 @@ namespace DpdtInject.Generator
                 );
         }
 
-        #endregion
+#endregion
 
-        #region private cluster methods
+#region private cluster methods
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private T GetFromLocalUnsafely<T>(
@@ -338,11 +342,10 @@ namespace DpdtInject.Generator
         }
 
 
-        #endregion
+#endregion
 
-        #region raise exceptions
+#region raise exceptions
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private T RaiseNoCustomScopeObject<T>()
         {
             throw new DpdtException(
@@ -352,7 +355,6 @@ namespace DpdtInject.Generator
                 );
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private T RaiseNoBindingAvailable<T>()
         {
             throw new DpdtException(
@@ -362,7 +364,6 @@ namespace DpdtInject.Generator
                 );
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private T RaiseTooManyBindingException<T>()
         {
             throw new DpdtException(
@@ -372,16 +373,16 @@ namespace DpdtInject.Generator
                 );
         }
 
-        #endregion
+#endregion
 
-        #region intance interface providers
+#region intance interface providers
         //GENERATOR: place for an intance interface providers
-        #endregion
+#endregion
 
 
-        #region intance object producers
+#region intance object producers
         //GENERATOR: place for an intance object producers
-        #endregion
+#endregion
 
     }
 }

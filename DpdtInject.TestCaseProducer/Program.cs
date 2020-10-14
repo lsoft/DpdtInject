@@ -10,7 +10,7 @@ namespace DpdtInject.TestCaseProducer
 {
     class Program
     {
-        public const int BindCount = 10;
+        public const int BindCount = 50;
         public const ScopeTypeEnum Scope = ScopeTypeEnum.Singleton;
 
         public static int Seed =
@@ -58,6 +58,13 @@ namespace {nameSpace}
 
             #endregion
 
+            var nodeGroups = (
+                from node in createdNodes
+                group node by (createdNodes.IndexOf(node) / 50)
+                into nodegroup
+                select nodegroup
+                ).ToList();
+
             #region dpdt cluster
 
             var clusterFileName = "DpdtCluster.cs";
@@ -93,25 +100,38 @@ namespace {nameSpace}
         }}
 
 #region resolution code
+
         public static void ResolveGeneric({clusterClassName} cluster)
         {{
-            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDpdtResolutionCode(ResolveTypeEnum.Generic)))};
+            {string.Join(Environment.NewLine, nodeGroups.Select(g => $"ResolveGeneric{g.Key}(cluster);"))}
         }}
+
+        {string.Join(Environment.NewLine, nodeGroups.Select(g => $"public static void ResolveGeneric{g.Key}({clusterClassName} cluster){{ {string.Join(Environment.NewLine, g.Select(cn => cn.GetDpdtResolutionCode(ResolveTypeEnum.Generic)))} }}"))}
+
+
 
         public static void ResolveNonGeneric({clusterClassName} cluster)
         {{
-            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDpdtResolutionCode(ResolveTypeEnum.NonGeneric)))};
+            {string.Join(Environment.NewLine, nodeGroups.Select(g => $"ResolveNonGeneric{g.Key}(cluster);"))}
         }}
+
+        {string.Join(Environment.NewLine, nodeGroups.Select(g => $"public static void ResolveNonGeneric{g.Key}({clusterClassName} cluster){{ {string.Join(Environment.NewLine, g.Select(cn => cn.GetDpdtResolutionCode(ResolveTypeEnum.NonGeneric)))} }}"))}
+
+
 
         public static void ResolveFast({clusterClassName} cluster)
         {{
-            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDpdtResolutionCode(ResolveTypeEnum.Fast)))};
+            {string.Join(Environment.NewLine, nodeGroups.Select(g => $"ResolveFast{g.Key}(cluster);"))}
         }}
+
+        {string.Join(Environment.NewLine, nodeGroups.Select(g => $"public static void ResolveFast{g.Key}({clusterClassName} cluster){{ {string.Join(Environment.NewLine, g.Select(cn => cn.GetDpdtResolutionCode(ResolveTypeEnum.Fast)))} }}"))}
+
 #endregion
 
     }}
 }}
 ";
+
 
             dpdtClusterCode = SyntaxFactory.ParseCompilationUnit(dpdtClusterCode).NormalizeWhitespace().GetText().ToString();
 

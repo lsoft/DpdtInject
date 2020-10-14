@@ -141,7 +141,6 @@ Please refer to Dpdt.Injector nuget package at nuget.org. Keep in mind you need 
 0. Because of source generators, it's impossible to direclty debug your bind code, including its `When` predicates.
 0. Because of massive rewriting the body of the cluster, it's impossible to use a local variables (local methods and other local stuff) in `ConstructorArgument` and `When` predicates. To make bind works use instance based fields, properties and methods instead. To make bind debuggable use fields, properties and methods of the other, helper class.
 0. No deferred bindings by design with exception of cluster hierarchy.
-0. Because of performance reasons if binding does not exists, Dpdt throw an invalid cast exception, but no DpdtException. I'm trying to fix that without performance lost.
 0. Slower source-to-IL compilation, slower JIT compilation.
 
 ## Syntax

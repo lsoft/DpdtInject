@@ -12,22 +12,23 @@ namespace DpdtInject.Tests.Performance.ConsoleApp
             var mr = new DpdtInject.Tests.Performance.TimeConsume.BigTree0.Microresolver();
 
             Check(
+                dpdt.GetType().Name,
+                () => dpdt.Setup(),
+                () => dpdt.GenericTest()
+                );
+
+            Check(
                 dryioc.GetType().Name,
                 () => dryioc.Setup(),
-                () => dryioc.DoTest()
+                () => dryioc.GenericTest()
                 );
 
             Check(
                 mr.GetType().Name,
                 () => mr.Setup(),
-                () => mr.DoTest()
+                () => mr.GenericTest()
                 );
 
-            Check(
-                dpdt.GetType().Name,
-                () => dpdt.Setup(),
-                () => dpdt.DoTest()
-                );
         }
 
         private static void Check(

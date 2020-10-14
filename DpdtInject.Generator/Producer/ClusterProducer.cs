@@ -47,8 +47,6 @@ namespace DpdtInject.Generator.Producer
 
         public string Produce()
         {
-            var compilationUnit = DpdtInject.Generator.Properties.Resource.CarcassCluster;
-
             var instanceProducts = new List<InstanceProduct>();
 
             IInstanceProducer instanceProducer;
@@ -112,7 +110,13 @@ namespace DpdtInject.Generator.Producer
             customInstanceContainerSize *= 2; //factor of 2 for additional sparsity; 
             customInstanceContainerSize += 1; //addition of 1 is because of 0 is not allowed size for container
 
+            var compilationUnit = DpdtInject.Generator.Properties.Resource.CarcassCluster;
+
             var fixedCompilationUnit = compilationUnit
+                .CheckAndReplace(
+                    "//GENERATOR: aggressive inline and optimize",
+                    "[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]"
+                    )
                 .ReplaceLineStartsWith(
                     "namespace",
                     $"namespace {ClusterBindings.ClusterType.ContainingNamespace.ToDisplayString()}"
