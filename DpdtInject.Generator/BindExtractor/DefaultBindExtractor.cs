@@ -154,12 +154,14 @@ namespace DpdtInject.Generator.BindExtractor
 
             var toGenericNode = genericNodes[1];
             var toMethodName = toGenericNode.Identifier.Text;
-            if (toMethodName.NotIn( nameof(IToOrConstantBinding.To), nameof(IToOrConstantBinding.ToFactory) ))
+            if (toMethodName.NotIn(nameof(IToOrConstantBinding.To), nameof(IToOrConstantBinding.ToFactory)))
             {
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, "Cannot find To clause for singleton binding");
             }
 
-            var toFactory = toMethodName == nameof(IToOrConstantBinding.ToFactory);
+            var factoryPayloadSemantic = GetFactoryPayloadIfExists(
+                toGenericNode
+                );
 
             var bindFromTypeSemantics = GetBindFromTypes(
                 bindGenericNode
@@ -178,7 +180,7 @@ namespace DpdtInject.Generator.BindExtractor
             CheckForFromAndToTypes(
                 bindFromTypeSemantics,
                 bindToTypeSemantic,
-                toFactory
+                !(factoryPayloadSemantic is null)
                 );
 
             var fullBindToTypeName = _typeInfoProvider.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
@@ -207,7 +209,7 @@ namespace DpdtInject.Generator.BindExtractor
                 constructorArguments,
                 BindScopeEnum.Singleton,
                 whenArgumentClause,
-                toFactory
+                factoryPayloadSemantic
                 );
 
             _bindingContainers.Add(bindingContainer);
@@ -231,7 +233,9 @@ namespace DpdtInject.Generator.BindExtractor
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, "Cannot find To clause for transient binding");
             }
 
-            var toFactory = toMethodName == nameof(IToOrConstantBinding.ToFactory);
+            var factoryPayloadSemantic = GetFactoryPayloadIfExists(
+                toGenericNode
+                );
 
             var bindFromTypeSemantics = GetBindFromTypes(
                 bindGenericNode
@@ -239,7 +243,6 @@ namespace DpdtInject.Generator.BindExtractor
 
             var bindToSyntax = toGenericNode.TypeArgumentList.Arguments.First();
             var bindToTypeSemantic = _semanticModel.GetTypeInfo(bindToSyntax).Type;
-
             if (bindToTypeSemantic == null)
             {
                 throw new DpdtException(
@@ -251,7 +254,7 @@ namespace DpdtInject.Generator.BindExtractor
             CheckForFromAndToTypes(
                 bindFromTypeSemantics,
                 bindToTypeSemantic,
-                toFactory
+                !(factoryPayloadSemantic is null)
                 );
 
             var fullBindToTypeName = _typeInfoProvider.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
@@ -280,7 +283,7 @@ namespace DpdtInject.Generator.BindExtractor
                 constructorArguments,
                 BindScopeEnum.Transient,
                 whenArgumentClause,
-                toFactory
+                factoryPayloadSemantic
                 );
 
             _bindingContainers.Add(bindingContainer);
@@ -304,7 +307,9 @@ namespace DpdtInject.Generator.BindExtractor
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, "Cannot find To clause for custom binding");
             }
 
-            var toFactory = toMethodName == nameof(IToOrConstantBinding.ToFactory);
+            var factoryPayloadSemantic = GetFactoryPayloadIfExists(
+                toGenericNode
+                );
 
             var bindFromTypeSemantics = GetBindFromTypes(
                 bindGenericNode
@@ -324,7 +329,7 @@ namespace DpdtInject.Generator.BindExtractor
             CheckForFromAndToTypes(
                 bindFromTypeSemantics,
                 bindToTypeSemantic,
-                toFactory
+                !(factoryPayloadSemantic is null)
                 );
 
             var fullBindToTypeName = _typeInfoProvider.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
@@ -353,7 +358,7 @@ namespace DpdtInject.Generator.BindExtractor
                 constructorArguments,
                 BindScopeEnum.Custom,
                 whenArgumentClause,
-                toFactory
+                factoryPayloadSemantic
                 );
 
             _bindingContainers.Add(bindingContainer);
@@ -403,6 +408,30 @@ namespace DpdtInject.Generator.BindExtractor
             _bindingContainers.Add(bindingContainer);
         }
 
+
+
+        private ITypeSymbol? GetFactoryPayloadIfExists(
+            GenericNameSyntax toGenericNode
+            )
+        {
+            var toMethodName = toGenericNode.Identifier.Text;
+
+            ITypeSymbol? factoryPayloadSemantic = null;
+            if (toMethodName == nameof(IToOrConstantBinding.ToFactory))
+            {
+                var factoryPayloadSyntax = toGenericNode.TypeArgumentList.Arguments.Second();
+                factoryPayloadSemantic = _semanticModel.GetTypeInfo(factoryPayloadSyntax).Type;
+                if (factoryPayloadSemantic == null)
+                {
+                    throw new DpdtException(
+                        DpdtExceptionTypeEnum.InternalError,
+                        $"Unknown problem to access {nameof(factoryPayloadSemantic)}"
+                        );
+                }
+            }
+
+            return factoryPayloadSemantic;
+        }
 
         private List<ITypeSymbol> GetBindFromTypes(GenericNameSyntax bindGenericNode)
         {
@@ -495,13 +524,15 @@ namespace DpdtInject.Generator.BindExtractor
 
             if (!toFactory)
             {
+                //it's not a factory
+
                 //check for cast exists
                 foreach (var bindFromSemantic in bindFromTypeSemantics)
                 {
                     if (!bindToTypeSemantic.CanBeCastedTo(bindFromSemantic.ToDisplayString()))
                     {
                         throw new DpdtException(
-                            DpdtExceptionTypeEnum.IncorrectBinding_CantCast,
+                            DpdtExceptionTypeEnum.IncorrectBinding_IncorrectFrom,
                             $"Type [{bindToTypeSemantic.ToDisplayString()}] cannot be casted to [{bindFromSemantic.ToDisplayString()}]",
                             bindToTypeSemantic.ToDisplayString()
                             );
@@ -510,6 +541,16 @@ namespace DpdtInject.Generator.BindExtractor
             }
             else
             {
+                //it's a factory
+                if(bindFromTypeSemantics.Count > 1)
+                {
+                    throw new DpdtException(
+                        DpdtExceptionTypeEnum.IncorrectBinding_IncorrectFrom,
+                        $"It is allowed only from bind from type for factory bindings. Take a look to [{bindToTypeSemantic.ToDisplayString()}] binding.",
+                        bindToTypeSemantic.ToDisplayString()
+                        );
+                }
+
                 //check for partial clause
                 if (bindToTypeSemantic.DeclaringSyntaxReferences.Length > 1)
                 {

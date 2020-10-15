@@ -9,6 +9,16 @@ namespace DpdtInject.Injector.Helper
 {
     public static class ListHelper
     {
+        public static T Second<T>(this IEnumerable<T> c)
+        {
+            return c.Skip(1).First();
+        }
+
+        public static T? SecondOrDefault<T>(this IEnumerable<T> c)
+        {
+            return c.Skip(1).FirstOrDefault();
+        }
+
         public static IReadOnlyList<T> FindAll<T>(
             this IReadOnlyList<T> list,
             Func<T, bool> predicate

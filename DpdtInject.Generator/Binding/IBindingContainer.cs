@@ -58,6 +58,11 @@ namespace DpdtInject.Generator.Parser.Binding
             get;
         }
 
+        ITypeSymbol? FactoryPayloadType
+        {
+            get;
+        }
+
         bool ToFactory
         { 
             get;

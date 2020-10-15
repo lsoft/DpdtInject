@@ -13,7 +13,7 @@ namespace DpdtInject.Tests.Factory.Simple0
         public override void Load()
         {
             Bind<IAFactory>()
-                .ToFactory<AFactory>()
+                .ToFactory<AFactory, A>()
                 .WithSingletonScope()
                 ;
         }
@@ -54,11 +54,16 @@ namespace DpdtInject.Tests.Factory.Simple0
 
     public interface IAFactory
     {
+        //string GetSomeString();
+
         IA Create();
     }
 
-    public partial class AFactory
+    public partial class AFactory : IFakeFactory<IAFactory>
     {
+        //public string GetSomeString() => "1";
+
+        //public IA Create() { throw new NotImplementedException(); }
     }
 
 }

@@ -10,6 +10,11 @@ using System.Threading.Tasks;
 
 namespace DpdtInject.Tests
 {
+    public interface IFakeFactory<T>
+    {
+    }
+
+
     public class FakeCluster<T> : ICluster
         where T : DefaultCluster
     {

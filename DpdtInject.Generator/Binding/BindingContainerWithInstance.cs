@@ -40,8 +40,8 @@ namespace DpdtInject.Generator.Parser.Binding
             IReadOnlyList<DetectedConstructorArgument> constructorArguments,
             BindScopeEnum scope,
             ArgumentSyntax? whenArgumentClause,
-            bool toFactory
-            ) : base(bindFromTypes, bindToType, scope, whenArgumentClause, null, toFactory)
+            ITypeSymbol? factoryPayloadType
+            ) : base(bindFromTypes, bindToType, scope, whenArgumentClause, null, factoryPayloadType)
         {
             if (constructorArguments is null)
             {

@@ -23,13 +23,5 @@ namespace DpdtInject.Injector
         {
             throw new NotImplementedException();
         }
-
-
-
-        //protected CustomScopeObject CreateCustomScope(int estimatedTypeCount)
-        //{
-        //    return new CustomScopeObject(estimatedTypeCount);
-        //}
-
     }
 }

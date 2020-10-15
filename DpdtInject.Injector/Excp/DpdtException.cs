@@ -17,11 +17,12 @@ namespace DpdtInject.Injector.Excp
         CircularDependency,
         ConstantCantHaveConstructorArguments, //TODO: implement this check
         UnknownScope,
-
-        IncorrectBinding_CantCast,
-        IncorrectBinding_IncorrectTarget,
+        TargetClassMustBePartial,
         CustomScopeObjectDoesNotFound,
-        TargetClassMustBePartial
+
+        IncorrectBinding_IncorrectFrom,
+        IncorrectBinding_IncorrectTarget,
+        IncorrectBinding_IncorrectReturnType
     }
 
     public class DpdtException : Exception

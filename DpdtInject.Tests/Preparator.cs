@@ -56,10 +56,18 @@ namespace DpdtInject.Tests
             {
                 throw new ArgumentException($"'{nameof(clusterSource)}' cannot be null or empty", nameof(clusterSource));
             }
+
+            var modifiedClusterSource = Regex.Replace(clusterSource, @"FakeCluster<(?i:([a-zA-z\d]+))>", "$1");
+            modifiedClusterSource = Regex.Replace(modifiedClusterSource, @"IFakeFactory<(?i:([a-zA-z\d]+))>", "$1");
+
             _testContext = testContext;
             _testerClassName = testerClassName;
             _clusterFileName = clusterFileName;
-            _clusterSource = "#define IN_UNIT_TEST_SYMBOL" + Environment.NewLine + Regex.Replace(clusterSource, @"FakeCluster<(?i:([a-zA-z\d]+))>", "$1");
+            _clusterSource = 
+                "#define IN_UNIT_TEST_SYMBOL" 
+                + Environment.NewLine 
+                + modifiedClusterSource
+                ;
             _callerFilePath = callerFilePath;
 
             DiagnosticReporter = new FakeDiagnosticReporter();

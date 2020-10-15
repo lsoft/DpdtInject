@@ -48,7 +48,10 @@ namespace DpdtInject.Generator.Parser.Binding
         {
             get;
         }
-
+        public ITypeSymbol? FactoryPayloadType
+        {
+            get;
+        }
         public IReadOnlyCollection<string> FromTypeFullNames
         {
             get;
@@ -61,10 +64,7 @@ namespace DpdtInject.Generator.Parser.Binding
             get;
         }
 
-        public bool ToFactory
-        {
-            get;
-        }
+        public bool ToFactory => !(FactoryPayloadType is null);
 
         public BaseBindingContainer(
             IReadOnlyList<ITypeSymbol> bindFromTypes,
@@ -72,7 +72,7 @@ namespace DpdtInject.Generator.Parser.Binding
             BindScopeEnum scope,
             ArgumentSyntax? whenArgumentClause,
             ArgumentSyntax? constantSyntax,
-            bool toFactory
+            ITypeSymbol? factoryPayloadType
             )
         {
             if (bindFromTypes is null)
@@ -99,7 +99,7 @@ namespace DpdtInject.Generator.Parser.Binding
             Scope = scope;
             WhenArgumentClause = whenArgumentClause;
             ConstantSyntax = constantSyntax;
-            ToFactory = toFactory;
+            FactoryPayloadType = factoryPayloadType;
 
             FromTypeFullNames = new HashSet<string>(BindFromTypes.ConvertAll(b => b.ToDisplayString()));
         }

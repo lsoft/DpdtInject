@@ -36,7 +36,7 @@ namespace DpdtInject.Generator.Binding
             ArgumentSyntax constantSyntax,
             BindScopeEnum scope,
             ArgumentSyntax? whenArgumentClause
-            ) : base(bindFromTypes, constTypeSymbol, scope, whenArgumentClause, constantSyntax, false)
+            ) : base(bindFromTypes, constTypeSymbol, scope, whenArgumentClause, constantSyntax, null)
         {
             ConstructorArguments = new List<DetectedConstructorArgument>();
             NotBindConstructorArgumentTypes = new HashSet<ITypeSymbol>();
