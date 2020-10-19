@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Generator.Helpers;
+using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
@@ -35,18 +36,18 @@ namespace DpdtInject.Generator.TypeInfo
             return _compilation.GlobalNamespace.GetAllTypes();
         }
 
-        public abstract void AddSource(ModificationDescription modificationDescription);
+        public abstract void AddSources(ModificationDescription[] modificationDescriptions);
 
-        protected void UpdateCompilationWith(SourceText sourceText)
+        protected void UpdateCompilationWith(SourceText[] sourceTexts)
         {
-            if (sourceText is null)
+            if (sourceTexts is null)
             {
-                throw new ArgumentNullException(nameof(sourceText));
+                throw new ArgumentNullException(nameof(sourceTexts));
             }
 
             var options = ((CSharpCompilation)_compilation).SyntaxTrees[0].Options;
-            var sourceTree = CSharpSyntaxTree.ParseText(sourceText, (CSharpParseOptions)options);
-            _compilation = _compilation.AddSyntaxTrees(sourceTree);
+            var sourceTrees = sourceTexts.ConvertAll(sourceText => CSharpSyntaxTree.ParseText(sourceText, (CSharpParseOptions)options));
+            _compilation = _compilation.AddSyntaxTrees(sourceTrees);
         }
     }
 }

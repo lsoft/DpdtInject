@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 using Microsoft.CodeAnalysis.Text;
+using System.Collections.Generic;
 using System.Text;
 
 namespace DpdtInject.Tests
@@ -17,11 +18,17 @@ namespace DpdtInject.Tests
         {
         }
 
-        public override void AddSource(ModificationDescription modificationDescription)
+        public override void AddSources(ModificationDescription[] modificationDescriptions)
         {
-            var sourceText = SourceText.From(modificationDescription.NewFileBody, Encoding.UTF8);
+            var sourceTexts = new List<SourceText>();
+            foreach (var modificationDescription in modificationDescriptions)
+            {
+                var sourceText = SourceText.From(modificationDescription.NewFileBody, Encoding.UTF8);
 
-            UpdateCompilationWith(sourceText);
+                sourceTexts.Add(sourceText);
+            }
+
+            UpdateCompilationWith(sourceTexts.ToArray());
         }
 
         public EmitResult Emit(

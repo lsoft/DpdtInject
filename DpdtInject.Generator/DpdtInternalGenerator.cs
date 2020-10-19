@@ -129,11 +129,16 @@ namespace DpdtInject.Generator
                     _diagnosticReporter
                     );
 
+
+
+
+
                 var factoryProducer = new FactoryProducer(
                     typeInfoContainer,
                     clusterBindings
                     );
 
+                var factoryModificationDescriptions = new List<ModificationDescription>();
                 foreach (var factoryProduct in factoryProducer.Produce())
                 {
                     var fileName = $"{factoryProduct.FactoryType.ToDisplayString().EscapeSpecialTypeSymbols()}.Pregenerated.cs";
@@ -158,8 +163,14 @@ namespace DpdtInject.Generator
                             );
                     }
 
-                    typeInfoContainer.AddSource(factoryModificationDescription);
+                    factoryModificationDescriptions.Add(factoryModificationDescription);
                 }
+
+                typeInfoContainer.AddSources(factoryModificationDescriptions.ToArray());
+
+
+
+
 
 
                 var clusterProducer = new ClusterProducer(
@@ -189,7 +200,7 @@ namespace DpdtInject.Generator
                         );
                 }
 
-                typeInfoContainer.AddSource(modificationDescription);
+                typeInfoContainer.AddSources(new[] { modificationDescription });
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using DpdtInject.Generator.TypeInfo;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -30,28 +31,34 @@ namespace DpdtInject.Generator
             UnitsGenerated = 0;
         }
 
-        public override void AddSource(ModificationDescription modificationDescription)
+        public override void AddSources(ModificationDescription[] modificationDescriptions)
         {
-            if (_needToStoreGeneratedSources)
+            var sourceTexts = new List<SourceText>();
+            foreach (var modificationDescription in modificationDescriptions)
             {
-                File.WriteAllText(
-                    Path.Combine(_generatedSourceFolderFullPath, modificationDescription.NewFileName),
-                    modificationDescription.NewFileBody
+                if (_needToStoreGeneratedSources)
+                {
+                    File.WriteAllText(
+                        Path.Combine(_generatedSourceFolderFullPath, modificationDescription.NewFileName),
+                        modificationDescription.NewFileBody
+                        );
+                }
+
+                var sourceText = SourceText.From(modificationDescription.NewFileBody, Encoding.UTF8);
+
+                _context.AddSource(
+                    modificationDescription.NewFileName,
+                    sourceText
                     );
+
+                sourceTexts.Add(sourceText);
+
+                UnitsGenerated++;
             }
 
-            var sourceText = SourceText.From(modificationDescription.NewFileBody, Encoding.UTF8);
-
-            _context.AddSource(
-                modificationDescription.NewFileName,
-                sourceText
-                );
-
-
-            UpdateCompilationWith(sourceText);
-
-
-            UnitsGenerated++;
+            UpdateCompilationWith(sourceTexts.ToArray());
         }
+
+        
     }
 }

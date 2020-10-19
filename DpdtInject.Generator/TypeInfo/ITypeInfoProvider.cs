@@ -5,8 +5,8 @@ namespace DpdtInject.Generator.TypeInfo
 {
     public interface ITypeInfoContainer : ITypeInfoProvider
     {
-        void AddSource(
-            ModificationDescription modificationDescription
+        void AddSources(
+            ModificationDescription[] modificationDescriptions
             );
     }
 
