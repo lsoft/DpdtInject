@@ -732,22 +732,98 @@ namespace DpdtInject.Tests.Properties {
         ///using System.Text;
         ///using System.Threading.Tasks;
         ///
+        ///namespace DpdtInject.Tests.Factory.ConstructorArgument0
+        ///{
+        ///    public partial class FactoryConstructorArgument0_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IAFactory&gt;()
+        ///                .ToFactory&lt;AFactory, A&gt;()
+        ///                .WithSingletonScope()
+        ///  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string FactoryConstructorArgument0_Cluster {
+            get {
+                return ResourceManager.GetString("FactoryConstructorArgument0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
         ///namespace DpdtInject.Tests.Factory.Simple0
         ///{
         ///    public partial class FactorySimple0_Cluster : DefaultCluster
         ///    {
         ///        public override void Load()
         ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()
-        ///                .WithTransientScope()
+        ///            Bind&lt;IAFactory&gt;()
+        ///                .ToFactory&lt;AFactory, A&gt;()
+        ///                .WithSingletonScope()
         ///                ;
-        ///
-        ///            Bind&lt;IAFactory&gt;()        /// [rest of string was truncated]&quot;;.
+        ///         [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FactorySimple0_Cluster {
             get {
                 return ResourceManager.GetString("FactorySimple0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Factory.UnknownConstructorArgument0
+        ///{
+        ///    public partial class FactoryUnknownConstructorArgument0_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IAFactory&gt;()
+        ///                .ToFactory&lt;AF [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string FactoryUnknownConstructorArgument0_Cluster {
+            get {
+                return ResourceManager.GetString("FactoryUnknownConstructorArgument0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Factory.UnrelatedMethod
+        ///{
+        ///    public partial class FactoryUnrelatedMethod_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IAFactory&gt;()
+        ///                .ToFactory&lt;AFactory, A&gt;()
+        ///                .WithSingletonScope()
+        ///            [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string FactoryUnrelatedMethod_Cluster {
+            get {
+                return ResourceManager.GetString("FactoryUnrelatedMethod_Cluster", resourceCulture);
             }
         }
         

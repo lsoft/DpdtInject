@@ -102,11 +102,17 @@ namespace DpdtInject.Generator
                         );
                 }
 
+                var semanticModel = typeInfoContainer.GetSemanticModel(compilationUnitSyntax.SyntaxTree);
+
                 var bindExtractor = new TimedBindExtractor(
                     _diagnosticReporter,
                     new DefaultBindExtractor(
                         typeInfoContainer,
-                        compilationUnitSyntax
+                        semanticModel,
+                        new ConstructorArgumentFromSyntaxExtractor(typeInfoContainer, semanticModel),
+                        new ConstructorArgumentDetector(
+                            new BindConstructorChooser()
+                            )
                         )
                     );
 

@@ -22,7 +22,8 @@ namespace DpdtInject.Injector.Excp
 
         IncorrectBinding_IncorrectFrom,
         IncorrectBinding_IncorrectTarget,
-        IncorrectBinding_IncorrectReturnType
+        IncorrectBinding_IncorrectReturnType,
+        CannotBuildFactory
     }
 
     public class DpdtException : Exception

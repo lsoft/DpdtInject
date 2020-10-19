@@ -19,13 +19,17 @@ namespace DpdtInject.Generator.BindExtractor
         public static readonly string ComplexSeparator = "," + Environment.NewLine;
 
         private readonly ITypeInfoProvider _typeInfoProvider;
-        private readonly CompilationUnitSyntax _compilationUnitSyntax;
+        private readonly ConstructorArgumentFromSyntaxExtractor _extractor;
+        private readonly ConstructorArgumentDetector _constructorArgumentDetector;
         private readonly SemanticModel _semanticModel;
+
         private readonly List<IBindingContainer> _bindingContainers;
 
         public DefaultBindExtractor(
             ITypeInfoProvider typeInfoProvider,
-            CompilationUnitSyntax compilationUnitSyntax
+            SemanticModel semanticModel,
+            ConstructorArgumentFromSyntaxExtractor extractor,
+            ConstructorArgumentDetector constructorArgumentDetector
             )
         {
             if (typeInfoProvider is null)
@@ -33,14 +37,25 @@ namespace DpdtInject.Generator.BindExtractor
                 throw new ArgumentNullException(nameof(typeInfoProvider));
             }
 
-            if (compilationUnitSyntax is null)
+            if (semanticModel is null)
             {
-                throw new ArgumentNullException(nameof(compilationUnitSyntax));
+                throw new ArgumentNullException(nameof(semanticModel));
+            }
+
+            if (extractor is null)
+            {
+                throw new ArgumentNullException(nameof(extractor));
+            }
+
+            if (constructorArgumentDetector is null)
+            {
+                throw new ArgumentNullException(nameof(constructorArgumentDetector));
             }
 
             _typeInfoProvider = typeInfoProvider;
-            _compilationUnitSyntax = compilationUnitSyntax;
-            _semanticModel = typeInfoProvider.GetSemanticModel(compilationUnitSyntax.SyntaxTree);
+            _semanticModel = semanticModel;
+            _extractor = extractor;
+            _constructorArgumentDetector = constructorArgumentDetector;
 
             _bindingContainers = new List<IBindingContainer>();
         }
@@ -192,15 +207,13 @@ namespace DpdtInject.Generator.BindExtractor
                     );
             }
 
-            var caExtractor = new ConstructorArgumentExtractor(
-                _typeInfoProvider,
-                _semanticModel
-                );
-            caExtractor.Visit(expressionNode);
+            _extractor.ClearAndVisit(expressionNode);
 
-            var constructorArguments = GetConstructorArguments(
-                caExtractor,
-                fullBindToTypeName
+            var constructorArguments = _extractor.GetConstructorArguments();
+            
+            _constructorArgumentDetector.AppendUnknown(
+                fullBindToTypeName,
+                ref constructorArguments
                 );
 
             var bindingContainer = new BindingContainerWithInstance(
@@ -266,15 +279,13 @@ namespace DpdtInject.Generator.BindExtractor
                     );
             }
 
-            var caExtractor = new ConstructorArgumentExtractor(
-                _typeInfoProvider,
-                _semanticModel
-                );
-            caExtractor.Visit(expressionNode);
+            _extractor.ClearAndVisit(expressionNode);
 
-            var constructorArguments = GetConstructorArguments(
-                caExtractor,
-                fullBindToTypeName
+            var constructorArguments = _extractor.GetConstructorArguments();
+
+            _constructorArgumentDetector.AppendUnknown(
+                fullBindToTypeName,
+                ref constructorArguments
                 );
 
             var bindingContainer = new BindingContainerWithInstance(
@@ -341,15 +352,13 @@ namespace DpdtInject.Generator.BindExtractor
                     );
             }
 
-            var caExtractor = new ConstructorArgumentExtractor(
-                _typeInfoProvider,
-                _semanticModel
-                );
-            caExtractor.Visit(expressionNode);
+            _extractor.ClearAndVisit(expressionNode);
 
-            var constructorArguments = GetConstructorArguments(
-                caExtractor,
-                fullBindToTypeName
+            var constructorArguments = _extractor.GetConstructorArguments();
+
+            _constructorArgumentDetector.AppendUnknown(
+                fullBindToTypeName,
+                ref constructorArguments
                 );
 
             var bindingContainer = new BindingContainerWithInstance(
@@ -450,50 +459,6 @@ namespace DpdtInject.Generator.BindExtractor
             }
 
             return bindFromTypeSemantics;
-        }
-
-        private List<DetectedConstructorArgument> GetConstructorArguments(
-            ConstructorArgumentExtractor extractor,
-            INamedTypeSymbol fullBindToTypeName
-            )
-        {
-            if (extractor is null)
-            {
-                throw new ArgumentNullException(nameof(extractor));
-            }
-
-            if (fullBindToTypeName is null)
-            {
-                throw new ArgumentNullException(nameof(fullBindToTypeName));
-            }
-
-            var constructorArguments = extractor.GetConstructorArguments();
-
-            var chosenConstructor = ChooseConstructor(
-                fullBindToTypeName,
-                constructorArguments
-                );
-
-
-            foreach (var cParameter in chosenConstructor.Parameters)
-            {
-                var cParameterName = cParameter.Name;
-                var cParameterType = cParameter.Type;
-
-                var found = constructorArguments.FirstOrDefault(ca => ca.Name == cParameterName);
-                if (found is null)
-                {
-                    constructorArguments.Add(
-                        new DetectedConstructorArgument(
-                            cParameterName,
-                            cParameterType,
-                            cParameter.HasExplicitDefaultValue
-                            )
-                        );
-                }
-            }
-
-            return constructorArguments;
         }
 
         private void CheckForFromAndToTypes(
@@ -654,80 +619,6 @@ namespace DpdtInject.Generator.BindExtractor
             }
 
             throw new InvalidOperationException("unknown scope");
-        }
-
-        private IMethodSymbol ChooseConstructor(
-            INamedTypeSymbol fullBindToTypeName,
-            IReadOnlyList<DetectedConstructorArgument> constructorArguments
-            )
-        {
-            if (fullBindToTypeName is null)
-            {
-                throw new ArgumentNullException(nameof(fullBindToTypeName));
-            }
-
-            if (constructorArguments is null)
-            {
-                throw new ArgumentNullException(nameof(constructorArguments));
-            }
-
-            //constructor argument names exists
-            //we should choose appropriate constructor
-            IMethodSymbol chosenConstructor = null!;
-            foreach (var constructor in fullBindToTypeName.InstanceConstructors)
-            {
-                if (!ContainsAllArguments(constructor, constructorArguments))
-                {
-                    continue;
-                }
-
-                if (chosenConstructor == null)
-                {
-                    chosenConstructor = constructor;
-                }
-                else
-                {
-                    if (chosenConstructor.Parameters.Length > constructor.Parameters.Length)
-                    {
-                        //here is some kind of hardcoded heuristic: we prefer constructor with fewer parameters
-                        chosenConstructor = constructor;
-                    }
-                }
-            }
-
-            if (chosenConstructor == null)
-            {
-                throw new DpdtException(
-                    DpdtExceptionTypeEnum.ConstructorArgumentMiss,
-                    $@"Type {fullBindToTypeName.Name} does not contains constructor with arguments ({string.Join(",", constructorArguments)})",
-                    fullBindToTypeName.Name
-                    );
-            }
-
-            return chosenConstructor;
-        }
-
-        private bool ContainsAllArguments(
-            IMethodSymbol constructor,
-            IReadOnlyList<DetectedConstructorArgument> constructorArguments
-            )
-        {
-            if (constructorArguments.Count == 0)
-            {
-                return true;
-            }
-
-            foreach (var ca in constructorArguments)
-            {
-                var caName = ca.Name;
-
-                if (!constructor.Parameters.Any(j => j.Name == caName))
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
     }
 }

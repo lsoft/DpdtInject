@@ -1,11 +1,16 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using DpdtInject.Generator.BindExtractor;
+using DpdtInject.Generator.Binding;
+using DpdtInject.Generator.Parser.Binding;
+using DpdtInject.Injector.Excp;
+using DpdtInject.Injector.Helper;
+using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DpdtInject.Generator.Producer.Product
+namespace DpdtInject.Generator.Producer.Factory
 {
     internal class FactoryProduct
     {
@@ -20,7 +25,7 @@ namespace DpdtInject.Generator.Producer.Product
         }
 
         public FactoryProduct(
-            ITypeSymbol factoryType, 
+            ITypeSymbol factoryType,
             string sourceCode
             )
         {
@@ -38,4 +43,5 @@ namespace DpdtInject.Generator.Producer.Product
             SourceCode = sourceCode;
         }
     }
+
 }

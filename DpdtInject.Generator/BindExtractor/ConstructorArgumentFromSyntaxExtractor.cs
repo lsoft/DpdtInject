@@ -1,6 +1,7 @@
 ﻿using DpdtInject.Generator.Binding;
 using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.TypeInfo;
+using DpdtInject.Injector.Helper;
 using DpdtInject.Injector.Module.Bind;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -10,13 +11,37 @@ using System.Collections.Generic;
 
 namespace DpdtInject.Generator.BindExtractor
 {
-    public class ConstructorArgumentExtractor : CSharpSyntaxRewriter
+    public class ConstructorArgumentFromMethodExtractor
+    {
+        public List<DetectedConstructorArgument> GetConstructorArguments(
+            IMethodSymbol methodSymbol
+            )
+        {
+            if (methodSymbol is null)
+            {
+                throw new ArgumentNullException(nameof(methodSymbol));
+            }
+
+            return
+                methodSymbol.Parameters.ConvertAll(
+                    p => new DetectedConstructorArgument(
+                        p.Name, 
+                        p.Type, 
+                        p.HasExplicitDefaultValue,
+                        () => p.ExplicitDefaultValue
+                        )
+                    );
+        }
+    }
+
+    public class ConstructorArgumentFromSyntaxExtractor
+        : CSharpSyntaxRewriter
     {
         private readonly List<DetectedConstructorArgument> _constructorArguments;
         private readonly ITypeInfoProvider _typeInfoProvider;
         private readonly SemanticModel _semanticModel;
 
-        public ConstructorArgumentExtractor(
+        public ConstructorArgumentFromSyntaxExtractor(
             ITypeInfoProvider typeInfoProvider,
             SemanticModel semanticModel
             )
@@ -34,6 +59,12 @@ namespace DpdtInject.Generator.BindExtractor
             _semanticModel = semanticModel;
 
             _constructorArguments = new List<DetectedConstructorArgument>();
+        }
+
+        public void ClearAndVisit(SyntaxNode? syntaxNode)
+        {
+            _constructorArguments.Clear();
+            Visit(syntaxNode);
         }
 
         public override SyntaxNode VisitObjectCreationExpression(ObjectCreationExpressionSyntax node)

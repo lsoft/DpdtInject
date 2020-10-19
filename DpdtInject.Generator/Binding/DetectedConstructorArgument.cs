@@ -26,6 +26,10 @@ namespace DpdtInject.Generator.Binding
         {
             get;
         }
+        public object? ExplicitDefaultValue
+        {
+            get;
+        }
 
         public bool DefineInBindNode => !string.IsNullOrEmpty(Body);
 
@@ -53,7 +57,8 @@ namespace DpdtInject.Generator.Binding
         public DetectedConstructorArgument(
             string name,
             ITypeSymbol type,
-            bool hasExplicitDefaultValue
+            bool hasExplicitDefaultValue,
+            Func<object?> explicitDefaultValueFunc
             )
         {
             if (name is null)
@@ -66,10 +71,16 @@ namespace DpdtInject.Generator.Binding
                 throw new ArgumentNullException(nameof(type));
             }
 
+            if (explicitDefaultValueFunc is null)
+            {
+                throw new ArgumentNullException(nameof(explicitDefaultValueFunc));
+            }
+
             Name = name;
             Type = type;
             Body = null;
             HasExplicitDefaultValue = hasExplicitDefaultValue;
+            ExplicitDefaultValue = hasExplicitDefaultValue ? explicitDefaultValueFunc() : null;
         }
 
         public ITypeSymbol GetUnwrappedType(
@@ -92,6 +103,26 @@ namespace DpdtInject.Generator.Binding
             }
 
             return Type;
+        }
+
+        public string GetDeclarationSyntax()
+        {
+            if (Type is null)
+            {
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.InternalError,
+                    $"constructorArgument.Type is null somehow"
+                    );
+            }
+
+            if (HasExplicitDefaultValue)
+            {
+                return $"{Type.ToDisplayString()} {Name} = {ExplicitDefaultValue?.ToString() ?? "null"}";
+            }
+            else
+            {
+                return $"{Type.ToDisplayString()} {Name}";
+            }
         }
     }
 }
