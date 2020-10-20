@@ -111,7 +111,7 @@ namespace DpdtInject.Generator.Helpers
             string subjectTypeFullName
             )
         {
-            var roslynTypeFullName = target.ContainingNamespace.Name + "." + target.Name;
+            var roslynTypeFullName = target.ToDisplayString();
 
             if (StringComparer.InvariantCultureIgnoreCase.Compare(roslynTypeFullName, subjectTypeFullName) == 0)
             {

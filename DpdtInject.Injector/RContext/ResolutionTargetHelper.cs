@@ -1,9 +1,34 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace DpdtInject.Injector.Module.RContext
 {
     public static class ResolutionTargetHelper
     {
+        public static void Dump(
+            this IResolutionTarget rt
+            )
+        {
+            IResolutionTarget? current = rt;
+
+            Debug.WriteLine($"==================================================================");
+            while (current is not null)
+            {
+                Debug.WriteLine($"IsRoot: {current.IsRoot}");
+                Debug.WriteLine($"ClusterDeclaredType: {current.ClusterDeclaredType.FullName}");
+                Debug.WriteLine($"IsGetAllResolution: {current.IsGetAllResolution}");
+                Debug.WriteLine($"ScopeObject: {current.ScopeObject}");
+                Debug.WriteLine($"TargetType: {current.TargetType.FullName}");
+
+                Debug.WriteLine($"ParentRequest.ConstructorArgumentName: {current.ParentRequest.ConstructorArgumentName}");
+                Debug.WriteLine($"ParentRequest.RequestedType: {current.ParentRequest.RequestedType}");
+                Debug.WriteLine($"--------------------------------------------------------------");
+
+                current = current.ParentTarget;
+            }
+            Debug.WriteLine($"==================================================================");
+        }
+
         public static bool WhenAnyParentExactlyInto(
             this IResolutionTarget rt,
             Type targetType

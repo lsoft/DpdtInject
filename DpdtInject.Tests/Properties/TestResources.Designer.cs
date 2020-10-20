@@ -725,6 +725,33 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Data;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Factory.Complex0
+        ///{
+        ///    public partial class FactoryComplex0_Cluster : DefaultCluster
+        ///    {
+        ///        public const string A = &quot;0&quot;;
+        ///        public const int B = 1;
+        ///        public const long C = 2L;
+        ///
+        ///        public ove [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string FactoryComplex0_Cluster {
+            get {
+                return ResourceManager.GetString("FactoryComplex0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Collections.Generic;
@@ -739,9 +766,8 @@ namespace DpdtInject.Tests.Properties {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IAFactory&gt;()
-        ///                .ToFactory&lt;AFactory, A&gt;()
-        ///                .WithSingletonScope()
-        ///  [rest of string was truncated]&quot;;.
+        ///                .ToIsolatedFactory&lt;AFactory, A&gt;()
+        ///                .WithSingletonSc [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FactoryConstructorArgument0_Cluster {
             get {
@@ -765,10 +791,10 @@ namespace DpdtInject.Tests.Properties {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IAFactory&gt;()
-        ///                .ToFactory&lt;AFactory, A&gt;()
+        ///                .ToIsolatedFactory&lt;AFactory, A&gt;()
         ///                .WithSingletonScope()
         ///                ;
-        ///         [rest of string was truncated]&quot;;.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FactorySimple0_Cluster {
             get {
@@ -793,7 +819,7 @@ namespace DpdtInject.Tests.Properties {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IAFactory&gt;()
-        ///                .ToFactory&lt;AF [rest of string was truncated]&quot;;.
+        ///                .ToIsolatedFa [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FactoryUnknownConstructorArgument0_Cluster {
             get {
@@ -807,6 +833,7 @@ namespace DpdtInject.Tests.Properties {
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Collections.Generic;
+        ///using System.Data;
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
@@ -815,10 +842,9 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class FactoryUnknownConstructorArgument1_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;IAFactory&gt;()
-        ///                .ToFactory&lt;AF [rest of string was truncated]&quot;;.
+        ///        public const string A = &quot;0&quot;;
+        ///        public const int B = 1;
+        ///        public co [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FactoryUnknownConstructorArgument1_Cluster {
             get {
@@ -842,9 +868,9 @@ namespace DpdtInject.Tests.Properties {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IAFactory&gt;()
-        ///                .ToFactory&lt;AFactory, A&gt;()
+        ///                .ToIsolatedFactory&lt;AFactory, A&gt;()
         ///                .WithSingletonScope()
-        ///            [rest of string was truncated]&quot;;.
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FactoryUnrelatedMethod_Cluster {
             get {
