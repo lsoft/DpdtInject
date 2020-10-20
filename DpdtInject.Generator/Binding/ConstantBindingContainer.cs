@@ -31,12 +31,11 @@ namespace DpdtInject.Generator.Binding
 
 
         public ConstantBindingContainer(
-            IReadOnlyList<ITypeSymbol> bindFromTypes,
-            ITypeSymbol constTypeSymbol,
+            BindingContainerTypes types,
             ArgumentSyntax constantSyntax,
             BindScopeEnum scope,
             ArgumentSyntax? whenArgumentClause
-            ) : base(bindFromTypes, constTypeSymbol, scope, whenArgumentClause, constantSyntax, null)
+            ) : base(types, scope, whenArgumentClause, constantSyntax)
         {
             ConstructorArguments = new List<DetectedConstructorArgument>();
             NotBindConstructorArgumentTypes = new HashSet<ITypeSymbol>();

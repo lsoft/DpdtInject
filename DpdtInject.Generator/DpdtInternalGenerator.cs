@@ -33,22 +33,19 @@ namespace DpdtInject.Generator
         }
 
         public void Execute(
-            ITypeInfoContainer typeInfoContainer,
-            string? generatedFolder
+            ITypeInfoContainer typeInfoContainer
             )
         {
             using (new DTimer(_diagnosticReporter, "Dpdt total time taken"))
             {
                 ExecutePrivate(
-                    typeInfoContainer,
-                    generatedFolder
+                    typeInfoContainer
                 );
             }
         }
 
         private void ExecutePrivate(
-            ITypeInfoContainer typeInfoContainer,
-            string? generatedFolder
+            ITypeInfoContainer typeInfoContainer
             )
         {
             if (typeInfoContainer is null)
@@ -130,49 +127,7 @@ namespace DpdtInject.Generator
                     );
 
 
-
-
-
-                var factoryProducer = new FactoryProducer(
-                    typeInfoContainer,
-                    clusterBindings
-                    );
-
-                var factoryModificationDescriptions = new List<ModificationDescription>();
-                foreach (var factoryProduct in factoryProducer.Produce())
-                {
-                    var fileName = $"{factoryProduct.FactoryType.ToDisplayString().EscapeSpecialTypeSymbols()}.Pregenerated.cs";
-
-                    ModificationDescription factoryModificationDescription;
-                    using (new DTimer(_diagnosticReporter, $"Dpdt factory {factoryProduct.FactoryType.ToDisplayString()} beautify generated code time taken"))
-                    {
-                        factoryModificationDescription = new ModificationDescription(
-                            clusterType,
-                            fileName,
-                            factoryProduct.SourceCode,
-                            generatedFolder is not null
-                            );
-                    }
-
-                    if (generatedFolder is not null)
-                    {
-                        var generatedFilePath = Path.Combine(generatedFolder, fileName);
-
-                        factoryModificationDescription.SaveToDisk(
-                            generatedFilePath
-                            );
-                    }
-
-                    factoryModificationDescriptions.Add(factoryModificationDescription);
-                }
-
-                typeInfoContainer.AddSources(factoryModificationDescriptions.ToArray());
-
-
-
-
-
-
+                //build the cluster:
                 var clusterProducer = new ClusterProducer(
                     typeInfoContainer,
                     clusterBindings
@@ -185,18 +140,8 @@ namespace DpdtInject.Generator
                 {
                     modificationDescription = new ModificationDescription(
                         clusterType,
-                        clusterType.Name + Guid.NewGuid().RemoveMinuses() + "_1.cs",
-                        moduleSourceCode,
-                        generatedFolder is not null
-                        );
-                }
-
-                if (generatedFolder is not null)
-                {
-                    var generatedFilePath = Path.Combine(generatedFolder, $"{clusterType.Name}.Pregenerated{clusterTypeIndex}.cs");
-
-                    modificationDescription.SaveToDisk(
-                        generatedFilePath
+                        $"{clusterType.Name}.Pregenerated{clusterTypeIndex}.cs",
+                        moduleSourceCode
                         );
                 }
 

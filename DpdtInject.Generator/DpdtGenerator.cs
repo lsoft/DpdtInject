@@ -43,16 +43,6 @@ namespace DpdtInject.Generator
                         generatedSourceFolder ?? "Dpdt.Pregenerated"
                         );
 
-                var typeInfoContainer = new GeneratorTypeInfoContainer(
-                    ref context,
-                    needToStoreGeneratedSources,
-                    generatedSourceFolderFullPath
-                    );
-
-                var internalGenerator = new DpdtInternalGenerator(
-                    diagnosticReporter
-                    );
-
                 if (needToStoreGeneratedSources)
                 {
                     if (Directory.Exists(generatedSourceFolderFullPath))
@@ -63,9 +53,18 @@ namespace DpdtInject.Generator
                     Directory.CreateDirectory(generatedSourceFolderFullPath);
                 }
 
+                var typeInfoContainer = new GeneratorTypeInfoContainer(
+                    ref context,
+                    needToStoreGeneratedSources,
+                    generatedSourceFolderFullPath
+                    );
+
+                var internalGenerator = new DpdtInternalGenerator(
+                    diagnosticReporter
+                    );
+
                 internalGenerator.Execute(
-                    typeInfoContainer,
-                    null
+                    typeInfoContainer
                     );
 
                 diagnosticReporter.ReportWarning(

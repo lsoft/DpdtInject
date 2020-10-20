@@ -1,11 +1,11 @@
-﻿using DpdtInject.Generator.TypeInfo;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace DpdtInject.Generator
+namespace DpdtInject.Generator.TypeInfo
 {
     public class GeneratorTypeInfoContainer : TypeInfoContainer
     {
@@ -38,9 +38,12 @@ namespace DpdtInject.Generator
             {
                 if (_needToStoreGeneratedSources)
                 {
-                    File.WriteAllText(
-                        Path.Combine(_generatedSourceFolderFullPath, modificationDescription.NewFileName),
-                        modificationDescription.NewFileBody
+                    modificationDescription.NormalizeWhitespaces();
+
+                    var filePath = Path.Combine(_generatedSourceFolderFullPath, modificationDescription.NewFileName);
+
+                    modificationDescription.SaveToDisk(
+                        filePath
                         );
                 }
 
@@ -59,6 +62,6 @@ namespace DpdtInject.Generator
             UpdateCompilationWith(sourceTexts.ToArray());
         }
 
-        
+
     }
 }

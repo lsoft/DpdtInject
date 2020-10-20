@@ -19,13 +19,16 @@ namespace DpdtInject.Generator
 
         public string NewFileName { get; }
 
-        public string NewFileBody { get; }
+        public string NewFileBody
+        {
+            get;
+            private set;
+        }
 
         public ModificationDescription(
             INamedTypeSymbol modifiedType,
             string newFileName,
-            string newFileBody,
-            bool needToNormalizeWhitespaces
+            string newFileBody
             )
         {
             if (modifiedType is null)
@@ -40,16 +43,13 @@ namespace DpdtInject.Generator
 
             ModifiedType = modifiedType;
             NewFileName = newFileName;
+            NewFileBody = newFileBody;
+        }
 
+        public void NormalizeWhitespaces()
+        {
             //make this generated code beautify a bit
-            if(needToNormalizeWhitespaces)
-            {
-                NewFileBody = SyntaxFactory.ParseCompilationUnit(newFileBody).NormalizeWhitespace().GetText().ToString();
-            }
-            else
-            {
-                NewFileBody = newFileBody;
-            }
+            NewFileBody = SyntaxFactory.ParseCompilationUnit(NewFileBody).NormalizeWhitespace().GetText().ToString();
         }
 
         public void SaveToDisk(

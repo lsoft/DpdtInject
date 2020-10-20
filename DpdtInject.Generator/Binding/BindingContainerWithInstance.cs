@@ -35,13 +35,11 @@ namespace DpdtInject.Generator.Parser.Binding
 
 
         public BindingContainerWithInstance(
-            IReadOnlyList<ITypeSymbol> bindFromTypes,
-            ITypeSymbol bindToType,
+            BindingContainerTypes types,
             IReadOnlyList<DetectedConstructorArgument> constructorArguments,
             BindScopeEnum scope,
-            ArgumentSyntax? whenArgumentClause,
-            ITypeSymbol? factoryPayloadType
-            ) : base(bindFromTypes, bindToType, scope, whenArgumentClause, null, factoryPayloadType)
+            ArgumentSyntax? whenArgumentClause
+            ) : base(types, scope, whenArgumentClause, null)
         {
             if (constructorArguments is null)
             {

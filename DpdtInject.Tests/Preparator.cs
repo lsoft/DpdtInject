@@ -101,7 +101,9 @@ namespace DpdtInject.Tests
                     );
 
                 var typeInfoContainer = new PreparatorTypeInfoContainer(
-                    compilation
+                    compilation,
+                    true,
+                    new FileInfo(_callerFilePath).Directory.FullName
                     );
 
                 var internalGenerator = new DpdtInternalGenerator(
@@ -109,8 +111,7 @@ namespace DpdtInject.Tests
                     );
 
                 internalGenerator.Execute(
-                    typeInfoContainer,
-                    new FileInfo(_callerFilePath).Directory.FullName
+                    typeInfoContainer
                     );
 
                 var compiledDllPath = Path.Combine(
@@ -146,10 +147,17 @@ namespace DpdtInject.Tests
 
                     var tester = Activator.CreateInstance(testerType);
 
+                    const string MethodName = "PerformClusterTesting";
+
                     var method = testerType.GetMethod(
-                        "PerformClusterTesting",
+                        MethodName,
                         BindingFlags.Public | BindingFlags.Instance
                         );
+
+                    if (method is null)
+                    {
+                        Assert.Fail($"{MethodName} does not found.");
+                    }
 
                     method.Invoke(tester, null);
                 }

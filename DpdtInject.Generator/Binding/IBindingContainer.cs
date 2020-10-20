@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 namespace DpdtInject.Generator.Parser.Binding
 {
+
     public interface IBindingContainer
     {
         IReadOnlyList<ITypeSymbol> BindFromTypes
@@ -69,14 +70,6 @@ namespace DpdtInject.Generator.Parser.Binding
         }
 
         string GetFromTypeFullNamesCombined(string separator = "_");
-
-        //string PrepareInstanceContainerCode(
-        //    ClusterGeneratorTreeJoint clusterGeneratorJoint
-        //    );
-
-        //string GetContainerStableClassName();
-
-        //void GetInstanceContainerBody(out string className, out string resource);
 
         string GetStableSuffix();
 

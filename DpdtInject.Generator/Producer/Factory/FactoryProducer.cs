@@ -17,76 +17,47 @@ namespace DpdtInject.Generator.Producer.Factory
 {
     internal class FactoryProducer
     {
-        private readonly ITypeInfoProvider _typeInfoProvider;
         private readonly ConstructorArgumentDetector _constructorArgumentDetector;
 
         private readonly List<DetectedConstructorArgument> _unknowns = new List<DetectedConstructorArgument>();
-
-        public ClusterBindings ClusterBindings
-        {
-            get;
-        }
-
+        private readonly BindingContainerTypes _types;
 
         public FactoryProducer(
-            ITypeInfoProvider typeInfoProvider,
-            ClusterBindings clusterBindings
+            BindingContainerTypes types
             )
         {
-            if (typeInfoProvider is null)
+            if (types is null)
             {
-                throw new ArgumentNullException(nameof(typeInfoProvider));
+                throw new ArgumentNullException(nameof(types));
             }
 
-            if (clusterBindings is null)
-            {
-                throw new ArgumentNullException(nameof(clusterBindings));
-            }
-
-            _typeInfoProvider = typeInfoProvider;
-            ClusterBindings = clusterBindings;
+            _types = types;
 
             _constructorArgumentDetector = new ConstructorArgumentDetector(
                 new BindConstructorChooser(
                     )
                 );
-
         }
 
-        internal IEnumerable<FactoryProduct> Produce()
-        {
-            foreach(var bindingContainer in ClusterBindings.BindingContainers)
-            {
-                if (!bindingContainer.ToFactory)
-                {
-                    continue;
-                }
-
-                var factoryProduct = GenerateFactoryBody(bindingContainer);
-                yield return factoryProduct;
-            }
-        }
-
-        private FactoryProduct GenerateFactoryBody(
-            IBindingContainer bindingContainer
+        public FactoryProduct GenerateFactoryProduct(
             )
         {
-            var methodProducts = ScanForMethodsToImplement(bindingContainer);
+            var methodProducts = ScanForMethodsToImplement();
 
             var result = new FactoryProduct(
-                bindingContainer.BindToType,
+                _types.BindToType,
                 $@"
-namespace {bindingContainer.BindToType.ContainingNamespace.ToDisplayString()}
+namespace {_types.BindToType.ContainingNamespace.ToDisplayString()}
 {{
-    public partial class {bindingContainer.BindToType.Name} : {bindingContainer.BindFromTypes[0].ToDisplayString()}
+    public partial class {_types.BindToType.Name} : {_types.BindFromTypes[0].ToDisplayString()}
     {{
-        {_unknowns.Join(u => $"private readonly {u.Type!.ToDisplayString()} {GetStableArgumentName(u)};")}
+        {_unknowns.Join(u => $"private readonly {u.Type!.ToDisplayString()} {u.Name};")}
 
-        public {bindingContainer.BindToType.Name}(
-            {_unknowns.Join(u => $"{u.Type!.ToDisplayString()} {GetStableArgumentName(u)}", ",")}
+        public {_types.BindToType.Name}(
+            {_unknowns.Join(u => $"{u.Type!.ToDisplayString()} {u.Name}", ",")}
             )
         {{
-            {_unknowns.Join(u => $"this.{GetStableArgumentName(u)} = {GetStableArgumentName(u)};")}
+            {_unknowns.Join(u => $"this.{u.Name} = {u.Name};")}
         }}
 
         {methodProducts.Join(mp => mp.MethodBody)}
@@ -97,37 +68,31 @@ namespace {bindingContainer.BindToType.ContainingNamespace.ToDisplayString()}
         }
 
         private List<MethodProduct> ScanForMethodsToImplement(
-            IBindingContainer bindingContainer
             )
         {
-            if (bindingContainer is null)
-            {
-                throw new ArgumentNullException(nameof(bindingContainer));
-            }
-
             var result = new List<MethodProduct>();
-            var declaredMethods = bindingContainer.BindFromTypes[0].GetMembers().FindAll(m => m.Kind == SymbolKind.Method);
+            var declaredMethods = _types.BindFromTypes[0].GetMembers().FindAll(m => m.Kind == SymbolKind.Method);
 
             foreach (IMethodSymbol declaredMethod in declaredMethods)
             {
-                var implementedeMethod = bindingContainer.BindToType.FindImplementationForInterfaceMember(declaredMethod);
+                var implementedeMethod = _types.BindToType.FindImplementationForInterfaceMember(declaredMethod);
                 if(!(implementedeMethod is null))
                 {
                     continue;
                 }
 
                 //method is not implemented in the proto class
-                if(!bindingContainer.FactoryPayloadType!.CanBeCastedTo(declaredMethod.ReturnType.ToDisplayString()))
+                if(!_types.FactoryPayloadType!.CanBeCastedTo(declaredMethod.ReturnType.ToDisplayString()))
                 {
                     //return type is not a factory payload
                     throw new DpdtException(
                         DpdtExceptionTypeEnum.IncorrectBinding_IncorrectReturnType,
-                        $"Factory [{bindingContainer.BindToType.ToDisplayString()}] contains a method [{declaredMethod.Name}] with return type [{declaredMethod.ReturnType.ToDisplayString()}] that cannot be produced by casting a payload [{bindingContainer.FactoryPayloadType!.ToDisplayString()}]",
-                        bindingContainer.BindToType.ToDisplayString()
+                        $"Factory [{_types.BindToType.ToDisplayString()}] contains a method [{declaredMethod.Name}] with return type [{declaredMethod.ReturnType.ToDisplayString()}] that cannot be produced by casting a payload [{_types.FactoryPayloadType!.ToDisplayString()}]",
+                        _types.BindToType.ToDisplayString()
                         );
                 }
 
-                var declaredMethodProduct = GetMethodProduct(bindingContainer, declaredMethod);
+                var declaredMethodProduct = GetMethodProduct(declaredMethod);
 
                 result.Add(declaredMethodProduct);
             }
@@ -136,15 +101,9 @@ namespace {bindingContainer.BindToType.ContainingNamespace.ToDisplayString()}
         }
 
         public MethodProduct GetMethodProduct(
-            IBindingContainer bindingContainer,
             IMethodSymbol methodSymbol
             )
         {
-            if (bindingContainer is null)
-            {
-                throw new ArgumentNullException(nameof(bindingContainer));
-            }
-
             if (methodSymbol is null)
             {
                 throw new ArgumentNullException(nameof(methodSymbol));
@@ -154,7 +113,7 @@ namespace {bindingContainer.BindToType.ContainingNamespace.ToDisplayString()}
             var constructorArguments = extractor.GetConstructorArguments(methodSymbol);
 
             var appended = _constructorArgumentDetector.AppendUnknown(
-                (INamedTypeSymbol)bindingContainer.FactoryPayloadType!,
+                (INamedTypeSymbol)_types.FactoryPayloadType!,
                 ref constructorArguments
                 );
 
@@ -166,25 +125,36 @@ namespace {bindingContainer.BindToType.ContainingNamespace.ToDisplayString()}
                 {
                     throw new DpdtException(
                         DpdtExceptionTypeEnum.CannotBuildFactory,
-                        $"Cannot instanciate factory [{bindingContainer.BindToType.ToDisplayString()}] because of 2 or more constructors contains same type [{constructorArgument.Type!.ToDisplayString()}]",
-                        bindingContainer.BindToType.ToDisplayString()
+                        $"Cannot instanciate factory [{_types.BindToType.ToDisplayString()}] because of 2 or more constructors contains same type [{constructorArgument.Type!.ToDisplayString()}]",
+                        _types.BindToType.ToDisplayString()
+                        );
+                }
+                if (_unknowns.Any(u => u.Name == constructorArgument.Name))
+                {
+                    throw new DpdtException(
+                        DpdtExceptionTypeEnum.CannotBuildFactory,
+                        $"Cannot instanciate factory [{_types.BindToType.ToDisplayString()}] because of 2 or more constructors contains same parameter name [{constructorArgument.Name}]",
+                        _types.BindToType.ToDisplayString()
                         );
                 }
 
                 _unknowns.Add(constructorArgument);
             }
 
-            var caCombined = new List<string>();
-            caCombined.AddRange(
+            var usedConstructorArguments =
                 constructorArguments
                     .Take(constructorArguments.Count - appended)
-                    .Select(cafm => $"{cafm.Name}: {cafm.Name}")
-                    );
-            caCombined.AddRange(
+                    .ToList()
+                    ;
+            var unknownConstructorArguments =
                 constructorArguments
                     .Skip(constructorArguments.Count - appended)
-                    .Select(cau => $"{cau.Name}: {GetStableArgumentName(cau)}")
-                );
+                    .ToList()
+                    ;
+
+            var caCombined = new List<string>();
+            caCombined.AddRange(usedConstructorArguments.Select(cafm => $"{cafm.Name}: {cafm.Name}"));
+            caCombined.AddRange(unknownConstructorArguments.Select(cau => $"{cau.Name}: this.{cau.Name}"));
 
             return new MethodProduct(
                 methodSymbol.Name,
@@ -192,9 +162,9 @@ namespace {bindingContainer.BindToType.ContainingNamespace.ToDisplayString()}
                 (methodName, returnType) =>
                 {
                     return $@"
-public {returnType.ToDisplayString()} {methodName}({constructorArguments.Join(cafm => cafm.GetDeclarationSyntax(), ",")})
+public {returnType.ToDisplayString()} {methodName}({usedConstructorArguments.Join(cafm => cafm.GetDeclarationSyntax(), ",")})
 {{
-    return new {bindingContainer.FactoryPayloadType!.ToDisplayString()}(
+    return new {_types.FactoryPayloadType!.ToDisplayString()}(
         {caCombined.Join(cac => cac, ",")}
         );
 }}
@@ -202,13 +172,6 @@ public {returnType.ToDisplayString()} {methodName}({constructorArguments.Join(ca
                 }
                 );
         }
-
-
-        private static string GetStableArgumentName(DetectedConstructorArgument dca)
-        {
-            return $"{dca.Name}{dca.GetHashCode()}";
-        }
-
     }
 
 }

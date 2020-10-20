@@ -13,15 +13,11 @@ namespace DpdtInject.Generator.Parser.Binding
 {
     public abstract class BaseBindingContainer : IBindingContainer
     {
-        public IReadOnlyList<ITypeSymbol> BindFromTypes
-        {
-            get;
-        }
+        private readonly BindingContainerTypes _types;
 
-        public ITypeSymbol BindToType
-        {
-            get;
-        }
+        public IReadOnlyList<ITypeSymbol> BindFromTypes => _types.BindFromTypes;
+
+        public ITypeSymbol BindToType => _types.BindToType;
 
 
         public abstract IReadOnlyList<DetectedConstructorArgument> ConstructorArguments
@@ -48,10 +44,8 @@ namespace DpdtInject.Generator.Parser.Binding
         {
             get;
         }
-        public ITypeSymbol? FactoryPayloadType
-        {
-            get;
-        }
+        public ITypeSymbol? FactoryPayloadType => _types.FactoryPayloadType;
+
         public IReadOnlyCollection<string> FromTypeFullNames
         {
             get;
@@ -67,25 +61,18 @@ namespace DpdtInject.Generator.Parser.Binding
         public bool ToFactory => !(FactoryPayloadType is null);
 
         public BaseBindingContainer(
-            IReadOnlyList<ITypeSymbol> bindFromTypes,
-            ITypeSymbol bindToType,
+            BindingContainerTypes types,
             BindScopeEnum scope,
             ArgumentSyntax? whenArgumentClause,
-            ArgumentSyntax? constantSyntax,
-            ITypeSymbol? factoryPayloadType
+            ArgumentSyntax? constantSyntax
             )
         {
-            if (bindFromTypes is null)
+            if (types is null)
             {
-                throw new ArgumentNullException(nameof(bindFromTypes));
+                throw new ArgumentNullException(nameof(types));
             }
 
-            if (bindToType is null)
-            {
-                throw new ArgumentNullException(nameof(bindToType));
-            }
-
-            if(scope == BindScopeEnum.Constant && constantSyntax is null)
+            if (scope == BindScopeEnum.Constant && constantSyntax is null)
             {
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"Misconfiguration between scope nad constant syntax");
             }
@@ -94,12 +81,10 @@ namespace DpdtInject.Generator.Parser.Binding
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"Misconfiguration between scope nad constant syntax");
             }
 
-            BindFromTypes = bindFromTypes;
-            BindToType = bindToType;
+            _types = types;
             Scope = scope;
             WhenArgumentClause = whenArgumentClause;
             ConstantSyntax = constantSyntax;
-            FactoryPayloadType = factoryPayloadType;
 
             FromTypeFullNames = new HashSet<string>(BindFromTypes.ConvertAll(b => b.ToDisplayString()));
         }

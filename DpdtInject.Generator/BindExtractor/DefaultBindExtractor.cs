@@ -1,6 +1,7 @@
 ﻿using DpdtInject.Generator.Binding;
 using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Parser.Binding;
+using DpdtInject.Generator.Producer.Factory;
 using DpdtInject.Generator.TypeInfo;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
@@ -11,6 +12,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Net.WebSockets;
 
 namespace DpdtInject.Generator.BindExtractor
 {
@@ -18,7 +21,7 @@ namespace DpdtInject.Generator.BindExtractor
     {
         public static readonly string ComplexSeparator = "," + Environment.NewLine;
 
-        private readonly ITypeInfoProvider _typeInfoProvider;
+        private readonly ITypeInfoContainer _typeInfoContainer;
         private readonly ConstructorArgumentFromSyntaxExtractor _extractor;
         private readonly ConstructorArgumentDetector _constructorArgumentDetector;
         private readonly SemanticModel _semanticModel;
@@ -26,15 +29,15 @@ namespace DpdtInject.Generator.BindExtractor
         private readonly List<IBindingContainer> _bindingContainers;
 
         public DefaultBindExtractor(
-            ITypeInfoProvider typeInfoProvider,
+            ITypeInfoContainer typeInfoContainer,
             SemanticModel semanticModel,
             ConstructorArgumentFromSyntaxExtractor extractor,
             ConstructorArgumentDetector constructorArgumentDetector
             )
         {
-            if (typeInfoProvider is null)
+            if (typeInfoContainer is null)
             {
-                throw new ArgumentNullException(nameof(typeInfoProvider));
+                throw new ArgumentNullException(nameof(typeInfoContainer));
             }
 
             if (semanticModel is null)
@@ -52,7 +55,7 @@ namespace DpdtInject.Generator.BindExtractor
                 throw new ArgumentNullException(nameof(constructorArgumentDetector));
             }
 
-            _typeInfoProvider = typeInfoProvider;
+            _typeInfoContainer = typeInfoContainer;
             _semanticModel = semanticModel;
             _extractor = extractor;
             _constructorArgumentDetector = constructorArgumentDetector;
@@ -198,7 +201,7 @@ namespace DpdtInject.Generator.BindExtractor
                 !(factoryPayloadSemantic is null)
                 );
 
-            var fullBindToTypeName = _typeInfoProvider.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
+            var fullBindToTypeName = _typeInfoContainer.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
             if (fullBindToTypeName == null)
             {
                 throw new DpdtException(
@@ -209,20 +212,24 @@ namespace DpdtInject.Generator.BindExtractor
 
             _extractor.ClearAndVisit(expressionNode);
 
+            var types = BuildTypes(
+                bindFromTypeSemantics, 
+                bindToTypeSemantic,
+                factoryPayloadSemantic
+                );
+
             var constructorArguments = _extractor.GetConstructorArguments();
-            
+
             _constructorArgumentDetector.AppendUnknown(
-                fullBindToTypeName,
+                (INamedTypeSymbol)types.BindToType,
                 ref constructorArguments
                 );
 
             var bindingContainer = new BindingContainerWithInstance(
-                bindFromTypeSemantics,
-                bindToTypeSemantic,
+                types,
                 constructorArguments,
                 BindScopeEnum.Singleton,
-                whenArgumentClause,
-                factoryPayloadSemantic
+                whenArgumentClause
                 );
 
             _bindingContainers.Add(bindingContainer);
@@ -270,7 +277,7 @@ namespace DpdtInject.Generator.BindExtractor
                 !(factoryPayloadSemantic is null)
                 );
 
-            var fullBindToTypeName = _typeInfoProvider.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
+            var fullBindToTypeName = _typeInfoContainer.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
             if (fullBindToTypeName == null)
             {
                 throw new DpdtException(
@@ -281,20 +288,24 @@ namespace DpdtInject.Generator.BindExtractor
 
             _extractor.ClearAndVisit(expressionNode);
 
+            var types = BuildTypes(
+                bindFromTypeSemantics,
+                bindToTypeSemantic,
+                factoryPayloadSemantic
+                );
+
             var constructorArguments = _extractor.GetConstructorArguments();
 
             _constructorArgumentDetector.AppendUnknown(
-                fullBindToTypeName,
+                (INamedTypeSymbol)types.BindToType,
                 ref constructorArguments
                 );
 
             var bindingContainer = new BindingContainerWithInstance(
-                bindFromTypeSemantics,
-                bindToTypeSemantic,
+                types,
                 constructorArguments,
                 BindScopeEnum.Transient,
-                whenArgumentClause,
-                factoryPayloadSemantic
+                whenArgumentClause
                 );
 
             _bindingContainers.Add(bindingContainer);
@@ -343,7 +354,7 @@ namespace DpdtInject.Generator.BindExtractor
                 !(factoryPayloadSemantic is null)
                 );
 
-            var fullBindToTypeName = _typeInfoProvider.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
+            var fullBindToTypeName = _typeInfoContainer.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
             if (fullBindToTypeName == null)
             {
                 throw new DpdtException(
@@ -354,20 +365,24 @@ namespace DpdtInject.Generator.BindExtractor
 
             _extractor.ClearAndVisit(expressionNode);
 
+            var types = BuildTypes(
+                bindFromTypeSemantics,
+                bindToTypeSemantic,
+                factoryPayloadSemantic
+                );
+
             var constructorArguments = _extractor.GetConstructorArguments();
 
             _constructorArgumentDetector.AppendUnknown(
-                fullBindToTypeName,
+                (INamedTypeSymbol)types.BindToType,
                 ref constructorArguments
                 );
 
             var bindingContainer = new BindingContainerWithInstance(
-                bindFromTypeSemantics,
-                bindToTypeSemantic,
+                types,
                 constructorArguments,
                 BindScopeEnum.Custom,
-                whenArgumentClause,
-                factoryPayloadSemantic
+                whenArgumentClause
                 );
 
             _bindingContainers.Add(bindingContainer);
@@ -406,9 +421,14 @@ namespace DpdtInject.Generator.BindExtractor
                 bindGenericNode
                 );
 
-            var bindingContainer = new ConstantBindingContainer(
+            var types = new BindingContainerTypes(
                 bindFromTypeSemantics,
                 constTypeSymbol,
+                null
+                );
+
+            var bindingContainer = new ConstantBindingContainer(
+                types,
                 constantClause,
                 BindScopeEnum.Constant,
                 whenArgumentClause
@@ -418,6 +438,64 @@ namespace DpdtInject.Generator.BindExtractor
         }
 
 
+
+        /// <summary>
+        /// build appropriate types
+        ///  also, if required: build factory source code, and rebuild factory symbol (we need to access to constructors)
+        /// </summary>
+        private BindingContainerTypes BuildTypes(
+            List<ITypeSymbol> bindFromTypeSemantics,
+            ITypeSymbol bindToTypeSemantic,
+            ITypeSymbol? factoryPayloadSemantic
+            )
+        {
+            var types = new BindingContainerTypes(
+                bindFromTypeSemantics,
+                bindToTypeSemantic,
+                factoryPayloadSemantic
+                );
+
+            if (types.ToFactory)
+            {
+                var factoryProducer = new FactoryProducer(
+                    types
+                    );
+
+                var factoryProduct = factoryProducer.GenerateFactoryProduct();
+
+                _typeInfoContainer.AddSources(
+                    new ModificationDescription[] 
+                    {
+                        new ModificationDescription(
+                            (INamedTypeSymbol)types.BindToType,
+                            $"{types.BindToType.Name}.Pregenerated.cs",
+                            factoryProduct.SourceCode
+                            )
+                    }
+                    );
+
+                var updatedBindToTypeSemantic = _typeInfoContainer.GetTypeByMetadataName(
+                    types.BindToType.ToDisplayString()
+                    );
+
+                if (updatedBindToTypeSemantic is null)
+                {
+                    throw new DpdtException(
+                        DpdtExceptionTypeEnum.InternalError,
+                        $"Cannot get an updated version of the factory class [{types.BindToType.ToDisplayString()}]",
+                        types.BindToType.ToDisplayString()
+                        );
+                }
+
+                types = new BindingContainerTypes(
+                    bindFromTypeSemantics,
+                    updatedBindToTypeSemantic,
+                    factoryPayloadSemantic
+                    );
+            }
+
+            return types;
+        }
 
         private ITypeSymbol? GetFactoryPayloadIfExists(
             GenericNameSyntax toGenericNode
