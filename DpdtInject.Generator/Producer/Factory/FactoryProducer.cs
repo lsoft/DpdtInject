@@ -121,19 +121,17 @@ namespace {_types.BindToType.ContainingNamespace.ToDisplayString()}
             {
                 var constructorArgument = constructorArguments[i];
 
-                if (_unknowns.Any(u => SymbolEqualityComparer.Default.Equals(u.Type, constructorArgument.Type)))
+                if (_unknowns.Any(u => u.Name == constructorArgument.Name && SymbolEqualityComparer.Default.Equals(u.Type, constructorArgument.Type)))
                 {
-                    throw new DpdtException(
-                        DpdtExceptionTypeEnum.CannotBuildFactory,
-                        $"Cannot instanciate factory [{_types.BindToType.ToDisplayString()}] because of 2 or more constructors contains same type [{constructorArgument.Type!.ToDisplayString()}]",
-                        _types.BindToType.ToDisplayString()
-                        );
+                    //this unknown has been stored already, skip it
+                    continue;
                 }
-                if (_unknowns.Any(u => u.Name == constructorArgument.Name))
+
+                if (_unknowns.Any(u => u.Name == constructorArgument.Name && !SymbolEqualityComparer.Default.Equals(u.Type, constructorArgument.Type)))
                 {
                     throw new DpdtException(
                         DpdtExceptionTypeEnum.CannotBuildFactory,
-                        $"Cannot instanciate factory [{_types.BindToType.ToDisplayString()}] because of 2 or more constructors contains same parameter name [{constructorArgument.Name}]",
+                        $"Cannot instanciate factory [{_types.BindToType.ToDisplayString()}] because of 2 or more constructors contains same parameter name [{constructorArgument.Name}] with different types",
                         _types.BindToType.ToDisplayString()
                         );
                 }

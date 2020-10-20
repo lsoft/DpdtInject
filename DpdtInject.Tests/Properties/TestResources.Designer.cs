@@ -803,6 +803,31 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Factory.UnknownConstructorArgument1
+        ///{
+        ///    public partial class FactoryUnknownConstructorArgument1_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IAFactory&gt;()
+        ///                .ToFactory&lt;AF [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string FactoryUnknownConstructorArgument1_Cluster {
+            get {
+                return ResourceManager.GetString("FactoryUnknownConstructorArgument1_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Collections.Generic;

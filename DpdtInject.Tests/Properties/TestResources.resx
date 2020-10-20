@@ -205,6 +205,9 @@
   <data name="FactoryUnknownConstructorArgument0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Factory\UnknownConstructorArgument0\FactoryUnknownConstructorArgument0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="FactoryUnknownConstructorArgument1_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Factory\UnknownConstructorArgument1\FactoryUnknownConstructorArgument1_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="FactoryUnrelatedMethod_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Factory\UnrelatedMethod\FactoryUnrelatedMethod_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

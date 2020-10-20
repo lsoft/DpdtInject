@@ -172,7 +172,7 @@ namespace DpdtInject.Generator.BindExtractor
 
             var toGenericNode = genericNodes[1];
             var toMethodName = toGenericNode.Identifier.Text;
-            if (toMethodName.NotIn(nameof(IToOrConstantBinding.To), nameof(IToOrConstantBinding.ToFactory)))
+            if (toMethodName.NotIn(nameof(IToOrConstantBinding.To), nameof(IToOrConstantBinding.ToIsolatedFactory)))
             {
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, "Cannot find To clause for singleton binding");
             }
@@ -248,7 +248,7 @@ namespace DpdtInject.Generator.BindExtractor
 
             var toGenericNode = genericNodes[1];
             var toMethodName = toGenericNode.Identifier.Text;
-            if (toMethodName.NotIn(nameof(IToOrConstantBinding.To), nameof(IToOrConstantBinding.ToFactory)))
+            if (toMethodName.NotIn(nameof(IToOrConstantBinding.To), nameof(IToOrConstantBinding.ToIsolatedFactory)))
             {
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, "Cannot find To clause for transient binding");
             }
@@ -324,7 +324,7 @@ namespace DpdtInject.Generator.BindExtractor
 
             var toGenericNode = genericNodes[1];
             var toMethodName = toGenericNode.Identifier.Text;
-            if (toMethodName.NotIn(nameof(IToOrConstantBinding.To), nameof(IToOrConstantBinding.ToFactory)))
+            if (toMethodName.NotIn(nameof(IToOrConstantBinding.To), nameof(IToOrConstantBinding.ToIsolatedFactory)))
             {
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, "Cannot find To clause for custom binding");
             }
@@ -504,7 +504,7 @@ namespace DpdtInject.Generator.BindExtractor
             var toMethodName = toGenericNode.Identifier.Text;
 
             ITypeSymbol? factoryPayloadSemantic = null;
-            if (toMethodName == nameof(IToOrConstantBinding.ToFactory))
+            if (toMethodName == nameof(IToOrConstantBinding.ToIsolatedFactory))
             {
                 var factoryPayloadSyntax = toGenericNode.TypeArgumentList.Arguments.Second();
                 factoryPayloadSemantic = _semanticModel.GetTypeInfo(factoryPayloadSyntax).Type;
