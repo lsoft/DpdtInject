@@ -18,6 +18,7 @@ It's only a proof-of-concept. Nor alpha, neither beta.
 0. Constained `GetFast` fast resolutions.
 0. Single object `Get` or collection `GetAll` resolutions.
 0. `Func<T>` resolutions.
+0. `ToIsolatedFactory` bindings with factory code generation.
 0. Transient, singleton and constant scopes.
 0. Custom scopes.
 0. Child kernels (aka child clusters).
