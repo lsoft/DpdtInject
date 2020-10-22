@@ -20,7 +20,8 @@ namespace DpdtInject.Tests.Factory.Complex0
         public override void Load()
         {
             Bind<IAFactory>()
-                .ToIsolatedFactory<AFactory, A0>()
+                .ToIsolatedFactory<AFactory>()
+                .WithPayload<A0>()
                 .WithSingletonScope()
                 .Configure(new ConstructorArgument("b", B))
                 ;

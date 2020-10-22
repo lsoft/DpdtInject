@@ -177,8 +177,10 @@ namespace DpdtInject.Generator.BindExtractor
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, "Cannot find To clause for singleton binding");
             }
 
+            var factoryPayloadGenericNode = genericNodes.FirstOrDefault(gn => gn.Identifier.Text == nameof(IToFactoryBinding.WithPayload));
+
             var factoryPayloadSemantic = GetFactoryPayloadIfExists(
-                toGenericNode
+                factoryPayloadGenericNode
                 );
 
             var bindFromTypeSemantics = GetBindFromTypes(
@@ -253,8 +255,10 @@ namespace DpdtInject.Generator.BindExtractor
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, "Cannot find To clause for transient binding");
             }
 
+            var factoryPayloadGenericNode = genericNodes.FirstOrDefault(gn => gn.Identifier.Text == nameof(IToFactoryBinding.WithPayload));
+
             var factoryPayloadSemantic = GetFactoryPayloadIfExists(
-                toGenericNode
+                factoryPayloadGenericNode
                 );
 
             var bindFromTypeSemantics = GetBindFromTypes(
@@ -329,8 +333,10 @@ namespace DpdtInject.Generator.BindExtractor
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, "Cannot find To clause for custom binding");
             }
 
+            var factoryPayloadGenericNode = genericNodes.FirstOrDefault(gn => gn.Identifier.Text == nameof(IToFactoryBinding.WithPayload));
+
             var factoryPayloadSemantic = GetFactoryPayloadIfExists(
-                toGenericNode
+                factoryPayloadGenericNode
                 );
 
             var bindFromTypeSemantics = GetBindFromTypes(
@@ -498,23 +504,22 @@ namespace DpdtInject.Generator.BindExtractor
         }
 
         private ITypeSymbol? GetFactoryPayloadIfExists(
-            GenericNameSyntax toGenericNode
+            GenericNameSyntax? factoryPayloadGenericNode
             )
         {
-            var toMethodName = toGenericNode.Identifier.Text;
-
-            ITypeSymbol? factoryPayloadSemantic = null;
-            if (toMethodName == nameof(IToOrConstantBinding.ToIsolatedFactory))
+            if (factoryPayloadGenericNode is null)
             {
-                var factoryPayloadSyntax = toGenericNode.TypeArgumentList.Arguments.Second();
-                factoryPayloadSemantic = _semanticModel.GetTypeInfo(factoryPayloadSyntax).Type;
-                if (factoryPayloadSemantic == null)
-                {
-                    throw new DpdtException(
-                        DpdtExceptionTypeEnum.InternalError,
-                        $"Unknown problem to access {nameof(factoryPayloadSemantic)}"
-                        );
-                }
+                return null;
+            }
+
+            var factoryPayloadSyntax = factoryPayloadGenericNode.TypeArgumentList.Arguments.First();
+            var factoryPayloadSemantic = _semanticModel.GetTypeInfo(factoryPayloadSyntax).Type;
+            if (factoryPayloadSemantic == null)
+            {
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.InternalError,
+                    $"Unknown problem to access {nameof(factoryPayloadSemantic)}"
+                    );
             }
 
             return factoryPayloadSemantic;

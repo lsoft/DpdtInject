@@ -10,12 +10,17 @@ namespace DpdtInject.Injector.Module.Bind
     {
         IScopeBinding To<T>();
 
-        IScopeBinding ToIsolatedFactory<TFactory, TPayload>();
+        IToFactoryBinding ToIsolatedFactory<TFactory>();
 
         IConstantConditionalBinding WithConstScope<T>(T? constant);
     }
 
-    public interface IScopeBinding 
+    public interface IToFactoryBinding
+    {
+        IScopeBinding WithPayload<TPayload>();
+    }
+
+    public interface IScopeBinding
     {
         IConfigureAndConditionalBinding WithTransientScope();
 

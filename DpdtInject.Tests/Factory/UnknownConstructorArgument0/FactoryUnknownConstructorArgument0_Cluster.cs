@@ -14,7 +14,8 @@ namespace DpdtInject.Tests.Factory.UnknownConstructorArgument0
         public override void Load()
         {
             Bind<IAFactory>()
-                .ToIsolatedFactory<AFactory, A>()
+                .ToIsolatedFactory<AFactory>()
+                .WithPayload<A>()
                 .WithSingletonScope()
                 .Configure(new ConstructorArgument("b", 1))
                 ;
