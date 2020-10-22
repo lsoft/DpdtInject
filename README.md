@@ -113,7 +113,7 @@ Please refer to Dpdt.Injector nuget package at nuget.org. Keep in mind you need 
     <TieredCompilationQuickJit>false</TieredCompilationQuickJit>
     <TieredCompilationQuickJitForLoops>false</TieredCompilationQuickJitForLoops>
 
-    <Dpdt_Generator_GeneratedSourceFolder>C:\Temp\ConsoleApp1\ConsoleApp1\Dpdt.Pregenerated</Dpdt_Generator_GeneratedSourceFolder>
+    <Dpdt_Generator_GeneratedSourceFolder>$(MSBuildProjectDirectory)\Dpdt.Pregenerated</Dpdt_Generator_GeneratedSourceFolder>
   </PropertyGroup>
 
   <ItemGroup>
@@ -305,7 +305,7 @@ Dpdt's source generator is able to store pregenerated C# code at the disk. The o
 
 ```
   <PropertyGroup>
-    <Dpdt_Generator_GeneratedSourceFolder>c:\temp\Dpdt.Pregenerated</Dpdt_Generator_GeneratedSourceFolder>
+    <Dpdt_Generator_GeneratedSourceFolder>$(MSBuildProjectDirectory)\Dpdt.Pregenerated</Dpdt_Generator_GeneratedSourceFolder>
   </PropertyGroup>
 
   <ItemGroup>
@@ -320,4 +320,4 @@ Dpdt's source generator is able to store pregenerated C# code at the disk. The o
 
 ```
 
-`Dpdt_Generator_GeneratedSourceFolder` is a builtin variable name; `c:\temp\Dpdt.Pregenerated` is an **absolute** folder name for Dpdt artifacts and allowed to be changed.
+`Dpdt_Generator_GeneratedSourceFolder` is a builtin variable name; `$(MSBuildProjectDirectory)\Dpdt.Pregenerated` is an **absolute** folder name for Dpdt artifacts and allowed to be changed.

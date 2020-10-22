@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Net.Mime;
 using System.Text;
 
 namespace DpdtInject.Generator
@@ -39,9 +41,7 @@ namespace DpdtInject.Generator
                     );
 
                 var generatedSourceFolderFullPath =
-                    Path.GetFullPath(
-                        generatedSourceFolder ?? "Dpdt.Pregenerated"
-                        );
+                    generatedSourceFolder ?? Path.GetFullPath("Dpdt.Pregenerated");
 
                 if (needToStoreGeneratedSources)
                 {
@@ -55,7 +55,6 @@ namespace DpdtInject.Generator
 
                 var typeInfoContainer = new GeneratorTypeInfoContainer(
                     ref context,
-                    needToStoreGeneratedSources,
                     generatedSourceFolderFullPath
                     );
 

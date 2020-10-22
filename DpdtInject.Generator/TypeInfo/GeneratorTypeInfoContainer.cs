@@ -10,8 +10,7 @@ namespace DpdtInject.Generator.TypeInfo
     public class GeneratorTypeInfoContainer : TypeInfoContainer
     {
         private readonly GeneratorExecutionContext _context;
-        private readonly bool _needToStoreGeneratedSources;
-        private readonly string _generatedSourceFolderFullPath;
+        private readonly string? _generatedSourceFolderFullPath;
 
         public int UnitsGenerated
         {
@@ -21,12 +20,10 @@ namespace DpdtInject.Generator.TypeInfo
 
         public GeneratorTypeInfoContainer(
             ref GeneratorExecutionContext context,
-            bool needToStoreGeneratedSources,
-            string generatedSourceFolderFullPath
+            string? generatedSourceFolderFullPath
             ) : base(context.Compilation)
         {
             _context = context;
-            _needToStoreGeneratedSources = needToStoreGeneratedSources;
             _generatedSourceFolderFullPath = generatedSourceFolderFullPath;
             UnitsGenerated = 0;
         }
@@ -36,7 +33,7 @@ namespace DpdtInject.Generator.TypeInfo
             var sourceTexts = new List<SourceText>();
             foreach (var modificationDescription in modificationDescriptions)
             {
-                if (_needToStoreGeneratedSources)
+                if (_generatedSourceFolderFullPath is not null)
                 {
                     modificationDescription.NormalizeWhitespaces();
 
