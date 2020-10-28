@@ -1,4 +1,5 @@
-﻿using BenchmarkDotNet.Running;
+﻿using BenchmarkDotNet.Exporters;
+using BenchmarkDotNet.Running;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,9 +13,9 @@ namespace DpdtInject.Tests.Performance
     {
         public static void Main(string[] args)
         {
-            //var summary = BenchmarkRunner.Run(
-            //    typeof(Program).Assembly
-            //    );
+            var summary = BenchmarkRunner.Run(
+                typeof(Program).Assembly
+                );
 
             //var summary0 = BenchmarkRunner.Run(
             //    typeof(DpdtInject.Tests.Performance.Generic.Singleton.Microresolver)
@@ -30,9 +31,9 @@ namespace DpdtInject.Tests.Performance
             //    );
 
 
-            var summary0 = BenchmarkRunner.Run(
-                typeof(DpdtInject.Tests.Performance.TimeConsume.BigTree0.Dpdt)
-                );
+            //var summary0 = BenchmarkRunner.Run(
+            //    typeof(DpdtInject.Tests.Performance.TimeConsume.BigTree0.Dpdt)
+            //    );
             //var summary1 = BenchmarkRunner.Run(
             //    typeof(DpdtInject.Tests.Performance.TimeConsume.BigTree0.DryIoc)
             //    );

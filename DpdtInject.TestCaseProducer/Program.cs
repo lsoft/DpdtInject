@@ -10,8 +10,7 @@ namespace DpdtInject.TestCaseProducer
 {
     class Program
     {
-        public const int BindCount = 50;
-        public const ScopeTypeEnum Scope = ScopeTypeEnum.Singleton;
+        public const int BindCount = 500;
 
         public static int Seed =
             //BitConverter.ToInt32(Guid.NewGuid().ToByteArray(), 0);
@@ -24,20 +23,31 @@ namespace DpdtInject.TestCaseProducer
                 GenerateNodesInTree(Seed);
                 //GenerateNodesInColumn(Seed);
 
-            var targetDirectory = @"../../../../DpdtInject.Tests.Performance/TimeConsume/BigTree0";
-            var nameSpace = "DpdtInject.Tests.Performance.TimeConsume.BigTree0";
+            var rootTargetDirectory = @"../../../../DpdtInject.Tests.Performance/TimeConsume/BigTree0";
+            var rootNameSpace = "DpdtInject.Tests.Performance.TimeConsume.BigTree0";
 
-            if (!Directory.Exists(targetDirectory))
+            if (!Directory.Exists(rootTargetDirectory))
             {
-                Directory.CreateDirectory(targetDirectory);
+                Directory.CreateDirectory(rootTargetDirectory);
             }
 
-            #region subject
+            foreach (var scope in new[] { ScopeTypeEnum.Singleton, ScopeTypeEnum.Transient })
+            {
+                var targetDirectory = rootTargetDirectory + "/" + scope.ToString();
+                var nameSpace = rootNameSpace + "." + scope.ToString();
+                
+                if (!Directory.Exists(targetDirectory))
+                {
+                    Directory.CreateDirectory(targetDirectory);
+                }
 
-            var subjectFileName = "Subject.cs";
-            var subjectFilePath = Path.Combine(targetDirectory, subjectFileName);
 
-            var subjectSourceCode = $@"
+                #region subject
+
+                var subjectFileName = "Subject.cs";
+                var subjectFilePath = Path.Combine(targetDirectory, subjectFileName);
+
+                var subjectSourceCode = $@"
 //seed: {Seed}
 using System;
 using System.Collections.Generic;
@@ -49,29 +59,29 @@ namespace {nameSpace}
 }}
 ";
 
-            subjectSourceCode = SyntaxFactory.ParseCompilationUnit(subjectSourceCode).NormalizeWhitespace().GetText().ToString();
+                subjectSourceCode = SyntaxFactory.ParseCompilationUnit(subjectSourceCode).NormalizeWhitespace().GetText().ToString();
 
-            File.WriteAllText(
-                subjectFilePath,
-                subjectSourceCode
-                );
+                File.WriteAllText(
+                    subjectFilePath,
+                    subjectSourceCode
+                    );
 
-            #endregion
+                #endregion
 
-            var nodeGroups = (
-                from node in createdNodes
-                group node by (createdNodes.IndexOf(node) / 50)
-                into nodegroup
-                select nodegroup
-                ).ToList();
+                var nodeGroups = (
+                    from node in createdNodes
+                    group node by (createdNodes.IndexOf(node) / 50)
+                    into nodegroup
+                    select nodegroup
+                    ).ToList();
 
-            #region dpdt cluster
+                #region dpdt cluster
 
-            var clusterFileName = "DpdtCluster.cs";
-            var clusterFilePath = Path.Combine(targetDirectory, clusterFileName);
-            var clusterClassName = "TimeConsumeBigTree0_Cluster";
+                var clusterFileName = "DpdtCluster.cs";
+                var clusterFilePath = Path.Combine(targetDirectory, clusterFileName);
+                var clusterClassName = "TimeConsumeBigTree0_Cluster";
 
-            var dpdtClusterCode = $@"
+                var dpdtClusterCode = $@"
 //seed: {Seed}
 using DpdtInject.Injector;
 using DpdtInject.Injector.Excp;
@@ -88,14 +98,14 @@ namespace {nameSpace}
     {{
         public const int BindCount = {BindCount};
         public const string BindCountString = ""{BindCount}"";
-        public const string GenericTestName = ""{ResolveTypeEnum.Generic}{Scope}{BindCount}"";
-        public const string NonGenericTestName = ""{ResolveTypeEnum.NonGeneric}{Scope}{BindCount}"";
-        public const string FastTestName = ""{ResolveTypeEnum.Fast}{Scope}{BindCount}"";
+        public const string GenericTestName = ""Dpdt.{ResolveTypeEnum.Generic}{scope}{BindCount}"";
+        public const string NonGenericTestName = ""Dpdt.{ResolveTypeEnum.NonGeneric}{scope}{BindCount}"";
+        public const string FastTestName = ""Dpdt.{ResolveTypeEnum.Fast}{scope}{BindCount}"";
 
         public override void Load()
         {{
 #region bind code
-            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDpdtBindCode(Scope)))};
+            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDpdtBindCode(scope)))};
 #endregion
         }}
 
@@ -133,22 +143,22 @@ namespace {nameSpace}
 ";
 
 
-            dpdtClusterCode = SyntaxFactory.ParseCompilationUnit(dpdtClusterCode).NormalizeWhitespace().GetText().ToString();
+                dpdtClusterCode = SyntaxFactory.ParseCompilationUnit(dpdtClusterCode).NormalizeWhitespace().GetText().ToString();
 
-            File.WriteAllText(
-                clusterFilePath,
-                dpdtClusterCode
-                );
+                File.WriteAllText(
+                    clusterFilePath,
+                    dpdtClusterCode
+                    );
 
-            #endregion
+                #endregion
 
-            #region dryioc related
+                #region dryioc related
 
-            var dryiocFileName = "DryIocRelated.cs";
-            var dryiocFilePath = Path.Combine(targetDirectory, dryiocFileName);
-            var dryiocClassName = "DryIocRelated";
+                var dryiocFileName = "DryIocRelated.cs";
+                var dryiocFilePath = Path.Combine(targetDirectory, dryiocFileName);
+                var dryiocClassName = "DryIocRelated";
 
-            var dryiocCode = $@"
+                var dryiocCode = $@"
 //seed: {Seed}
 using DpdtInject.Injector;
 using DpdtInject.Injector.Excp;
@@ -166,13 +176,13 @@ namespace {nameSpace}
     {{
         public const int BindCount = {BindCount};
         public const string BindCountString = ""{BindCount}"";
-        public const string GenericTestName = ""{ResolveTypeEnum.Generic}{Scope}{BindCount}"";
-        public const string NonGenericTestName = ""{ResolveTypeEnum.NonGeneric}{Scope}{BindCount}"";
+        public const string GenericTestName = ""DryIoc.{ResolveTypeEnum.Generic}{scope}{BindCount}"";
+        public const string NonGenericTestName = ""DryIoc.{ResolveTypeEnum.NonGeneric}{scope}{BindCount}"";
 
         public static void Bind(Container container)
         {{
 #region bind code
-            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDryIocBindCode(Scope)))};
+            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetDryIocBindCode(scope)))};
 #endregion
         }}
 
@@ -191,22 +201,22 @@ namespace {nameSpace}
 }}
 ";
 
-            dryiocCode = SyntaxFactory.ParseCompilationUnit(dryiocCode).NormalizeWhitespace().GetText().ToString();
+                dryiocCode = SyntaxFactory.ParseCompilationUnit(dryiocCode).NormalizeWhitespace().GetText().ToString();
 
-            File.WriteAllText(
-                dryiocFilePath,
-                dryiocCode
-                );
+                File.WriteAllText(
+                    dryiocFilePath,
+                    dryiocCode
+                    );
 
-            #endregion
+                #endregion
 
-            #region microresolver related
+                #region microresolver related
 
-            var mrFileName = "MicroResolverRelated.cs";
-            var mrFilePath = Path.Combine(targetDirectory, mrFileName);
-            var mrClassName = "MicroResolverRelated";
+                var mrFileName = "MicroResolverRelated.cs";
+                var mrFilePath = Path.Combine(targetDirectory, mrFileName);
+                var mrClassName = "MicroResolverRelated";
 
-            var mrCode = $@"
+                var mrCode = $@"
 //seed: {Seed}
 using DpdtInject.Injector;
 using DpdtInject.Injector.Excp;
@@ -224,13 +234,13 @@ namespace {nameSpace}
     {{
         public const int BindCount = {BindCount};
         public const string BindCountString = ""{BindCount}"";
-        public const string GenericTestName = ""{ResolveTypeEnum.Generic}{Scope}{BindCount}"";
-        public const string NonGenericTestName = ""{ResolveTypeEnum.NonGeneric}{Scope}{BindCount}"";
+        public const string GenericTestName = ""Microresolver.{ResolveTypeEnum.Generic}{scope}{BindCount}"";
+        public const string NonGenericTestName = ""Microresolver.{ResolveTypeEnum.NonGeneric}{scope}{BindCount}"";
 
         public static void Bind(ObjectResolver container)
         {{
 #region bind code
-            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetMicroresolverBindCode(Scope)))};
+            {string.Join(Environment.NewLine, createdNodes.Select(cn => cn.GetMicroresolverBindCode(scope)))};
 #endregion
         }}
 
@@ -249,14 +259,15 @@ namespace {nameSpace}
 }}
 ";
 
-            mrCode = SyntaxFactory.ParseCompilationUnit(mrCode).NormalizeWhitespace().GetText().ToString();
+                mrCode = SyntaxFactory.ParseCompilationUnit(mrCode).NormalizeWhitespace().GetText().ToString();
 
-            File.WriteAllText(
-                mrFilePath,
-                mrCode
-                );
+                File.WriteAllText(
+                    mrFilePath,
+                    mrCode
+                    );
 
-            #endregion
+                #endregion
+            }
         }
 
         private static List<Node> GeneratePlainNodes(

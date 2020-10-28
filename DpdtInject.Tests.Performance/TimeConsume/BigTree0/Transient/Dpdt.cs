@@ -3,7 +3,7 @@ using BenchmarkDotNet.Jobs;
 using DpdtInject.Generator;
 using System;
 
-namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
+namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0.Transient
 {
 
     [SimpleJob(RuntimeMoniker.NetCoreApp31)]

@@ -36,61 +36,36 @@ More to come!
 
 ``` ini
 
-BenchmarkDotNet=v0.12.0, OS=Windows 10.0.19041
-Intel Core i5-4200U CPU 1.60GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
-.NET Core SDK=5.0.100-rc.1.20452.10
+BenchmarkDotNet=v0.12.0, OS=Windows 10.0.18363
+AMD Ryzen 7 4700U with Radeon Graphics, 1 CPU, 8 logical and 8 physical cores
+.NET Core SDK=5.0.100-rc.2.20479.15
   [Host]     : .NET Core 3.1.7 (CoreCLR 4.700.20.36602, CoreFX 4.700.20.37001), X64 RyuJIT
-  Job-DOJUWL : .NET Core 3.1.7 (CoreCLR 4.700.20.36602, CoreFX 4.700.20.37001), X64 RyuJIT
+  Job-OKTIPR : .NET Core 3.1.7 (CoreCLR 4.700.20.36602, CoreFX 4.700.20.37001), X64 RyuJIT
 
 Runtime=.NET Core 3.1  Server=True  
 
-|                                         Namespace |          Type |              Method |       Mean |     Error |    StdDev |     Median |  Gen 0 | Gen 1 | Gen 2 | Allocated |
-|-------------------------------------------------- |-------------- |-------------------- |-----------:|----------:|----------:|-----------:|-------:|------:|------:|----------:|
-|       DpdtInject.Tests.Performance.Fast.Singleton |          Dpdt |       FastSingleton |   9.390 ns | 0.1064 ns | 0.0889 ns |   9.398 ns |      - |     - |     - |         - |
-|       DpdtInject.Tests.Performance.Fast.Transient |          Dpdt |       FastTransient |  47.154 ns | 0.4834 ns | 0.4522 ns |  47.110 ns | 0.0156 |     - |     - |     120 B |
-|    DpdtInject.Tests.Performance.Generic.Singleton |          Dpdt |    GenericSingleton |  15.656 ns | 0.2481 ns | 0.2199 ns |  15.701 ns |      - |     - |     - |         - |
-|    DpdtInject.Tests.Performance.Generic.Transient |          Dpdt |    GenericTransient |  61.170 ns | 1.1193 ns | 0.8739 ns |  61.359 ns | 0.0187 |     - |     - |     144 B |
-| DpdtInject.Tests.Performance.NonGeneric.Singleton |          Dpdt | NonGenericSingleton |  47.878 ns | 0.6966 ns | 0.6516 ns |  47.760 ns |      - |     - |     - |         - |
-| DpdtInject.Tests.Performance.NonGeneric.Transient |          Dpdt | NonGenericTransient |  96.832 ns | 1.3139 ns | 1.0971 ns |  96.587 ns | 0.0187 |     - |     - |     144 B |
-|-------------------------------------------------- |-------------- |-------------------- |-----------:|----------:|----------:|-----------:|-------:|------:|------:|----------:|
-|    DpdtInject.Tests.Performance.Generic.Singleton |        DryIoc |    GenericSingleton |  96.620 ns | 1.0785 ns | 1.0088 ns |  96.710 ns |      - |     - |     - |         - |
-|    DpdtInject.Tests.Performance.Generic.Transient |        DryIoc |    GenericTransient | 140.565 ns | 2.8101 ns | 2.7598 ns | 141.088 ns | 0.0186 |     - |     - |     144 B |
-| DpdtInject.Tests.Performance.NonGeneric.Singleton |        DryIoc | NonGenericSingleton |  56.725 ns | 0.6225 ns | 0.5198 ns |  56.826 ns |      - |     - |     - |         - |
-| DpdtInject.Tests.Performance.NonGeneric.Transient |        DryIoc | NonGenericTransient | 104.145 ns | 2.1310 ns | 2.0929 ns | 103.582 ns | 0.0188 |     - |     - |     144 B |
-|-------------------------------------------------- |-------------- |-------------------- |-----------:|----------:|----------:|-----------:|-------:|------:|------:|----------:|
-|    DpdtInject.Tests.Performance.Generic.Singleton | Microresolver |    GenericSingleton |  59.431 ns | 1.0300 ns | 0.9634 ns |  59.484 ns |      - |     - |     - |         - |
-|    DpdtInject.Tests.Performance.Generic.Transient | Microresolver |    GenericTransient | 119.079 ns | 2.3919 ns | 2.9375 ns | 118.693 ns | 0.0186 |     - |     - |     144 B |
-| DpdtInject.Tests.Performance.NonGeneric.Singleton | Microresolver | NonGenericSingleton |  31.869 ns | 1.1528 ns | 3.3991 ns |  30.088 ns |      - |     - |     - |         - |
-| DpdtInject.Tests.Performance.NonGeneric.Transient | Microresolver | NonGenericTransient |  81.541 ns | 1.7322 ns | 3.4991 ns |  80.248 ns | 0.0188 |     - |     - |     144 B |
 ```
+|                               Method |      Mean |     Error |    StdDev | Gen 0 | Gen 1 | Gen 2 | Allocated |
+|------------------------------------- |----------:|----------:|----------:|------:|------:|------:|----------:|
+|             Dpdt.GenericSingleton500 |  4.325 us | 0.0407 us | 0.0381 us |     - |     - |     - |         - |
+|          Dpdt.NonGenericSingleton500 | 13.641 us | 0.1126 us | 0.1054 us |     - |     - |     - |         - |
+|                Dpdt.FastSingleton500 |  2.577 us | 0.0104 us | 0.0097 us |     - |     - |     - |         - |
+|           DryIoc.GenericSingleton500 | 16.148 us | 0.1470 us | 0.1375 us |     - |     - |     - |         - |
+|        DryIoc.NonGenericSingleton500 |  9.728 us | 0.1689 us | 0.1580 us |     - |     - |     - |         - |
+|    Microresolver.GenericSingleton500 |  7.276 us | 0.0573 us | 0.0536 us |     - |     - |     - |         - |
+| Microresolver.NonGenericSingleton500 |  3.784 us | 0.0158 us | 0.0148 us |     - |     - |     - |         - |
 
-Make note: Dpdt's timings is Fast < Generic < NonGeneric (from fastest to slowest), but for DryIoc and Microresolver is NonGeneric < Generic (reverse order). Interesting!
 
-Few more numbers for complex tree total of 1000 bindings:
-
-``` ini
-
-BenchmarkDotNet=v0.12.0, OS=Windows 10.0.19041
-Intel Core i5-4200U CPU 1.60GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
-.NET Core SDK=5.0.100-rc.1.20452.10
-  [Host]     : .NET Core 3.1.7 (CoreCLR 4.700.20.36602, CoreFX 4.700.20.37001), X64 RyuJIT
-  Job-ACPELA : .NET Core 3.1.7 (CoreCLR 4.700.20.36602, CoreFX 4.700.20.37001), X64 RyuJIT
-
-Runtime=.NET Core 3.1  Server=True  
-
-|          Type |                  Method |      Mean |    Error |   StdDev | Gen 0 | Gen 1 | Gen 2 | Allocated |
-|---------------|------------------------ |----------:|---------:|---------:|------:|------:|------:|----------:|
-|          Dpdt |    GenericSingleton1000 |  51.83 us | 0.441 us | 0.412 us |     - |     - |     - |         - |
-|          Dpdt | NonGenericSingleton1000 | 100.29 us | 0.747 us | 0.662 us |     - |     - |     - |         - |
-|          Dpdt |       FastSingleton1000 |  22.71 us | 0.238 us | 0.211 us |     - |     - |     - |         - |
-|---------------|------------------------ |----------:|---------:|---------:|------:|------:|------:|----------:|
-|        DryIoc |    GenericSingleton1000 | 136.04 us | 2.497 us | 2.336 us |     - |     - |     - |         - |
-|        DryIoc | NonGenericSingleton1000 |  93.73 us | 1.393 us | 1.235 us |     - |     - |     - |         - |
-|---------------|------------------------ |----------:|---------:|---------:|------:|------:|------:|----------:|
-| Microresolver |    GenericSingleton1000 |  75.04 us | 1.461 us | 2.095 us |     - |     - |     - |         - |
-| Microresolver | NonGenericSingleton1000 |  29.61 us | 0.411 us | 0.384 us |     - |     - |     - |         - |
-
-```
+|                               Method |     Mean |    Error |   StdDev |  Gen 0 | Gen 1 | Gen 2 | Allocated |
+|------------------------------------- |---------:|---------:|---------:|-------:|------:|------:|----------:|
+|             Dpdt.GenericTransient500 | 40.32 us | 0.330 us | 0.309 us | 4.1504 |     - |     - |  77.02 KB |
+|          Dpdt.NonGenericTransient500 | 63.08 us | 0.489 us | 0.433 us | 4.1504 |     - |     - |  77.02 KB |
+|                Dpdt.FastTransient500 | 37.93 us | 0.253 us | 0.224 us | 3.8452 |     - |     - |   71.2 KB |
+|           DryIoc.GenericTransient500 | 66.87 us | 1.288 us | 1.581 us | 4.2725 |     - |     - |  77.02 KB |
+|        DryIoc.NonGenericTransient500 | 62.60 us | 0.480 us | 0.449 us | 4.1504 |     - |     - |  77.02 KB |
+|    Microresolver.GenericTransient500 | 64.77 us | 0.294 us | 0.261 us | 4.2725 |     - |     - |  77.02 KB |
+| Microresolver.NonGenericTransient500 | 68.52 us | 2.869 us | 8.415 us | 4.1504 |     - |     - |  77.02 KB |
+	
 
 
 Also I recommend disable tiered compilation for composition root assembly if you want to obtain full performance at the start.

@@ -2,7 +2,7 @@
 using BenchmarkDotNet.Jobs;
 using DryIoc;
 
-namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0
+namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0.Singleton
 {
     [SimpleJob(RuntimeMoniker.NetCoreApp31)]
     [MemoryDiagnoser]
