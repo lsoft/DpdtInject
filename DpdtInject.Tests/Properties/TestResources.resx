@@ -277,6 +277,15 @@
   <data name="ScopeCustomNonGenericSingleObject_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Scope\Custom\NonGeneric\SingleObject\ScopeCustomNonGenericSingleObject_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="ScopeSingletonFastHierarchy2_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Singleton\Fast\Hierarchy2\ScopeSingletonFastHierarchy2_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ScopeSingletonFastSingleInterfaceSingleObject_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Singleton\Fast\SingleInterfaceSingleObject\ScopeSingletonFastSingleInterfaceSingleObject_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ScopeSingletonFastTwoInterfacesSingleObject_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Singleton\Fast\TwoInterfacesSingleObject\ScopeSingletonFastTwoInterfacesSingleObject_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="ScopeSingletonGenericHierarchy2_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Scope\Singleton\Generic\Hierarchy2\ScopeSingletonGenericHierarchy2_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

@@ -80,6 +80,12 @@ namespace DpdtInject.Tests
         }
 
 
+        public T1 GetFast<T1>(T1 unused)
+        {
+            throw new NotImplementedException();
+        }
+
+
 
 
         public T1 GetToChild<T1>(IResolutionRequest resolutionRequest)

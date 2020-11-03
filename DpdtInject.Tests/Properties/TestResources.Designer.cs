@@ -726,6 +726,7 @@ namespace DpdtInject.Tests.Properties {
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
         ///using DpdtInject.Injector.Module.Bind;
+        ///using DpdtInject.Injector.Module.RContext;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Collections.Generic;
@@ -740,9 +741,7 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string A = &quot;0&quot;;
         ///        public const int B = 1;
-        ///        public const long C = 2L;
-        ///
-        ///        public ove [rest of string was truncated]&quot;;.
+        ///        pub [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FactoryComplex0_Cluster {
             get {
@@ -766,8 +765,9 @@ namespace DpdtInject.Tests.Properties {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IAFactory&gt;()
-        ///                .ToIsolatedFactory&lt;AFactory, A&gt;()
-        ///                .WithSingletonSc [rest of string was truncated]&quot;;.
+        ///                .ToIsolatedFactory&lt;AFactory&gt;()
+        ///                .WithPayload&lt;A&gt;()
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FactoryConstructorArgument0_Cluster {
             get {
@@ -791,10 +791,9 @@ namespace DpdtInject.Tests.Properties {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IAFactory&gt;()
-        ///                .ToIsolatedFactory&lt;AFactory, A&gt;()
-        ///                .WithSingletonScope()
-        ///                ;
-        /// [rest of string was truncated]&quot;;.
+        ///                .ToIsolatedFactory&lt;AFactory&gt;()
+        ///                .WithPayload&lt;A&gt;()
+        ///                .WithSingl [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FactorySimple0_Cluster {
             get {
@@ -868,9 +867,9 @@ namespace DpdtInject.Tests.Properties {
         ///        public override void Load()
         ///        {
         ///            Bind&lt;IAFactory&gt;()
-        ///                .ToIsolatedFactory&lt;AFactory, A&gt;()
-        ///                .WithSingletonScope()
-        ///    [rest of string was truncated]&quot;;.
+        ///                .ToIsolatedFactory&lt;AFactory&gt;()
+        ///                .WithPayload&lt;A&gt;()
+        ///           [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FactoryUnrelatedMethod_Cluster {
             get {
@@ -1411,6 +1410,84 @@ namespace DpdtInject.Tests.Properties {
         internal static string ScopeCustomNonGenericSingleObject_Cluster {
             get {
                 return ResourceManager.GetString("ScopeCustomNonGenericSingleObject_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Singleton.Fast.Hierarchy2
+        ///{
+        ///    public partial class ScopeSingletonFastHierarchy2_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithSingletonScope()
+        ///                ;
+        ///
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeSingletonFastHierarchy2_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeSingletonFastHierarchy2_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Singleton.Fast.SingleInterfaceSingleObject
+        ///{
+        ///    public partial class ScopeSingletonFastSingleInterfaceSingleObject_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithSingl [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeSingletonFastSingleInterfaceSingleObject_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeSingletonFastSingleInterfaceSingleObject_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Singleton.Fast.TwoInterfacesSingleObject
+        ///{
+        ///    public partial class ScopeSingletonFastTwoInterfacesSingleObject_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA0, IA1&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithSin [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeSingletonFastTwoInterfacesSingleObject_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeSingletonFastTwoInterfacesSingleObject_Cluster", resourceCulture);
             }
         }
         

@@ -45,6 +45,10 @@ AMD Ryzen 7 4700U with Radeon Graphics, 1 CPU, 8 logical and 8 physical cores
 Runtime=.NET Core 3.1  Server=True  
 
 ```
+
+Here is the results of a resolution a complex tree of 500 objects total:
+
+
 |                               Method |      Mean |     Error |    StdDev | Gen 0 | Gen 1 | Gen 2 | Allocated |
 |------------------------------------- |----------:|----------:|----------:|------:|------:|------:|----------:|
 |             Dpdt.GenericSingleton500 |  4.325 us | 0.0407 us | 0.0381 us |     - |     - |     - |         - |
@@ -102,7 +106,7 @@ Please refer to Dpdt.Injector nuget package at nuget.org. Keep in mind you need 
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dpdt.Injector" Version="0.2.0-alpha" />
+    <PackageReference Include="Dpdt.Injector" Version="0.2.1-alpha" />
   </ItemGroup>
 
 </Project>
