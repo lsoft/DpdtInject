@@ -4,7 +4,7 @@ using DryIoc;
 
 namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0.Transient
 {
-    [SimpleJob(RuntimeMoniker.NetCoreApp31)]
+    [SimpleJob(RuntimeMoniker.NetCoreApp50)]
     [MemoryDiagnoser]
     [GcServer(true)]
     public class DryIoc

@@ -77,7 +77,7 @@ Also I recommend disable tiered compilation for composition root assembly if you
 
 # How to try
 
-Please refer to Dpdt.Injector nuget package at nuget.org. Keep in mind you need to set 'net5' target framework and 'preview' language version. For example:
+Please refer to Dpdt.Injector nuget package at nuget.org. Keep in mind you need to set 'net5' target framework. For example:
 
 ```
 <Project Sdk="Microsoft.NET.Sdk">
@@ -85,7 +85,6 @@ Please refer to Dpdt.Injector nuget package at nuget.org. Keep in mind you need 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5</TargetFramework>
-    <LangVersion>preview</LangVersion>
 
     <!-- disable tiered compilation for composition root assembly -->
     <TieredCompilation>false</TieredCompilation>

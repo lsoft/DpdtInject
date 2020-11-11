@@ -4,7 +4,7 @@ using MicroResolver;
 
 namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0.Singleton
 {
-    [SimpleJob(RuntimeMoniker.NetCoreApp31)]
+    [SimpleJob(RuntimeMoniker.NetCoreApp50)]
     [MemoryDiagnoser]
     [GcServer(true)]
     public class Microresolver
