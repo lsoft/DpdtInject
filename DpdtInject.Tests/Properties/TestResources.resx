@@ -148,6 +148,15 @@
   <data name="ClusterGenericDifferentConditional1_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Cluster\Generic\DifferentConditional1\ClusterGenericDifferentConditional1_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="ClusterGenericDifferentConditional2_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Cluster\Generic\DifferentConditional2\ClusterGenericDifferentConditional2_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ClusterGenericDifferentConditional3_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Cluster\Generic\DifferentConditional3\ClusterGenericDifferentConditional3_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ClusterGenericDifferentConditional4_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Cluster\Generic\DifferentConditional4\ClusterGenericDifferentConditional4_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="ClusterGenericDifferentFunc_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Cluster\Generic\DifferentFunc\ClusterGenericDifferentFunc_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

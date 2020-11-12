@@ -344,6 +344,84 @@ namespace DpdtInject.Tests.Properties {
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Collections.Generic;
+        ///using System.Diagnostics;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional2
+        ///{
+        ///    public partial class ClusterGenericDifferentConditional2_RootCluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ClusterGenericDifferentConditional2_Cluster {
+            get {
+                return ResourceManager.GetString("ClusterGenericDifferentConditional2_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Diagnostics;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional3
+        ///{
+        ///    public partial class ClusterGenericDifferentConditional3_RootCluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ClusterGenericDifferentConditional3_Cluster {
+            get {
+                return ResourceManager.GetString("ClusterGenericDifferentConditional3_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Diagnostics;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional4
+        ///{
+        ///    public partial class ClusterGenericDifferentConditional4_RootCluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ClusterGenericDifferentConditional4_Cluster {
+            get {
+                return ResourceManager.GetString("ClusterGenericDifferentConditional4_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;

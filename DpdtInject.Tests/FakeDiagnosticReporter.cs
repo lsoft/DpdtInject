@@ -84,6 +84,11 @@ namespace DpdtInject.Tests
             Debug.WriteLine(string.Empty);
         }
 
+        public DpdtException GetInnerDpdtException(int index = 0)
+        {
+            return (DpdtException)GetException<Exception>(index).InnerException;
+        }
+
         public DpdtException GetDpdtException(int index = 0)
         {
             return GetException<DpdtException>(index);

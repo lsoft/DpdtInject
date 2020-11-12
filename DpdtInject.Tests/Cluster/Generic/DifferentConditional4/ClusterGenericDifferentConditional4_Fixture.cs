@@ -5,10 +5,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace DpdtInject.Tests.Unsorted.TooManyChildren
+namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional4
 {
-    [TestClass] 
-    public class UnsortedTooManyChildren_Fixture
+    [TestClass]
+    public class ClusterGenericDifferentConditional4_Fixture
     {
         public TestContext TestContext { get; set; }
 
@@ -17,15 +17,17 @@ namespace DpdtInject.Tests.Unsorted.TooManyChildren
         {
             var preparation = new Preparator(
                 TestContext,
-                nameof(UnsortedTooManyChildren_Cluster.UnsortedTooManyChildren_ClusterTester),
-                nameof(TestResources.UnsortedTooManyChildren_Cluster),
-                TestResources.UnsortedTooManyChildren_Cluster
+                nameof(ClusterGenericDifferentConditional4_ClusterTester),
+                nameof(TestResources.ClusterGenericDifferentConditional4_Cluster),
+                TestResources.ClusterGenericDifferentConditional4_Cluster
                 );
 
             preparation.Check();
 
             Assert.AreEqual(1, preparation.DiagnosticReporter.ErrorCount, "Error count");
             Assert.AreEqual(0, preparation.DiagnosticReporter.WarningCount, "Warning count");
+            Assert.AreEqual(DpdtExceptionTypeEnum.NoBindingAvailable, preparation.DiagnosticReporter.GetInnerDpdtException().Type);
+            Assert.AreEqual(typeof(IB).FullName, preparation.DiagnosticReporter.GetInnerDpdtException().AdditionalArgument);
         }
 
     }
