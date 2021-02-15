@@ -21,4 +21,13 @@
     <Compile Remove="Reinvented\FixedSizeFactoryContainerCustomScope.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>DpdtInject.Generator</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>DpdtInject.TestCaseProducer</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
 </Project>
