@@ -51,7 +51,7 @@ namespace DpdtInject.Generator.Parser.Binding
                 constructorArguments
                     .Where(ca => !ca.DefineInBindNode)
                     .Select(ca => ca.Type!),
-                new TypeSymbolEqualityComparer()
+                TypeSymbolEqualityComparer.Entity
                 );
         }
     }

@@ -170,7 +170,18 @@ namespace DpdtInject.Generator.BindExtractor
                 .OfType<GenericNameSyntax>()
                 .ToList();
 
-            var toGenericNode = genericNodes[1];
+            var toGenericNodes = genericNodes
+                .Where(ToMethodPredicate)
+                .ToList()
+                ;
+
+            if (toGenericNodes.Count != 1)
+            {
+                throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"Cannot find To clause for singleton binding : {toGenericNodes.Count}");
+            }
+
+            var toGenericNode = toGenericNodes[0];
+
             var toMethodName = toGenericNode.Identifier.Text;
             if (toMethodName.NotIn(nameof(IToOrConstantBinding.To), nameof(IToOrConstantBinding.ToIsolatedFactory)))
             {
@@ -188,7 +199,7 @@ namespace DpdtInject.Generator.BindExtractor
                 );
 
             var bindToSyntax = toGenericNode.TypeArgumentList.Arguments.First();
-            var bindToTypeSemantic = _semanticModel.GetTypeInfo(bindToSyntax).Type;
+            ITypeSymbol? bindToTypeSemantic = _semanticModel.GetTypeInfo(bindToSyntax).Type;
             if (bindToTypeSemantic == null)
             {
                 throw new DpdtException(
@@ -203,14 +214,14 @@ namespace DpdtInject.Generator.BindExtractor
                 !(factoryPayloadSemantic is null)
                 );
 
-            var fullBindToTypeName = _typeInfoContainer.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
-            if (fullBindToTypeName == null)
-            {
-                throw new DpdtException(
-                    DpdtExceptionTypeEnum.InternalError,
-                    $"Unknown problem to access type for {bindToTypeSemantic.ToDisplayString()}"
-                    );
-            }
+            //var fullBindToTypeName = _typeInfoContainer.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
+            //if (fullBindToTypeName == null)
+            //{
+            //    throw new DpdtException(
+            //        DpdtExceptionTypeEnum.InternalError,
+            //        $"Unknown problem to access type for {bindToTypeSemantic.ToDisplayString()}"
+            //        );
+            //}
 
             _extractor.ClearAndVisit(expressionNode);
 
@@ -248,7 +259,18 @@ namespace DpdtInject.Generator.BindExtractor
                 .OfType<GenericNameSyntax>()
                 .ToList();
 
-            var toGenericNode = genericNodes[1];
+            var toGenericNodes = genericNodes
+                .Where(ToMethodPredicate)
+                .ToList()
+                ;
+
+            if (toGenericNodes.Count != 1)
+            {
+                throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"Cannot find To clause for singleton binding : {toGenericNodes.Count}");
+            }
+
+            var toGenericNode = toGenericNodes[0];
+
             var toMethodName = toGenericNode.Identifier.Text;
             if (toMethodName.NotIn(nameof(IToOrConstantBinding.To), nameof(IToOrConstantBinding.ToIsolatedFactory)))
             {
@@ -281,14 +303,14 @@ namespace DpdtInject.Generator.BindExtractor
                 !(factoryPayloadSemantic is null)
                 );
 
-            var fullBindToTypeName = _typeInfoContainer.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
-            if (fullBindToTypeName == null)
-            {
-                throw new DpdtException(
-                    DpdtExceptionTypeEnum.InternalError,
-                    $"Unknown problem to access type for {bindToTypeSemantic.ToDisplayString()}"
-                    );
-            }
+            //var fullBindToTypeName = _typeInfoContainer.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
+            //if (fullBindToTypeName == null)
+            //{
+            //    throw new DpdtException(
+            //        DpdtExceptionTypeEnum.InternalError,
+            //        $"Unknown problem to access type for {bindToTypeSemantic.ToDisplayString()}"
+            //        );
+            //}
 
             _extractor.ClearAndVisit(expressionNode);
 
@@ -326,7 +348,18 @@ namespace DpdtInject.Generator.BindExtractor
                 .OfType<GenericNameSyntax>()
                 .ToList();
 
-            var toGenericNode = genericNodes[1];
+            var toGenericNodes = genericNodes
+                .Where(ToMethodPredicate)
+                .ToList()
+                ;
+
+            if (toGenericNodes.Count != 1)
+            {
+                throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"Cannot find To clause for singleton binding : {toGenericNodes.Count}");
+            }
+
+            var toGenericNode = toGenericNodes[0];
+
             var toMethodName = toGenericNode.Identifier.Text;
             if (toMethodName.NotIn(nameof(IToOrConstantBinding.To), nameof(IToOrConstantBinding.ToIsolatedFactory)))
             {
@@ -360,14 +393,14 @@ namespace DpdtInject.Generator.BindExtractor
                 !(factoryPayloadSemantic is null)
                 );
 
-            var fullBindToTypeName = _typeInfoContainer.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
-            if (fullBindToTypeName == null)
-            {
-                throw new DpdtException(
-                    DpdtExceptionTypeEnum.InternalError,
-                    $"Unknown problem to access type for {bindToTypeSemantic.ToDisplayString()}"
-                    );
-            }
+            //var fullBindToTypeName = _typeInfoContainer.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
+            //if (fullBindToTypeName == null)
+            //{
+            //    throw new DpdtException(
+            //        DpdtExceptionTypeEnum.InternalError,
+            //        $"Unknown problem to access type for {bindToTypeSemantic.ToDisplayString()}"
+            //        );
+            //}
 
             _extractor.ClearAndVisit(expressionNode);
 
@@ -400,12 +433,6 @@ namespace DpdtInject.Generator.BindExtractor
             ArgumentSyntax? whenArgumentClause
             )
         {
-            var genericNodes = expressionNode
-                .DescendantNodes()
-                .OfType<GenericNameSyntax>()
-                .ToList();
-
-
             var withScopeSyntax = expressionNode
                 .DescendantNodes()
                 .Where(s => s.GetText().ToString() == nameof(IToOrConstantBinding.WithConstScope))
@@ -703,5 +730,39 @@ namespace DpdtInject.Generator.BindExtractor
 
             throw new InvalidOperationException("unknown scope");
         }
+
+
+        private bool ToMethodPredicate(
+            GenericNameSyntax n
+            )
+        {
+            if (n is null)
+            {
+                return false;
+            }
+
+            if (n.Identifier.Text.NotIn(nameof(IToOrConstantBinding.To), nameof(IToOrConstantBinding.ToIsolatedFactory)))
+            {
+                return false;
+            }
+
+            var symbol = _semanticModel.GetSymbolInfo(n).Symbol;
+
+            if (symbol?.ContainingType is null)
+            {
+                return false;
+            }
+
+            if (symbol.ContainingType.ToDisplayString().NotIn(
+                    typeof(IToOrConstantBinding).FullName,
+                    typeof(IToOrConstantBinding).FullName)
+                )
+            {
+                return false;
+            }
+
+            return true;
+        }
+
     }
 }

@@ -7,6 +7,12 @@ namespace DpdtInject.Generator
 {
     public class TypeSymbolEqualityComparer : IEqualityComparer<ITypeSymbol>
     {
+        public static TypeSymbolEqualityComparer Entity = new TypeSymbolEqualityComparer();
+
+        private TypeSymbolEqualityComparer()
+        {
+        }
+
         public bool Equals([AllowNull] ITypeSymbol x, [AllowNull] ITypeSymbol y)
         {
             if (ReferenceEquals(x, y))

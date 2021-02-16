@@ -39,7 +39,7 @@ namespace DpdtInject.Generator.Binding
         {
             ConstructorArguments = new List<DetectedConstructorArgument>();
             NotBindConstructorArgumentTypes = new HashSet<ITypeSymbol>(
-                new TypeSymbolEqualityComparer()
+                TypeSymbolEqualityComparer.Entity
                 );
         }
     }

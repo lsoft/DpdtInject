@@ -63,10 +63,10 @@ namespace DpdtInject.Generator.Binding
             BindingExtenders = bindingContainers.ConvertAll(c => new BindingContainerExtender(c));
 
             _bindsFrom = new HashSet<ITypeSymbol>(
-                new TypeSymbolEqualityComparer()
+                TypeSymbolEqualityComparer.Entity
                 );
             NotBindParents = new Dictionary<ITypeSymbol, List<BindingContainerExtender>>(
-                new TypeSymbolEqualityComparer()
+                TypeSymbolEqualityComparer.Entity
                 );
 
             foreach (var extender in BindingExtenders)

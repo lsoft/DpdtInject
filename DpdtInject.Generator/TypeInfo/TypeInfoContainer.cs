@@ -28,6 +28,7 @@ namespace DpdtInject.Generator.TypeInfo
 
         public INamedTypeSymbol? GetTypeByMetadataName(string fullyQualifiedMetadataName)
         {
+            //_compilation.meta
             return _compilation.GetTypeByMetadataName(fullyQualifiedMetadataName);
         }
 

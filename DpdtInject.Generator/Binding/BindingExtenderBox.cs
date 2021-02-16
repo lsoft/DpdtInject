@@ -27,7 +27,7 @@ namespace DpdtInject.Generator.Binding
             }
 
             _groups = new Dictionary<ITypeSymbol, BindingContainerGroup>(
-                new TypeSymbolEqualityComparer()
+                TypeSymbolEqualityComparer.Entity
                 );
 
             foreach (var extender in bindingExtenders)

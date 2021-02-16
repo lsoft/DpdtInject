@@ -1974,11 +1974,13 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using System;
+        ///   Looks up a localized string similar to #if !IN_UNIT_TEST_SYMBOL
+        ///using System;
         ///using System.Collections.Generic;
         ///using System.Linq;
         ///using System.Text;
         ///using System.Threading.Tasks;
+        ///#endif
         ///
         ///// ReSharper disable once CheckNamespace
         ///namespace UnknownCustomNamespace
@@ -1993,6 +1995,32 @@ namespace DpdtInject.Tests.Properties {
         internal static string UnsortedCustomNamespace_FakeResource {
             get {
                 return ResourceManager.GetString("UnsortedCustomNamespace_FakeResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.GenericInterface
+        ///{
+        ///    public partial class UnsortedGenericInterface_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;IA&lt;string&gt;&gt;()
+        ///                [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedGenericInterface_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedGenericInterface_Cluster", resourceCulture);
             }
         }
         
