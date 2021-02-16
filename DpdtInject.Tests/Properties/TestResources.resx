@@ -340,6 +340,12 @@
   <data name="UnsortedComplexTypeArgument0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\ComplexTypeArgument0\UnsortedComplexTypeArgument0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="UnsortedCustomNamespace_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\CustomNamespace\UnsortedCustomNamespace_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="UnsortedCustomNamespace_FakeResource" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\CustomNamespace\UnsortedCustomNamespace_FakeResource.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="UnsortedGenericIsRegistered_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\Generic\IsRegistered\UnsortedGenericIsRegistered_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

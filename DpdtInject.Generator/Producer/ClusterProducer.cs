@@ -45,13 +45,20 @@ namespace DpdtInject.Generator.Producer
         }
 
 
-        public string Produce()
+        public string Produce(
+            List<UsingDirectiveSyntax> additionalUsings
+            )
         {
+            if (additionalUsings is null)
+            {
+                throw new ArgumentNullException(nameof(additionalUsings));
+            }
+
             var instanceProducts = new List<InstanceProduct>();
 
-            IInstanceProducer instanceProducer;
             foreach (var bindingExtender in ClusterBindings.BindingExtenders)
             {
+                IInstanceProducer instanceProducer;
                 switch (bindingExtender.BindingContainer.Scope)
                 {
                     case Injector.Module.Bind.BindScopeEnum.Transient:
@@ -112,6 +119,16 @@ namespace DpdtInject.Generator.Producer
 
             var compilationUnit = DpdtInject.Generator.Properties.Resource.CarcassCluster;
 
+            var usings = new List<string>();
+            foreach (var additionalUsing in additionalUsings)
+            {
+                usings.Add(additionalUsing.ToString());
+            }
+            usings.Add($"using {typeof(IResolution).Namespace};");
+            usings.Add($"using {typeof(IResolution<object>).Namespace};");
+            usings.Add($"using {typeof(IResolutionRequest).Namespace};");
+            usings.Add($"using {typeof(IResolutionTarget).Namespace};");
+
             var fixedCompilationUnit = compilationUnit
                 .CheckAndReplace(
                     "//GENERATOR: aggressive inline and optimize",
@@ -131,15 +148,7 @@ namespace DpdtInject.Generator.Producer
                     )
                 .CheckAndReplace(
                     "//GENERATOR: place for an additional usings",
-                    new[]
-                    {
-                    $"using {typeof(IResolution).Namespace};",
-                    $"using {typeof(IResolution<object>).Namespace};",
-                    $"using {typeof(IResolutionRequest).Namespace};",
-                    $"using {typeof(IResolutionTarget).Namespace};",
-                    //$"using {typeof(ResolutionContext<object, object, object>).Namespace};",
-                    //$"using {typeof(IResolutionContext).Namespace};",
-                    }.Join(a => a)
+                    usings.Join(a => a)
                     )
                 .CheckAndReplace(
                     "//GENERATOR: add nongeneric GET binding",

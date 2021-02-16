@@ -15,7 +15,7 @@ It's only a proof-of-concept. Nor alpha, neither beta.
 0. Easy-to-read syntax `Bind<IA>().To<A>().WithTransientScope()`.
 0. Custom constructor arguments `... Configure(new ConstructorArgument("message", Message))`.
 0. Generic `Get<T>` and non generic `Get(Type t)` resolutions.
-0. Constained `GetFast` fast resolutions.
+0. Constrained `GetFast` fast resolutions.
 0. Single object `Get` or collection `GetAll` resolutions.
 0. `Func<T>` resolutions.
 0. `ToIsolatedFactory` bindings with automatic factory code generation.

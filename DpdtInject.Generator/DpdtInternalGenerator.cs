@@ -13,6 +13,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace DpdtInject.Generator
 {
@@ -72,19 +73,20 @@ namespace DpdtInject.Generator
                 using (new DTimer(_diagnosticReporter, "unsorted time taken"))
                 {
                     var loadMethods = clusterType.GetMembers(nameof(DefaultCluster.Load));
+                    
                     if (loadMethods.Length != 1)
                     {
-                        throw new Exception($"Something wrong with type {clusterType.ToDisplayString()}");
+                        throw new Exception($"Something wrong with type {clusterType.ToDisplayString()} : {loadMethods.Length}");
                     }
 
                     var loadMethod = loadMethods[0];
 
                     var loadMethodRefs = loadMethod.DeclaringSyntaxReferences;
+
                     if (loadMethodRefs.Length != 1)
                     {
                         throw new Exception($"Something wrong with method {loadMethod.ToDisplayString()} : {loadMethodRefs.Length}");
                     }
-
                     var loadMethodRef = loadMethodRefs[0];
 
                     loadMethodSyntax = (MethodDeclarationSyntax)loadMethodRef.GetSyntax();
@@ -98,6 +100,11 @@ namespace DpdtInject.Generator
                         $"Unknown problem to access to compilation unit syntax"
                         );
                 }
+
+                var moduleUnitUsings = compilationUnitSyntax
+                    .DescendantNodes()
+                    .OfType<UsingDirectiveSyntax>()
+                    .ToList();
 
                 var semanticModel = typeInfoContainer.GetSemanticModel(compilationUnitSyntax.SyntaxTree);
 
@@ -133,7 +140,9 @@ namespace DpdtInject.Generator
                     clusterBindings
                     );
 
-                var moduleSourceCode = clusterProducer.Produce();
+                var moduleSourceCode = clusterProducer.Produce(
+                    moduleUnitUsings
+                    );
 
                 ModificationDescription modificationDescription;
                 using (new DTimer(_diagnosticReporter, "Dpdt cluster beautify generated code time taken"))

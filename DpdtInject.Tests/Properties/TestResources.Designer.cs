@@ -1950,6 +1950,54 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Module.Bind;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using UnknownCustomNamespace;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.CustomNamespace
+        ///{
+        ///    public partial class UnsortedCustomNamespace_Cluster : DefaultCluster
+        ///    {
+        ///        public override void Load()
+        ///        {
+        ///            Bind&lt;A&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithSingletonScope()
+        ///                .Configure(
+        ///                    new ConstructorArgum [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedCustomNamespace_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedCustomNamespace_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///// ReSharper disable once CheckNamespace
+        ///namespace UnknownCustomNamespace
+        ///{
+        ///    public class FakeResource
+        ///    {
+        ///
+        ///    }
+        ///}
+        ///.
+        /// </summary>
+        internal static string UnsortedCustomNamespace_FakeResource {
+            get {
+                return ResourceManager.GetString("UnsortedCustomNamespace_FakeResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
         ///using DpdtInject.Injector.Excp;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;

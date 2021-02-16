@@ -1,4 +1,5 @@
-﻿using DpdtInject.Injector;
+﻿#pragma warning disable CS0105
+using DpdtInject.Injector;
 using DpdtInject.Injector.CustomScope;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Module.RContext;
