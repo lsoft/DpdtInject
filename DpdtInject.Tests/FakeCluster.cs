@@ -15,6 +15,11 @@ namespace DpdtInject.Tests
         where T : DefaultCluster
     {
         public FakeCluster(
+            )
+        {
+        }
+
+        public FakeCluster(
             IResolution parentResolution
             )
         {

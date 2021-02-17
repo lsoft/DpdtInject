@@ -167,11 +167,11 @@ namespace DpdtInject.Generator.Producer
                     (resolutionInterfaceProducts.Count > 0 ? ("," + resolutionInterfaceProducts.Join(rip => rip.GetInterfaces(), ",")) : "")
                     )
                 .CheckAndReplace(
-                    "//GENERATOR: place for an intance interface providers",
+                    "//GENERATOR: place for an instance interface providers",
                     resolutionInterfaceProducts.Join(rip => rip.GetMethods())
                     )
                 .CheckAndReplace(
-                    "//GENERATOR: place for an intance object producers",
+                    "//GENERATOR: place for an instance object producers",
                     instanceProducts.Join(ip => ip.GetCombinedBody())
                     )
                 ;

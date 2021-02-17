@@ -6,8 +6,16 @@ namespace DpdtInject.Tests.Scope.Constant.Target.RO0
 {
     public partial class ScopeConstantTargetRO0_Cluster : DefaultCluster
     {
-        private readonly string _roString = "readonly string";
+        private readonly string _roString;
 
+#if IN_UNIT_TEST_SYMBOL
+        /// <inheritdoc />
+        public ScopeConstantTargetRO0_Cluster()
+            : this((ICluster)null!)
+        {
+            _roString = "readonly string";
+        }
+#endif
         public override void Load()
         {
             Bind<string>()
@@ -20,7 +28,6 @@ namespace DpdtInject.Tests.Scope.Constant.Target.RO0
             public void PerformClusterTesting()
             {
                 var cluster = new FakeCluster<ScopeConstantTargetRO0_Cluster>(
-                    null
                     );
 
                 var s = cluster.Get<string>();

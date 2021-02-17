@@ -8,7 +8,16 @@ namespace DpdtInject.Tests.Scope.Constant.Target.F0
     {
         //NOT A READONLY!!!
         // ReSharper disable once FieldCanBeMadeReadOnly.Local
-        private string _someString = "some string";
+        private string _someString;
+
+#if IN_UNIT_TEST_SYMBOL
+        /// <inheritdoc />
+        public ScopeConstantTargetF0_Cluster()
+            : this((ICluster)null!)
+        {
+            _someString = "some string";
+        }
+#endif
 
         public override void Load()
         {
@@ -22,7 +31,6 @@ namespace DpdtInject.Tests.Scope.Constant.Target.F0
             public void PerformClusterTesting()
             {
                 var cluster = new FakeCluster<ScopeConstantTargetF0_Cluster>(
-                    null
                     );
 
                 var s = cluster.Get<string>();

@@ -359,13 +359,13 @@ namespace DpdtInject.Generator
 
 #endregion
 
-#region intance interface providers
-        //GENERATOR: place for an intance interface providers
+#region instance interface providers
+        //GENERATOR: place for an instance interface providers
 #endregion
 
 
-#region intance object producers
-        //GENERATOR: place for an intance object producers
+#region instance object producers
+        //GENERATOR: place for an instance object producers
 #endregion
 
     }
