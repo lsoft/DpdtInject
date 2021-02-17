@@ -229,18 +229,23 @@ The end of the life cycle of a cluster occurs after the call to its `Dispose` me
 
 ```csharp
     public partial class RootCluster : DefaultCluster
-    { ... }
+    {
+        public RootCluster(your arguments) : this((ICluster)null!) { ... }
+    }
 
     public partial class ChildCluster : DefaultCluster
-    { ... }
+    {
+        public ChildCluster(ICluster cluster, your arguments) : this(cluster) { ... }
+    }
 
 ...
 
             var rootCluster = new RootCluster(
-                null
+                your arguments
                 );
             var childCluster = new ChildCluster(
-                rootCluster
+                rootCluster,
+                your arguments
                 );
 ```
 
