@@ -268,6 +268,18 @@
   <data name="ScopeConstantNonGenericSingleInterfaceSingleObject_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Scope\Constant\NonGeneric\SingleInterfaceSingleObject\ScopeConstantNonGenericSingleInterfaceSingleObject_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="ScopeConstantTargetF0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Constant\Target\F0\ScopeConstantTargetF0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ScopeConstantTargetM0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Constant\Target\M0\ScopeConstantTargetM0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ScopeConstantTargetRO0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Constant\Target\RO0\ScopeConstantTargetRO0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ScopeConstantTargetSRO0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Constant\Target\SRO0\ScopeConstantTargetSRO0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="ScopeCustomGenericHierarchy2DifferentCluster_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Scope\Custom\Generic\Hierarchy2DifferentCluster\ScopeCustomGenericHierarchy2DifferentCluster_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

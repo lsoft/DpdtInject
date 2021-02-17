@@ -1,10 +1,8 @@
 ﻿using DpdtInject.Generator;
 using DpdtInject.Generator.TypeInfo;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 using Microsoft.CodeAnalysis.Text;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;

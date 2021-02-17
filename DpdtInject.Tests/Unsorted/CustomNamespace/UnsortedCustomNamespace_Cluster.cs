@@ -1,7 +1,7 @@
 ﻿using DpdtInject.Injector;
-using DpdtInject.Injector.Module.Bind;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using DpdtInject.Injector.Bind;
 using UnknownCustomNamespace;
 
 namespace DpdtInject.Tests.Unsorted.CustomNamespace

@@ -1,9 +1,8 @@
-﻿using DpdtInject.Injector.CustomScope;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using DpdtInject.Injector.CustomScope;
 
-namespace DpdtInject.Injector.Module.RContext
+namespace DpdtInject.Injector.RContext
 {
     public class ResolutionTarget<TClusterType, TTargetType>
         : IResolutionTarget
@@ -47,7 +46,7 @@ namespace DpdtInject.Injector.Module.RContext
             }
         }
 
-        public IResolutionTarget? ParentTarget => ParentRequest?.ParentTarget ?? null;
+        public IResolutionTarget? ParentTarget => ParentRequest.ParentTarget ?? null;
 
         public IResolutionRequest ParentRequest
         {

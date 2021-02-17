@@ -1,9 +1,9 @@
-﻿using DpdtInject.Generator.ArgumentWrapper;
+﻿using System;
+using DpdtInject.Generator.ArgumentWrapper;
 using DpdtInject.Injector;
 using Microsoft.CodeAnalysis;
-using System;
 
-namespace DpdtInject.Generator.Producer
+namespace DpdtInject.Generator.Producer.Product
 {
     public class MethodProduct
     {

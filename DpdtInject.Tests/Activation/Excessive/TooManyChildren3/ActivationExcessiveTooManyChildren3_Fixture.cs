@@ -1,8 +1,5 @@
 using DpdtInject.Tests.Properties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.InteropServices;
 
 namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren3
 {

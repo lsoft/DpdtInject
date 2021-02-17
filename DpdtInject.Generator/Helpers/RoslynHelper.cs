@@ -1,7 +1,5 @@
-﻿using DpdtInject.Generator.Parser;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.FindSymbols;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;

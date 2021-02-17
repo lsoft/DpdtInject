@@ -1,11 +1,8 @@
 ﻿using DpdtInject.Generator.ArgumentWrapper;
 using DpdtInject.Generator.Binding;
-using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Generator.TypeInfo;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Helper;
-using DpdtInject.Injector.Module.Bind;
-using DpdtInject.Injector.Module.RContext;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -14,6 +11,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DpdtInject.Generator.Producer.Product;
+using DpdtInject.Injector.Bind;
+using DpdtInject.Injector.RContext;
 
 namespace DpdtInject.Generator.Producer
 {
@@ -61,28 +61,28 @@ namespace DpdtInject.Generator.Producer
                 IInstanceProducer instanceProducer;
                 switch (bindingExtender.BindingContainer.Scope)
                 {
-                    case Injector.Module.Bind.BindScopeEnum.Transient:
+                    case BindScopeEnum.Transient:
                         instanceProducer = new TransientInstanceProducer(
                             _typeInfoProvider,
                             ClusterBindings,
                             bindingExtender
                             );
                         break;
-                    case Injector.Module.Bind.BindScopeEnum.Singleton:
+                    case BindScopeEnum.Singleton:
                         instanceProducer = new SingletonInstanceProducer(
                             _typeInfoProvider,
                             ClusterBindings,
                             bindingExtender
                             );
                         break;
-                    case Injector.Module.Bind.BindScopeEnum.Constant:
+                    case BindScopeEnum.Constant:
                         instanceProducer = new ConstantInstanceProducer(
                             _typeInfoProvider,
                             ClusterBindings,
                             bindingExtender
                             );
                         break;
-                    case Injector.Module.Bind.BindScopeEnum.Custom:
+                    case BindScopeEnum.Custom:
                         instanceProducer = new CustomInstanceProducer(
                             _typeInfoProvider,
                             ClusterBindings,

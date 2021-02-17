@@ -1,11 +1,6 @@
-﻿using DpdtInject.Generator.Producer.Product;
-using DpdtInject.Injector.Helper;
-using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
+﻿using System;
 
-namespace DpdtInject.Generator.Producer
+namespace DpdtInject.Generator.Producer.Product
 {
     public class ResolutionProduct
     {

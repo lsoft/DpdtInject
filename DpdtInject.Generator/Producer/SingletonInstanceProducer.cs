@@ -1,7 +1,6 @@
 ﻿using DpdtInject.Generator.ArgumentWrapper;
 using DpdtInject.Generator.Binding;
 using DpdtInject.Generator.Helpers;
-using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Generator.TypeInfo;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Helper;
@@ -12,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
+using DpdtInject.Generator.Producer.Product;
 
 namespace DpdtInject.Generator.Producer
 {

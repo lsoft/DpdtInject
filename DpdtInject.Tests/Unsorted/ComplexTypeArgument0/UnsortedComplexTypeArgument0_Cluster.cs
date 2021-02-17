@@ -1,18 +1,12 @@
 ﻿using DpdtInject.Injector;
-using DpdtInject.Injector.Excp;
-using DpdtInject.Injector.Module.Bind;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DpdtInject.Tests.Unsorted.ComplexTypeArgument0
 {
     public partial class UnsortedComplexTypeArgument0_Cluster : DefaultCluster
     {
-        public static Func<Func<object>, Func<string>> Funca =>
+        public static readonly Func<Func<object>, Func<string>> Funca =
             fo => new Func<string>(() => fo().ToString());
 
         public override void Load()

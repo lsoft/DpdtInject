@@ -12,7 +12,7 @@ namespace DpdtInject.Generator.TypeInfo
     {
         protected Compilation _compilation;
 
-        public TypeInfoContainer(
+        protected TypeInfoContainer(
             Compilation compilation
             )
         {

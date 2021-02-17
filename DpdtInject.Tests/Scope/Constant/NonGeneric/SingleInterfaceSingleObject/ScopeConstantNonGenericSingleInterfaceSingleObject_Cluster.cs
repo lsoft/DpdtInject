@@ -1,16 +1,11 @@
 ﻿using DpdtInject.Injector;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DpdtInject.Tests.Scope.Constant.NonGeneric.SingleInterfaceSingleObject
 {
     public partial class ScopeConstantNonGenericSingleInterfaceSingleObject_Cluster : DefaultCluster
     {
-        private static readonly A AInstance = new A();
+        private static readonly A AInstance = new();
 
         public override void Load()
         {

@@ -1,10 +1,9 @@
-﻿using DpdtInject.Generator.Binding;
-using DpdtInject.Injector.Module.Bind;
+﻿using System.Collections.Generic;
+using DpdtInject.Injector.Bind;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Collections.Generic;
 
-namespace DpdtInject.Generator.Parser.Binding
+namespace DpdtInject.Generator.Binding
 {
 
     public interface IBindingContainer

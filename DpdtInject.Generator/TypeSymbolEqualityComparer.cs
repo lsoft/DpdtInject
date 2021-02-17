@@ -7,7 +7,7 @@ namespace DpdtInject.Generator
 {
     public class TypeSymbolEqualityComparer : IEqualityComparer<ITypeSymbol>
     {
-        public static TypeSymbolEqualityComparer Entity = new TypeSymbolEqualityComparer();
+        public static readonly TypeSymbolEqualityComparer Entity = new();
 
         private TypeSymbolEqualityComparer()
         {

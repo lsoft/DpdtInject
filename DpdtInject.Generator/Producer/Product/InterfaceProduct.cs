@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DpdtInject.Generator.Producer
+namespace DpdtInject.Generator.Producer.Product
 {
     public class InterfaceProduct
     {

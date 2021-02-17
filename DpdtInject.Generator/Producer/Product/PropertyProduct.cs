@@ -1,7 +1,7 @@
-﻿using DpdtInject.Injector.Excp;
-using System;
+﻿using System;
+using DpdtInject.Injector.Excp;
 
-namespace DpdtInject.Generator.Producer
+namespace DpdtInject.Generator.Producer.Product
 {
     public class PropertyProduct
     {

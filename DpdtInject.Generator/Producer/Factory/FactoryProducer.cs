@@ -1,7 +1,6 @@
 ﻿using DpdtInject.Generator.BindExtractor;
 using DpdtInject.Generator.Binding;
 using DpdtInject.Generator.Helpers;
-using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Generator.TypeInfo;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
@@ -12,6 +11,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using DpdtInject.Generator.Producer.Product;
 
 namespace DpdtInject.Generator.Producer.Factory
 {
@@ -19,7 +19,7 @@ namespace DpdtInject.Generator.Producer.Factory
     {
         private readonly ConstructorArgumentDetector _constructorArgumentDetector;
 
-        private readonly List<DetectedConstructorArgument> _unknowns = new List<DetectedConstructorArgument>();
+        private readonly List<DetectedConstructorArgument> _unknowns = new();
         private readonly BindingContainerTypes _types;
 
         public FactoryProducer(
@@ -75,8 +75,8 @@ namespace {_types.BindToType.ContainingNamespace.ToDisplayString()}
 
             foreach (IMethodSymbol declaredMethod in declaredMethods)
             {
-                var implementedeMethod = _types.BindToType.FindImplementationForInterfaceMember(declaredMethod);
-                if(!(implementedeMethod is null))
+                var implementedMethod = _types.BindToType.FindImplementationForInterfaceMember(declaredMethod);
+                if(!(implementedMethod is null))
                 {
                     continue;
                 }

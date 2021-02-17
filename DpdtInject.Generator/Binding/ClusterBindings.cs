@@ -1,13 +1,12 @@
 ﻿using DpdtInject.Generator.Graph;
-using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Helper;
-using DpdtInject.Injector.Module.Bind;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using DpdtInject.Injector.Bind;
 
 namespace DpdtInject.Generator.Binding
 {

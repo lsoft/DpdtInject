@@ -1,10 +1,10 @@
 ﻿using DpdtInject.Injector.CustomScope;
-using DpdtInject.Injector.Module.Bind;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DpdtInject.Injector.Bind;
 
 namespace DpdtInject.Injector
 {

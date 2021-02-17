@@ -1,17 +1,15 @@
-﻿using DpdtInject.Injector.Excp;
-using DpdtInject.Injector.Helper;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using DpdtInject.Injector.Excp;
+using DpdtInject.Injector.Helper;
 
-namespace DpdtInject.Generator.Producer
+namespace DpdtInject.Generator.Producer.Product
 {
     public class InstanceResolutionInterfaceProduct
     {
         public IReadOnlyList<ResolutionProduct> ResolutionProducts
         {
             get;
-            private set;
         }
 
         public InstanceResolutionInterfaceProduct(

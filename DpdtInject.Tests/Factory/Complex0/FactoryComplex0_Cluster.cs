@@ -1,13 +1,6 @@
 ﻿using DpdtInject.Injector;
-using DpdtInject.Injector.Module.Bind;
-using DpdtInject.Injector.Module.RContext;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DpdtInject.Injector.Bind;
 
 namespace DpdtInject.Tests.Factory.Complex0
 {

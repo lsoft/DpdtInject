@@ -1,12 +1,8 @@
-﻿using DpdtInject.Generator;
-using DpdtInject.Injector;
+﻿using DpdtInject.Injector;
 using DpdtInject.Injector.CustomScope;
-using DpdtInject.Injector.Module.RContext;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DpdtInject.Injector.RContext;
 
 namespace DpdtInject.Tests
 {

@@ -1,5 +1,4 @@
 ﻿using DpdtInject.Generator.Binding;
-using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Injector;
 using System;
 using System.Collections.Generic;
@@ -70,7 +69,6 @@ namespace DpdtInject.Generator.Producer
 
             //check for own cluster can resolve
             var clusterCanGetChildren = ClusterBindings.Box.TryGetChildren(
-                BindingExtender.BindingContainer,
                 ConstructorArgument,
                 out var pairs
                 );

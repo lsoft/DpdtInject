@@ -1,10 +1,7 @@
-﻿using DpdtInject.Injector.Excp;
-using DpdtInject.Injector.Module.RContext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using DpdtInject.Injector.RContext;
 
-namespace DpdtInject.Injector.Module.Bind
+namespace DpdtInject.Injector.Bind
 {
     public interface IToOrConstantBinding
     {

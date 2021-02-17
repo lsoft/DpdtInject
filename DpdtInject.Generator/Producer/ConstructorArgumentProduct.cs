@@ -21,6 +21,6 @@ namespace DpdtInject.Generator.Producer
             ResolveConstructorArgumentClause = resolveConstructorArgumentClause;
         }
 
-        public static ConstructorArgumentProduct Empty = new ConstructorArgumentProduct(string.Empty);
+        public static readonly ConstructorArgumentProduct Empty = new(string.Empty);
     }
 }

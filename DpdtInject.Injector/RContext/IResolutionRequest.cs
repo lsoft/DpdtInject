@@ -1,8 +1,8 @@
-﻿using DpdtInject.Injector.CustomScope;
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using DpdtInject.Injector.CustomScope;
 
-namespace DpdtInject.Injector.Module.RContext
+namespace DpdtInject.Injector.RContext
 {
     public interface IResolutionRequest
     {

@@ -276,7 +276,7 @@ namespace {nameSpace}
         {
             var createdNodes = new List<Node>
             {
-                new Node(null, 0)
+                new(null, 0)
             };
 
             for (var i = 1; i < BindCount; i++)
@@ -294,7 +294,7 @@ namespace {nameSpace}
         {
             var createdNodes = new List<Node>
             {
-                new Node(null, 0)
+                new(null, 0)
             };
 
             for (var i = 1; i < BindCount; i++)
@@ -322,7 +322,7 @@ namespace {nameSpace}
 
             var createdNodes = new List<Node>
             {
-                new Node(null, nodeIndex++)
+                new(null, nodeIndex++)
             };
 
             for (var i = 1; i < BindCount; i++)

@@ -28,7 +28,7 @@ namespace DpdtInject.Generator.BindExtractor
 
             //constructor argument names exists
             //we should choose appropriate constructor
-            IMethodSymbol chosenConstructor = null!;
+            IMethodSymbol? chosenConstructor = null;
             foreach (var constructor in fullBindToTypeName.InstanceConstructors)
             {
                 if (!ContainsAllArguments(constructor, constructorArguments))

@@ -2,12 +2,12 @@
 using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.TypeInfo;
 using DpdtInject.Injector.Helper;
-using DpdtInject.Injector.Module.Bind;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
+using DpdtInject.Injector.Bind;
 
 namespace DpdtInject.Generator.BindExtractor
 {
@@ -77,7 +77,7 @@ namespace DpdtInject.Generator.BindExtractor
 
         internal List<DetectedConstructorArgument> GetConstructorArguments()
         {
-            return new List<DetectedConstructorArgument>(_constructorArguments);
+            return new(_constructorArguments);
         }
     }
 }

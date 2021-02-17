@@ -1,7 +1,7 @@
-﻿using DpdtInject.Generator.Binding;
-using System;
+﻿using System;
+using DpdtInject.Generator.Binding;
 
-namespace DpdtInject.Generator.Producer
+namespace DpdtInject.Generator.Producer.Product
 {
     public class InstanceProduct
     {

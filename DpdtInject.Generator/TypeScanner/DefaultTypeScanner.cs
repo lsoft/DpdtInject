@@ -1,16 +1,11 @@
-﻿using DpdtInject.Generator.Helpers;
-using DpdtInject.Generator.TypeInfo;
-using DpdtInject.Injector;
-using DpdtInject.Injector.Compilation;
-using DpdtInject.Injector.Module;
-using Microsoft.CodeAnalysis;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DpdtInject.Generator.TypeInfo;
+using DpdtInject.Injector;
+using Microsoft.CodeAnalysis;
 
-namespace DpdtInject.Generator.Scanner
+namespace DpdtInject.Generator.TypeScanner
 {
     internal class DefaultTypeScanner : ITypeScanner
 

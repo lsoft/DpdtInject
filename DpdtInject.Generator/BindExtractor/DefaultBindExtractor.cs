@@ -1,11 +1,9 @@
 ﻿using DpdtInject.Generator.Binding;
 using DpdtInject.Generator.Helpers;
-using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Generator.Producer.Factory;
 using DpdtInject.Generator.TypeInfo;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
-using DpdtInject.Injector.Module.Bind;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -14,13 +12,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.WebSockets;
+using DpdtInject.Injector.Bind;
 
 namespace DpdtInject.Generator.BindExtractor
 {
     public class DefaultBindExtractor : CSharpSyntaxRewriter
     {
-        public static readonly string ComplexSeparator = "," + Environment.NewLine;
-
         private readonly ITypeInfoContainer _typeInfoContainer;
         private readonly ConstructorArgumentFromSyntaxExtractor _extractor;
         private readonly ConstructorArgumentDetector _constructorArgumentDetector;
@@ -67,7 +64,7 @@ namespace DpdtInject.Generator.BindExtractor
         public ClusterBindings GetClusterBindings(ITypeSymbol clusterType)
         {
             return
-                new ClusterBindings(
+                new(
                     clusterType,
                     _bindingContainers
                     );
@@ -214,15 +211,6 @@ namespace DpdtInject.Generator.BindExtractor
                 !(factoryPayloadSemantic is null)
                 );
 
-            //var fullBindToTypeName = _typeInfoContainer.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
-            //if (fullBindToTypeName == null)
-            //{
-            //    throw new DpdtException(
-            //        DpdtExceptionTypeEnum.InternalError,
-            //        $"Unknown problem to access type for {bindToTypeSemantic.ToDisplayString()}"
-            //        );
-            //}
-
             _extractor.ClearAndVisit(expressionNode);
 
             var types = BuildTypes(
@@ -302,15 +290,6 @@ namespace DpdtInject.Generator.BindExtractor
                 bindToTypeSemantic,
                 !(factoryPayloadSemantic is null)
                 );
-
-            //var fullBindToTypeName = _typeInfoContainer.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
-            //if (fullBindToTypeName == null)
-            //{
-            //    throw new DpdtException(
-            //        DpdtExceptionTypeEnum.InternalError,
-            //        $"Unknown problem to access type for {bindToTypeSemantic.ToDisplayString()}"
-            //        );
-            //}
 
             _extractor.ClearAndVisit(expressionNode);
 
@@ -393,15 +372,6 @@ namespace DpdtInject.Generator.BindExtractor
                 !(factoryPayloadSemantic is null)
                 );
 
-            //var fullBindToTypeName = _typeInfoContainer.GetTypeByMetadataName(bindToTypeSemantic.ToDisplayString());
-            //if (fullBindToTypeName == null)
-            //{
-            //    throw new DpdtException(
-            //        DpdtExceptionTypeEnum.InternalError,
-            //        $"Unknown problem to access type for {bindToTypeSemantic.ToDisplayString()}"
-            //        );
-            //}
-
             _extractor.ClearAndVisit(expressionNode);
 
             var types = BuildTypes(
@@ -447,7 +417,18 @@ namespace DpdtInject.Generator.BindExtractor
 
             if (constantClause is null)
             {
-                throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"Cannot find constant clause");
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.InternalError, 
+                    $"Cannot find constant clause"
+                    );
+            }
+
+            if (!CheckForAllowedSyntaxForConstantBinding(constantClause))
+            {
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.InternalError, 
+                    $"Unsupported type of 'constant' binding. Allowed compile-time constants, readonly fields and readonly static fields only."
+                    );
             }
 
             var bindFromTypeSemantics = GetBindFromTypes(
@@ -474,7 +455,7 @@ namespace DpdtInject.Generator.BindExtractor
 
         /// <summary>
         /// build appropriate types
-        ///  also, if required: build factory source code, and rebuild factory symbol (we need to access to constructors)
+        ///  also, if required: build factory source code, and rebuild factory symbol (we need an access to constructors)
         /// </summary>
         private BindingContainerTypes BuildTypes(
             List<ITypeSymbol> bindFromTypeSemantics,
@@ -499,7 +480,7 @@ namespace DpdtInject.Generator.BindExtractor
                 _typeInfoContainer.AddSources(
                     new ModificationDescription[] 
                     {
-                        new ModificationDescription(
+                        new(
                             (INamedTypeSymbol)types.BindToType,
                             $"{types.BindToType.Name}.Pregenerated.cs",
                             factoryProduct.SourceCode
@@ -753,15 +734,74 @@ namespace DpdtInject.Generator.BindExtractor
                 return false;
             }
 
-            if (symbol.ContainingType.ToDisplayString().NotIn(
-                    typeof(IToOrConstantBinding).FullName,
-                    typeof(IToOrConstantBinding).FullName)
+            if (symbol.ContainingType
+                    .ToDisplayString()
+                    .NotIn(
+                        typeof(IToOrConstantBinding).FullName
+                        )
                 )
             {
                 return false;
             }
 
             return true;
+        }
+
+
+        private bool CheckForAllowedSyntaxForConstantBinding(
+            ArgumentSyntax constantClause
+            )
+        {
+            if (constantClause is null)
+            {
+                throw new ArgumentNullException(nameof(constantClause));
+            }
+
+            var ils = constantClause.DescendantNodes().OfType<IdentifierNameSyntax>().ToList();
+
+            if (ils.Count == 0)
+            {
+                return false;
+            }
+            
+            if (ils.Count > 1)
+            {
+                return false;
+            }
+
+            var cconstant = _semanticModel.GetConstantValue(ils[0]);
+            if (cconstant.HasValue)
+            {
+                //it's a true constant, keep going!
+                return true;
+            }
+
+            var ilsymbol = _semanticModel.GetSymbolInfo(ils[0]).Symbol;
+
+            if (ilsymbol is null)
+            {
+                return false;
+            }
+
+            if (ilsymbol.Kind != SymbolKind.Field)
+            {
+                return false;
+            }
+
+            var filsymbol = ilsymbol as IFieldSymbol;
+
+            if (filsymbol is null)
+            {
+                return false;
+            }
+
+            if (!filsymbol.IsReadOnly)
+            {
+                return false;
+            }
+
+            return true;
+
         }
 
     }

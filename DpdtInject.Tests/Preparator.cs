@@ -6,7 +6,6 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -119,10 +118,9 @@ namespace DpdtInject.Tests
                     Guid.NewGuid() + ".dll"
                     );
 
-                Microsoft.CodeAnalysis.Emit.EmitResult emitResult;
                 using (new DTimer(DiagnosticReporter, "Dpdt unit test emit time taken"))
                 {
-                    emitResult = typeInfoContainer.Emit(compiledDllPath);
+                    var emitResult = typeInfoContainer.Emit(compiledDllPath);
 
                     Assert.IsTrue(emitResult.Success, string.Join(Environment.NewLine, emitResult.Diagnostics));
                 }

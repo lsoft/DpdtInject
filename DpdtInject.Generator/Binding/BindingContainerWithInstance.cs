@@ -1,16 +1,12 @@
-﻿using DpdtInject.Generator.Binding;
-using DpdtInject.Generator.Helpers;
-using DpdtInject.Injector.Helper;
-using DpdtInject.Injector.Module.Bind;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using DpdtInject.Injector.Bind;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace DpdtInject.Generator.Parser.Binding
+namespace DpdtInject.Generator.Binding
 {
     [DebuggerDisplay("{BindFromTypes[0].Name} -> {TargetRepresentation}")]
     public class BindingContainerWithInstance : BaseBindingContainer

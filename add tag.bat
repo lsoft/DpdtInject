@@ -1,7 +1,7 @@
 #add tag:
 git log --pretty=oneline
-git tag -a 0.2.1.3 -m "0.2.1.3" 3c1d046
-git push origin 0.2.1.2
+git tag -a 0.2.1.4 -m "0.2.1.4" commit_hash
+git push origin 0.2.1.4
 
 #delete tag:
 git push --delete origin tagName 

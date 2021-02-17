@@ -1,5 +1,4 @@
-﻿using DpdtInject.Generator.Parser.Binding;
-using DpdtInject.Injector.Excp;
+﻿using DpdtInject.Injector.Excp;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
@@ -12,7 +11,7 @@ namespace DpdtInject.Generator.Binding
 {
     public class BindingExtenderBox
     {
-        private Dictionary<ITypeSymbol, BindingContainerGroup> _groups;
+        private readonly Dictionary<ITypeSymbol, BindingContainerGroup> _groups;
 
         public IReadOnlyDictionary<ITypeSymbol, BindingContainerGroup> Groups => _groups;
 
@@ -47,16 +46,10 @@ namespace DpdtInject.Generator.Binding
         }
 
         public bool TryGetChildren(
-            IBindingContainer bindingContainer,
             DetectedConstructorArgument constructorArgument,
             out IReadOnlyList<ExtenderAndTypePair> result
             )
         {
-            if (bindingContainer is null)
-            {
-                throw new ArgumentNullException(nameof(bindingContainer));
-            }
-
             if (constructorArgument is null)
             {
                 throw new ArgumentNullException(nameof(constructorArgument));
@@ -72,8 +65,7 @@ namespace DpdtInject.Generator.Binding
                     );
             }
 
-            BindingContainerGroup? group;
-            if (!Groups.TryGetValue(constructorArgument.Type, out group))
+            if (!Groups.TryGetValue(constructorArgument.Type, out var @group))
             {
                 var unwrappedType = constructorArgument.GetUnwrappedType();
 

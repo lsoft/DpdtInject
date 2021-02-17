@@ -1,5 +1,4 @@
 ﻿using DpdtInject.Generator.Binding;
-using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Compilation;
 using Microsoft.CodeAnalysis;

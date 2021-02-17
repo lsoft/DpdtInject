@@ -6,12 +6,12 @@ using DpdtInject.Generator.TypeInfo;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
-using DpdtInject.Injector.Module.RContext;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using DpdtInject.Injector.RContext;
 
 namespace DpdtInject.Generator.Producer
 {
@@ -240,7 +240,7 @@ public {returnType.ToDisplayString()} {methodName}({returnType.ToDisplayString()
                 .Construct(wrapperSymbol)
                 ;
 
-            MethodProduct getAllMethodProduct = new MethodProduct(
+            MethodProduct getAllMethodProduct = new(
                 nonExplicitMethodName,
                 returnType,
                 (methodName, returnType) =>

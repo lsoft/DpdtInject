@@ -1,17 +1,12 @@
 ﻿using DpdtInject.Injector;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DpdtInject.Tests.Conditional.Generic.Hierarchy2SameConstant
 {
     public partial class ConditionalGenericHierarchy2SameConstant_Cluster : DefaultCluster
     {
-        public static A ConstantA1 = new A();
-        public static A ConstantA2 = new A();
+        public static readonly A ConstantA1 = new();
+        public static readonly A ConstantA2 = new();
 
         public override void Load()
         {

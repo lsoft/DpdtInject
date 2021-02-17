@@ -1,7 +1,6 @@
 ﻿using DpdtInject.Generator.ArgumentWrapper;
 using DpdtInject.Generator.Binding;
 using DpdtInject.Generator.Helpers;
-using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Generator.TypeInfo;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Helper;
@@ -13,6 +12,8 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
+using DpdtInject.Generator.Producer.Product;
+using DpdtInject.Injector.RContext;
 
 namespace DpdtInject.Generator.Producer
 {
@@ -49,19 +50,6 @@ namespace DpdtInject.Generator.Producer
 
         public InstanceProduct Produce()
         {
-            var constructorArgumentProducers =
-                _bindingExtender.BindingContainer.ConstructorArguments.ConvertAll(
-                    bft => new ConstructorArgumentProducer(
-                        _clusterBindings,
-                        _bindingExtender,
-                        bft
-                        )
-                    );
-            var constructorArgumentProducts = constructorArgumentProducers
-                .ConvertAll(p => p.Produce())
-                .FindAll(s => !ReferenceEquals(s, ConstructorArgumentProduct.Empty))
-                ;
-            
             MethodProduct? predicateMethod = null;
             if (_bindingExtender.BindingContainer.IsConditional)
             {
@@ -70,9 +58,9 @@ namespace DpdtInject.Generator.Producer
                     _typeInfoProvider.Bool(),
                     (methodName, returnType) => $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-private {returnType.ToDisplayString()} {methodName}(IResolutionTarget resolutionTarget)
+private {returnType.ToDisplayString()} {methodName}({nameof(IResolutionTarget)} resolutionTarget)
 {{
-    Func<IResolutionTarget, bool> predicate = 
+    Func<{nameof(IResolutionTarget)}, bool> predicate = 
         {_bindingExtender.BindingContainer.WhenArgumentClause}
         ;
 
@@ -82,20 +70,16 @@ private {returnType.ToDisplayString()} {methodName}(IResolutionTarget resolution
 ");
             }
 
-            var constantInstanceName = $"_constantInstance_{_bindingExtender.BindingContainer.GetStableSuffix()}_{ _bindingExtender.BindingContainer.BindToType.ToDisplayString().EscapeSpecialTypeSymbols()}";
-
             var retrieveObjectMethod = new MethodProduct(
                 $"GetInstance_{_bindingExtender.BindingContainer.GetStableSuffix()}_{ _bindingExtender.BindingContainer.BindToType.ToDisplayString().EscapeSpecialTypeSymbols()}",
                 _bindingExtender.BindingContainer.BindToType,
                 (methodName, returnType) => $@"
-private readonly {_bindingExtender.BindingContainer.BindToType.ToDisplayString()} {constantInstanceName} = {_bindingExtender.BindingContainer.ConstantSyntax!.GetText()};
-
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
 private {returnType.ToDisplayString()} {methodName}(
-    IResolutionTarget resolutionTarget
+    {nameof(IResolutionTarget)} resolutionTarget
     )
 {{
-    return {constantInstanceName};
+    return {_bindingExtender.BindingContainer.ConstantSyntax!.GetText()};
 }}
 ");
 
@@ -105,7 +89,7 @@ private {returnType.ToDisplayString()} {methodName}(
                 (methodName, returnType) => $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
 private {returnType.ToDisplayString()} {methodName}(
-    IResolutionTarget resolutionTarget
+    {nameof(IResolutionTarget)} resolutionTarget
     )
 {{
     return () => {retrieveObjectMethod.GetMethodName(DpdtArgumentWrapperTypeEnum.None)}(resolutionTarget);

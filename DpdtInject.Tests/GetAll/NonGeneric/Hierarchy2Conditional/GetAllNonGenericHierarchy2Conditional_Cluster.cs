@@ -1,11 +1,8 @@
 using DpdtInject.Injector;
-using DpdtInject.Injector.Excp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DpdtInject.Tests.GetAll.NonGeneric.Hierarchy2Conditional
 {

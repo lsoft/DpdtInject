@@ -1,15 +1,13 @@
-﻿using DpdtInject.Generator.Binding;
-using DpdtInject.Generator.Helpers;
-using DpdtInject.Injector.Excp;
-using DpdtInject.Injector.Helper;
-using DpdtInject.Injector.Module.Bind;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DpdtInject.Injector.Bind;
+using DpdtInject.Injector.Excp;
+using DpdtInject.Injector.Helper;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace DpdtInject.Generator.Parser.Binding
+namespace DpdtInject.Generator.Binding
 {
     public abstract class BaseBindingContainer : IBindingContainer
     {
@@ -60,7 +58,7 @@ namespace DpdtInject.Generator.Parser.Binding
 
         public bool ToFactory => !(FactoryPayloadType is null);
 
-        public BaseBindingContainer(
+        protected BaseBindingContainer(
             BindingContainerTypes types,
             BindScopeEnum scope,
             ArgumentSyntax? whenArgumentClause,
@@ -74,11 +72,11 @@ namespace DpdtInject.Generator.Parser.Binding
 
             if (scope == BindScopeEnum.Constant && constantSyntax is null)
             {
-                throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"Misconfiguration between scope nad constant syntax");
+                throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"Misconfiguration between scope and constant syntax");
             }
             if(scope != BindScopeEnum.Constant && !(constantSyntax is null))
             {
-                throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"Misconfiguration between scope nad constant syntax");
+                throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"Misconfiguration between scope and constant syntax");
             }
 
             _types = types;
@@ -105,51 +103,5 @@ namespace DpdtInject.Generator.Parser.Binding
 
             return BindFromTypes.Any(t => SymbolEqualityComparer.Default.Equals(t, bindFrom));
         }
-
-        //public abstract string PrepareInstanceContainerCode(
-        //    ClusterGeneratorTreeJoint clusterGeneratorJoint
-        //    );
-
-        //public string GetContainerStableClassName()
-        //{
-        //    switch (Scope)
-        //    {
-        //        case Injector.Module.Bind.BindScopeEnum.Transient:
-        //            return $"{string.Join("_", GetFromTypeFullNamesCombined().EscapeSpecialTypeSymbols())}_{BindToType.GetFullName().EscapeSpecialTypeSymbols()}_{nameof(TransientInstanceContainer)}_{this.GetHashCode()}";
-        //        case Injector.Module.Bind.BindScopeEnum.Singleton:
-        //            return $"{string.Join("_", GetFromTypeFullNamesCombined().EscapeSpecialTypeSymbols())}_{BindToType.GetFullName().EscapeSpecialTypeSymbols()}_{nameof(SingletonInstanceContainer)}_{this.GetHashCode()}";
-        //        case Injector.Module.Bind.BindScopeEnum.Constant:
-        //            return $"{string.Join("_", GetFromTypeFullNamesCombined().EscapeSpecialTypeSymbols())}_{nameof(ConstantInstanceContainer)}_{this.GetHashCode()}";
-        //        case Injector.Module.Bind.BindScopeEnum.Custom:
-        //            return $"{string.Join("_", GetFromTypeFullNamesCombined().EscapeSpecialTypeSymbols())}_{BindToType.GetFullName().EscapeSpecialTypeSymbols()}_{nameof(CustomInstanceContainer)}_{this.GetHashCode()}";
-        //        default:
-        //            throw new ArgumentOutOfRangeException();
-        //    }
-        //}
-
-        //public void GetInstanceContainerBody(out string className, out string resource)
-        //{
-        //    switch (Scope)
-        //    {
-        //        case Injector.Module.Bind.BindScopeEnum.Constant:
-        //            className = nameof(ConstantInstanceContainer);
-        //            resource = Resources.ConstantInstanceContainer;
-        //            break;
-        //        case Injector.Module.Bind.BindScopeEnum.Transient:
-        //            className = nameof(TransientInstanceContainer);
-        //            resource = Resources.TransientInstanceContainer;
-        //            break;
-        //        case Injector.Module.Bind.BindScopeEnum.Singleton:
-        //            className = nameof(SingletonInstanceContainer);
-        //            resource = Resources.SingletonInstanceContainer;
-        //            break;
-        //        case Injector.Module.Bind.BindScopeEnum.Custom:
-        //            className = nameof(CustomInstanceContainer);
-        //            resource = Resources.CustomInstanceContainer;
-        //            break;
-        //        default:
-        //            throw new ArgumentOutOfRangeException(Scope.ToString());
-        //    }
-        //}
     }
 }

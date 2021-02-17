@@ -1,4 +1,4 @@
-﻿namespace DpdtInject.Injector.Module.Bind
+﻿namespace DpdtInject.Injector.Bind
 {
     public enum BindScopeEnum
     {

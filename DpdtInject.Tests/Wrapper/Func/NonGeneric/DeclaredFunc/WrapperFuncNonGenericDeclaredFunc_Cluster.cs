@@ -1,16 +1,12 @@
 ﻿using DpdtInject.Injector;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DpdtInject.Tests.Wrapper.Func.NonGeneric.DeclaredFunc
 {
     public partial class WrapperFuncNonGenericDeclaredFunc_Cluster : DefaultCluster
     {
-        public static readonly A AInstance = new A();
+        public static readonly A AInstance = new();
         public static readonly Func<IA> Funca = () => AInstance;
 
         public override void Load()

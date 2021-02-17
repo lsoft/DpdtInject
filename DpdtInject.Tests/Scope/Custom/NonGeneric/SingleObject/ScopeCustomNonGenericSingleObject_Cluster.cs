@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Excp;
-using DpdtInject.Injector.Module;
-using DpdtInject.Injector.Module.RContext;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DpdtInject.Tests.Scope.Custom.NonGeneric.SingleObject

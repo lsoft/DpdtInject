@@ -2,12 +2,14 @@
 using DpdtInject.Injector;
 using DpdtInject.Injector.CustomScope;
 using DpdtInject.Injector.Excp;
-using DpdtInject.Injector.Module.RContext;
 using DpdtInject.Injector.Reinvented;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using DpdtInject.Injector.RContext;
+
 //GENERATOR: place for an additional usings
 
 namespace DpdtInject.Generator
@@ -93,7 +95,7 @@ namespace DpdtInject.Generator
         public CustomScopeObject CreateCustomScope(
             )
         {
-            return new CustomScopeObject(
+            return new(
                 1 //GENERATOR: place for conditional binding count
                 );
         }
@@ -119,10 +121,6 @@ namespace DpdtInject.Generator
         //GENERATOR: aggressive inline and optimize
         public T Get<T>()
         {
-            //return ((IResolution<T>)this).Get(
-            //    null
-            //    );
-
             if (this is IResolution<T> r)
             {
                 return r.Get(
@@ -138,13 +136,6 @@ namespace DpdtInject.Generator
         //GENERATOR: aggressive inline and optimize
         public T Get<T>(CustomScopeObject customScope)
         {
-            //return ((IResolution<T>)this).Get(
-            //        new ResolutionRequest<CarcassCluster, T>(
-            //            false,
-            //            customScope
-            //            )
-            //    );
-
             if (this is IResolution<T> r)
             {
                 return r.Get(
@@ -167,10 +158,6 @@ namespace DpdtInject.Generator
         //GENERATOR: aggressive inline and optimize
         public List<T> GetAll<T>()
         {
-            //return ((IResolution<T>)this).GetAll(
-            //    null
-            //    );
-
             if (this is IResolution<T> r)
             {
                 return r.GetAll(
@@ -190,13 +177,6 @@ namespace DpdtInject.Generator
         //GENERATOR: aggressive inline and optimize
         public List<T> GetAll<T>(CustomScopeObject customScope)
         {
-            //return ((IResolution<T>)this).GetAll(
-            //        new ResolutionRequest<CarcassCluster, T>(
-            //            true,
-            //            customScope
-            //            )
-            //    );
-
             if (this is IResolution<T> r)
             {
                 return r.GetAll(
@@ -343,10 +323,11 @@ namespace DpdtInject.Generator
         }
 
 
-#endregion
+        #endregion
 
-#region raise exceptions
+        #region raise exceptions
 
+        [DoesNotReturn]
         private T RaiseNoCustomScopeObject<T>()
         {
             throw new DpdtException(
@@ -356,6 +337,7 @@ namespace DpdtInject.Generator
                 );
         }
 
+        [DoesNotReturn]
         private T RaiseNoBindingAvailable<T>()
         {
             throw new DpdtException(
@@ -365,6 +347,7 @@ namespace DpdtInject.Generator
                 );
         }
 
+        [DoesNotReturn]
         private T RaiseTooManyBindingException<T>()
         {
             throw new DpdtException(

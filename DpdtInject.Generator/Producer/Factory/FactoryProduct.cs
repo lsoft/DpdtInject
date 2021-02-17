@@ -1,6 +1,5 @@
 ﻿using DpdtInject.Generator.BindExtractor;
 using DpdtInject.Generator.Binding;
-using DpdtInject.Generator.Parser.Binding;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;

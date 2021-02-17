@@ -1,13 +1,9 @@
-﻿using DpdtInject.Injector;
+﻿using System.Linq;
+using DpdtInject.Injector;
 using DpdtInject.Injector.Excp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DpdtInject.Tests.Scope.NonGeneric.IncorrectRequest
+namespace DpdtInject.Tests.NonGeneric.IncorrectRequest
 {
     public partial class NonGenericIncorrectRequest_Cluster : DefaultCluster
     {

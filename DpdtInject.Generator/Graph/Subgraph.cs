@@ -1,5 +1,4 @@
 ﻿using DpdtInject.Generator.Binding;
-using DpdtInject.Generator.Parser.Binding;
 using Microsoft.CodeAnalysis;
 using System.Collections.Generic;
 
@@ -49,7 +48,7 @@ namespace DpdtInject.Generator.Graph
 
         public Subgraph Clone()
         {
-            return new Subgraph(
+            return new(
                 this
                 );
         }

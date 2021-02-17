@@ -1,7 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Microsoft.CodeAnalysis;
 
-namespace DpdtInject.Generator.Parser.Binding
+namespace DpdtInject.Generator.Binding
 {
     public class BindingContainerTypes
     {

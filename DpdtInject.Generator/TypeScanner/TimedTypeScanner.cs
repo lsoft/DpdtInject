@@ -1,11 +1,11 @@
-﻿using DpdtInject.Generator.TypeInfo;
+﻿using System;
+using System.Collections.Generic;
+using DpdtInject.Generator.TypeInfo;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Compilation;
 using Microsoft.CodeAnalysis;
-using System;
-using System.Collections.Generic;
 
-namespace DpdtInject.Generator.Scanner
+namespace DpdtInject.Generator.TypeScanner
 {
     internal class TimedTypeScanner : ITypeScanner
     {

@@ -1,5 +1,4 @@
-﻿using DpdtInject.Generator.Parser.Binding;
-using System;
+﻿using System;
 
 namespace DpdtInject.Generator.Binding
 {

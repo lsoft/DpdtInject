@@ -2,7 +2,6 @@
 using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Producer;
 using DpdtInject.Generator.Producer.Factory;
-using DpdtInject.Generator.Scanner;
 using DpdtInject.Generator.TypeInfo;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Compilation;
@@ -14,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using DpdtInject.Generator.TypeScanner;
 
 namespace DpdtInject.Generator
 {

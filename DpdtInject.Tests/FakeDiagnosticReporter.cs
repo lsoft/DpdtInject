@@ -29,7 +29,7 @@ namespace DpdtInject.Tests
         public List<Exception> Exceptions
         {
             get;
-        } = new List<Exception>();
+        } = new();
 
         public FakeDiagnosticReporter()
         {

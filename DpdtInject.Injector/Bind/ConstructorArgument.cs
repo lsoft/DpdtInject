@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DpdtInject.Injector.Module.Bind
+namespace DpdtInject.Injector.Bind
 {
     public class ConstructorArgument
     {

@@ -1,12 +1,6 @@
 ﻿using DpdtInject.Injector;
-using DpdtInject.Injector.Excp;
-using DpdtInject.Injector.Module.Bind;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DpdtInject.Tests.Unsorted.NativeTypeArgument0
 {
@@ -37,7 +31,6 @@ namespace DpdtInject.Tests.Unsorted.NativeTypeArgument0
                 var a = cluster.Get<IA>();
                 Assert.IsNotNull(a);
                 Assert.AreEqual(DefaultMessage, a.Message);
-
             }
         }
 
