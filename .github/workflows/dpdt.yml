@@ -3,12 +3,12 @@ name: dpdt
 on:
   push:
     branches: [ master ]
-#    tags:
-#      - 0.*
+    tags:
+      - 0.*
   pull_request:
     branches: [ master ]
-#    tags:
-#      - 0.*
+    tags:
+      - 0.*
 
 jobs:
   build-and-publish:
