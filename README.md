@@ -106,7 +106,7 @@ Please refer to Dpdt.Injector nuget package at nuget.org. Keep in mind you need 
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dpdt.Injector" Version="0.2.1-alpha" />
+    <PackageReference Include="Dpdt.Injector" Version="0.2.2-alpha" />
   </ItemGroup>
 
 </Project>
@@ -119,7 +119,7 @@ Please refer to Dpdt.Injector nuget package at nuget.org. Keep in mind you need 
 
 0. Because of design, it's impossible to `Unbind`.
 0. Because of source generators, it's impossible to direclty debug your bind code, including its `When` predicates.
-0. Because of massive rewriting the body of the cluster, it's impossible to use a local variables (local methods and other local stuff) in `ConstructorArgument` and `When` predicates. To make bind works use instance based fields, properties and methods instead. To make bind debuggable use fields, properties and methods of the other, helper class.
+0. Because of massive rewriting the body of the cluster, it's impossible to use a local variables (local methods and other local stuff) in `ConstructorArgument` and `When` predicates. To make bind works use instance based fields, properties and methods instead. To make bind debuggable, use fields, properties and methods of the other, helper class.
 0. No deferred bindings by design with exception of cluster hierarchy.
 0. Slower source-to-IL compilation, slower JIT compilation.
 
@@ -138,7 +138,7 @@ Constructor is chosen at the compilation stage based on 2 principles:
 
 ## Scope
 
-Bind clause with no defined scope raises a question: an author did forgot set a scope or wanted a default scope? We make a decision not to have a default scope and force a user to define a scope.
+Bind clause with no defined scope raises a question: an author forgot set a scope or wanted a default scope? We make a decision not to have a default scope and force a user to define a scope.
 
 ### Singleton
 
@@ -191,7 +191,7 @@ Each bind clause may have an additional filter e.g.
                 ;
 ```
 
-Please refer unit tests to see the examples. Please note, than any filter makes a resolution process slower (a much slower! 10x slower in compare of unconditional binding!), so use this feature responsibly. Resolution slowdown with conditional bindings has an effect even on those bindings that do not have conditions, but they directly or indirectly takes conditional binding as its dependency. Therefore, it is advisable to place conditions as close to the dependency tree root as possible.
+Please refer unit tests to see the examples. Please note, than any filter makes a resolution process slower (a much slower! 10x slower in compare of unconditional binding!), so use this feature responsibly. Resolution slowdown with conditional bindings has an effect even on those bindings that do not have conditions, but they directly or indirectly takes conditional binding as its dependency. Therefore, it is advisable to place conditions as close to the resolution root as possible.
 
 ## Fast resolutions
 
@@ -251,7 +251,7 @@ The end of the life cycle of a cluster occurs after the call to its `Dispose` me
                 );
 ```
 
-Clusters are organized into a tree. This tree cannot have a circular dependency, since it is based on constructor argument. Dependencies, consumed by the binding in the child cluster, are resolved from the native cluster if exists, if not - from **parent cluster**.
+Clusters are organized into a tree. This tree cannot have a circular dependency, since it is based on constructor argument. Dependencies, consumed by the binding in the child cluster, are resolved from the home cluster if exists, if not - from **parent cluster**.
 
 ## Debugging your clusters and conditional clauses
 
