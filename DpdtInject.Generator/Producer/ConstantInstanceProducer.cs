@@ -101,6 +101,7 @@ private {returnType.ToDisplayString()} {methodName}(
                 predicateMethod,
                 retrieveObjectMethod,
                 funcMethod,
+                null,
                 null
                 );
 

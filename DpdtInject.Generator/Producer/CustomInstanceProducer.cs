@@ -8,7 +8,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 using DpdtInject.Generator.Producer.Product;
@@ -57,10 +56,8 @@ namespace DpdtInject.Generator.Producer
                         bft
                         )
                     );
-            var constructorArgumentProducts = constructorArgumentProducers
-                .ConvertAll(p => p.Produce())
-                .FindAll(s => !ReferenceEquals(s, ConstructorArgumentProduct.Empty))
-                ;
+
+            var (caps, utps) = constructorArgumentProducers.Produce();
 
             MethodProduct? predicateMethod = null;
             if (_bindingExtender.BindingContainer.IsConditional)
@@ -103,7 +100,7 @@ private {returnType.ToDisplayString()} {methodName}(
     var result = ({_bindingExtender.BindingContainer.BindToType.ToDisplayString()}) resolutionTarget.ScopeObject.GetOrAdd(
         {scopeGuidName},
         () => new {_bindingExtender.BindingContainer.BindToType.ToDisplayString()}(
-            {constructorArgumentProducts.Join(p => p.ResolveConstructorArgumentClause, ",")}
+            {caps.Join(p => p.ResolveConstructorArgumentClause, ",")}
             )
         );
 
@@ -130,7 +127,8 @@ private {returnType.ToDisplayString()} {methodName}(
                 predicateMethod,
                 retrieveObjectMethod,
                 funcMethod,
-                null
+                null,
+                utps
                 );
 
             return product;

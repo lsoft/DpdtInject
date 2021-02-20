@@ -175,6 +175,9 @@
   <data name="ClusterNonGenericDifferent_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Cluster\NonGeneric\Different\ClusterNonGenericDifferent_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="ClusterUnknownEvenInParent_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Cluster\UnknownEvenInParent\ClusterUnknownEvenInParent_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="ConditionalGenericHierarchy2SameConstant_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Conditional\Generic\Hierarchy2SameConstant\ConditionalGenericHierarchy2SameConstant_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

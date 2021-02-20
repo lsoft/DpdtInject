@@ -57,10 +57,8 @@ namespace DpdtInject.Generator.Producer
                         bft
                         )
                     );
-            var constructorArgumentProducts = constructorArgumentProducers
-                .ConvertAll(p => p.Produce())
-                .FindAll(s => !ReferenceEquals(s, ConstructorArgumentProduct.Empty))
-                ;
+
+            var (caps, utps) = constructorArgumentProducers.Produce();
 
             MethodProduct? predicateMethod = null;
             if (_bindingExtender.BindingContainer.IsConditional)
@@ -92,7 +90,7 @@ private {returnType.ToDisplayString()} {methodName}(
     )
 {{
     return new {_bindingExtender.BindingContainer.BindToType.ToDisplayString()}(
-        {constructorArgumentProducts.Join(p => p.ResolveConstructorArgumentClause, ",")}
+        {caps.Join(p => p.ResolveConstructorArgumentClause, ",")}
         );
 }}
 ");
@@ -115,7 +113,8 @@ private {returnType.ToDisplayString()} {methodName}(
                 predicateMethod,
                 retrieveObjectMethod,
                 funcMethod,
-                null
+                null,
+                utps
                 );
 
             return product;

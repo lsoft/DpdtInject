@@ -2,6 +2,7 @@
 using DpdtInject.Injector;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,12 +53,14 @@ namespace DpdtInject.Generator.Producer
             ConstructorArgument = constructorArgument;
         }
 
-        public ConstructorArgumentProduct Produce()
+        public ConstructorArgumentProduct Produce(out UnknownTypeProduct? utp)
         {
+            utp = null;
+
             //DefineInBindNode should be checked BEFORE than HasExplicitDefaultValue
             if (ConstructorArgument.DefineInBindNode)
             {
-                return
+                return 
                     new ConstructorArgumentProduct(
                         $"{ConstructorArgument.Name}: {ConstructorArgument.Body}"
                         );
@@ -80,7 +83,7 @@ namespace DpdtInject.Generator.Producer
             {
                 return
                     new ConstructorArgumentProduct(
-                        $"{ConstructorArgument.Name}: RaiseTooManyBindingException<{ConstructorArgument.Type!.ToDisplayString()}>()"
+                            $"{ConstructorArgument.Name}: RaiseTooManyBindingException<{ConstructorArgument.Type!.ToDisplayString()}>()"
                         );
             }
 
@@ -96,7 +99,7 @@ namespace DpdtInject.Generator.Producer
 
                     return
                         new ConstructorArgumentProduct(
-                            $"{ConstructorArgument.Name}: GetFromLocalUnsafely<{ConstructorArgument.Type!.ToDisplayString()}>( resolutionTarget, \"{ConstructorArgument.Name}\" )"
+                                $"{ConstructorArgument.Name}: GetFromLocalUnsafely<{ConstructorArgument.Type!.ToDisplayString()}>( resolutionTarget, \"{ConstructorArgument.Name}\" )"
                             );
                 }
                 else
@@ -109,7 +112,7 @@ namespace DpdtInject.Generator.Producer
 
                     return
                         new ConstructorArgumentProduct(
-                            $"{ConstructorArgument.Name}: GetFromLocalUnsafely<{ConstructorArgument.Type!.ToDisplayString()}>()"
+                                $"{ConstructorArgument.Name}: GetFromLocalUnsafely<{ConstructorArgument.Type!.ToDisplayString()}>()"
                             );
                 }
             }
@@ -117,9 +120,13 @@ namespace DpdtInject.Generator.Producer
             {
                 //cluster has no bindings, refer to parent cluster
 
+                utp = new UnknownTypeProduct(
+                    ConstructorArgument.Type!
+                    );
+
                 return
                     new ConstructorArgumentProduct(
-                        $"{ConstructorArgument.Name}: GetFromParent<{ConstructorArgument.Type!.ToDisplayString()}>( resolutionTarget, \"{ConstructorArgument.Name}\"  )"
+                            $"{ConstructorArgument.Name}: GetFromParent<{ConstructorArgument.Type!.ToDisplayString()}>( resolutionTarget, \"{ConstructorArgument.Name}\"  )"
                         );
             }
         }

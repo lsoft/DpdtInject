@@ -23,6 +23,8 @@ namespace DpdtInject.Injector
 
         bool IsRegisteredFrom(System.Type requestedType);
 
+        bool IsRegisteredFromRecursive<T>();
+
 
 
         T Get<T>();

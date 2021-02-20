@@ -9,6 +9,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using DpdtInject.Injector.RContext;
+// ReSharper disable SuspiciousTypeConversion.Global
 
 //GENERATOR: place for an additional usings
 
@@ -38,6 +39,8 @@ namespace DpdtInject.Generator
             _typeContainerGetAll = new FixedSizeFactoryContainer(
                 //GENERATOR: add nongeneric GET ALL binding
                 );
+
+            //GENERATOR: place for an unknown type resolutions
         }
 
         #region dispose
@@ -114,9 +117,25 @@ namespace DpdtInject.Generator
             return _typeContainerGet.IsRegisteredFrom(requestedType);
         }
 
-#endregion
+        //GENERATOR: aggressive inline and optimize
+        public bool IsRegisteredFromRecursive<T>()
+        {
+            if(this is IResolution<T>)
+            {
+                return true;
+            }
 
-#region Get<>
+            if (_parentCluster is null)
+            {
+                return false;
+            }
+
+            return _parentCluster.IsRegisteredFromRecursive<T>();
+        }
+
+        #endregion
+
+        #region Get<>
 
         //GENERATOR: aggressive inline and optimize
         public T Get<T>()

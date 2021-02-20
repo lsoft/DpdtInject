@@ -539,6 +539,33 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Excp;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///
+        ///namespace DpdtInject.Tests.Cluster.UnknownEvenInParent
+        ///{
+        ///    public partial class ClusterUnknownEvenInParent_RootCluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithTransientScope()
+        ///                ;
+        ///        }
+        ///    }
+        ///
+        ///    public partial class ClusterUnknownEvenInP [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ClusterUnknownEvenInParent_Cluster {
+            get {
+                return ResourceManager.GetString("ClusterUnknownEvenInParent_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///
         ///namespace DpdtInject.Tests.Conditional.Generic.Hierarchy2

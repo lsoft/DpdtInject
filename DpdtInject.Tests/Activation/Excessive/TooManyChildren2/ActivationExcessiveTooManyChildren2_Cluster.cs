@@ -47,7 +47,7 @@ namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren2
                 catch (DpdtException excp)
                     when (excp.Type == DpdtExceptionTypeEnum.DuplicateBinding && excp.AdditionalArgument == typeof(IA).FullName)
                 {
-                    //it's OK, this test is gree
+                    //it's OK, this test is green
                 }
 
                 Assert.AreEqual(0, B.ActivationCount, "B.ActivationCount");

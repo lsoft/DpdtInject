@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using DpdtInject.Generator.Binding;
 
 namespace DpdtInject.Generator.Producer.Product
@@ -28,12 +30,18 @@ namespace DpdtInject.Generator.Producer.Product
             get;
         }
 
+        public IReadOnlyList<UnknownTypeProduct> UnknownTypeProducts
+        {
+            get;
+        }
+
         public InstanceProduct(
             BindingContainerExtender bindingExtender,
             MethodProduct? predicateMethod,
             MethodProduct factoryObjectMethod,
             MethodProduct funcMethod,
-            MethodProduct? disposeMethod
+            MethodProduct? disposeMethod,
+            IReadOnlyList<UnknownTypeProduct>? unknownTypeProducts
             )
         {
             if (bindingExtender is null)
@@ -56,6 +64,7 @@ namespace DpdtInject.Generator.Producer.Product
             FactoryObjectMethod = factoryObjectMethod;
             FuncMethod = funcMethod;
             DisposeMethod = disposeMethod;
+            UnknownTypeProducts = unknownTypeProducts ?? new List<UnknownTypeProduct>();
         }
 
         internal string GetCombinedBody()
@@ -76,6 +85,19 @@ namespace DpdtInject.Generator.Producer.Product
             }
 
             return $"{DisposeMethod.MethodName}();";
+        }
+
+        public string GetCombinedUnknownTypeBody()
+        {
+            if (UnknownTypeProducts.Count == 0)
+            {
+                return string.Empty;
+            }
+
+            return string.Join(
+                Environment.NewLine,
+                UnknownTypeProducts.Select(utp => utp.GetBody())
+                );
         }
     }
 }

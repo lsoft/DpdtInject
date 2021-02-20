@@ -37,6 +37,12 @@ namespace DpdtInject.Tests
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc />
+        public bool IsRegisteredFromRecursive<T1>()
+        {
+            throw new NotImplementedException();
+        }
+
         public T1 Get<T1>()
         {
             throw new NotImplementedException();

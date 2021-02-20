@@ -174,6 +174,10 @@ namespace DpdtInject.Generator.Producer
                     "//GENERATOR: place for an instance object producers",
                     instanceProducts.Join(ip => ip.GetCombinedBody())
                     )
+                .CheckAndReplace(
+                    "//GENERATOR: place for an unknown type resolutions",
+                    instanceProducts.Join(ip => ip.GetCombinedUnknownTypeBody())
+                    )
                 ;
 
             return fixedCompilationUnit;
