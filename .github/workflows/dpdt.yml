@@ -1,13 +1,17 @@
-name: build
+name: dpdt
 
 on:
   push:
     branches: [ master ]
+    tags:
+      - 0.*
   pull_request:
     branches: [ master ]
+    tags:
+      - 0.*
 
 jobs:
-  build:
+  build-and-publish:
 
     runs-on: windows-latest
 
@@ -21,15 +25,17 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2        
     - name: Restore dependencies
       run: dotnet restore
-#    - name: Build
-#      run: msbuild
-#    - name: Test
-#      run: dotnet test DpdtInject.Tests\DpdtInject.Tests.csproj --no-build --verbosity normal
+    - name: Build
+      run: msbuild
+    - name: Test
+      run: dotnet test DpdtInject.Tests\DpdtInject.Tests.csproj --no-build --verbosity normal
     - name: Pack package
-      if: startsWith(github.ref, 'refs/tags/0.')
+#      if: startsWith(github.ref, 'refs/tags/0.')
       run: dotnet pack DpdtInject.Generator\DpdtInject.Generator.csproj -p:TargetFrameworks=netstandard2.0 -c:Release
-#    - name: xcopy
-#      run: xcopy /Y DpdtInject.Generator\bin\Release\*.nupkg .
+    - name: xcopy
+      run: xcopy /Y DpdtInject.Generator\bin\Release\*.nupkg .
+    - name: Publish package
+      run: dotnet nuget push Dpdt*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
 
 
 #  nuget:
