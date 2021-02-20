@@ -29,8 +29,9 @@ jobs:
   nuget:
     needs: build
     runs-on: windows-latest
-    tags:
-      - 0.*
+    on:
+      tags:
+        - 0.*
 
     steps:
     - name: Pack package
