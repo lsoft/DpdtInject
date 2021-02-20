@@ -35,7 +35,7 @@ jobs:
     - name: xcopy
       run: xcopy /Y DpdtInject.Generator\bin\Release\*.nupkg .
     - name: Publish package
-      run: dotnet nuget push Dpdt*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push Dpdt*.nupkg --api-key ${{secrets.NUGET_PUBLISH_SECRET}} --source https://api.nuget.org/v3/index.json
 
 
 #  nuget:
