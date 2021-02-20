@@ -29,9 +29,7 @@ jobs:
   nuget:
     needs: build
     runs-on: windows-latest
-    on:
-      tags:
-        - 0.*
+    if: startsWith(github.ref, 'refs/tags/0.')
 
     steps:
     - name: Pack package
