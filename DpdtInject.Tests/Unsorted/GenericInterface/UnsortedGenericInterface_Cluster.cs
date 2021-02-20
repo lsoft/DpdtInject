@@ -5,7 +5,8 @@ namespace DpdtInject.Tests.Unsorted.GenericInterface
 {
     public partial class UnsortedGenericInterface_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<To<string>>()
                 .To<ToIsolatedFactory<int>>()
@@ -25,7 +26,6 @@ namespace DpdtInject.Tests.Unsorted.GenericInterface
                 Assert.IsNotNull(a);
             }
         }
-
     }
 
 
@@ -44,5 +44,4 @@ namespace DpdtInject.Tests.Unsorted.GenericInterface
     public class ToIsolatedFactory<T> : To<string>
     {
     }
-
 }

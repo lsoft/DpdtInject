@@ -7,7 +7,8 @@ namespace DpdtInject.Tests.Unsorted.CannotBeCasted
     {
         public const string Message = "some message";
 
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
@@ -25,25 +26,29 @@ namespace DpdtInject.Tests.Unsorted.CannotBeCasted
                     );
             }
         }
-
     }
 
 
     public interface IA
     {
-        string Message { get; }
+        string Message
+        {
+            get;
+        }
     }
 
     public class A
     {
-        public string Message { get; }
+        public string Message
+        {
+            get;
+        }
 
-        public A(string message)
+        public A(
+            string message
+            )
         {
             Message = message;
         }
-
     }
-
-
 }

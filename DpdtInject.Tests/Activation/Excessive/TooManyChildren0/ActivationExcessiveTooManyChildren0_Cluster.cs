@@ -8,7 +8,8 @@ namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren0
     {
         public const string Message = "some message";
 
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A1>()
@@ -45,7 +46,6 @@ namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren0
                 Assert.AreEqual(0, A2.ActivationCount, "A2.ActivationCount");
             }
         }
-
     }
 
 
@@ -75,22 +75,28 @@ namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren0
 
     public interface IB
     {
-        IA A { get; }
+        IA A
+        {
+            get;
+        }
     }
 
     public class B : IB
     {
         public static long ActivationCount = 0L;
 
-        public IA A { get; }
+        public IA A
+        {
+            get;
+        }
 
-        public B(IA a)
+        public B(
+            IA a
+            )
         {
             Interlocked.Increment(ref ActivationCount);
 
             A = a;
         }
     }
-
-
 }

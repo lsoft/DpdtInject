@@ -3,10 +3,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DpdtInject.Tests.Unsorted.Generic.IsRegistered
 {
-    [TestClass] 
+    [TestClass]
     public class UnsortedGenericIsRegistered_Fixture
     {
-        public TestContext TestContext { get; set; }
+        public TestContext TestContext
+        {
+            get;
+            set;
+        }
 
         [TestMethod]
         public void Test()
@@ -23,6 +27,5 @@ namespace DpdtInject.Tests.Unsorted.Generic.IsRegistered
             Assert.AreEqual(0, preparation.DiagnosticReporter.ErrorCount, "Error count");
             Assert.AreEqual(0, preparation.DiagnosticReporter.WarningCount, "Warning count");
         }
-
     }
 }

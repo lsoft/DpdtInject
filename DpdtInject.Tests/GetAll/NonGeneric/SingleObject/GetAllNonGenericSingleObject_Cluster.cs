@@ -6,7 +6,8 @@ namespace DpdtInject.Tests.GetAll.NonGeneric.SingleObject
 {
     public partial class GetAllNonGenericSingleObject_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
@@ -22,23 +23,20 @@ namespace DpdtInject.Tests.GetAll.NonGeneric.SingleObject
                     null
                     );
 
-                var alist = (List<IA>)cluster.GetAll(typeof(IA));
+                var alist = (List<IA>) cluster.GetAll(typeof(IA));
                 Assert.IsNotNull(alist);
                 Assert.AreEqual(1, alist.Count);
                 Assert.IsNotNull(alist[0]);
             }
         }
-
     }
 
 
     public interface IA
     {
-
     }
 
     public class A : IA
     {
-
     }
 }

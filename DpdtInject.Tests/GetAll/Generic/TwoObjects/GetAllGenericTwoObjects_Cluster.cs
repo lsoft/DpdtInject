@@ -7,7 +7,8 @@ namespace DpdtInject.Tests.GetAll.Generic.TwoObjects
 {
     public partial class GetAllGenericTwoObjects_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A0>()
@@ -35,7 +36,6 @@ namespace DpdtInject.Tests.GetAll.Generic.TwoObjects
                 Assert.IsTrue(alist.Any(a => a.ImplementationType == typeof(A1)));
             }
         }
-
     }
 
 

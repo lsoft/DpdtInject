@@ -4,11 +4,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DpdtInject.Tests.Unsorted.CircularDependency3
 {
-
     [TestClass]
     public class UnsortedCircularDependency3_Fixture
     {
-        public TestContext TestContext { get; set; }
+        public TestContext TestContext
+        {
+            get;
+            set;
+        }
 
         [TestMethod]
         public void Test()
@@ -26,6 +29,5 @@ namespace DpdtInject.Tests.Unsorted.CircularDependency3
             Assert.AreEqual(1, preparation.DiagnosticReporter.Exceptions.Count, "Error count");
             Assert.AreEqual(DpdtExceptionTypeEnum.CircularDependency, preparation.DiagnosticReporter.GetDpdtException().Type);
         }
-
     }
 }

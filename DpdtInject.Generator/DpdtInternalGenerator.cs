@@ -68,32 +68,50 @@ namespace DpdtInject.Generator
             {
                 var clusterType = clusterTypes[clusterTypeIndex];
 
-                MethodDeclarationSyntax loadMethodSyntax;
-                CompilationUnitSyntax? compilationUnitSyntax;
+                List<MethodDeclarationSyntax> bindMethodSyntaxes = new();
+                List<CompilationUnitSyntax> compilationUnitSyntaxes = new();
                 using (new DTimer(_diagnosticReporter, "unsorted time taken"))
                 {
-                    var loadMethods = clusterType.GetMembers(nameof(DefaultCluster.Load));
-                    
-                    if (loadMethods.Length != 1)
+                    var bindMethods = (
+                        from member in clusterType.GetMembers()
+                        where member is IMethodSymbol
+                        let method = member as IMethodSymbol
+                        where method.GetAttributes().Any(a => a.AttributeClass?.ToDisplayString() == typeof(DpdtBindingMethodAttribute).FullName)
+                        select method
+                        ).ToArray();
+
+                    if (bindMethods.Length == 0)
                     {
-                        throw new Exception($"Something wrong with type {clusterType.ToDisplayString()} : {loadMethods.Length}");
+                        throw new Exception($"Something wrong with type {clusterType.ToDisplayString()} : no bind methods found. Please add at least one bind method or remove this class.");
                     }
 
-                    var loadMethod = loadMethods[0];
-
-                    var loadMethodRefs = loadMethod.DeclaringSyntaxReferences;
-
-                    if (loadMethodRefs.Length != 1)
+                    foreach (var bindMethod in bindMethods)
                     {
-                        throw new Exception($"Something wrong with method {loadMethod.ToDisplayString()} : {loadMethodRefs.Length}");
-                    }
-                    var loadMethodRef = loadMethodRefs[0];
+                        var bindMethodRefs = bindMethod.DeclaringSyntaxReferences;
 
-                    loadMethodSyntax = (MethodDeclarationSyntax)loadMethodRef.GetSyntax();
-                    compilationUnitSyntax = loadMethodSyntax.Root<CompilationUnitSyntax>();
+                        if (bindMethodRefs.Length != 1)
+                        {
+                            throw new Exception($"Something wrong with method {bindMethod.ToDisplayString()} : refs to bind method = {bindMethodRefs.Length}, should only one.");
+                        }
+
+                        var bindMethodRef = bindMethodRefs[0];
+
+                        var bindMethodSyntax = (MethodDeclarationSyntax) bindMethodRef.GetSyntax();
+                        bindMethodSyntaxes.Add(bindMethodSyntax);
+
+                        var compilationUnitSyntax = bindMethodSyntax.Root<CompilationUnitSyntax>();
+                        if (compilationUnitSyntax is not null)
+                        {
+                            //compilationUnitSyntax can repeat
+                            if (compilationUnitSyntaxes.All(cus => cus.ToString() != compilationUnitSyntax.ToString()))
+                            {
+                                compilationUnitSyntaxes.Add(compilationUnitSyntax);
+                            }
+                        }
+                    }
                 }
 
-                if (compilationUnitSyntax == null)
+                if (compilationUnitSyntaxes.Count == 0)
                 {
                     throw new DpdtException(
                         DpdtExceptionTypeEnum.InternalError,
@@ -101,26 +119,40 @@ namespace DpdtInject.Generator
                         );
                 }
 
-                var moduleUnitUsings = compilationUnitSyntax
-                    .DescendantNodes()
-                    .OfType<UsingDirectiveSyntax>()
-                    .ToList();
+                var semanticModels = new List<SemanticModel>();
+                var moduleUnitUsings = new List<UsingDirectiveSyntax>();
+                foreach (var compilationUnitSyntax in compilationUnitSyntaxes)
+                {
+                    var moduleUnitUsing = compilationUnitSyntax
+                        .DescendantNodes()
+                        .OfType<UsingDirectiveSyntax>()
+                        .ToList();
+                    moduleUnitUsings.AddRange(moduleUnitUsing);
 
-                var semanticModel = typeInfoContainer.GetSemanticModel(compilationUnitSyntax.SyntaxTree);
+                    var semanticModel = typeInfoContainer.GetSemanticModel(compilationUnitSyntax.SyntaxTree);
+                    semanticModels.Add(semanticModel);
+                }
+
+                var semanticModelDecorator = new SemanticModelDecorator(
+                    semanticModels
+                    );
 
                 var bindExtractor = new TimedBindExtractor(
                     _diagnosticReporter,
                     new DefaultBindExtractor(
                         typeInfoContainer,
-                        semanticModel,
-                        new ConstructorArgumentFromSyntaxExtractor(typeInfoContainer, semanticModel),
+                        semanticModelDecorator,
+                        new ConstructorArgumentFromSyntaxExtractor(typeInfoContainer, semanticModelDecorator),
                         new ConstructorArgumentDetector(
                             new BindConstructorChooser()
                             )
                         )
                     );
 
-                bindExtractor.Visit(loadMethodSyntax);
+                foreach (var bindMethodSyntax in bindMethodSyntaxes)
+                {
+                    bindExtractor.Visit(bindMethodSyntax);
+                }
 
                 var clusterBindings = bindExtractor.GetClusterBindings(
                     clusterType

@@ -8,7 +8,8 @@ namespace DpdtInject.Tests.Scope.Custom.Generic.Hierarchy2
     {
         public const string Message = "some message";
 
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
@@ -48,15 +49,12 @@ namespace DpdtInject.Tests.Scope.Custom.Generic.Hierarchy2
                 Assert.IsNotNull(b0_1.A);
                 Assert.AreEqual(Message, b0_1.Message);
 
-
-
                 Assert.AreNotSame(b0_0, b0_1);
                 Assert.AreSame(b0_0.A, b0_1.A);
 
                 Assert.AreNotSame(b0_0, b1);
                 Assert.AreNotSame(b0_0.A, b1.A);
             }
-
         }
     }
 
@@ -70,21 +68,36 @@ namespace DpdtInject.Tests.Scope.Custom.Generic.Hierarchy2
 
     public interface IB
     {
-        string Message { get; }
+        string Message
+        {
+            get;
+        }
 
-        IA A { get; }
+        IA A
+        {
+            get;
+        }
     }
 
     public class B : IB
     {
-        public string Message { get; }
-        public IA A { get; }
+        public string Message
+        {
+            get;
+        }
 
-        public B(string message, IA a)
+        public IA A
+        {
+            get;
+        }
+
+        public B(
+            string message,
+            IA a
+            )
         {
             Message = message;
             A = a;
         }
     }
-
 }

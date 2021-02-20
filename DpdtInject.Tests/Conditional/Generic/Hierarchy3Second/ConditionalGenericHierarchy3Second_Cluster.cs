@@ -8,7 +8,8 @@ namespace DpdtInject.Tests.Conditional.Generic.Hierarchy3Second
     {
         public const string Message = "some message";
 
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
@@ -46,12 +47,9 @@ namespace DpdtInject.Tests.Conditional.Generic.Hierarchy3Second
                 Assert.IsNotNull(cc);
                 Assert.AreEqual(1, cc.Count);
                 Assert.AreSame(c0, cc[0]);
-
             }
         }
-
     }
-
 
 
     public interface IA
@@ -64,17 +62,33 @@ namespace DpdtInject.Tests.Conditional.Generic.Hierarchy3Second
 
     public interface IB
     {
-        string Message { get; }
+        string Message
+        {
+            get;
+        }
 
-        IA A { get; }
+        IA A
+        {
+            get;
+        }
     }
 
     public class B : IB
     {
-        public string Message { get; }
-        public IA A { get; }
+        public string Message
+        {
+            get;
+        }
 
-        public B(string message, IA a)
+        public IA A
+        {
+            get;
+        }
+
+        public B(
+            string message,
+            IA a
+            )
         {
             Message = message;
             A = a;
@@ -83,18 +97,24 @@ namespace DpdtInject.Tests.Conditional.Generic.Hierarchy3Second
 
     public interface IC
     {
-        IB B { get; }
+        IB B
+        {
+            get;
+        }
     }
 
     public class C : IC
     {
-        public IB B { get; }
+        public IB B
+        {
+            get;
+        }
 
-        public C(IB b)
+        public C(
+            IB b
+            )
         {
             B = b;
         }
     }
-
-
 }

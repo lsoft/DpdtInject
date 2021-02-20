@@ -7,7 +7,8 @@ namespace DpdtInject.Tests.Scope.Custom.Generic.SingleObject
 {
     public partial class ScopeCustomGenericSingleObject_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
@@ -29,7 +30,7 @@ namespace DpdtInject.Tests.Scope.Custom.Generic.SingleObject
 
                     Assert.Fail("This line should never be executed");
                 }
-                catch(DpdtException excp)
+                catch (DpdtException excp)
                     when (excp.Type == DpdtExceptionTypeEnum.CustomScopeObjectDoesNotFound && excp.AdditionalArgument == typeof(A).FullName)
                 {
                     //this is ok, test is green
@@ -60,7 +61,6 @@ namespace DpdtInject.Tests.Scope.Custom.Generic.SingleObject
                 Assert.IsTrue(a2.Disposed);
             }
         }
-
     }
 
 
@@ -75,9 +75,9 @@ namespace DpdtInject.Tests.Scope.Custom.Generic.SingleObject
     public class A : IA, IDisposable
     {
         public bool Disposed
-        { 
-            get; 
-            private set; 
+        {
+            get;
+            private set;
         }
 
         public void Dispose()
@@ -85,5 +85,4 @@ namespace DpdtInject.Tests.Scope.Custom.Generic.SingleObject
             Disposed = true;
         }
     }
-
 }

@@ -5,7 +5,8 @@ namespace DpdtInject.Tests.Scope.Transient.Generic.Hierarchy2
 {
     public partial class ScopeTransientGenericHierarchy2_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
@@ -39,36 +40,39 @@ namespace DpdtInject.Tests.Scope.Transient.Generic.Hierarchy2
                 Assert.IsNotNull(b1);
                 Assert.IsNotNull(b1.A);
                 Assert.AreNotSame(b0, b1);
-
             }
         }
-
     }
 
 
     public interface IA
     {
-
     }
 
     public class A : IA
     {
-
     }
 
     public interface IB
     {
-        IA A { get; }
+        IA A
+        {
+            get;
+        }
     }
 
     public class B : IB
     {
-        public IA A { get; }
+        public IA A
+        {
+            get;
+        }
 
-        public B(IA a)
+        public B(
+            IA a
+            )
         {
             A = a;
         }
-
     }
 }

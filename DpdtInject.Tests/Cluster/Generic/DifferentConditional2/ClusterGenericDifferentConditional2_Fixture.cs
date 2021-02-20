@@ -6,7 +6,11 @@ namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional2
     [TestClass]
     public class ClusterGenericDifferentConditional2_Fixture
     {
-        public TestContext TestContext { get; set; }
+        public TestContext TestContext
+        {
+            get;
+            set;
+        }
 
         [TestMethod]
         public void Test()
@@ -23,6 +27,5 @@ namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional2
             Assert.AreEqual(0, preparation.DiagnosticReporter.ErrorCount, "Error count");
             Assert.AreEqual(0, preparation.DiagnosticReporter.WarningCount, "Warning count");
         }
-
     }
 }

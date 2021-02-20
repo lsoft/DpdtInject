@@ -7,13 +7,13 @@ namespace DpdtInject.Tests.NonGeneric.IncorrectRequest
 {
     public partial class NonGenericIncorrectRequest_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
                 .WithSingletonScope()
                 ;
-
         }
 
         public class NonGenericIncorrectRequest_ClusterTester
@@ -49,7 +49,6 @@ namespace DpdtInject.Tests.NonGeneric.IncorrectRequest
                 }
             }
         }
-
     }
 
 

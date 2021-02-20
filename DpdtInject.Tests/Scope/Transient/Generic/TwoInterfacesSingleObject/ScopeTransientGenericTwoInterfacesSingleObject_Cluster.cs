@@ -5,13 +5,13 @@ namespace DpdtInject.Tests.Scope.Transient.Generic.TwoInterfacesSingleObject
 {
     public partial class ScopeTransientGenericTwoInterfacesSingleObject_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA0, IA1>()
                 .To<A>()
                 .WithTransientScope()
                 ;
-
         }
 
         public class ScopeTransientGenericTwoInterfacesSingleObject_ClusterTester
@@ -33,22 +33,18 @@ namespace DpdtInject.Tests.Scope.Transient.Generic.TwoInterfacesSingleObject
                 Assert.AreNotSame(a0, a1);
             }
         }
-
     }
 
 
     public interface IA0
     {
-
     }
 
     public interface IA1
     {
-
     }
 
     public class A : IA0, IA1
     {
-
     }
 }

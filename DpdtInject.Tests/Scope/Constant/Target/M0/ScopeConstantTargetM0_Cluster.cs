@@ -8,7 +8,8 @@ namespace DpdtInject.Tests.Scope.Constant.Target.M0
     {
         private string GetSomeString() => Guid.NewGuid().ToString();
 
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<string>()
                 .WithConstScope(this.GetSomeString())
@@ -27,6 +28,5 @@ namespace DpdtInject.Tests.Scope.Constant.Target.M0
                 Assert.IsNotNull(s);
             }
         }
-
     }
 }

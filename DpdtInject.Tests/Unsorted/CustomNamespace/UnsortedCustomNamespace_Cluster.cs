@@ -8,7 +8,8 @@ namespace DpdtInject.Tests.Unsorted.CustomNamespace
 {
     public partial class UnsortedCustomNamespace_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<A>()
                 .To<A>()
@@ -16,7 +17,7 @@ namespace DpdtInject.Tests.Unsorted.CustomNamespace
                 .Configure(
                     new ConstructorArgument(
                         "bFactory",
-                        new Func<FakeResource>(() => (FakeResource)null)
+                        new Func<FakeResource>(() => (FakeResource) null)
                         )
                     )
                 ;
@@ -34,7 +35,6 @@ namespace DpdtInject.Tests.Unsorted.CustomNamespace
                 Assert.IsNotNull(a);
             }
         }
-
     }
 
     public class A
@@ -48,5 +48,4 @@ namespace DpdtInject.Tests.Unsorted.CustomNamespace
             _bFactory = bFactory;
         }
     }
-
 }

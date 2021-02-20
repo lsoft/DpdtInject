@@ -6,7 +6,8 @@ namespace DpdtInject.Tests.Scope.Custom.NonGeneric.Hierarchy2DifferentCluster
 {
     public partial class ScopeCustomNonGenericHierarchy2DifferentCluster_FirstCluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
@@ -19,7 +20,8 @@ namespace DpdtInject.Tests.Scope.Custom.NonGeneric.Hierarchy2DifferentCluster
     {
         public const string Message = "some message";
 
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IB>()
                 .To<B>()
@@ -43,22 +45,20 @@ namespace DpdtInject.Tests.Scope.Custom.NonGeneric.Hierarchy2DifferentCluster
             var scope0 = lastCluster.CreateCustomScope();
             var scope1 = lastCluster.CreateCustomScope();
 
-            var b0_0 = (IB)lastCluster.Get(typeof(IB), scope0);
+            var b0_0 = (IB) lastCluster.Get(typeof(IB), scope0);
             Assert.IsNotNull(b0_0);
             Assert.IsNotNull(b0_0.A);
             Assert.AreEqual(ScopeCustomNonGenericHierarchy2DifferentCluster_LastCluster.Message, b0_0.Message);
 
-            var b1 = (IB)lastCluster.Get(typeof(IB), scope1);
+            var b1 = (IB) lastCluster.Get(typeof(IB), scope1);
             Assert.IsNotNull(b1);
             Assert.IsNotNull(b1.A);
             Assert.AreEqual(ScopeCustomNonGenericHierarchy2DifferentCluster_LastCluster.Message, b1.Message);
 
-            var b0_1 = (IB)lastCluster.Get(typeof(IB), scope0);
+            var b0_1 = (IB) lastCluster.Get(typeof(IB), scope0);
             Assert.IsNotNull(b0_1);
             Assert.IsNotNull(b0_1.A);
             Assert.AreEqual(ScopeCustomNonGenericHierarchy2DifferentCluster_LastCluster.Message, b0_1.Message);
-
-
 
             Assert.AreNotSame(b0_0, b0_1);
             Assert.AreSame(b0_0.A, b0_1.A);
@@ -66,7 +66,6 @@ namespace DpdtInject.Tests.Scope.Custom.NonGeneric.Hierarchy2DifferentCluster
             Assert.AreNotSame(b0_0, b1);
             Assert.AreNotSame(b0_0.A, b1.A);
         }
-
     }
 
 
@@ -80,21 +79,36 @@ namespace DpdtInject.Tests.Scope.Custom.NonGeneric.Hierarchy2DifferentCluster
 
     public interface IB
     {
-        string Message { get; }
+        string Message
+        {
+            get;
+        }
 
-        IA A { get; }
+        IA A
+        {
+            get;
+        }
     }
 
     public class B : IB
     {
-        public string Message { get; }
-        public IA A { get; }
+        public string Message
+        {
+            get;
+        }
 
-        public B(string message, IA a)
+        public IA A
+        {
+            get;
+        }
+
+        public B(
+            string message,
+            IA a
+            )
         {
             Message = message;
             A = a;
         }
     }
-
 }

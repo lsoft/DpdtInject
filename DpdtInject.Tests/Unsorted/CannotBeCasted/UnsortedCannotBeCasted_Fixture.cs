@@ -4,10 +4,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DpdtInject.Tests.Unsorted.CannotBeCasted
 {
-    [TestClass] 
+    [TestClass]
     public class UnsortedCannotBeCasted_Fixture
     {
-        public TestContext TestContext { get; set; }
+        public TestContext TestContext
+        {
+            get;
+            set;
+        }
 
         [TestMethod]
         public void Test()
@@ -25,6 +29,5 @@ namespace DpdtInject.Tests.Unsorted.CannotBeCasted
             Assert.AreEqual(1, preparation.DiagnosticReporter.Exceptions.Count, "Error count");
             Assert.AreEqual(DpdtExceptionTypeEnum.IncorrectBinding_IncorrectFrom, preparation.DiagnosticReporter.GetDpdtException().Type);
         }
-
     }
 }

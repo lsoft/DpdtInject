@@ -10,7 +10,8 @@ namespace DpdtInject.Tests.Factory.Complex0
         public const int B = 1;
         public const long C = 2L;
 
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IAFactory>()
                 .ToIsolatedFactory<AFactory>()
@@ -54,13 +55,11 @@ namespace DpdtInject.Tests.Factory.Complex0
                 Assert.AreSame(a0.C, a1.C);
             }
         }
-
     }
 
 
     public class C
     {
-    
     }
 
     public interface IA
@@ -69,10 +68,12 @@ namespace DpdtInject.Tests.Factory.Complex0
         {
             get;
         }
+
         int B
         {
             get;
         }
+
         C C
         {
             get;
@@ -85,32 +86,38 @@ namespace DpdtInject.Tests.Factory.Complex0
         {
             get;
         }
+
         public int B
         {
             get;
         }
+
         public C C
         {
             get;
         }
 
 
-        public A0(string a, int b, C c)
+        public A0(
+            string a,
+            int b,
+            C c
+            )
         {
             A = a;
             B = b;
             C = c;
         }
-
     }
 
     public interface IAFactory
     {
-        IA Create(string a);
+        IA Create(
+            string a
+            );
     }
 
     public partial class AFactory : IFakeFactory<IAFactory>
     {
     }
-
 }

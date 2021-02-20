@@ -6,7 +6,8 @@ namespace DpdtInject.Tests.GetAll.Generic.TwoObjectsConditional0
 {
     public partial class GetAllGenericTwoObjectsConditional0_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A0>()
@@ -34,7 +35,6 @@ namespace DpdtInject.Tests.GetAll.Generic.TwoObjectsConditional0
                 Assert.IsTrue(alist[0].ImplementationType == typeof(A1));
             }
         }
-
     }
 
 

@@ -9,7 +9,8 @@ namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren3
     {
         public const string Message = "some message";
 
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A1>()
@@ -45,7 +46,7 @@ namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren3
                     Assert.Fail("this line should never be executed");
                 }
                 catch (DpdtException excp)
-                when (excp.Type == DpdtExceptionTypeEnum.NoBindingAvailable && excp.AdditionalArgument == typeof(IA).FullName)
+                    when (excp.Type == DpdtExceptionTypeEnum.NoBindingAvailable && excp.AdditionalArgument == typeof(IA).FullName)
                 {
                     //it's OK, this test is gree
                 }
@@ -55,7 +56,6 @@ namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren3
                 Assert.AreEqual(0, A2.ActivationCount, "A2.ActivationCount");
             }
         }
-
     }
 
 
@@ -80,29 +80,33 @@ namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren3
         public A1()
         {
             Interlocked.Increment(ref ActivationCount);
-
-            
         }
     }
 
     public interface IB
     {
-        IA A { get; }
+        IA A
+        {
+            get;
+        }
     }
 
     public class B : IB
     {
         public static long ActivationCount = 0L;
 
-        public IA A { get; }
+        public IA A
+        {
+            get;
+        }
 
-        public B(IA a)
+        public B(
+            IA a
+            )
         {
             Interlocked.Increment(ref ActivationCount);
 
             A = a;
         }
     }
-
-
 }

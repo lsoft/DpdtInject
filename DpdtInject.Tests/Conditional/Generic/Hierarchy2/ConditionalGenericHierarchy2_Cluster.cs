@@ -5,7 +5,8 @@ namespace DpdtInject.Tests.Conditional.Generic.Hierarchy2
 {
     public partial class ConditionalGenericHierarchy2_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A0>()
@@ -48,41 +49,43 @@ namespace DpdtInject.Tests.Conditional.Generic.Hierarchy2
                 Assert.IsNotNull(b1.A);
                 Assert.AreNotSame(b0, b1);
                 Assert.IsTrue(b1.A.GetType() == typeof(A1));
-
             }
         }
-
     }
 
 
     public interface IA
     {
-
     }
 
     public class A0 : IA
     {
-
     }
 
     public class A1 : IA
     {
-
     }
 
     public interface IB
     {
-        IA A { get; }
+        IA A
+        {
+            get;
+        }
     }
 
     public class B : IB
     {
-        public IA A { get; }
+        public IA A
+        {
+            get;
+        }
 
-        public B(IA a)
+        public B(
+            IA a
+            )
         {
             A = a;
         }
-
     }
 }

@@ -17,9 +17,11 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0.Singleton
         public const string GenericTestName = "Dpdt.GenericSingleton500";
         public const string NonGenericTestName = "Dpdt.NonGenericSingleton500";
         public const string FastTestName = "Dpdt.FastSingleton500";
-        public override void Load()
+
+        [DpdtBindingMethod]
+        public void BindingMethod()
         {
-#region bind code
+            #region bind code
             Bind<IInterface0>().To<Class0>().WithSingletonScope();
             Bind<IInterface1>().To<Class1>().WithSingletonScope();
             Bind<IInterface2>().To<Class2>().WithSingletonScope();

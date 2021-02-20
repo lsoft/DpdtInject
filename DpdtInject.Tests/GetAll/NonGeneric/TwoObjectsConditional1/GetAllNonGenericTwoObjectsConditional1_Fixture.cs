@@ -6,7 +6,11 @@ namespace DpdtInject.Tests.GetAll.NonGeneric.TwoObjectsConditional1
     [TestClass]
     public class GetAllNonGenericTwoObjectsConditional1_Fixture
     {
-        public TestContext TestContext { get; set; }
+        public TestContext TestContext
+        {
+            get;
+            set;
+        }
 
         [TestMethod]
         public void Test()
@@ -23,6 +27,5 @@ namespace DpdtInject.Tests.GetAll.NonGeneric.TwoObjectsConditional1
             Assert.AreEqual(0, preparation.DiagnosticReporter.ErrorCount, "Error count");
             Assert.AreEqual(0, preparation.DiagnosticReporter.WarningCount, "Warning count");
         }
-
     }
 }

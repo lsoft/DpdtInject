@@ -7,7 +7,8 @@ namespace DpdtInject.Tests.Conditional.Generic.OnlyOneInMiddle
     {
         public const string Message = "some message";
 
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
@@ -51,13 +52,9 @@ namespace DpdtInject.Tests.Conditional.Generic.OnlyOneInMiddle
                 Assert.IsNotNull(c0);
                 Assert.AreSame(b0, c0.B);
                 Assert.AreSame(a0, c0.B.A);
-
             }
         }
-
     }
-
-
 
 
     public interface IA
@@ -70,14 +67,22 @@ namespace DpdtInject.Tests.Conditional.Generic.OnlyOneInMiddle
 
     public interface IB
     {
-        IA A { get; }
+        IA A
+        {
+            get;
+        }
     }
 
     public class B : IB
     {
-        public IA A { get; }
+        public IA A
+        {
+            get;
+        }
 
-        public B(IA a)
+        public B(
+            IA a
+            )
         {
             A = a;
         }
@@ -85,19 +90,24 @@ namespace DpdtInject.Tests.Conditional.Generic.OnlyOneInMiddle
 
     public interface IC
     {
-        IB B { get; }
+        IB B
+        {
+            get;
+        }
     }
 
     public class C : IC
     {
-        public IB B { get; }
+        public IB B
+        {
+            get;
+        }
 
-        public C(IB b)
+        public C(
+            IB b
+            )
         {
             B = b;
         }
     }
-
-
-
 }

@@ -6,7 +6,8 @@ namespace DpdtInject.Tests.Wrapper.Func.Generic.Hierarchy2
 {
     public partial class WrapperFuncGenericHierarchy2_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
@@ -35,33 +36,37 @@ namespace DpdtInject.Tests.Wrapper.Func.Generic.Hierarchy2
                 Assert.IsNotNull(b0.A);
             }
         }
-
     }
 
 
     public interface IA
     {
-
     }
 
     public class A : IA
     {
-
     }
 
     public interface IB
     {
-        IA A { get; }
+        IA A
+        {
+            get;
+        }
     }
 
     public class B : IB
     {
-        public IA A { get; }
+        public IA A
+        {
+            get;
+        }
 
-        public B(Func<IA> af)
+        public B(
+            Func<IA> af
+            )
         {
             A = af();
         }
-
     }
 }

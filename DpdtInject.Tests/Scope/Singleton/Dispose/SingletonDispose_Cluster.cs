@@ -6,7 +6,8 @@ namespace DpdtInject.Tests.Scope.Singleton.Dispose
 {
     public partial class SingletonDispose_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
@@ -33,7 +34,6 @@ namespace DpdtInject.Tests.Scope.Singleton.Dispose
                 Assert.AreEqual(1, A.DisposeCount);
             }
         }
-
     }
 
 
@@ -50,5 +50,4 @@ namespace DpdtInject.Tests.Scope.Singleton.Dispose
             DisposeCount++;
         }
     }
-
 }

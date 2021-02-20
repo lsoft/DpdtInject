@@ -71,13 +71,13 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A1&gt;()
         ///                .WithSingletonScope()
-        ///                .When(rc =&gt; true)
-        ///            [rest of string was truncated]&quot;;.
+        ///                .Whe [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyChildren0_Cluster {
             get {
@@ -96,13 +96,13 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A1&gt;()
         ///                .WithSingletonScope()
-        ///                .When(rc =&gt; false)
-        ///           [rest of string was truncated]&quot;;.
+        ///                .Whe [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyChildren1_Cluster {
             get {
@@ -122,12 +122,12 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A1&gt;()
-        ///                .WithSingletonScope()
-        ///              [rest of string was truncated]&quot;;.
+        ///                .WithSingl [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyChildren2_Cluster {
             get {
@@ -147,12 +147,12 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A1&gt;()
-        ///                .WithSingletonScope()
-        ///              [rest of string was truncated]&quot;;.
+        ///                .WithSingl [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyChildren3_Cluster {
             get {
@@ -170,15 +170,14 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ActivationExcessiveTooManyRoots0_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A1&gt;()
         ///                .WithSingletonScope()
         ///                .When(rc =&gt; true)
-        ///                ;
-        ///
-        ///            Bind&lt;IA&gt; [rest of string was truncated]&quot;;.
+        ///                [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyRoots0_Cluster {
             get {
@@ -195,7 +194,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ActivationExcessiveTooManyRoots1_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A1&gt;()
@@ -204,8 +204,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///
         ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A2&gt;()
-        ///  [rest of string was truncated]&quot;;.
+        ///   [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyRoots1_Cluster {
             get {
@@ -222,7 +221,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ActivationExcessiveTooManyRoots2_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A1&gt;()
@@ -231,8 +231,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///
         ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A2&gt;()
-        ///   [rest of string was truncated]&quot;;.
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyRoots2_Cluster {
             get {
@@ -250,15 +249,14 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ActivationExcessiveTooManyRoots3_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A1&gt;()
         ///                .WithSingletonScope()
         ///                .When(rc =&gt; false)
-        ///                ;
-        ///
-        ///            Bind&lt;IA [rest of string was truncated]&quot;;.
+        ///               [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyRoots3_Cluster {
             get {
@@ -274,7 +272,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ClusterGenericDifferent_RootCluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -284,8 +283,7 @@ namespace DpdtInject.Tests.Properties {
         ///    }
         ///
         ///    public partial class ClusterGenericDifferent_ChildCluster : DefaultCluster
-        ///    {
-        ///        public override [rest of string was truncated]&quot;;.
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterGenericDifferent_Cluster {
             get {
@@ -301,14 +299,14 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ClusterGenericDifferentConditional0_FirstCluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
-        ///                .When(rt =&gt; 
-        ///                    rt.TargetType == typeof(A)
-        ///                    &amp;&amp; rt.ClusterDeclaredType  [rest of string was truncated]&quot;;.
+        ///                .When(rt =&gt;
+        ///                          rt.TargetType == typeof(A) &amp;&amp; rt.ClusterDec [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterGenericDifferentConditional0_Cluster {
             get {
@@ -324,14 +322,14 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ClusterGenericDifferentConditional1_FirstCluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
-        ///                .When(rt =&gt; 
-        ///                    rt.TargetType == typeof(A)
-        ///                    &amp;&amp; rt.ClusterDeclaredType  [rest of string was truncated]&quot;;.
+        ///                .When(rt =&gt;
+        ///                          rt.TargetType == typeof(A) &amp;&amp; rt.ClusterDec [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterGenericDifferentConditional1_Cluster {
             get {
@@ -347,17 +345,15 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ClusterGenericDifferentConditional2_RootCluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
         ///                .When(rt =&gt; rt.ParentTarget.TargetType == typeof(B))
         ///                ;
-        ///        }
-        ///    }
-        ///
-        ///    public parti [rest of string was truncated]&quot;;.
+        ///        }        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterGenericDifferentConditional2_Cluster {
             get {
@@ -373,7 +369,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ClusterGenericDifferentConditional3_RootCluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -381,8 +378,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .When(rt =&gt; rt.ParentTarget.TargetType == typeof(B))
         ///                ;
         ///
-        ///            Bind&lt;IB&gt;()
-        ///           [rest of string was truncated]&quot;;.
+        ///         [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterGenericDifferentConditional3_Cluster {
             get {
@@ -398,7 +394,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ClusterGenericDifferentConditional4_RootCluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -406,8 +403,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .When(rt =&gt; rt.ParentTarget.TargetType == typeof(B))
         ///                ;
         ///
-        ///            Bind&lt;IB&gt;()
-        ///           [rest of string was truncated]&quot;;.
+        ///         [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterGenericDifferentConditional4_Cluster {
             get {
@@ -424,7 +420,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ClusterGenericDifferentFunc_RootCluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -433,8 +430,7 @@ namespace DpdtInject.Tests.Properties {
         ///        }
         ///    }
         ///
-        ///    public partial class ClusterGenericDifferentFunc_ChildCluster : DefaultCluster
-        ///    [rest of string was truncated]&quot;;.
+        ///    public partial class ClusterGenericDifferentFunc_ChildClu [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterGenericDifferentFunc_Cluster {
             get {
@@ -450,7 +446,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ClusterNonGenericDifferent_RootCluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -459,9 +456,7 @@ namespace DpdtInject.Tests.Properties {
         ///        }
         ///    }
         ///
-        ///    public partial class ClusterNonGenericDifferent_ChildCluster : DefaultCluster
-        ///    {
-        ///        public [rest of string was truncated]&quot;;.
+        ///    public partial class ClusterNonGenericDifferent_ChildCluster : DefaultClus [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterNonGenericDifferent_Cluster {
             get {
@@ -477,14 +472,14 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ClusterNonGenericDifferentConditional0_FirstCluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
-        ///                .When(rt =&gt; 
-        ///                    rt.TargetType == typeof(A)
-        ///                    &amp;&amp; rt.ClusterDeclare [rest of string was truncated]&quot;;.
+        ///                .When(rt =&gt;
+        ///                          rt.TargetType == typeof(A) &amp;&amp; rt.Clus [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterNonGenericDifferentConditional0_Cluster {
             get {
@@ -500,14 +495,14 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ClusterNonGenericDifferentConditional1_FirstCluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
-        ///                .When(rt =&gt; 
-        ///                    rt.TargetType == typeof(A)
-        ///                    &amp;&amp; rt.ClusterDeclare [rest of string was truncated]&quot;;.
+        ///                .When(rt =&gt;
+        ///                          rt.TargetType == typeof(A) &amp;&amp; rt.Clus [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterNonGenericDifferentConditional1_Cluster {
             get {
@@ -524,7 +519,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ClusterNonGenericDifferentFunc_RootCluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -533,7 +529,7 @@ namespace DpdtInject.Tests.Properties {
         ///        }
         ///    }
         ///
-        ///    public partial class ClusterNonGenericDifferentFunc_ChildCluster : DefaultClu [rest of string was truncated]&quot;;.
+        ///    public partial class ClusterNonGenericDifferentFunc [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterNonGenericDifferentFunc_Cluster {
             get {
@@ -549,7 +545,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ConditionalGenericHierarchy2_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A0&gt;()
@@ -559,7 +556,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A1&gt;()
-        ///                .WithTransientScop [rest of string was truncated]&quot;;.
+        ///         [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalGenericHierarchy2_Cluster {
             get {
@@ -578,11 +575,12 @@ namespace DpdtInject.Tests.Properties {
         ///        public static readonly A ConstantA1 = new();
         ///        public static readonly A ConstantA2 = new();
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .WithConstScope(ConstantA1)
-        ///                .When(rt =&gt; r [rest of string was truncated]&quot;;.
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalGenericHierarchy2SameConstant_Cluster {
             get {
@@ -601,13 +599,13 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithSingletonScope()
-        ///                .When(rc =&gt; true)
-        ///         [rest of string was truncated]&quot;;.
+        ///                . [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalGenericHierarchy3First_Cluster {
             get {
@@ -626,14 +624,13 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithSingletonScope()
-        ///                ;
-        ///
-        ///            Bind&lt;IB&gt; [rest of string was truncated]&quot;;.
+        ///                [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalGenericHierarchy3Second_Cluster {
             get {
@@ -651,7 +648,8 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -659,7 +657,6 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///
         ///            Bind&lt;IB&gt;()
-        ///                .To&lt;B&gt;()
         ///      [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalGenericOnlyOneInMiddle_Cluster {
@@ -676,7 +673,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ConditionalNonGenericHierarchy2_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A0&gt;()
@@ -686,7 +684,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A1&gt;()
-        ///                .WithTransie [rest of string was truncated]&quot;;.
+        ///   [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalNonGenericHierarchy2_Cluster {
             get {
@@ -705,11 +703,11 @@ namespace DpdtInject.Tests.Properties {
         ///        public static readonly A ConstantA1 = new();
         ///        public static readonly A ConstantA2 = new();
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
-        ///                .WithConstScope(ConstantA1)
-        ///                .When(r [rest of string was truncated]&quot;;.
+        ///                .WithConstScope(ConstantA1 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalNonGenericHierarchy2SameConstant_Cluster {
             get {
@@ -729,12 +727,12 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
-        ///                .WithSingletonScope()
-        ///   [rest of string was truncated]&quot;;.
+        ///                [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalNonGenericHierarchy3First_Cluster {
             get {
@@ -754,12 +752,12 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
-        ///                .WithSingletonScope()
-        /// [rest of string was truncated]&quot;;.
+        ///              [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalNonGenericHierarchy3Second_Cluster {
             get {
@@ -777,15 +775,15 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithSingletonScope()
         ///                ;
         ///
-        ///            Bind&lt;IB&gt;()
-        ///                .To&lt;B&gt;()        /// [rest of string was truncated]&quot;;.
+        ///            Bind&lt;IB&gt;()        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalNonGenericOnlyOneInMiddle_Cluster {
             get {
@@ -806,12 +804,12 @@ namespace DpdtInject.Tests.Properties {
         ///        public const int B = 1;
         ///        public const long C = 2L;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IAFactory&gt;()
         ///                .ToIsolatedFactory&lt;AFactory&gt;()
-        ///                .WithPayload&lt;A0&gt;()
-        ///    [rest of string was truncated]&quot;;.
+        ///              [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FactoryComplex0_Cluster {
             get {
@@ -827,7 +825,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class FactoryConstructorArgument0_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IAFactory&gt;()
         ///                .ToIsolatedFactory&lt;AFactory&gt;()
@@ -836,7 +835,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class FactoryConstructorArgument0_C [rest of string was truncated]&quot;;.
+        ///        public class Fac [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FactoryConstructorArgument0_Cluster {
             get {
@@ -852,7 +851,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class FactorySimple0_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IAFactory&gt;()
         ///                .ToIsolatedFactory&lt;AFactory&gt;()
@@ -861,9 +861,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class FactorySimple0_ClusterTester
-        ///        {
-        ///            pu [rest of string was truncated]&quot;;.
+        ///        public class FactorySimple0_ClusterTester        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FactorySimple0_Cluster {
             get {
@@ -880,13 +878,14 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class FactoryUnknownConstructorArgument0_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IAFactory&gt;()
         ///                .ToIsolatedFactory&lt;AFactory&gt;()
         ///                .WithPayload&lt;A&gt;()
         ///                .WithSingletonScope()
-        ///                .Configure(new Cons [rest of string was truncated]&quot;;.
+        ///          [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FactoryUnknownConstructorArgument0_Cluster {
             get {
@@ -907,11 +906,11 @@ namespace DpdtInject.Tests.Properties {
         ///        public const int B = 1;
         ///        public const long C = 2L;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IAFactory&gt;()
-        ///                .ToIsolatedFactory&lt;AFactory&gt;()
-        ///  [rest of string was truncated]&quot;;.
+        ///                .ToIsol [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FactoryUnknownConstructorArgument1_Cluster {
             get {
@@ -927,7 +926,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class FactoryUnrelatedMethod_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IAFactory&gt;()
         ///                .ToIsolatedFactory&lt;AFactory&gt;()
@@ -936,8 +936,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class FactoryUnrelatedMethod_ClusterTester
-        ///  [rest of string was truncated]&quot;;.
+        ///        public class FactoryUnrela [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FactoryUnrelatedMethod_Cluster {
             get {
@@ -955,15 +954,14 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class GetAllGenericHierarchy2Conditional_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IZ&gt;()
         ///                .To&lt;Z&gt;()
         ///                .WithSingletonScope()
         ///                .When(rt =&gt; rt.IsGetAllResolution)
-        ///                ;
-        ///
-        ///            Bind&lt;IA&gt;()        /// [rest of string was truncated]&quot;;.
+        ///                ;        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllGenericHierarchy2Conditional_Cluster {
             get {
@@ -980,7 +978,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class GetAllGenericNoBinding_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            //nothing!
         ///        }
@@ -989,7 +988,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            public void PerformClusterTesting()
         ///            {
-        ///                var cluster = new FakeCl [rest of string was truncated]&quot;;.
+        ///               [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllGenericNoBinding_Cluster {
             get {
@@ -1005,7 +1004,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class GetAllGenericSingleObject_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -1015,7 +1015,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///        public class GetAllGenericSingleObject_ClusterTester
         ///        {
-        ///            public void PerformClusterTestin [rest of string was truncated]&quot;;.
+        ///            public [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllGenericSingleObject_Cluster {
             get {
@@ -1033,7 +1033,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class GetAllGenericTwoObjects_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A0&gt;()
@@ -1042,8 +1043,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A1&gt;()
-        ///                .WithSingletonScope()
-        ///       [rest of string was truncated]&quot;;.
+        ///                .Wi [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllGenericTwoObjects_Cluster {
             get {
@@ -1060,7 +1060,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class GetAllGenericTwoObjectsConditional0_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A0&gt;()
@@ -1069,8 +1070,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///
         ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A1&gt;()
-        ///      [rest of string was truncated]&quot;;.
+        ///       [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllGenericTwoObjectsConditional0_Cluster {
             get {
@@ -1088,15 +1088,14 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class GetAllGenericTwoObjectsConditional1_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A0&gt;()
         ///                .WithSingletonScope()
         ///                .When(rt =&gt; rt.IsGetAllResolution)
-        ///                ;
-        ///
-        ///            Bind&lt;IA&gt; [rest of string was truncated]&quot;;.
+        ///                [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllGenericTwoObjectsConditional1_Cluster {
             get {
@@ -1115,13 +1114,13 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class GetAllNonGenericHierarchy2Conditional_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IZ&gt;()
         ///                .To&lt;Z&gt;()
         ///                .WithSingletonScope()
-        ///                .When(rt =&gt; rt.IsGetAllResolution)
-        ///    [rest of string was truncated]&quot;;.
+        ///                .When(rt =&gt; r [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllNonGenericHierarchy2Conditional_Cluster {
             get {
@@ -1139,15 +1138,15 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class GetAllNonGenericNoBinding_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            //nothing!
         ///        }
         ///
         ///        public class GetAllNonGenericNoBinding_ClusterTester
         ///        {
-        ///            public void PerformClusterTesting()
-        ///            [rest of string was truncated]&quot;;.
+        ///            public void PerformClu [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllNonGenericNoBinding_Cluster {
             get {
@@ -1164,7 +1163,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class GetAllNonGenericSingleObject_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -1172,9 +1172,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class GetAllNonGenericSingleObject_ClusterTester
-        ///        {
-        /// [rest of string was truncated]&quot;;.
+        ///        public class GetAllNonGenericSingleObject_ [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllNonGenericSingleObject_Cluster {
             get {
@@ -1193,7 +1191,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class GetAllNonGenericTwoObjects_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A0&gt;()
@@ -1201,8 +1200,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///
         ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A1&gt;()
-        ///     [rest of string was truncated]&quot;;.
+        ///      [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllNonGenericTwoObjects_Cluster {
             get {
@@ -1220,15 +1218,14 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class GetAllNonGenericTwoObjectsConditional0_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A0&gt;()
         ///                .WithSingletonScope()
         ///                .When(rt =&gt; false)
-        ///                ;
-        ///
-        ///            Bin [rest of string was truncated]&quot;;.
+        ///           [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllNonGenericTwoObjectsConditional0_Cluster {
             get {
@@ -1247,13 +1244,13 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class GetAllNonGenericTwoObjectsConditional1_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A0&gt;()
         ///                .WithSingletonScope()
-        ///                .When(rt =&gt; rt.IsGetAllResolution)
-        /// [rest of string was truncated]&quot;;.
+        ///                .When(rt = [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllNonGenericTwoObjectsConditional1_Cluster {
             get {
@@ -1271,16 +1268,16 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class NonGenericIncorrectRequest_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithSingletonScope()
         ///                ;
-        ///
         ///        }
         ///
-        ///        public class NonGenericIncorrectRequest_ClusterTester [rest of string was truncated]&quot;;.
+        ///        public class NonGenericIncorr [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string NonGenericIncorrectRequest_Cluster {
             get {
@@ -1298,15 +1295,15 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        private static readonly A AInstance = new();
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .WithConstScope(AInstance)
         ///                ;
-        ///
         ///        }
         ///
-        ///        public class ScopeConstantG [rest of string was truncated]&quot;;.
+        ///        pub [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeConstantGenericSingleInterfaceSingleObject_Cluster {
             get {
@@ -1324,15 +1321,15 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        private static readonly A AInstance = new();
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .WithConstScope(AInstance)
         ///                ;
-        ///
         ///        }
         ///
-        ///        public class ScopeCon [rest of string was truncated]&quot;;.
+        ///      [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeConstantNonGenericSingleInterfaceSingleObject_Cluster {
             get {
@@ -1351,13 +1348,13 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        //NOT A READONLY!!!
         ///        // ReSharper disable once FieldCanBeMadeReadOnly.Local
-        ///        private string _someString = &quot;some string&quot;;
+        ///        private string _someString;
         ///
-        ///        public override void Load()
-        ///        {
-        ///            Bind&lt;string&gt;()
-        ///                .WithConstScope(_someString)
-        ///         [rest of string was truncated]&quot;;.
+        ///        #if IN_UNIT_TEST_SYMBOL
+        ///        /// &lt;inheritdoc /&gt;
+        ///        public ScopeConstantTargetF0_Cluster()
+        ///            : this((ICluster)null!)
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeConstantTargetF0_Cluster {
             get {
@@ -1376,14 +1373,15 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        private string GetSomeString() =&gt; Guid.NewGuid().ToString();
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;string&gt;()
         ///                .WithConstScope(this.GetSomeString())
         ///                ;
         ///        }
         ///
-        ///        public class ScopeConstantTargetM0_ [rest of string was truncated]&quot;;.
+        ///        public cl [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeConstantTargetM0_Cluster {
             get {
@@ -1400,16 +1398,17 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ScopeConstantTargetRO0_Cluster : DefaultCluster
         ///    {
-        ///        private readonly string _roString = &quot;readonly string&quot;;
+        ///        private readonly string _roString;
         ///
-        ///        public override void Load()
+        ///        #if IN_UNIT_TEST_SYMBOL
+        ///        /// &lt;inheritdoc /&gt;
+        ///        public ScopeConstantTargetRO0_Cluster()
+        ///            : this((ICluster)null!)
         ///        {
-        ///            Bind&lt;string&gt;()
-        ///                .WithConstScope(_roString)
-        ///                ;
+        ///            _roString = &quot;readonly string&quot;;
         ///        }
-        ///
-        ///        public class ScopeConstantTargetRO0_ClusterTester        /// [rest of string was truncated]&quot;;.
+        ///        #endif
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeConstantTargetRO0_Cluster {
             get {
@@ -1428,14 +1427,15 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        private static readonly string _roString = &quot;readonly string&quot;;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;string&gt;()
         ///                .WithConstScope(_roString)
         ///                ;
         ///        }
         ///
-        ///        public class ScopeConstantTargetSRO0_Clus [rest of string was truncated]&quot;;.
+        ///        public class Sc [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeConstantTargetSRO0_Cluster {
             get {
@@ -1454,15 +1454,15 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithCustomScope()
         ///                ;
         ///
-        ///            Bind&lt;IB&gt;()
-        ///           [rest of string was truncated]&quot;;.
+        ///         [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeCustomGenericHierarchy2_Cluster {
             get {
@@ -1479,7 +1479,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ScopeCustomGenericHierarchy2DifferentCluster_FirstCluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -1488,7 +1489,7 @@ namespace DpdtInject.Tests.Properties {
         ///        }
         ///    }
         ///
-        ///    public partial class ScopeCustom [rest of string was truncated]&quot;;.
+        ///    public [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeCustomGenericHierarchy2DifferentCluster_Cluster {
             get {
@@ -1506,7 +1507,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ScopeCustomGenericSingleObject_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -1514,7 +1516,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class ScopeCustomGenericSingleObject_ClusterTe [rest of string was truncated]&quot;;.
+        ///        public class ScopeCustomGen [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeCustomGenericSingleObject_Cluster {
             get {
@@ -1533,15 +1535,15 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithCustomScope()
         ///                ;
         ///
-        ///            Bind&lt;IB&gt;()
-        ///     [rest of string was truncated]&quot;;.
+        ///   [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeCustomNonGenericHierarchy2_Cluster {
             get {
@@ -1558,7 +1560,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ScopeCustomNonGenericHierarchy2DifferentCluster_FirstCluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -1567,7 +1570,7 @@ namespace DpdtInject.Tests.Properties {
         ///        }
         ///    }
         ///
-        ///    public partial class Scope [rest of string was truncated]&quot;;.
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeCustomNonGenericHierarchy2DifferentCluster_Cluster {
             get {
@@ -1585,7 +1588,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ScopeCustomNonGenericSingleObject_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -1593,7 +1597,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class ScopeCustomNonGenericSingleObject_ [rest of string was truncated]&quot;;.
+        ///        public class ScopeCus [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeCustomNonGenericSingleObject_Cluster {
             get {
@@ -1609,7 +1613,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ScopeSingletonFastHierarchy2_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -1619,10 +1624,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IB&gt;()
         ///                .To&lt;B&gt;()
         ///                .WithSingletonScope()
-        ///                ;
-        ///        }
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///       [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeSingletonFastHierarchy2_Cluster {
             get {
@@ -1638,16 +1640,16 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ScopeSingletonFastSingleInterfaceSingleObject_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithSingletonScope()
         ///                ;
-        ///
         ///        }
         ///
-        ///        public class ScopeSingletonFastSingleInterfaceSingleObject_Cluster [rest of string was truncated]&quot;;.
+        ///        public class ScopeSingletonFastSingleInter [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeSingletonFastSingleInterfaceSingleObject_Cluster {
             get {
@@ -1663,16 +1665,16 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ScopeSingletonFastTwoInterfacesSingleObject_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA0, IA1&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithSingletonScope()
         ///                ;
-        ///
         ///        }
         ///
-        ///        public class ScopeSingletonFastTwoInterfacesSingleObject_Cluster [rest of string was truncated]&quot;;.
+        ///        public class ScopeSingletonFastTwoInterf [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeSingletonFastTwoInterfacesSingleObject_Cluster {
             get {
@@ -1688,7 +1690,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ScopeSingletonGenericHierarchy2_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -1698,8 +1701,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IB&gt;()
         ///                .To&lt;B&gt;()
         ///                .WithSingletonScope()
-        ///                ;
-        ///        [rest of string was truncated]&quot;;.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeSingletonGenericHierarchy2_Cluster {
             get {
@@ -1715,16 +1717,16 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ScopeSingletonGenericSingleInterfaceSingleObject_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithSingletonScope()
         ///                ;
-        ///
         ///        }
         ///
-        ///        public class ScopeSingletonGenericSingleInterfaceSingleObjec [rest of string was truncated]&quot;;.
+        ///        public class ScopeSingletonGenericSi [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeSingletonGenericSingleInterfaceSingleObject_Cluster {
             get {
@@ -1743,12 +1745,12 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        const string CustomMesage = &quot;custom message&quot;;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
-        ///                .WithSingletonScope()
-        ///             [rest of string was truncated]&quot;;.
+        ///                .WithSing [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeSingletonGenericSingleObjectDefinedArgument_Cluster {
             get {
@@ -1764,16 +1766,16 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ScopeSingletonGenericTwoInterfacesSingleObject_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA0, IA1&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithSingletonScope()
         ///                ;
-        ///
         ///        }
         ///
-        ///        public class ScopeSingletonGenericTwoInterfacesSingleObjec [rest of string was truncated]&quot;;.
+        ///        public class ScopeSingletonGeneric [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeSingletonGenericTwoInterfacesSingleObject_Cluster {
             get {
@@ -1789,7 +1791,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ScopeSingletonNonGenericHierarchy2_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -1798,9 +1801,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///            Bind&lt;IB&gt;()
         ///                .To&lt;B&gt;()
-        ///                .WithSingletonScope()
-        ///                ;
-        ///  [rest of string was truncated]&quot;;.
+        ///                .WithSingletonSco [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeSingletonNonGenericHierarchy2_Cluster {
             get {
@@ -1816,16 +1817,16 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ScopeSingletonNonGenericSingleInterfaceSingleObject_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithSingletonScope()
         ///                ;
-        ///
         ///        }
         ///
-        ///        public class ScopeSingletonNonGenericSingleInterfaceSi [rest of string was truncated]&quot;;.
+        ///        public class ScopeSingletonNon [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeSingletonNonGenericSingleInterfaceSingleObject_Cluster {
             get {
@@ -1841,16 +1842,16 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ScopeSingletonNonGenericTwoInterfacesSingleObject_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA0, IA1&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithSingletonScope()
         ///                ;
-        ///
         ///        }
         ///
-        ///        public class ScopeSingletonNonGenericTwoInterfacesSi [rest of string was truncated]&quot;;.
+        ///        public class ScopeSingletonN [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeSingletonNonGenericTwoInterfacesSingleObject_Cluster {
             get {
@@ -1866,7 +1867,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ScopeTransientGenericHierarchy2_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -1876,8 +1878,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IB&gt;()
         ///                .To&lt;B&gt;()
         ///                .WithTransientScope()
-        ///                ;
-        ///        [rest of string was truncated]&quot;;.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeTransientGenericHierarchy2_Cluster {
             get {
@@ -1893,16 +1894,16 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ScopeTransientGenericSingleInterfaceSingleObject_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
         ///                ;
-        ///
         ///        }
         ///
-        ///        public class ScopeTransientGenericSingleInterfaceSingleObjec [rest of string was truncated]&quot;;.
+        ///        public class ScopeTransientGenericSi [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeTransientGenericSingleInterfaceSingleObject_Cluster {
             get {
@@ -1921,12 +1922,12 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        const string CustomMesage = &quot;custom message&quot;;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
-        ///                .WithTransientScope()
-        ///             [rest of string was truncated]&quot;;.
+        ///                .WithTran [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeTransientGenericSingleObjectDefinedArgument_Cluster {
             get {
@@ -1942,16 +1943,16 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class ScopeTransientGenericTwoInterfacesSingleObject_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA0, IA1&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
         ///                ;
-        ///
         ///        }
         ///
-        ///        public class ScopeTransientGenericTwoInterfacesSingleObjec [rest of string was truncated]&quot;;.
+        ///        public class ScopeTransientGeneric [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeTransientGenericTwoInterfacesSingleObject_Cluster {
             get {
@@ -1968,7 +1969,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class SingletonDispose_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -1979,8 +1981,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///        public class SingletonDispose_ClusterTester
         ///        {
-        ///            public void PerformClusterTesting()
-        /// [rest of string was truncated]&quot;;.
+        ///            public void [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SingletonDispose_Cluster {
             get {
@@ -1998,16 +1999,15 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithSingletonScope()
         ///                .Configure(new ConstructorArgument(&quot;message&quot;, Message))
         ///                ;
-        ///        }
-        ///
-        ///        public [rest of string was truncated]&quot;;.
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedCannotBeCasted_Cluster {
             get {
@@ -2024,7 +2024,8 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -2034,9 +2035,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IB&gt;()
         ///                .To&lt;B&gt;()
         ///                .WithTransientScope()
-        ///                ;
-        ///
-        ///            [rest of string was truncated]&quot;;.
+        ///       [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedCircularDependency3_Cluster {
             get {
@@ -2056,10 +2055,11 @@ namespace DpdtInject.Tests.Properties {
         ///        public static readonly Func&lt;Func&lt;object&gt;, Func&lt;string&gt;&gt; Funca =
         ///            fo =&gt; new Func&lt;string&gt;(() =&gt; fo().ToString());
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;Func&lt;Func&lt;object&gt;, Func&lt;string&gt;&gt;&gt;()
-        ///                .WithConstSco [rest of string was truncated]&quot;;.
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedComplexTypeArgument0_Cluster {
             get {
@@ -2078,14 +2078,14 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class UnsortedCustomNamespace_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;A&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithSingletonScope()
         ///                .Configure(
-        ///                    new ConstructorArgument(
-        ///  [rest of string was truncated]&quot;;.
+        ///                    n [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedCustomNamespace_Cluster {
             get {
@@ -2102,7 +2102,6 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public class FakeResource
         ///    {
-        ///
         ///    }
         ///}
         ///.
@@ -2121,7 +2120,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class UnsortedGenericInterface_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;To&lt;string&gt;&gt;()
         ///                .To&lt;ToIsolatedFactory&lt;int&gt;&gt;()
@@ -2130,8 +2130,7 @@ namespace DpdtInject.Tests.Properties {
         ///        }
         ///
         ///        public class UnsortedGenericInterface_ClusterTester
-        ///        {
-        ///            public  [rest of string was truncated]&quot;;.
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedGenericInterface_Cluster {
             get {
@@ -2147,7 +2146,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class UnsortedGenericIsRegistered_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -2157,10 +2157,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IB&gt;()
         ///                .To&lt;B&gt;()
         ///                .WithTransientScope()
-        ///                ;
-        ///        }
-        ///
-        ///    [rest of string was truncated]&quot;;.
+        ///          [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedGenericIsRegistered_Cluster {
             get {
@@ -2178,16 +2175,15 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string Message = &quot;some message&quot;;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;IA&gt;()
         ///                .WithSingletonScope()
         ///                .Configure(new ConstructorArgument(&quot;message&quot;, Message))
         ///                ;
-        ///        }
-        ///
-        ///        public  [rest of string was truncated]&quot;;.
+        ///   [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedInvalidToType_Cluster {
             get {
@@ -2206,14 +2202,14 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string DefaultMessage = &quot;default message&quot;;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;string&gt;()
         ///                .WithConstScope(DefaultMessage)
         ///                ;
         ///
         ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()
         ///      [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedNativeTypeArgument0_Cluster {
@@ -2230,7 +2226,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class UnsortedNonGenericIsRegistered_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -2240,8 +2237,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IB&gt;()
         ///                .To&lt;B&gt;()
         ///                .WithTransientScope()
-        ///                ;
-        ///        }        /// [rest of string was truncated]&quot;;.
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedNonGenericIsRegistered_Cluster {
             get {
@@ -2261,11 +2257,12 @@ namespace DpdtInject.Tests.Properties {
         ///        public const string DefaultMessage = &quot;default message&quot;;
         ///        public const string CustomMessage = &quot;custom message&quot;;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
-        ///                .WithSingl [rest of string was truncated]&quot;;.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedOptionalArgument0_Cluster {
             get {
@@ -2283,7 +2280,8 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string DefaultMessage = &quot;default message&quot;;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -2291,7 +2289,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class UnsortedOptionalArgument1_Clus [rest of string was truncated]&quot;;.
+        ///        public class Unso [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedOptionalArgument1_Cluster {
             get {
@@ -2308,7 +2306,8 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string DefaultMessage = &quot;default message&quot;;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -2318,10 +2317,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IB&gt;()
         ///                .To&lt;B&gt;()
         ///                .WithSingletonScope()
-        ///                ;
-        ///        }
-        ///
-        ///  [rest of string was truncated]&quot;;.
+        ///        [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedSingletonCustom_Cluster {
             get {
@@ -2338,7 +2334,8 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        public const string DefaultMessage = &quot;default message&quot;;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -2347,9 +2344,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///            Bind&lt;IB&gt;()
         ///                .To&lt;B&gt;()
-        ///                .WithSingletonScope()
-        ///                ;
-        ///      [rest of string was truncated]&quot;;.
+        ///                .WithSingletonScope() [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedSingletonTransient_Cluster {
             get {
@@ -2364,7 +2359,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class UnsortedTooManyChildren_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A0&gt;()
@@ -2377,12 +2373,38 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///
         ///            Bind&lt;IB&gt;()
-        ///                .To&lt;B&gt;()
-        ///                .WithTra [rest of string was truncated]&quot;;.
+        ///                .To&lt;B&gt;() [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedTooManyChildren_Cluster {
             get {
                 return ResourceManager.GetString("UnsortedTooManyChildren_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.TwoBindMethods
+        ///{
+        ///    public partial class UnsortedTwoBindMethods_Cluster : DefaultCluster
+        ///    {
+        ///        public const string DefaultMessage = &quot;default message&quot;;
+        ///
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod1()
+        ///        {
+        ///            Bind&lt;string&gt;()
+        ///                .WithConstScope(DefaultMessage)
+        ///                ;
+        ///        }
+        ///
+        ///        [DpdtBindingMethod] [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedTwoBindMethods_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedTwoBindMethods_Cluster", resourceCulture);
             }
         }
         
@@ -2398,13 +2420,11 @@ namespace DpdtInject.Tests.Properties {
         ///        public static readonly A AInstance = new();
         ///        public static readonly Func&lt;IA&gt; Funca = () =&gt; AInstance;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
-        ///
         ///            Bind&lt;Func&lt;IA&gt;&gt;()
-        ///                .WithConstScope(Funca)
-        ///                ;
-        /// [rest of string was truncated]&quot;;.
+        ///                .WithConstScope(Fun [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string WrapperFuncGenericDeclaredFunc_Cluster {
             get {
@@ -2421,7 +2441,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class WrapperFuncGenericHierarchy2_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -2430,8 +2451,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///            Bind&lt;IB&gt;()
         ///                .To&lt;B&gt;()
-        ///                .WithTransientScope()
-        ///                ; [rest of string was truncated]&quot;;.
+        ///                .WithTransient [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string WrapperFuncGenericHierarchy2_Cluster {
             get {
@@ -2448,16 +2468,16 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class WrapperFuncGenericSingleInterfaceSingleObject_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
         ///                ;
-        ///
         ///        }
         ///
-        ///        public class WrapperFuncGenericSingleInterfaceSingl [rest of string was truncated]&quot;;.
+        ///        public class WrapperFuncGen [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string WrapperFuncGenericSingleInterfaceSingleObject_Cluster {
             get {
@@ -2477,12 +2497,11 @@ namespace DpdtInject.Tests.Properties {
         ///        public static readonly A AInstance = new();
         ///        public static readonly Func&lt;IA&gt; Funca = () =&gt; AInstance;
         ///
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
-        ///
         ///            Bind&lt;Func&lt;IA&gt;&gt;()
-        ///                .WithConstScope(Funca)
-        ///              [rest of string was truncated]&quot;;.
+        ///                .WithConstSco [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string WrapperFuncNonGenericDeclaredFunc_Cluster {
             get {
@@ -2499,7 +2518,8 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class WrapperFuncNonGenericHierarchy2_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
@@ -2508,8 +2528,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///            Bind&lt;IB&gt;()
         ///                .To&lt;B&gt;()
-        ///                .WithTransientScope()
-        ///            [rest of string was truncated]&quot;;.
+        ///                .WithTra [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string WrapperFuncNonGenericHierarchy2_Cluster {
             get {
@@ -2526,16 +2545,16 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class WrapperFuncNonGenericSingleInterfaceSingleObject_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
         ///                ;
-        ///
         ///        }
         ///
-        ///        public class WrapperFuncNonGenericSingleInter [rest of string was truncated]&quot;;.
+        ///        public class WrapperF [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string WrapperFuncNonGenericSingleInterfaceSingleObject_Cluster {
             get {
@@ -2552,18 +2571,18 @@ namespace DpdtInject.Tests.Properties {
         ///{
         ///    public partial class WrapperFuncSingleton_Cluster : DefaultCluster
         ///    {
-        ///        public override void Load()
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithSingletonScope()
         ///                ;
-        ///
         ///        }
         ///
         ///        public class WrapperFuncSingleton_ClusterTester
         ///        {
-        ///            public void PerformClusterTest [rest of string was truncated]&quot;;.
+        ///            public [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string WrapperFuncSingleton_Cluster {
             get {

@@ -5,13 +5,13 @@ namespace DpdtInject.Tests.Scope.Singleton.Fast.SingleInterfaceSingleObject
 {
     public partial class ScopeSingletonFastSingleInterfaceSingleObject_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
                 .WithSingletonScope()
                 ;
-
         }
 
         public class ScopeSingletonFastSingleInterfaceSingleObject_ClusterTester
@@ -31,17 +31,14 @@ namespace DpdtInject.Tests.Scope.Singleton.Fast.SingleInterfaceSingleObject
                 Assert.AreSame(a0, a1);
             }
         }
-
     }
 
 
     public interface IA
     {
-
     }
 
     public class A : IA
     {
-
     }
 }

@@ -6,7 +6,8 @@ namespace DpdtInject.Tests.Cluster.Generic.DifferentFunc
 {
     public partial class ClusterGenericDifferentFunc_RootCluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
@@ -17,7 +18,8 @@ namespace DpdtInject.Tests.Cluster.Generic.DifferentFunc
 
     public partial class ClusterGenericDifferentFunc_ChildCluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IB>()
                 .To<B>()
@@ -49,27 +51,32 @@ namespace DpdtInject.Tests.Cluster.Generic.DifferentFunc
 
     public interface IA
     {
-
     }
 
     public class A : IA
     {
-
     }
 
     public interface IB
     {
-        IA A { get; }
+        IA A
+        {
+            get;
+        }
     }
 
     public class B : IB
     {
-        public IA A { get; }
+        public IA A
+        {
+            get;
+        }
 
-        public B(Func<IA> af)
+        public B(
+            Func<IA> af
+            )
         {
             A = af();
         }
-
     }
 }

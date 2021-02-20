@@ -5,18 +5,14 @@ namespace DpdtInject.Tests.Cluster.NonGeneric.DifferentConditional0
 {
     public partial class ClusterNonGenericDifferentConditional0_FirstCluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
                 .WithTransientScope()
-                .When(rt => 
-                    rt.TargetType == typeof(A)
-                    && rt.ClusterDeclaredType == typeof(ClusterNonGenericDifferentConditional0_FirstCluster)
-                    && rt.ParentRequest.RequestedType == typeof(IA)
-                    && rt.ParentRequest.ClusterDeclaredType == typeof(ClusterNonGenericDifferentConditional0_LastCluster)
-                    && rt.TryGetParentTarget(out var parentTarget)
-                    && parentTarget.TargetType == typeof(B)
+                .When(rt =>
+                          rt.TargetType == typeof(A) && rt.ClusterDeclaredType == typeof(ClusterNonGenericDifferentConditional0_FirstCluster) && rt.ParentRequest.RequestedType == typeof(IA) && rt.ParentRequest.ClusterDeclaredType == typeof(ClusterNonGenericDifferentConditional0_LastCluster) && rt.TryGetParentTarget(out var parentTarget) && parentTarget.TargetType == typeof(B)
                     )
                 ;
         }
@@ -24,16 +20,14 @@ namespace DpdtInject.Tests.Cluster.NonGeneric.DifferentConditional0
 
     public partial class ClusterNonGenericDifferentConditional0_LastCluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IB>()
                 .To<B>()
                 .WithTransientScope()
-                .When(rt => 
-                    rt.IsRoot 
-                    && rt.TargetType == typeof(B)
-                    && rt.ClusterDeclaredType == typeof(ClusterNonGenericDifferentConditional0_LastCluster)
-                    && rt.ParentRequest.RequestedType == typeof(IB)
+                .When(rt =>
+                          rt.IsRoot && rt.TargetType == typeof(B) && rt.ClusterDeclaredType == typeof(ClusterNonGenericDifferentConditional0_LastCluster) && rt.ParentRequest.RequestedType == typeof(IB)
                     )
                 ;
         }
@@ -50,7 +44,7 @@ namespace DpdtInject.Tests.Cluster.NonGeneric.DifferentConditional0
                 rootCluster
                 );
 
-            var b0 = (IB)childCluster.Get(typeof(IB));
+            var b0 = (IB) childCluster.Get(typeof(IB));
             Assert.IsNotNull(b0);
             Assert.IsNotNull(b0.A);
         }
@@ -59,27 +53,32 @@ namespace DpdtInject.Tests.Cluster.NonGeneric.DifferentConditional0
 
     public interface IA
     {
-
     }
 
     public class A : IA
     {
-
     }
 
     public interface IB
     {
-        IA A { get; }
+        IA A
+        {
+            get;
+        }
     }
 
     public class B : IB
     {
-        public IA A { get; }
+        public IA A
+        {
+            get;
+        }
 
-        public B(IA a)
+        public B(
+            IA a
+            )
         {
             A = a;
         }
-
     }
 }

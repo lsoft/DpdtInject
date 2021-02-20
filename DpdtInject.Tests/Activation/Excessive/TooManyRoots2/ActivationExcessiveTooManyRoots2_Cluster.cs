@@ -6,7 +6,8 @@ namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots2
 {
     public partial class ActivationExcessiveTooManyRoots2_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A1>()
@@ -36,7 +37,6 @@ namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots2
                 Assert.AreEqual(0, A2.ActivationCount, "A2.ActivationCount");
             }
         }
-
     }
 
 
@@ -61,9 +61,6 @@ namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots2
         public A1()
         {
             Interlocked.Increment(ref ActivationCount);
-
-            
         }
     }
-
 }

@@ -9,7 +9,8 @@ namespace DpdtInject.Tests.Unsorted.ComplexTypeArgument0
         public static readonly Func<Func<object>, Func<string>> Funca =
             fo => new Func<string>(() => fo().ToString());
 
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<Func<Func<object>, Func<string>>>()
                 .WithConstScope(Funca)
@@ -34,19 +35,23 @@ namespace DpdtInject.Tests.Unsorted.ComplexTypeArgument0
                 Assert.AreEqual(Payload.PayloadString, a.Message);
             }
         }
-
     }
-
 
 
     public interface IA
     {
-        string Message { get; }
+        string Message
+        {
+            get;
+        }
     }
 
     public class A : IA
     {
-        public string Message { get; }
+        public string Message
+        {
+            get;
+        }
 
         public A(
             Func<Func<object>, Func<string>> funca
@@ -54,7 +59,6 @@ namespace DpdtInject.Tests.Unsorted.ComplexTypeArgument0
         {
             Message = funca(() => new Payload())();
         }
-
     }
 
     public class Payload
@@ -66,5 +70,4 @@ namespace DpdtInject.Tests.Unsorted.ComplexTypeArgument0
             return PayloadString;
         }
     }
-
 }

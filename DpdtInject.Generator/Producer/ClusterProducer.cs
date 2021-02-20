@@ -119,7 +119,7 @@ namespace DpdtInject.Generator.Producer
 
             var compilationUnit = DpdtInject.Generator.Properties.Resource.CarcassCluster;
 
-            var usings = new List<string>();
+            var usings = new HashSet<string>(StringComparer.InvariantCulture);
             foreach (var additionalUsing in additionalUsings)
             {
                 usings.Add(additionalUsing.ToString());

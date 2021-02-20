@@ -388,6 +388,9 @@
   <data name="UnsortedTooManyChildren_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\TooManyChildren\UnsortedTooManyChildren_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="UnsortedTwoBindMethods_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\TwoBindMethods\UnsortedTwoBindMethods_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="WrapperFuncGenericDeclaredFunc_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Wrapper\Func\Generic\DeclaredFunc\WrapperFuncGenericDeclaredFunc_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

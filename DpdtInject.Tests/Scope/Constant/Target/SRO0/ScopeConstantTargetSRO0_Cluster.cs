@@ -8,7 +8,8 @@ namespace DpdtInject.Tests.Scope.Constant.Target.SRO0
     {
         private static readonly string _roString = "readonly string";
 
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<string>()
                 .WithConstScope(_roString)
@@ -28,6 +29,5 @@ namespace DpdtInject.Tests.Scope.Constant.Target.SRO0
                 Assert.AreEqual("readonly string", s);
             }
         }
-
     }
 }

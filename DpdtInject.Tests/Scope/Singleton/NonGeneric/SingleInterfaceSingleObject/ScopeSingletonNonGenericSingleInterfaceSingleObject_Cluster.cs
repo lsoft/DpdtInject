@@ -5,13 +5,13 @@ namespace DpdtInject.Tests.Scope.Singleton.NonGeneric.SingleInterfaceSingleObjec
 {
     public partial class ScopeSingletonNonGenericSingleInterfaceSingleObject_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
                 .WithSingletonScope()
                 ;
-
         }
 
         public class ScopeSingletonNonGenericSingleInterfaceSingleObject_ClusterTester
@@ -22,26 +22,23 @@ namespace DpdtInject.Tests.Scope.Singleton.NonGeneric.SingleInterfaceSingleObjec
                     null
                     );
 
-                var a0 = (IA)cluster.Get(typeof(IA));
+                var a0 = (IA) cluster.Get(typeof(IA));
                 Assert.IsNotNull(a0);
 
-                var a1 = (IA)cluster.Get(typeof(IA));
+                var a1 = (IA) cluster.Get(typeof(IA));
                 Assert.IsNotNull(a1);
 
                 Assert.AreSame(a0, a1);
             }
         }
-
     }
 
 
     public interface IA
     {
-
     }
 
     public class A : IA
     {
-
     }
 }

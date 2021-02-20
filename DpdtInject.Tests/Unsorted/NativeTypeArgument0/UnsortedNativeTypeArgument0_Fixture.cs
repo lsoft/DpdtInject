@@ -3,10 +3,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DpdtInject.Tests.Unsorted.NativeTypeArgument0
 {
-    [TestClass] 
+    [TestClass]
     public class UnsortedNativeTypeArgument0_Fixture
     {
-        public TestContext TestContext { get; set; }
+        public TestContext TestContext
+        {
+            get;
+            set;
+        }
 
         [TestMethod]
         public void Test()
@@ -23,6 +27,5 @@ namespace DpdtInject.Tests.Unsorted.NativeTypeArgument0
             Assert.AreEqual(0, preparation.DiagnosticReporter.WarningCount, "Warning count");
             Assert.AreEqual(0, preparation.DiagnosticReporter.Exceptions.Count, "Error count");
         }
-
     }
 }

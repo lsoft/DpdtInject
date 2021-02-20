@@ -17,7 +17,9 @@ namespace DpdtInject.Tests.Performance.TimeConsume.BigTree0.Transient
         public const string GenericTestName = "Dpdt.GenericTransient500";
         public const string NonGenericTestName = "Dpdt.NonGenericTransient500";
         public const string FastTestName = "Dpdt.FastTransient500";
-        public override void Load()
+
+        [DpdtBindingMethod]
+        public void BindingMethod()
         {
 #region bind code
             Bind<IInterface0>().To<Class0>().WithTransientScope();

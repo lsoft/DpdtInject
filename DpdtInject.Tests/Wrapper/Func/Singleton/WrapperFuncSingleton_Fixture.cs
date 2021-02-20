@@ -6,7 +6,11 @@ namespace DpdtInject.Tests.Wrapper.Func.Singleton
     [TestClass]
     public class WrapperFuncSingleton_Fixture
     {
-        public TestContext TestContext { get; set; }
+        public TestContext TestContext
+        {
+            get;
+            set;
+        }
 
         [TestMethod]
         public void Test()
@@ -23,6 +27,5 @@ namespace DpdtInject.Tests.Wrapper.Func.Singleton
             Assert.AreEqual(0, preparation.DiagnosticReporter.ErrorCount, "Error count");
             Assert.AreEqual(0, preparation.DiagnosticReporter.WarningCount, "Warning count");
         }
-
     }
 }

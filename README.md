@@ -127,6 +127,8 @@ Please refer to Dpdt.Injector nuget package at nuget.org. Keep in mind you need 
 
 Examples of allowed syntaxes are available in the test project. Please refer that code.
 
+Additional note: many binding methods (even in different compilation units) allowed to exists. You can use this to split your bindings into different groups (something like Ninject's modules).
+
 ## Choosing constructor
 
 Constructor is chosen at the compilation stage based on 2 principles:
@@ -258,7 +260,8 @@ Because of source generators are generating new code based on your code, it's im
 ```csharp
     public partial class MyCluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA, IA2>()
                 .To<A>()

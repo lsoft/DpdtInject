@@ -6,13 +6,13 @@ namespace DpdtInject.Tests.Wrapper.Func.Singleton
 {
     public partial class WrapperFuncSingleton_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
                 .WithSingletonScope()
                 ;
-
         }
 
         public class WrapperFuncSingleton_ClusterTester
@@ -33,17 +33,14 @@ namespace DpdtInject.Tests.Wrapper.Func.Singleton
                 Assert.AreSame(a0, a1);
             }
         }
-
     }
 
 
     public interface IA
     {
-
     }
 
     public class A : IA
     {
-
     }
 }

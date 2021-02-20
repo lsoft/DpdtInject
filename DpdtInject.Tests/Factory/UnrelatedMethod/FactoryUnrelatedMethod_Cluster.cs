@@ -5,7 +5,8 @@ namespace DpdtInject.Tests.Factory.UnrelatedMethod
 {
     public partial class FactoryUnrelatedMethod_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IAFactory>()
                 .ToIsolatedFactory<AFactory>()
@@ -34,18 +35,15 @@ namespace DpdtInject.Tests.Factory.UnrelatedMethod
                 Assert.AreNotSame(a0, a1);
             }
         }
-
     }
 
 
     public interface IA
     {
-
     }
 
     public class A : IA
     {
-
     }
 
     public interface IAFactory
@@ -59,5 +57,4 @@ namespace DpdtInject.Tests.Factory.UnrelatedMethod
     {
         public string GetSomeString() => "1";
     }
-
 }

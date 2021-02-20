@@ -3,10 +3,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DpdtInject.Tests.Unsorted.SingletonCustom
 {
-    [TestClass] 
+    [TestClass]
     public class UnsortedSingletonCustom_Fixture
     {
-        public TestContext TestContext { get; set; }
+        public TestContext TestContext
+        {
+            get;
+            set;
+        }
 
         [TestMethod]
         public void Test()
@@ -23,6 +27,5 @@ namespace DpdtInject.Tests.Unsorted.SingletonCustom
             Assert.AreEqual(1, preparation.DiagnosticReporter.WarningCount, "Warning count");
             Assert.AreEqual(0, preparation.DiagnosticReporter.Exceptions.Count, "Error count");
         }
-
     }
 }

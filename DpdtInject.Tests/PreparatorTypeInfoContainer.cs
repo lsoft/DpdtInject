@@ -29,7 +29,9 @@ namespace DpdtInject.Tests
             _generatedSourceFolderFullPath = generatedSourceFolderFullPath;
         }
 
-        public override void AddSources(ModificationDescription[] modificationDescriptions)
+        public override void AddSources(
+            ModificationDescription[] modificationDescriptions
+            )
         {
             var sourceTexts = new List<SourceText>();
             foreach (var modificationDescription in modificationDescriptions)
@@ -60,5 +62,4 @@ namespace DpdtInject.Tests
             return _compilation.Emit(outputPath);
         }
     }
-
 }

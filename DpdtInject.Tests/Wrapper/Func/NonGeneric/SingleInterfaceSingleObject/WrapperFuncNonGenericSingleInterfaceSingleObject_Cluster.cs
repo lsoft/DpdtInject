@@ -6,13 +6,13 @@ namespace DpdtInject.Tests.Wrapper.Func.NonGeneric.SingleInterfaceSingleObject
 {
     public partial class WrapperFuncNonGenericSingleInterfaceSingleObject_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
                 .WithTransientScope()
                 ;
-
         }
 
         public class WrapperFuncNonGenericSingleInterfaceSingleObject_ClusterTester
@@ -23,27 +23,24 @@ namespace DpdtInject.Tests.Wrapper.Func.NonGeneric.SingleInterfaceSingleObject
                     null
                     );
 
-                var a0 = (IA)cluster.Get(typeof(IA));
+                var a0 = (IA) cluster.Get(typeof(IA));
                 Assert.IsNotNull(a0);
 
-                var af1 = (Func<IA>)cluster.Get(typeof(Func<IA>));
+                var af1 = (Func<IA>) cluster.Get(typeof(Func<IA>));
                 Assert.IsNotNull(af1);
                 var a1 = af1();
 
                 Assert.AreNotSame(a0, a1);
             }
         }
-
     }
 
 
     public interface IA
     {
-
     }
 
     public class A : IA
     {
-
     }
 }

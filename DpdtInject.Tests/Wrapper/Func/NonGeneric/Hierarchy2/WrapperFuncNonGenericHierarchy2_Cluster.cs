@@ -6,7 +6,8 @@ namespace DpdtInject.Tests.Wrapper.Func.NonGeneric.Hierarchy2
 {
     public partial class WrapperFuncNonGenericHierarchy2_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
@@ -27,41 +28,45 @@ namespace DpdtInject.Tests.Wrapper.Func.NonGeneric.Hierarchy2
                     null
                     );
 
-                var a = (IA)cluster.Get(typeof(IA));
+                var a = (IA) cluster.Get(typeof(IA));
                 Assert.IsNotNull(a);
 
-                var b0 = (IB)cluster.Get(typeof(IB));
+                var b0 = (IB) cluster.Get(typeof(IB));
                 Assert.IsNotNull(b0);
                 Assert.IsNotNull(b0.A);
             }
         }
-
     }
 
 
     public interface IA
     {
-
     }
 
     public class A : IA
     {
-
     }
 
     public interface IB
     {
-        IA A { get; }
+        IA A
+        {
+            get;
+        }
     }
 
     public class B : IB
     {
-        public IA A { get; }
+        public IA A
+        {
+            get;
+        }
 
-        public B(Func<IA> af)
+        public B(
+            Func<IA> af
+            )
         {
             A = af();
         }
-
     }
 }

@@ -10,8 +10,6 @@ namespace DpdtInject.Injector
 {
     public abstract class DefaultCluster
     {
-        public abstract void Load();
-
         protected IToOrConstantBinding Bind<T1, T2>(
             )
         {

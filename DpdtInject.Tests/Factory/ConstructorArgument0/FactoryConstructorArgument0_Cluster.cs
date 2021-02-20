@@ -5,7 +5,8 @@ namespace DpdtInject.Tests.Factory.ConstructorArgument0
 {
     public partial class FactoryConstructorArgument0_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IAFactory>()
                 .ToIsolatedFactory<AFactory>()
@@ -34,30 +35,30 @@ namespace DpdtInject.Tests.Factory.ConstructorArgument0
                 Assert.AreNotSame(a0, a1);
             }
         }
-
     }
 
 
     public interface IA
     {
-
     }
 
     public class A : IA
     {
-        public A(string a)
+        public A(
+            string a
+            )
         {
-
         }
     }
 
     public interface IAFactory
     {
-        IA Create(string a);
+        IA Create(
+            string a
+            );
     }
 
     public partial class AFactory : IFakeFactory<IAFactory>
     {
     }
-
 }

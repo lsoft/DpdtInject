@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using DpdtInject.Generator.BindExtractor;
 
 namespace DpdtInject.Generator.Helpers
 {
@@ -73,7 +74,7 @@ namespace DpdtInject.Generator.Helpers
 
         public static bool TryGetCompileTimeString(
             this ExpressionSyntax expression,
-            SemanticModel semanticModel,
+            SemanticModelDecorator semanticModel,
             [NotNullWhen(true)] out string? result
             )
         {

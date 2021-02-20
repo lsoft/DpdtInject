@@ -5,7 +5,8 @@ namespace DpdtInject.Tests.Cluster.NonGeneric.Different
 {
     public partial class ClusterNonGenericDifferent_RootCluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
@@ -16,7 +17,8 @@ namespace DpdtInject.Tests.Cluster.NonGeneric.Different
 
     public partial class ClusterNonGenericDifferent_ChildCluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IB>()
                 .To<B>()
@@ -36,10 +38,10 @@ namespace DpdtInject.Tests.Cluster.NonGeneric.Different
                 rootCluster
                 );
 
-            var a = (IA)rootCluster.Get(typeof(IA));
+            var a = (IA) rootCluster.Get(typeof(IA));
             Assert.IsNotNull(a);
 
-            var b0 = (IB)childCluster.Get(typeof(IB));
+            var b0 = (IB) childCluster.Get(typeof(IB));
             Assert.IsNotNull(b0);
             Assert.IsNotNull(b0.A);
         }
@@ -48,27 +50,32 @@ namespace DpdtInject.Tests.Cluster.NonGeneric.Different
 
     public interface IA
     {
-
     }
 
     public class A : IA
     {
-
     }
 
     public interface IB
     {
-        IA A { get; }
+        IA A
+        {
+            get;
+        }
     }
 
     public class B : IB
     {
-        public IA A { get; }
+        public IA A
+        {
+            get;
+        }
 
-        public B(IA a)
+        public B(
+            IA a
+            )
         {
             A = a;
         }
-
     }
 }

@@ -7,7 +7,8 @@ namespace DpdtInject.Tests.Unsorted.InvalidToType
     {
         public const string Message = "some message";
 
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<IA>()
@@ -25,25 +26,29 @@ namespace DpdtInject.Tests.Unsorted.InvalidToType
                     );
             }
         }
-
     }
 
 
     public interface IA
     {
-        string Message { get; }
+        string Message
+        {
+            get;
+        }
     }
 
     public class A : IA
     {
-        public string Message { get; }
+        public string Message
+        {
+            get;
+        }
 
-        public A(string message)
+        public A(
+            string message
+            )
         {
             Message = message;
         }
-
     }
-
-
 }

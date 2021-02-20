@@ -6,7 +6,8 @@ namespace DpdtInject.Tests.GetAll.Generic.NoBinding
 {
     public partial class GetAllGenericNoBinding_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             //nothing!
         }
@@ -23,24 +24,21 @@ namespace DpdtInject.Tests.GetAll.Generic.NoBinding
                     var a0 = cluster.GetAll<IA>();
                     Assert.Fail("this line should never be executed");
                 }
-                catch(DpdtException excp)
-                    when(excp.Type == DpdtExceptionTypeEnum.NoBindingAvailable && excp.AdditionalArgument == typeof(IA).FullName)
+                catch (DpdtException excp)
+                    when (excp.Type == DpdtExceptionTypeEnum.NoBindingAvailable && excp.AdditionalArgument == typeof(IA).FullName)
                 {
                     //this is ok
                 }
             }
         }
-
     }
 
 
     public interface IA
     {
-
     }
 
     public class A : IA
     {
-
     }
 }

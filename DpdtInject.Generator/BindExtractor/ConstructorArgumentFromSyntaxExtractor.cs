@@ -17,11 +17,11 @@ namespace DpdtInject.Generator.BindExtractor
     {
         private readonly List<DetectedConstructorArgument> _constructorArguments;
         private readonly ITypeInfoProvider _typeInfoProvider;
-        private readonly SemanticModel _semanticModel;
+        private readonly SemanticModelDecorator _semanticModel;
 
         public ConstructorArgumentFromSyntaxExtractor(
             ITypeInfoProvider typeInfoProvider,
-            SemanticModel semanticModel
+            SemanticModelDecorator semanticModel
             )
         {
             if (typeInfoProvider is null)

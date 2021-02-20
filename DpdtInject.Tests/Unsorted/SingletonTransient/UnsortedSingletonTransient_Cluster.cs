@@ -6,7 +6,8 @@ namespace DpdtInject.Tests.Unsorted.SingletonTransient
     {
         public const string DefaultMessage = "default message";
 
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
@@ -28,9 +29,7 @@ namespace DpdtInject.Tests.Unsorted.SingletonTransient
                     );
             }
         }
-
     }
-
 
 
     public interface IA
@@ -43,14 +42,22 @@ namespace DpdtInject.Tests.Unsorted.SingletonTransient
 
     public interface IB
     {
-        IA A { get; }
+        IA A
+        {
+            get;
+        }
     }
 
     public class B : IB
     {
-        public IA A { get; }
+        public IA A
+        {
+            get;
+        }
 
-        public B(IA a)
+        public B(
+            IA a
+            )
         {
             A = a;
         }

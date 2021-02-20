@@ -10,16 +10,17 @@ namespace DpdtInject.Tests.Scope.Constant.Target.F0
         // ReSharper disable once FieldCanBeMadeReadOnly.Local
         private string _someString;
 
-#if IN_UNIT_TEST_SYMBOL
+        #if IN_UNIT_TEST_SYMBOL
         /// <inheritdoc />
         public ScopeConstantTargetF0_Cluster()
             : this((ICluster)null!)
         {
             _someString = "some string";
         }
-#endif
+        #endif
 
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<string>()
                 .WithConstScope(_someString)
@@ -37,6 +38,5 @@ namespace DpdtInject.Tests.Scope.Constant.Target.F0
                 Assert.IsNotNull(s);
             }
         }
-
     }
 }

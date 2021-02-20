@@ -4,7 +4,8 @@ namespace DpdtInject.Tests.Unsorted.TooManyChildren
 {
     public partial class UnsortedTooManyChildren_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A0>()
@@ -43,37 +44,41 @@ namespace DpdtInject.Tests.Unsorted.TooManyChildren
                 //}
             }
         }
-
     }
 
 
     public interface IA
     {
-
     }
 
     public class A0 : IA
     {
-
     }
+
     public class A1 : IA
     {
-
     }
 
     public interface IB
     {
-        IA A { get; }
+        IA A
+        {
+            get;
+        }
     }
 
     public class B : IB
     {
-        public IA A { get; }
+        public IA A
+        {
+            get;
+        }
 
-        public B(IA a)
+        public B(
+            IA a
+            )
         {
             A = a;
         }
-
     }
 }

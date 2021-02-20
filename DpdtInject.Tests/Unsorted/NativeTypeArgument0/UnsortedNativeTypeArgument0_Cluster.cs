@@ -8,7 +8,8 @@ namespace DpdtInject.Tests.Unsorted.NativeTypeArgument0
     {
         public const string DefaultMessage = "default message";
 
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<string>()
                 .WithConstScope(DefaultMessage)
@@ -33,25 +34,29 @@ namespace DpdtInject.Tests.Unsorted.NativeTypeArgument0
                 Assert.AreEqual(DefaultMessage, a.Message);
             }
         }
-
     }
-
 
 
     public interface IA
     {
-        string Message { get; }
+        string Message
+        {
+            get;
+        }
     }
 
     public class A : IA
     {
-        public string Message { get; }
+        public string Message
+        {
+            get;
+        }
 
-        public A(string message)
+        public A(
+            string message
+            )
         {
             Message = message;
         }
-
     }
-
 }

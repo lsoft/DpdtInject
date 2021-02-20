@@ -5,7 +5,8 @@ namespace DpdtInject.Tests.Unsorted.Generic.IsRegistered
 {
     public partial class UnsortedGenericIsRegistered_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
@@ -36,9 +37,7 @@ namespace DpdtInject.Tests.Unsorted.Generic.IsRegistered
                 Assert.IsFalse(c);
             }
         }
-
     }
-
 
 
     public interface IA

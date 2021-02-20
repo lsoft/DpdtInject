@@ -6,7 +6,8 @@ namespace DpdtInject.Tests.Unsorted.CircularDependency3
     {
         public const string Message = "some message";
 
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
@@ -33,20 +34,27 @@ namespace DpdtInject.Tests.Unsorted.CircularDependency3
                     );
             }
         }
-
     }
 
 
     public interface IA
     {
-        IC C { get; }
+        IC C
+        {
+            get;
+        }
     }
 
     public class A : IA
     {
-        public IC C { get; }
+        public IC C
+        {
+            get;
+        }
 
-        public A(IC c)
+        public A(
+            IC c
+            )
         {
             C = c;
         }
@@ -54,14 +62,22 @@ namespace DpdtInject.Tests.Unsorted.CircularDependency3
 
     public interface IB
     {
-        IA A { get; }
+        IA A
+        {
+            get;
+        }
     }
 
     public class B : IB
     {
-        public IA A { get; }
+        public IA A
+        {
+            get;
+        }
 
-        public B(IA a)
+        public B(
+            IA a
+            )
         {
             A = a;
         }
@@ -69,17 +85,24 @@ namespace DpdtInject.Tests.Unsorted.CircularDependency3
 
     public interface IC
     {
-        IB B { get; }
+        IB B
+        {
+            get;
+        }
     }
 
     public class C : IC
     {
-        public IB B { get; }
+        public IB B
+        {
+            get;
+        }
 
-        public C(IB b)
+        public C(
+            IB b
+            )
         {
             B = b;
         }
     }
-
 }

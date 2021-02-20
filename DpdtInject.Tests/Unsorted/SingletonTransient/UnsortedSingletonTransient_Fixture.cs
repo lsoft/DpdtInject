@@ -3,10 +3,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DpdtInject.Tests.Unsorted.SingletonTransient
 {
-    [TestClass] 
+    [TestClass]
     public class UnsortedSingletonTransient_Fixture
     {
-        public TestContext TestContext { get; set; }
+        public TestContext TestContext
+        {
+            get;
+            set;
+        }
 
         [TestMethod]
         public void Test()
@@ -23,6 +27,5 @@ namespace DpdtInject.Tests.Unsorted.SingletonTransient
             Assert.AreEqual(1, preparation.DiagnosticReporter.WarningCount, "Warning count");
             Assert.AreEqual(0, preparation.DiagnosticReporter.Exceptions.Count, "Error count");
         }
-
     }
 }

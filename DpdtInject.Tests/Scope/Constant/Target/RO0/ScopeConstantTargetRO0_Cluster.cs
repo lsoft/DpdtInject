@@ -8,15 +8,16 @@ namespace DpdtInject.Tests.Scope.Constant.Target.RO0
     {
         private readonly string _roString;
 
-#if IN_UNIT_TEST_SYMBOL
+        #if IN_UNIT_TEST_SYMBOL
         /// <inheritdoc />
         public ScopeConstantTargetRO0_Cluster()
             : this((ICluster)null!)
         {
             _roString = "readonly string";
         }
-#endif
-        public override void Load()
+        #endif
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<string>()
                 .WithConstScope(_roString)
@@ -35,6 +36,5 @@ namespace DpdtInject.Tests.Scope.Constant.Target.RO0
                 Assert.AreEqual("readonly string", s);
             }
         }
-
     }
 }

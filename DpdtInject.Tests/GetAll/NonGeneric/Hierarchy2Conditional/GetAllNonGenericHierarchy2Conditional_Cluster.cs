@@ -8,7 +8,8 @@ namespace DpdtInject.Tests.GetAll.NonGeneric.Hierarchy2Conditional
 {
     public partial class GetAllNonGenericHierarchy2Conditional_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IZ>()
                 .To<Z>()
@@ -35,25 +36,22 @@ namespace DpdtInject.Tests.GetAll.NonGeneric.Hierarchy2Conditional
                     null
                     );
 
-                var alist = (List<IA>)cluster.GetAll(typeof(IA));
+                var alist = (List<IA>) cluster.GetAll(typeof(IA));
                 Assert.IsNotNull(alist);
                 Assert.AreEqual(2, alist.Count);
                 Assert.IsTrue(alist.Any(a => a.ImplementationType == typeof(A0)));
                 Assert.IsTrue(alist.Any(a => a.ImplementationType == typeof(A1)));
             }
         }
-
     }
 
     public interface IZ
     {
-
     }
 
     public class Z : IZ
     {
     }
-
 
 
     public interface IA
@@ -68,9 +66,14 @@ namespace DpdtInject.Tests.GetAll.NonGeneric.Hierarchy2Conditional
     {
         public Type ImplementationType => typeof(A0);
 
-        public IZ Z { get; }
+        public IZ Z
+        {
+            get;
+        }
 
-        public A0(IZ z)
+        public A0(
+            IZ z
+            )
         {
             Z = z;
         }

@@ -4,10 +4,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DpdtInject.Tests.Unsorted.InvalidToType
 {
-    [TestClass] 
+    [TestClass]
     public class UnsortedInvalidToType_Fixture
     {
-        public TestContext TestContext { get; set; }
+        public TestContext TestContext
+        {
+            get;
+            set;
+        }
 
         [TestMethod]
         public void Test()
@@ -25,6 +29,5 @@ namespace DpdtInject.Tests.Unsorted.InvalidToType
             Assert.AreEqual(1, preparation.DiagnosticReporter.Exceptions.Count, "Error count");
             Assert.AreEqual(DpdtExceptionTypeEnum.IncorrectBinding_IncorrectTarget, preparation.DiagnosticReporter.GetDpdtException().Type);
         }
-
     }
 }

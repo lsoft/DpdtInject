@@ -5,7 +5,8 @@ namespace DpdtInject.Tests.GetAll.Generic.SingleObject
 {
     public partial class GetAllGenericSingleObject_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
@@ -27,17 +28,14 @@ namespace DpdtInject.Tests.GetAll.Generic.SingleObject
                 Assert.IsNotNull(alist[0]);
             }
         }
-
     }
 
 
     public interface IA
     {
-
     }
 
     public class A : IA
     {
-
     }
 }

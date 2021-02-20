@@ -5,7 +5,8 @@ namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional3
 {
     public partial class ClusterGenericDifferentConditional3_RootCluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
@@ -23,17 +24,15 @@ namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional3
 
     public partial class ClusterGenericDifferentConditional3_ChildCluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IC>()
                 .To<C>()
                 .WithTransientScope()
                 ;
         }
-
     }
-
-
 
 
     public class ClusterGenericDifferentConditional3_ClusterTester
@@ -56,28 +55,33 @@ namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional3
 
     public interface IA
     {
-
     }
 
     public class A : IA
     {
-
     }
 
     public interface IB
     {
-        IA A { get; }
+        IA A
+        {
+            get;
+        }
     }
 
     public class B : IB
     {
-        public IA A { get; }
+        public IA A
+        {
+            get;
+        }
 
-        public B(IA a)
+        public B(
+            IA a
+            )
         {
             A = a;
         }
-
     }
 
     public interface IC
@@ -95,10 +99,11 @@ namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional3
             get;
         }
 
-        public C(IB b)
+        public C(
+            IB b
+            )
         {
             B = b;
         }
     }
-
 }

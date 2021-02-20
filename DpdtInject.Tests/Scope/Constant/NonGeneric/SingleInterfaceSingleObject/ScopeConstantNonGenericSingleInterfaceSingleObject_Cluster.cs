@@ -7,12 +7,12 @@ namespace DpdtInject.Tests.Scope.Constant.NonGeneric.SingleInterfaceSingleObject
     {
         private static readonly A AInstance = new();
 
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .WithConstScope(AInstance)
                 ;
-
         }
 
         public class ScopeConstantNonGenericSingleInterfaceSingleObject_ClusterTester
@@ -23,26 +23,23 @@ namespace DpdtInject.Tests.Scope.Constant.NonGeneric.SingleInterfaceSingleObject
                     null
                     );
 
-                var a0 = (IA)cluster.Get(typeof(IA));
+                var a0 = (IA) cluster.Get(typeof(IA));
                 Assert.IsNotNull(a0);
                 Assert.AreSame(AInstance, a0);
-                
-                var a1 = (IA)cluster.Get(typeof(IA));
+
+                var a1 = (IA) cluster.Get(typeof(IA));
                 Assert.IsNotNull(a1);
                 Assert.AreSame(AInstance, a1);
             }
         }
-
     }
 
 
     public interface IA
     {
-
     }
 
     public class A : IA
     {
-
     }
 }

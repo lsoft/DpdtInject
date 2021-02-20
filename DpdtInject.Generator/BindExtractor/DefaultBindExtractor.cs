@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.WebSockets;
@@ -21,13 +22,13 @@ namespace DpdtInject.Generator.BindExtractor
         private readonly ITypeInfoContainer _typeInfoContainer;
         private readonly ConstructorArgumentFromSyntaxExtractor _extractor;
         private readonly ConstructorArgumentDetector _constructorArgumentDetector;
-        private readonly SemanticModel _semanticModel;
+        private readonly SemanticModelDecorator _semanticModel;
 
         private readonly List<IBindingContainer> _bindingContainers;
 
         public DefaultBindExtractor(
             ITypeInfoContainer typeInfoContainer,
-            SemanticModel semanticModel,
+            SemanticModelDecorator semanticModel,
             ConstructorArgumentFromSyntaxExtractor extractor,
             ConstructorArgumentDetector constructorArgumentDetector
             )

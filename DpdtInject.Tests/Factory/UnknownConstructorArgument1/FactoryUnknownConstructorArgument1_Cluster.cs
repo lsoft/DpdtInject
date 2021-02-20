@@ -10,7 +10,8 @@ namespace DpdtInject.Tests.Factory.UnknownConstructorArgument1
         public const int B = 1;
         public const long C = 2L;
 
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IAFactory>()
                 .ToIsolatedFactory<AFactory>()
@@ -44,7 +45,6 @@ namespace DpdtInject.Tests.Factory.UnknownConstructorArgument1
                 Assert.AreNotSame(a0, a1);
             }
         }
-
     }
 
 
@@ -54,10 +54,12 @@ namespace DpdtInject.Tests.Factory.UnknownConstructorArgument1
         {
             get;
         }
+
         long C
         {
             get;
         }
+
         int B
         {
             get;
@@ -70,38 +72,48 @@ namespace DpdtInject.Tests.Factory.UnknownConstructorArgument1
         {
             get;
         }
+
         public long C
         {
             get;
         }
+
         public int B
         {
             get;
         }
 
-        public A0(long c, int b)
+        public A0(
+            long c,
+            int b
+            )
         {
             C = c;
             B = b;
         }
 
-        public A0(string a, int b)
+        public A0(
+            string a,
+            int b
+            )
         {
             A = a;
             B = b;
         }
-
     }
 
     public interface IAFactory
     {
-        IA Create(long c);
+        IA Create(
+            long c
+            );
 
-        IA Create(string a);
+        IA Create(
+            string a
+            );
     }
 
     public partial class AFactory : IFakeFactory<IAFactory>
     {
     }
-
 }

@@ -22,7 +22,7 @@ namespace DpdtInject.Tests
         private readonly string _clusterFileName;
         private readonly string _clusterSource;
         private readonly string _callerFilePath;
-        
+
         internal FakeDiagnosticReporter DiagnosticReporter
         {
             get;
@@ -79,24 +79,22 @@ namespace DpdtInject.Tests
                 var clusterSourceText = SourceText.From(_clusterSource, Encoding.UTF8);
                 var clusterSyntaxTree = SyntaxFactory.ParseSyntaxTree(clusterSourceText, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest), "");
 
-                var trustedAssembliesPaths = ((string)AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")).Split(Path.PathSeparator);
+                var trustedAssembliesPaths = ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")).Split(Path.PathSeparator);
                 var references = trustedAssembliesPaths
                     .Where(path => !IsSkippedAssembly(path))
                     .Select(p => MetadataReference.CreateFromFile(p))
                     .ToList();
 
-
-
                 var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
-                    .WithOverflowChecks(true)
-                    .WithOptimizationLevel(OptimizationLevel.Debug)
+                        .WithOverflowChecks(true)
+                        .WithOptimizationLevel(OptimizationLevel.Debug)
                     ;
 
                 var compilation = CSharpCompilation.Create(
                     Guid.NewGuid() + ".dll",
                     new SyntaxTree[] { clusterSyntaxTree }
-                    , references
-                    , compilationOptions
+                  , references
+                  , compilationOptions
                     );
 
                 var typeInfoContainer = new PreparatorTypeInfoContainer(
@@ -164,7 +162,7 @@ namespace DpdtInject.Tests
                     talContext?.Unload();
                 }
             }
-            catch(Exception excp)
+            catch (Exception excp)
             {
                 this.DiagnosticReporter.ReportException(
                     excp
@@ -185,51 +183,18 @@ namespace DpdtInject.Tests
             {
                 return true;
             }
+
             if (assemblyPath.Contains("DpdtInject.TestConsole.exe"))
             {
                 return true;
             }
+
             if (assemblyPath.Contains("DpdtInject.Tests.dll"))
             {
                 return true;
             }
 
             return false;
-
-            //var paths = Directory
-            //    .GetFiles(RuntimeEnvironment.GetRuntimeDirectory(), "*.dll")
-            //    .ToList()
-            //    ;
-            //paths.Add(assemblyPath);
-
-            //var resolver = new PathAssemblyResolver(
-            //    paths
-            //    );
-
-            //using (var mlc = new MetadataLoadContext(resolver))
-            //{
-            //    var assembly = mlc.LoadFromAssemblyPath(assemblyPath);
-
-            //    try
-            //    {
-            //        var attrs = assembly.GetCustomAttributesData().Select(ca => ca.AttributeType.Name).ToList();
-            //        var attr = assembly.GetCustomAttributesData().FirstOrDefault(ca => ca.AttributeType.Name == typeof(DpDtSkipAssembly).Name);
-            //        if (attr != null)
-            //        {
-            //            return true;
-            //        }
-            //    }
-            //    catch (Exception excp)
-            //    {
-            //        Debug.WriteLine("FAIL WITH RESOLVE ASSEMBLY ATTRIBUTE: " + assembly.Location);
-            //        Debug.WriteLine(excp.Message);
-            //        Debug.WriteLine(excp.StackTrace);
-            //    }
-            //}
-
-            //return false;
         }
-
     }
-
 }

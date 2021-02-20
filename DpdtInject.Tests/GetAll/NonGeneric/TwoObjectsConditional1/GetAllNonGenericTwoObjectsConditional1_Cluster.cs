@@ -8,7 +8,8 @@ namespace DpdtInject.Tests.GetAll.NonGeneric.TwoObjectsConditional1
 {
     public partial class GetAllNonGenericTwoObjectsConditional1_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A0>()
@@ -30,14 +31,13 @@ namespace DpdtInject.Tests.GetAll.NonGeneric.TwoObjectsConditional1
                     null
                     );
 
-                var alist = (List<IA>)cluster.GetAll(typeof(IA));
+                var alist = (List<IA>) cluster.GetAll(typeof(IA));
                 Assert.IsNotNull(alist);
                 Assert.AreEqual(2, alist.Count);
                 Assert.IsTrue(alist.Any(a => a.ImplementationType == typeof(A0)));
                 Assert.IsTrue(alist.Any(a => a.ImplementationType == typeof(A1)));
             }
         }
-
     }
 
 

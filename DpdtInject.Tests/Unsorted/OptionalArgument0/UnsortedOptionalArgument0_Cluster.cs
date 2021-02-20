@@ -9,7 +9,8 @@ namespace DpdtInject.Tests.Unsorted.OptionalArgument0
         public const string DefaultMessage = "default message";
         public const string CustomMessage = "custom message";
 
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
@@ -29,29 +30,31 @@ namespace DpdtInject.Tests.Unsorted.OptionalArgument0
                 var a = cluster.Get<IA>();
                 Assert.IsNotNull(a);
                 Assert.AreEqual(CustomMessage, a.Message);
-
             }
         }
-
     }
-
-
 
 
     public interface IA
     {
-        string Message { get; }
+        string Message
+        {
+            get;
+        }
     }
 
     public class A : IA
     {
-        public string Message { get; }
+        public string Message
+        {
+            get;
+        }
 
-        public A(string message = UnsortedOptionalArgument0_Cluster.DefaultMessage)
+        public A(
+            string message = UnsortedOptionalArgument0_Cluster.DefaultMessage
+            )
         {
             Message = message;
         }
-
     }
-
 }

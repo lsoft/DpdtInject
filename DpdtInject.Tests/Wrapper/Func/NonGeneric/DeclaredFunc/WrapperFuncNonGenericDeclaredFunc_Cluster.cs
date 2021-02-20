@@ -9,9 +9,9 @@ namespace DpdtInject.Tests.Wrapper.Func.NonGeneric.DeclaredFunc
         public static readonly A AInstance = new();
         public static readonly Func<IA> Funca = () => AInstance;
 
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
-
             Bind<Func<IA>>()
                 .WithConstScope(Funca)
                 ;
@@ -35,43 +35,45 @@ namespace DpdtInject.Tests.Wrapper.Func.NonGeneric.DeclaredFunc
                 Assert.IsNotNull(b0.A);
                 Assert.AreSame(AInstance, b0.A);
 
-                var aff0 = (Func<Func<IA>>)cluster.Get(typeof(Func<Func<IA>>));
+                var aff0 = (Func<Func<IA>>) cluster.Get(typeof(Func<Func<IA>>));
                 Assert.IsNotNull(aff0);
                 var af0 = aff0();
                 Assert.AreSame(Funca, af0);
                 var a0 = af0();
                 Assert.AreSame(AInstance, a0);
-
             }
         }
-
     }
 
 
     public interface IA
     {
-
     }
 
     public class A : IA
     {
-
     }
 
     public interface IB
     {
-        IA A { get; }
+        IA A
+        {
+            get;
+        }
     }
 
     public class B : IB
     {
-        public IA A { get; }
+        public IA A
+        {
+            get;
+        }
 
-        public B(Func<IA> af)
+        public B(
+            Func<IA> af
+            )
         {
             A = af();
         }
-
     }
-
 }

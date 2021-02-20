@@ -6,6 +6,5 @@ namespace UnknownCustomNamespace
 {
     public class FakeResource
     {
-
     }
 }

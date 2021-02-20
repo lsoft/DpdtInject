@@ -7,7 +7,8 @@ namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots0
 {
     public partial class ActivationExcessiveTooManyRoots0_Cluster : DefaultCluster
     {
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A1>()
@@ -38,7 +39,7 @@ namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots0
                     Assert.Fail("this line should never be executed");
                 }
                 catch (DpdtException excp)
-                when (excp.Type == DpdtExceptionTypeEnum.DuplicateBinding && excp.AdditionalArgument == typeof(IA).FullName)
+                    when (excp.Type == DpdtExceptionTypeEnum.DuplicateBinding && excp.AdditionalArgument == typeof(IA).FullName)
                 {
                     //it's OK, this test is gree
                 }
@@ -47,7 +48,6 @@ namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots0
                 Assert.AreEqual(0, A2.ActivationCount, "A2.ActivationCount");
             }
         }
-
     }
 
 
@@ -72,9 +72,6 @@ namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots0
         public A1()
         {
             Interlocked.Increment(ref ActivationCount);
-
-            
         }
     }
-
 }

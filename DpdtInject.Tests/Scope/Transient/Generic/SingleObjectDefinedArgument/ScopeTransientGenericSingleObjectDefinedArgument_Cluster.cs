@@ -8,14 +8,14 @@ namespace DpdtInject.Tests.Scope.Transient.Generic.SingleObjectDefinedArgument
     {
         const string CustomMesage = "custom message";
 
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
                 .WithTransientScope()
                 .Configure(new ConstructorArgument("message", CustomMesage))
                 ;
-
         }
 
         public class ScopeTransientGenericSingleObjectDefinedArgument_ClusterTester
@@ -31,23 +31,29 @@ namespace DpdtInject.Tests.Scope.Transient.Generic.SingleObjectDefinedArgument
                 Assert.AreEqual(CustomMesage, a0.Message);
             }
         }
-
     }
 
 
     public interface IA
     {
-        string Message { get; }
+        string Message
+        {
+            get;
+        }
     }
 
     public class A : IA
     {
-        public string Message { get; }
+        public string Message
+        {
+            get;
+        }
 
-        public A(string message)
+        public A(
+            string message
+            )
         {
             Message = message;
         }
-
     }
 }

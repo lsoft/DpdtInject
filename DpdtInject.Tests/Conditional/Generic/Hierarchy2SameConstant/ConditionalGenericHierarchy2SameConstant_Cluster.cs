@@ -8,7 +8,8 @@ namespace DpdtInject.Tests.Conditional.Generic.Hierarchy2SameConstant
         public static readonly A ConstantA1 = new();
         public static readonly A ConstantA2 = new();
 
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .WithConstScope(ConstantA1)
@@ -46,12 +47,9 @@ namespace DpdtInject.Tests.Conditional.Generic.Hierarchy2SameConstant
                 var b2 = cluster.Get<IB2>();
                 Assert.IsNotNull(b2);
                 Assert.AreSame(ConstantA2, b2.A);
-
             }
         }
-
     }
-
 
 
     public interface IA
@@ -64,14 +62,22 @@ namespace DpdtInject.Tests.Conditional.Generic.Hierarchy2SameConstant
 
     public interface IB1
     {
-        IA A { get; }
+        IA A
+        {
+            get;
+        }
     }
 
     public class B1 : IB1
     {
-        public IA A { get; }
+        public IA A
+        {
+            get;
+        }
 
-        public B1(IA a)
+        public B1(
+            IA a
+            )
         {
             A = a;
         }
@@ -79,18 +85,24 @@ namespace DpdtInject.Tests.Conditional.Generic.Hierarchy2SameConstant
 
     public interface IB2
     {
-        IA A { get; }
+        IA A
+        {
+            get;
+        }
     }
 
     public class B2 : IB2
     {
-        public IA A { get; }
+        public IA A
+        {
+            get;
+        }
 
-        public B2(IA a)
+        public B2(
+            IA a
+            )
         {
             A = a;
         }
     }
-
-
 }

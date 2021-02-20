@@ -7,7 +7,8 @@ namespace DpdtInject.Tests.Conditional.NonGeneric.OnlyOneInMiddle
     {
         public const string Message = "some message";
 
-        public override void Load()
+        [DpdtBindingMethod]
+        public void BindMethod()
         {
             Bind<IA>()
                 .To<A>()
@@ -40,23 +41,20 @@ namespace DpdtInject.Tests.Conditional.NonGeneric.OnlyOneInMiddle
                     null
                     );
 
-                var a0 = (IA)cluster.Get(typeof(IA));
+                var a0 = (IA) cluster.Get(typeof(IA));
                 Assert.IsNotNull(a0);
 
-                var b0 = (IB)cluster.Get(typeof(IB));
+                var b0 = (IB) cluster.Get(typeof(IB));
                 Assert.IsNotNull(b0);
                 Assert.AreSame(a0, b0.A);
 
-                var c0 = (IC)cluster.Get(typeof(IC));
+                var c0 = (IC) cluster.Get(typeof(IC));
                 Assert.IsNotNull(c0);
                 Assert.AreSame(b0, c0.B);
                 Assert.AreSame(a0, c0.B.A);
             }
         }
-
     }
-
-
 
 
     public interface IA
@@ -69,14 +67,22 @@ namespace DpdtInject.Tests.Conditional.NonGeneric.OnlyOneInMiddle
 
     public interface IB
     {
-        IA A { get; }
+        IA A
+        {
+            get;
+        }
     }
 
     public class B : IB
     {
-        public IA A { get; }
+        public IA A
+        {
+            get;
+        }
 
-        public B(IA a)
+        public B(
+            IA a
+            )
         {
             A = a;
         }
@@ -84,19 +90,24 @@ namespace DpdtInject.Tests.Conditional.NonGeneric.OnlyOneInMiddle
 
     public interface IC
     {
-        IB B { get; }
+        IB B
+        {
+            get;
+        }
     }
 
     public class C : IC
     {
-        public IB B { get; }
+        public IB B
+        {
+            get;
+        }
 
-        public C(IB b)
+        public C(
+            IB b
+            )
         {
             B = b;
         }
     }
-
-
-
 }

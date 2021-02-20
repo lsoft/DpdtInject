@@ -6,7 +6,11 @@ namespace DpdtInject.Tests.Conditional.NonGeneric.Hierarchy3Second
     [TestClass]
     public class ConditionalNonGenericHierarchy3Second_Fixture
     {
-        public TestContext TestContext { get; set; }
+        public TestContext TestContext
+        {
+            get;
+            set;
+        }
 
         [TestMethod]
         public void Test()
@@ -23,6 +27,5 @@ namespace DpdtInject.Tests.Conditional.NonGeneric.Hierarchy3Second
             Assert.AreEqual(0, preparation.DiagnosticReporter.ErrorCount, "Error count");
             Assert.AreEqual(0, preparation.DiagnosticReporter.WarningCount, "Warning count");
         }
-
     }
 }

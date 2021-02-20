@@ -38,7 +38,10 @@ namespace DpdtInject.Tests
             InfoCount = 0;
         }
 
-        public void ReportError(string title, string message)
+        public void ReportError(
+            string title,
+            string message
+            )
         {
             Debug.WriteLine(title);
             Debug.WriteLine(message);
@@ -46,7 +49,10 @@ namespace DpdtInject.Tests
             ErrorCount++;
         }
 
-        public void ReportWarning(string title, string message)
+        public void ReportWarning(
+            string title,
+            string message
+            )
         {
             Debug.WriteLine(title);
             Debug.WriteLine(message);
@@ -54,7 +60,10 @@ namespace DpdtInject.Tests
             WarningCount++;
         }
 
-        public void ReportInfo(string title, string message)
+        public void ReportInfo(
+            string title,
+            string message
+            )
         {
             Debug.WriteLine(title);
             Debug.WriteLine(message);
@@ -62,7 +71,9 @@ namespace DpdtInject.Tests
             InfoCount++;
         }
 
-        internal void ReportException(Exception excp)
+        internal void ReportException(
+            Exception excp
+            )
         {
             if (excp is null)
             {
@@ -81,24 +92,30 @@ namespace DpdtInject.Tests
                 excp = excp.InnerException;
                 prefix += "        ";
             }
+
             Debug.WriteLine(string.Empty);
         }
 
-        public DpdtException GetInnerDpdtException(int index = 0)
+        public DpdtException GetInnerDpdtException(
+            int index = 0
+            )
         {
-            return (DpdtException)GetException<Exception>(index).InnerException;
+            return (DpdtException) GetException<Exception>(index).InnerException;
         }
 
-        public DpdtException GetDpdtException(int index = 0)
+        public DpdtException GetDpdtException(
+            int index = 0
+            )
         {
             return GetException<DpdtException>(index);
         }
 
-        public T GetException<T>(int index = 0)
+        public T GetException<T>(
+            int index = 0
+            )
             where T : Exception
         {
-            return (T)Exceptions[index];
+            return (T) Exceptions[index];
         }
-
     }
 }

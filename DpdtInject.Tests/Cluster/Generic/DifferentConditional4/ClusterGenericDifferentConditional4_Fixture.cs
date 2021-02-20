@@ -7,7 +7,11 @@ namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional4
     [TestClass]
     public class ClusterGenericDifferentConditional4_Fixture
     {
-        public TestContext TestContext { get; set; }
+        public TestContext TestContext
+        {
+            get;
+            set;
+        }
 
         [TestMethod]
         public void Test()
@@ -26,6 +30,5 @@ namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional4
             Assert.AreEqual(DpdtExceptionTypeEnum.NoBindingAvailable, preparation.DiagnosticReporter.GetInnerDpdtException().Type);
             Assert.AreEqual(typeof(IB).FullName, preparation.DiagnosticReporter.GetInnerDpdtException().AdditionalArgument);
         }
-
     }
 }
