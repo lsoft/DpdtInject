@@ -26,5 +26,4 @@ jobs:
     - name: Pack nuget
       run: dotnet pack DpdtInject.Generator\DpdtInject.Generator.csproj -p:TargetFrameworks=netstandard2.0 -c:Release
     - name: xcopy
-      xcopy /Y DpdtInject.Generator\bin\Release\*.nupkg .
-
+      run: xcopy /Y DpdtInject.Generator\bin\Release\*.nupkg .
