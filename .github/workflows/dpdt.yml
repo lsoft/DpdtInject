@@ -25,3 +25,17 @@ jobs:
       run: msbuild
     - name: Test
       run: dotnet test DpdtInject.Tests\DpdtInject.Tests.csproj --no-build --verbosity normal
+
+  nuget:
+    needs: build
+    runs-on: windows-latest
+    tags:
+      - 0.*
+
+    steps:
+    - name: Pack package
+      run: dotnet pack DpdtInject.Generator\DpdtInject.Generator.csproj -p:TargetFrameworks=netstandard2.0 -c:Release
+    - name: xcopy
+      run: xcopy /Y DpdtInject.Generator\bin\Release\*.nupkg .
+    - name: Publish package
+      run: dotnet nuget push Dpdt*.nupkg --source https://api.nuget.org/v3/index.json
