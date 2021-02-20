@@ -1,4 +1,4 @@
-name: dpdt
+name: build
 
 on:
   push:
