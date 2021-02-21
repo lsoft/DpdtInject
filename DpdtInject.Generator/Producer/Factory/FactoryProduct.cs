@@ -1,13 +1,5 @@
-﻿using DpdtInject.Generator.BindExtractor;
-using DpdtInject.Generator.Binding;
-using DpdtInject.Injector.Excp;
-using DpdtInject.Injector.Helper;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DpdtInject.Generator.Producer.Factory
 {

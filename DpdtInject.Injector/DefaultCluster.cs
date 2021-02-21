@@ -10,6 +10,8 @@ namespace DpdtInject.Injector
 {
     public abstract class DefaultCluster
     {
+        public const string BindMethodName = nameof(Bind);
+
         protected IToOrConstantBinding Bind<T1, T2>(
             )
         {

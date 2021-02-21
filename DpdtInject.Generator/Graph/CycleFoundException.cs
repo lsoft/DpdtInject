@@ -1,11 +1,7 @@
 ﻿using DpdtInject.Generator.Binding;
-using DpdtInject.Generator.Helpers;
-using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace DpdtInject.Generator.Graph
 {

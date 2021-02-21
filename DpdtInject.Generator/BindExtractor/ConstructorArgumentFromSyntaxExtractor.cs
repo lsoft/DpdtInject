@@ -1,7 +1,6 @@
 ﻿using DpdtInject.Generator.Binding;
 using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.TypeInfo;
-using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;

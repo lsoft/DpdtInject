@@ -1,18 +1,16 @@
 ﻿using DpdtInject.Generator.BindExtractor;
 using DpdtInject.Generator.Helpers;
 using DpdtInject.Generator.Producer;
-using DpdtInject.Generator.Producer.Factory;
 using DpdtInject.Generator.TypeInfo;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Excp;
-using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using DpdtInject.Generator.BindExtractor.Parsed;
 using DpdtInject.Generator.TypeScanner;
 
 namespace DpdtInject.Generator
@@ -140,11 +138,14 @@ namespace DpdtInject.Generator
                 var bindExtractor = new TimedBindExtractor(
                     _diagnosticReporter,
                     new DefaultBindExtractor(
-                        typeInfoContainer,
                         semanticModelDecorator,
-                        new ConstructorArgumentFromSyntaxExtractor(typeInfoContainer, semanticModelDecorator),
-                        new ConstructorArgumentDetector(
-                            new BindConstructorChooser()
+                        new ParsedBindExpressionFactory(
+                            typeInfoContainer,
+                            semanticModelDecorator,
+                            new ConstructorArgumentFromSyntaxExtractor(typeInfoContainer, semanticModelDecorator),
+                            new ConstructorArgumentDetector(
+                                new BindConstructorChooser()
+                                )
                             )
                         )
                     );

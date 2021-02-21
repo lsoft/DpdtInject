@@ -4,7 +4,6 @@ using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
 using DpdtInject.Injector.Bind;
 

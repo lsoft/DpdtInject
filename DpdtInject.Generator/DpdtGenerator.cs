@@ -1,19 +1,8 @@
-﻿using DpdtInject.Generator.Helpers;
-using DpdtInject.Generator.Reporter;
+﻿using DpdtInject.Generator.Reporter;
 using DpdtInject.Generator.TypeInfo;
-using DpdtInject.Injector;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.FindSymbols;
-using Microsoft.CodeAnalysis.Text;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Net.Mime;
-using System.Text;
 
 namespace DpdtInject.Generator
 {

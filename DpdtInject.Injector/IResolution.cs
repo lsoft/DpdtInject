@@ -6,17 +6,6 @@ using DpdtInject.Injector.RContext;
 
 namespace DpdtInject.Injector
 {
-    public interface ICluster
-        : IDisposable, IResolution
-    {
-        T GetToChild<T>(IResolutionRequest resolutionRequest);
-
-        List<Exception> TrySafelyDispose(
-            );
-
-        CustomScopeObject CreateCustomScope();
-    }
-
     public interface IResolution
     {
         bool IsRegisteredFrom<T>();
@@ -49,11 +38,6 @@ namespace DpdtInject.Injector
 
         IEnumerable<object> GetAll(Type requestedType, CustomScopeObject customScope);
 
-    }
-
-    public interface IResolutionFast<TR>
-    {
-        TR GetFast(TR unused);
     }
 
     public interface IResolution<T>

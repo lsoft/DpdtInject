@@ -1,16 +1,12 @@
 ﻿using DpdtInject.Generator.BindExtractor;
 using DpdtInject.Generator.Binding;
 using DpdtInject.Generator.Helpers;
-using DpdtInject.Generator.TypeInfo;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using DpdtInject.Generator.Producer.Product;
 
 namespace DpdtInject.Generator.Producer.Factory

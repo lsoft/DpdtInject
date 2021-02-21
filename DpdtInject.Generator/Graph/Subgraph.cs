@@ -1,5 +1,4 @@
 ﻿using DpdtInject.Generator.Binding;
-using Microsoft.CodeAnalysis;
 using System.Collections.Generic;
 
 namespace DpdtInject.Generator.Graph

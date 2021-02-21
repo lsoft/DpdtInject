@@ -6,11 +6,4 @@
         NonGeneric,
         Fast
     }
-
-    public enum ScopeTypeEnum
-    {
-        Transient,
-        Singleton,
-    }
-
 }

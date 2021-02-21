@@ -9,6 +9,16 @@ namespace DpdtInject.Injector.Helper
 {
     public static class ListHelper
     {
+        public static T Nth<T>(this IEnumerable<T> c, int n)
+        {
+            return c.Skip(n).First();
+        }
+
+        public static T? NThOrDefault<T>(this IEnumerable<T> c, int n)
+        {
+            return c.Skip(n).FirstOrDefault();
+        }
+
         public static T Second<T>(this IEnumerable<T> c)
         {
             return c.Skip(1).First();
