@@ -2,8 +2,7 @@
 
 ![Dpdt logo](logo.png)
 
-![Compilation](https://github.com/lsoft/DpdtInject/actions/workflows/dpdt.yml/badge.svg)
-
+[![Compilation Status](https://github.com/lsoft/DpdtInject/actions/workflows/dpdt.yml/badge.svg)](https://github.com/lsoft/DpdtInject/actions)
 [![Nuget](https://buildstats.info/nuget/Dpdt.Injector?includePreReleases=true)](https://www.nuget.org/packages/Dpdt.Injector/)
 
 
@@ -167,7 +166,7 @@ Bind<ICalculator>()
 
 A lot of examples of allowed syntaxes are available in the test project. Please refer that code.
 
-Additional note: many binding methods (even in different compilation units) allowed to exists. You can use this to split your bindings into different groups (something like Ninject's modules).
+Additional note: many binding methods per cluster (even in different compilation units) allowed to exist. You can use this to split your bindings into different groups (something like Ninject's modules).
 
 ## Choosing constructor
 
@@ -282,13 +281,13 @@ The end of the life cycle of a cluster occurs after the call to its `Dispose` me
 
 ...
 
-            var rootCluster = new RootCluster(
-                your arguments
-                );
-            var childCluster = new ChildCluster(
-                rootCluster,
-                your arguments
-                );
+    var rootCluster = new RootCluster(
+        your arguments
+        );
+    var childCluster = new ChildCluster(
+        rootCluster,
+        your arguments
+        );
 ```
 
 Clusters are organized into a tree. This tree cannot have a circular dependency, since it is based on constructor argument. Dependencies, consumed by the binding in the child cluster, are resolved from the home cluster if exists, if not - from **parent cluster**.
