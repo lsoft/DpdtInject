@@ -2,6 +2,11 @@
 
 ![Dpdt logo](logo.png)
 
+![Compilation](https://github.com/lsoft/DpdtInject/actions/workflows/dpdt.yml/badge.svg)
+
+[![Nuget](https://buildstats.info/nuget/Dpdt.Injector?includePreReleases=true)](https://www.nuget.org/packages/Dpdt.Injector/)
+
+
 # Purpose
 
 Dpdt is a DI container based on C# Source Generators. Its goal is to remove everything possible from runtime and make resolving process as faster as we can. This is achieved by transferring huge piece of resolving logic to the compilation stage into the source generator.
@@ -34,7 +39,7 @@ More to come!
 
 0. Very impressive Fast resolutions.
 0. Good Generic resolution performance.
-0. Not best Non Generic resolution - Microresolver is fantastically fast; what's the magic? :)
+0. Good enough, but not the best NonGeneric resolution - Microresolver is fantastically fast; what's the magic? :)
 
 ``` ini
 
@@ -118,7 +123,7 @@ Please refer to Dpdt.Injector nuget package at nuget.org. Keep in mind you need 
 
 ## Design drawbacks
 
-0. Because of design, it's impossible to `Unbind`.
+0. Because of design, it's impossible to `Unbind` and `Rebind`.
 0. Because of source generators, it's impossible to direclty debug your bind code, including its `When` predicates.
 0. Because of massive rewriting the body of the cluster, it's impossible to use a local variables (local methods and other local stuff) in `ConstructorArgument` and `When` predicates. To make bind works use instance based fields, properties and methods instead. To make bind debuggable, use fields, properties and methods of the other, helper class.
 0. No deferred bindings by design with exception of cluster hierarchy.
@@ -168,8 +173,8 @@ Additional note: many binding methods (even in different compilation units) allo
 
 Constructor is chosen at the compilation stage based on 2 principles:
 
-1. Constructors are filtered by `ConstructorArgument` filter. If no `ConstructorArgument` has defined, all existing constructors will be taken.
-2. The constructor with the minimum number of parameters is selected to make binding.
+0. Constructors are filtered by `ConstructorArgument` filter. If no `ConstructorArgument` has defined, all existing constructors will be taken.
+0. The constructor with the minimum number of parameters is selected to make binding.
 
 ## Scope
 
