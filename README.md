@@ -59,7 +59,7 @@ Here is the results of a resolution a complex tree of 500 objects total:
 |------------------------------------- |----------:|----------:|----------:|------:|------:|------:|----------:|
 |             Dpdt.GenericSingleton500 |  4.325 us | 0.0407 us | 0.0381 us |     - |     - |     - |         - |
 |          Dpdt.NonGenericSingleton500 | 13.641 us | 0.1126 us | 0.1054 us |     - |     - |     - |         - |
-|                Dpdt.FastSingleton500 |  2.577 us | 0.0104 us | 0.0097 us |     - |     - |     - |         - |
+|  Dpdt.FastSingleton500 (**fastest**) |  2.577 us | 0.0104 us | 0.0097 us |     - |     - |     - |         - |
 |           DryIoc.GenericSingleton500 | 16.148 us | 0.1470 us | 0.1375 us |     - |     - |     - |         - |
 |        DryIoc.NonGenericSingleton500 |  9.728 us | 0.1689 us | 0.1580 us |     - |     - |     - |         - |
 |    Microresolver.GenericSingleton500 |  7.276 us | 0.0573 us | 0.0536 us |     - |     - |     - |         - |
@@ -70,7 +70,7 @@ Here is the results of a resolution a complex tree of 500 objects total:
 |------------------------------------- |---------:|---------:|---------:|-------:|------:|------:|----------:|
 |             Dpdt.GenericTransient500 | 40.32 us | 0.330 us | 0.309 us | 4.1504 |     - |     - |  77.02 KB |
 |          Dpdt.NonGenericTransient500 | 63.08 us | 0.489 us | 0.433 us | 4.1504 |     - |     - |  77.02 KB |
-|                Dpdt.FastTransient500 | 37.93 us | 0.253 us | 0.224 us | 3.8452 |     - |     - |   71.2 KB |
+|  Dpdt.FastTransient500 (**fastest**) | 37.93 us | 0.253 us | 0.224 us | 3.8452 |     - |     - |   71.2 KB |
 |           DryIoc.GenericTransient500 | 66.87 us | 1.288 us | 1.581 us | 4.2725 |     - |     - |  77.02 KB |
 |        DryIoc.NonGenericTransient500 | 62.60 us | 0.480 us | 0.449 us | 4.1504 |     - |     - |  77.02 KB |
 |    Microresolver.GenericTransient500 | 64.77 us | 0.294 us | 0.261 us | 4.2725 |     - |     - |  77.02 KB |
@@ -83,7 +83,7 @@ Also I recommend disable tiered compilation for composition root assembly if you
 
 # How to try
 
-Please refer to Dpdt.Injector nuget package at nuget.org. Keep in mind you need to set 'net5' target framework. For example:
+Please refer to Dpdt.Injector [nuget package](https://www.nuget.org/packages/Dpdt.Injector/). Keep in mind you need to set 'net5' target framework. For example:
 
 ```
 <Project Sdk="Microsoft.NET.Sdk">
@@ -111,7 +111,7 @@ Please refer to Dpdt.Injector nuget package at nuget.org. Keep in mind you need 
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dpdt.Injector" Version="0.2.2-alpha" />
+    <PackageReference Include="Dpdt.Injector" Version="0.3.0-alpha" />
   </ItemGroup>
 
 </Project>
@@ -120,7 +120,7 @@ Please refer to Dpdt.Injector nuget package at nuget.org. Keep in mind you need 
 
 # Design
 
-## Design drawbacks
+## To be fair: design drawbacks at first place
 
 0. Because of design, it's impossible to `Unbind` and `Rebind`.
 0. Because of source generators, it's impossible to direclty debug your bind code, including its `When` predicates.
@@ -139,13 +139,13 @@ Bind<IB1>()
     ;
 
 
-//conditional binding example:
+//conditional constant binding example:
 Bind<IA>()
     .WithConstScope(ConstantA2)
     .When(rt => rt.ParentTarget?.TargetType == typeof(B2))
     ;
 
-//factory example:
+//example of the factory, that will be injected into the proxy:
 Bind<ICalculator>()
     .To<Calculator>()
     .WithSingletonScope()
@@ -194,22 +194,22 @@ Constant scope is a scope when the cluster receive an outside-created object. It
 ### Custom
 
 ```csharp
-            Bind<IA>()
-                .To<A>()
-                .WithCustomScope()
-                ;
+    Bind<IA>()
+	.To<A>()
+	.WithCustomScope()
+	;
 
 ...
 
-            using(var scope1 = cluster.CreateCustomScope())
-            {
-                var a1 = cluster.Get<IA>(scope1);
+    using(var scope1 = cluster.CreateCustomScope())
+    {
+	var a1 = cluster.Get<IA>(scope1);
 
-                using(var scope2 = cluster.CreateCustomScope())
-                {
-                    var a2 = cluster.Get<IA>(scope2);
-                }
-            }
+	using(var scope2 = cluster.CreateCustomScope())
+	{
+	    var a2 = cluster.Get<IA>(scope2);
+	}
+    }
 ```
 
 `IDisposable` custom-binded objects will be disposed at the moment of the scope object dispose. Keep in mind, custom-scoped bindings are resolved much slower than singleton/transient/constant bindings.
@@ -220,14 +220,14 @@ Constant scope is a scope when the cluster receive an outside-created object. It
 Each bind clause may have an additional filter e.g.
 
 ```csharp
-            Bind<IA>()
-                .To<A>()
-                .WithSingletonScope()
-                .When(IResolutionTarget rt =>
-                {
-                     condition to resolve
-                })
-                ;
+    Bind<IA>()
+	.To<A>()
+	.WithSingletonScope()
+	.When(IResolutionTarget rt =>
+	{
+	     condition to resolve
+	})
+	;
 ```
 
 Please refer unit tests to see the examples. Please note, than any filter makes a resolution process slower (a much slower! 10x slower in compare of unconditional binding!), so use this feature responsibly. Resolution slowdown with conditional bindings has an effect even on those bindings that do not have conditions, but they directly or indirectly takes conditional binding as its dependency. Therefore, it is advisable to place conditions as close to the resolution root as possible.
