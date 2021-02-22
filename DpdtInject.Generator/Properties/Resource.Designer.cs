@@ -61,32 +61,49 @@ namespace DpdtInject.Generator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using System;
+        ///   Looks up a localized string similar to #pragma warning disable CS0105
+        ///using DpdtInject.Injector;
+        ///using DpdtInject.Injector.CustomScope;
+        ///using DpdtInject.Injector.Excp;
+        ///using DpdtInject.Injector.Reinvented;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using System.Diagnostics.CodeAnalysis;
         ///using System.Runtime.CompilerServices;
+        ///using System.Threading;
+        ///using DpdtInject.Injector.RContext;
+        ///// ReSharper disable SuspiciousTypeConversion.Global
+        ///
+        /////GENERATOR: place for an additional usings
         ///
         ///namespace DpdtInject.Generator
         ///{
-        ///#nullable disable
-        ///    public class CarcassCluster : IResolution
-        ///    {
-        ///        private readonly IResolution _parentCluster;
-        ///
-        ///        public CarcassCluster(
-        ///            IResolution parentCluster
-        ///            )
-        ///        {
-        ///            //parentCluster allowed to be null
-        ///
-        ///            _parentCluster = parentCluster;
-        ///        }
-        ///
-        ///        public bool IsRegisteredFrom&lt;T&gt;()
-        ///        {
-        ///            return this is IReso [rest of string was truncated]&quot;;.
+        ///#nullable  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string CarcassCluster {
             get {
                 return ResourceManager.GetString("CarcassCluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Generator
+        ///{
+        ///    public class CarcassProxy
+        ///    {
+        ///    }
+        ///}
+        ///.
+        /// </summary>
+        internal static string CarcassProxy {
+            get {
+                return ResourceManager.GetString("CarcassProxy", resourceCulture);
             }
         }
     }

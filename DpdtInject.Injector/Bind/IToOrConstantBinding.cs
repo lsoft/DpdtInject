@@ -4,8 +4,10 @@
     {
         IScopeBinding To<T>();
 
+        IConstantConditionalBinding WithConstScope<T>(T? constant);
+
         IToFactoryBinding ToIsolatedFactory<TFactory>();
 
-        IConstantConditionalBinding WithConstScope<T>(T? constant);
+        IToProxyBinding ToProxy<TProxy>();
     }
 }

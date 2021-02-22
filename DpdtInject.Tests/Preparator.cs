@@ -58,6 +58,7 @@ namespace DpdtInject.Tests
 
             var modifiedClusterSource = Regex.Replace(clusterSource, @"FakeCluster<(?i:([a-zA-z\d]+))>", "$1");
             modifiedClusterSource = Regex.Replace(modifiedClusterSource, @"IFakeFactory<(?i:([a-zA-z\d]+))>", "$1");
+            modifiedClusterSource = Regex.Replace(modifiedClusterSource, @"IFakeProxy<(?i:([a-zA-z\d]+))>", "$1");
 
             _testContext = testContext;
             _testerClassName = testerClassName;

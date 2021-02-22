@@ -15,17 +15,10 @@ namespace DpdtInject.Generator.Binding
             get;
         }
 
-        public ITypeSymbol? FactoryPayloadType
-        {
-            get;
-        }
-
-        public bool ToFactory => !(FactoryPayloadType is null);
 
         public BindingContainerTypes(
             IReadOnlyList<ITypeSymbol> bindFromTypes,
-            ITypeSymbol bindToType,
-            ITypeSymbol? factoryPayloadType
+            ITypeSymbol bindToType
             )
         {
             if (bindFromTypes is null)
@@ -40,7 +33,6 @@ namespace DpdtInject.Generator.Binding
 
             BindFromTypes = bindFromTypes;
             BindToType = bindToType;
-            FactoryPayloadType = factoryPayloadType;
         }
 
     }

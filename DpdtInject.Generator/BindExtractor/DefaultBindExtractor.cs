@@ -88,6 +88,7 @@ namespace DpdtInject.Generator.BindExtractor
                         typeof(DefaultCluster).FullName,
                         typeof(IToOrConstantBinding).FullName,
                         typeof(IToFactoryBinding).FullName,
+                        typeof(IToProxyBinding).FullName,
                         typeof(IScopeBinding).FullName,
                         typeof(IConfigureAndConditionalBinding).FullName,
                         typeof(IConditionalBinding).FullName,
@@ -133,6 +134,7 @@ namespace DpdtInject.Generator.BindExtractor
                 if (thirdInvocationSymbol.Item2.ContainingType.ToDisplayString().NotIn(
                         typeof(IScopeBinding).FullName,
                         typeof(IToFactoryBinding).FullName,
+                        typeof(IToProxyBinding).FullName,
                         typeof(IConstantConditionalBinding).FullName
                         )
                     )
@@ -160,7 +162,8 @@ namespace DpdtInject.Generator.BindExtractor
             for (var i = 4; i < invocationSymbols.Count; i++)
             {
                 if (invocationSymbols[i].Item2.ContainingType.ToDisplayString().NotIn(
-                        typeof(IConfigureBinding).FullName
+                        typeof(IConfigureBinding).FullName,
+                        typeof(IConditionalBinding).FullName
                         )
                     )
                 {

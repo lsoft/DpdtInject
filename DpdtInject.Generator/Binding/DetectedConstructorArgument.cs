@@ -105,6 +105,19 @@ namespace DpdtInject.Generator.Binding
             return Type;
         }
 
+        public string GetUsageSyntax()
+        {
+            if (Type is null)
+            {
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.InternalError,
+                    $"constructorArgument.Type is null somehow"
+                    );
+            }
+
+            return $"{Name}";
+        }
+
         public string GetDeclarationSyntax()
         {
             if (Type is null)

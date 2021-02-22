@@ -42,7 +42,6 @@ namespace DpdtInject.Generator.Binding
         {
             get;
         }
-        public ITypeSymbol? FactoryPayloadType => _types.FactoryPayloadType;
 
         public IReadOnlyCollection<string> FromTypeFullNames
         {
@@ -56,7 +55,6 @@ namespace DpdtInject.Generator.Binding
             get;
         }
 
-        public bool ToFactory => !(FactoryPayloadType is null);
 
         protected BaseBindingContainer(
             BindingContainerTypes types,

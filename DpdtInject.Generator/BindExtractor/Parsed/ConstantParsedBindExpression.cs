@@ -130,8 +130,7 @@ namespace DpdtInject.Generator.BindExtractor.Parsed
 
             BindingContainerTypes types = new(
                 _fromTypes,
-                constTypeSymbol,
-                null
+                constTypeSymbol
                 );
 
             return types;

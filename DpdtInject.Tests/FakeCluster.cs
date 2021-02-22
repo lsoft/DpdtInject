@@ -10,6 +10,9 @@ namespace DpdtInject.Tests
     {
     }
 
+    public interface IFakeProxy<T>
+    {
+    }
 
     public class FakeCluster<T> : ICluster
         where T : DefaultCluster

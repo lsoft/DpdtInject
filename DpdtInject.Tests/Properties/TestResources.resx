@@ -265,6 +265,9 @@
   <data name="NonGenericIncorrectRequest_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\NonGeneric\IncorrectRequest\NonGenericIncorrectRequest_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="ProxySimple0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Proxy\Simple0\ProxySimple0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="ScopeConstantGenericSingleInterfaceSingleObject_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Scope\Constant\Generic\SingleInterfaceSingleObject\ScopeConstantGenericSingleInterfaceSingleObject_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

@@ -1,9 +1,9 @@
-﻿using Microsoft.CodeAnalysis;
-using System;
+﻿using System;
+using Microsoft.CodeAnalysis;
 
-namespace DpdtInject.Generator.Producer.Factory
+namespace DpdtInject.Generator.Producer.ClassProducer
 {
-    internal class FactoryProduct
+    internal class ProducedClassProduct
     {
         public ITypeSymbol FactoryType
         {
@@ -15,7 +15,7 @@ namespace DpdtInject.Generator.Producer.Factory
             get;
         }
 
-        public FactoryProduct(
+        public ProducedClassProduct(
             ITypeSymbol factoryType,
             string sourceCode
             )

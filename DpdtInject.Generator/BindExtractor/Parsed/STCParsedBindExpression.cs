@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using DpdtInject.Generator.Binding;
 using DpdtInject.Generator.Helpers;
-using DpdtInject.Generator.Producer.Factory;
+using DpdtInject.Generator.Producer.ClassProducer;
 using DpdtInject.Generator.TypeInfo;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Bind;
@@ -29,6 +29,7 @@ namespace DpdtInject.Generator.BindExtractor.Parsed
         private readonly Tuple<InvocationExpressionSyntax, IMethodSymbol> _to;
         private readonly ITypeSymbol _toType;
         private readonly Tuple<InvocationExpressionSyntax, IMethodSymbol>? _factoryPayload;
+        private readonly Tuple<InvocationExpressionSyntax, IMethodSymbol>? _proxySettings;
         private readonly ArgumentSyntax? _whenArgumentClause;
 
         private bool _typesAlreadyBuild = false;
@@ -104,6 +105,10 @@ namespace DpdtInject.Generator.BindExtractor.Parsed
                 s => s.Item2.ContainingType.ToDisplayString() == typeof(IToFactoryBinding).FullName && s.Item2.Name == nameof(IToFactoryBinding.WithPayload)
                 );
 
+            _proxySettings = invocationSymbols.FirstOrDefault(
+                s => s.Item2.ContainingType.ToDisplayString() == typeof(IToProxyBinding).FullName && s.Item2.Name == nameof(IToProxyBinding.WithProxySettings)
+                );
+
             _whenArgumentClause = DetermineArgumentSubClause(
                 invocationSymbols,
                 typeof(IConditionalBinding).GetMethod(nameof(IConditionalBinding.When), BindingFlags.Public | BindingFlags.Instance)!,
@@ -155,7 +160,7 @@ namespace DpdtInject.Generator.BindExtractor.Parsed
 
         /// <summary>
         /// build appropriate types
-        ///  also, if required: build factory source code, and rebuild factory symbol (we need an access to constructors)
+        ///  also, if required: build factory/proxy source code, and rebuild factory/proxy symbol (we need an access to constructors)
         /// </summary>
         private BindingContainerTypes BuildTypes(
             )
@@ -166,22 +171,32 @@ namespace DpdtInject.Generator.BindExtractor.Parsed
             }
 
             _typesAlreadyBuild = true;
-            
-            ITypeSymbol? factoryPayloadType = _factoryPayload?.Item2.TypeArguments.First();
 
             var types = new BindingContainerTypes(
                 _fromTypes,
-                _toType,
-                factoryPayloadType
+                _toType
                 );
 
-            if (types.ToFactory)
+            IClassProducer? classProducer =  null;
+            if (_factoryPayload is not null)
             {
-                var factoryProducer = new FactoryProducer(
-                    types
+                classProducer = new FactoryProducer(
+                    types,
+                    _factoryPayload.Item2.TypeArguments[0]
                     );
+            }
+            else if (_proxySettings is not null)
+            {
+                classProducer = new ProxyProducer(
+                    types,
+                    _proxySettings.Item2.TypeArguments[0],
+                    _proxySettings.Item2.TypeArguments[1]
+                    );
+            }
 
-                var factoryProduct = factoryProducer.GenerateFactoryProduct();
+            if (classProducer is not null)
+            {
+                var product = classProducer.GenerateProduct();
 
                 _typeInfoContainer.AddSources(
                     new ModificationDescription[]
@@ -189,28 +204,27 @@ namespace DpdtInject.Generator.BindExtractor.Parsed
                         new(
                             (INamedTypeSymbol) types.BindToType,
                             $"{types.BindToType.Name}.Pregenerated.cs",
-                            factoryProduct.SourceCode
+                            product.SourceCode
                             )
                     }
                     );
 
-                var updatedBindToTypeSemantic = _typeInfoContainer.GetTypeByMetadataName(
+                var updatedBindToType = _typeInfoContainer.GetTypeByMetadataName(
                     types.BindToType.ToDisplayString()
                     );
 
-                if (updatedBindToTypeSemantic is null)
+                if (updatedBindToType is null)
                 {
                     throw new DpdtException(
                         DpdtExceptionTypeEnum.InternalError,
-                        $"Cannot get an updated version of the factory class [{types.BindToType.ToDisplayString()}]",
+                        $"Cannot get an updated version of the class [{types.BindToType.ToDisplayString()}]",
                         types.BindToType.ToDisplayString()
                         );
                 }
 
                 types = new BindingContainerTypes(
                     _fromTypes,
-                    updatedBindToTypeSemantic,
-                    factoryPayloadType
+                    updatedBindToType
                     );
             }
 
@@ -221,8 +235,6 @@ namespace DpdtInject.Generator.BindExtractor.Parsed
         private void CheckForFromAndToTypes(
             )
         {
-            var toFactory = _factoryPayload is not null;
-
             //check for target type correct
             if (_toType.TypeKind.NotIn(TypeKind.Class, TypeKind.Struct))
             {
@@ -233,31 +245,16 @@ namespace DpdtInject.Generator.BindExtractor.Parsed
                     );
             }
 
-            if (!toFactory)
-            {
-                //it's not a factory
 
-                //check for cast exists
-                foreach (var bindFrom in _fromTypes)
-                {
-                    if (!_toType.CanBeCastedTo(bindFrom.ToDisplayString()))
-                    {
-                        throw new DpdtException(
-                            DpdtExceptionTypeEnum.IncorrectBinding_IncorrectFrom,
-                            $"Type [{_toType.ToDisplayString()}] cannot be casted to [{bindFrom.ToDisplayString()}]",
-                            _toType.ToDisplayString()
-                            );
-                    }
-                }
-            }
-            else
+            if (_factoryPayload is not null || _proxySettings is not null)
             {
-                //it's a factory
+                //it's a factory or a proxy
+
                 if (_fromTypes.Length > 1)
                 {
                     throw new DpdtException(
                         DpdtExceptionTypeEnum.IncorrectBinding_IncorrectFrom,
-                        $"It is allowed only from bind from type for factory bindings. Take a look to [{_toType.ToDisplayString()}] binding.",
+                        $"It is allowed only one bind-from-type for this kind of bindings. Take a look to [{_toType.ToDisplayString()}] binding.",
                         _toType.ToDisplayString()
                         );
                 }
@@ -283,6 +280,26 @@ namespace DpdtInject.Generator.BindExtractor.Parsed
                     }
                 }
             }
+
+            if (_factoryPayload is null && _proxySettings is null)
+            {
+                //it's nor a factory neither a proxy
+                //it's regular binding
+
+                //check for cast exists
+                foreach (var bindFrom in _fromTypes)
+                {
+                    if (!_toType.CanBeCastedTo(bindFrom.ToDisplayString()))
+                    {
+                        throw new DpdtException(
+                            DpdtExceptionTypeEnum.IncorrectBinding_IncorrectFrom,
+                            $"Type [{_toType.ToDisplayString()}] cannot be casted to [{bindFrom.ToDisplayString()}]",
+                            _toType.ToDisplayString()
+                            );
+                    }
+                }
+
+            }
         }
 
 
@@ -301,6 +318,15 @@ namespace DpdtInject.Generator.BindExtractor.Parsed
 
             pair = invocationSymbols.FirstOrDefault(
                 s => s.Item2.ContainingType.ToDisplayString() == typeof(IToOrConstantBinding).FullName && s.Item2.Name == nameof(IToOrConstantBinding.ToIsolatedFactory)
+                );
+
+            if (pair is not null)
+            {
+                return pair;
+            }
+
+            pair = invocationSymbols.FirstOrDefault(
+                s => s.Item2.ContainingType.ToDisplayString() == typeof(IToOrConstantBinding).FullName && s.Item2.Name == nameof(IToOrConstantBinding.ToProxy)
                 );
 
             if (pair is not null)

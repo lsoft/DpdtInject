@@ -1,25 +1,27 @@
-﻿using DpdtInject.Generator.BindExtractor;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using DpdtInject.Generator.BindExtractor;
 using DpdtInject.Generator.Binding;
 using DpdtInject.Generator.Helpers;
+using DpdtInject.Generator.Producer.Product;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using DpdtInject.Generator.Producer.Product;
 
-namespace DpdtInject.Generator.Producer.Factory
+namespace DpdtInject.Generator.Producer.ClassProducer
 {
-    internal class FactoryProducer
+    internal class FactoryProducer : IClassProducer
     {
         private readonly ConstructorArgumentDetector _constructorArgumentDetector;
 
         private readonly List<DetectedConstructorArgument> _unknowns = new();
         private readonly BindingContainerTypes _types;
+        private readonly ITypeSymbol _factoryPayloadType;
 
         public FactoryProducer(
-            BindingContainerTypes types
+            BindingContainerTypes types,
+            ITypeSymbol factoryPayloadType
             )
         {
             if (types is null)
@@ -27,7 +29,13 @@ namespace DpdtInject.Generator.Producer.Factory
                 throw new ArgumentNullException(nameof(types));
             }
 
+            if (factoryPayloadType is null)
+            {
+                throw new ArgumentNullException(nameof(factoryPayloadType));
+            }
+
             _types = types;
+            _factoryPayloadType = factoryPayloadType;
 
             _constructorArgumentDetector = new ConstructorArgumentDetector(
                 new BindConstructorChooser(
@@ -35,12 +43,12 @@ namespace DpdtInject.Generator.Producer.Factory
                 );
         }
 
-        public FactoryProduct GenerateFactoryProduct(
+        public ProducedClassProduct GenerateProduct(
             )
         {
             var methodProducts = ScanForMethodsToImplement();
 
-            var result = new FactoryProduct(
+            var result = new ProducedClassProduct(
                 _types.BindToType,
                 $@"
 namespace {_types.BindToType.ContainingNamespace.ToDisplayString()}
@@ -78,12 +86,12 @@ namespace {_types.BindToType.ContainingNamespace.ToDisplayString()}
                 }
 
                 //method is not implemented in the proto class
-                if(!_types.FactoryPayloadType!.CanBeCastedTo(declaredMethod.ReturnType.ToDisplayString()))
+                if(!_factoryPayloadType.CanBeCastedTo(declaredMethod.ReturnType.ToDisplayString()))
                 {
                     //return type is not a factory payload
                     throw new DpdtException(
                         DpdtExceptionTypeEnum.IncorrectBinding_IncorrectReturnType,
-                        $"Factory [{_types.BindToType.ToDisplayString()}] contains a method [{declaredMethod.Name}] with return type [{declaredMethod.ReturnType.ToDisplayString()}] that cannot be produced by casting a payload [{_types.FactoryPayloadType!.ToDisplayString()}]",
+                        $"Factory [{_types.BindToType.ToDisplayString()}] contains a method [{declaredMethod.Name}] with return type [{declaredMethod.ReturnType.ToDisplayString()}] that cannot be produced by casting a payload [{_factoryPayloadType.ToDisplayString()}]",
                         _types.BindToType.ToDisplayString()
                         );
                 }
@@ -96,7 +104,7 @@ namespace {_types.BindToType.ContainingNamespace.ToDisplayString()}
             return result;
         }
 
-        public MethodProduct GetMethodProduct(
+        private MethodProduct GetMethodProduct(
             IMethodSymbol methodSymbol
             )
         {
@@ -109,7 +117,7 @@ namespace {_types.BindToType.ContainingNamespace.ToDisplayString()}
             var constructorArguments = extractor.GetConstructorArguments(methodSymbol);
 
             var appended = _constructorArgumentDetector.AppendUnknown(
-                (INamedTypeSymbol)_types.FactoryPayloadType!,
+                (INamedTypeSymbol)_factoryPayloadType,
                 ref constructorArguments
                 );
 
@@ -158,7 +166,7 @@ namespace {_types.BindToType.ContainingNamespace.ToDisplayString()}
                     return $@"
 public {returnType.ToDisplayString()} {methodName}({usedConstructorArguments.Join(cafm => cafm.GetDeclarationSyntax(), ",")})
 {{
-    return new {_types.FactoryPayloadType!.ToDisplayString()}(
+    return new {_factoryPayloadType.ToDisplayString()}(
         {caCombined.Join(cac => cac, ",")}
         );
 }}

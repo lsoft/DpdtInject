@@ -58,16 +58,6 @@ namespace DpdtInject.Generator.Binding
             get;
         }
 
-        ITypeSymbol? FactoryPayloadType
-        {
-            get;
-        }
-
-        bool ToFactory
-        { 
-            get;
-        }
-
         string GetFromTypeFullNamesCombined(string separator = "_");
 
         string GetStableSuffix();

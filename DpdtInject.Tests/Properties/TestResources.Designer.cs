@@ -549,14 +549,12 @@ namespace DpdtInject.Tests.Properties {
         ///        [DpdtBindingMethod]
         ///        public void BindMethod()
         ///        {
-        ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()
-        ///                .WithTransientScope()
-        ///                ;
+        ///            //this cluster SHOULD NOT have a IA binding
+        ///            //because we&apos;re checked for UNKNOWN binding EVEN in parent cluster
         ///        }
         ///    }
         ///
-        ///    public partial class ClusterUnknownEvenInP [rest of string was truncated]&quot;;.
+        ///    public partia [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterUnknownEvenInParent_Cluster {
             get {
@@ -1313,6 +1311,33 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Threading;
+        ///using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Bind;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.RContext;
+        ///
+        ///namespace DpdtInject.Tests.Proxy.Simple0
+        ///{
+        ///    public partial class ProxySimple0_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;ProxyPayload&gt;()
+        ///                .To&lt;ProxyPayload&gt;()
+        ///                .WithTransientScope()
+        ///                ;
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ProxySimple0_Cluster {
+            get {
+                return ResourceManager.GetString("ProxySimple0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///
@@ -1377,11 +1402,11 @@ namespace DpdtInject.Tests.Properties {
         ///        // ReSharper disable once FieldCanBeMadeReadOnly.Local
         ///        private string _someString;
         ///
-        ///        #if IN_UNIT_TEST_SYMBOL
+        ///#if IN_UNIT_TEST_SYMBOL
         ///        /// &lt;inheritdoc /&gt;
         ///        public ScopeConstantTargetF0_Cluster()
         ///            : this((ICluster)null!)
-        /// [rest of string was truncated]&quot;;.
+        ///         [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeConstantTargetF0_Cluster {
             get {

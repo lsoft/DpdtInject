@@ -34,7 +34,7 @@ namespace DpdtInject.Injector.RContext
             Type targetType
             )
         {
-            IResolutionTarget? crt = rt;
+            IResolutionTarget? crt = rt.ParentTarget;
             while (!(crt is null))
             {
                 if (crt.TargetType == targetType)
@@ -65,7 +65,12 @@ namespace DpdtInject.Injector.RContext
                 return false;
             }
 
-            if (rt.TargetType != targetType)
+            if (rt.ParentTarget is null)
+            {
+                return false;
+            }
+
+            if (rt.ParentTarget.TargetType != targetType)
             {
                 return false;
             }
@@ -78,6 +83,13 @@ namespace DpdtInject.Injector.RContext
             )
         {
             return WhenInjectedExactlyInto(rt, typeof(T));
+        }
+
+        public static bool WhenInjectedExactlyNotInto<T>(
+            this IResolutionTarget rt
+            )
+        {
+            return !WhenInjectedExactlyInto(rt, typeof(T));
         }
     }
 }
