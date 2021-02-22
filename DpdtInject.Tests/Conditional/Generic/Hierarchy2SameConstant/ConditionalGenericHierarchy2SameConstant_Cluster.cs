@@ -13,12 +13,12 @@ namespace DpdtInject.Tests.Conditional.Generic.Hierarchy2SameConstant
         {
             Bind<IA>()
                 .WithConstScope(ConstantA1)
-                .When(rt => rt.ParentTarget.TargetType == typeof(B1))
+                .When(rt => rt.ParentTarget?.TargetType == typeof(B1))
                 ;
 
             Bind<IA>()
                 .WithConstScope(ConstantA2)
-                .When(rt => rt.ParentTarget.TargetType == typeof(B2))
+                .When(rt => rt.ParentTarget?.TargetType == typeof(B2))
                 ;
 
             Bind<IB1>()

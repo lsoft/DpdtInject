@@ -22,6 +22,7 @@ namespace DpdtInject.Generator.BindExtractor
                     p => new DetectedConstructorArgument(
                         p.Name, 
                         p.Type, 
+                        p.RefKind,
                         p.HasExplicitDefaultValue,
                         () => p.ExplicitDefaultValue
                         )

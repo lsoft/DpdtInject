@@ -41,45 +41,5 @@ namespace DpdtInject.Generator
 
         //PROXYPRODUCER: put methods here
 
-
-        //PROXYPRODUCER: aggressive inline and optimize
-        private void Invoke(
-            in Action invokeAction,
-            in string memberName,
-            in object[]? arguments
-            )
-        {
-            if (invokeAction is null)
-            {
-                throw new ArgumentNullException(nameof(invokeAction));
-            }
-
-            var startDate = Stopwatch.GetTimestamp();
-            try
-            {
-
-                invokeAction();
-
-                _sessionSaver.FixSessionSafely(
-                    _payloadFullName,
-                    memberName,
-                    (Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                    null,
-                    arguments
-                    );
-            }
-            catch (Exception excp)
-            {
-                _sessionSaver.FixSessionSafely(
-                    _payloadFullName,
-                    memberName,
-                    (Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                    excp,
-                    arguments
-                    );
-
-                throw;
-            }
-        }
     }
 }

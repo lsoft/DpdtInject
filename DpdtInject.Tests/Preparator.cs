@@ -135,10 +135,8 @@ namespace DpdtInject.Tests
 
                     if (testerType == null)
                     {
-                        throw new DpdtException(
-                            DpdtExceptionTypeEnum.InvalidTestConfiguration,
-                            $"Type {_testerClassName} does not found",
-                            _testerClassName
+                        throw new InvalidOperationException(
+                            $"Type {_testerClassName} does not found"
                             );
                     }
 

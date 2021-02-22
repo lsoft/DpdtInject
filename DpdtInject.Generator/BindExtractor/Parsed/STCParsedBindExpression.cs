@@ -119,6 +119,11 @@ namespace DpdtInject.Generator.BindExtractor.Parsed
         public override void Validate()
         {
             CheckForFromAndToTypes();
+
+            if (_proxySettings is not null)
+            {
+                CheckForAbsenceForConfigureStatements();
+            }
         }
 
 
@@ -229,6 +234,24 @@ namespace DpdtInject.Generator.BindExtractor.Parsed
             }
 
             return types;
+        }
+
+
+
+        private void CheckForAbsenceForConfigureStatements()
+        {
+            var configures = _invocationSymbols.FindAll(
+                s => s.Item2.ContainingType.ToDisplayString() == typeof(IConfigureBinding).FullName && s.Item2.Name == nameof(IConfigureBinding.Configure)
+                );
+
+            if (configures.Count != 0)
+            {
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.IncorrectBinding_IncorrectConfiguration,
+                    $"Proxy binding for [{_toType.ToDisplayString()}] should have 0 {nameof(IConfigureBinding.Configure)} invocations. There is nothing to configure.",
+                    _toType.ToDisplayString()
+                    );
+            }
         }
 
 

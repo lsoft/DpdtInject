@@ -19,6 +19,7 @@ It's only a proof-of-concept. Nor alpha, neither beta.
 0. Single object `Get` or collection `GetAll` resolutions.
 0. `Func<T>` resolutions.
 0. `ToIsolatedFactory` bindings with automatic factory code generation.
+0. `ToProxy` binding with automatic generate a proxy class.
 0. Transient, singleton and constant scopes.
 0. Custom scopes.
 0. Child kernels (aka child clusters).
@@ -125,7 +126,41 @@ Please refer to Dpdt.Injector nuget package at nuget.org. Keep in mind you need 
 
 ## Syntax
 
-Examples of allowed syntaxes are available in the test project. Please refer that code.
+```csharp
+
+//regular binding example:
+Bind<IB1>()
+    .To<B1>()
+    .WithSingletonScope()
+    ;
+
+
+//conditional binding example:
+Bind<IA>()
+    .WithConstScope(ConstantA2)
+    .When(rt => rt.ParentTarget?.TargetType == typeof(B2))
+    ;
+
+//factory example:
+Bind<ICalculator>()
+    .To<Calculator>()
+    .WithSingletonScope()
+    .When(rt => rt.WhenInjectedExactlyInto<ProxyCalculator>())
+    ;
+
+
+//proxy example:
+Bind<ICalculator>()
+    .ToProxy<ProxyCalculator>()
+    .WithProxySettings<TelemetryAttribute, SessionSaver>()
+    .WithSingletonScope()
+    .When(rt => rt.WhenInjectedExactlyNotInto<ProxyCalculator>())
+    ;
+
+
+```
+
+A lot of examples of allowed syntaxes are available in the test project. Please refer that code.
 
 Additional note: many binding methods (even in different compilation units) allowed to exists. You can use this to split your bindings into different groups (something like Ninject's modules).
 

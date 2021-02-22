@@ -52,10 +52,6 @@ namespace DpdtInject.Generator.Producer.ClassProducer
             var compilationUnit = DpdtInject.Generator.Properties.Resource.CarcassProxy;
 
             var fixedCompilationUnit = compilationUnit
-                .CheckAndReplace(
-                    "//PROXYPRODUCER: aggressive inline and optimize",
-                    "[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]"
-                    )
                 .ReplaceLineStartsWith(
                     "namespace",
                     $"namespace {_types.BindToType.ContainingNamespace.ToDisplayString()}"
@@ -149,47 +145,31 @@ namespace DpdtInject.Generator.Producer.ClassProducer
             var extractor = new ConstructorArgumentFromMethodExtractor();
             var constructorArguments = extractor.GetConstructorArguments(methodSymbol);
 
-            MethodProduct result;
-            if (methodSymbol.ReturnType.ToDisplayString() == "void")
-            {
-                result = new MethodProduct(
-                    methodSymbol.Name,
-                    methodSymbol.ReturnType,
-                    (
-                        methodName,
-                        returnType
-                        ) =>
-                    {
-                        return $@"
-        public {returnType.ToDisplayString()} {methodName}({constructorArguments.Join(ca => ca.GetDeclarationSyntax(), ",")})
+
+            var returnModifier = methodSymbol.ReturnsVoid
+                ? string.Empty
+                : "return"
+                ;
+
+            var refModifier =
+                (methodSymbol.ReturnsByRef || methodSymbol.ReturnsByRefReadonly)
+                    ? "ref"
+                    : string.Empty
+                ;
+
+            var result = new MethodProduct(
+                methodSymbol,
+                constructorArguments,
+                (ms, h) =>
+                {
+                    return $@"
+        public {h}
         {{
-            _payload.{methodName}({constructorArguments.Join(ca => ca.GetUsageSyntax(), ",")});
+            {returnModifier} {refModifier} _payload.{ms.Name}({constructorArguments.Join(ca => ca.GetUsageSyntax(), ",")});
         }}
 ";
-                    }
-                    );
-            }
-            else
-            {
-                result = new MethodProduct(
-                    methodSymbol.Name,
-                    methodSymbol.ReturnType,
-                    (
-                        methodName,
-                        returnType
-                        ) =>
-                    {
-                        return $@"
-        public {returnType.ToDisplayString()} {methodName}({constructorArguments.Join(ca => ca.GetDeclarationSyntax(), ",")})
-        {{
-            return _payload.{methodName}({constructorArguments.Join(ca => ca.GetUsageSyntax(), ",")});
-        }}
-";
-                    }
-                    );
-            }
-
-
+                }
+                );
             return result;
         }
 
@@ -206,24 +186,41 @@ namespace DpdtInject.Generator.Producer.ClassProducer
             var constructorArguments = extractor.GetConstructorArguments(methodSymbol);
 
             MethodProduct result;
-            if (methodSymbol.ReturnType.ToDisplayString() == "void")
+            if (methodSymbol.ReturnsVoid)
             {
                 result = new MethodProduct(
-                    methodSymbol.Name,
-                    methodSymbol.ReturnType,
-                    (
-                        methodName,
-                        returnType
-                        ) =>
+                    methodSymbol,
+                    constructorArguments,
+                    (ms, h) =>
                     {
                         return $@"
-        public {returnType.ToDisplayString()} {methodName}({constructorArguments.Join(cafm => cafm.GetDeclarationSyntax(), ",")})
+        public {h}
         {{
-            Invoke(
-                () => _payload.{methodName}({constructorArguments.Join(cafm => cafm.GetUsageSyntax(), ",")}),
-                nameof({methodName}),
-                {GetProxyArguments(methodSymbol)}
-                );
+            var startDate = System.Diagnostics.Stopwatch.GetTimestamp();
+            try
+            {{
+                _payload.{ms.Name}({constructorArguments.Join(cafm => cafm.GetUsageSyntax(), ",")});
+
+                _sessionSaver.FixSessionSafely(
+                    _payloadFullName,
+                    nameof({ms.Name}),
+                    (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                    null,
+                    {GetProxyArguments(methodSymbol)}
+                    );
+            }}
+            catch (Exception excp)
+            {{
+                _sessionSaver.FixSessionSafely(
+                    _payloadFullName,
+                    nameof({ms.Name}),
+                    (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                    excp,
+                    {GetProxyArguments(methodSymbol)}
+                    );
+
+                throw;
+            }}
         }}
 ";
                     }
@@ -231,28 +228,48 @@ namespace DpdtInject.Generator.Producer.ClassProducer
             }
             else
             {
+                var refModifier = 
+                    (methodSymbol.ReturnsByRef || methodSymbol.ReturnsByRefReadonly)
+                        ? "ref"
+                        : string.Empty
+                    ;
+
                 result = new MethodProduct(
-                    methodSymbol.Name,
-                    methodSymbol.ReturnType,
-                    (
-                        methodName,
-                        returnType
-                        ) =>
+                    methodSymbol,
+                    constructorArguments,
+                    (ms, h) =>
                     {
                         return $@"
-        public {returnType.ToDisplayString()} {methodName}({constructorArguments.Join(cafm => cafm.GetDeclarationSyntax(), ",")})
+        public {h}
         {{
-            var result = default({returnType.ToDisplayString()});
+            var startDate = System.Diagnostics.Stopwatch.GetTimestamp();
+            try
+            {{
+                var result = {refModifier} _payload.{ms.Name}({constructorArguments.Join(cafm => cafm.GetUsageSyntax(), ",")});
 
-            Invoke(
-                () => result = _payload.{methodName}({constructorArguments.Join(cafm => cafm.GetUsageSyntax(), ",")}),
-                nameof({methodName}),
-                {GetProxyArguments(methodSymbol)}
-                );
+                _sessionSaver.FixSessionSafely(
+                    _payloadFullName,
+                    nameof({ms.Name}),
+                    (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                    null,
+                    {GetProxyArguments(methodSymbol)}
+                    );
 
-            return result!;
-        }}
-";
+                return result;
+            }}
+            catch (Exception excp)
+            {{
+                _sessionSaver.FixSessionSafely(
+                    _payloadFullName,
+                    nameof({ms.Name}),
+                    (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                    excp,
+                    {GetProxyArguments(methodSymbol)}
+                    );
+
+                throw;
+            }}
+        }}";
                     }
                     );
             }

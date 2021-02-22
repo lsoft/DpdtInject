@@ -17,6 +17,11 @@ namespace DpdtInject.Generator.Binding
             get;
         }
 
+        public RefKind RefKind
+        {
+            get;
+        }
+
         public string? Body
         {
             get;
@@ -50,6 +55,7 @@ namespace DpdtInject.Generator.Binding
 
             Name = name;
             Type = null;
+            RefKind = RefKind.None;
             Body = body;
             HasExplicitDefaultValue = false;
         }
@@ -57,6 +63,7 @@ namespace DpdtInject.Generator.Binding
         public DetectedConstructorArgument(
             string name,
             ITypeSymbol type,
+            RefKind refKind,
             bool hasExplicitDefaultValue,
             Func<object?> explicitDefaultValueFunc
             )
@@ -78,6 +85,7 @@ namespace DpdtInject.Generator.Binding
 
             Name = name;
             Type = type;
+            RefKind = refKind;
             Body = null;
             HasExplicitDefaultValue = hasExplicitDefaultValue;
             ExplicitDefaultValue = hasExplicitDefaultValue ? explicitDefaultValueFunc() : null;
@@ -115,7 +123,7 @@ namespace DpdtInject.Generator.Binding
                     );
             }
 
-            return $"{Name}";
+            return $"{GetUsageModifiers()} {Name}";
         }
 
         public string GetDeclarationSyntax()
@@ -130,11 +138,51 @@ namespace DpdtInject.Generator.Binding
 
             if (HasExplicitDefaultValue)
             {
-                return $"{Type.ToDisplayString()} {Name} = {ExplicitDefaultValue?.ToString() ?? "null"}";
+                return $"{GetDeclarationModifiers()} {Type.ToDisplayString()} {Name} = {ExplicitDefaultValue?.ToString() ?? "null"}";
             }
             else
             {
-                return $"{Type.ToDisplayString()} {Name}";
+                return $"{GetDeclarationModifiers()} {Type.ToDisplayString()} {Name}";
+            }
+        }
+
+        private string GetUsageModifiers()
+        {
+            switch (RefKind)
+            {
+                case RefKind.None:
+                case RefKind.In:
+                    return string.Empty;
+
+                case RefKind.Ref:
+                    return "ref";
+
+                case RefKind.Out:
+                    return "out";
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private string GetDeclarationModifiers()
+        {
+            switch (RefKind)
+            {
+                case RefKind.None:
+                    return string.Empty;
+
+                case RefKind.Ref:
+                    return "ref";
+
+                case RefKind.Out:
+                    return "out";
+
+                case RefKind.In:
+                    return "in";
+
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
     }

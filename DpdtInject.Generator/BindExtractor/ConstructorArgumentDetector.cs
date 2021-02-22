@@ -56,6 +56,7 @@ namespace DpdtInject.Generator.BindExtractor
                         new DetectedConstructorArgument(
                             cParameterName,
                             cParameterType,
+                            cParameter.RefKind,
                             cParameter.HasExplicitDefaultValue,
                             () => cParameter.ExplicitDefaultValue
                             )

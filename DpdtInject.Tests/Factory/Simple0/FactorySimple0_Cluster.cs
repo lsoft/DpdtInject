@@ -33,6 +33,13 @@ namespace DpdtInject.Tests.Factory.Simple0
                 Assert.IsNotNull(a1);
 
                 Assert.AreNotSame(a0, a1);
+
+                var a2 = af.Create(0);
+                Assert.IsNotNull(a2);
+
+                var unused = 0L;
+                var a3 = af.Create(ref unused);
+                Assert.IsNotNull(a3);
             }
         }
     }
@@ -44,11 +51,26 @@ namespace DpdtInject.Tests.Factory.Simple0
 
     public class A : IA
     {
+        public A()
+        {
+        }
+
+        public A(int unused)
+        {
+        }
+
+        public A(ref long unused)
+        {
+        }
     }
 
     public interface IAFactory
     {
         IA Create();
+
+        IA Create(in int unused);
+
+        IA Create(ref long unused);
     }
 
     public partial class AFactory : IFakeFactory<IAFactory>

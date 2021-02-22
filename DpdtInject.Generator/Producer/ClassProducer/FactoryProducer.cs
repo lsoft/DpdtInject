@@ -155,8 +155,8 @@ namespace {_types.BindToType.ContainingNamespace.ToDisplayString()}
                     ;
 
             var caCombined = new List<string>();
-            caCombined.AddRange(usedConstructorArguments.Select(cafm => $"{cafm.Name}: {cafm.Name}"));
-            caCombined.AddRange(unknownConstructorArguments.Select(cau => $"{cau.Name}: this.{cau.Name}"));
+            caCombined.AddRange(usedConstructorArguments.Select(cafm => $"{cafm.Name}: {cafm.GetUsageSyntax()}"));
+            caCombined.AddRange(unknownConstructorArguments.Select(cau => $"{cau.Name}: this.{cau.GetUsageSyntax()}"));
 
             return new MethodProduct(
                 methodSymbol.Name,

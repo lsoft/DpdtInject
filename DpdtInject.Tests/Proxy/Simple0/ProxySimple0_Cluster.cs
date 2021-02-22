@@ -27,7 +27,6 @@ namespace DpdtInject.Tests.Proxy.Simple0
                 .ToProxy<ProxyCalculator>()
                 .WithProxySettings<TelemetryAttribute, SessionSaver>()
                 .WithSingletonScope()
-                //.When(rt => true)
                 .When(rt => rt.WhenInjectedExactlyNotInto<ProxyCalculator>())
                 ;
 
@@ -46,8 +45,13 @@ namespace DpdtInject.Tests.Proxy.Simple0
 
                 const int InitialValue = 1;
 
-                var wopIncremented = calculator.DoIncrementWithoutProxy(InitialValue);
+                var initialValueCopy = InitialValue;
+                var wopIncremented = calculator.DoIncrementWithoutProxy(ref initialValueCopy);
                 Assert.AreEqual(InitialValue + 1, wopIncremented);
+                Assert.IsFalse(SessionSaver.ProxyWasInDeal);
+
+                var someConstant = calculator.GetSomeConstant();
+                Assert.AreEqual(Calculator.SomeConstant, someConstant);
                 Assert.IsFalse(SessionSaver.ProxyWasInDeal);
 
                 calculator.DoNothing();
@@ -148,17 +152,21 @@ namespace DpdtInject.Tests.Proxy.Simple0
 
         [Telemetry]
         int DoIncrement(
-            int number
+            in int number
             );
 
         int DoIncrementWithoutProxy(
-            int number
+            ref int wopNumber
             );
 
+        ref readonly int GetSomeConstant(
+            );
     }
 
     public class Calculator : ICalculator
     {
+        public static readonly int SomeConstant = 123;
+
         public static string ArgumentName = string.Empty;
 
         public static bool DoNothingExecuted = false;
@@ -177,7 +185,7 @@ namespace DpdtInject.Tests.Proxy.Simple0
 
         /// <inheritdoc />
         public int DoIncrement(
-            int number
+            in int number
             )
         {
             //just for help in case of argument rename
@@ -190,16 +198,21 @@ namespace DpdtInject.Tests.Proxy.Simple0
 
         /// <inheritdoc />
         public int DoIncrementWithoutProxy(
-            int number
+            ref int wopNumber
             )
         {
-            return number + 1;
+            return wopNumber + 1;
+        }
+
+        /// <inheritdoc />
+        public ref readonly int GetSomeConstant()
+        {
+            return ref SomeConstant;
         }
     }
 
     public partial class ProxyCalculator : IFakeProxy<ICalculator>
     {
-
     }
 
 }
