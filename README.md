@@ -352,9 +352,21 @@ Dpdt's source generator is able to store pregenerated C# code at the disk. The o
 
 # Dpdt Visual Studio Extension
 
-todo: write everything about this amazing tool :)
+To make working with Dpdt easier, a Visual Studio Extension has been developed. Make note: it only supports Visual Studio 2019 16.8, because I can't test it against older version of Visual Studio.
+The following images makes the picture brighter:
 
-A lot of thanks to bert2 and his amazing example https://github.com/bert2/microscope
+![Dpdt Extension Image 0](extension0.png)
 
-Debugging: need to send the following files `C:\Users\<user>\AppData\Local\Temp\dpdt_extension.*.log`
-we do not support few types with same full names (in different assemblies)
+![Dpdt Extension Image 1](extension1.png)
+
+![Dpdt Extension Image 2](extension2.png)
+
+A lot of thanks to bert2 and his amazing example `https://github.com/bert2/microscope`, without his `microscope` no Dpdt extension will appear because of lack of tutorials in the scope of VS extension development.
+
+Any ideas for new features are welcome.
+
+## Known problems
+
+* Dpdt extension do not support few types (in different assemblies) with the same full name. I will investigate it further.
+
+If the problem occurs, please let me know. I will need to see the following log files `C:\Users\<user>\AppData\Local\Temp\dpdt_extension.*.log`.
