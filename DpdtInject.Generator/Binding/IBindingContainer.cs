@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DpdtInject.Injector.Bind;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -8,6 +9,11 @@ namespace DpdtInject.Generator.Binding
 
     public interface IBindingContainer
     {
+        Guid Identifier
+        {
+            get;
+        }
+
         IReadOnlyList<ITypeSymbol> BindFromTypes
         {
             get;
@@ -44,6 +50,11 @@ namespace DpdtInject.Generator.Binding
 
 
         bool IsConditional
+        {
+            get;
+        }
+
+        ExpressionStatementSyntax ExpressionNode
         {
             get;
         }

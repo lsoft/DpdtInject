@@ -24,7 +24,10 @@ namespace DpdtInject.Generator.TypeInfo
             _compilation = compilation;
         }
 
-        public SemanticModel GetSemanticModel(SyntaxTree syntaxTree) => _compilation.GetSemanticModel(syntaxTree);
+        public SemanticModel GetSemanticModel(SyntaxTree syntaxTree)
+        {
+            return _compilation.GetSemanticModel(syntaxTree);
+        }
 
         public INamedTypeSymbol? GetTypeByMetadataName(string fullyQualifiedMetadataName)
         {

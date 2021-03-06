@@ -87,19 +87,22 @@ namespace DpdtInject.Generator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using System;
-        ///using System.Collections.Generic;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
+        ///   Looks up a localized string similar to #pragma warning disable CS0105
+        ///using System;
+        ///using System.Diagnostics;
+        ///using System.Runtime.CompilerServices;
+        ///using BindFromType = System.Object;
+        ///using SessionSaver = DpdtInject.Injector.Bind.BaseSessionSaver;
+        ///// ReSharper disable SuspiciousTypeConversion.Global
         ///
         ///namespace DpdtInject.Generator
         ///{
-        ///    public class CarcassProxy
+        ///    public partial class CarcassProxy
+        ///        : BindFromType
         ///    {
-        ///    }
-        ///}
-        ///.
+        ///        private static readonly double _stopwatchFrequency = (double)Stopwatch.Frequency;
+        ///
+        ///        private readonly BindFromType _pay [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string CarcassProxy {
             get {

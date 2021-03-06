@@ -35,15 +35,20 @@ namespace DpdtInject.Generator
             ITypeInfoContainer typeInfoContainer
             )
         {
-            using (new DTimer(_diagnosticReporter, "Dpdt total time taken"))
+            if (typeInfoContainer is null)
             {
-                ExecutePrivate(
-                    typeInfoContainer
-                );
+                throw new ArgumentNullException(nameof(typeInfoContainer));
             }
+
+            var cmb = DoExtraction(
+                typeInfoContainer
+                );
+
+            DoGeneration(typeInfoContainer, cmb);
         }
 
-        private void ExecutePrivate(
+
+        public IReadOnlyList<ClusterMethodBindings> DoExtraction(
             ITypeInfoContainer typeInfoContainer
             )
         {
@@ -52,62 +57,22 @@ namespace DpdtInject.Generator
                 throw new ArgumentNullException(nameof(typeInfoContainer));
             }
 
-            var scanner = new TimedTypeScanner(
-                _diagnosticReporter,
-                new DefaultTypeScanner(
-                    )
+            var scanner = new DefaultTypeScanner(
                 );
 
-            var clusterTypes = scanner.Scan(
+            var clusterTypes = scanner.ScanForClusterTypes(
                 typeInfoContainer
                 );
 
-            for(var clusterTypeIndex = 0; clusterTypeIndex < clusterTypes.Count; clusterTypeIndex++)
+            var stepResults = new List<ClusterMethodBindings>();
+            for (var clusterTypeIndex = 0; clusterTypeIndex < clusterTypes.Count; clusterTypeIndex++)
             {
                 var clusterType = clusterTypes[clusterTypeIndex];
 
-                List<MethodDeclarationSyntax> bindMethodSyntaxes = new();
-                List<CompilationUnitSyntax> compilationUnitSyntaxes = new();
-                using (new DTimer(_diagnosticReporter, "unsorted time taken"))
-                {
-                    var bindMethods = (
-                        from member in clusterType.GetMembers()
-                        where member is IMethodSymbol
-                        let method = member as IMethodSymbol
-                        where method.GetAttributes().Any(a => a.AttributeClass?.ToDisplayString() == typeof(DpdtBindingMethodAttribute).FullName)
-                        select method
-                        ).ToArray();
-
-                    if (bindMethods.Length == 0)
-                    {
-                        throw new Exception($"Something wrong with type {clusterType.ToDisplayString()} : no bind methods found. Please add at least one bind method or remove this class.");
-                    }
-
-                    foreach (var bindMethod in bindMethods)
-                    {
-                        var bindMethodRefs = bindMethod.DeclaringSyntaxReferences;
-
-                        if (bindMethodRefs.Length != 1)
-                        {
-                            throw new Exception($"Something wrong with method {bindMethod.ToDisplayString()} : refs to bind method = {bindMethodRefs.Length}, should only one.");
-                        }
-
-                        var bindMethodRef = bindMethodRefs[0];
-
-                        var bindMethodSyntax = (MethodDeclarationSyntax) bindMethodRef.GetSyntax();
-                        bindMethodSyntaxes.Add(bindMethodSyntax);
-
-                        var compilationUnitSyntax = bindMethodSyntax.Root<CompilationUnitSyntax>();
-                        if (compilationUnitSyntax is not null)
-                        {
-                            //compilationUnitSyntax can repeat
-                            if (compilationUnitSyntaxes.All(cus => cus.ToString() != compilationUnitSyntax.ToString()))
-                            {
-                                compilationUnitSyntaxes.Add(compilationUnitSyntax);
-                            }
-                        }
-                    }
-                }
+                clusterType.ScanForRequiredSyntaxes(
+                    out List<MethodDeclarationSyntax> bindMethodSyntaxes,
+                    out List<CompilationUnitSyntax> compilationUnitSyntaxes
+                    );
 
                 if (compilationUnitSyntaxes.Count == 0)
                 {
@@ -135,28 +100,61 @@ namespace DpdtInject.Generator
                     semanticModels
                     );
 
-                var bindExtractor = new TimedBindExtractor(
-                    _diagnosticReporter,
-                    new DefaultBindExtractor(
-                        semanticModelDecorator,
-                        new ParsedBindExpressionFactory(
-                            typeInfoContainer,
-                            semanticModelDecorator,
-                            new ConstructorArgumentFromSyntaxExtractor(typeInfoContainer, semanticModelDecorator),
-                            new ConstructorArgumentDetector(
-                                new BindConstructorChooser()
-                                )
-                            )
-                        )
+                var stepResult = new ClusterMethodBindings(
+                    clusterType,
+                    moduleUnitUsings
                     );
 
                 foreach (var bindMethodSyntax in bindMethodSyntaxes)
                 {
+                    var bindExtractor =
+                        new DefaultBindExtractor(
+                            semanticModelDecorator,
+                            new ParsedBindExpressionFactory(
+                                typeInfoContainer,
+                                semanticModelDecorator,
+                                new ConstructorArgumentFromSyntaxExtractor(
+                                    semanticModelDecorator
+                                    ),
+                                new ConstructorArgumentDetector(
+                                    new BindConstructorChooser()
+                                    )
+                                )
+                            );
+
                     bindExtractor.Visit(bindMethodSyntax);
+
+                    stepResult.AddMethodBindings(
+                        bindMethodSyntax,
+                        bindExtractor.BindingContainers
+                        );
                 }
 
-                var clusterBindings = bindExtractor.GetClusterBindings(
-                    clusterType
+                stepResults.Add(stepResult);
+            }
+
+            return stepResults;
+        }
+
+        private void DoGeneration(
+            ITypeInfoContainer typeInfoContainer,
+            IReadOnlyList<ClusterMethodBindings> clusterMethodBindings
+            )
+        {
+            if (typeInfoContainer is null)
+            {
+                throw new ArgumentNullException(nameof(typeInfoContainer));
+            }
+
+            if (clusterMethodBindings is null)
+            {
+                throw new ArgumentNullException(nameof(clusterMethodBindings));
+            }
+
+            var srIndex = 0;
+            foreach (var clusterMethodBinding in clusterMethodBindings)
+            {
+                var clusterBindings = clusterMethodBinding.GetClusterBindings(
                     );
 
                 clusterBindings.BuildFlags(
@@ -166,7 +164,6 @@ namespace DpdtInject.Generator
                     _diagnosticReporter
                     );
 
-
                 //build the cluster:
                 var clusterProducer = new ClusterProducer(
                     typeInfoContainer,
@@ -174,20 +171,18 @@ namespace DpdtInject.Generator
                     );
 
                 var moduleSourceCode = clusterProducer.Produce(
-                    moduleUnitUsings
+                    clusterMethodBinding.ModuleUnitUsings
                     );
 
-                ModificationDescription modificationDescription;
-                using (new DTimer(_diagnosticReporter, "Dpdt cluster beautify generated code time taken"))
-                {
-                    modificationDescription = new ModificationDescription(
-                        clusterType,
-                        $"{clusterType.Name}.Pregenerated{clusterTypeIndex}.cs",
-                        moduleSourceCode
-                        );
-                }
+                var modificationDescription = new ModificationDescription(
+                    clusterMethodBinding.ClusterType,
+                    $"{clusterMethodBinding.ClusterType.Name}.Pregenerated{srIndex}.cs",
+                    moduleSourceCode
+                    );
 
                 typeInfoContainer.AddSources(new[] { modificationDescription });
+
+                srIndex++;
             }
         }
     }

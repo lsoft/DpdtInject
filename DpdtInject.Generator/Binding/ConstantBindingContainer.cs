@@ -32,8 +32,9 @@ namespace DpdtInject.Generator.Binding
             BindingContainerTypes types,
             ArgumentSyntax constantSyntax,
             BindScopeEnum scope,
+            ExpressionStatementSyntax expressionNode,
             ArgumentSyntax? whenArgumentClause
-            ) : base(types, scope, whenArgumentClause, constantSyntax)
+            ) : base(types, scope, expressionNode, whenArgumentClause, constantSyntax)
         {
             ConstructorArguments = new List<DetectedConstructorArgument>();
             NotBindConstructorArgumentTypes = new HashSet<ITypeSymbol>(

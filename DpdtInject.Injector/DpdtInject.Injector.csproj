@@ -5,6 +5,8 @@
     <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>nullable;CS8766;CS8767</WarningsAsErrors>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>dpdt.extension.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
@@ -19,15 +21,6 @@
 
   <ItemGroup>
     <Compile Remove="Reinvented\FixedSizeFactoryContainerCustomScope.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>DpdtInject.Generator</_Parameter1>
-    </AssemblyAttribute>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>DpdtInject.TestCaseProducer</_Parameter1>
-    </AssemblyAttribute>
   </ItemGroup>
 
 </Project>

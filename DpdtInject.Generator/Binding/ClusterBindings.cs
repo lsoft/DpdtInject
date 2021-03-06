@@ -61,10 +61,10 @@ namespace DpdtInject.Generator.Binding
             BindingExtenders = bindingContainers.ConvertAll(c => new BindingContainerExtender(c));
 
             _bindsFrom = new HashSet<ITypeSymbol>(
-                TypeSymbolEqualityComparer.Entity
+                SymbolEqualityComparer.Default
                 );
             NotBindParents = new Dictionary<ITypeSymbol, List<BindingContainerExtender>>(
-                TypeSymbolEqualityComparer.Entity
+                SymbolEqualityComparer.Default
                 );
 
             foreach (var extender in BindingExtenders)
@@ -381,29 +381,6 @@ namespace DpdtInject.Generator.Binding
             return false;
         }
 
-        //private void AnalyzeForMultipleUnconditionalChildExists(
-        //    IDiagnosticReporter diagnosticReporter
-        //    )
-        //{
-        //    if (diagnosticReporter is null)
-        //    {
-        //        throw new ArgumentNullException(nameof(diagnosticReporter));
-        //    }
-
-        //    foreach (var pair in BindingContainerBox.Groups.Shuffle())
-        //    {
-        //        var group = pair.Value;
-        //        foreach (var bindingContainer in group.BindingContainers.Shuffle())
-        //        {
-        //            if (BindingContainerBox.TryGetChildContainers(bindingContainer, out var pairs))
-        //            {
-        //                var cnt = pairs.Count(p => p.BindingContainer.IsConditional);
-
-        //            }
-        //        }
-        //    }
-        //}
-
         private void AnalyzeForCircularDependencies(
             IDiagnosticReporter diagnosticReporter
             )
@@ -413,12 +390,10 @@ namespace DpdtInject.Generator.Binding
                 throw new ArgumentNullException(nameof(diagnosticReporter));
             }
 
-            new TimedCycleChecker(
-                diagnosticReporter,
-                new CycleChecker(
-                    diagnosticReporter
-                    )
-                ).CheckForCycles(Box);
+            new CycleChecker(
+                diagnosticReporter
+                )
+                .CheckForCycles(Box);
         }
 
         #endregion

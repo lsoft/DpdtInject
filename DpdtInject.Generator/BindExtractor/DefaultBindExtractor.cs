@@ -19,6 +19,8 @@ namespace DpdtInject.Generator.BindExtractor
 
         private readonly List<IBindingContainer> _bindingContainers;
 
+        public IReadOnlyList<IBindingContainer> BindingContainers => _bindingContainers;
+
         public DefaultBindExtractor(
             SemanticModelDecorator semanticModel,
             ParsedBindExpressionFactory pbeFactory
@@ -40,15 +42,6 @@ namespace DpdtInject.Generator.BindExtractor
             _bindingContainers = new List<IBindingContainer>();
         }
 
-
-        public ClusterBindings GetClusterBindings(ITypeSymbol clusterType)
-        {
-            return
-                new(
-                    clusterType,
-                    _bindingContainers
-                    );
-        }
 
         public override SyntaxNode VisitExpressionStatement(ExpressionStatementSyntax expressionNode)
         {

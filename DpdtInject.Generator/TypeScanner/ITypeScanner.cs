@@ -6,7 +6,7 @@ namespace DpdtInject.Generator.TypeScanner
 {
     public interface ITypeScanner
     {
-        IReadOnlyList<INamedTypeSymbol> Scan(
+        IReadOnlyList<INamedTypeSymbol> ScanForClusterTypes(
             ITypeInfoProvider typeInfoProvider
             );
     }

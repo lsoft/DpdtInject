@@ -5,11 +5,108 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using DpdtInject.Generator.BindExtractor;
+using DpdtInject.Injector;
+using DpdtInject.Injector.Excp;
 
 namespace DpdtInject.Generator.Helpers
 {
     public static class RoslynHelper
     {
+        private static readonly SymbolDisplayFormat SymbolDisplayFormat = new SymbolDisplayFormat(typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces);
+
+
+        public static string GetFullyQualifiedName(
+            this ISymbol s
+            )
+        {
+            if (s is null)
+            {
+                throw new ArgumentNullException(nameof(s));
+            }
+
+            return s.ToDisplayString(SymbolDisplayFormat);
+        }
+
+        public static bool IsClusterType(
+            this INamedTypeSymbol t
+            )
+        {
+            if (t.BaseType == null)
+            {
+                return false;
+            }
+
+            if (t.BaseType!.ToDisplayString() != typeof(DefaultCluster).FullName)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static void ScanForRequiredSyntaxes(
+            this INamedTypeSymbol clusterType,
+            out List<MethodDeclarationSyntax> bindMethodSyntaxes,
+            out List<CompilationUnitSyntax> compilationUnitSyntaxes
+            )
+        {
+            bindMethodSyntaxes = new List<MethodDeclarationSyntax>();
+            compilationUnitSyntaxes = new List<CompilationUnitSyntax>();
+
+            var bindMethods = (
+                from member in clusterType.GetMembers()
+                where member is IMethodSymbol
+                let method = member as IMethodSymbol
+                where method.GetAttributes().Any(a => a.AttributeClass?.ToDisplayString() == typeof(DpdtBindingMethodAttribute).FullName)
+                select method
+                ).ToArray();
+
+            if (bindMethods.Length == 0)
+            {
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.IncorrectBinding_IncorrectConfiguration,
+                    $"Something wrong with type {clusterType.ToDisplayString()} : no bind methods found. Please add at least one bind method or remove this class."
+                    );
+            }
+
+            foreach (var bindMethod in bindMethods)
+            {
+                if (bindMethod.Parameters.Length != 0)
+                {
+                    throw new DpdtException(
+                        DpdtExceptionTypeEnum.BindMethodHasArguments,
+                        $"Bind method {bindMethod.Name} of cluster {clusterType.Name} has parameters. It should be parameterless."
+                        );
+                }
+
+                var bindMethodRefs = bindMethod.DeclaringSyntaxReferences;
+
+                if (bindMethodRefs.Length != 1)
+                {
+                    throw new DpdtException(
+                        DpdtExceptionTypeEnum.IncorrectBinding_IncorrectConfiguration,
+                        $"Something wrong with method {bindMethod.ToDisplayString()} : refs to bind method = {bindMethodRefs.Length}, should only one."
+                        );
+                }
+
+                var bindMethodRef = bindMethodRefs[0];
+
+                var bindMethodSyntax = (MethodDeclarationSyntax)bindMethodRef.GetSyntax();
+                bindMethodSyntaxes.Add(bindMethodSyntax);
+
+                var compilationUnitSyntax = bindMethodSyntax.Root<CompilationUnitSyntax>();
+                if (compilationUnitSyntax is not null)
+                {
+                    //compilationUnitSyntax can repeat
+                    if (compilationUnitSyntaxes.All(cus => cus.ToString() != compilationUnitSyntax.ToString()))
+                    {
+                        compilationUnitSyntaxes.Add(compilationUnitSyntax);
+                    }
+                }
+            }
+        }
+
+
         public static string ToSource(
             this Accessibility a
             )

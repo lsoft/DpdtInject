@@ -143,6 +143,7 @@ namespace DpdtInject.Generator.BindExtractor.Parsed
                 types,
                 constructorArguments,
                 Scope,
+                ExpressionNode,
                 _whenArgumentClause
                 );
 

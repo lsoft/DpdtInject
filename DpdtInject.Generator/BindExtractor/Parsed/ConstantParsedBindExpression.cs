@@ -105,6 +105,7 @@ namespace DpdtInject.Generator.BindExtractor.Parsed
                 types,
                 _constantClause,
                 Scope,
+                ExpressionNode,
                 _whenArgumentClause
                 );
 

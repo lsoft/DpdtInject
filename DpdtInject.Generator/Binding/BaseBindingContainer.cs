@@ -13,7 +13,15 @@ namespace DpdtInject.Generator.Binding
     {
         private readonly BindingContainerTypes _types;
 
+        /// <inheritdoc />
+        public Guid Identifier
+        {
+            get;
+        }
+
         public IReadOnlyList<ITypeSymbol> BindFromTypes => _types.BindFromTypes;
+
+
 
         public ITypeSymbol BindToType => _types.BindToType;
 
@@ -32,6 +40,12 @@ namespace DpdtInject.Generator.Binding
         {
             get;
         }
+
+        public ExpressionStatementSyntax ExpressionNode
+        {
+            get;
+        }
+
 
         public ArgumentSyntax? WhenArgumentClause
         {
@@ -59,6 +73,7 @@ namespace DpdtInject.Generator.Binding
         protected BaseBindingContainer(
             BindingContainerTypes types,
             BindScopeEnum scope,
+            ExpressionStatementSyntax expressionNode,
             ArgumentSyntax? whenArgumentClause,
             ArgumentSyntax? constantSyntax
             )
@@ -66,6 +81,11 @@ namespace DpdtInject.Generator.Binding
             if (types is null)
             {
                 throw new ArgumentNullException(nameof(types));
+            }
+
+            if (expressionNode is null)
+            {
+                throw new ArgumentNullException(nameof(expressionNode));
             }
 
             if (scope == BindScopeEnum.Constant && constantSyntax is null)
@@ -79,9 +99,11 @@ namespace DpdtInject.Generator.Binding
 
             _types = types;
             Scope = scope;
+            ExpressionNode = expressionNode;
             WhenArgumentClause = whenArgumentClause;
             ConstantSyntax = constantSyntax;
 
+            Identifier = Guid.NewGuid();
             FromTypeFullNames = new HashSet<string>(BindFromTypes.ConvertAll(b => b.ToDisplayString()));
         }
 

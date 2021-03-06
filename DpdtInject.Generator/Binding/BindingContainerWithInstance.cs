@@ -11,6 +11,7 @@ namespace DpdtInject.Generator.Binding
     [DebuggerDisplay("{BindFromTypes[0].Name} -> {TargetRepresentation}")]
     public class BindingContainerWithInstance : BaseBindingContainer
     {
+
         public override IReadOnlyList<DetectedConstructorArgument> ConstructorArguments
         {
             get;
@@ -34,9 +35,15 @@ namespace DpdtInject.Generator.Binding
             BindingContainerTypes types,
             IReadOnlyList<DetectedConstructorArgument> constructorArguments,
             BindScopeEnum scope,
+            ExpressionStatementSyntax expressionNode,
             ArgumentSyntax? whenArgumentClause
-            ) : base(types, scope, whenArgumentClause, null)
+            ) : base(types, scope, expressionNode, whenArgumentClause, null)
         {
+            if (expressionNode is null)
+            {
+                throw new ArgumentNullException(nameof(expressionNode));
+            }
+
             if (constructorArguments is null)
             {
                 throw new ArgumentNullException(nameof(constructorArguments));

@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <UseCodebase>true</UseCodebase>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>dpdt.extension.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectTypeGuids>{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{B896FF3C-FB27-4F5F-BD50-E0AFA5C82328}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <WarningsAsErrors>nullable;CS8766;CS8767</WarningsAsErrors>
+    <RootNamespace>DpdtInject.Extension</RootNamespace>
+    <AssemblyName>DpdtInject.Extension</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <GeneratePkgDefFile>true</GeneratePkgDefFile>
+    <IncludeCopyLocalReferencesInVSIXContainer>true</IncludeCopyLocalReferencesInVSIXContainer>
+    <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
+    <IncludeDebugSymbolsInVSIXContainer>true</IncludeDebugSymbolsInVSIXContainer>
+    <IncludeDebugSymbolsInLocalVSIXDeployment>true</IncludeDebugSymbolsInLocalVSIXDeployment>
+    <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup;BuiltProjectOutputGroupDependencies;GetCopyToOutputDirectoryItems;</IncludeOutputGroupsInVSIX>
+    <!--
+-->
+    <CopyBuildOutputToOutputDirectory>true</CopyBuildOutputToOutputDirectory>
+    <CopyOutputSymbolsToOutputDirectory>true</CopyOutputSymbolsToOutputDirectory>
+    <StartAction>Program</StartAction>
+    <StartProgram Condition="'$(DevEnvDir)' != ''">$(DevEnvDir)devenv.exe</StartProgram>
+    <StartArguments>/rootsuffix Exp</StartArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AddBindingWindow.xaml.cs">
+      <DependentUpon>AddBindingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CodeLens\CodeLensConnectionHandler.cs" />
+    <Compile Include="Container\BindingMethodContainer.PerDocument.cs" />
+    <Compile Include="Container\ContainerAndScanner.cs" />
+    <Compile Include="Container\Component\ExtensionTypeScanner.cs" />
+    <Compile Include="ExtensionStatus\ExtensionStatusContainer.cs" />
+    <Compile Include="ExtensionStatus\FullyLoaded\FullyLoadedStatusContainer.cs" />
+    <Compile Include="ExtensionStatus\IExtensionStatus.cs" />
+    <Compile Include="ExtensionStatus\IntellisenseStatusContainer.cs" />
+    <Compile Include="Helper\BaseViewModel.cs" />
+    <Compile Include="Helper\FileHelper.cs" />
+    <Compile Include="Helper\MethodHelper.cs" />
+    <Compile Include="Helper\VisualStudioDocumentHelper.cs" />
+    <Compile Include="Helper\WorkspaceHelper.cs" />
+    <Compile Include="IVsSolutionEventsExt.cs" />
+    <Compile Include="LastTypedSymbolHandler.cs" />
+    <Compile Include="Options\BaseOptionModel.cs" />
+    <Compile Include="Options\BaseOptionPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Options\DialogPageProvider.cs" />
+    <Compile Include="Options\GeneralOptions.cs" />
+    <Compile Include="RelayCommand.cs" />
+    <Compile Include="ViewModel\DpdtBindingTargetViewModel.cs" />
+    <Compile Include="WaitRescanner.cs" />
+    <VSCTCompile Include="Dpdt.Extension.vsct">
+      <ResourceName>Menus.ctmenu</ResourceName>
+      <SubType>Designer</SubType>
+    </VSCTCompile>
+    <Compile Include="DpdtPackage.cs" />
+    <Compile Include="BindDetailsWindow.xaml.cs">
+      <DependentUpon>BindDetailsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helper\GridViewConverter.cs" />
+    <Compile Include="CodeLens\DpdtCodeLensListener.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewElementFactory.cs" />
+    <Compile Include="Helper\WpfHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <!--
+    <Content Include="Microsoft.VisualStudio.Threading.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="bin\Debug\DpdtInject.Generator.pdb">
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <VSIXSubPath>.</VSIXSubPath>
+    </Content>
+    <Content Include="bin\Debug\DpdtInject.Injector.pdb">
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <VSIXSubPath>.</VSIXSubPath>
+    </Content>
+-->
+    <Content Include="Monikers.imagemanifest">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <None Include="dpdt.extension.pfx" />
+    <None Include="source.extension.vsixmanifest">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LICENSE.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Resource Include="Resources\logo2_32.png">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Resource>
+    <Resource Include="Resources\logo2_90.png">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="System.Xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="AddBindingWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BindDetailsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.Common">
+      <Version>3.9.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common">
+      <Version>3.9.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Composition">
+      <Version>16.4.11</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.SDK.Analyzers">
+      <Version>16.7.9</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis">
+      <Version>3.9.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Language">
+      <Version>16.9.227</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.LanguageServices">
+      <Version>3.9.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.SDK" ExcludeAssets="runtime">
+      <Version>16.0.206</Version>
+      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Shell.Framework">
+      <Version>16.5.29911.84</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="StreamJsonRpc">
+      <Version>2.5.46</Version>
+    </PackageReference>
+    <PackageReference Include="System.Collections.Immutable">
+      <Version>5.0.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DpdtInject.Extension.CodeLens\DpdtInject.Extension.CodeLens.csproj">
+      <Project>{51eb1b96-34e8-4f37-872d-4ed7363c95d9}</Project>
+      <Name>DpdtInject.Extension.CodeLens</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DpdtInject.Extension.Shared\DpdtInject.Extension.Shared.csproj">
+      <Project>{2E646CF6-C92F-4911-8F75-5A7C18451B93}</Project>
+      <Name>DpdtInject.Extension.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DpdtInject.Generator\DpdtInject.Generator.csproj">
+      <Project>{f468fe62-e611-4c50-a5c1-e408d2c8f811}</Project>
+      <Name>DpdtInject.Generator</Name>
+      <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+      <!--
+-->
+    </ProjectReference>
+    <ProjectReference Include="..\DpdtInject.Injector\DpdtInject.Injector.csproj">
+      <Project>{783ba3cc-902c-46b7-8b9f-be8a049b3cd1}</Project>
+      <Name>DpdtInject.Injector</Name>
+      <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+      <!--
+-->
+    </ProjectReference>
+  </ItemGroup>
+  <!--
+  <PropertyGroup>
+    <GetVsixSourceItemsDependsOn>$(GetVsixSourceItemsDependsOn);IncludeNuGetResolvedAssets</GetVsixSourceItemsDependsOn>
+  </PropertyGroup>
+   <Target Name="IncludeNuGetResolvedAssets" DependsOnTargets="ResolveNuGetPackageAssets">
+      <ItemGroup>
+	  	<VSIXCopyLocalReferenceSourceItem Include="@(ReferenceCopyLocalPaths)"  />
+      </ItemGroup>
+    </Target>
+-->
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
+</Project>

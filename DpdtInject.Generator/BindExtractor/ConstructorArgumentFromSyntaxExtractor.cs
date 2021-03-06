@@ -15,24 +15,17 @@ namespace DpdtInject.Generator.BindExtractor
         : CSharpSyntaxRewriter
     {
         private readonly List<DetectedConstructorArgument> _constructorArguments;
-        private readonly ITypeInfoProvider _typeInfoProvider;
         private readonly SemanticModelDecorator _semanticModel;
 
         public ConstructorArgumentFromSyntaxExtractor(
-            ITypeInfoProvider typeInfoProvider,
             SemanticModelDecorator semanticModel
             )
         {
-            if (typeInfoProvider is null)
-            {
-                throw new ArgumentNullException(nameof(typeInfoProvider));
-            }
-
             if (semanticModel is null)
             {
                 throw new ArgumentNullException(nameof(semanticModel));
             }
-            _typeInfoProvider = typeInfoProvider;
+
             _semanticModel = semanticModel;
 
             _constructorArguments = new List<DetectedConstructorArgument>();

@@ -42,7 +42,7 @@ namespace DpdtInject.Generator.Producer
 
 
         public string Produce(
-            List<UsingDirectiveSyntax> additionalUsings
+            IReadOnlyList<UsingDirectiveSyntax> additionalUsings
             )
         {
             if (additionalUsings is null)

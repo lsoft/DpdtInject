@@ -23,7 +23,7 @@ It's only a proof-of-concept. Nor alpha, neither beta.
 0. Single object `Get` or collection `GetAll` resolutions.
 0. `Func<T>` resolutions.
 0. `ToIsolatedFactory` bindings with automatic factory code generation.
-0. `ToProxy` binding with automatic generate a proxy class.
+0. `ToProxy` binding with automatic generate an interceptor class.
 0. Transient, singleton and constant scopes.
 0. Custom scopes.
 0. Child kernels (aka child clusters).
@@ -347,3 +347,14 @@ Dpdt's source generator is able to store pregenerated C# code at the disk. The o
 ```
 
 `Dpdt_Generator_GeneratedSourceFolder` is a builtin variable name; `$(MSBuildProjectDirectory)\Dpdt.Pregenerated` is an **absolute** folder name for Dpdt artifacts and allowed to be changed.
+
+
+
+# Dpdt Visual Studio Extension
+
+todo: write everything about this amazing tool :)
+
+A lot of thanks to bert2 and his amazing example https://github.com/bert2/microscope
+
+Debugging: need to send the following files `C:\Users\<user>\AppData\Local\Temp\dpdt_extension.*.log`
+we do not support few types with same full names (in different assemblies)

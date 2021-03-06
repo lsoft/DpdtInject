@@ -18,5 +18,6 @@
         IncorrectBinding_IncorrectConfiguration,
 
         CannotBuildFactory,
+        BindMethodHasArguments,
     }
 }
