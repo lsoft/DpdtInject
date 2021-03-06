@@ -81,7 +81,6 @@
     <Compile Include="Helper\VisualStudioDocumentHelper.cs" />
     <Compile Include="Helper\WorkspaceHelper.cs" />
     <Compile Include="IVsSolutionEventsExt.cs" />
-    <Compile Include="LastTypedSymbolHandler.cs" />
     <Compile Include="Options\BaseOptionModel.cs" />
     <Compile Include="Options\BaseOptionPage.cs">
       <SubType>Component</SubType>
@@ -90,7 +89,6 @@
     <Compile Include="Options\GeneralOptions.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="ViewModel\DpdtBindingTargetViewModel.cs" />
-    <Compile Include="WaitRescanner.cs" />
     <VSCTCompile Include="Dpdt.Extension.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
       <SubType>Designer</SubType>
