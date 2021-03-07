@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.Text;
 
 namespace DpdtInject.Extension.Shared.Dto
 {
@@ -26,17 +21,23 @@ namespace DpdtInject.Extension.Shared.Dto
             get;
             set;
         }
-
-        public Span TypeSpan
+        public int TypeSpanStart
         {
             get;
+            set;
+        }
+        public int TypeSpanLength
+        {
+            get;
+            set;
         }
 
         public CodeLensTarget(
             Guid projectGuid,
             string filePath,
             string fullyQualifiedName,
-            Span? typeSpan
+            int? typeSpanStart,
+            int? typeSpanLength
             )
         {
             if (filePath is null)
@@ -49,15 +50,20 @@ namespace DpdtInject.Extension.Shared.Dto
                 throw new ArgumentNullException(nameof(fullyQualifiedName));
             }
 
-            if (!typeSpan.HasValue)
+            if (!typeSpanStart.HasValue)
             {
-                throw new ArgumentNullException(nameof(typeSpan));
+                throw new ArgumentNullException(nameof(typeSpanStart));
+            }
+            if (!typeSpanLength.HasValue)
+            {
+                throw new ArgumentNullException(nameof(typeSpanLength));
             }
 
             ProjectGuid = projectGuid;
             FilePath = filePath;
             FullyQualifiedName = fullyQualifiedName;
-            TypeSpan = typeSpan.Value;
+            TypeSpanStart = typeSpanStart.Value;
+            TypeSpanLength = typeSpanLength.Value;
         }
     }
 }

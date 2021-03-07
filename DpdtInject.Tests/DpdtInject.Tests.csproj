@@ -3,6 +3,13 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <IsPackable>false</IsPackable>
+    <WarningsAsErrors>CS8785;CS8032</WarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="Exists('$(SolutionDir).please_sing_my_assemblies.secret')">
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>false</DelaySign>
+    <AssemblyOriginatorKeyFile>$(SolutionDir)dpdt.extension.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,10 +35,21 @@
     <PackageReference Include="System.Reflection.MetadataLoadContext" Version="5.0.0" />
   </ItemGroup>
 
+
   <ItemGroup>
     <ProjectReference Include="..\DpdtInject.Injector\DpdtInject.Injector.csproj" />
     <ProjectReference Include="..\DpdtInject.Generator\DpdtInject.Generator.csproj" />
   </ItemGroup>
+
+<!--
+  <ItemGroup>
+    <ProjectReference Include="..\DpdtInject.Injector\DpdtInject.Injector.csproj" />
+
+   <ProjectReference Include="..\DpdtInject.Generator\DpdtInject.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true">
+       <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework>
+    </ProjectReference>
+  </ItemGroup>
+-->
 
   <ItemGroup>
     <Compile Update="Properties\TestResources.Designer.cs">

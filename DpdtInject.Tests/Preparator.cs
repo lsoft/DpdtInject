@@ -86,6 +86,12 @@ namespace DpdtInject.Tests
                     .Select(p => MetadataReference.CreateFromFile(p))
                     .ToList();
 
+                references.Add(
+                    MetadataReference.CreateFromFile(
+                        Path.GetFullPath("DpdtInject.Injector.dll")
+                        )
+                    );
+
                 var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
                         .WithOverflowChecks(true)
                         .WithOptimizationLevel(OptimizationLevel.Debug)

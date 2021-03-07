@@ -738,8 +738,8 @@ namespace DpdtInject.Extension
 
             var targetClass = await document.GetSymbolAtAsync<INamedTypeSymbol>(
                 new Microsoft.CodeAnalysis.Text.TextSpan(
-                    _target.TypeSpan.Start,
-                    _target.TypeSpan.Length
+                    _target.TypeSpanStart,
+                    _target.TypeSpanLength
                     ),
                 cts.Token
                 );

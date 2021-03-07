@@ -241,7 +241,8 @@ namespace DpdtInject.Extension.CodeLens
                                 _descriptor.ProjectGuid,
                                 _descriptor.FilePath,
                                 (string)context.Properties["FullyQualifiedName"],
-                                context.ApplicableSpan
+                                context.ApplicableSpan.HasValue ? context.ApplicableSpan.Value.Start : (int?)null,
+                                context.ApplicableSpan.HasValue ? context.ApplicableSpan.Value.Length : (int?)null
                                 )
                         },
                         token
