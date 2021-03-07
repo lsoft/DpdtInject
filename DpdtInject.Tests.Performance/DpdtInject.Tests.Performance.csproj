@@ -6,8 +6,15 @@
     <TieredCompilation>false</TieredCompilation>
     <TieredCompilationQuickJit>false</TieredCompilationQuickJit>
     <TieredCompilationQuickJitForLoops>false</TieredCompilationQuickJitForLoops>
+    <WarningsAsErrors>CS8785</WarningsAsErrors>
 
     <Dpdt_Generator_GeneratedSourceFolder>$(MSBuildProjectDirectory)\Dpdt.Pregenerated</Dpdt_Generator_GeneratedSourceFolder>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="Exists('$(SolutionDir).please_sing_my_assemblies.secret')">
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>false</DelaySign>
+    <AssemblyOriginatorKeyFile>$(SolutionDir)dpdt.extension.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>

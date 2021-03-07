@@ -9,12 +9,6 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup Condition="Exists('$(SolutionDir).please_sing_my_assemblies.secret')"> 
-    <AssemblyOriginatorKeyFile>dpdt.extension.pfx</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
     <DelaySign>false</DelaySign>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -63,6 +57,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+
+  <PropertyGroup Condition="Exists('$(SolutionDir).please_sing_my_assemblies.secret')">
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(SolutionDir)dpdt.extension.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="AddBindingWindow.xaml.cs">
       <DependentUpon>AddBindingWindow.xaml</DependentUpon>
@@ -124,7 +124,6 @@
     <Content Include="Monikers.imagemanifest">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <None Include="dpdt.extension.pfx" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>

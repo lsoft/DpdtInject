@@ -11,6 +11,11 @@
     <NoWarn>$(NoWarn);nullable;CS8766;CS8767</NoWarn>
   </PropertyGroup>
 
+  <PropertyGroup Condition="Exists('$(SolutionDir).please_sing_my_assemblies.secret')">
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(SolutionDir)dpdt.extension.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
   <PropertyGroup>
     <RestoreAdditionalProjectSources>https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json;$(RestoreAdditionalProjectSources)</RestoreAdditionalProjectSources>
   </PropertyGroup>
@@ -31,15 +36,29 @@
     </PackageReference>
   </ItemGroup>
 
-  <PropertyGroup Condition="Exists('$(SolutionDir).please_sing_my_assemblies.secret')">
-    <AssemblyOriginatorKeyFile>$(SolutionDir)DpdtInject.Extension\dpdt.extension.pfx</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\DpdtInject.Injector\DpdtInject.Injector.csproj">
+    <ProjectReference Include="..\DpdtInject.Injector\DpdtInject.Injector.csproj" GeneratePathProperty="true">
       <PrivateAssets>all</PrivateAssets>
     </ProjectReference>
   </ItemGroup>
+
+  <PropertyGroup>
+    <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
+  </PropertyGroup>
+
+  <Target Name="GetDependencyTargetPaths">
+    <ItemGroup>
+      <TargetPathWithTargetPlatformMoniker Include="$(SolutionDir)\DpdtInject.Injector\$(OutDir)DpdtInject.Injector.dll" IncludeRuntimeDependency="false" />
+    </ItemGroup>
+  </Target>
+
+<!--
+  <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
+    <ItemGroup>
+      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+    </ItemGroup>
+  </Target>
+-->
 
   <ItemGroup>
     <Compile Update="Properties\Resource.Designer.cs">
@@ -78,14 +97,6 @@
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
-
-<!--
-  <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
-    <ItemGroup>
-      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
-    </ItemGroup>
-  </Target>
--->
 
   <ItemGroup>
     <None Include="$(OutputPath)\netstandard2.0\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />

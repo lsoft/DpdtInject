@@ -13,7 +13,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="Exists('$(SolutionDir).please_sing_my_assemblies.secret')">
-    <AssemblyOriginatorKeyFile>$(SolutionDir)DpdtInject.Extension\dpdt.extension.pfx</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(SolutionDir)dpdt.extension.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>

@@ -33,12 +33,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
+
   <PropertyGroup Condition="Exists('$(SolutionDir).please_sing_my_assemblies.secret')">
-    <AssemblyOriginatorKeyFile>$(SolutionDir)DpdtInject.Extension\dpdt.extension.pfx</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(SolutionDir)dpdt.extension.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.Text.Data, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="PresentationFramework" />
@@ -62,9 +62,6 @@
     <Compile Include="Dto\IDpdtBindingReferenceSet.cs" />
     <Compile Include="Dto\IDpdtBindingTarget.cs" />
     <Compile Include="Dto\IDpdtClusterDetail.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="dpdt.extension.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -33,12 +33,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
+
   <PropertyGroup Condition="Exists('$(SolutionDir).please_sing_my_assemblies.secret')">
-    <AssemblyOriginatorKeyFile>$(SolutionDir)DpdtInject.Extension\dpdt.extension.pfx</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(SolutionDir)dpdt.extension.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.CoreUtility, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.Language, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
@@ -58,7 +58,6 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="dpdt.extension.pfx" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Text.Data">

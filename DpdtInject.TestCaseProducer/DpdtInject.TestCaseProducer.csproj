@@ -4,9 +4,15 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net5</TargetFramework>
     <Nullable>enable</Nullable>
-    <WarningsAsErrors>nullable;CS8766;CS8767</WarningsAsErrors>
+    <WarningsAsErrors>nullable;CS8766;CS8767;CS8785</WarningsAsErrors>
 
     <Dpdt_Generator_GeneratedSourceFolder>Dpdt.Pregenerated</Dpdt_Generator_GeneratedSourceFolder>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="Exists('$(SolutionDir).please_sing_my_assemblies.secret')">
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>false</DelaySign>
+    <AssemblyOriginatorKeyFile>$(SolutionDir)dpdt.extension.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,6 +29,7 @@
     <ProjectReference Include="..\DpdtInject.Generator\DpdtInject.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true">
        <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework>
     </ProjectReference>
+    <ProjectReference Include="..\DpdtInject.Injector\DpdtInject.Injector.csproj" />
   </ItemGroup>
 
   <ItemGroup>
