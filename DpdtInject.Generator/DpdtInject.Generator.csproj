@@ -31,7 +31,7 @@
     </PackageReference>
   </ItemGroup>
 
-  <PropertyGroup>
+  <PropertyGroup Condition="Exists('$(SolutionDir).please_sing_my_assemblies.secret')">
     <AssemblyOriginatorKeyFile>$(SolutionDir)DpdtInject.Extension\dpdt.extension.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
