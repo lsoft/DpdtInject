@@ -82,21 +82,33 @@ namespace DpdtInject.Extension.CodeLens
         }
 
 
-        public static async Task RefreshCodeLensDataPointAsync(Guid id)
+        public static Task RefreshCodeLensDataPointAsync(Guid id)
         {
             if (!_connections.TryGetValue(id, out var conn))
             {
                 throw new InvalidOperationException($"CodeLens data point {id} was not registered.");
             }
 
-            Assumes.Present(conn._rpc);
+            if (conn == null)
+            {
+                return new Task(() => { });
+            }
 
-            await conn._rpc!.InvokeAsync(nameof(IRemoteCodeLens.Refresh)).ConfigureAwait(false);
+            return conn._rpc!.InvokeAsync(nameof(IRemoteCodeLens.Refresh));
         }
 
-        public static async Task RefreshAllCodeLensDataPointsAsync()
+        public static Task RefreshAllCodeLensDataPointsAsync()
         {
-            await Task.WhenAll(_connections.Keys.Select(RefreshCodeLensDataPointAsync)).ConfigureAwait(false);
-        } 
+            try
+            {
+                return Task.WhenAll(_connections.Keys.Select(RefreshCodeLensDataPointAsync));
+            }
+            catch (Exception excp)
+            {
+                LogVS(excp);
+            }
+
+            return new Task(() => { });
+        }
     }
 }

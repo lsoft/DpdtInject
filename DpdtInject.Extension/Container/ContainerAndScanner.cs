@@ -25,12 +25,13 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TaskStatusCenter;
 using Microsoft.VisualStudio.Threading;
-using Task = System.Threading.Tasks.Task;
+using System.Diagnostics;
 
-using static DpdtInject.Extension.Shared.Logging;
+using Task = System.Threading.Tasks.Task;
 using Project = Microsoft.CodeAnalysis.Project;
 using Thread = System.Threading.Thread;
-using System.Diagnostics;
+
+using static DpdtInject.Extension.Shared.Logging;
 
 namespace DpdtInject.Extension.Container
 {
@@ -38,8 +39,6 @@ namespace DpdtInject.Extension.Container
     public class ContainerAndScanner
     {
         private readonly object _locker = new object();
-
-        private readonly FullyLoadedStatusContainer _flsc;
 
         private IVsOutputWindowPane? _outputPane;
 
@@ -50,22 +49,11 @@ namespace DpdtInject.Extension.Container
 
         [ImportingConstructor]
         public ContainerAndScanner(
-            FullyLoadedStatusContainer flsc
             )
         {
-            if (flsc is null)
-            {
-                throw new ArgumentNullException(nameof(flsc));
-            }
-
-            _flsc = flsc;
-
-            ThreadHelper.JoinableTaskFactory.RunAsync(
-                async () => await StartAsync()
-                ).FileAndForget(nameof(ContainerAndScanner));
         }
 
-        private async Task StartAsync()
+        public async Task InitializeAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
@@ -76,11 +64,6 @@ namespace DpdtInject.Extension.Container
             _outputPane = pane;
             _outputPane.Activate();
             _outputPane.OutputStringThreadSafe($"Dpdt scanner is on{Environment.NewLine}");
-
-            _flsc.SolutionStatusChangedEvent += OnSolutionStatusChanged;
-
-            //force to start scanning when starting
-            OnSolutionStatusChanged(true);
         }
 
         public void AsyncStartScan()
@@ -111,8 +94,11 @@ namespace DpdtInject.Extension.Container
         {
             try
             {
-               var taskStatusCenterService = AsyncPackage.GetGlobalService(typeof(SVsTaskStatusCenterService)) as IVsTaskStatusCenterService;
-                Assumes.Present(taskStatusCenterService);
+                var taskStatusCenterService = AsyncPackage.GetGlobalService(typeof(SVsTaskStatusCenterService)) as IVsTaskStatusCenterService;
+                if (taskStatusCenterService == null)
+                {
+                    return;
+                }
 
                 var options = default(TaskHandlerOptions);
                 options.Title = "Scanning solution for Dpdt clusters and its bindings...";
@@ -162,25 +148,6 @@ namespace DpdtInject.Extension.Container
                     return;
                 }
             }
-        }
-
-
-        private void OnSolutionStatusChanged(
-            bool actualSolutionStatus
-            )
-        {
-            //doing sync stop
-            SyncStopScanInternal();
-
-            if (!actualSolutionStatus)
-            {
-                //no solution active and fully loaded
-                return;
-            }
-
-            //there is a ready solution!
-            //start scanning
-            AsyncStartScanInternal();
         }
     }
 
@@ -262,29 +229,9 @@ namespace DpdtInject.Extension.Container
                 //    Progress = ((float)cc) / max;
                 //}
 
+                _outputPane!.OutputStringThreadSafe($"Dpdt scanning is started{Environment.NewLine}");
+
                 var componentModel = (IComponentModel)Package.GetGlobalService(typeof(SComponentModel));
-
-                //var operationProgress = componentModel.GetService<SVsOperationProgress>() as IVsOperationProgress2;
-                //if (operationProgress == null)
-                //{
-                //    return;
-                //}
-
-                //var stageAccess = operationProgress.AccessStage(
-                //    CommonOperationProgressStageIds.Intellisense,
-                //    nameof(PerformScanBackground),
-                //    1
-                //    );
-
-                ////stageAccess.RegisterTask(
-                ////    new OperationProgressTask(joinableTask, "Test", () => Task.FromResult("Test")
-                ////    );
-
-                ////////await stageStatus.WaitForCompletionAsync();
-
-                //ThreadHelper.JoinableTaskFactory.Run(
-                //    async() => await stageAccess.WaitForCompletionAsync()
-                //    );
 
                 var workspace = (Workspace)componentModel.GetService<VisualStudioWorkspace>();
 
@@ -349,9 +296,29 @@ namespace DpdtInject.Extension.Container
                     ThreadHelper.JoinableTaskFactory.Run(
                         async () =>
                         {
-                            compilation = await project.GetCompilationAsync(token);
+                            try
+                            {
+                                compilation = await project.GetCompilationAsync(token);
+                            }
+                            catch (OperationCanceledException ope)
+                            {
+                                //ok
+                            }
+                            catch (Exception excp)
+                            {
+                                LogVS(excp);
+                            }
                         });
 
+                    //first check for cancellation...
+                    if (token.IsCancellationRequested)
+                    {
+                        _outputPane!.OutputStringThreadSafe($"Dpdt scanning is cancelled{Environment.NewLine}");
+
+                        break;
+                    }
+
+                    //..next for compilation errors, because both will result with compilation == null
                     if (compilation == null)
                     {
                         continue;
@@ -381,6 +348,8 @@ namespace DpdtInject.Extension.Container
                         continue;
                     }
 
+                    swt.Restart();
+
                     var typeInfoContainer = new ExtensionTypeInfoContainer(
                         compilation
                         );
@@ -395,6 +364,8 @@ namespace DpdtInject.Extension.Container
                     var clusterBindings = internalGenerator.DoExtraction(
                         typeInfoContainer
                         );
+
+                    _outputPane!.OutputStringThreadSafe($"Binding extraction from {project.Name} taken :{swt.Elapsed}{Environment.NewLine}");
 
                     if (token.IsCancellationRequested)
                     {

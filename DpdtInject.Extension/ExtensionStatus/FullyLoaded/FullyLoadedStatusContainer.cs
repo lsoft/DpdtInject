@@ -12,6 +12,8 @@ using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.LanguageServices;
 using System.Linq;
 
+using static DpdtInject.Extension.Shared.Logging;
+
 namespace DpdtInject.Extension.ExtensionStatus.FullyLoaded
 {
     [Export(typeof(FullyLoadedStatusContainer))]
@@ -72,48 +74,45 @@ namespace DpdtInject.Extension.ExtensionStatus.FullyLoaded
             CancellationToken token
             )
         {
-            while (!token.WaitHandle.WaitOne(100))
+            try
             {
-                //await Task.Delay(100, token);
-
-                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(token);
-
-                var solution = (AsyncPackage.GetGlobalService(typeof(SVsSolution)) as IVsSolution)!;
-
-                solution.GetProperty((int)__VSPROPID4.VSPROPID_IsSolutionFullyLoaded, out object asm);
-
-                await TaskScheduler.Default;
-
-                if (!(asm is bool))
+                while (!token.WaitHandle.WaitOne(100))
                 {
-                    continue;
+                    //await Task.Delay(100, token);
+
+                    await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(token);
+
+                    var solution = (AsyncPackage.GetGlobalService(typeof(SVsSolution)) as IVsSolution)!;
+
+                    solution.GetProperty((int)__VSPROPID4.VSPROPID_IsSolutionFullyLoaded, out object asm);
+
+                    await TaskScheduler.Default;
+
+                    if (!(asm is bool))
+                    {
+                        continue;
+                    }
+
+                    //var context = Microsoft.VisualStudio.Shell.KnownUIContexts.SolutionExistsAndFullyLoadedContext;
+                    //var contextActive = context.IsActive;
+
+                    _isSolutionFullyLoaded = (bool)asm;
+                    var solutionStatus = _isSolutionFullyLoaded && _esc.SolutionExists;
+
+                    if (_solutionStatus != solutionStatus)
+                    {
+                        _solutionStatus = solutionStatus;
+
+                        OnSolutionStatusChanged(solutionStatus);
+                    }
                 }
-
-                //var context = Microsoft.VisualStudio.Shell.KnownUIContexts.SolutionExistsAndFullyLoadedContext;
-                //var contextActive = context.IsActive;
-
-                _isSolutionFullyLoaded = (bool) asm;
-                var solutionStatus = _isSolutionFullyLoaded && _esc.SolutionExists;
-                
-                if (_solutionStatus != solutionStatus)
-                {
-                    _solutionStatus = solutionStatus;
-
-                    OnSolutionStatusChanged(solutionStatus);
-                }
+            }
+            catch (Exception excp)
+            {
+                LogVS(excp);
             }
 
             return VSConstants.S_OK;
-        }
-
-        private static List<Microsoft.CodeAnalysis.Diagnostics.AnalyzerReference> GetAR()
-        {
-            var componentModel = (IComponentModel)Package.GetGlobalService(typeof(SComponentModel));
-            var workspace = (Workspace)componentModel.GetService<VisualStudioWorkspace>();
-            var project = workspace.CurrentSolution.Projects.First();
-            var ar = project.AnalyzerReferences.ToList();
-
-            return ar;
         }
 
         private void OnSolutionStatusChanged(

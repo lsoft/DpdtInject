@@ -16,6 +16,7 @@ using Microsoft.VisualStudio.Debugger;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
+using static DpdtInject.Extension.Shared.Logging;
 
 namespace DpdtInject.Extension
 {
@@ -72,35 +73,51 @@ namespace DpdtInject.Extension
             IProgress<ServiceProgressData> progress
             )
         {
+            LogVS("Start 1");
+
             await base.InitializeAsync(cancellationToken, progress);
+
+            LogVS("Start 2");
 
             // When initialized asynchronously, the current thread may be a background thread at this point.
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
+            LogVS("Start 3");
+
             //no, absense of await here is by design! we do not wait it for its completion.
             _ = CodeLensConnectionHandler.AcceptCodeLensConnectionsAsync();
 
+            LogVS("Start 4");
 
             //var dte = GetService(typeof(EnvDTE.DTE)) as DTE2;
             var container = (await this.GetServiceAsync(typeof(SComponentModel)) as IComponentModel)!;
 
-            //var flsc = container.GetService<FullyLoadedStatusContainer>();
+            LogVS("Start 5");
 
             var solution = await this.GetServiceAsync(typeof(SVsSolution)) as IVsSolution;
-
-            var sEventsExt0 = container.GetService<ExtensionStatusContainer>();
-            foreach (var sEventExt in new [] { sEventsExt0 })
+            if (solution != null)
             {
-                uint cookie;
-                solution!.AdviseSolutionEvents(sEventExt, out cookie);
+                LogVS("Start 6");
 
-                sEventExt.Cookie = cookie;
+                var sEventsExt0 = container.GetService<ExtensionStatusContainer>();
+                foreach (var sEventExt in new[] { sEventsExt0 })
+                {
+                    uint cookie;
+                    solution!.AdviseSolutionEvents(sEventExt, out cookie);
+
+                    sEventExt.Cookie = cookie;
+                }
             }
 
-            _ = container!.GetService<IntellisenseStatusContainer>();
+            LogVS("Start 7");
 
-            //var bc = container!.GetService<ContainerAndScanner>();
+            var isc = container!.GetService<IntellisenseStatusContainer>();
+            await isc.StartAsync();
+
+            isc.StartScanningInThreadPool();
+
+            LogVS("Start 8");
         }
 
         #endregion
