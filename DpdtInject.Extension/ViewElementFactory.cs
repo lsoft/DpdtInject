@@ -1,10 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Windows;
-using DpdtInject.Extension.Container;
 using DpdtInject.Extension.Shared.Dto;
-using DpdtInject.Extension.ViewModel;
-using DpdtInject.Generator.Binding;
+using DpdtInject.Extension.ViewModel.Details;
 using Microsoft.VisualStudio.Text.Adornments;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
@@ -37,20 +35,6 @@ namespace DpdtInject.Extension
                 detailsUI.DataContext = viewModel;
                 return (detailsUI as TView)!;
             }
-
-
-            //if (model is Type t)
-            //{
-            //    var detailsUI = new AddBindingWindow();
-
-            //    var viewModel = new AddBindingViewModel(
-            //        detailsUI.Dispatcher,
-            //        t
-            //        );
-
-            //    detailsUI.DataContext = viewModel;
-            //    return (detailsUI as TView)!;
-            //}
 
             return null!;
         }

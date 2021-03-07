@@ -4,24 +4,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
-             xmlns:imagecatalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
              xmlns:vsshell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
              xmlns:helper="clr-namespace:DpdtInject.Extension.Helper"
              mc:Ignorable="d" 
+             VerticalAlignment="Stretch"
              d:DesignHeight="450" d:DesignWidth="800"
              Loaded="BindDetailsWindow_OnLoaded"
              >
 
     <UserControl.Resources>
         <helper:GridViewConverter x:Key="GridViewConverter"/>
-
-        <!--<Style x:Key="DisabledHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
-            <Setter Property="Visibility" Value="Collapsed" />
-        </Style>-->
-
     </UserControl.Resources>
 
-    <Grid>
+    <Grid
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        >
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
@@ -29,8 +27,8 @@
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal"  Grid.Row="0">
-            <imaging:CrispImage Moniker="{x:Static imagecatalog:KnownMonikers.Reference}" />
-            <TextBlock FontSize="14" FontWeight="Bold" Text="Dpdt bind details" Padding="5,0,5,0"/>
+            <imaging:CrispImage Moniker="{Binding Path=DataContext.Logo, RelativeSource={RelativeSource AncestorType=UserControl}}" Width="40" Height="40" />
+            <TextBlock VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Text="Dpdt bind details" Padding="5,0,5,0"/>
         </StackPanel>
 
         <ListView
@@ -111,7 +109,36 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Cluster name" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewConverter}, ConverterParameter=55}" DisplayMemberBinding="{Binding ClusterDetail.FullName}" />
+                   <GridViewColumn Header="Cluster name" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewConverter}, ConverterParameter=55}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate >
+                                <Grid
+                                    HorizontalAlignment="Stretch"
+                                    >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        Text="{Binding ClusterDetail.FullName}"
+                                        TextDecorations="Underline"
+                                        Background="Transparent"
+                                        Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+                                    />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Text="{Binding ClusterDetail.ClassNamespace}"
+                                        TextDecorations="Underline"
+                                        Margin="20,0,0,0"
+                                        Background="Transparent"
+                                        Foreground="Gray"
+                                    />
+                                </Grid>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
                     <GridViewColumn Header="Bind scope" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewConverter}, ConverterParameter=10}" DisplayMemberBinding="{Binding BindingDetail.BindScope, FallbackValue=-}" />
                     <GridViewColumn Header="Is conditional" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewConverter}, ConverterParameter=10}">
                         <GridViewColumn.CellTemplate>

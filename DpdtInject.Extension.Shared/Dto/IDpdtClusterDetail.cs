@@ -2,6 +2,11 @@
 {
     public interface IDpdtClusterDetail
     {
+        string ClassNamespace
+        {
+            get;
+        }
+
         string ClassFullName
         {
             get;

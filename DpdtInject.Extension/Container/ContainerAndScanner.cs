@@ -30,6 +30,7 @@ using Task = System.Threading.Tasks.Task;
 using static DpdtInject.Extension.Shared.Logging;
 using Project = Microsoft.CodeAnalysis.Project;
 using Thread = System.Threading.Thread;
+using System.Diagnostics;
 
 namespace DpdtInject.Extension.Container
 {
@@ -342,6 +343,8 @@ namespace DpdtInject.Extension.Container
                         continue;
                     }
 
+                    var swt = Stopwatch.StartNew();
+
                     Compilation? compilation = null;
                     ThreadHelper.JoinableTaskFactory.Run(
                         async () =>
@@ -353,6 +356,8 @@ namespace DpdtInject.Extension.Container
                     {
                         continue;
                     }
+
+                    _outputPane!.OutputStringThreadSafe($"Compilation {project.Name} taken :{swt.Elapsed}{Environment.NewLine}");
 
                     var diag = compilation.GetDiagnostics();
 

@@ -6,7 +6,6 @@
     <String Name="Resources" Value="/DpdtInject.Extension;Component/Resources" />
     <Guid Name="MonikersGuid" Value="{bbd8a64b-7fd0-47fb-a600-503d90f22239}" />
     <ID Name="logo2_32" Value="0" />
-    <ID Name="logo2_90" Value="1" />
   </Symbols>
   <Images>
     <Image Guid="$(MonikersGuid)" ID="$(logo2_32)">

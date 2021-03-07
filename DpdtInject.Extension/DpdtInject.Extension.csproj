@@ -64,6 +64,11 @@
     <AssemblyOriginatorKeyFile>$(ProjectDir)..\dpdt.extension.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ViewModel\Add\ConstructorViewModel.cs" />
+    <Compile Include="ViewModel\Add\ConstructorArgumentViewModel.cs" />
+    <Compile Include="ViewModel\Add\BindFromViewModel.cs" />
+    <Compile Include="ViewModel\Add\TargetMethodViewModel.cs" />
+    <Compile Include="ViewModel\Add\AddBindingViewModel.cs" />
     <Compile Include="AddBindingWindow.xaml.cs">
       <DependentUpon>AddBindingWindow.xaml</DependentUpon>
     </Compile>
@@ -88,7 +93,10 @@
     <Compile Include="Options\DialogPageProvider.cs" />
     <Compile Include="Options\GeneralOptions.cs" />
     <Compile Include="RelayCommand.cs" />
-    <Compile Include="ViewModel\DpdtBindingTargetViewModel.cs" />
+    <Compile Include="ViewModel\Details\DpdtBindingDetailViewModel.cs" />
+    <Compile Include="ViewModel\Details\DpdtBindingReferenceSetViewModel.cs" />
+    <Compile Include="ViewModel\Details\DpdtBindingTargetViewModel.cs" />
+    <Compile Include="ViewModel\Details\DpdtClusterDetailViewModel.cs" />
     <VSCTCompile Include="Dpdt.Extension.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
       <SubType>Designer</SubType>

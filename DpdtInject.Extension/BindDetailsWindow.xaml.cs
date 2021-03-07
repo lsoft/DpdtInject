@@ -6,7 +6,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using DpdtInject.Extension.Container;
 using DpdtInject.Extension.Helper;
-using DpdtInject.Extension.ViewModel;
+using DpdtInject.Extension.ViewModel.Details;
 using DpdtInject.Generator.Binding;
 using EnvDTE80;
 using Microsoft.CodeAnalysis;

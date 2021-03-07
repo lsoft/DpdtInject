@@ -77,6 +77,7 @@ namespace DpdtInject.Extension
                                     new DpdtBindingTarget(
                                         bindingContainer.Identifier,
                                         new DpdtClusterDetail(
+                                            clusterBind.ClusterType.ContainingNamespace.ToDisplayString(),
                                             clusterBind.ClusterType.Name,
                                             mpair.Key
                                             ),

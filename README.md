@@ -30,6 +30,7 @@ It's only a proof-of-concept. Nor alpha, neither beta.
 0. Additional compile-time safety.
 0. Same performance on the platforms with no compilation at runtine.
 0. If you are writing a DLL (or nuget) you are free now to use Dpdt because no DI-container dependency will arise to your distribution.
+0. Dpdt Visual Studio Extension helps you to be more productive (see below).
 0. At last, it's very, very fast.
 
 More to come!
