@@ -6,7 +6,7 @@
     <TieredCompilation>false</TieredCompilation>
     <TieredCompilationQuickJit>false</TieredCompilationQuickJit>
     <TieredCompilationQuickJitForLoops>false</TieredCompilationQuickJitForLoops>
-    <WarningsAsErrors>CS8785</WarningsAsErrors>
+    <WarningsAsErrors>CS8785;CS8032</WarningsAsErrors>
 
     <Dpdt_Generator_GeneratedSourceFolder>$(MSBuildProjectDirectory)\Dpdt.Pregenerated</Dpdt_Generator_GeneratedSourceFolder>
   </PropertyGroup>
