@@ -354,3 +354,6 @@ MigrationBackup/
 
 # .secret file
 *.secret
+
+# snk file
+*.snk
