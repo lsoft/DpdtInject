@@ -6,11 +6,14 @@
     <Nullable>enable</Nullable>
     <WarningsAsErrors>nullable;CS8766;CS8767</WarningsAsErrors>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>dpdt.extension.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <NoWarn>$(NoWarn);nullable;CS8766;CS8767</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>$(SolutionDir)DpdtInject.Extension\dpdt.extension.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
