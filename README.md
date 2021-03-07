@@ -361,6 +361,8 @@ The following images makes the picture brighter:
 
 ![Dpdt Extension Image 2](extension2.png)
 
+![Dpdt Extension Image 3](extension3.png)
+
 A lot of thanks to bert2 and his amazing example `https://github.com/bert2/microscope`, without his `microscope` no Dpdt extension will appear because of lack of tutorials in the scope of VS extension development.
 
 Any ideas for new features are welcome.
