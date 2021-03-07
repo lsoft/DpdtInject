@@ -6,10 +6,10 @@
     <WarningsAsErrors>CS8785;CS8032</WarningsAsErrors>
   </PropertyGroup>
 
-  <PropertyGroup Condition="Exists('$(SolutionDir).please_sing_my_assemblies.secret')">
+  <PropertyGroup Condition="Exists('$(ProjectDir)..\.please_sign_my_assemblies.secret')">
     <SignAssembly>true</SignAssembly>
     <DelaySign>false</DelaySign>
-    <AssemblyOriginatorKeyFile>$(SolutionDir)dpdt.extension.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>$(ProjectDir)..\dpdt.extension.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="DpdtVisualStudioExtension.D8309F30-ACAE-40E4-B029-770C42D4F2EB" Version="0.0.1" Language="en-US" Publisher="ls" />
+        <Identity Id="DpdtVisualStudioExtension.D8309F30-ACAE-40E4-B029-770C42D4F2EB" Version="0.3.1" Language="en-US" Publisher="lsoft" />
         <DisplayName>DpdtVisualStudioExtension</DisplayName>
         <Description xml:space="preserve">Dpdt Extension for Visual Studio 2019 helps you to be more productive when using Dpdt Injector.</Description>
         <MoreInfo>https://github.com/lsoft/DpdtInject</MoreInfo>
@@ -12,7 +12,7 @@
         <Preview>true</Preview>
     </Metadata>
     <Installation>
-        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[16.0, 17.0)" />
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[16.8, 17.0)" />
     </Installation>
     <Dependencies>
         <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />

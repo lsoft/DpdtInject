@@ -53,15 +53,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="!Exists('$(SolutionDir).please_sing_my_assemblies.secret')">
+  <PropertyGroup Condition="!Exists('$(ProjectDir)..\.please_sign_my_assemblies.secret')">
     <CreateVsixContainer>False</CreateVsixContainer>
     <DeployExtension>False</DeployExtension>
   </PropertyGroup>
-  <PropertyGroup Condition="Exists('$(SolutionDir).please_sing_my_assemblies.secret')">
+  <PropertyGroup Condition="Exists('$(ProjectDir)..\.please_sign_my_assemblies.secret')">
     <CreateVsixContainer>True</CreateVsixContainer>
     <DeployExtension>True</DeployExtension>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>$(SolutionDir)dpdt.extension.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>$(ProjectDir)..\dpdt.extension.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AddBindingWindow.xaml.cs">
@@ -130,12 +130,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Resource Include="Resources\logo2_32.png">
+    <Resource Include="Resources\logo2_32.png" />
+    <Content Include="Resources\logo2_90.png">
       <IncludeInVSIX>true</IncludeInVSIX>
-    </Resource>
-    <Resource Include="Resources\logo2_90.png">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Resource>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
