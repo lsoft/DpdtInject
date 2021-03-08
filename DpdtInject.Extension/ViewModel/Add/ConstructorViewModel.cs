@@ -62,18 +62,18 @@ namespace DpdtInject.Extension.ViewModel.Add
             Constructor = constructor;
 
             var arguments = string.Join(
-                ",",
-                constructor.Parameters.Select(p => $"{p.Type.ToDisplayString()} {p.Name}")
+                ", ",
+                constructor.Parameters.Select(p => $"{p.Type.Name} {p.Name}")
                 );
 
             if (constructor.DeclaredAccessibility == Accessibility.Public)
             {
-                VisualRepresentation = $"{targetType.Name}({arguments})";
+                VisualRepresentation = $"{targetType.Name}( {arguments} )";
                 ForegroundColor = (Brush)Application.Current.FindResource(VsBrushes.WindowTextKey);
             }
             else
             {
-                VisualRepresentation = $"{targetType.Name}({arguments})  ({constructor.DeclaredAccessibility})";
+                VisualRepresentation = $"{targetType.Name}( {arguments} )    ({constructor.DeclaredAccessibility})";
                 ForegroundColor = Brushes.Gray;
             }
         }

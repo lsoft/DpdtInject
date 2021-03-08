@@ -1325,9 +1325,9 @@ namespace DpdtInject.Tests.Properties {
         ///        [DpdtBindingMethod]
         ///        public void BindMethod()
         ///        {
-        ///            Bind&lt;ProxyPayload&gt;()
-        ///                .To&lt;ProxyPayload&gt;()
-        ///                .WithTransientScope()
+        ///            Bind&lt;SessionSaver&gt;()
+        ///                .To&lt;SessionSaver&gt;()
+        ///                .WithSingletonScope()
         ///                ;
         /// [rest of string was truncated]&quot;;.
         /// </summary>
@@ -2161,6 +2161,32 @@ namespace DpdtInject.Tests.Properties {
         internal static string UnsortedCustomNamespace_FakeResource {
             get {
                 return ResourceManager.GetString("UnsortedCustomNamespace_FakeResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.DisposeAndException
+        ///{
+        ///    public partial class UnsortedDisposeAndException_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;BaseClass&gt;()
+        ///                .To&lt;BaseClass&gt;()
+        ///                .WithSingletonScope()
+        ///                ;
+        ///
+        ///            Bind&lt;DerivedClass&gt;()
+        ///                .To&lt;DerivedClass&gt;() [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedDisposeAndException_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedDisposeAndException_Cluster", resourceCulture);
             }
         }
         
