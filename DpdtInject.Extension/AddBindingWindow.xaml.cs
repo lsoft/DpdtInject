@@ -192,18 +192,21 @@ namespace DpdtInject.Extension
 
             #endregion
 
-            #region switch back to source document
+            #region switch back to source document if needed
 
-            var sourceDocumentHelper = new VisualStudioDocumentHelper(
-                currentDocumentFilePath
-                );
+            if (newBindingInfo.IsBindingComplete)
+            {
+                var sourceDocumentHelper = new VisualStudioDocumentHelper(
+                    currentDocumentFilePath
+                    );
 
-            sourceDocumentHelper.OpenAndNavigate(
-                currentLine,
-                currentColumn,
-                currentLine,
-                currentColumn
-                );
+                sourceDocumentHelper.OpenAndNavigate(
+                    currentLine,
+                    currentColumn,
+                    currentLine,
+                    currentColumn
+                    );
+            }
 
             #endregion
 
@@ -224,7 +227,7 @@ namespace DpdtInject.Extension
                 _targetMethod
                 );
 
-            var surgedDocument = await surgeon.SurgeAsync(
+            var (surgedDocument, addedBinding) = await surgeon.SurgeAsync(
                 document,
                 newBindingInfo
                 );
@@ -235,6 +238,17 @@ namespace DpdtInject.Extension
             }
 
             workspace.TryApplyChanges(surgedDocument.Project.Solution);
+
+            if (!newBindingInfo.IsBindingComplete && addedBinding != null)
+            {
+                var addedBindingLineSpan = addedBinding.GetLocation().GetLineSpan();
+                modifiedDocumentHelper.OpenAndNavigate(
+                    addedBindingLineSpan.StartLinePosition.Line,
+                    addedBindingLineSpan.StartLinePosition.Character,
+                    addedBindingLineSpan.EndLinePosition.Line,
+                    addedBindingLineSpan.EndLinePosition.Character
+                    );
+            }
         }
     }
     
@@ -254,7 +268,7 @@ namespace DpdtInject.Extension
             _targetMethod = targetMethod;
         }
 
-        public async Task<Document?> SurgeAsync(
+        public async Task<(Document?, SyntaxNode?)> SurgeAsync(
             Document document,
             NewBindingInfo newBindingInfo
             )
@@ -306,20 +320,23 @@ namespace DpdtInject.Extension
                 ;
             if (methodSyntax == null)
             {
-                return null;
+                return (null, null);
             }
             if (methodSyntax.Body == null)
             {
-                return null;
+                return (null, null);
             }
 
             var leadingTrivia = methodSyntax.Body.GetLeadingTrivia().ToString();
 
 
+            var syntaxAnnotation = new SyntaxAnnotation();
             var bcp = new BindClauseProducer(newBindingInfo);
+            var producedBinding = bcp.ProduceBinding(leadingTrivia)
+                .WithAdditionalAnnotations(syntaxAnnotation);
 
             var modifiedMethodSyntax = methodSyntax.WithBody(
-                methodSyntax.Body.AddStatements(new[] { bcp.ProduceBinding(leadingTrivia) })
+                methodSyntax.Body.AddStatements(new[] { producedBinding })
                 );
 
             documentEditor.ReplaceNode(
@@ -330,21 +347,23 @@ namespace DpdtInject.Extension
             #endregion
 
             var changedDocument = documentEditor.GetChangedDocument();
+            var changedRoot = await changedDocument.GetSyntaxRootAsync();
 
             var opts = GeneralOptions.Instance;
-            if (opts.EnableWhitespaceNormalization)
+            if (changedRoot != null && opts.EnableWhitespaceNormalization)
             {
-                var changedRoot = await changedDocument.GetSyntaxRootAsync();
-
-                if (changedRoot == null)
-                {
-                    return null;
-                }
-
-                changedDocument = changedDocument.WithSyntaxRoot(changedRoot.NormalizeWhitespace());
+                var changedSyntaxRoot = changedRoot.NormalizeWhitespace();
+                changedDocument = changedDocument.WithSyntaxRoot(changedSyntaxRoot);
+                changedRoot = await changedDocument.GetSyntaxRootAsync();
             }
 
-            return changedDocument;
+            var addedBinding = changedRoot
+                ?.DescendantNodes()
+                .Where(n => n.HasAnnotation(syntaxAnnotation))
+                .FirstOrDefault()
+                ?? null;
+
+            return (changedDocument, addedBinding);
         }
     }
 
@@ -376,9 +395,16 @@ namespace DpdtInject.Extension
             var bindFroms = string.Join(",", _newBindingInfo.BindFroms.Select(b => b.Name));
             clauses.Add($"Bind<{bindFroms}>()");
 
-            clauses.Add($"{indend2}.To<{_newBindingInfo.BindTo.Name}>()");
+            if (_newBindingInfo.BindScope != BindScopeEnum.Constant)
+            {
+                clauses.Add($"{indend2}.To<{_newBindingInfo.BindTo.Name}>()");
+                clauses.Add($"{indend2}.With{_newBindingInfo.BindScope}Scope()");
+            }
+            else
+            {
+                clauses.Add($"{indend2}.WithConstScope(/* place here your (static) readonly field */)");
+            }
 
-            clauses.Add($"{indend2}.With{_newBindingInfo.BindScope}Scope()");
 
             if (_newBindingInfo.IsConditional)
             {
@@ -432,6 +458,27 @@ namespace DpdtInject.Extension
         public bool IsConditional
         {
             get;
+        }
+
+        public bool IsBindingComplete
+        {
+            get
+            {
+                if (ManualConstructorArguments.Count > 0)
+                {
+                    return false;
+                }
+                if (IsConditional)
+                {
+                    return false;
+                }
+                if (BindScope == BindScopeEnum.Constant)
+                {
+                    return false;
+                }
+
+                return true;
+            }
         }
 
         public NewBindingInfo(

@@ -442,7 +442,14 @@ namespace DpdtInject.Extension.ViewModel.Add
                 case StepEnum.ChooseConstructorArgument:
                     return StepEnum.ChooseConstructor;
                 case StepEnum.ChooseBindFrom:
-                    return StepEnum.ChooseConstructorArgument;
+                    if (GetChoosedConstructor().Parameters.Length > 0)
+                    {
+                        return StepEnum.ChooseConstructorArgument;
+                    }
+                    else
+                    {
+                        return StepEnum.ChooseConstructor;
+                    }
                 case StepEnum.ChooseTargetMethod:
                     return StepEnum.ChooseBindFrom;
                 case StepEnum.ChooseAdditionalParameters:
@@ -457,7 +464,14 @@ namespace DpdtInject.Extension.ViewModel.Add
             switch (_currentStep)
             {
                 case StepEnum.ChooseConstructor:
-                    return StepEnum.ChooseConstructorArgument;
+                    if (GetChoosedConstructor().Parameters.Length > 0)
+                    {
+                        return StepEnum.ChooseConstructorArgument;
+                    }
+                    else
+                    {
+                        return StepEnum.ChooseBindFrom;
+                    }
                 case StepEnum.ChooseConstructorArgument:
                     return StepEnum.ChooseBindFrom;
                 case StepEnum.ChooseBindFrom:

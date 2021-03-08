@@ -64,6 +64,7 @@
     <AssemblyOriginatorKeyFile>$(ProjectDir)..\dpdt.extension.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ImageMonikers.cs" />
     <Compile Include="ViewModel\Add\ConstructorViewModel.cs" />
     <Compile Include="ViewModel\Add\ConstructorArgumentViewModel.cs" />
     <Compile Include="ViewModel\Add\BindFromViewModel.cs" />

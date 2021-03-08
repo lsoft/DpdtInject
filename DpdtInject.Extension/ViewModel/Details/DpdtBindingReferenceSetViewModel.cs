@@ -22,11 +22,6 @@ namespace DpdtInject.Extension.ViewModel.Details
             get;
         }
 
-        public ImageMoniker Logo
-        {
-            get;
-        }
-
         /// <inheritdoc />
         public DpdtBindingReferenceSetViewModel(
             Dispatcher dispatcher,
@@ -53,13 +48,6 @@ namespace DpdtInject.Extension.ViewModel.Details
                     );
             }
             BindingTargets = bindingTargets;
-
-            Logo = new ImageMoniker
-            {
-                Guid = new Guid("bbd8a64b-7fd0-47fb-a600-503d90f22239"),
-                Id = 0
-            };
-
         }
 
     }

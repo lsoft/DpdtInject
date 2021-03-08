@@ -395,6 +395,10 @@ namespace DpdtInject.Extension.Container
                     sbc.Add(pbc);
                 }
             }
+            catch (Exception excp)
+            {
+                LogVS(excp);
+            }
             finally
             {
                 if (sbc != null && sbc.Dict.Count > 0)

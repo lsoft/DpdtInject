@@ -3,12 +3,10 @@
               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
               xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-              xmlns:local="clr-namespace:DpdtInject.Extension"
+              xmlns:main="clr-namespace:DpdtInject.Extension"
               mc:Ignorable="d" 
               xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
-              xmlns:imagecatalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
               xmlns:vsshell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
-              xmlns:helper="clr-namespace:DpdtInject.Extension.Helper"
               xmlns:platformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
               Height="300" Width="500" 
               MinHeight="300" MinWidth="500"
@@ -67,7 +65,7 @@
                 VerticalAlignment="Stretch"
                 Background="Transparent"
                 Margin="2"
-                ItemsSource="{Binding Path=DataContext.(local:AddBindingViewModel.ConstructorList), ElementName=AddBindingWindowName}"
+                ItemsSource="{Binding Path=DataContext.ConstructorList, ElementName=AddBindingWindowName}"
                 >
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
@@ -122,7 +120,7 @@
                 VerticalAlignment="Stretch"
                 Background="Transparent"
                 Margin="2"
-                ItemsSource="{Binding Path=DataContext.(local:AddBindingViewModel.ConstructorArgumentList), ElementName=AddBindingWindowName}"
+                ItemsSource="{Binding Path=DataContext.ConstructorArgumentList, ElementName=AddBindingWindowName}"
                 >
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
@@ -196,7 +194,7 @@
                 VerticalAlignment="Stretch"
                 Background="Transparent"
                 Margin="2"
-                ItemsSource="{Binding Path=DataContext.(local:AddBindingViewModel.BindFromList), ElementName=AddBindingWindowName}"
+                ItemsSource="{Binding Path=DataContext.BindFromList, ElementName=AddBindingWindowName}"
                 >
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
@@ -271,7 +269,7 @@
                 VerticalAlignment="Stretch"
                 Background="Transparent"
                 Margin="2"
-                ItemsSource="{Binding Path=DataContext.(local:AddBindingViewModel.TargetMethodList), ElementName=AddBindingWindowName}"
+                ItemsSource="{Binding Path=DataContext.TargetMethodList, ElementName=AddBindingWindowName}"
                 >
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
@@ -380,6 +378,7 @@
                     Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
                     IsChecked="{Binding DataContext.IsConstant, Mode=TwoWay, ElementName=AddBindingWindowName}"
                     Content="Constant"
+                    IsEnabled="False"
                 />
 
             </Grid>
@@ -406,42 +405,50 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <!-- <CheckBox
-                    Grid.Column="0"
-                    Margin="2"
-                    HorizontalAlignment="Left"
-                    IsChecked="{Binding DataContext.IsConditionalBinding, Mode=TwoWay, ElementName=AddBindingWindowName}"
-                    Content="Conditional binding"
-                    VerticalContentAlignment="Center"
-                    /> -->
             <Button
-                    Grid.Column="0"
-                    Margin="2"
-                    Padding="5,2,5,2"
-                    HorizontalAlignment="Left"
-                    Content="Cancel"
-                    Command="{Binding CloseCommand}"
-                    CommandParameter="{Binding ElementName=AddBindingWindowName}"
-                    />
+                Grid.Column="0"
+                Margin="2"
+                Padding="10,5,10,5"
+                HorizontalAlignment="Left"
+                Content="Cancel"
+                Width="80"
+                Command="{Binding CloseCommand}"
+                CommandParameter="{Binding ElementName=AddBindingWindowName}"
+                />
 
             <Button
-                    Grid.Column="1"
-                    Margin="2"
-                    Padding="5,2,5,2"
-                    HorizontalAlignment="Right"
-                    Content="Back"
-                    Command="{Binding PreviousCommand}"
-                    />
+                Grid.Column="1"
+                Margin="2"
+                Padding="10,5,10,5"
+                HorizontalAlignment="Right"
+                Content="Back"
+                Width="80"
+                Command="{Binding PreviousCommand}"
+                />
 
             <Button
-                    Grid.Column="2"
-                    Margin="2"
-                    Padding="5,2,5,2"
-                    HorizontalAlignment="Right"
-                    Content="{Binding NextButtonTitle}"
-                    Command="{Binding NextCommand}"
-                    CommandParameter="{Binding ElementName=AddBindingWindowName}"
-                    />
+                Grid.Column="2"
+                Margin="2"
+                Padding="10,5,10,5"
+                HorizontalAlignment="Right"
+                Width="80"
+                Command="{Binding NextCommand}"
+                CommandParameter="{Binding ElementName=AddBindingWindowName}"
+                >
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <imaging:CrispImage
+                            Moniker="{x:Static main:ImageMonikers.Logo}"
+                            Width="10"
+                            Height="10"
+                            />
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            Text="{Binding NextButtonTitle, FallbackValue=Next}"
+                            />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
 
         </Grid>
 

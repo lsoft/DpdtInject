@@ -8,7 +8,7 @@
 
 # Purpose
 
-Dpdt is a DI container based on C# Source Generators. Its goal is to remove everything possible from runtime and make resolving process as faster as we can. This is achieved by transferring huge piece of resolving logic to the compilation stage into the source generator.
+Dpdt is a compile-time DI container based on C# Source Generators. Its goal is to remove everything possible from runtime and make resolving process as faster as we can. This is achieved by transferring huge piece of resolving logic to the compilation stage into the source generator.
 
 # Status
 
@@ -131,20 +131,55 @@ Please refer to Dpdt.Injector [nuget package](https://www.nuget.org/packages/Dpd
 
 ## Syntax
 
+Dpdt syntax was partially inspired by Ninject.
+
+# Regular singleton/transient/custom binding
+
 ```csharp
-
-//regular binding example:
-Bind<IB1>()
-    .To<B1>()
-    .WithSingletonScope()
+Bind<IB1, IB2>()
+    .To<BClass>()
+    .WithSingletonScope() //WithTransientScope, WithCustomScope
     ;
+```
+
+# Regular const binding
+
+Only readonly fields and static readonly fields are allowed to be a target constant:
 
 
-//conditional constant binding example:
+```csharp
+private /*static*/ readonly string _roString = "readonly string";
+
+...
+
+Bind<string>()
+    .WithConstScope(_roString)
+    ;
+```
+
+# Conditional bindings
+
+```csharp
 Bind<IA>()
-    .WithConstScope(ConstantA2)
+    .WithConstScope(ConstantA)
     .When(rt => rt.ParentTarget?.TargetType == typeof(B2))
     ;
+```
+
+# Predefined consructor arguments
+
+```csharp
+Bind<IB>()
+     .To<B>()
+     .WithSingletonScope()
+     .Configure(new ConstructorArgument("argument1", field_or_property_or_expression1))
+     .Configure(new ConstructorArgument("argument2", field_or_property_or_expression2))
+     ;
+```
+
+# Additional examples
+
+```csharp
 
 //example of the factory, that will be injected into the proxy:
 Bind<ICalculator>()
@@ -157,7 +192,7 @@ Bind<ICalculator>()
 //proxy example:
 Bind<ICalculator>()
     .ToProxy<ProxyCalculator>()
-    .WithProxySettings<TelemetryAttribute, SessionSaver>()
+    .WithProxySettings<TelemetryAttribute, SessionSaver>() //additional details are available at the tests project
     .WithSingletonScope()
     .When(rt => rt.WhenInjectedExactlyNotInto<ProxyCalculator>())
     ;
@@ -167,14 +202,16 @@ Bind<ICalculator>()
 
 A lot of examples of allowed syntaxes are available in the test project. Please refer that code.
 
-Additional note: many binding methods per cluster (even in different compilation units) allowed to exist. You can use this to split your bindings into different groups (something like Ninject's modules).
+Binding expressions are contained in methods marked with attribute `[DpdtBindingMethod]`. No argument allowed for that methods, and in fact they are not executed at all. Class with `[DpdtBindingMethod]`-methods should be derived from `DpdtInject.Injector.DefaultCluster`. This class should be `partial`. Many binding methods per cluster (even in different compilation units) allowed to exist. You can use this to split your bindings into different groups (something like Ninject's modules).
 
 ## Choosing constructor
 
 Constructor is chosen at the compilation stage based on 2 principles:
 
 0. Constructors are filtered by `ConstructorArgument` filter. If no `ConstructorArgument` has defined, all existing constructors will be taken.
-0. The constructor with the minimum number of parameters is selected to make binding.
+0. The constructor with the minimum number of parameters is selected to make a binding.
+
+Need to have a more complex constructor choosing algorithm? Let me know.
 
 ## Scope
 
@@ -182,7 +219,7 @@ Bind clause with no defined scope raises a question: an author forgot set a scop
 
 ### Singleton
 
-The only one instance of defined type is created. If instance is `IDisposable` then `Dispose` method will be invoked at the moment the cluster is disposing.
+The only one instance of defined type is created. If instance is `IDisposable` then `Dispose` method will be invoked at the moment the cluster is disposing. This operation is thread safety, user double checking locking algorithm.
 
 ### Transient
 
@@ -190,7 +227,7 @@ Each resolution call results with new instance. `Dispose` for targets will not b
 
 ### Constant
 
-Constant scope is a scope when the cluster receive an outside-created object. Its `Dispose` will not be invoked, because the cluster was not a parent of the constant object.
+Constant scope is a scope when the cluster receive an outside-created object. Its `Dispose` will not be invoked, because the cluster is not a parent of the constant object.
 
 ### Custom
 
@@ -215,7 +252,6 @@ Constant scope is a scope when the cluster receive an outside-created object. It
 
 `IDisposable` custom-binded objects will be disposed at the moment of the scope object dispose. Keep in mind, custom-scoped bindings are resolved much slower than singleton/transient/constant bindings.
 
-
 ## Conditional binding
 
 Each bind clause may have an additional filter e.g.
@@ -239,7 +275,7 @@ Dpdt contains a special resolution type named 'fast'. Its syntax is `cluster.Get
 
 ## Compile-time safety
 
-Each safety checks are processed in the scope of concrete cluster. Dpdt cannot check for cross-cluster issues because clusters tree is built at runtime.
+Each safety checks are processed in the scope of concrete cluster. Dpdt cannot check for cross-cluster issues because clusters tree is built at runtime. But cross-cluster checks are performed in the cluster constructor at runtime.
 
 ### Did source generators are finished their job?
 
@@ -292,6 +328,10 @@ The end of the life cycle of a cluster occurs after the call to its `Dispose` me
 ```
 
 Clusters are organized into a tree. This tree cannot have a circular dependency, since it is based on constructor argument. Dependencies, consumed by the binding in the child cluster, are resolved from the home cluster if exists, if not - from **parent cluster**.
+
+## Async resolutions
+
+Dpdt is a constructor-based injector. Async resolutions are not supported because we have not an async constructors. Consider using an async factory class.
 
 ## Debugging your clusters and conditional clauses
 
@@ -353,7 +393,8 @@ Dpdt's source generator is able to store pregenerated C# code at the disk. The o
 
 # Dpdt Visual Studio Extension
 
-To make working with Dpdt easier, a Visual Studio Extension has been developed. Make note: it only supports Visual Studio 2019 16.8, because I can't test it against older version of Visual Studio.
+To make a dealing with Dpdt easier, a [Visual Studio Extension](https://marketplace.visualstudio.com/items?itemName=lsoft.DpdtVisualStudioExtension) has been developed. Make note: it only supports Visual Studio 2019 16.8, because I can't test it against older version of Visual Studio.
+
 The following images makes the picture brighter:
 
 ![Dpdt Extension Image 0](extension0.png)
