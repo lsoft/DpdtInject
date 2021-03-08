@@ -2043,6 +2043,31 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.BindFrom3And4
+        ///{
+        ///    public partial class UnsortedBindFrom3And4_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;IAInterface0, IAInterface1, IAInterface2&gt;()
+        ///                .To&lt;AClass012&gt;()
+        ///                .WithSingletonScope()
+        ///                ;
+        ///
+        ///            Bind&lt;IBInterface0, IBInterface1, IBInt [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedBindFrom3And4_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedBindFrom3And4_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
         ///using DpdtInject.Injector.Bind;
         ///
         ///namespace DpdtInject.Tests.Unsorted.CannotBeCasted

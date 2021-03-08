@@ -349,6 +349,9 @@
   <data name="SingletonDispose_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Scope\Singleton\Dispose\SingletonDispose_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="UnsortedBindFrom3And4_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\BindFrom3And4\UnsortedBindFrom3And4_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="UnsortedCannotBeCasted_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\CannotBeCasted\UnsortedCannotBeCasted_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
