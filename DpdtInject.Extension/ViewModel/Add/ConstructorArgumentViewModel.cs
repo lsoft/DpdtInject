@@ -49,7 +49,7 @@ namespace DpdtInject.Extension.ViewModel.Add
 
             Parameter = parameter;
 
-            VisualRepresentationTypeAndName = $"{parameter.Type.Name} {parameter.Name}";
+            VisualRepresentationTypeAndName = $"{parameter.Type.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)} {parameter.Name}";
             VisualRepresentationNamespace = $"{parameter.Type.ContainingNamespace.ToDisplayString()}";
         }
     }

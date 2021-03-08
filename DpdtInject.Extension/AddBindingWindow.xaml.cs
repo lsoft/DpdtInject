@@ -392,12 +392,12 @@ namespace DpdtInject.Extension
 
             var clauses = new List<string>();
 
-            var bindFroms = string.Join(",", _newBindingInfo.BindFroms.Select(b => b.Name));
+            var bindFroms = string.Join(",", _newBindingInfo.BindFroms.Select(b => b.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
             clauses.Add($"Bind<{bindFroms}>()");
 
             if (_newBindingInfo.BindScope != BindScopeEnum.Constant)
             {
-                clauses.Add($"{indend2}.To<{_newBindingInfo.BindTo.Name}>()");
+                clauses.Add($"{indend2}.To<{_newBindingInfo.BindTo.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)}>()");
                 clauses.Add($"{indend2}.With{_newBindingInfo.BindScope}Scope()");
             }
             else
@@ -473,6 +473,10 @@ namespace DpdtInject.Extension
                     return false;
                 }
                 if (BindScope == BindScopeEnum.Constant)
+                {
+                    return false;
+                }
+                if (BindTo.IsGenericType)
                 {
                     return false;
                 }

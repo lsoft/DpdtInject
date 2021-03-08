@@ -21,6 +21,27 @@ namespace DpdtInject.Extension.TestConsole.Payload
         
     }
 
+    public class NonGenericClass : Dictionary<string, long>
+    {
+        public NonGenericClass(
+            KeyValuePair<int, uint> a
+            )
+        {
+
+        }
+    }
+
+    public class GenericClass<T> : Dictionary<string, long>
+    {
+        public GenericClass(
+            KeyValuePair<int, uint> a,
+            T b
+            )
+        {
+
+        }
+    }
+
     namespace NewNamespace1
     {
         public interface ISomeInterface0
