@@ -19,5 +19,7 @@
 
         CannotBuildFactory,
         BindMethodHasArguments,
+
+        IncorrectBinding_IncorrectClause,
     }
 }

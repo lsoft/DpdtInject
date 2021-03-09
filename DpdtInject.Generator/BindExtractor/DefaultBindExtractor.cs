@@ -9,17 +9,39 @@ using System.Linq;
 using DpdtInject.Generator.BindExtractor.Parsed;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Bind;
+using System.Reflection;
+using DpdtInject.Injector.Excp;
+using DpdtInject.Generator.Helpers;
 
 namespace DpdtInject.Generator.BindExtractor
 {
     public class DefaultBindExtractor : CSharpSyntaxRewriter
     {
+        private static readonly IReadOnlyDictionary<string, Type> _set;
+
         private readonly SemanticModelDecorator _semanticModel;
         private readonly ParsedBindExpressionFactory _pbeFactory;
 
         private readonly List<IBindingContainer> _bindingContainers;
 
         public IReadOnlyList<IBindingContainer> BindingContainers => _bindingContainers;
+
+        static DefaultBindExtractor()
+        {
+            _set =
+                new[]
+                {
+                    typeof(DefaultCluster),
+                    typeof(IToOrConstantBinding),
+                    typeof(IToFactoryBinding),
+                    typeof(IToProxyBinding),
+                    typeof(IScopeBinding),
+                    typeof(IConfigureAndConditionalBinding),
+                    typeof(IConditionalBinding),
+                    typeof(IConfigureBinding),
+                    typeof(IConstantConditionalBinding)
+                }.ToDictionary(s => s.FullName!, s => s);
+        }
 
         public DefaultBindExtractor(
             SemanticModelDecorator semanticModel,
@@ -40,6 +62,7 @@ namespace DpdtInject.Generator.BindExtractor
             _pbeFactory = pbeFactory;
 
             _bindingContainers = new List<IBindingContainer>();
+
         }
 
 
@@ -52,17 +75,46 @@ namespace DpdtInject.Generator.BindExtractor
 
             #region it is what we want?
 
-            var invocations = expressionNode
-                .DescendantNodes()
+            var invocations = new List<InvocationExpressionSyntax>();
+
+            var child = expressionNode
+                .ChildNodes()
                 .OfType<InvocationExpressionSyntax>()
-                .Reverse()
-                .ToList()
+                .FirstOrDefault()
                 ;
+            while (child is not null)
+            {
+                invocations.Add(child);
+
+                var preChild = child
+                    .ChildNodes()
+                    .OfType<MemberAccessExpressionSyntax>()
+                    .FirstOrDefault()
+                    ;
+
+                if (preChild is null)
+                {
+                    break;
+                }
+
+                child = preChild
+                    .ChildNodes()
+                    .OfType<InvocationExpressionSyntax>()
+                    .FirstOrDefault() 
+                    ;
+            }
 
             if (invocations.Count < 2)
             {
-                return base.VisitExpressionStatement(expressionNode)!;
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.IncorrectBinding_IncorrectClause,
+                    $"Incorrect bind expression"
+                    );
             }
+
+            invocations.Reverse();
+
+            var currentType = _set[typeof(DefaultCluster).FullName!];
 
             var invocationSymbols = new List<Tuple<InvocationExpressionSyntax, IMethodSymbol>>();
             foreach (var invocation in invocations)
@@ -77,21 +129,27 @@ namespace DpdtInject.Generator.BindExtractor
                 {
                     continue;
                 }
-                if (symbol.ContainingType.ToDisplayString().NotIn(
-                        typeof(DefaultCluster).FullName,
-                        typeof(IToOrConstantBinding).FullName,
-                        typeof(IToFactoryBinding).FullName,
-                        typeof(IToProxyBinding).FullName,
-                        typeof(IScopeBinding).FullName,
-                        typeof(IConfigureAndConditionalBinding).FullName,
-                        typeof(IConditionalBinding).FullName,
-                        typeof(IConfigureBinding).FullName,
-                        typeof(IConstantConditionalBinding).FullName
-                        )
-                    )
+
+                var setds = symbol.ContainingType.ToDisplayString();
+                if (!_set.ContainsKey(setds))
                 {
-                    continue;
+                    throw new DpdtException(
+                        DpdtExceptionTypeEnum.IncorrectBinding_IncorrectClause,
+                        $"Incorrect clause found in bind expression: {setds}"
+                        );
                 }
+
+                var methods = currentType.GetAllNonStaticMethodsHierarchy();
+                var foundMethod = methods.FirstOrDefault(m => m.Name == symbol.Name);
+                if (foundMethod is null)
+                {
+                    throw new DpdtException(
+                        DpdtExceptionTypeEnum.IncorrectBinding_IncorrectClause,
+                        $"Incorrect method found in bind expression: {symbol.Name}"
+                        );
+                }
+
+                currentType = foundMethod.ReturnType;
 
                 invocationSymbols.Add(
                     new Tuple<InvocationExpressionSyntax, IMethodSymbol>(
@@ -99,69 +157,6 @@ namespace DpdtInject.Generator.BindExtractor
                         (IMethodSymbol)symbol
                         )
                     );
-            }
-
-            var firstInvocationSymbol = invocationSymbols.First();
-
-            if (firstInvocationSymbol.Item2.ContainingType.ToDisplayString().NotIn(
-                    typeof(DefaultCluster).FullName
-                    )
-                )
-            {
-                return base.VisitExpressionStatement(expressionNode)!;
-            }
-
-            var secondInvocationSymbol = invocationSymbols.Second();
-
-            if (secondInvocationSymbol.Item2.ContainingType.ToDisplayString().NotIn(
-                    typeof(IToOrConstantBinding).FullName
-                    )
-                )
-            {
-                return base.VisitExpressionStatement(expressionNode)!;
-            }
-
-            var thirdInvocationSymbol = invocationSymbols.NThOrDefault(2);
-            if (thirdInvocationSymbol is not null)
-            {
-                if (thirdInvocationSymbol.Item2.ContainingType.ToDisplayString().NotIn(
-                        typeof(IScopeBinding).FullName,
-                        typeof(IToFactoryBinding).FullName,
-                        typeof(IToProxyBinding).FullName,
-                        typeof(IConstantConditionalBinding).FullName
-                        )
-                    )
-                {
-                    return base.VisitExpressionStatement(expressionNode)!;
-                }
-            }
-
-
-            var fourthInvocationSymbol = invocationSymbols.NThOrDefault(3);
-            if (fourthInvocationSymbol is not null)
-            {
-                if (fourthInvocationSymbol.Item2.ContainingType.ToDisplayString().NotIn(
-                        typeof(IConfigureAndConditionalBinding).FullName,
-                        typeof(IScopeBinding).FullName,
-                        typeof(IConfigureBinding).FullName,
-                        typeof(IConditionalBinding).FullName
-                        )
-                    )
-                {
-                    return base.VisitExpressionStatement(expressionNode)!;
-                }
-            }
-
-            for (var i = 4; i < invocationSymbols.Count; i++)
-            {
-                if (invocationSymbols[i].Item2.ContainingType.ToDisplayString().NotIn(
-                        typeof(IConfigureBinding).FullName,
-                        typeof(IConditionalBinding).FullName
-                        )
-                    )
-                {
-                    return base.VisitExpressionStatement(expressionNode)!;
-                }
             }
 
             var pbe = _pbeFactory.Create(
