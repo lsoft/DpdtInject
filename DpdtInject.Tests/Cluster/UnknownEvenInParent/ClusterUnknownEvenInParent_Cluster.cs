@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Injector;
+using DpdtInject.Injector.Bind.Settings;
 using DpdtInject.Injector.Excp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -22,6 +23,7 @@ namespace DpdtInject.Tests.Cluster.UnknownEvenInParent
             Bind<IB>()
                 .To<B>()
                 .WithTransientScope()
+                .Setup<AllowedCrossCluster>()
                 ;
         }
     }

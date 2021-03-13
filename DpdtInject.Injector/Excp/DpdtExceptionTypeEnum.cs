@@ -21,5 +21,8 @@
         BindMethodHasArguments,
 
         IncorrectBinding_IncorrectClause,
+        IncorrectBinding_IncorrectSetting,
+
+        LocalBindingFound,
     }
 }

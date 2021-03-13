@@ -2,9 +2,9 @@
 using DpdtInject.Injector.Bind.Settings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DpdtInject.Tests.Cluster.NonGeneric.Different
+namespace DpdtInject.Tests.Settings.CrossCluster.OnlyLocalCluster0
 {
-    public partial class ClusterNonGenericDifferent_RootCluster : DefaultCluster
+    public partial class SettingsCrossClusterOnlyLocalCluster0_RootCluster : DefaultCluster
     {
         [DpdtBindingMethod]
         public void BindMethod()
@@ -16,7 +16,7 @@ namespace DpdtInject.Tests.Cluster.NonGeneric.Different
         }
     }
 
-    public partial class ClusterNonGenericDifferent_ChildCluster : DefaultCluster
+    public partial class SettingsCrossClusterOnlyLocalCluster0_ChildCluster : DefaultCluster
     {
         [DpdtBindingMethod]
         public void BindMethod()
@@ -24,28 +24,16 @@ namespace DpdtInject.Tests.Cluster.NonGeneric.Different
             Bind<IB>()
                 .To<B>()
                 .WithTransientScope()
-                .Setup<AllowedCrossCluster>()
+                .Setup<OnlyLocalCluster>()
                 ;
         }
     }
 
-    public class ClusterNonGenericDifferent_ClusterTester
+    public class SettingsCrossClusterOnlyLocalCluster0_ClusterTester
     {
         public void PerformClusterTesting()
         {
-            var rootCluster = new FakeCluster<ClusterNonGenericDifferent_RootCluster>(
-                null
-                );
-            var childCluster = new FakeCluster<ClusterNonGenericDifferent_ChildCluster>(
-                rootCluster
-                );
-
-            var a = (IA) rootCluster.Get(typeof(IA));
-            Assert.IsNotNull(a);
-
-            var b0 = (IB) childCluster.Get(typeof(IB));
-            Assert.IsNotNull(b0);
-            Assert.IsNotNull(b0.A);
+            //no need to have code here, there was compilation error
         }
     }
 

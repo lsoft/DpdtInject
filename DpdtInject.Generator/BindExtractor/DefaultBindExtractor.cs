@@ -117,8 +117,11 @@ namespace DpdtInject.Generator.BindExtractor
             var currentType = _set[typeof(DefaultCluster).FullName!];
 
             var invocationSymbols = new List<Tuple<InvocationExpressionSyntax, IMethodSymbol>>();
-            foreach (var invocation in invocations)
+            for(var invocationIndex = 0; invocationIndex < invocations.Count; invocationIndex++)
             {
+                var invocation = invocations[invocationIndex];
+                var isLast = invocationIndex == (invocations.Count - 1);
+
                 var symbol = _semanticModel.GetSymbolInfo(invocation).Symbol;
 
                 if (symbol is null)
@@ -147,6 +150,17 @@ namespace DpdtInject.Generator.BindExtractor
                         DpdtExceptionTypeEnum.IncorrectBinding_IncorrectClause,
                         $"Incorrect method found in bind expression: {symbol.Name}"
                         );
+                }
+
+                if (isLast && invocations.Count == 2)
+                {
+                    if (symbol.ContainingType.ToDisplayString() == typeof(IToFactoryBinding).FullName)
+                    {
+                        throw new DpdtException(
+                            DpdtExceptionTypeEnum.IncorrectBinding_IncorrectClause,
+                            $"Scope must be defined: {expressionNode}"
+                            );
+                    }
                 }
 
                 currentType = foundMethod.ReturnType;

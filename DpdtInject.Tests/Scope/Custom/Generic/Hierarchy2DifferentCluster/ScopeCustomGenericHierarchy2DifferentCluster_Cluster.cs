@@ -1,6 +1,7 @@
 ﻿using DpdtInject.Injector;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DpdtInject.Injector.Bind;
+using DpdtInject.Injector.Bind.Settings;
 
 namespace DpdtInject.Tests.Scope.Custom.Generic.Hierarchy2DifferentCluster
 {
@@ -26,6 +27,7 @@ namespace DpdtInject.Tests.Scope.Custom.Generic.Hierarchy2DifferentCluster
             Bind<IB>()
                 .To<B>()
                 .WithTransientScope()
+                .Setup<AllowedCrossCluster>()
                 .Configure(new ConstructorArgument("message", Message))
                 ;
         }

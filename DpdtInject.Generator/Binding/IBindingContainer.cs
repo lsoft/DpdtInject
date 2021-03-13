@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using DpdtInject.Injector.Bind;
+using DpdtInject.Injector.Bind.Settings;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace DpdtInject.Generator.Binding
 {
-
-    public interface IBindingContainer
+    public interface IBindingContainer : ISettingsProvider
     {
         Guid Identifier
         {
@@ -68,6 +68,7 @@ namespace DpdtInject.Generator.Binding
         {
             get;
         }
+
 
         string GetFromTypeFullNamesCombined(string separator = "_");
 

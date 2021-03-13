@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Injector;
+using DpdtInject.Injector.Bind.Settings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
@@ -24,6 +25,7 @@ namespace DpdtInject.Tests.Cluster.NonGeneric.DifferentFunc
             Bind<IB>()
                 .To<B>()
                 .WithTransientScope()
+                .Setup<AllowedCrossCluster>()
                 ;
         }
     }

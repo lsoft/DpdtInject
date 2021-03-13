@@ -37,7 +37,7 @@ namespace DpdtInject.Generator.BindExtractor.Parsed
             SemanticModelDecorator semanticModel,
             ExpressionStatementSyntax expressionNode,
             List<Tuple<InvocationExpressionSyntax, IMethodSymbol>> invocationSymbols
-            )
+            ) : base(BindScopeEnum.Constant, invocationSymbols)
         {
             if (semanticModel is null)
             {
@@ -106,7 +106,8 @@ namespace DpdtInject.Generator.BindExtractor.Parsed
                 _constantClause,
                 Scope,
                 ExpressionNode,
-                _whenArgumentClause
+                _whenArgumentClause,
+                _settings
                 );
 
             return bindingContainer;

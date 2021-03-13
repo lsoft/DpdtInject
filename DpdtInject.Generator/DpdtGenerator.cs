@@ -2,6 +2,7 @@
 using DpdtInject.Generator.TypeInfo;
 using Microsoft.CodeAnalysis;
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace DpdtInject.Generator
@@ -36,11 +37,22 @@ namespace DpdtInject.Generator
                 {
                     if (Directory.Exists(generatedSourceFolderFullPath))
                     {
-                        Directory.Delete(generatedSourceFolderFullPath, true);
+                        foreach (var file in Directory.GetFiles(generatedSourceFolderFullPath))
+                        {
+                            File.Delete(file);
+                        }
+                        foreach (var directory in Directory.GetDirectories(generatedSourceFolderFullPath))
+                        {
+                            Directory.Delete(directory);
+                        }
                     }
-
-                    Directory.CreateDirectory(generatedSourceFolderFullPath);
+                    else
+                    {
+                        Directory.CreateDirectory(generatedSourceFolderFullPath);
+                    }
                 }
+
+                var sw = Stopwatch.StartNew();
 
                 var typeInfoContainer = new GeneratorTypeInfoContainer(
                     ref context,
@@ -57,7 +69,7 @@ namespace DpdtInject.Generator
 
                 diagnosticReporter.ReportWarning(
                     "Dpdt generator successfully finished its work",
-                    $"Dpdt generator successfully finished its work, {typeInfoContainer.UnitsGenerated} compilation unit(s) generated."
+                    $"Dpdt generator successfully finished its work, {typeInfoContainer.UnitsGenerated} compilation unit(s) generated, taken {sw.Elapsed}."
                     );
             }
             catch (Exception excp)

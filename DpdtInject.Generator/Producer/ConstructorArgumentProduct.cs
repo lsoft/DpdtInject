@@ -4,6 +4,8 @@ namespace DpdtInject.Generator.Producer
 {
     public class ConstructorArgumentProduct
     {
+        public static readonly ConstructorArgumentProduct Empty = new(string.Empty);
+
         public string ResolveConstructorArgumentClause
         {
             get;
@@ -20,7 +22,5 @@ namespace DpdtInject.Generator.Producer
 
             ResolveConstructorArgumentClause = resolveConstructorArgumentClause;
         }
-
-        public static readonly ConstructorArgumentProduct Empty = new(string.Empty);
     }
 }

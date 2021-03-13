@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Injector;
+using DpdtInject.Injector.Bind.Settings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional2
@@ -24,6 +25,7 @@ namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional2
             Bind<IB>()
                 .To<B>()
                 .WithTransientScope()
+                .Setup<AllowedCrossCluster>()
                 .When(rt => rt.ParentTarget.TargetType == typeof(C))
                 ;
 

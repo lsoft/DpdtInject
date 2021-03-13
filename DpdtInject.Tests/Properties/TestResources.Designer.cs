@@ -293,6 +293,7 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Bind.Settings;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///
         ///namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional0
@@ -305,8 +306,8 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
-        ///                .When(rt =&gt;
-        ///                          rt.TargetType == typeof(A) &amp;&amp; rt.ClusterDec [rest of string was truncated]&quot;;.
+        ///                //.Setup&lt;MustBeCrossCluster&gt;()
+        ///         [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterGenericDifferentConditional0_Cluster {
             get {
@@ -1339,6 +1340,7 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Bind.Settings;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///
         ///namespace DpdtInject.Tests.Scope.Constant.Generic.SingleInterfaceSingleObject
@@ -1352,10 +1354,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .WithConstScope(AInstance)
-        ///                ;
-        ///        }
-        ///
-        ///        pub [rest of string was truncated]&quot;;.
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeConstantGenericSingleInterfaceSingleObject_Cluster {
             get {
@@ -2009,6 +2008,32 @@ namespace DpdtInject.Tests.Properties {
         internal static string ScopeTransientGenericTwoInterfacesSingleObject_Cluster {
             get {
                 return ResourceManager.GetString("ScopeTransientGenericTwoInterfacesSingleObject_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///
+        ///namespace DpdtInject.Tests.Settings.CrossCluster.OnlyLocalCluster0
+        ///{
+        ///    public partial class SettingsCrossClusterOnlyLocalCluster0_RootCluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithTransientScope()
+        ///                ;
+        ///        }
+        ///    }
+        ///
+        ///    public partial class SettingsCrossClusterOnlyLocalCl [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SettingsCrossClusterOnlyLocalCluster0_Cluster {
+            get {
+                return ResourceManager.GetString("SettingsCrossClusterOnlyLocalCluster0_Cluster", resourceCulture);
             }
         }
         

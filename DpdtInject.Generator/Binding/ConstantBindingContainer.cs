@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
 using System.Diagnostics;
 using DpdtInject.Injector.Bind;
+using DpdtInject.Injector.Bind.Settings;
 
 namespace DpdtInject.Generator.Binding
 {
@@ -33,8 +34,9 @@ namespace DpdtInject.Generator.Binding
             ArgumentSyntax constantSyntax,
             BindScopeEnum scope,
             ExpressionStatementSyntax expressionNode,
-            ArgumentSyntax? whenArgumentClause
-            ) : base(types, scope, expressionNode, whenArgumentClause, constantSyntax)
+            ArgumentSyntax? whenArgumentClause,
+            IReadOnlyList<ISetting> settings
+            ) : base(types, scope, expressionNode, whenArgumentClause, constantSyntax, settings)
         {
             ConstructorArguments = new List<DetectedConstructorArgument>();
             NotBindConstructorArgumentTypes = new HashSet<ITypeSymbol>(

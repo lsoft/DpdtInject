@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using DpdtInject.Injector.Bind;
+using DpdtInject.Injector.Bind.Settings;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
@@ -12,6 +14,7 @@ namespace DpdtInject.Generator.Binding
     public abstract class BaseBindingContainer : IBindingContainer
     {
         private readonly BindingContainerTypes _types;
+        private readonly IReadOnlyList<ISetting> _settings;
 
         /// <inheritdoc />
         public Guid Identifier
@@ -75,7 +78,8 @@ namespace DpdtInject.Generator.Binding
             BindScopeEnum scope,
             ExpressionStatementSyntax expressionNode,
             ArgumentSyntax? whenArgumentClause,
-            ArgumentSyntax? constantSyntax
+            ArgumentSyntax? constantSyntax,
+            IReadOnlyList<ISetting> settings
             )
         {
             if (types is null)
@@ -92,7 +96,13 @@ namespace DpdtInject.Generator.Binding
             {
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"Misconfiguration between scope and constant syntax");
             }
-            if(scope != BindScopeEnum.Constant && !(constantSyntax is null))
+
+            if (settings is null)
+            {
+                throw new ArgumentNullException(nameof(settings));
+            }
+
+            if (scope != BindScopeEnum.Constant && !(constantSyntax is null))
             {
                 throw new DpdtException(DpdtExceptionTypeEnum.InternalError, $"Misconfiguration between scope and constant syntax");
             }
@@ -102,9 +112,23 @@ namespace DpdtInject.Generator.Binding
             ExpressionNode = expressionNode;
             WhenArgumentClause = whenArgumentClause;
             ConstantSyntax = constantSyntax;
-
+            _settings = settings;
             Identifier = Guid.NewGuid();
             FromTypeFullNames = new HashSet<string>(BindFromTypes.ConvertAll(b => b.ToDisplayString()));
+        }
+
+        public bool IsSetup<T>()
+             where T : class, ISetting
+        {
+            return _settings.Any(s => s.GetType().FullName == typeof(T).FullName!);
+        }
+
+        public bool TryGetSettingInScope<TScope>([NotNullWhen(true)] out TScope? setting)
+             where TScope : class, ISetting
+        {
+            setting = _settings.FirstOrDefault(s => s.GetType().BaseType!.FullName == typeof(TScope).FullName!) as TScope;
+
+            return setting != null;
         }
 
         public string GetFromTypeFullNamesCombined(string separator = "_") => string.Join(separator, FromTypeFullNames);

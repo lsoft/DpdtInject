@@ -52,7 +52,7 @@ namespace DpdtInject.Generator.BindExtractor.Parsed
             ExpressionStatementSyntax expressionNode,
             List<Tuple<InvocationExpressionSyntax, IMethodSymbol>> invocationSymbols,
             BindScopeEnum scope
-            )
+            ) : base(scope, invocationSymbols)
         {
             if (typeInfoContainer is null)
             {
@@ -144,7 +144,8 @@ namespace DpdtInject.Generator.BindExtractor.Parsed
                 constructorArguments,
                 Scope,
                 ExpressionNode,
-                _whenArgumentClause
+                _whenArgumentClause,
+                _settings
                 );
 
             return bindingContainer;

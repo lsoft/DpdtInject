@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Injector;
+using DpdtInject.Injector.Bind.Settings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DpdtInject.Tests.Scope.Constant.Generic.SingleInterfaceSingleObject
@@ -12,6 +13,8 @@ namespace DpdtInject.Tests.Scope.Constant.Generic.SingleInterfaceSingleObject
         {
             Bind<IA>()
                 .WithConstScope(AInstance)
+                //.Setup<MustBeCrossCluster>()
+                //.Setup<PerformCircularCheck>()
                 ;
         }
 

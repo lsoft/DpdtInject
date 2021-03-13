@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Injector;
+using DpdtInject.Injector.Bind.Settings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional0
@@ -11,6 +12,8 @@ namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional0
             Bind<IA>()
                 .To<A>()
                 .WithTransientScope()
+                //.Setup<MustBeCrossCluster>()
+                //.Setup<PerformCircularCheck>()
                 .When(rt =>
                           rt.TargetType == typeof(A) && rt.ClusterDeclaredType == typeof(ClusterGenericDifferentConditional0_FirstCluster) && rt.ParentRequest.RequestedType == typeof(IA) && rt.ParentRequest.ClusterDeclaredType == typeof(ClusterGenericDifferentConditional0_LastCluster) && rt.TryGetParentTarget(out var parentTarget) && parentTarget.TargetType == typeof(B)
                     )
@@ -26,6 +29,7 @@ namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional0
             Bind<IB>()
                 .To<B>()
                 .WithTransientScope()
+                .Setup<AllowedCrossCluster>()
                 .When(rt =>
                           rt.IsRoot && rt.TargetType == typeof(B) && rt.ClusterDeclaredType == typeof(ClusterGenericDifferentConditional0_LastCluster) && rt.ParentRequest.RequestedType == typeof(IB)
                     )
