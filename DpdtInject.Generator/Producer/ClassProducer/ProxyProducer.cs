@@ -5,6 +5,7 @@ using System.Text;
 using DpdtInject.Generator.BindExtractor;
 using DpdtInject.Generator.Binding;
 using DpdtInject.Generator.Producer.Product;
+using DpdtInject.Injector.Bind;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
@@ -185,6 +186,8 @@ namespace DpdtInject.Generator.Producer.ClassProducer
             var extractor = new ConstructorArgumentFromMethodExtractor();
             var constructorArguments = extractor.GetConstructorArguments(methodSymbol);
 
+            var proxyArguments = GetProxyArguments(methodSymbol);
+
             MethodProduct result;
             if (methodSymbol.ReturnsVoid)
             {
@@ -196,27 +199,29 @@ namespace DpdtInject.Generator.Producer.ClassProducer
                         return $@"
         public {h}
         {{
+            var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
+                _payloadFullName,
+                nameof({ms.Name}),
+                {proxyArguments}
+                );
+
             var startDate = System.Diagnostics.Stopwatch.GetTimestamp();
             try
             {{
                 _payload.{ms.Name}({constructorArguments.Join(cafm => cafm.GetUsageSyntax(), ",")});
 
-                _sessionSaver.FixSessionSafely(
-                    _payloadFullName,
-                    nameof({ms.Name}),
+                _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+                    sessionGuid,
                     (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                    null,
-                    {GetProxyArguments(methodSymbol)}
+                    null
                     );
             }}
             catch (Exception excp)
             {{
-                _sessionSaver.FixSessionSafely(
-                    _payloadFullName,
-                    nameof({ms.Name}),
+                _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+                    sessionGuid,
                     (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                    excp,
-                    {GetProxyArguments(methodSymbol)}
+                    excp
                     );
 
                 throw;
@@ -242,29 +247,31 @@ namespace DpdtInject.Generator.Producer.ClassProducer
                         return $@"
         public {h}
         {{
+            var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
+                _payloadFullName,
+                nameof({ms.Name}),
+                {proxyArguments}
+                );
+
             var startDate = System.Diagnostics.Stopwatch.GetTimestamp();
             try
             {{
                 var result = {refModifier} _payload.{ms.Name}({constructorArguments.Join(cafm => cafm.GetUsageSyntax(), ",")});
 
-                _sessionSaver.FixSessionSafely(
-                    _payloadFullName,
-                    nameof({ms.Name}),
+                _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+                    sessionGuid,
                     (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                    null,
-                    {GetProxyArguments(methodSymbol)}
+                    null
                     );
 
                 return result;
             }}
             catch (Exception excp)
             {{
-                _sessionSaver.FixSessionSafely(
-                    _payloadFullName,
-                    nameof({ms.Name}),
+                _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+                    sessionGuid,
                     (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                    excp,
-                    {GetProxyArguments(methodSymbol)}
+                    excp
                     );
 
                 throw;
@@ -278,7 +285,7 @@ namespace DpdtInject.Generator.Producer.ClassProducer
             return result;
         }
 
-        private string GetProxyArguments(
+        private static string GetProxyArguments(
             IMethodSymbol methodSymbol
             )
         {

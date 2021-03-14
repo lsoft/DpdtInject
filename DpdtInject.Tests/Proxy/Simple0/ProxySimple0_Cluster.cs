@@ -87,6 +87,12 @@ namespace DpdtInject.Tests.Proxy.Simple0
 
     public class SessionSaver : BaseSessionSaver
     {
+        public static Guid SessionGuid
+        {
+            get;
+            private set;
+        }
+
         public static bool ProxyWasInDeal
         {
             get;
@@ -123,20 +129,39 @@ namespace DpdtInject.Tests.Proxy.Simple0
             private set;
         }
 
-        public override void FixSessionSafely(
+        /// <summary>
+        /// Fixes the current session to a permanent storage.
+        /// DO NOT RAISE AN EXCEPTION HERE!
+        /// </summary>
+        public override Guid StartSessionSafely(
             in string fullClassName,
             in string memberName,
-            in double takenInSeconds,
-            Exception? exception,
             in object[]? arguments
             )
         {
             ProxyWasInDeal = true;
             FullClassName = fullClassName;
             MemberName = memberName;
+            Arguments = arguments;
+
+            SessionGuid = Guid.NewGuid();
+            return SessionGuid;
+        }
+
+
+        public override void FixSessionSafely(
+            in Guid sessionGuid,
+            in double takenInSeconds,
+            Exception? exception
+            )
+        {
+            if (SessionGuid != sessionGuid)
+            {
+                throw new InvalidOperationException("Session guids are different!");
+            }
+
             TakenInSeconds = takenInSeconds;
             Exception = exception;
-            Arguments = arguments;
         }
 
     }

@@ -181,6 +181,8 @@ Bind<IB>()
 
 # Additional examples
 
+Proxy (and decorator at the same time) binding example:
+
 ```csharp
 
 //example of the factory, that will be injected into the proxy:
@@ -191,12 +193,13 @@ Bind<ICalculator>()
     ;
 
 
-//proxy example:
+//proxy binding example:
 Bind<ICalculator>()
     .ToProxy<ProxyCalculator>()
-    .WithProxySettings<TelemetryAttribute, SessionSaver>() //additional details are available at the tests project
+    .WithProxySettings<TelemetryAttribute, SessionSaver>() //additional details about these classes are available at the tests project
     .WithSingletonScope()
-    .When(rt => rt.WhenInjectedExactlyNotInto<ProxyCalculator>())
+    .Setup<SuppressCircularCheck>() //this suppress unused warning
+    .When(rt => rt.WhenInjectedExactlyNotInto<ProxyCalculator>()) //this suppress stack overflow during resolution
     ;
 
 
