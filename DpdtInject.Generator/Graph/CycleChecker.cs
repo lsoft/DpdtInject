@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Generator.Binding;
+using DpdtInject.Injector.Bind.Settings;
 using DpdtInject.Injector.Compilation;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
@@ -43,6 +44,17 @@ namespace DpdtInject.Generator.Graph
                 var group = pair.Value;
                 foreach (var bindingExtender in group.BindingExtenders.Shuffle())
                 {
+                    var doCircularCheck = true;
+                    if (bindingExtender.BindingContainer.TryGetSettingInScope<CircularSetting>(out var setting))
+                    {
+                        doCircularCheck = setting.DoCircularCheck;
+                    }
+
+                    if (!doCircularCheck)
+                    {
+                        continue;
+                    }
+
                     try
                     {
                         var used = new Subgraph();

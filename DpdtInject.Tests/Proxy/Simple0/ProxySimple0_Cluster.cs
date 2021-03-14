@@ -4,6 +4,7 @@ using DpdtInject.Injector;
 using DpdtInject.Injector.Bind;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DpdtInject.Injector.RContext;
+using DpdtInject.Injector.Bind.Settings;
 
 namespace DpdtInject.Tests.Proxy.Simple0
 {
@@ -27,6 +28,7 @@ namespace DpdtInject.Tests.Proxy.Simple0
                 .ToProxy<ProxyCalculator>()
                 .WithProxySettings<TelemetryAttribute, SessionSaver>()
                 .WithSingletonScope()
+                .Setup<SuppressCircularCheck>()
                 .When(rt => rt.WhenInjectedExactlyNotInto<ProxyCalculator>())
                 ;
 

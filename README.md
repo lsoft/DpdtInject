@@ -343,22 +343,33 @@ Dpdt is a constructor-based injector. Async resolutions are not supported becaus
 
 Settings are things that modify compile-time cluster code generation. THEY ARE NOT WORKING AT RUNTIME.
 
-## Cross cluster resolutions
+### Cross cluster resolutions
 
 These settings relates with checking for child binding resolutions; they are useful for an additional safety. They are applied for each of child resolutions.
 
-### OnlyLocalCluster
+#### OnlyLocalCluster
 
 Each dependency **must** exists in local cluster. If not - ongoing compilation will break. Note: binding conditions is out of scope, only existing matters. You can define a local binding with `When(rt => false)`, and this check will mute. So, this setting is not something that can protect you at 100%. This is a default behaiour.
 
-### AllowedCrossCluster
+#### AllowedCrossCluster
 
 Any dependency may be in home cluster or parent cluster. If local dependecy found at runtime it is used, otherwise request to the parent cluster is performed. (this is default behaviour for old version of Dpdt)
 
-### MustBeCrossCluster
+#### MustBeCrossCluster
 
 NO local dependency allowed, any dependency MUST be in the parent cluster. If local dependency found, ongoing compilation will break. Note: binding conditions is out of scope, only existing matters. You can define a local binding with `When(rt => false)`, and this check will fire. So, this setting is not something that can protect you at 100%.
 
+### Circular checking
+
+These settings relates with a circular checking; they are useful for removing unused noise from build log (for example in case of decorator, look at `ProxySimple0_Fixture` unit test).
+
+#### PerformCircularCheck
+
+Do circular checking. It is a default value.
+
+#### SuppressCircularCheck
+
+Do not circular checking. Use this for decorators bindings.
 
 
 ## Debugging your clusters and conditional clauses
