@@ -10,44 +10,47 @@ namespace DpdtInject.Generator.ArgumentWrapper
 {
     public static class ArgumentWrapperHelper
     {
-        public static int WrapperCount => Enum.GetValues(typeof(DpdtArgumentWrapperTypeEnum)).Length;
+        public static int WrapperCountIncludeNone => Enum.GetValues(typeof(DpdtArgumentWrapperTypeEnum)).Length;
 
-        public static IEnumerable<DpdtArgumentWrapperTypeEnum> GenerateWrapperEnumTypes(
-            )
-        {
-            foreach (DpdtArgumentWrapperTypeEnum wrapperType in Enum.GetValues(typeof(DpdtArgumentWrapperTypeEnum)))
-            {
-                yield return wrapperType;
-            }
-        }
-
-        public static IEnumerable<(DpdtArgumentWrapperTypeEnum, ITypeSymbol)> GenerateWrapperTypes(
-            this ITypeSymbol type,
-            ITypeInfoProvider typeInfoProvider,
+        public static IReadOnlyList<DpdtArgumentWrapperTypeEnum> GenerateWrapperEnumTypes(
             bool includeNone
             )
         {
+            var result = new List<DpdtArgumentWrapperTypeEnum>();
+
             foreach (DpdtArgumentWrapperTypeEnum wrapperType in Enum.GetValues(typeof(DpdtArgumentWrapperTypeEnum)))
             {
-                ITypeSymbol wrapperSymbol;
-                switch (wrapperType)
+                if (wrapperType == DpdtArgumentWrapperTypeEnum.None && !includeNone)
                 {
-                    case DpdtArgumentWrapperTypeEnum.None:
-                        if (!includeNone)
-                        {
-                            continue;
-                        }
-                        wrapperSymbol = type;
-                        break;
-                    case DpdtArgumentWrapperTypeEnum.Func:
-                        wrapperSymbol = typeInfoProvider.Func(type);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(wrapperType.ToString());
+                    continue;
                 }
 
-                yield return (wrapperType, wrapperSymbol);
+                result.Add(wrapperType);
             }
+
+            return result;
+        }
+
+        public static ITypeSymbol GenerateWrapperTypes(
+            this ITypeSymbol type,
+            ITypeInfoProvider typeInfoProvider,
+            DpdtArgumentWrapperTypeEnum wrapperType
+            )
+        {
+            ITypeSymbol wrapperSymbol;
+            switch (wrapperType)
+            {
+                case DpdtArgumentWrapperTypeEnum.None:
+                    wrapperSymbol = type;
+                    break;
+                case DpdtArgumentWrapperTypeEnum.Func:
+                    wrapperSymbol = typeInfoProvider.Func(type);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(wrapperType.ToString());
+            }
+
+            return wrapperSymbol;
         }
 
         public static string GetPostfix(

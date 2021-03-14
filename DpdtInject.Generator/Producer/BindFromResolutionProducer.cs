@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DpdtInject.Injector.RContext;
+using DpdtInject.Injector.Bind.Settings;
 
 namespace DpdtInject.Generator.Producer
 {
@@ -67,12 +68,22 @@ namespace DpdtInject.Generator.Producer
         {
             var products = new List<ResolutionProduct>();
 
-            var filteredInstanceProducts = InstanceProducts.FindAll(ip => ip.BindingExtender.BindingContainer.IsRegisteredFrom(BindFrom));
+            var instanceProductDict = SplitByWrapperType();
 
-            foreach (var (wrapperType, wrapperSymbol) in BindFrom.GenerateWrapperTypes(_typeInfoProvider, true))
+            foreach (var pair in instanceProductDict)
             {
+                var wrapperType = pair.Key;
+                var filteredInstanceProduct = pair.Value;
+
+                if (filteredInstanceProduct.Count == 0)
+                {
+                    continue;
+                }
+
+                var wrapperSymbol = BindFrom.GenerateWrapperTypes(_typeInfoProvider, wrapperType);
+
                 var resolutionProduct = CreateResolutionProduct(
-                    filteredInstanceProducts,
+                    filteredInstanceProduct,
                     wrapperType,
                     wrapperSymbol
                     );
@@ -87,6 +98,39 @@ namespace DpdtInject.Generator.Producer
                 );
 
             return result;
+        }
+
+        private IReadOnlyDictionary<DpdtArgumentWrapperTypeEnum, List<InstanceProduct>> SplitByWrapperType()
+        {
+            var allWrapperTypes = ArgumentWrapperHelper.GenerateWrapperEnumTypes(true);
+
+            var instanceProductDict = allWrapperTypes
+                .ToDictionary(a => a, a => new List<InstanceProduct>())
+                ;
+
+            foreach (var instanceProduct in InstanceProducts)
+            {
+                bool doProduceWrappers = false;
+                if (instanceProduct.BindingExtender.BindingContainer.TryGetSettingInScope<WrappersSettings>(out var setting))
+                {
+                    doProduceWrappers = setting.DoProduceWrappers;
+                }
+
+                if (doProduceWrappers)
+                {
+                    for (var wi = 0; wi < allWrapperTypes.Count; wi++)
+                    {
+                        var wrapper = allWrapperTypes[wi];
+                        instanceProductDict[wrapper].Add(instanceProduct);
+                    }
+                }
+                else
+                {
+                    instanceProductDict[DpdtArgumentWrapperTypeEnum.None].Add(instanceProduct);
+                }
+            }
+
+            return instanceProductDict;
         }
 
         private ResolutionProduct CreateResolutionProduct(

@@ -359,6 +359,20 @@ Any dependency may be in home cluster or parent cluster. If local dependecy foun
 
 NO local dependency allowed, any dependency MUST be in the parent cluster. If local dependency found, ongoing compilation will break. Note: binding conditions is out of scope, only existing matters. You can define a local binding with `When(rt => false)`, and this check will fire. So, this setting is not something that can protect you at 100%.
 
+
+### Wrapper producing
+
+These settings relate with a producing of wrapped-resolutions, like `Func<>`; they are  useful for minimizing the cluster size.
+
+#### NoWrappers
+
+No bindings for wrappers will be produced. It is a default value.
+
+#### ProduceWrappers
+
+**Every** type of wrappers will be produced for this binding.
+
+
 ### Circular checking
 
 These settings relates with a circular checking; they are useful for removing unused noise from build log (for example in case of decorator, look at `ProxySimple0_Fixture` unit test).

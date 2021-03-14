@@ -39,7 +39,7 @@ namespace DpdtInject.Injector.Bind.Settings
             get;
         }
 
-        public bool IsAllowedFor(BindScopeEnum scope) => true;
+        public bool IsAllowedFor(BindScopeEnum scope) => scope.In(BindScopeEnum.Singleton, BindScopeEnum.Transient, BindScopeEnum.Custom);
 
     }
 
@@ -68,7 +68,7 @@ namespace DpdtInject.Injector.Bind.Settings
             get;
         }
 
-        public bool IsAllowedFor(BindScopeEnum scope) => scope.In(BindScopeEnum.Singleton, BindScopeEnum.Transient, BindScopeEnum.Custom);
+        public bool IsAllowedFor(BindScopeEnum scope) => true;
     }
 
     public class NoWrappers : WrappersSettings
@@ -91,7 +91,7 @@ namespace DpdtInject.Injector.Bind.Settings
             get;
         }
 
-        public bool IsAllowedFor(BindScopeEnum scope) => true;
+        public bool IsAllowedFor(BindScopeEnum scope) => scope.In(BindScopeEnum.Singleton, BindScopeEnum.Transient, BindScopeEnum.Custom);
     }
 
     public class SuppressCircularCheck : CircularSetting

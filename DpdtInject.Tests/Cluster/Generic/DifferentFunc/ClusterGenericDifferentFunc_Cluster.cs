@@ -13,6 +13,7 @@ namespace DpdtInject.Tests.Cluster.Generic.DifferentFunc
             Bind<IA>()
                 .To<A>()
                 .WithTransientScope()
+                .Setup<ProduceWrappers>()
                 ;
         }
     }

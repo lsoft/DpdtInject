@@ -11,14 +11,10 @@ namespace DpdtInject.Generator.Binding
 {
     public class ClusterBindings
     {
-        private readonly HashSet<ITypeSymbol> _bindsFrom;
-
         public ITypeSymbol ClusterType
         {
             get;
         }
-
-        public IReadOnlyCollection<ITypeSymbol> BindsFrom => _bindsFrom;
 
         public IReadOnlyList<IBindingContainer> BindingContainers
         {
@@ -60,20 +56,12 @@ namespace DpdtInject.Generator.Binding
 
             BindingExtenders = bindingContainers.ConvertAll(c => new BindingContainerExtender(c));
 
-            _bindsFrom = new HashSet<ITypeSymbol>(
-                SymbolEqualityComparer.Default
-                );
             NotBindParents = new Dictionary<ITypeSymbol, List<BindingContainerExtender>>(
                 SymbolEqualityComparer.Default
                 );
 
             foreach (var extender in BindingExtenders)
             {
-                foreach (var bindFromType in extender.BindingContainer.BindFromTypes)
-                {
-                    _bindsFrom.Add(bindFromType);
-                }
-
                 foreach (var cat in extender.BindingContainer.NotBindConstructorArgumentTypes)
                 {
                     if (!NotBindParents.ContainsKey(cat))

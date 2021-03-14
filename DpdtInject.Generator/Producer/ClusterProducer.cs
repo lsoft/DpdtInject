@@ -10,6 +10,7 @@ using System.Linq;
 using DpdtInject.Generator.Producer.Product;
 using DpdtInject.Injector.Bind;
 using DpdtInject.Injector.RContext;
+using Microsoft.CodeAnalysis;
 
 namespace DpdtInject.Generator.Producer
 {
@@ -51,6 +52,7 @@ namespace DpdtInject.Generator.Producer
             }
 
             var instanceProducts = new List<InstanceProduct>();
+            var instanceProductDict = new Dictionary<ITypeSymbol, List<InstanceProduct>>(SymbolEqualityComparer.Default);
 
             foreach (var bindingExtender in ClusterBindings.BindingExtenders)
             {
@@ -91,16 +93,29 @@ namespace DpdtInject.Generator.Producer
 
                 var instanceProduct = instanceProducer.Produce();
                 instanceProducts.Add(instanceProduct);
+
+                foreach (var bindFrom in instanceProduct.BindingExtender.BindingContainer.BindFromTypes)
+                {
+                    if (!instanceProductDict.ContainsKey(bindFrom))
+                    {
+                        instanceProductDict[bindFrom] = new List<InstanceProduct>();
+                    }
+
+                    instanceProductDict[bindFrom].Add(instanceProduct);
+                }
             }
 
             var resolutionInterfaceProducts = new List<InstanceResolutionInterfaceProduct>();
-            foreach (var bindFrom in ClusterBindings.BindsFrom)
+            foreach (var pair in instanceProductDict)
             {
+                var bindFrom = pair.Key;
+                var filteredInstanceProducts = pair.Value;
+
                 var resolutionInterfaceProducer = new BindFromResolutionProducer(
                     _typeInfoProvider,
                     ClusterBindings,
                     bindFrom,
-                    instanceProducts
+                    filteredInstanceProducts
                     );
 
                 var resolutionInterfaceProduct = resolutionInterfaceProducer.Produce();
@@ -109,7 +124,7 @@ namespace DpdtInject.Generator.Producer
 
 
             var customInstanceContainerSize = ClusterBindings.BindingContainers.Count(bc => bc.Scope == BindScopeEnum.Custom);
-            customInstanceContainerSize *= ArgumentWrapperHelper.WrapperCount;
+            customInstanceContainerSize *= ArgumentWrapperHelper.WrapperCountIncludeNone;
             customInstanceContainerSize *= 2; //factor of 2 for additional sparsity; 
             customInstanceContainerSize += 1; //addition of 1 is because of 0 is not allowed size for container
 

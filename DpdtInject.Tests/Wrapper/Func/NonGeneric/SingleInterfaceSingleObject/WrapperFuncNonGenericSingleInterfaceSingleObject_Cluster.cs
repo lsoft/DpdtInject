@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Injector;
+using DpdtInject.Injector.Bind.Settings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
@@ -12,6 +13,7 @@ namespace DpdtInject.Tests.Wrapper.Func.NonGeneric.SingleInterfaceSingleObject
             Bind<IA>()
                 .To<A>()
                 .WithTransientScope()
+                .Setup<ProduceWrappers>()
                 ;
         }
 

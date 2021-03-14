@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Injector;
+using DpdtInject.Injector.Bind.Settings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
@@ -14,6 +15,7 @@ namespace DpdtInject.Tests.Wrapper.Func.NonGeneric.DeclaredFunc
         {
             Bind<Func<IA>>()
                 .WithConstScope(Funca)
+                .Setup<ProduceWrappers>()
                 ;
 
             Bind<IB>()
