@@ -68,10 +68,8 @@ namespace DpdtInject.Profiler
                   , compilationOptions
                     );
 
-                var typeInfoContainer = new PreparatorTypeInfoContainer(
-                    compilation,
-                    true,
-                    new FileInfo(_callerFilePath).Directory.FullName
+                var typeInfoContainer = new ProfilerTypeInfoContainer(
+                    compilation
                     );
 
                 var internalGenerator = new DpdtInternalGenerator(
