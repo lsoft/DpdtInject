@@ -346,6 +346,9 @@
   <data name="ScopeTransientGenericTwoInterfacesSingleObject_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Scope\Transient\Generic\TwoInterfacesSingleObject\ScopeTransientGenericTwoInterfacesSingleObject_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="SettingsCrossClusterMustBeCrossCluster0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Settings\CrossCluster\MustBeCrossCluster0\SettingsCrossClusterMustBeCrossCluster0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="SettingsCrossClusterOnlyLocalCluster0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Settings\CrossCluster\OnlyLocalCluster0\SettingsCrossClusterOnlyLocalCluster0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

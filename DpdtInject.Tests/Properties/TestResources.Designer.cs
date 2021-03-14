@@ -266,6 +266,7 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Bind.Settings;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///
         ///namespace DpdtInject.Tests.Cluster.Generic.Different
@@ -282,8 +283,7 @@ namespace DpdtInject.Tests.Properties {
         ///        }
         ///    }
         ///
-        ///    public partial class ClusterGenericDifferent_ChildCluster : DefaultCluster
-        ///     [rest of string was truncated]&quot;;.
+        ///    public partial class ClusterGenericDif [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterGenericDifferent_Cluster {
             get {
@@ -317,6 +317,7 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Bind.Settings;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///
         ///namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional1
@@ -330,7 +331,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
         ///                .When(rt =&gt;
-        ///                          rt.TargetType == typeof(A) &amp;&amp; rt.ClusterDec [rest of string was truncated]&quot;;.
+        ///                          r [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterGenericDifferentConditional1_Cluster {
             get {
@@ -340,6 +341,7 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Bind.Settings;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///
         ///namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional2
@@ -352,9 +354,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
-        ///                .When(rt =&gt; rt.ParentTarget.TargetType == typeof(B))
-        ///                ;
-        ///        }        /// [rest of string was truncated]&quot;;.
+        ///                .When(rt =&gt; rt.ParentTarget.TargetType == [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterGenericDifferentConditional2_Cluster {
             get {
@@ -364,6 +364,7 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Bind.Settings;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///
         ///namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional3
@@ -376,10 +377,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
-        ///                .When(rt =&gt; rt.ParentTarget.TargetType == typeof(B))
-        ///                ;
-        ///
-        ///         [rest of string was truncated]&quot;;.
+        ///                .When(rt =&gt; rt.ParentTarget.TargetType == [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterGenericDifferentConditional3_Cluster {
             get {
@@ -389,6 +387,7 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Bind.Settings;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///
         ///namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional4
@@ -401,10 +400,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
-        ///                .When(rt =&gt; rt.ParentTarget.TargetType == typeof(B))
-        ///                ;
-        ///
-        ///         [rest of string was truncated]&quot;;.
+        ///                .When(rt =&gt; rt.ParentTarget.TargetType == [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterGenericDifferentConditional4_Cluster {
             get {
@@ -414,6 +410,7 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Bind.Settings;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///
@@ -431,7 +428,7 @@ namespace DpdtInject.Tests.Properties {
         ///        }
         ///    }
         ///
-        ///    public partial class ClusterGenericDifferentFunc_ChildClu [rest of string was truncated]&quot;;.
+        ///    public partial  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterGenericDifferentFunc_Cluster {
             get {
@@ -441,6 +438,7 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Bind.Settings;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///
         ///namespace DpdtInject.Tests.Cluster.NonGeneric.Different
@@ -457,7 +455,7 @@ namespace DpdtInject.Tests.Properties {
         ///        }
         ///    }
         ///
-        ///    public partial class ClusterNonGenericDifferent_ChildCluster : DefaultClus [rest of string was truncated]&quot;;.
+        ///    public partial class ClusterNonG [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterNonGenericDifferent_Cluster {
             get {
@@ -467,6 +465,7 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Bind.Settings;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///
         ///namespace DpdtInject.Tests.Cluster.NonGeneric.DifferentConditional0
@@ -480,7 +479,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
         ///                .When(rt =&gt;
-        ///                          rt.TargetType == typeof(A) &amp;&amp; rt.Clus [rest of string was truncated]&quot;;.
+        ///                      [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterNonGenericDifferentConditional0_Cluster {
             get {
@@ -490,6 +489,7 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Bind.Settings;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///
         ///namespace DpdtInject.Tests.Cluster.NonGeneric.DifferentConditional1
@@ -503,7 +503,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
         ///                .When(rt =&gt;
-        ///                          rt.TargetType == typeof(A) &amp;&amp; rt.Clus [rest of string was truncated]&quot;;.
+        ///                      [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterNonGenericDifferentConditional1_Cluster {
             get {
@@ -513,6 +513,7 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Bind.Settings;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///
@@ -530,7 +531,7 @@ namespace DpdtInject.Tests.Properties {
         ///        }
         ///    }
         ///
-        ///    public partial class ClusterNonGenericDifferentFunc [rest of string was truncated]&quot;;.
+        ///    public pa [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterNonGenericDifferentFunc_Cluster {
             get {
@@ -540,6 +541,7 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Bind.Settings;
         ///using DpdtInject.Injector.Excp;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///
@@ -551,11 +553,7 @@ namespace DpdtInject.Tests.Properties {
         ///        public void BindMethod()
         ///        {
         ///            //this cluster SHOULD NOT have a IA binding
-        ///            //because we&apos;re checked for UNKNOWN binding EVEN in parent cluster
-        ///        }
-        ///    }
-        ///
-        ///    public partia [rest of string was truncated]&quot;;.
+        ///            //because we&apos;re checked for UNKNOWN binding EVEN in parent clus [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterUnknownEvenInParent_Cluster {
             get {
@@ -1318,6 +1316,7 @@ namespace DpdtInject.Tests.Properties {
         ///using DpdtInject.Injector.Bind;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using DpdtInject.Injector.RContext;
+        ///using DpdtInject.Injector.Bind.Settings;
         ///
         ///namespace DpdtInject.Tests.Proxy.Simple0
         ///{
@@ -1328,9 +1327,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;SessionSaver&gt;()
         ///                .To&lt;SessionSaver&gt;()
-        ///                .WithSingletonScope()
-        ///                ;
-        /// [rest of string was truncated]&quot;;.
+        ///                 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ProxySimple0_Cluster {
             get {
@@ -1525,6 +1522,7 @@ namespace DpdtInject.Tests.Properties {
         ///   Looks up a localized string similar to using DpdtInject.Injector;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using DpdtInject.Injector.Bind;
+        ///using DpdtInject.Injector.Bind.Settings;
         ///
         ///namespace DpdtInject.Tests.Scope.Custom.Generic.Hierarchy2DifferentCluster
         ///{
@@ -1536,11 +1534,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithCustomScope()
-        ///                ;
-        ///        }
-        ///    }
-        ///
-        ///    public [rest of string was truncated]&quot;;.
+        ///        [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeCustomGenericHierarchy2DifferentCluster_Cluster {
             get {
@@ -1606,6 +1600,7 @@ namespace DpdtInject.Tests.Properties {
         ///   Looks up a localized string similar to using DpdtInject.Injector;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using DpdtInject.Injector.Bind;
+        ///using DpdtInject.Injector.Bind.Settings;
         ///
         ///namespace DpdtInject.Tests.Scope.Custom.NonGeneric.Hierarchy2DifferentCluster
         ///{
@@ -1617,11 +1612,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithCustomScope()
-        ///                ;
-        ///        }
-        ///    }
-        ///
-        ///     [rest of string was truncated]&quot;;.
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeCustomNonGenericHierarchy2DifferentCluster_Cluster {
             get {
@@ -2013,6 +2004,34 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Bind.Settings;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///
+        ///namespace DpdtInject.Tests.Settings.CrossCluster.MustBeCrossCluster0
+        ///{
+        ///    public partial class SettingsCrossClusterMustBeCrossCluster0_RootCluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithTransientScope()
+        ///                ;
+        ///        }
+        ///    }
+        ///
+        ///    public [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SettingsCrossClusterMustBeCrossCluster0_Cluster {
+            get {
+                return ResourceManager.GetString("SettingsCrossClusterMustBeCrossCluster0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Bind.Settings;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///
         ///namespace DpdtInject.Tests.Settings.CrossCluster.OnlyLocalCluster0
@@ -2029,7 +2048,7 @@ namespace DpdtInject.Tests.Properties {
         ///        }
         ///    }
         ///
-        ///    public partial class SettingsCrossClusterOnlyLocalCl [rest of string was truncated]&quot;;.
+        ///    public par [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SettingsCrossClusterOnlyLocalCluster0_Cluster {
             get {
