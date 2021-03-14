@@ -28,6 +28,7 @@ It's only a proof-of-concept. Nor alpha, neither beta.
 0. Custom scopes.
 0. Child kernels (aka child clusters).
 0. Additional compile-time safety.
+0. Binding settings that modify compile-time code generation.
 0. Same performance on the platforms with no compilation at runtine.
 0. If you are writing a DLL (or nuget) you are free now to use Dpdt because no DI-container dependency will arise to your distribution.
 0. Dpdt Visual Studio Extension helps you to be more productive (see below).
@@ -166,12 +167,13 @@ Bind<IA>()
     ;
 ```
 
-# Predefined consructor arguments
+# Predefined consructor arguments with additional setting
 
 ```csharp
 Bind<IB>()
      .To<B>()
      .WithSingletonScope()
+     .Setup<AllowedCrossCluster>()
      .Configure(new ConstructorArgument("argument1", field_or_property_or_expression1))
      .Configure(new ConstructorArgument("argument2", field_or_property_or_expression2))
      ;
@@ -279,7 +281,7 @@ Each safety checks are processed in the scope of concrete cluster. Dpdt cannot c
 
 ### Did source generators are finished their job?
 
-Dpdt adds a warning to compilation log with the information about how many clusters being processed. It's an useful bit of information for debugging purposes.
+Dpdt adds a warning to compilation log with the information about how many clusters being processed and time taken. It's an useful bit of information for debugging purposes.
 
 ### Unknown constructor argument
 
@@ -329,9 +331,35 @@ The end of the life cycle of a cluster occurs after the call to its `Dispose` me
 
 Clusters are organized into a tree. This tree cannot have a circular dependency, since it is based on constructor argument. Dependencies, consumed by the binding in the child cluster, are resolved from the home cluster if exists, if not - from **parent cluster**.
 
+If some binging does not exist in local cluster, Dpdt will request it from parent cluster at runtime. This behavior can be modified by settings `OnlyLocalCluster`/`AllowedCrossCluster`/`MustBeCrossCluster`.
+
+
 ## Async resolutions
 
 Dpdt is a constructor-based injector. Async resolutions are not supported because we have not an async constructors. Consider using an async factory class.
+
+
+## Settings
+
+Settings are things that modify compile-time cluster code generation. THEY ARE NOT WORKING AT RUNTIME.
+
+## Cross cluster resolutions
+
+These settings relates with checking for child binding resolutions; they are useful for an additional safety. They are applied for each of child resolutions.
+
+### OnlyLocalCluster
+
+Each dependency **must** exists in local cluster. If not - ongoing compilation will break. Note: binding conditions is out of scope, only existing matters. You can define a local binding with `When(rt => false)`, and this check will mute. So, this setting is not something that can protect you at 100%. This is a default behaiour.
+
+### AllowedCrossCluster
+
+Any dependency may be in home cluster or parent cluster. If local dependecy found at runtime it is used, otherwise request to the parent cluster is performed. (this is default behaviour for old version of Dpdt)
+
+### MustBeCrossCluster
+
+NO local dependency allowed, any dependency MUST be in the parent cluster. If local dependency found, ongoing compilation will break. Note: binding conditions is out of scope, only existing matters. You can define a local binding with `When(rt => false)`, and this check will fire. So, this setting is not something that can protect you at 100%.
+
+
 
 ## Debugging your clusters and conditional clauses
 
