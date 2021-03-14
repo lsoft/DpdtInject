@@ -20,16 +20,7 @@ namespace DpdtInject.Generator.TypeScanner
                 throw new ArgumentNullException(nameof(typeInfoProvider));
             }
 
-            var allTypes = typeInfoProvider.GetAllTypes().ToList();
-
-            var foundTypes = new List<INamedTypeSymbol>();
-            foreach (var type in allTypes)
-            {
-                if (type.IsClusterType())
-                {
-                    foundTypes.Add(type);
-                }
-            }
+            var foundTypes = typeInfoProvider.GetClusterTypes(RoslynHelper.IsClusterType).ToList();
 
             return foundTypes;
         }

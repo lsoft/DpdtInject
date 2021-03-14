@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using System;
 using System.Collections.Generic;
 
 namespace DpdtInject.Generator.TypeInfo
@@ -9,6 +10,6 @@ namespace DpdtInject.Generator.TypeInfo
 
         INamedTypeSymbol? GetTypeByMetadataName(string fullyQualifiedMetadataName);
 
-        IEnumerable<INamedTypeSymbol> GetAllTypes();
+        IEnumerable<INamedTypeSymbol> GetClusterTypes(Func<INamedTypeSymbol, bool> predicate);
     }
 }

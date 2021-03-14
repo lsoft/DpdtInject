@@ -150,23 +150,60 @@ namespace DpdtInject.Generator.Helpers
             return null;
         }
 
-        public static IEnumerable<INamedTypeSymbol> GetAllTypes(this INamespaceSymbol @namespace)
+        public static IEnumerable<INamedTypeSymbol> GetAllTypes(
+            this INamespaceSymbol @namespace,
+            Func<INamedTypeSymbol, bool> predicate
+            )
         {
+            if (@namespace == null)
+            {
+                throw new ArgumentNullException(nameof(@namespace));
+            }
+            if (predicate == null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+
             foreach (var type in @namespace.GetTypeMembers())
-                foreach (var nestedType in type.GetNestedTypes())
+            {
+                foreach (var nestedType in type.GetNestedTypes(predicate))
+                {
                     yield return nestedType;
+                }
+            }
 
             foreach (var nestedNamespace in @namespace.GetNamespaceMembers())
-                foreach (var type in nestedNamespace.GetAllTypes())
+            {
+                foreach (var type in nestedNamespace.GetAllTypes(predicate))
+                {
                     yield return type;
+                }
+            }
         }
 
-        public static IEnumerable<INamedTypeSymbol> GetNestedTypes(this INamedTypeSymbol type)
+        private static IEnumerable<INamedTypeSymbol> GetNestedTypes(
+            this INamedTypeSymbol type,
+            Func<INamedTypeSymbol, bool> predicate
+            )
         {
-            yield return type;
-            foreach (var nestedType in type.GetTypeMembers()
-                .SelectMany(nestedType => nestedType.GetNestedTypes()))
+            if (type == null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+            if (predicate == null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+
+            if (predicate(type))
+            {
+                yield return type;
+            }
+
+            foreach (var nestedType in type.GetTypeMembers().SelectMany(nestedType => nestedType.GetNestedTypes(predicate)))
+            {
                 yield return nestedType;
+            }
         }
 
         public static bool TryGetCompileTimeString(

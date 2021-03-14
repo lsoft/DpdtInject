@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace DpdtInject.Tests
 {
-    internal class FakeDiagnosticReporter : IDiagnosticReporter
+    public class FakeDiagnosticReporter : IDiagnosticReporter
     {
         public int ErrorCount
         {
@@ -71,7 +71,7 @@ namespace DpdtInject.Tests
             InfoCount++;
         }
 
-        internal void ReportException(
+        public void ReportException(
             Exception excp
             )
         {

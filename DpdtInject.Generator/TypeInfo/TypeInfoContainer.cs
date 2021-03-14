@@ -35,9 +35,12 @@ namespace DpdtInject.Generator.TypeInfo
             return _compilation.GetTypeByMetadataName(fullyQualifiedMetadataName);
         }
 
-        public IEnumerable<INamedTypeSymbol> GetAllTypes()
+
+        public IEnumerable<INamedTypeSymbol> GetClusterTypes(Func<INamedTypeSymbol, bool> predicate)
         {
-            return _compilation.GlobalNamespace.GetAllTypes();
+            var result = _compilation.Assembly.GlobalNamespace.GetAllTypes(predicate);
+
+            return result;
         }
 
         public abstract void AddSources(ModificationDescription[] modificationDescriptions);
