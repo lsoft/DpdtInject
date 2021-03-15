@@ -10,7 +10,6 @@ using DpdtInject.Generator.Producer.Product;
 namespace DpdtInject.Generator.Producer
 {
     internal class SingletonInstanceProducer : IInstanceProducer
-
     {
         private readonly ITypeInfoProvider _typeInfoProvider;
         private readonly ClusterBindings _clusterBindings;
@@ -58,7 +57,7 @@ namespace DpdtInject.Generator.Producer
             if (_bindingExtender.BindingContainer.IsConditional)
             {
                 predicateMethod = new MethodProduct(
-                    $"CheckPredicate_{_bindingExtender.BindingContainer.GetStableSuffix()}_{ _bindingExtender.BindingContainer.BindToType.ToDisplayString().EscapeSpecialTypeSymbols()}",
+                    $"CheckPredicate_{_bindingExtender.BindingContainer.BindToType.Name}_{_bindingExtender.BindingContainer.GetStableSuffix()}",
                     _typeInfoProvider.Bool(),
                     (methodName, returnType) => $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -74,11 +73,11 @@ private {returnType.ToDisplayString()} {methodName}(IResolutionTarget resolution
 ");
             }
 
-            var singletonInstanceName = $"_singletonInstance_{_bindingExtender.BindingContainer.GetStableSuffix()}_{ _bindingExtender.BindingContainer.BindToType.ToDisplayString().EscapeSpecialTypeSymbols()}";
-            var lockerName = $"_locker_{_bindingExtender.BindingContainer.GetStableSuffix()}_{ _bindingExtender.BindingContainer.BindToType.ToDisplayString().EscapeSpecialTypeSymbols()}";
+            var singletonInstanceName = $"_singletonInstance__{_bindingExtender.BindingContainer.BindToType.Name}__{_bindingExtender.BindingContainer.GetStableSuffix()}";
+            var lockerName = $"_locker_{_bindingExtender.BindingContainer.BindToType.Name}_{_bindingExtender.BindingContainer.GetStableSuffix()}";
 
             var retrieveObjectMethod = new MethodProduct(
-                $"GetInstance_{_bindingExtender.BindingContainer.GetStableSuffix()}_{ _bindingExtender.BindingContainer.BindToType.ToDisplayString().EscapeSpecialTypeSymbols()}",
+                $"GetInstance_{_bindingExtender.BindingContainer.BindToType.Name}_{_bindingExtender.BindingContainer.GetStableSuffix()}",
                 _bindingExtender.BindingContainer.BindToType,
                 (methodName, returnType) => $@"
 private volatile {_bindingExtender.BindingContainer.BindToType.ToDisplayString()} {singletonInstanceName} = null;
@@ -107,7 +106,7 @@ private {returnType.ToDisplayString()} {methodName}(
 ");
 
             var funcMethod = new MethodProduct(
-                $"GetInstance_{_bindingExtender.BindingContainer.GetStableSuffix()}_{ _bindingExtender.BindingContainer.BindToType.ToDisplayString().EscapeSpecialTypeSymbols()}{DpdtArgumentWrapperTypeEnum.Func.GetPostfix()}",
+                $"GetInstance_{ _bindingExtender.BindingContainer.BindToType.Name}_{_bindingExtender.BindingContainer.GetStableSuffix()}{DpdtArgumentWrapperTypeEnum.Func.GetPostfix()}",
                 _typeInfoProvider.Func(_bindingExtender.BindingContainer.BindToType),
                 (methodName, returnType) => $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -120,7 +119,7 @@ private {returnType.ToDisplayString()} {methodName}(
 ");
 
             var disposeMethodInvoke = new MethodProduct(
-                $"DisposeInstance_{_bindingExtender.BindingContainer.GetStableSuffix()}_{ _bindingExtender.BindingContainer.BindToType.ToDisplayString().EscapeSpecialTypeSymbols()}",
+                $"DisposeInstance_{_bindingExtender.BindingContainer.BindToType.Name}_{_bindingExtender.BindingContainer.GetStableSuffix()}",
                 _typeInfoProvider.Void(),
                 (methodName, returnType) => $@"
 private {returnType.ToDisplayString()} {methodName}(

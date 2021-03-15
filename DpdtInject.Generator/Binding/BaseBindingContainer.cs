@@ -13,6 +13,8 @@ namespace DpdtInject.Generator.Binding
 {
     public abstract class BaseBindingContainer : IBindingContainer
     {
+        private readonly string _uniqueKey = Guid.NewGuid().RemoveMinuses().Substring(0, 8);
+
         private readonly BindingContainerTypes _types;
         private readonly IReadOnlyList<ISetting> _settings;
 
@@ -135,7 +137,7 @@ namespace DpdtInject.Generator.Binding
 
         public string GetStableSuffix()
         {
-            return this.GetHashCode().ToString();
+            return _uniqueKey;
         }
 
         public bool IsRegisteredFrom(ITypeSymbol bindFrom)

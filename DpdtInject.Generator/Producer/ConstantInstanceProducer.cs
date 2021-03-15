@@ -47,7 +47,7 @@ namespace DpdtInject.Generator.Producer
             if (_bindingExtender.BindingContainer.IsConditional)
             {
                 predicateMethod = new MethodProduct(
-                    $"CheckPredicate_{_bindingExtender.BindingContainer.GetStableSuffix()}_{ _bindingExtender.BindingContainer.BindToType.ToDisplayString().EscapeSpecialTypeSymbols()}",
+                    $"CheckPredicate_{_bindingExtender.BindingContainer.BindToType.Name}_{_bindingExtender.BindingContainer.GetStableSuffix()}",
                     _typeInfoProvider.Bool(),
                     (methodName, returnType) => $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -64,7 +64,7 @@ private {returnType.ToDisplayString()} {methodName}({nameof(IResolutionTarget)} 
             }
 
             var retrieveObjectMethod = new MethodProduct(
-                $"GetInstance_{_bindingExtender.BindingContainer.GetStableSuffix()}_{ _bindingExtender.BindingContainer.BindToType.ToDisplayString().EscapeSpecialTypeSymbols()}",
+                $"GetInstance_{_bindingExtender.BindingContainer.BindToType.Name}_{_bindingExtender.BindingContainer.GetStableSuffix()}",
                 _bindingExtender.BindingContainer.BindToType,
                 (methodName, returnType) => $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -77,7 +77,7 @@ private {returnType.ToDisplayString()} {methodName}(
 ");
 
             var funcMethod = new MethodProduct(
-                $"GetInstance_{_bindingExtender.BindingContainer.GetStableSuffix()}_{ _bindingExtender.BindingContainer.BindToType.ToDisplayString().EscapeSpecialTypeSymbols()}{DpdtArgumentWrapperTypeEnum.Func.GetPostfix()}",
+                $"GetInstance_{_bindingExtender.BindingContainer.BindToType.Name}_{_bindingExtender.BindingContainer.GetStableSuffix()}{DpdtArgumentWrapperTypeEnum.Func.GetPostfix()}",
                 _typeInfoProvider.Func(_bindingExtender.BindingContainer.BindToType),
                 (methodName, returnType) => $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]

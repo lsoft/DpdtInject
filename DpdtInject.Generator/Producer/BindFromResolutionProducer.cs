@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using DpdtInject.Injector.RContext;
 using DpdtInject.Injector.Bind.Settings;
+using System.IO;
+using System.Diagnostics;
 
 namespace DpdtInject.Generator.Producer
 {
@@ -274,7 +276,7 @@ public {returnType.ToDisplayString()} {methodName}({returnType.ToDisplayString()
             )
         {
             string nonExplicitMethodName =
-                $"GetAll_{wrapperSymbol.ToDisplayString().EscapeSpecialTypeSymbols()}_{Guid.NewGuid().RemoveMinuses()}"
+                $"GetAll_{wrapperSymbol.GetSpecialName()}_{Guid.NewGuid().RemoveMinuses()}"
                 ;
 
             var returnType = _typeInfoProvider
@@ -301,10 +303,10 @@ public {returnType.ToDisplayString()} {methodName}({returnType.ToDisplayString()
                         if (!(instanceProduct.PredicateMethod is null) || instanceProduct.BindingExtender.NeedToProcessResolutionContext)
                         {
                             methodBody += $@"
-var {modifiedContext} =
-    new {nameof(ResolutionTarget<object, object>)}<{ClusterBindings.ClusterType.ToDisplayString()}, {instanceProduct.BindingExtender.BindingContainer.BindToType.ToDisplayString()}>(
-        resolutionRequest
-        );
+    var {modifiedContext} =
+        new {nameof(ResolutionTarget<object, object>)}<{ClusterBindings.ClusterType.ToDisplayString()}, {instanceProduct.BindingExtender.BindingContainer.BindToType.ToDisplayString()}>(
+            resolutionRequest
+            );
 ";
                         }
 
@@ -313,12 +315,12 @@ var {modifiedContext} =
                             //with predicate (itself is conditional!)
 
                             methodBody += $@"//predicate method is same for all wrappers, so we does no need for a wrapper-postfix (like _Func)
-if({instanceProduct.PredicateMethod.GetMethodName(DpdtArgumentWrapperTypeEnum.None)}({modifiedContext}))
-{{
-    result.Add(
-        {instanceProduct.FactoryObjectMethod.GetMethodName(wrapperType)}({modifiedContext})
-        );
-}}
+    if({instanceProduct.PredicateMethod.GetMethodName(DpdtArgumentWrapperTypeEnum.None)}({modifiedContext}))
+    {{
+        result.Add(
+            {instanceProduct.FactoryObjectMethod.GetMethodName(wrapperType)}({modifiedContext})
+            );
+    }}
 ";
                         }
                         else
@@ -328,18 +330,18 @@ if({instanceProduct.PredicateMethod.GetMethodName(DpdtArgumentWrapperTypeEnum.No
                             {
                                 //we need a resolution context
                                 methodBody += $@"
-result.Add(
-    {instanceProduct.FactoryObjectMethod.GetMethodName(wrapperType)}({modifiedContext})
-    );
+    result.Add(
+        {instanceProduct.FactoryObjectMethod.GetMethodName(wrapperType)}({modifiedContext})
+        );
 ";
                             }
                             else
                             {
                                 //no need for a resolution context
                                 methodBody += $@"
-result.Add(
-    {instanceProduct.FactoryObjectMethod.GetMethodName(wrapperType)}(null)
-    );
+    result.Add(
+        {instanceProduct.FactoryObjectMethod.GetMethodName(wrapperType)}(null)
+        );
 ";
                             }
 
@@ -360,7 +362,7 @@ result.Add(
 
         private MethodProduct CreateGetMethod(
             IReadOnlyList<InstanceProduct> filteredInstanceProducts, 
-            DpdtArgumentWrapperTypeEnum wrapperType, 
+            DpdtArgumentWrapperTypeEnum wrapperType,
             ITypeSymbol wrapperSymbol
             )
         {
@@ -368,7 +370,7 @@ result.Add(
             var itselfNonConditional = filteredInstanceProducts.Count(p => !p.BindingExtender.BindingContainer.IsConditional);
 
             string nonExplicitMethodName = 
-                $"Get_{wrapperSymbol.ToDisplayString().EscapeSpecialTypeSymbols()}_{Guid.NewGuid().RemoveMinuses()}"
+                $"Get_{wrapperSymbol.GetSpecialName()}_{Guid.NewGuid().RemoveMinuses()}"
                 ;
 
             MethodProduct getMethodProduct;
@@ -398,20 +400,20 @@ private {returnType.ToDisplayString()} {methodName}(IResolutionRequest resolutio
                     var modifiedContext = $"target_{instanceProduct.BindingExtender.BindingContainer.GetStableSuffix()}";
 
                     methodBody = $@"
-resolutionRequest  = resolutionRequest ?? new {nameof(ResolutionRequest<object, object>)}<{ClusterBindings.ClusterType.ToDisplayString()}, {wrapperSymbol.ToDisplayString()}>(false);
+    resolutionRequest  = resolutionRequest ?? new {nameof(ResolutionRequest<object, object>)}<{ClusterBindings.ClusterType.ToDisplayString()}, {wrapperSymbol.ToDisplayString()}>(false);
 
-var {modifiedContext} =
-    new {nameof(ResolutionTarget<object, object>)}<{ClusterBindings.ClusterType.ToDisplayString()}, {instanceProduct.BindingExtender.BindingContainer.BindToType.ToDisplayString()}>(
-        resolutionRequest
-        );
+    var {modifiedContext} =
+        new {nameof(ResolutionTarget<object, object>)}<{ClusterBindings.ClusterType.ToDisplayString()}, {instanceProduct.BindingExtender.BindingContainer.BindToType.ToDisplayString()}>(
+            resolutionRequest
+            );
 
-return {filteredInstanceProducts[0].FactoryObjectMethod.GetMethodName(wrapperType)}({modifiedContext});
+    return {filteredInstanceProducts[0].FactoryObjectMethod.GetMethodName(wrapperType)}({modifiedContext});
 ";
                 }
                 else
                 {
                     methodBody = $@"
-return {filteredInstanceProducts[0].FactoryObjectMethod.GetMethodName(wrapperType)}(null);
+    return {filteredInstanceProducts[0].FactoryObjectMethod.GetMethodName(wrapperType)}(null);
 ";
                 }
 
@@ -446,9 +448,9 @@ private {returnType.ToDisplayString()} {methodName}(IResolutionRequest resolutio
                     var targetDict = new Dictionary<string, string>();
 
                     var methodBody = $@"
-resolutionRequest  = resolutionRequest ?? new {nameof(ResolutionRequest<object, object>)}<{ClusterBindings.ClusterType.ToDisplayString()}, {wrapperSymbol.ToDisplayString()}>(false);
+    resolutionRequest  = resolutionRequest ?? new {nameof(ResolutionRequest<object, object>)}<{ClusterBindings.ClusterType.ToDisplayString()}, {wrapperSymbol.ToDisplayString()}>(false);
 
-int allowedChildrenCount = {itselfNonConditional};
+    int allowedChildrenCount = {itselfNonConditional};
 ";
 
 
@@ -459,34 +461,34 @@ int allowedChildrenCount = {itselfNonConditional};
                         targetDict[instanceProduct.BindingExtender.BindingContainer.GetStableSuffix()] = modifiedContext;
 
                         methodBody += $@"
-var predicate_{instanceProduct.BindingExtender.BindingContainer.GetStableSuffix()} = false;
-var {modifiedContext} =
-    new {nameof(ResolutionTarget<object, object>)}<{ClusterBindings.ClusterType.ToDisplayString()}, {instanceProduct.BindingExtender.BindingContainer.BindToType.ToDisplayString()}>(
-        resolutionRequest
-        );
+    var predicate_{instanceProduct.BindingExtender.BindingContainer.GetStableSuffix()} = false;
+    var {modifiedContext} =
+        new {nameof(ResolutionTarget<object, object>)}<{ClusterBindings.ClusterType.ToDisplayString()}, {instanceProduct.BindingExtender.BindingContainer.BindToType.ToDisplayString()}>(
+            resolutionRequest
+            );
 ";
 
                         if (!(instanceProduct.PredicateMethod is null))
                         {
                             methodBody += $@"//predicate method is same for all wrappers, so we does no need for a wrapper-postfix (like _Func)
-if({instanceProduct.PredicateMethod.GetMethodName(DpdtArgumentWrapperTypeEnum.None)}({modifiedContext}))
-{{
-    if(++allowedChildrenCount > 1)
+    if({instanceProduct.PredicateMethod.GetMethodName(DpdtArgumentWrapperTypeEnum.None)}({modifiedContext}))
     {{
-        RaiseTooManyBindingException<{wrapperSymbol.ToDisplayString()}>();
-    }}
+        if(++allowedChildrenCount > 1)
+        {{
+            RaiseTooManyBindingException<{wrapperSymbol.ToDisplayString()}>();
+        }}
 
-    predicate_{instanceProduct.BindingExtender.BindingContainer.GetStableSuffix()} = true;
-}}
+        predicate_{instanceProduct.BindingExtender.BindingContainer.GetStableSuffix()} = true;
+    }}
 ";
                         }
                     }
 
                     methodBody += $@"
-if(allowedChildrenCount == 0)
-{{
-    return RaiseNoBindingAvailable<{wrapperSymbol.ToDisplayString()}>();
-}}
+    if(allowedChildrenCount == 0)
+    {{
+        return RaiseNoBindingAvailable<{wrapperSymbol.ToDisplayString()}>();
+    }}
 ";
 
                     for (var ipIndex = 0; ipIndex < filteredInstanceProducts.Count; ipIndex++)
@@ -500,16 +502,16 @@ if(allowedChildrenCount == 0)
                         if (instanceProduct.BindingExtender.NeedToProcessResolutionContext && !isLast)
                         {
                             methodBody += $@"
-if(predicate_{instanceProduct.BindingExtender.BindingContainer.GetStableSuffix()})
-{{
-    return {instanceProduct.FactoryObjectMethod.GetMethodName(wrapperType)}({modifiedContext});
-}}
+    if(predicate_{instanceProduct.BindingExtender.BindingContainer.GetStableSuffix()})
+    {{
+        return {instanceProduct.FactoryObjectMethod.GetMethodName(wrapperType)}({modifiedContext});
+    }}
 ";
                         }
                         else
                         {
                             methodBody += $@"
-return {instanceProduct.FactoryObjectMethod.GetMethodName(wrapperType)}({modifiedContext});
+    return {instanceProduct.FactoryObjectMethod.GetMethodName(wrapperType)}({modifiedContext});
 ";
                         }
                     }
@@ -531,4 +533,32 @@ private {returnType.ToDisplayString()} {methodName}(IResolutionRequest resolutio
         }
     }
 
+
+    public static class NameHelper
+    {
+        public static string GetSpecialName(
+            this ITypeSymbol wrapperSymbol
+            )
+        {
+            return wrapperSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat).EscapeSpecialTypeSymbols();
+
+            //if (!(wrapperSymbol is INamedTypeSymbol nts))
+            //{
+            //    return wrapperSymbol.Name;
+            //}
+
+            //if (!nts.IsGenericType || nts.TypeParameters.Length == 0)
+            //{
+            //    return wrapperSymbol.Name;
+            //}
+
+            //var s = wrapperSymbol.Name;
+            //foreach (var ta in nts.TypeArguments)
+            //{
+            //    s += "_" + ta.GetSpecialName();
+            //}
+
+            //return s;
+        }
+    }
 }
