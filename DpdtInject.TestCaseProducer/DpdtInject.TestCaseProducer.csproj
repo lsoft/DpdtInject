@@ -5,8 +5,7 @@
     <TargetFramework>net5</TargetFramework>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>nullable;CS8766;CS8767;CS8785</WarningsAsErrors>
-
-    <Dpdt_Generator_GeneratedSourceFolder>Dpdt.Pregenerated</Dpdt_Generator_GeneratedSourceFolder>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
   </PropertyGroup>
 
   <PropertyGroup Condition="Exists('$(ProjectDir)..\.please_sign_my_assemblies.secret')">
@@ -14,16 +13,6 @@
     <DelaySign>false</DelaySign>
     <AssemblyOriginatorKeyFile>$(ProjectDir)..\dpdt.extension.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-
-  <ItemGroup>
-    <CompilerVisibleProperty Include="Dpdt_Generator_GeneratedSourceFolder" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Dpdt.Pregenerated\**" />
-    <EmbeddedResource Remove="Dpdt.Pregenerated\**" />
-    <None Remove="Dpdt.Pregenerated\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DpdtInject.Generator\DpdtInject.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true">

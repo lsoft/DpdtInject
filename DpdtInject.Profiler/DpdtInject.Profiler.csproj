@@ -3,21 +3,9 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
-
-    <Dpdt_Generator_GeneratedSourceFolder>$(MSBuildProjectDirectory)\Dpdt.Pregenerated</Dpdt_Generator_GeneratedSourceFolder>
     <DebugType>pdbonly</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
-
-  <ItemGroup>
-    <CompilerVisibleProperty Include="Dpdt_Generator_GeneratedSourceFolder" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Dpdt.Pregenerated\**" />
-    <EmbeddedResource Remove="Dpdt.Pregenerated\**" />
-    <None Remove="Dpdt.Pregenerated\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.12.1" />

@@ -8,22 +8,11 @@
     <TieredCompilation>false</TieredCompilation>
     <TieredCompilationQuickJit>false</TieredCompilationQuickJit>
     <TieredCompilationQuickJitForLoops>false</TieredCompilationQuickJitForLoops>
-
-    <Dpdt_Generator_GeneratedSourceFolder>$(MSBuildProjectDirectory)\Dpdt.Pregenerated</Dpdt_Generator_GeneratedSourceFolder>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
   </PropertyGroup>
 
   <ItemGroup>
-    <CompilerVisibleProperty Include="Dpdt_Generator_GeneratedSourceFolder" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Dpdt.Pregenerated\**" />
-    <EmbeddedResource Remove="Dpdt.Pregenerated\**" />
-    <None Remove="Dpdt.Pregenerated\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Dpdt.Injector" Version="0.3.0-alpha" />
+    <PackageReference Include="Dpdt.Injector" Version="0.4.2.0-alpha" />
   </ItemGroup>
 
 </Project>

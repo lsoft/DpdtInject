@@ -99,21 +99,11 @@ Please refer to Dpdt.Injector [nuget package](https://www.nuget.org/packages/Dpd
     <TieredCompilationQuickJit>false</TieredCompilationQuickJit>
     <TieredCompilationQuickJitForLoops>false</TieredCompilationQuickJitForLoops>
 
-    <Dpdt_Generator_GeneratedSourceFolder>$(MSBuildProjectDirectory)\Dpdt.Pregenerated</Dpdt_Generator_GeneratedSourceFolder>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
   </PropertyGroup>
 
   <ItemGroup>
-    <CompilerVisibleProperty Include="Dpdt_Generator_GeneratedSourceFolder" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Dpdt.Pregenerated\**" />
-    <EmbeddedResource Remove="Dpdt.Pregenerated\**" />
-    <None Remove="Dpdt.Pregenerated\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Dpdt.Injector" Version="0.3.0-alpha" />
+    <PackageReference Include="Dpdt.Injector" Version="0.4.2.0-alpha" />
   </ItemGroup>
 
 </Project>
@@ -424,28 +414,27 @@ Because of source generators are generating new code based on your code, it's im
 
 ## Artifact folder
 
-Dpdt's source generator is able to store pregenerated C# code at the disk. The only thing you need is correctly setup your csproj. For example:
+As a regular source generator, Dpdt is able to store pregenerated C# code at the disk. The only thing you need is correctly setup your csproj. For example:
+
+```
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <!-- next line allows you to define a custom directory to store Dpdt's artifacts, for example: -->
+    <!-- <CompilerGeneratedFilesOutputPath>$(ProjectDir)Dpdt.Pregenerated</CompilerGeneratedFilesOutputPath> -->
+```
+
+If your clusters are huge, you may face with slowdowns in your work in VS because VS runs Dpdt in the background. To overcome this please put the following into your csproj:
 
 ```
   <PropertyGroup>
-    <Dpdt_Generator_GeneratedSourceFolder>$(MSBuildProjectDirectory)\Dpdt.Pregenerated</Dpdt_Generator_GeneratedSourceFolder>
+    <Dpdt_Generator_Beautify>false</Dpdt_Generator_Beautify>
   </PropertyGroup>
 
   <ItemGroup>
-    <CompilerVisibleProperty Include="Dpdt_Generator_GeneratedSourceFolder" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Dpdt.Pregenerated\**" />
-    <EmbeddedResource Remove="Dpdt.Pregenerated\**" />
-    <None Remove="Dpdt.Pregenerated\**" />
+    <CompilerVisibleProperty Include="Dpdt_Generator_Beautify" />
   </ItemGroup>
 
 ```
-
-`Dpdt_Generator_GeneratedSourceFolder` is a builtin variable name; `$(MSBuildProjectDirectory)\Dpdt.Pregenerated` is an **absolute** folder name for Dpdt artifacts and allowed to be changed.
-
-
+This is to turn off code beautification so Dpdt will produce cluster code a lot faster.
 
 # Dpdt Visual Studio Extension
 

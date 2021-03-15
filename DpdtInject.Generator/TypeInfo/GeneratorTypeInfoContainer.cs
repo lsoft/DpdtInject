@@ -9,7 +9,7 @@ namespace DpdtInject.Generator.TypeInfo
     public class GeneratorTypeInfoContainer : TypeInfoContainer
     {
         private readonly GeneratorExecutionContext _context;
-        private readonly string? _generatedSourceFolderFullPath;
+        private readonly bool _doBeautify;
 
         public int UnitsGenerated
         {
@@ -19,11 +19,11 @@ namespace DpdtInject.Generator.TypeInfo
 
         public GeneratorTypeInfoContainer(
             ref GeneratorExecutionContext context,
-            string? generatedSourceFolderFullPath
+            bool doBeautify
             ) : base(context.Compilation)
         {
             _context = context;
-            _generatedSourceFolderFullPath = generatedSourceFolderFullPath;
+            _doBeautify = doBeautify;
             UnitsGenerated = 0;
         }
 
@@ -32,15 +32,9 @@ namespace DpdtInject.Generator.TypeInfo
             var sourceTexts = new List<SourceText>();
             foreach (var modificationDescription in modificationDescriptions)
             {
-                if (_generatedSourceFolderFullPath is not null)
+                if (_doBeautify)
                 {
                     modificationDescription.NormalizeWhitespaces();
-
-                    var filePath = Path.Combine(_generatedSourceFolderFullPath, modificationDescription.NewFileName);
-
-                    modificationDescription.SaveToDisk(
-                        filePath
-                        );
                 }
 
                 var sourceText = SourceText.From(modificationDescription.NewFileBody, Encoding.UTF8);

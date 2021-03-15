@@ -21,47 +21,28 @@ namespace DpdtInject.Generator
         {
             try
             {
+                var doBeautify = true;
+                var beautifyExists = context.AnalyzerConfigOptions.GlobalOptions.TryGetValue(
+                    $"build_property.Dpdt_Generator_Beautify",
+                    out var beautify
+                    );
+                if (beautifyExists)
+                {
+                    if (bool.TryParse(beautify?.ToLower() ?? "false", out var parsed))
+                    {
+                        doBeautify = parsed;
+                    }
+                }
+
                 var diagnosticReporter = new DiagnosticReporter(
                     context
                     );
-
-                var needToStoreGeneratedSources = context.AnalyzerConfigOptions.GlobalOptions.TryGetValue(
-                    $"build_property.Dpdt_Generator_GeneratedSourceFolder",
-                    out var generatedSourceFolder
-                    );
-
-                if (needToStoreGeneratedSources)
-                {
-                    try
-                    {
-                        if (Directory.Exists(generatedSourceFolder))
-                        {
-                            foreach (var file in Directory.GetFiles(generatedSourceFolder!))
-                            {
-                                File.Delete(file);
-                            }
-                            foreach (var directory in Directory.GetDirectories(generatedSourceFolder!))
-                            {
-                                Directory.Delete(directory);
-                            }
-                        }
-                        else
-                        {
-                            Directory.CreateDirectory(generatedSourceFolder!);
-                        }
-                    }
-                    catch (Exception excp)
-                    {
-                        Logging.LogGen($"Working with '{generatedSourceFolder}' fails due to:");
-                        Logging.LogGen(excp);
-                    }
-                }
 
                 var sw = Stopwatch.StartNew();
 
                 var typeInfoContainer = new GeneratorTypeInfoContainer(
                     ref context,
-                    generatedSourceFolder
+                    doBeautify
                     );
 
                 var internalGenerator = new DpdtInternalGenerator(
@@ -79,6 +60,8 @@ namespace DpdtInject.Generator
             }
             catch (Exception excp)
             {
+                Logging.LogGen(excp);
+
                 context.ReportDiagnostic(
                     Diagnostic.Create(
                         new DiagnosticDescriptor(

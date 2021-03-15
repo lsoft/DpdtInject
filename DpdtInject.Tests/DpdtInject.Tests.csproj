@@ -41,16 +41,6 @@
     <ProjectReference Include="..\DpdtInject.Generator\DpdtInject.Generator.csproj" />
   </ItemGroup>
 
-<!--
-  <ItemGroup>
-    <ProjectReference Include="..\DpdtInject.Injector\DpdtInject.Injector.csproj" />
-
-   <ProjectReference Include="..\DpdtInject.Generator\DpdtInject.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true">
-       <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework>
-    </ProjectReference>
-  </ItemGroup>
--->
-
   <ItemGroup>
     <Compile Update="Properties\TestResources.Designer.cs">
       <DesignTime>True</DesignTime>
