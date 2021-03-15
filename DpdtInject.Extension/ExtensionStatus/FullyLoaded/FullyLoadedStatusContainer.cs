@@ -107,6 +107,10 @@ namespace DpdtInject.Extension.ExtensionStatus.FullyLoaded
                     }
                 }
             }
+            catch (OperationCanceledException oce)
+            {
+                //it's OK
+            }
             catch (Exception excp)
             {
                 LogVS(excp);
