@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace DpdtInject.Injector.Helper
 {
     public static class StringHelper
     {
+        public static StringBuilder AsStringBuilder(this string s)
+        {
+            return new StringBuilder(s);
+        }
+
         public static string ReplaceLineContains(
             this string source,
             string substring,

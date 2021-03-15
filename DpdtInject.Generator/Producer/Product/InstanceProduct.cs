@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using DpdtInject.Generator.Binding;
@@ -77,27 +78,57 @@ namespace DpdtInject.Generator.Producer.Product
                 ;
         }
 
-        internal string GetDisposeMethodInvokeClause()
+        internal void WriteCombinedBody(IndentedTextWriter writer)
         {
-            if(DisposeMethod is null)
+            if (PredicateMethod != null)
             {
-                return string.Empty;
+                writer.WriteLine(PredicateMethod.MethodBody);
             }
 
-            return $"{DisposeMethod.MethodName}();";
+            writer.WriteLine(FactoryObjectMethod.MethodBody);
+            writer.WriteLine(FuncMethod.MethodBody);
+
+            if (DisposeMethod != null)
+            {
+                writer.WriteLine(DisposeMethod.MethodBody);
+            }
         }
 
-        public string GetCombinedUnknownTypeBody()
+        internal void WriteDisposeMethodInvoke(IndentedTextWriter writer)
+        {
+            if (DisposeMethod is null)
+            {
+                return;
+            }
+
+            writer.WriteLine($"{DisposeMethod.MethodName}();");
+        }
+
+
+        public void WriteCombinedUnknownTypeBody(IndentedTextWriter writer)
         {
             if (UnknownTypeProducts.Count == 0)
             {
-                return string.Empty;
+                return;
             }
 
-            return string.Join(
-                Environment.NewLine,
-                UnknownTypeProducts.Select(utp => utp.GetBody())
-                );
+            foreach (var utp in UnknownTypeProducts)
+            {
+                utp.WriteBody(writer);
+            }
         }
+
+        //public string GetCombinedUnknownTypeBody()
+        //{
+        //    if (UnknownTypeProducts.Count == 0)
+        //    {
+        //        return string.Empty;
+        //    }
+
+        //    return string.Join(
+        //        Environment.NewLine,
+        //        UnknownTypeProducts.Select(utp => utp.GetBody())
+        //        );
+        //}
     }
 }

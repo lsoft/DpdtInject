@@ -94,6 +94,7 @@ namespace DpdtInject.Generator.Producer
             }
 
             var result = new InstanceResolutionInterfaceProduct(
+                BindFrom,
                 products
                 );
 
@@ -255,8 +256,7 @@ public {returnType.ToDisplayString()} {methodName}({returnType.ToDisplayString()
             var explicitMethodProduct = new MethodProduct(
                 explicitMethodName,
                 nonExplicitMethod.ReturnType,
-                (methodName, returnType) => $@"
-{returnType.ToDisplayString()} IResolution<{wrapperSymbol.ToDisplayString()}>.{methodName}(IResolutionRequest resolutionRequest)
+                (methodName, returnType) => $@"{returnType.ToDisplayString()} IResolution<{wrapperSymbol.ToDisplayString()}>.{methodName}(IResolutionRequest resolutionRequest)
 {{
     return {nonExplicitMethod.MethodName}(resolutionRequest);
 }}
@@ -287,8 +287,7 @@ public {returnType.ToDisplayString()} {methodName}({returnType.ToDisplayString()
                 returnType,
                 (methodName, returnType) =>
                 {
-                    var methodBody = $@"
-private {returnType.ToDisplayString()} {methodName}(IResolutionRequest resolutionRequest)
+                    var methodBody = $@"private {returnType.ToDisplayString()} {methodName}(IResolutionRequest resolutionRequest)
 {{
     resolutionRequest  = resolutionRequest ?? new {nameof(ResolutionRequest<object, object>)}<{ClusterBindings.ClusterType.ToDisplayString()}, {wrapperSymbol.ToDisplayString()}>(true);
 
@@ -313,8 +312,7 @@ var {modifiedContext} =
                         {
                             //with predicate (itself is conditional!)
 
-                            methodBody += $@"
-//predicate method is same for all wrappers, so we does no need for a wrapper-postfix (like _Func)
+                            methodBody += $@"//predicate method is same for all wrappers, so we does no need for a wrapper-postfix (like _Func)
 if({instanceProduct.PredicateMethod.GetMethodName(DpdtArgumentWrapperTypeEnum.None)}({modifiedContext}))
 {{
     result.Add(
@@ -379,8 +377,7 @@ result.Add(
                 getMethodProduct = new MethodProduct(
                     nonExplicitMethodName,
                     wrapperSymbol,
-                    (methodName, returnType) => $@"
-[MethodImpl(MethodImplOptions.AggressiveInlining)]
+                    (methodName, returnType) => $@"[MethodImpl(MethodImplOptions.AggressiveInlining)]
 private {returnType.ToDisplayString()} {methodName}(IResolutionRequest resolutionRequest)
 {{
     return RaiseNoBindingAvailable<{wrapperSymbol.ToDisplayString()}>();
@@ -421,8 +418,7 @@ return {filteredInstanceProducts[0].FactoryObjectMethod.GetMethodName(wrapperTyp
                 getMethodProduct = new MethodProduct(
                     nonExplicitMethodName,
                     wrapperSymbol,
-                    (methodName, returnType) => $@"
-[MethodImpl(MethodImplOptions.AggressiveInlining)]
+                    (methodName, returnType) => $@"[MethodImpl(MethodImplOptions.AggressiveInlining)]
 private {returnType.ToDisplayString()} {methodName}(IResolutionRequest resolutionRequest)
 {{
     {methodBody}
@@ -437,8 +433,7 @@ private {returnType.ToDisplayString()} {methodName}(IResolutionRequest resolutio
                     getMethodProduct = new MethodProduct(
                         nonExplicitMethodName,
                         wrapperSymbol,
-                        (methodName, returnType) => $@"
-[MethodImpl(MethodImplOptions.AggressiveInlining)]
+                        (methodName, returnType) => $@"[MethodImpl(MethodImplOptions.AggressiveInlining)]
 private {returnType.ToDisplayString()} {methodName}(IResolutionRequest resolutionRequest)
 {{
     return RaiseTooManyBindingException<{wrapperSymbol.ToDisplayString()}>();
@@ -473,8 +468,7 @@ var {modifiedContext} =
 
                         if (!(instanceProduct.PredicateMethod is null))
                         {
-                            methodBody += $@"
-//predicate method is same for all wrappers, so we does no need for a wrapper-postfix (like _Func)
+                            methodBody += $@"//predicate method is same for all wrappers, so we does no need for a wrapper-postfix (like _Func)
 if({instanceProduct.PredicateMethod.GetMethodName(DpdtArgumentWrapperTypeEnum.None)}({modifiedContext}))
 {{
     if(++allowedChildrenCount > 1)
@@ -523,8 +517,7 @@ return {instanceProduct.FactoryObjectMethod.GetMethodName(wrapperType)}({modifie
                     getMethodProduct = new MethodProduct(
                         nonExplicitMethodName,
                         wrapperSymbol,
-                        (methodName, returnType) => $@"
-[MethodImpl(MethodImplOptions.AggressiveInlining)]
+                        (methodName, returnType) => $@"[MethodImpl(MethodImplOptions.AggressiveInlining)]
 private {returnType.ToDisplayString()} {methodName}(IResolutionRequest resolutionRequest)
 {{
     {methodBody}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using DpdtInject.Injector;
 using Microsoft.CodeAnalysis;
 
@@ -23,13 +24,13 @@ namespace DpdtInject.Generator.Producer
             ResolutionType = resolutionType;
         }
 
-        public string GetBody()
+        internal void WriteBody(IndentedTextWriter writer)
         {
-            return $@"if(parentCluster is null || !parentCluster.{nameof(ICluster.IsRegisteredFromRecursive)}<{ResolutionType.ToDisplayString()}>())
+            writer.WriteLine($@"if(parentCluster is null || !parentCluster.{nameof(ICluster.IsRegisteredFromRecursive)}<{ResolutionType.ToDisplayString()}>())
 {{
     RaiseNoBindingAvailable<{ResolutionType.ToDisplayString()}>();
 }}
-";
+");
         }
     }
 }

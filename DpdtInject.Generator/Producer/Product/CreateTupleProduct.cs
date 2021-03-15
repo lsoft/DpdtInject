@@ -1,10 +1,11 @@
 ﻿using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
+using System;
+using System.CodeDom.Compiler;
 
 namespace DpdtInject.Generator.Producer.Product
 {
     public class CreateTupleProduct
-
     {
         public (ITypeSymbol, string)[] TuplesParts
         {
@@ -18,15 +19,29 @@ namespace DpdtInject.Generator.Producer.Product
             TuplesParts = tuplesParts;
         }
 
-        public string GetProduct()
+        internal void WriteProduct(IndentedTextWriter writer)
         {
-            var clause = $@"
-new System.Tuple<{TuplesParts.Join(p => p.Item1.ToDisplayString(), ",")}>(
-    {TuplesParts.Join(p => p.Item2, ",")}
-    )
-";
+            //var tt = TuplesParts.Join(p => p.Item1.ToDisplayString(), ",");
+            //var tp = TuplesParts.Join(p => p.Item2, ",");
+            //writer.Write($@"new System.Tuple<{tt}>({tp})");
 
-            return clause;
+            //not sure what is faster above or below
+
+            writer.Write($@"new System.Tuple<");
+
+            TuplesParts.IterateWithLastSignal(
+                t => writer.Write(t.Item1.ToDisplayString()),
+                () => writer.Write(",")
+                );
+
+            writer.Write($@">(");
+
+            TuplesParts.IterateWithLastSignal(
+                t => writer.Write(t.Item2),
+                () => writer.Write(",")
+                );
+
+            writer.Write($@")");
         }
     }
 }

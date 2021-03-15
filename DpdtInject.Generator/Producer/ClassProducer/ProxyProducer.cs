@@ -163,11 +163,10 @@ namespace DpdtInject.Generator.Producer.ClassProducer
                 constructorArguments,
                 (ms, h) =>
                 {
-                    return $@"
-        public {h}
-        {{
-            {returnModifier} {refModifier} _payload.{ms.Name}({constructorArguments.Join(ca => ca.GetUsageSyntax(), ",")});
-        }}
+                    return $@"public {h}
+{{
+    {returnModifier} {refModifier} _payload.{ms.Name}({constructorArguments.Join(ca => ca.GetUsageSyntax(), ",")});
+}}
 ";
                 }
                 );
@@ -196,37 +195,36 @@ namespace DpdtInject.Generator.Producer.ClassProducer
                     constructorArguments,
                     (ms, h) =>
                     {
-                        return $@"
-        public {h}
-        {{
-            var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
-                _payloadFullName,
-                nameof({ms.Name}),
-                {proxyArguments}
-                );
+                        return $@"public {h}
+{{
+    var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
+        _payloadFullName,
+        nameof({ms.Name}),
+        {proxyArguments}
+        );
 
-            var startDate = System.Diagnostics.Stopwatch.GetTimestamp();
-            try
-            {{
-                _payload.{ms.Name}({constructorArguments.Join(cafm => cafm.GetUsageSyntax(), ",")});
+    var startDate = System.Diagnostics.Stopwatch.GetTimestamp();
+    try
+    {{
+        _payload.{ms.Name}({constructorArguments.Join(cafm => cafm.GetUsageSyntax(), ",")});
 
-                _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-                    sessionGuid,
-                    (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                    null
-                    );
-            }}
-            catch (Exception excp)
-            {{
-                _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-                    sessionGuid,
-                    (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                    excp
-                    );
+        _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+            sessionGuid,
+            (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+            null
+            );
+    }}
+    catch (Exception excp)
+    {{
+        _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+            sessionGuid,
+            (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+            excp
+            );
 
-                throw;
-            }}
-        }}
+        throw;
+    }}
+}}
 ";
                     }
                     );
@@ -244,39 +242,38 @@ namespace DpdtInject.Generator.Producer.ClassProducer
                     constructorArguments,
                     (ms, h) =>
                     {
-                        return $@"
-        public {h}
-        {{
-            var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
-                _payloadFullName,
-                nameof({ms.Name}),
-                {proxyArguments}
-                );
+                        return $@"public {h}
+{{
+    var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
+        _payloadFullName,
+        nameof({ms.Name}),
+        {proxyArguments}
+        );
 
-            var startDate = System.Diagnostics.Stopwatch.GetTimestamp();
-            try
-            {{
-                var result = {refModifier} _payload.{ms.Name}({constructorArguments.Join(cafm => cafm.GetUsageSyntax(), ",")});
+    var startDate = System.Diagnostics.Stopwatch.GetTimestamp();
+    try
+    {{
+        var result = {refModifier} _payload.{ms.Name}({constructorArguments.Join(cafm => cafm.GetUsageSyntax(), ",")});
 
-                _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-                    sessionGuid,
-                    (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                    null
-                    );
+        _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+            sessionGuid,
+            (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+            null
+            );
 
-                return result;
-            }}
-            catch (Exception excp)
-            {{
-                _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-                    sessionGuid,
-                    (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                    excp
-                    );
+        return result;
+    }}
+    catch (Exception excp)
+    {{
+        _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+            sessionGuid,
+            (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+            excp
+            );
 
-                throw;
-            }}
-        }}";
+        throw;
+    }}
+}}";
                     }
                     );
             }

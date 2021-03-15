@@ -1,51 +1,78 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
+using Microsoft.CodeAnalysis;
 
 namespace DpdtInject.Generator.Producer.Product
 {
     public class InstanceResolutionInterfaceProduct
     {
+        public ITypeSymbol BindFrom
+        {
+            get;
+        }
         public IReadOnlyList<ResolutionProduct> ResolutionProducts
         {
             get;
         }
 
         public InstanceResolutionInterfaceProduct(
+            ITypeSymbol bindFrom,
             List<ResolutionProduct> resolutionProducts
             )
         {
+            if (bindFrom is null)
+            {
+                throw new ArgumentNullException(nameof(bindFrom));
+            }
+
             if (resolutionProducts is null)
             {
                 throw new ArgumentNullException(nameof(resolutionProducts));
             }
-
+            BindFrom = bindFrom;
             ResolutionProducts = resolutionProducts;
         }
 
-        public string GetInterfaces()
+        internal void Write(
+            bool isLast0,
+            IndentedTextWriter itwMethods, 
+            IndentedTextWriter itwInterfaces, 
+            IndentedTextWriter itwNonGenericInterfaces, 
+            IndentedTextWriter itwNonGenericGetAllInterfaces
+            )
         {
-            if (ResolutionProducts.Count == 0)
-            {
-                throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, "ResolutionProducts must be set");
-            }
-            
-            return $@"
-{ResolutionProducts.Join(r => r.GetInterface(), ",")}
-";
-        }
+            itwMethods.WriteLine($"#region {BindFrom.ToDisplayString()}");
+            itwMethods.WriteLine();
 
-        public string GetMethods()
-        {
-            if(ResolutionProducts.Count == 0)
+            foreach (var (resolutionProduct, isLast1) in ResolutionProducts.IterateWithLastSignal())
             {
-                throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, "ResolutionProducts must be set");
+                resolutionProduct.WriteMethods(itwMethods);
+
+                resolutionProduct.WriteInterface(itwInterfaces);
+                if (!isLast0 || !isLast1)
+                {
+                    itwInterfaces.WriteLine(",");
+                }
+
+                resolutionProduct.NonGenericGetTuple.WriteProduct(itwNonGenericInterfaces);
+                if (!isLast0 || !isLast1)
+                {
+                    itwNonGenericInterfaces.WriteLine(",");
+                }
+
+                resolutionProduct.NonGenericGetAllTuple.WriteProduct(itwNonGenericGetAllInterfaces);
+                if (!isLast0 || !isLast1)
+                {
+                    itwNonGenericGetAllInterfaces.WriteLine(",");
+                }
             }
 
-            return $@"
-{ResolutionProducts.Join(r => r.GetMethods())}
-";
+            itwMethods.WriteLine();
+            itwMethods.WriteLine($"#endregion");
+
         }
     }
 

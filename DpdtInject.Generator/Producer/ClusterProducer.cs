@@ -11,6 +11,9 @@ using DpdtInject.Generator.Producer.Product;
 using DpdtInject.Injector.Bind;
 using DpdtInject.Injector.RContext;
 using Microsoft.CodeAnalysis;
+using System.CodeDom.Compiler;
+using System.IO;
+using System.Text;
 
 namespace DpdtInject.Generator.Producer
 {
@@ -140,6 +143,71 @@ namespace DpdtInject.Generator.Producer
             usings.Add($"using {typeof(IResolutionRequest).Namespace};");
             usings.Add($"using {typeof(IResolutionTarget).Namespace};");
 
+
+
+            var sbMethods = new StringBuilder();
+            var itwMethods = new IndentedTextWriter(new StringWriter(sbMethods), IndentedTextWriter.DefaultTabString);
+            itwMethods.Indent = 2;
+
+            var sbInterfaces = new StringBuilder();
+            var itwInterfaces = new IndentedTextWriter(new StringWriter(sbInterfaces), IndentedTextWriter.DefaultTabString);
+            itwInterfaces.Indent = 3;
+
+            var sbNonGenericInterfaces = new StringBuilder();
+            var itwNonGenericInterfaces = new IndentedTextWriter(new StringWriter(sbNonGenericInterfaces), IndentedTextWriter.DefaultTabString);
+            itwNonGenericInterfaces.Indent = 4;
+
+            var sbNonGenericGetAllInterfaces = new StringBuilder();
+            var itwNonGenericGetAllInterfaces = new IndentedTextWriter(new StringWriter(sbNonGenericGetAllInterfaces), IndentedTextWriter.DefaultTabString);
+            itwNonGenericGetAllInterfaces.Indent = 4;
+
+            if (resolutionInterfaceProducts.Count > 0)
+            {
+                itwInterfaces.WriteLine(",");
+            }
+
+            foreach (var (resolutionInterfaceProduct, isLast) in resolutionInterfaceProducts.IterateWithLastSignal())
+            {
+                resolutionInterfaceProduct.Write(
+                    isLast,
+                    itwMethods,
+                    itwInterfaces,
+                    itwNonGenericInterfaces,
+                    itwNonGenericGetAllInterfaces
+                    );
+            }
+
+            itwMethods.Flush();
+            itwInterfaces.Flush();
+            itwNonGenericInterfaces.Flush();
+            itwNonGenericGetAllInterfaces.Flush();
+
+
+            var sbDispose = new StringBuilder();
+            var itwDispose = new IndentedTextWriter(new StringWriter(sbDispose), IndentedTextWriter.DefaultTabString);
+            itwDispose.Indent = 4;
+
+            var sbCombinedBody = new StringBuilder();
+            var itwCombinedBody = new IndentedTextWriter(new StringWriter(sbCombinedBody), IndentedTextWriter.DefaultTabString);
+            itwCombinedBody.Indent = 4;
+
+            var sbCombinedUnknownTypeBody = new StringBuilder();
+            var itwCombinedUnknownTypeBody = new IndentedTextWriter(new StringWriter(sbCombinedUnknownTypeBody), IndentedTextWriter.DefaultTabString);
+            itwCombinedUnknownTypeBody.Indent = 4;
+
+            foreach (var instanceProduct in instanceProducts)
+            {
+                instanceProduct.WriteDisposeMethodInvoke(itwDispose);
+                instanceProduct.WriteCombinedBody(itwCombinedBody);
+                instanceProduct.WriteCombinedUnknownTypeBody(itwCombinedUnknownTypeBody);
+            }
+
+            itwDispose.Flush();
+            itwCombinedBody.Flush();
+            itwCombinedUnknownTypeBody.Flush();
+
+            var sbCompilationUnit = new StringBuilder(compilationUnit);
+
             var fixedCompilationUnit = compilationUnit
                 .CheckAndReplace(
                     "//GENERATOR: aggressive inline and optimize",
@@ -161,35 +229,36 @@ namespace DpdtInject.Generator.Producer
                     "//GENERATOR: place for an additional usings",
                     usings.Join(a => a)
                     )
-                .CheckAndReplace(
+                .AsStringBuilder()
+                .Replace(
                     "//GENERATOR: add nongeneric GET binding",
-                    (resolutionInterfaceProducts.Count > 0 ? (resolutionInterfaceProducts.Join(rip => rip.ResolutionProducts.Join(rp => rp.NonGenericGetTuple.GetProduct(), ","), ",")) : "")
+                    sbNonGenericInterfaces.ToString()
                     )
-                .CheckAndReplace(
+                .Replace(
                     "//GENERATOR: add nongeneric GET ALL binding",
-                    (resolutionInterfaceProducts.Count > 0 ? (resolutionInterfaceProducts.Join(rip => rip.ResolutionProducts.Join(rp => rp.NonGenericGetAllTuple.GetProduct(), ","), ",")) : "")
+                    sbNonGenericGetAllInterfaces.ToString()
                     )
-                .CheckAndReplace(
+                .Replace(
                     "//GENERATOR: place for a dispose clauses",
-                    instanceProducts.Join(ip => ip.GetDisposeMethodInvokeClause())
+                    sbDispose.ToString()
                     )
-                .CheckAndReplace(
+                .Replace(
                     "//GENERATOR: place for a resolution interfaces",
-                    (resolutionInterfaceProducts.Count > 0 ? ("," + resolutionInterfaceProducts.Join(rip => rip.GetInterfaces(), ",")) : "")
+                    sbInterfaces.ToString()
                     )
-                .CheckAndReplace(
+                .Replace(
                     "//GENERATOR: place for an instance interface providers",
-                    resolutionInterfaceProducts.Join(rip => rip.GetMethods())
+                    sbMethods.ToString()
                     )
-                .CheckAndReplace(
+                .Replace(
                     "//GENERATOR: place for an instance object producers",
-                    instanceProducts.Join(ip => ip.GetCombinedBody())
+                    sbCombinedBody.ToString()
                     )
-                .CheckAndReplace(
+                .Replace(
                     "//GENERATOR: place for an unknown type resolutions",
-                    instanceProducts.Join(ip => ip.GetCombinedUnknownTypeBody())
+                    sbCombinedUnknownTypeBody.ToString()
                     )
-                ;
+                .ToString();
 
             return fixedCompilationUnit;
         }
