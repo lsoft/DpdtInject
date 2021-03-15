@@ -30,25 +30,30 @@ namespace DpdtInject.Generator
                     out var generatedSourceFolder
                     );
 
-                var generatedSourceFolderFullPath =
-                    generatedSourceFolder ?? Path.GetFullPath("Dpdt.Pregenerated");
-
                 if (needToStoreGeneratedSources)
                 {
-                    if (Directory.Exists(generatedSourceFolderFullPath))
+                    try
                     {
-                        foreach (var file in Directory.GetFiles(generatedSourceFolderFullPath))
+                        if (Directory.Exists(generatedSourceFolder))
                         {
-                            File.Delete(file);
+                            foreach (var file in Directory.GetFiles(generatedSourceFolder!))
+                            {
+                                File.Delete(file);
+                            }
+                            foreach (var directory in Directory.GetDirectories(generatedSourceFolder!))
+                            {
+                                Directory.Delete(directory);
+                            }
                         }
-                        foreach (var directory in Directory.GetDirectories(generatedSourceFolderFullPath))
+                        else
                         {
-                            Directory.Delete(directory);
+                            Directory.CreateDirectory(generatedSourceFolder!);
                         }
                     }
-                    else
+                    catch (Exception excp)
                     {
-                        Directory.CreateDirectory(generatedSourceFolderFullPath);
+                        Logging.LogGen($"Working with '{generatedSourceFolder}' fails due to:");
+                        Logging.LogGen(excp);
                     }
                 }
 
@@ -56,7 +61,7 @@ namespace DpdtInject.Generator
 
                 var typeInfoContainer = new GeneratorTypeInfoContainer(
                     ref context,
-                    generatedSourceFolderFullPath
+                    generatedSourceFolder
                     );
 
                 var internalGenerator = new DpdtInternalGenerator(

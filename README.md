@@ -465,8 +465,8 @@ A lot of thanks to bert2 and his amazing example `https://github.com/bert2/micro
 
 Any ideas for new features are welcome.
 
-## Known problems
+# Known problems
 
 * Dpdt extension do not support few types (in different assemblies) with the same full name. I will investigate it further.
 
-If the problem occurs, please let me know. I will need to see the following log files `C:\Users\<user>\AppData\Local\Temp\dpdt_extension.*.log`.
+If any problem occurs with this extension or the generator itself, please let me know. I will need to see the following log files `C:\Users\<user>\AppData\Local\Temp\dpdt_*.log`.

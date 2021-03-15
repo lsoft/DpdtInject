@@ -57,7 +57,15 @@ namespace DpdtInject.Generator
                 throw new ArgumentNullException(nameof(generatedFilePath));
             }
 
-            File.WriteAllText(generatedFilePath, NewFileBody);
+            try
+            {
+                File.WriteAllText(generatedFilePath, NewFileBody);
+            }
+            catch(Exception excp)
+            {
+                Logging.LogGen($"Writing to '{generatedFilePath}' fails due to:");
+                Logging.LogGen(excp);
+            }
         }
     }
 }
