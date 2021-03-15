@@ -20,6 +20,7 @@ namespace DpdtInject.Generator.Producer
     internal class ClusterProducer
     {
         private readonly ITypeInfoProvider _typeInfoProvider;
+        private readonly bool _doBeautify;
 
         public ClusterBindings ClusterBindings
         {
@@ -28,7 +29,8 @@ namespace DpdtInject.Generator.Producer
 
         public ClusterProducer(
             ITypeInfoProvider typeInfoProvider,
-            ClusterBindings clusterBindings
+            ClusterBindings clusterBindings,
+            bool doBeautify
             )
         {
             if (typeInfoProvider is null)
@@ -42,6 +44,7 @@ namespace DpdtInject.Generator.Producer
             }
             _typeInfoProvider = typeInfoProvider;
             ClusterBindings = clusterBindings;
+            _doBeautify = doBeautify;
         }
 
 
@@ -145,21 +148,10 @@ namespace DpdtInject.Generator.Producer
 
 
 
-            var sbMethods = new StringBuilder();
-            var itwMethods = new IndentedTextWriter(new StringWriter(sbMethods), IndentedTextWriter.DefaultTabString);
-            itwMethods.Indent = 2;
-
-            var sbInterfaces = new StringBuilder();
-            var itwInterfaces = new IndentedTextWriter(new StringWriter(sbInterfaces), IndentedTextWriter.DefaultTabString);
-            itwInterfaces.Indent = 3;
-
-            var sbNonGenericInterfaces = new StringBuilder();
-            var itwNonGenericInterfaces = new IndentedTextWriter(new StringWriter(sbNonGenericInterfaces), IndentedTextWriter.DefaultTabString);
-            itwNonGenericInterfaces.Indent = 4;
-
-            var sbNonGenericGetAllInterfaces = new StringBuilder();
-            var itwNonGenericGetAllInterfaces = new IndentedTextWriter(new StringWriter(sbNonGenericGetAllInterfaces), IndentedTextWriter.DefaultTabString);
-            itwNonGenericGetAllInterfaces.Indent = 4;
+            var itwMethods = new IndentedTextWriter2(2, _doBeautify);
+            var itwInterfaces = new IndentedTextWriter2(3, _doBeautify);
+            var itwNonGenericInterfaces = new IndentedTextWriter2(4, _doBeautify);
+            var itwNonGenericGetAllInterfaces = new IndentedTextWriter2(4, _doBeautify);
 
             if (resolutionInterfaceProducts.Count > 0)
             {
@@ -177,23 +169,10 @@ namespace DpdtInject.Generator.Producer
                     );
             }
 
-            itwMethods.Flush();
-            itwInterfaces.Flush();
-            itwNonGenericInterfaces.Flush();
-            itwNonGenericGetAllInterfaces.Flush();
 
-
-            var sbDispose = new StringBuilder();
-            var itwDispose = new IndentedTextWriter(new StringWriter(sbDispose), IndentedTextWriter.DefaultTabString);
-            itwDispose.Indent = 4;
-
-            var sbCombinedBody = new StringBuilder();
-            var itwCombinedBody = new IndentedTextWriter(new StringWriter(sbCombinedBody), IndentedTextWriter.DefaultTabString);
-            itwCombinedBody.Indent = 4;
-
-            var sbCombinedUnknownTypeBody = new StringBuilder();
-            var itwCombinedUnknownTypeBody = new IndentedTextWriter(new StringWriter(sbCombinedUnknownTypeBody), IndentedTextWriter.DefaultTabString);
-            itwCombinedUnknownTypeBody.Indent = 4;
+            var itwDispose = new IndentedTextWriter2(4, _doBeautify);
+            var itwCombinedBody = new IndentedTextWriter2(4, _doBeautify);
+            var itwCombinedUnknownTypeBody = new IndentedTextWriter2(4, _doBeautify);
 
             foreach (var instanceProduct in instanceProducts)
             {
@@ -201,10 +180,6 @@ namespace DpdtInject.Generator.Producer
                 instanceProduct.WriteCombinedBody(itwCombinedBody);
                 instanceProduct.WriteCombinedUnknownTypeBody(itwCombinedUnknownTypeBody);
             }
-
-            itwDispose.Flush();
-            itwCombinedBody.Flush();
-            itwCombinedUnknownTypeBody.Flush();
 
             var sbCompilationUnit = new StringBuilder(compilationUnit);
 
@@ -232,31 +207,31 @@ namespace DpdtInject.Generator.Producer
                 .AsStringBuilder()
                 .Replace(
                     "//GENERATOR: add nongeneric GET binding",
-                    sbNonGenericInterfaces.ToString()
+                    itwNonGenericInterfaces.GetResultString()
                     )
                 .Replace(
                     "//GENERATOR: add nongeneric GET ALL binding",
-                    sbNonGenericGetAllInterfaces.ToString()
+                    itwNonGenericGetAllInterfaces.GetResultString()
                     )
                 .Replace(
                     "//GENERATOR: place for a dispose clauses",
-                    sbDispose.ToString()
+                    itwDispose.GetResultString()
                     )
                 .Replace(
                     "//GENERATOR: place for a resolution interfaces",
-                    sbInterfaces.ToString()
+                    itwInterfaces.GetResultString()
                     )
                 .Replace(
                     "//GENERATOR: place for an instance interface providers",
-                    sbMethods.ToString()
+                    itwMethods.GetResultString()
                     )
                 .Replace(
                     "//GENERATOR: place for an instance object producers",
-                    sbCombinedBody.ToString()
+                    itwCombinedBody.GetResultString()
                     )
                 .Replace(
                     "//GENERATOR: place for an unknown type resolutions",
-                    sbCombinedUnknownTypeBody.ToString()
+                    itwCombinedUnknownTypeBody.GetResultString()
                     )
                 .ToString();
 

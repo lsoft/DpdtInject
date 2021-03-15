@@ -18,9 +18,11 @@ namespace DpdtInject.Generator
     public class DpdtInternalGenerator
     {
         private readonly IDiagnosticReporter _diagnosticReporter;
+        private readonly bool _doBeautify;
 
         public DpdtInternalGenerator(
-            IDiagnosticReporter diagnosticReporter
+            IDiagnosticReporter diagnosticReporter,
+            bool doBeautify
             )
         {
             if (diagnosticReporter is null)
@@ -29,6 +31,7 @@ namespace DpdtInject.Generator
             }
 
             _diagnosticReporter = diagnosticReporter;
+            _doBeautify = doBeautify;
         }
 
         public void Execute(
@@ -167,7 +170,8 @@ namespace DpdtInject.Generator
                 //build the cluster:
                 var clusterProducer = new ClusterProducer(
                     typeInfoContainer,
-                    clusterBindings
+                    clusterBindings,
+                    _doBeautify
                     );
 
                 var moduleSourceCode = clusterProducer.Produce(

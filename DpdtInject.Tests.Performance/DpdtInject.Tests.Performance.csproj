@@ -8,7 +8,7 @@
     <TieredCompilationQuickJitForLoops>false</TieredCompilationQuickJitForLoops>
     <WarningsAsErrors>CS8785;CS8032</WarningsAsErrors>
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-    <Dpdt_Generator_Beautify>false</Dpdt_Generator_Beautify>
+    <Dpdt_Generator_Beautify>true</Dpdt_Generator_Beautify>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,12 +25,6 @@
     <PackageReference Include="BenchmarkDotNet" Version="0.12.1" />
     <PackageReference Include="DryIoc" Version="4.5.1" />
     <PackageReference Include="MicroResolver" Version="2.3.5" />
-<!--
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.0-preview-20200921-01" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.1.2" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.1.2" />
-    <PackageReference Include="coverlet.collector" Version="1.3.0" />
--->
   </ItemGroup>
 
   <ItemGroup>

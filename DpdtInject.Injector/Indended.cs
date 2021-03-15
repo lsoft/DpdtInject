@@ -3,6 +3,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,22 +11,38 @@ namespace DpdtInject.Injector
 {
     public class IndentedTextWriter2
     {
+        private readonly StringBuilder _sb;
         private readonly IndentedTextWriter _writer;
+        private readonly bool _doBeautify;
 
-        public IndentedTextWriter2(IndentedTextWriter writer)
+        public int Indent
         {
-            if (writer is null)
-            {
-                throw new ArgumentNullException(nameof(writer));
-            }
-
-            _writer = writer;
+            get => _writer.Indent;
+            set => _writer.Indent = value;
         }
 
+        public IndentedTextWriter2(int indend, bool doBeautify)
+        {
+            _sb = new StringBuilder();
+            _writer = new IndentedTextWriter(new StringWriter(_sb), IndentedTextWriter.DefaultTabString);
+            _writer.Indent = indend;
+            _doBeautify = doBeautify;
+        }
+
+        public string GetResultString()
+        {
+            _writer.Flush();
+            return _sb.ToString();
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Write(string s) => _writer.Write(s);
 
-        public void WriteLine() => _writer.WriteLine();
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void WriteLine() => _writer.WriteLineNoTabs(string.Empty);
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void WriteLine(string s) => _writer.WriteLine(s);
 
         public void WriteLine2(string s)
@@ -35,55 +52,23 @@ namespace DpdtInject.Injector
                 throw new ArgumentNullException(nameof(s));
             }
 
-            var index = 0;
-            while(true)
+            if (!_doBeautify)
             {
-                var newIndex = s.IndexOf('.', index);
-                if (newIndex < 0)
-                {
-                    //last piece
-                    _writer.WriteLine(s.Substring(index + 1));
-                    return;
-                }
+                _writer.WriteLine(s);
+                return;
+            }
 
-                _writer.WriteLine(s.Substring(index, newIndex - index));
-                index = newIndex;
+            foreach (var par in s.Split(new[] { Environment.NewLine }, StringSplitOptions.None))
+            {
+                if (string.IsNullOrEmpty(par))
+                {
+                    _writer.WriteLineNoTabs(string.Empty);
+                }
+                else
+                {
+                    _writer.WriteLine(par);
+                }
             }
         }
-
     }
-
-    //public class Indended
-    //{
-    //    private readonly StringBuilder? _sb = null;
-
-    //    public IndentedTextWriter Writer
-    //    {
-    //        get;
-    //    }
-
-    //    public Indended()
-    //    {
-    //        _sb = new StringBuilder();
-    //        Writer = new IndentedTextWriter(
-    //            new StringWriter(
-    //                _sb
-    //                )
-    //            );
-    //    }
-
-    //    public Indended(
-    //        Indended parent
-    //        )
-    //    {
-    //        if (parent is null)
-    //        {
-    //            throw new ArgumentNullException(nameof(parent));
-    //        }
-
-    //        _sb = null;
-    //        Writer = new IndentedTextWriter(parent.Writer);
-    //        Writer.Indent += 1;
-    //    }
-    //}
 }

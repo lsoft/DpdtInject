@@ -38,8 +38,6 @@ namespace DpdtInject.Tests
             {
                 if (_needToStoreGeneratedSources)
                 {
-                    modificationDescription.NormalizeWhitespaces();
-
                     var filePath = Path.Combine(_generatedSourceFolderFullPath, modificationDescription.NewFileName);
 
                     modificationDescription.SaveToDisk(

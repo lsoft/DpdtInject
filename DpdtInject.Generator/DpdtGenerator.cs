@@ -41,12 +41,12 @@ namespace DpdtInject.Generator
                 var sw = Stopwatch.StartNew();
 
                 var typeInfoContainer = new GeneratorTypeInfoContainer(
-                    ref context,
-                    doBeautify
+                    ref context
                     );
 
                 var internalGenerator = new DpdtInternalGenerator(
-                    diagnosticReporter
+                    diagnosticReporter,
+                    doBeautify
                     );
 
                 internalGenerator.Execute(

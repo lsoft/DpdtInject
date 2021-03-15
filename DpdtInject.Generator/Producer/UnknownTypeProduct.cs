@@ -24,9 +24,9 @@ namespace DpdtInject.Generator.Producer
             ResolutionType = resolutionType;
         }
 
-        internal void WriteBody(IndentedTextWriter writer)
+        internal void WriteBody(IndentedTextWriter2 writer)
         {
-            writer.WriteLine($@"if(parentCluster is null || !parentCluster.{nameof(ICluster.IsRegisteredFromRecursive)}<{ResolutionType.ToDisplayString()}>())
+            writer.WriteLine2($@"if(parentCluster is null || !parentCluster.{nameof(ICluster.IsRegisteredFromRecursive)}<{ResolutionType.ToDisplayString()}>())
 {{
     RaiseNoBindingAvailable<{ResolutionType.ToDisplayString()}>();
 }}

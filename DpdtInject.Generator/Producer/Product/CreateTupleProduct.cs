@@ -1,4 +1,5 @@
-﻿using DpdtInject.Injector.Helper;
+﻿using DpdtInject.Injector;
+using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
 using System;
 using System.CodeDom.Compiler;
@@ -19,7 +20,7 @@ namespace DpdtInject.Generator.Producer.Product
             TuplesParts = tuplesParts;
         }
 
-        internal void WriteProduct(IndentedTextWriter writer)
+        internal void WriteProduct(IndentedTextWriter2 writer)
         {
             //var tt = TuplesParts.Join(p => p.Item1.ToDisplayString(), ",");
             //var tp = TuplesParts.Join(p => p.Item2, ",");

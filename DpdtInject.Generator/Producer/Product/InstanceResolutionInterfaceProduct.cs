@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using DpdtInject.Injector;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
@@ -38,10 +39,10 @@ namespace DpdtInject.Generator.Producer.Product
 
         internal void Write(
             bool isLast0,
-            IndentedTextWriter itwMethods, 
-            IndentedTextWriter itwInterfaces, 
-            IndentedTextWriter itwNonGenericInterfaces, 
-            IndentedTextWriter itwNonGenericGetAllInterfaces
+            IndentedTextWriter2 itwMethods,
+            IndentedTextWriter2 itwInterfaces,
+            IndentedTextWriter2 itwNonGenericInterfaces,
+            IndentedTextWriter2 itwNonGenericGetAllInterfaces
             )
         {
             itwMethods.WriteLine($"#region {BindFrom.ToDisplayString()}");

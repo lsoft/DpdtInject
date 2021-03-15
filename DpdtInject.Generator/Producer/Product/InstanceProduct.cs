@@ -3,6 +3,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using DpdtInject.Generator.Binding;
+using DpdtInject.Injector;
 
 namespace DpdtInject.Generator.Producer.Product
 {
@@ -68,33 +69,23 @@ namespace DpdtInject.Generator.Producer.Product
             UnknownTypeProducts = unknownTypeProducts ?? new List<UnknownTypeProduct>();
         }
 
-        internal string GetCombinedBody()
-        {
-            return
-                (PredicateMethod is null ? "" : PredicateMethod.MethodBody)
-                + Environment.NewLine + FactoryObjectMethod.MethodBody
-                + Environment.NewLine + FuncMethod.MethodBody
-                + Environment.NewLine + (DisposeMethod is null ? "" : DisposeMethod.MethodBody)
-                ;
-        }
-
-        internal void WriteCombinedBody(IndentedTextWriter writer)
+        internal void WriteCombinedBody(IndentedTextWriter2 writer)
         {
             if (PredicateMethod != null)
             {
-                writer.WriteLine(PredicateMethod.MethodBody);
+                writer.WriteLine2(PredicateMethod.MethodBody);
             }
 
-            writer.WriteLine(FactoryObjectMethod.MethodBody);
-            writer.WriteLine(FuncMethod.MethodBody);
+            writer.WriteLine2(FactoryObjectMethod.MethodBody);
+            writer.WriteLine2(FuncMethod.MethodBody);
 
             if (DisposeMethod != null)
             {
-                writer.WriteLine(DisposeMethod.MethodBody);
+                writer.WriteLine2(DisposeMethod.MethodBody);
             }
         }
 
-        internal void WriteDisposeMethodInvoke(IndentedTextWriter writer)
+        internal void WriteDisposeMethodInvoke(IndentedTextWriter2 writer)
         {
             if (DisposeMethod is null)
             {
@@ -105,7 +96,7 @@ namespace DpdtInject.Generator.Producer.Product
         }
 
 
-        public void WriteCombinedUnknownTypeBody(IndentedTextWriter writer)
+        public void WriteCombinedUnknownTypeBody(IndentedTextWriter2 writer)
         {
             if (UnknownTypeProducts.Count == 0)
             {
@@ -117,18 +108,5 @@ namespace DpdtInject.Generator.Producer.Product
                 utp.WriteBody(writer);
             }
         }
-
-        //public string GetCombinedUnknownTypeBody()
-        //{
-        //    if (UnknownTypeProducts.Count == 0)
-        //    {
-        //        return string.Empty;
-        //    }
-
-        //    return string.Join(
-        //        Environment.NewLine,
-        //        UnknownTypeProducts.Select(utp => utp.GetBody())
-        //        );
-        //}
     }
 }

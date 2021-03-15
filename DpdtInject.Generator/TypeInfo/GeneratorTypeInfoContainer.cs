@@ -9,7 +9,6 @@ namespace DpdtInject.Generator.TypeInfo
     public class GeneratorTypeInfoContainer : TypeInfoContainer
     {
         private readonly GeneratorExecutionContext _context;
-        private readonly bool _doBeautify;
 
         public int UnitsGenerated
         {
@@ -18,12 +17,10 @@ namespace DpdtInject.Generator.TypeInfo
         }
 
         public GeneratorTypeInfoContainer(
-            ref GeneratorExecutionContext context,
-            bool doBeautify
+            ref GeneratorExecutionContext context
             ) : base(context.Compilation)
         {
             _context = context;
-            _doBeautify = doBeautify;
             UnitsGenerated = 0;
         }
 
@@ -32,11 +29,6 @@ namespace DpdtInject.Generator.TypeInfo
             var sourceTexts = new List<SourceText>();
             foreach (var modificationDescription in modificationDescriptions)
             {
-                if (_doBeautify)
-                {
-                    modificationDescription.NormalizeWhitespaces();
-                }
-
                 var sourceText = SourceText.From(modificationDescription.NewFileBody, Encoding.UTF8);
 
                 _context.AddSource(

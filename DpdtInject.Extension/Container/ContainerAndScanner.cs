@@ -358,7 +358,8 @@ namespace DpdtInject.Extension.Container
                         );
 
                     var internalGenerator = new DpdtInternalGenerator(
-                        diagnosticReporter
+                        diagnosticReporter,
+                        false
                         );
 
                     var clusterBindings = internalGenerator.DoExtraction(

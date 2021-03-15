@@ -73,7 +73,8 @@ namespace DpdtInject.Profiler
                     );
 
                 var internalGenerator = new DpdtInternalGenerator(
-                    DiagnosticReporter
+                    DiagnosticReporter,
+                    true
                     );
 
                 internalGenerator.Execute(

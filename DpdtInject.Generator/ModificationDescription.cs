@@ -42,11 +42,6 @@ namespace DpdtInject.Generator
             NewFileBody = newFileBody;
         }
 
-        public void NormalizeWhitespaces()
-        {
-            //make this generated code beautify a bit
-            NewFileBody = SyntaxFactory.ParseCompilationUnit(NewFileBody).NormalizeWhitespace().GetText().ToString();
-        }
 
         public void SaveToDisk(
             string generatedFilePath

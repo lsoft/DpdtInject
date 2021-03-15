@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DpdtInject.Injector;
+using System;
 using System.CodeDom.Compiler;
 
 namespace DpdtInject.Generator.Producer.Product
@@ -106,53 +107,25 @@ namespace DpdtInject.Generator.Producer.Product
         }
 
 
-        internal void WriteInterface(IndentedTextWriter writer)
+        internal void WriteInterface(IndentedTextWriter2 writer)
         {
             writer.Write(InterfaceProduct.InterfaceDeclaration);
             writer.Write(", ");
             writer.Write(InterfaceFastProduct.InterfaceDeclaration);
         }
 
-        internal void WriteMethods(IndentedTextWriter writer)
+        internal void WriteMethods(IndentedTextWriter2 writer)
         {
-            writer.WriteLine(RetrieveExplicitMethod.MethodBody);
+            writer.WriteLine2(RetrieveExplicitMethod.MethodBody);
             writer.WriteLine();
-            writer.WriteLine(RetrieveMethod.MethodBody);
+            writer.WriteLine2(RetrieveMethod.MethodBody);
             writer.WriteLine();
-            writer.WriteLine(RetrieveAllExplicitMethod.MethodBody);
+            writer.WriteLine2(RetrieveAllExplicitMethod.MethodBody);
             writer.WriteLine();
-            writer.WriteLine(RetrieveAllMethod.MethodBody);
+            writer.WriteLine2(RetrieveAllMethod.MethodBody);
             writer.WriteLine();
-            writer.WriteLine(RetrieveFastMethod.MethodBody);
+            writer.WriteLine2(RetrieveFastMethod.MethodBody);
         }
-
-
-//        public string GetMethods()
-//        {
-//            return $@"
-//#region Get
-
-//{RetrieveExplicitMethod.MethodBody}
-
-//{RetrieveMethod.MethodBody}
-
-//#endregion
-
-//#region GetAll
-
-//{RetrieveAllExplicitMethod.MethodBody}
-
-//{RetrieveAllMethod.MethodBody}
-
-//#endregion
-
-//#region GetFast
-
-//{RetrieveFastMethod.MethodBody}
-
-//#endregion
-//";
-//        }
 
     }
 
