@@ -170,7 +170,7 @@ namespace DpdtInject.Generator.Producer
             }
 
 
-            var itwDispose = new IndentedTextWriter2(4, _doBeautify);
+            var itwDispose = new IndentedTextWriter2(3, _doBeautify);
             var itwCombinedBody = new IndentedTextWriter2(4, _doBeautify);
             var itwCombinedUnknownTypeBody = new IndentedTextWriter2(4, _doBeautify);
 

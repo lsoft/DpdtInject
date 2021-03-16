@@ -65,32 +65,41 @@ namespace DpdtInject.Generator
                 return result;
             }
 
-            try
-            {
-                //GENERATOR: place for a dispose clauses
-            }
-            catch(Exception excp)
-            {
-                result.Add(excp);
-            }
+            //GENERATOR: place for a dispose clauses
 
-            if (!(_parentCluster is null))
-            {
-                try
-                {
-                    var parentExceptions = _parentCluster.TrySafelyDispose();
-                    if (parentExceptions.Count > 0)
-                    {
-                        result.AddRange(parentExceptions);
-                    }
-                }
-                catch (Exception excp)
-                {
-                    result.Add(excp);
-                }
-            }
+            //why do we need to dispose a parent cluster??
+            //if (!(_parentCluster is null))
+            //{
+            //    try
+            //    {
+            //        var parentExceptions = _parentCluster.TrySafelyDispose();
+            //        if (parentExceptions.Count > 0)
+            //        {
+            //            result.AddRange(parentExceptions);
+            //        }
+            //    }
+            //    catch (Exception excp)
+            //    {
+            //        result.Add(excp);
+            //    }
+            //}
 
             return result;
+        }
+
+        private void TryToSafeDispose(
+            Action disposeAction,
+            ref List<Exception> exceptions
+            )
+        {
+            try
+            {
+                disposeAction();
+            }
+            catch (Exception excp)
+            {
+                exceptions.Add(excp);
+            }
         }
 
         #endregion

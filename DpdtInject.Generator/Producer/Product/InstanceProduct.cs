@@ -92,7 +92,7 @@ namespace DpdtInject.Generator.Producer.Product
                 return;
             }
 
-            writer.WriteLine($"{DisposeMethod.MethodName}();");
+            writer.WriteLine($"TryToSafeDispose({DisposeMethod.MethodName}, ref result);");
         }
 
 
