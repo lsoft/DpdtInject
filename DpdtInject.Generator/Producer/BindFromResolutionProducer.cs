@@ -14,6 +14,7 @@ using DpdtInject.Injector.Bind.Settings;
 using System.IO;
 using System.Diagnostics;
 
+
 namespace DpdtInject.Generator.Producer
 {
     internal class BindFromResolutionProducer
@@ -167,10 +168,12 @@ namespace DpdtInject.Generator.Producer
                 );
 
             var nonGenericGetProduct = new CreateTupleProduct(
+                new TypeTypePair
                 (
                     _typeInfoProvider.SystemType(),
-                    $"typeof({wrapperSymbol.ToDisplayString()})"
+                    wrapperSymbol
                 ),
+                new TypeStringPair
                 (
                     _typeInfoProvider.Func(
                         _typeInfoProvider.GetTypeByMetadataName(typeof(IResolutionRequest).FullName!)!,
@@ -198,10 +201,12 @@ namespace DpdtInject.Generator.Producer
                 );
 
             var nonGenericGetAllProduct = new CreateTupleProduct(
+                new TypeTypePair
                 (
                     _typeInfoProvider.SystemType(),
-                    $"typeof({wrapperSymbol.ToDisplayString()})"
+                    wrapperSymbol
                 ),
+                new TypeStringPair
                 (
                     _typeInfoProvider.Func(
                         _typeInfoProvider.GetTypeByMetadataName(typeof(IResolutionRequest).FullName!)!,
