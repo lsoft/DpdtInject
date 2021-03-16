@@ -402,7 +402,7 @@ namespace DpdtInject.Extension.Container
             }
             finally
             {
-                if (sbc != null && sbc.Dict.Count > 0)
+                if (sbc != null)
                 {
                     this.SolutionBindContainer = sbc;
                 }
