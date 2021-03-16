@@ -69,7 +69,7 @@ namespace DpdtInject.Generator.Producer.Product
             UnknownTypeProducts = unknownTypeProducts ?? new List<UnknownTypeProduct>();
         }
 
-        internal void WriteCombinedBody(IndentedTextWriter2 writer)
+        internal void WriteCombinedBody(IndentedTextWriter2 writer, ShortTypeNameGenerator sng)
         {
             if (PredicateMethod != null)
             {
@@ -85,7 +85,7 @@ namespace DpdtInject.Generator.Producer.Product
             }
         }
 
-        internal void WriteDisposeMethodInvoke(IndentedTextWriter2 writer)
+        internal void WriteDisposeMethodInvoke(IndentedTextWriter2 writer, ShortTypeNameGenerator sng)
         {
             if (DisposeMethod is null)
             {
@@ -96,7 +96,7 @@ namespace DpdtInject.Generator.Producer.Product
         }
 
 
-        public void WriteCombinedUnknownTypeBody(IndentedTextWriter2 writer)
+        public void WriteCombinedUnknownTypeBody(IndentedTextWriter2 writer, ShortTypeNameGenerator sng)
         {
             if (UnknownTypeProducts.Count == 0)
             {
@@ -105,7 +105,7 @@ namespace DpdtInject.Generator.Producer.Product
 
             foreach (var utp in UnknownTypeProducts)
             {
-                utp.WriteBody(writer);
+                utp.WriteBody(writer, sng);
             }
         }
     }

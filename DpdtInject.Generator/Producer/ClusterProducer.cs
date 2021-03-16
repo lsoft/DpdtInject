@@ -146,6 +146,7 @@ namespace DpdtInject.Generator.Producer
             usings.Add($"using {typeof(IResolutionRequest).Namespace};");
             usings.Add($"using {typeof(IResolutionTarget).Namespace};");
 
+            var sng = new ShortTypeNameGenerator();
 
 
             var itwMethods = new IndentedTextWriter2(2, _doBeautify);
@@ -165,7 +166,8 @@ namespace DpdtInject.Generator.Producer
                     itwMethods,
                     itwInterfaces,
                     itwNonGenericInterfaces,
-                    itwNonGenericGetAllInterfaces
+                    itwNonGenericGetAllInterfaces,
+                    sng
                     );
             }
 
@@ -176,12 +178,12 @@ namespace DpdtInject.Generator.Producer
 
             foreach (var instanceProduct in instanceProducts)
             {
-                instanceProduct.WriteDisposeMethodInvoke(itwDispose);
-                instanceProduct.WriteCombinedBody(itwCombinedBody);
-                instanceProduct.WriteCombinedUnknownTypeBody(itwCombinedUnknownTypeBody);
+                instanceProduct.WriteDisposeMethodInvoke(itwDispose, sng);
+                instanceProduct.WriteCombinedBody(itwCombinedBody, sng);
+                instanceProduct.WriteCombinedUnknownTypeBody(itwCombinedUnknownTypeBody, sng);
             }
 
-            var sbCompilationUnit = new StringBuilder(compilationUnit);
+            sng.WriteUsings(usings);
 
             var fixedCompilationUnit = compilationUnit
                 .CheckAndReplace(
@@ -237,5 +239,54 @@ namespace DpdtInject.Generator.Producer
 
             return fixedCompilationUnit;
         }
+    }
+
+    public class ShortTypeNameGenerator
+    {
+        private readonly Dictionary<string, string> _nameDict = new Dictionary<string, string>();
+        public ShortTypeNameGenerator()
+        {
+
+        }
+
+        public string GetShortName(ITypeSymbol type)
+        {
+            if (type is null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
+            var key = type.ToDisplayString();
+            if (_nameDict.TryGetValue(key, out var shortName))
+            {
+                return shortName;
+            }
+
+            while (true)
+            {
+                var newShortName = type.GetSpecialName() + Guid.NewGuid().RemoveMinuses().Substring(0, 8);
+                if (_nameDict.ContainsKey(newShortName))
+                {
+                    continue;
+                }
+
+                _nameDict[key] = newShortName;
+
+                return newShortName;
+            }
+        }
+
+
+        public void WriteUsings(
+            HashSet<string> set
+            )
+        {
+            //using q123 = System.Func<System.String>;
+            foreach (var pair in _nameDict)
+            {
+                set.Add($"using {pair.Value} = {pair.Key};");
+            }
+        }
+
     }
 }

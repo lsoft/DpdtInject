@@ -142,11 +142,13 @@ namespace DpdtInject.Generator.Producer
             ITypeSymbol wrapperSymbol
             )
         {
-            var interfaceProduct = new InterfaceProduct(
-                $"{nameof(IResolution<object>)}<{wrapperSymbol.ToDisplayString()}>"
+            var interfaceProduct = new NamedGeneric1Interface(
+                nameof(IResolution<object>),
+                wrapperSymbol
                 );
-            var interfaceFastProduct = new InterfaceProduct(
-                $"{nameof(IResolutionFast<object>)}<{wrapperSymbol.ToDisplayString()}>"
+            var interfaceFastProduct = new NamedGeneric1Interface(
+                nameof(IResolutionFast<object>),
+                wrapperSymbol
                 );
 
             #region get
@@ -541,24 +543,6 @@ private {returnType.ToDisplayString()} {methodName}(IResolutionRequest resolutio
             )
         {
             return wrapperSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat).EscapeSpecialTypeSymbols();
-
-            //if (!(wrapperSymbol is INamedTypeSymbol nts))
-            //{
-            //    return wrapperSymbol.Name;
-            //}
-
-            //if (!nts.IsGenericType || nts.TypeParameters.Length == 0)
-            //{
-            //    return wrapperSymbol.Name;
-            //}
-
-            //var s = wrapperSymbol.Name;
-            //foreach (var ta in nts.TypeArguments)
-            //{
-            //    s += "_" + ta.GetSpecialName();
-            //}
-
-            //return s;
         }
     }
 }

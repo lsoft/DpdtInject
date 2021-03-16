@@ -6,11 +6,11 @@ namespace DpdtInject.Generator.Producer.Product
 {
     public class ResolutionProduct
     {
-        public InterfaceProduct InterfaceProduct
+        public IInterfaceProduct InterfaceProduct
         {
             get;
         }
-        public InterfaceProduct InterfaceFastProduct
+        public IInterfaceProduct InterfaceFastProduct
         {
             get;
         }
@@ -44,8 +44,8 @@ namespace DpdtInject.Generator.Producer.Product
         }
 
         public ResolutionProduct(
-            InterfaceProduct interfaceProduct,
-            InterfaceProduct interfaceFastProduct,
+            IInterfaceProduct interfaceProduct,
+            IInterfaceProduct interfaceFastProduct,
             MethodProduct retrieveMethod,
             MethodProduct retrieveExplicitMethod,
             CreateTupleProduct nonGenericGetTuple,
@@ -107,14 +107,14 @@ namespace DpdtInject.Generator.Producer.Product
         }
 
 
-        internal void WriteInterface(IndentedTextWriter2 writer)
+        internal void WriteInterface(IndentedTextWriter2 writer, ShortTypeNameGenerator sng)
         {
-            writer.Write(InterfaceProduct.InterfaceDeclaration);
+            writer.Write(InterfaceProduct.GetInterfaceDeclaration(sng));
             writer.Write(", ");
-            writer.Write(InterfaceFastProduct.InterfaceDeclaration);
+            writer.Write(InterfaceFastProduct.GetInterfaceDeclaration(sng));
         }
 
-        internal void WriteMethods(IndentedTextWriter2 writer)
+        internal void WriteMethods(IndentedTextWriter2 writer, ShortTypeNameGenerator sng)
         {
             writer.WriteLine2(RetrieveExplicitMethod.MethodBody);
             writer.WriteLine();

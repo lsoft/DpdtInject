@@ -42,7 +42,8 @@ namespace DpdtInject.Generator.Producer.Product
             IndentedTextWriter2 itwMethods,
             IndentedTextWriter2 itwInterfaces,
             IndentedTextWriter2 itwNonGenericInterfaces,
-            IndentedTextWriter2 itwNonGenericGetAllInterfaces
+            IndentedTextWriter2 itwNonGenericGetAllInterfaces,
+            ShortTypeNameGenerator sng
             )
         {
             itwMethods.WriteLine($"#region {BindFrom.ToDisplayString()}");
@@ -50,21 +51,21 @@ namespace DpdtInject.Generator.Producer.Product
 
             foreach (var (resolutionProduct, isLast1) in ResolutionProducts.IterateWithLastSignal())
             {
-                resolutionProduct.WriteMethods(itwMethods);
+                resolutionProduct.WriteMethods(itwMethods, sng);
 
-                resolutionProduct.WriteInterface(itwInterfaces);
+                resolutionProduct.WriteInterface(itwInterfaces, sng);
                 if (!isLast0 || !isLast1)
                 {
                     itwInterfaces.WriteLine(",");
                 }
 
-                resolutionProduct.NonGenericGetTuple.WriteProduct(itwNonGenericInterfaces);
+                resolutionProduct.NonGenericGetTuple.WriteProduct(itwNonGenericInterfaces, sng);
                 if (!isLast0 || !isLast1)
                 {
                     itwNonGenericInterfaces.WriteLine(",");
                 }
 
-                resolutionProduct.NonGenericGetAllTuple.WriteProduct(itwNonGenericGetAllInterfaces);
+                resolutionProduct.NonGenericGetAllTuple.WriteProduct(itwNonGenericGetAllInterfaces, sng);
                 if (!isLast0 || !isLast1)
                 {
                     itwNonGenericGetAllInterfaces.WriteLine(",");
