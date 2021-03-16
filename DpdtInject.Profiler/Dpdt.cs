@@ -1,7 +1,14 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
+using DpdtInject.Generator;
+using DpdtInject.Tests;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Text;
 using System;
 using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace DpdtInject.Profiler
 {
@@ -11,7 +18,7 @@ namespace DpdtInject.Profiler
     //[EtwProfiler]
     public class Dpdt
     {
-        private string _combinedBody;
+        private ProfilerTypeInfoContainer _typeInfoContainer;
 
         [GlobalSetup]
         public void Setup()
@@ -35,17 +42,83 @@ namespace DpdtInject.Profiler
 
             var clusterBody = File.ReadAllText(pathToClusterFilePath);
 
-            _combinedBody = "#define SUPPRESS_RESOLUTION" + Environment.NewLine + clusterBody + Environment.NewLine + subjectBody;
+            var clusterSource = "#define SUPPRESS_RESOLUTION" + Environment.NewLine + clusterBody + Environment.NewLine + subjectBody;
+
+            var clusterSourceText = SourceText.From(clusterSource, Encoding.UTF8);
+            var clusterSyntaxTree = SyntaxFactory.ParseSyntaxTree(clusterSourceText, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest), "");
+
+            var trustedAssembliesPaths = ((string)AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")).Split(Path.PathSeparator);
+            var references = trustedAssembliesPaths
+                .Where(path => !IsSkippedAssembly(path))
+                .Select(p => MetadataReference.CreateFromFile(p))
+                .ToList();
+
+            references.Add(
+                MetadataReference.CreateFromFile(
+                    Path.GetFullPath("DpdtInject.Injector.dll")
+                    )
+                );
+
+            var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
+                .WithOverflowChecks(true)
+                .WithOptimizationLevel(OptimizationLevel.Debug)
+                ;
+
+            var compilation = CSharpCompilation.Create(
+                Guid.NewGuid() + ".dll",
+                new SyntaxTree[] { clusterSyntaxTree }
+              , references
+              , compilationOptions
+                );
+
+            _typeInfoContainer = new ProfilerTypeInfoContainer(
+                compilation
+                );
         }
 
         [Benchmark]
         public void GenerateTest()
         {
-            var preparation = new Compilator(
-                _combinedBody
+            var diagnosticReporter = new FakeDiagnosticReporter();
+
+            var internalGenerator = new DpdtInternalGenerator(
+                diagnosticReporter,
+                true
                 );
 
-            preparation.Check();
+            internalGenerator.Execute(
+                _typeInfoContainer
+                );
+        }
+
+
+
+
+        public static bool IsSkippedAssembly(
+            string assemblyPath
+            )
+        {
+            if (assemblyPath is null)
+            {
+                throw new ArgumentNullException(nameof(assemblyPath));
+            }
+
+            if (assemblyPath.Contains("DpdtInject.Generator.dll"))
+            {
+                return true;
+            }
+
+            if (assemblyPath.Contains("DpdtInject.TestConsole.exe"))
+            {
+                return true;
+            }
+
+            if (assemblyPath.Contains("DpdtInject.Tests.dll"))
+            {
+                return true;
+            }
+
+            return false;
         }
 
     }
