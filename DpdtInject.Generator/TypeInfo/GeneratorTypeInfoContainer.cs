@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using System.Collections.Generic;
 using System.IO;
@@ -17,8 +18,9 @@ namespace DpdtInject.Generator.TypeInfo
         }
 
         public GeneratorTypeInfoContainer(
-            ref GeneratorExecutionContext context
-            ) : base(context.Compilation)
+            ref GeneratorExecutionContext context,
+            List<ClassDeclarationSyntax> candidateClasses
+            ) : base(context.Compilation, candidateClasses)
         {
             _context = context;
             UnitsGenerated = 0;

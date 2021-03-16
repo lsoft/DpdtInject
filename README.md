@@ -32,7 +32,7 @@ It's only a proof-of-concept. Nor alpha, neither beta.
 0. Same performance on the platforms with no compilation at runtine.
 0. If you are writing a DLL (or nuget) you are free now to use Dpdt because no DI-container dependency will arise to your distribution.
 0. Dpdt Visual Studio Extension helps you to be more productive (see below).
-0. At last, it's very, very fast.
+0. At last, Dpdt produces a very, very fast resolution code.
 
 More to come!
 
@@ -103,7 +103,7 @@ Please refer to Dpdt.Injector [nuget package](https://www.nuget.org/packages/Dpd
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dpdt.Injector" Version="0.4.2.0-alpha" />
+    <PackageReference Include="Dpdt.Injector" Version="0.4.2.1-alpha" />
   </ItemGroup>
 
 </Project>
@@ -135,7 +135,7 @@ Bind<IB1, IB2>()
 
 # Regular const binding
 
-Only readonly fields and static readonly fields are allowed to be a target constant:
+Only readonly fields, static readonly fields and in-place compile-time constants are allowed to be a target constant:
 
 
 ```csharp
@@ -157,7 +157,7 @@ Bind<IA>()
     ;
 ```
 
-# Predefined consructor arguments with additional setting
+# Predefined constructor arguments with additional setting
 
 ```csharp
 Bind<IB>()
@@ -175,7 +175,7 @@ Proxy (and decorator at the same time) binding example:
 
 ```csharp
 
-//example of the factory, that will be injected into the proxy:
+//example of the binding, that will be injected into the proxy:
 Bind<ICalculator>()
     .To<Calculator>()
     .WithSingletonScope()
@@ -192,6 +192,8 @@ Bind<ICalculator>()
     .When(rt => rt.WhenInjectedExactlyNotInto<ProxyCalculator>()) //this suppress stack overflow during resolution
     ;
 
+//"proto" class of the proxy:
+public partial class ProxyCalculator : ICalculator { }
 
 ```
 
@@ -434,7 +436,7 @@ If your clusters are huge, you may face with slowdowns in your work in VS becaus
   </ItemGroup>
 
 ```
-This is to turn off code beautification so Dpdt will produce cluster code a lot faster.
+This is to turn off code beautification so Dpdt will produce cluster code a bit faster.
 
 # Dpdt Visual Studio Extension
 

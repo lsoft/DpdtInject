@@ -1,9 +1,12 @@
 ﻿using DpdtInject.Generator.Reporter;
 using DpdtInject.Generator.TypeInfo;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace DpdtInject.Generator
 {
@@ -15,12 +18,16 @@ namespace DpdtInject.Generator
         }
         public void Initialize(GeneratorInitializationContext context)
         {
+            context.RegisterForSyntaxNotifications(() => new ClusterCandidateSyntaxReceiver());
         }
 
         public void Execute(GeneratorExecutionContext context)
         {
             try
             {
+                if (!(context.SyntaxReceiver is ClusterCandidateSyntaxReceiver receiver))
+                    return;
+
                 var doBeautify = true;
                 var beautifyExists = context.AnalyzerConfigOptions.GlobalOptions.TryGetValue(
                     $"build_property.Dpdt_Generator_Beautify",
@@ -41,7 +48,8 @@ namespace DpdtInject.Generator
                 var sw = Stopwatch.StartNew();
 
                 var typeInfoContainer = new GeneratorTypeInfoContainer(
-                    ref context
+                    ref context,
+                    receiver.CandidateClasses
                     );
 
                 var internalGenerator = new DpdtInternalGenerator(
@@ -79,6 +87,52 @@ namespace DpdtInject.Generator
                     );
             }
         }
+    }
 
+    /// <summary>
+    /// Сoarse filter for Dpdt clusters
+    /// </summary>
+    public class ClusterCandidateSyntaxReceiver : ISyntaxReceiver
+    {
+        public List<ClassDeclarationSyntax> CandidateClasses { get; } = new List<ClassDeclarationSyntax>();
+
+        /// <summary>
+        /// Called for every syntax node in the compilation, we can inspect the nodes and save any information useful for generation
+        /// </summary>
+        public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
+        {
+            // any field with at least one attribute is a candidate for property generation
+            if (syntaxNode is MethodDeclarationSyntax mds
+                && mds.AttributeLists.Count > 0)
+            {
+                var cds = GetParentClass(mds);
+                if (cds != null)
+                {
+                    if (cds.BaseList != null && cds.BaseList.Types.Count > 0)
+                    {
+                        if(cds.Modifiers.Any(m => m.IsKind(Microsoft.CodeAnalysis.CSharp.SyntaxKind.PartialKeyword)))
+                        {
+                            CandidateClasses.Add(cds);
+                        }
+                    }
+                }
+            }
+        }
+
+        private ClassDeclarationSyntax? GetParentClass(MethodDeclarationSyntax mds)
+        {
+            SyntaxNode? current = mds;
+            while (current != null)
+            {
+                if (current is ClassDeclarationSyntax cds)
+                {
+                    return cds;
+                }
+
+                current = current.Parent;
+            }
+
+            return null;
+        }
     }
 }

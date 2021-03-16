@@ -18,8 +18,8 @@ namespace DpdtInject.Generator.Helpers
 
             return
                 typeInfoProvider.GetTypeByMetadataName("System.Func`" + genericParameters.Length)!
-                .Construct(genericParameters)
-                ;
+                    .Construct(genericParameters)
+                    ;
         }
 
         public static INamedTypeSymbol SystemType(
