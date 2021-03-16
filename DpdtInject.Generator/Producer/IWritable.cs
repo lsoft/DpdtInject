@@ -9,7 +9,7 @@ namespace DpdtInject.Generator.Producer
 {
     public interface IWritable
     {
-        void WriteProduct(IndentedTextWriter2 writer, ShortTypeNameGenerator sng);
+        void Write(IndentedTextWriter2 writer, ShortTypeNameGenerator sng);
     }
 
 }

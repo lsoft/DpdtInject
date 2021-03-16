@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using DpdtInject.Generator.Binding;
 using DpdtInject.Generator.Helpers;
+using DpdtInject.Generator.Producer;
 using DpdtInject.Generator.Producer.ClassProducer;
 using DpdtInject.Generator.TypeInfo;
 using DpdtInject.Injector;
@@ -205,13 +206,15 @@ namespace DpdtInject.Generator.BindExtractor.Parsed
             {
                 var product = classProducer.GenerateProduct();
 
+                var productSourceCode = product.GetSourceCode();
+
                 _typeInfoContainer.AddSources(
                     new ModificationDescription[]
                     {
-                        new(
+                        new ModificationDescription(
                             (INamedTypeSymbol) types.BindToType,
                             $"{types.BindToType.Name}.Pregenerated.cs",
-                            product.SourceCode
+                            productSourceCode
                             )
                     }
                     );
@@ -237,7 +240,6 @@ namespace DpdtInject.Generator.BindExtractor.Parsed
 
             return types;
         }
-
 
 
         private void CheckForAbsenceForConfigureStatements()

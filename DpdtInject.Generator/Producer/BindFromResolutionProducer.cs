@@ -220,14 +220,14 @@ namespace DpdtInject.Generator.Producer
 
             #region get fast
 
-            var getFastMethodProduct = new MethodProduct(
+            var getFastMethodProduct = MethodProductFactory.Create(
                 nameof(IResolutionFast<object>.GetFast),
-                wrapperSymbol,
+                new TypeMethodResult(wrapperSymbol),
                 (methodName, returnType) =>
                 {
                     return $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-public {returnType.ToDisplayString()} {methodName}({returnType.ToDisplayString()} unused)
+public {returnType} {methodName}({returnType} unused)
 {{
     return {getMethodProduct.MethodName}(
         null
@@ -255,17 +255,17 @@ public {returnType.ToDisplayString()} {methodName}({returnType.ToDisplayString()
             return resolutionProduct;
         }
 
-        private MethodProduct CreateExplicitMethod(
+        private IMethodProduct CreateExplicitMethod(
             string explicitMethodName,
-            MethodProduct nonExplicitMethod,
+            IMethodProduct nonExplicitMethod,
             DpdtArgumentWrapperTypeEnum wrapperType,
             ITypeSymbol wrapperSymbol
             )
         {
-            var explicitMethodProduct = new MethodProduct(
+            var explicitMethodProduct = MethodProductFactory.Create(
                 explicitMethodName,
-                nonExplicitMethod.ReturnType,
-                (methodName, returnType) => $@"{returnType.ToDisplayString()} IResolution<{wrapperSymbol.ToDisplayString()}>.{methodName}(IResolutionRequest resolutionRequest)
+                nonExplicitMethod.MethodResult,
+                (methodName, returnType) => $@"{returnType} IResolution<{wrapperSymbol.ToDisplayString()}>.{methodName}(IResolutionRequest resolutionRequest)
 {{
     return {nonExplicitMethod.MethodName}(resolutionRequest);
 }}
@@ -276,7 +276,7 @@ public {returnType.ToDisplayString()} {methodName}({returnType.ToDisplayString()
         }
 
 
-        private MethodProduct CreateGetAllMethod(
+        private IMethodProduct CreateGetAllMethod(
             IReadOnlyList<InstanceProduct> filteredInstanceProducts,
             DpdtArgumentWrapperTypeEnum wrapperType,
             ITypeSymbol wrapperSymbol
@@ -291,12 +291,13 @@ public {returnType.ToDisplayString()} {methodName}({returnType.ToDisplayString()
                 .Construct(wrapperSymbol)
                 ;
 
-            MethodProduct getAllMethodProduct = new(
+
+            var getAllMethodProduct = MethodProductFactory.Create(
                 nonExplicitMethodName,
-                returnType,
+                new TypeMethodResult(returnType),
                 (methodName, returnType) =>
                 {
-                    var methodBody = $@"private {returnType.ToDisplayString()} {methodName}(IResolutionRequest resolutionRequest)
+                    var methodBody = $@"private {returnType} {methodName}(IResolutionRequest resolutionRequest)
 {{
     resolutionRequest  = resolutionRequest ?? new {nameof(ResolutionRequest<object, object>)}<{ClusterBindings.ClusterType.ToDisplayString()}, {wrapperSymbol.ToDisplayString()}>(true);
 
@@ -322,10 +323,10 @@ public {returnType.ToDisplayString()} {methodName}({returnType.ToDisplayString()
                             //with predicate (itself is conditional!)
 
                             methodBody += $@"//predicate method is same for all wrappers, so we does no need for a wrapper-postfix (like _Func)
-    if({instanceProduct.PredicateMethod.GetMethodName(DpdtArgumentWrapperTypeEnum.None)}({modifiedContext}))
+    if({instanceProduct.PredicateMethod.GetWrappedMethodName(DpdtArgumentWrapperTypeEnum.None)}({modifiedContext}))
     {{
         result.Add(
-            {instanceProduct.FactoryObjectMethod.GetMethodName(wrapperType)}({modifiedContext})
+            {instanceProduct.FactoryObjectMethod.GetWrappedMethodName(wrapperType)}({modifiedContext})
             );
     }}
 ";
@@ -338,7 +339,7 @@ public {returnType.ToDisplayString()} {methodName}({returnType.ToDisplayString()
                                 //we need a resolution context
                                 methodBody += $@"
     result.Add(
-        {instanceProduct.FactoryObjectMethod.GetMethodName(wrapperType)}({modifiedContext})
+        {instanceProduct.FactoryObjectMethod.GetWrappedMethodName(wrapperType)}({modifiedContext})
         );
 ";
                             }
@@ -347,7 +348,7 @@ public {returnType.ToDisplayString()} {methodName}({returnType.ToDisplayString()
                                 //no need for a resolution context
                                 methodBody += $@"
     result.Add(
-        {instanceProduct.FactoryObjectMethod.GetMethodName(wrapperType)}(null)
+        {instanceProduct.FactoryObjectMethod.GetWrappedMethodName(wrapperType)}(null)
         );
 ";
                             }
@@ -367,7 +368,7 @@ public {returnType.ToDisplayString()} {methodName}({returnType.ToDisplayString()
         }
 
 
-        private MethodProduct CreateGetMethod(
+        private IMethodProduct CreateGetMethod(
             IReadOnlyList<InstanceProduct> filteredInstanceProducts, 
             DpdtArgumentWrapperTypeEnum wrapperType,
             ITypeSymbol wrapperSymbol
@@ -380,14 +381,14 @@ public {returnType.ToDisplayString()} {methodName}({returnType.ToDisplayString()
                 $"Get_{wrapperSymbol.GetSpecialName()}_{Guid.NewGuid().RemoveMinuses()}"
                 ;
 
-            MethodProduct getMethodProduct;
+            IMethodProduct getMethodProduct;
             if (total == 0)
             {
-                getMethodProduct = new MethodProduct(
+                getMethodProduct = MethodProductFactory.Create(
                     nonExplicitMethodName,
-                    wrapperSymbol,
+                    new TypeMethodResult(wrapperSymbol),
                     (methodName, returnType) => $@"[MethodImpl(MethodImplOptions.AggressiveInlining)]
-private {returnType.ToDisplayString()} {methodName}(IResolutionRequest resolutionRequest)
+private {returnType} {methodName}(IResolutionRequest resolutionRequest)
 {{
     return RaiseNoBindingAvailable<{wrapperSymbol.ToDisplayString()}>();
 }}
@@ -414,36 +415,35 @@ private {returnType.ToDisplayString()} {methodName}(IResolutionRequest resolutio
             resolutionRequest
             );
 
-    return {filteredInstanceProducts[0].FactoryObjectMethod.GetMethodName(wrapperType)}({modifiedContext});
+    return {filteredInstanceProducts[0].FactoryObjectMethod.GetWrappedMethodName(wrapperType)}({modifiedContext});
 ";
                 }
                 else
                 {
                     methodBody = $@"
-    return {filteredInstanceProducts[0].FactoryObjectMethod.GetMethodName(wrapperType)}(null);
+    return {filteredInstanceProducts[0].FactoryObjectMethod.GetWrappedMethodName(wrapperType)}(null);
 ";
                 }
 
-                getMethodProduct = new MethodProduct(
+                getMethodProduct = MethodProductFactory.Create(
                     nonExplicitMethodName,
-                    wrapperSymbol,
+                    new TypeMethodResult(wrapperSymbol),
                     (methodName, returnType) => $@"[MethodImpl(MethodImplOptions.AggressiveInlining)]
-private {returnType.ToDisplayString()} {methodName}(IResolutionRequest resolutionRequest)
+private {returnType} {methodName}(IResolutionRequest resolutionRequest)
 {{
     {methodBody}
 }}
 ");
-
             }
             else
             {
                 if (itselfNonConditional > 1)
                 {
-                    getMethodProduct = new MethodProduct(
+                    getMethodProduct = MethodProductFactory.Create(
                         nonExplicitMethodName,
-                        wrapperSymbol,
+                        new TypeMethodResult(wrapperSymbol),
                         (methodName, returnType) => $@"[MethodImpl(MethodImplOptions.AggressiveInlining)]
-private {returnType.ToDisplayString()} {methodName}(IResolutionRequest resolutionRequest)
+private {returnType} {methodName}(IResolutionRequest resolutionRequest)
 {{
     return RaiseTooManyBindingException<{wrapperSymbol.ToDisplayString()}>();
 }}
@@ -478,7 +478,7 @@ private {returnType.ToDisplayString()} {methodName}(IResolutionRequest resolutio
                         if (!(instanceProduct.PredicateMethod is null))
                         {
                             methodBody += $@"//predicate method is same for all wrappers, so we does no need for a wrapper-postfix (like _Func)
-    if({instanceProduct.PredicateMethod.GetMethodName(DpdtArgumentWrapperTypeEnum.None)}({modifiedContext}))
+    if({instanceProduct.PredicateMethod.GetWrappedMethodName(DpdtArgumentWrapperTypeEnum.None)}({modifiedContext}))
     {{
         if(++allowedChildrenCount > 1)
         {{
@@ -511,23 +511,23 @@ private {returnType.ToDisplayString()} {methodName}(IResolutionRequest resolutio
                             methodBody += $@"
     if(predicate_{instanceProduct.BindingExtender.BindingContainer.GetStableSuffix()})
     {{
-        return {instanceProduct.FactoryObjectMethod.GetMethodName(wrapperType)}({modifiedContext});
+        return {instanceProduct.FactoryObjectMethod.GetWrappedMethodName(wrapperType)}({modifiedContext});
     }}
 ";
                         }
                         else
                         {
                             methodBody += $@"
-    return {instanceProduct.FactoryObjectMethod.GetMethodName(wrapperType)}({modifiedContext});
+    return {instanceProduct.FactoryObjectMethod.GetWrappedMethodName(wrapperType)}({modifiedContext});
 ";
                         }
                     }
 
-                    getMethodProduct = new MethodProduct(
+                    getMethodProduct = MethodProductFactory.Create(
                         nonExplicitMethodName,
-                        wrapperSymbol,
+                        new TypeMethodResult(wrapperSymbol),
                         (methodName, returnType) => $@"[MethodImpl(MethodImplOptions.AggressiveInlining)]
-private {returnType.ToDisplayString()} {methodName}(IResolutionRequest resolutionRequest)
+private {returnType} {methodName}(IResolutionRequest resolutionRequest)
 {{
     {methodBody}
 }}
@@ -537,17 +537,6 @@ private {returnType.ToDisplayString()} {methodName}(IResolutionRequest resolutio
             }
 
             return getMethodProduct;
-        }
-    }
-
-
-    public static class NameHelper
-    {
-        public static string GetSpecialName(
-            this ITypeSymbol wrapperSymbol
-            )
-        {
-            return wrapperSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat).EscapeSpecialTypeSymbols();
         }
     }
 }

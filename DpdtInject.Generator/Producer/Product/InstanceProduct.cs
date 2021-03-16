@@ -14,20 +14,20 @@ namespace DpdtInject.Generator.Producer.Product
             get;
         }
         
-        public MethodProduct? PredicateMethod 
+        public IMethodProduct? PredicateMethod 
         {
             get;
         }
 
-        public MethodProduct FactoryObjectMethod 
+        public IMethodProduct FactoryObjectMethod 
         { 
             get; 
         }
-        public MethodProduct FuncMethod
+        public IMethodProduct FuncMethod
         {
             get;
         }
-        public MethodProduct? DisposeMethod
+        public IMethodProduct? DisposeMethod
         {
             get;
         }
@@ -39,10 +39,10 @@ namespace DpdtInject.Generator.Producer.Product
 
         public InstanceProduct(
             BindingContainerExtender bindingExtender,
-            MethodProduct? predicateMethod,
-            MethodProduct factoryObjectMethod,
-            MethodProduct funcMethod,
-            MethodProduct? disposeMethod,
+            IMethodProduct? predicateMethod,
+            IMethodProduct factoryObjectMethod,
+            IMethodProduct funcMethod,
+            IMethodProduct? disposeMethod,
             IReadOnlyList<UnknownTypeProduct>? unknownTypeProducts
             )
         {
@@ -73,15 +73,15 @@ namespace DpdtInject.Generator.Producer.Product
         {
             if (PredicateMethod != null)
             {
-                writer.WriteLine2(PredicateMethod.MethodBody);
+                PredicateMethod.Write(writer, sng);
             }
 
-            writer.WriteLine2(FactoryObjectMethod.MethodBody);
-            writer.WriteLine2(FuncMethod.MethodBody);
+            FactoryObjectMethod.Write(writer, sng);
+            FuncMethod.Write(writer, sng);
 
             if (DisposeMethod != null)
             {
-                writer.WriteLine2(DisposeMethod.MethodBody);
+                DisposeMethod.Write(writer, sng);
             }
         }
 

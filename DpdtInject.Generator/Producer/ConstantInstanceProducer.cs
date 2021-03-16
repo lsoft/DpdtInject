@@ -43,15 +43,15 @@ namespace DpdtInject.Generator.Producer
 
         public InstanceProduct Produce()
         {
-            MethodProduct? predicateMethod = null;
+            IMethodProduct? predicateMethod = null;
             if (_bindingExtender.BindingContainer.IsConditional)
             {
-                predicateMethod = new MethodProduct(
+                predicateMethod = MethodProductFactory.Create(
                     $"CheckPredicate_{_bindingExtender.BindingContainer.BindToType.Name}_{_bindingExtender.BindingContainer.GetStableSuffix()}",
-                    _typeInfoProvider.Bool(),
+                    new TypeMethodResult(_typeInfoProvider.Bool()),
                     (methodName, returnType) => $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-private {returnType.ToDisplayString()} {methodName}({nameof(IResolutionTarget)} resolutionTarget)
+private {returnType} {methodName}({nameof(IResolutionTarget)} resolutionTarget)
 {{
     Func<{nameof(IResolutionTarget)}, bool> predicate = 
         {_bindingExtender.BindingContainer.WhenArgumentClause}
@@ -63,12 +63,12 @@ private {returnType.ToDisplayString()} {methodName}({nameof(IResolutionTarget)} 
 ");
             }
 
-            var retrieveObjectMethod = new MethodProduct(
+            var retrieveObjectMethod = MethodProductFactory.Create(
                 $"GetInstance_{_bindingExtender.BindingContainer.BindToType.Name}_{_bindingExtender.BindingContainer.GetStableSuffix()}",
-                _bindingExtender.BindingContainer.BindToType,
+                new TypeMethodResult(_bindingExtender.BindingContainer.BindToType),
                 (methodName, returnType) => $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-private {returnType.ToDisplayString()} {methodName}(
+private {returnType} {methodName}(
     {nameof(IResolutionTarget)} resolutionTarget
     )
 {{
@@ -76,16 +76,16 @@ private {returnType.ToDisplayString()} {methodName}(
 }}
 ");
 
-            var funcMethod = new MethodProduct(
+            var funcMethod = MethodProductFactory.Create(
                 $"GetInstance_{_bindingExtender.BindingContainer.BindToType.Name}_{_bindingExtender.BindingContainer.GetStableSuffix()}{DpdtArgumentWrapperTypeEnum.Func.GetPostfix()}",
-                _typeInfoProvider.Func(_bindingExtender.BindingContainer.BindToType),
+                new TypeMethodResult(_typeInfoProvider.Func(_bindingExtender.BindingContainer.BindToType)),
                 (methodName, returnType) => $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-private {returnType.ToDisplayString()} {methodName}(
+private {returnType} {methodName}(
     {nameof(IResolutionTarget)} resolutionTarget
     )
 {{
-    return () => {retrieveObjectMethod.GetMethodName(DpdtArgumentWrapperTypeEnum.None)}(resolutionTarget);
+    return () => {retrieveObjectMethod.GetWrappedMethodName(DpdtArgumentWrapperTypeEnum.None)}(resolutionTarget);
 }}
 ");
 

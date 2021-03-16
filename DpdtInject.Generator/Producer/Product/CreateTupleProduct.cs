@@ -18,7 +18,7 @@ namespace DpdtInject.Generator.Producer.Product
             _tuplesParts = tuplesParts;
         }
 
-        public void WriteProduct(IndentedTextWriter2 writer, ShortTypeNameGenerator sng)
+        public void Write(IndentedTextWriter2 writer, ShortTypeNameGenerator sng)
         {
             writer.Write("new System.Tuple<");
 

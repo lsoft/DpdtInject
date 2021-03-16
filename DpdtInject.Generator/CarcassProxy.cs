@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using BindFromType = System.Object;
 using SessionSaver = DpdtInject.Injector.Bind.BaseSessionSaver;
+//PROXYPRODUCER: additonal usings
 // ReSharper disable SuspiciousTypeConversion.Global
+
 
 namespace DpdtInject.Generator
 {

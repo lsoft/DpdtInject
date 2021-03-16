@@ -59,13 +59,13 @@ namespace DpdtInject.Generator.Producer.Product
                     itwInterfaces.WriteLine(",");
                 }
 
-                resolutionProduct.NonGenericGetTuple.WriteProduct(itwNonGenericInterfaces, sng);
+                resolutionProduct.NonGenericGetTuple.Write(itwNonGenericInterfaces, sng);
                 if (!isLast0 || !isLast1)
                 {
                     itwNonGenericInterfaces.WriteLine(",");
                 }
 
-                resolutionProduct.NonGenericGetAllTuple.WriteProduct(itwNonGenericGetAllInterfaces, sng);
+                resolutionProduct.NonGenericGetAllTuple.Write(itwNonGenericGetAllInterfaces, sng);
                 if (!isLast0 || !isLast1)
                 {
                     itwNonGenericGetAllInterfaces.WriteLine(",");

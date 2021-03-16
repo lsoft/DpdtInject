@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DpdtInject.Generator.BindExtractor;
 using DpdtInject.Generator.Binding;
+using DpdtInject.Generator.Producer.ClassProducer.Product;
 using DpdtInject.Generator.Producer.Product;
 using DpdtInject.Injector.Bind;
 using DpdtInject.Injector.Excp;
@@ -45,57 +46,26 @@ namespace DpdtInject.Generator.Producer.ClassProducer
         }
 
         /// <inheritdoc />
-        public ProducedClassProduct GenerateProduct()
+        public IProducedClassProduct GenerateProduct()
         {
             var methodProducts = ScanForMethodsToImplement(
                 );
 
-            var compilationUnit = DpdtInject.Generator.Properties.Resource.CarcassProxy;
-
-            var fixedCompilationUnit = compilationUnit
-                .ReplaceLineStartsWith(
-                    "namespace",
-                    $"namespace {_types.BindToType.ContainingNamespace.ToDisplayString()}"
-                    )
-                .ReplaceLineStartsWith(
-                    "using BindFromType",
-                    $""
-                    )
-                .ReplaceLineStartsWith(
-                    "using SessionSaver",
-                    $""
-                    )
-                .CheckAndReplace(
-                    nameof(CarcassProxy),
-                    _types.BindToType.Name
-                    )
-                .CheckAndReplace(
-                    "BindFromType",
-                    _types.BindFromTypes[0].ToDisplayString()
-                    )
-                .CheckAndReplace(
-                    "SessionSaver",
-                    _sessionSaverType.ToDisplayString()
-                    )
-                .CheckAndReplace(
-                    "//PROXYPRODUCER: put methods here",
-                    methodProducts.Join(mp => mp.MethodBody)
-                    )
-                ;
-
-            var result = new ProducedClassProduct(
+            var result = new ProxyClassProduct(
+                _types.BindFromTypes[0],
                 _types.BindToType,
-                fixedCompilationUnit
+                _sessionSaverType,
+                methodProducts
                 );
 
             return result;
         }
 
 
-        private List<MethodProduct> ScanForMethodsToImplement(
+        private List<IMethodProduct> ScanForMethodsToImplement(
             )
         {
-            var result = new List<MethodProduct>();
+            var result = new List<IMethodProduct>();
             var declaredMethods = _types.BindFromTypes[0].GetMembers().FindAll(m => m.Kind == SymbolKind.Method);
 
             foreach (IMethodSymbol declaredMethod in declaredMethods)
@@ -134,7 +104,7 @@ namespace DpdtInject.Generator.Producer.ClassProducer
             return result;
         }
 
-        private MethodProduct GetNonProxiedMethodProduct(
+        private IMethodProduct GetNonProxiedMethodProduct(
             IMethodSymbol methodSymbol
             )
         {
@@ -158,22 +128,22 @@ namespace DpdtInject.Generator.Producer.ClassProducer
                     : string.Empty
                 ;
 
-            var result = new MethodProduct(
+            var result = MethodProductFactory.Create(
                 methodSymbol,
                 constructorArguments,
-                (ms, h) =>
+                (methodName, h) =>
                 {
                     return $@"public {h}
-{{
-    {returnModifier} {refModifier} _payload.{ms.Name}({constructorArguments.Join(ca => ca.GetUsageSyntax(), ",")});
-}}
+        {{
+            {returnModifier} {refModifier} _payload.{methodName}({constructorArguments.Join(ca => ca.GetUsageSyntax(), ",")});
+        }}
 ";
                 }
                 );
             return result;
         }
 
-        private MethodProduct GetProxiedMethodProduct(
+        private IMethodProduct GetProxiedMethodProduct(
             IMethodSymbol methodSymbol
             )
         {
@@ -187,44 +157,44 @@ namespace DpdtInject.Generator.Producer.ClassProducer
 
             var proxyArguments = GetProxyArguments(methodSymbol);
 
-            MethodProduct result;
+            IMethodProduct result;
             if (methodSymbol.ReturnsVoid)
             {
-                result = new MethodProduct(
+                result = MethodProductFactory.Create(
                     methodSymbol,
                     constructorArguments,
-                    (ms, h) =>
+                    (methodName, h) =>
                     {
                         return $@"public {h}
-{{
-    var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
-        _payloadFullName,
-        nameof({ms.Name}),
-        {proxyArguments}
-        );
+        {{
+            var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
+                _payloadFullName,
+                nameof({methodName}),
+                {proxyArguments}
+                );
 
-    var startDate = System.Diagnostics.Stopwatch.GetTimestamp();
-    try
-    {{
-        _payload.{ms.Name}({constructorArguments.Join(cafm => cafm.GetUsageSyntax(), ",")});
+            var startDate = System.Diagnostics.Stopwatch.GetTimestamp();
+            try
+            {{
+                _payload.{methodName}({constructorArguments.Join(cafm => cafm.GetUsageSyntax(), ",")});
 
-        _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-            sessionGuid,
-            (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-            null
-            );
-    }}
-    catch (Exception excp)
-    {{
-        _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-            sessionGuid,
-            (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-            excp
-            );
+                _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+                    sessionGuid,
+                    (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                    null
+                    );
+            }}
+            catch (Exception excp)
+            {{
+                _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+                    sessionGuid,
+                    (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                    excp
+                    );
 
-        throw;
-    }}
-}}
+                throw;
+            }}
+        }}
 ";
                     }
                     );
@@ -237,43 +207,43 @@ namespace DpdtInject.Generator.Producer.ClassProducer
                         : string.Empty
                     ;
 
-                result = new MethodProduct(
+                result = MethodProductFactory.Create(
                     methodSymbol,
                     constructorArguments,
-                    (ms, h) =>
+                    (methodName, h) =>
                     {
                         return $@"public {h}
-{{
-    var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
-        _payloadFullName,
-        nameof({ms.Name}),
-        {proxyArguments}
-        );
+        {{
+            var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
+                _payloadFullName,
+                nameof({methodName}),
+                {proxyArguments}
+                );
 
-    var startDate = System.Diagnostics.Stopwatch.GetTimestamp();
-    try
-    {{
-        var result = {refModifier} _payload.{ms.Name}({constructorArguments.Join(cafm => cafm.GetUsageSyntax(), ",")});
+            var startDate = System.Diagnostics.Stopwatch.GetTimestamp();
+            try
+            {{
+                var result = {refModifier} _payload.{methodName}({constructorArguments.Join(cafm => cafm.GetUsageSyntax(), ",")});
 
-        _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-            sessionGuid,
-            (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-            null
-            );
+                _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+                    sessionGuid,
+                    (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                    null
+                    );
 
-        return result;
-    }}
-    catch (Exception excp)
-    {{
-        _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-            sessionGuid,
-            (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-            excp
-            );
+                return result;
+            }}
+            catch (Exception excp)
+            {{
+                _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+                    sessionGuid,
+                    (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                    excp
+                    );
 
-        throw;
-    }}
-}}";
+                throw;
+            }}
+        }}";
                     }
                     );
             }

@@ -53,15 +53,15 @@ namespace DpdtInject.Generator.Producer
 
             var (caps, utps) = constructorArgumentProducers.Produce();
 
-            MethodProduct? predicateMethod = null;
+            IMethodProduct? predicateMethod = null;
             if (_bindingExtender.BindingContainer.IsConditional)
             {
-                predicateMethod = new MethodProduct(
+                predicateMethod = MethodProductFactory.Create(
                     $"CheckPredicate_{_bindingExtender.BindingContainer.BindToType.Name}_{_bindingExtender.BindingContainer.GetStableSuffix()}",
-                    _typeInfoProvider.Bool(),
+                    new TypeMethodResult(_typeInfoProvider.Bool()),
                     (methodName, returnType) => $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-private {returnType.ToDisplayString()} {methodName}(IResolutionTarget resolutionTarget)
+private {returnType} {methodName}(IResolutionTarget resolutionTarget)
 {{
     Func<IResolutionTarget, bool> predicate = 
         {_bindingExtender.BindingContainer.WhenArgumentClause}
@@ -76,15 +76,15 @@ private {returnType.ToDisplayString()} {methodName}(IResolutionTarget resolution
             var singletonInstanceName = $"_singletonInstance__{_bindingExtender.BindingContainer.BindToType.Name}__{_bindingExtender.BindingContainer.GetStableSuffix()}";
             var lockerName = $"_locker_{_bindingExtender.BindingContainer.BindToType.Name}_{_bindingExtender.BindingContainer.GetStableSuffix()}";
 
-            var retrieveObjectMethod = new MethodProduct(
+            var retrieveObjectMethod = MethodProductFactory.Create(
                 $"GetInstance_{_bindingExtender.BindingContainer.BindToType.Name}_{_bindingExtender.BindingContainer.GetStableSuffix()}",
-                _bindingExtender.BindingContainer.BindToType,
+                new TypeMethodResult(_bindingExtender.BindingContainer.BindToType),
                 (methodName, returnType) => $@"
 private volatile {_bindingExtender.BindingContainer.BindToType.ToDisplayString()} {singletonInstanceName} = null;
 private readonly System.Object {lockerName} = new System.Object();
 
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-private {returnType.ToDisplayString()} {methodName}(
+private {returnType} {methodName}(
     IResolutionTarget resolutionTarget
     )
 {{
@@ -105,24 +105,24 @@ private {returnType.ToDisplayString()} {methodName}(
 }}
 ");
 
-            var funcMethod = new MethodProduct(
+            var funcMethod = MethodProductFactory.Create(
                 $"GetInstance_{ _bindingExtender.BindingContainer.BindToType.Name}_{_bindingExtender.BindingContainer.GetStableSuffix()}{DpdtArgumentWrapperTypeEnum.Func.GetPostfix()}",
-                _typeInfoProvider.Func(_bindingExtender.BindingContainer.BindToType),
+                new TypeMethodResult(_typeInfoProvider.Func(_bindingExtender.BindingContainer.BindToType)),
                 (methodName, returnType) => $@"
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-private {returnType.ToDisplayString()} {methodName}(
+private {returnType} {methodName}(
     IResolutionTarget resolutionTarget
     )
 {{
-    return () => {retrieveObjectMethod.GetMethodName(DpdtArgumentWrapperTypeEnum.None)}(resolutionTarget);
+    return () => {retrieveObjectMethod.GetWrappedMethodName(DpdtArgumentWrapperTypeEnum.None)}(resolutionTarget);
 }}
 ");
 
-            var disposeMethodInvoke = new MethodProduct(
+            var disposeMethodInvoke = MethodProductFactory.Create(
                 $"DisposeInstance_{_bindingExtender.BindingContainer.BindToType.Name}_{_bindingExtender.BindingContainer.GetStableSuffix()}",
-                _typeInfoProvider.Void(),
+                new TypeMethodResult(_typeInfoProvider.Void()),
                 (methodName, returnType) => $@"
-private {returnType.ToDisplayString()} {methodName}(
+private {returnType} {methodName}(
     )
 {{
     if({singletonInstanceName} is {nameof(IDisposable)} d)

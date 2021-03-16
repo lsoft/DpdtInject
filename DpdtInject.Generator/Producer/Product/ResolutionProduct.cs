@@ -14,11 +14,11 @@ namespace DpdtInject.Generator.Producer.Product
         {
             get;
         }
-        public MethodProduct RetrieveMethod
+        public IMethodProduct RetrieveMethod
         {
             get;
         }
-        public MethodProduct RetrieveExplicitMethod
+        public IMethodProduct RetrieveExplicitMethod
         { 
             get; 
         }
@@ -26,11 +26,11 @@ namespace DpdtInject.Generator.Producer.Product
         { 
             get; 
         }
-        public MethodProduct RetrieveAllMethod 
+        public IMethodProduct RetrieveAllMethod 
         {
             get;
         }
-        public MethodProduct RetrieveAllExplicitMethod
+        public IMethodProduct RetrieveAllExplicitMethod
         { 
             get; 
         }
@@ -38,7 +38,7 @@ namespace DpdtInject.Generator.Producer.Product
         { 
             get; 
         }
-        public MethodProduct RetrieveFastMethod 
+        public IMethodProduct RetrieveFastMethod 
         {
             get;
         }
@@ -46,13 +46,13 @@ namespace DpdtInject.Generator.Producer.Product
         public ResolutionProduct(
             IInterfaceProduct interfaceProduct,
             IInterfaceProduct interfaceFastProduct,
-            MethodProduct retrieveMethod,
-            MethodProduct retrieveExplicitMethod,
+            IMethodProduct retrieveMethod,
+            IMethodProduct retrieveExplicitMethod,
             CreateTupleProduct nonGenericGetTuple,
-            MethodProduct retrieveAllMethod,
-            MethodProduct retrieveAllExplicitMethod,
+            IMethodProduct retrieveAllMethod,
+            IMethodProduct retrieveAllExplicitMethod,
             CreateTupleProduct nonGenericGetAllTuple,
-            MethodProduct retrieveFastMethod
+            IMethodProduct retrieveFastMethod
             )
         {
             if (interfaceProduct is null)
@@ -116,15 +116,15 @@ namespace DpdtInject.Generator.Producer.Product
 
         internal void WriteMethods(IndentedTextWriter2 writer, ShortTypeNameGenerator sng)
         {
-            writer.WriteLine2(RetrieveExplicitMethod.MethodBody);
+            RetrieveExplicitMethod.Write(writer, sng);
             writer.WriteLine();
-            writer.WriteLine2(RetrieveMethod.MethodBody);
+            RetrieveMethod.Write(writer, sng);
             writer.WriteLine();
-            writer.WriteLine2(RetrieveAllExplicitMethod.MethodBody);
+            RetrieveAllExplicitMethod.Write(writer, sng);
             writer.WriteLine();
-            writer.WriteLine2(RetrieveAllMethod.MethodBody);
+            RetrieveAllMethod.Write(writer, sng);
             writer.WriteLine();
-            writer.WriteLine2(RetrieveFastMethod.MethodBody);
+            RetrieveFastMethod.Write(writer, sng);
         }
 
     }

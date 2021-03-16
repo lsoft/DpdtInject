@@ -1,8 +1,10 @@
-﻿namespace DpdtInject.Generator.Producer.ClassProducer
+﻿using DpdtInject.Generator.Producer.ClassProducer.Product;
+
+namespace DpdtInject.Generator.Producer.ClassProducer
 {
     internal interface IClassProducer
     {
-        ProducedClassProduct GenerateProduct(
+        IProducedClassProduct GenerateProduct(
             );
     }
 }

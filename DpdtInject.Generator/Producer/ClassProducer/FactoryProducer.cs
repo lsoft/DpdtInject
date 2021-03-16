@@ -4,6 +4,7 @@ using System.Linq;
 using DpdtInject.Generator.BindExtractor;
 using DpdtInject.Generator.Binding;
 using DpdtInject.Generator.Helpers;
+using DpdtInject.Generator.Producer.ClassProducer.Product;
 using DpdtInject.Generator.Producer.Product;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;
@@ -43,38 +44,25 @@ namespace DpdtInject.Generator.Producer.ClassProducer
                 );
         }
 
-        public ProducedClassProduct GenerateProduct(
+        public IProducedClassProduct GenerateProduct(
             )
         {
             var methodProducts = ScanForMethodsToImplement();
 
-            var result = new ProducedClassProduct(
+            var result = new FactoryClassProduct(
+                _types.BindFromTypes[0],
                 _types.BindToType,
-                $@"
-namespace {_types.BindToType.ContainingNamespace.ToDisplayString()}
-{{
-    public partial class {_types.BindToType.Name} : {_types.BindFromTypes[0].ToDisplayString()}
-    {{
-        {_unknowns.Join(u => $"private readonly {u.Type!.ToDisplayString()} {u.Name};")}
+                methodProducts,
+                _unknowns
+                );
 
-        public {_types.BindToType.Name}(
-            {_unknowns.Join(u => $"{u.Type!.ToDisplayString()} {u.Name}", ",")}
-            )
-        {{
-            {_unknowns.Join(u => $"this.{u.Name} = {u.Name};")}
-        }}
-
-        {methodProducts.Join(mp => mp.MethodBody)}
-    }}
-}}
-");
             return result;
         }
 
-        private List<MethodProduct> ScanForMethodsToImplement(
+        private List<IMethodProduct> ScanForMethodsToImplement(
             )
         {
-            var result = new List<MethodProduct>();
+            var result = new List<IMethodProduct>();
             var declaredMethods = _types.BindFromTypes[0].GetMembers().FindAll(m => m.Kind == SymbolKind.Method);
 
             foreach (IMethodSymbol declaredMethod in declaredMethods)
@@ -104,7 +92,7 @@ namespace {_types.BindToType.ContainingNamespace.ToDisplayString()}
             return result;
         }
 
-        private MethodProduct GetMethodProduct(
+        private IMethodProduct GetMethodProduct(
             IMethodSymbol methodSymbol
             )
         {
@@ -158,13 +146,13 @@ namespace {_types.BindToType.ContainingNamespace.ToDisplayString()}
             caCombined.AddRange(usedConstructorArguments.Select(cafm => $"{cafm.Name}: {cafm.GetUsageSyntax()}"));
             caCombined.AddRange(unknownConstructorArguments.Select(cau => $"{cau.Name}: this.{cau.GetUsageSyntax()}"));
 
-            return new MethodProduct(
+            return MethodProductFactory.Create(
                 methodSymbol.Name,
-                methodSymbol.ReturnType,
+                new TypeMethodResult(methodSymbol.ReturnType),
                 (methodName, returnType) =>
                 {
                     return $@"
-public {returnType.ToDisplayString()} {methodName}({usedConstructorArguments.Join(cafm => cafm.GetDeclarationSyntax(), ",")})
+public {returnType} {methodName}({usedConstructorArguments.Join(cafm => cafm.GetDeclarationSyntax(), ",")})
 {{
     return new {_factoryPayloadType.ToDisplayString()}(
         {caCombined.Join(cac => cac, ",")}

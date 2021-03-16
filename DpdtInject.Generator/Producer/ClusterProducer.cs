@@ -257,6 +257,14 @@ namespace DpdtInject.Generator.Producer
             }
 
             var key = type.ToDisplayString();
+
+            if (!key.Contains('.'))
+            {
+                //it's string, int, long etc. 
+                //no need to put it into the dict
+                return key;
+            }
+
             if (_nameDict.TryGetValue(key, out var shortName))
             {
                 return shortName;
@@ -264,7 +272,7 @@ namespace DpdtInject.Generator.Producer
 
             while (true)
             {
-                var newShortName = type.GetSpecialName() + Guid.NewGuid().RemoveMinuses().Substring(0, 8);
+                var newShortName = type.GetSpecialName() + "_" + Guid.NewGuid().RemoveMinuses().Substring(0, 8);
                 if (_nameDict.ContainsKey(newShortName))
                 {
                     continue;
@@ -276,12 +284,23 @@ namespace DpdtInject.Generator.Producer
             }
         }
 
+        public string GetCombinedUsings(
+            )
+        {
+            var sb = new StringBuilder();
+
+            foreach (var pair in _nameDict)
+            {
+                sb.AppendLine($"using {pair.Value} = {pair.Key};");
+            }
+
+            return sb.ToString();
+        }
 
         public void WriteUsings(
             HashSet<string> set
             )
         {
-            //using q123 = System.Func<System.String>;
             foreach (var pair in _nameDict)
             {
                 set.Add($"using {pair.Value} = {pair.Key};");

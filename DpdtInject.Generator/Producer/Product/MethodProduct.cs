@@ -8,62 +8,39 @@ using Microsoft.CodeAnalysis;
 
 namespace DpdtInject.Generator.Producer.Product
 {
-    public class MethodProduct
+    public interface IMethodProduct : IWritable
     {
-        public IReadOnlyList<DetectedConstructorArgument> ConstructorArguments
+        string MethodName
         {
             get;
         }
+
+        IMethodResult MethodResult
+        {
+            get;
+        }
+
+        string GetWrappedMethodName(DpdtArgumentWrapperTypeEnum wrapperType);
+    }
+
+
+    public class AdvancedMethodProduct : IMethodProduct
+    {
+        private readonly Func<string, string, string> _fullMethodBody;
 
         public string MethodName
         {
             get;
         }
-
-        public ITypeSymbol ReturnType
+        public IMethodResult MethodResult
         {
             get;
         }
 
-        public string MethodBody
-        {
-            get;
-        }
-
-        public MethodProduct(
-            IMethodSymbol methodSymbol,
-            IReadOnlyList<DetectedConstructorArgument> constructorArguments,
-            Func<IMethodSymbol, string, string> methodBody
-            )
-        {
-            if (methodSymbol is null)
-            {
-                throw new ArgumentNullException(nameof(methodSymbol));
-            }
-
-            if (constructorArguments is null)
-            {
-                throw new ArgumentNullException(nameof(constructorArguments));
-            }
-
-            if (methodBody is null)
-            {
-                throw new ArgumentNullException(nameof(methodBody));
-            }
-
-            MethodName = methodSymbol.Name;
-            ReturnType = methodSymbol.ReturnType;
-            ConstructorArguments = constructorArguments;
-            MethodBody = methodBody(
-                methodSymbol, 
-                GetMethodDeclaration(methodSymbol, DpdtArgumentWrapperTypeEnum.None)
-                );
-        }
-
-        public MethodProduct(
+        public AdvancedMethodProduct(
             string methodName,
-            ITypeSymbol returnType,
-            Func<string, ITypeSymbol, string> fullMethodBody
+            IMethodResult methodResult,
+            Func<string, string, string> fullMethodBody //(methodName, resultName) => methodBody
             )
         {
             if (methodName is null)
@@ -71,9 +48,9 @@ namespace DpdtInject.Generator.Producer.Product
                 throw new ArgumentNullException(nameof(methodName));
             }
 
-            if (returnType is null)
+            if (methodResult is null)
             {
-                throw new ArgumentNullException(nameof(returnType));
+                throw new ArgumentNullException(nameof(methodResult));
             }
 
             if (fullMethodBody is null)
@@ -82,24 +59,60 @@ namespace DpdtInject.Generator.Producer.Product
             }
 
             MethodName = methodName;
-            ReturnType = returnType;
-            ConstructorArguments = new List<DetectedConstructorArgument>();
-            MethodBody = fullMethodBody(methodName, returnType);
+            MethodResult = methodResult;
+            _fullMethodBody = fullMethodBody;
         }
 
-        public string GetMethodDeclaration(
+        public string GetWrappedMethodName(DpdtArgumentWrapperTypeEnum wrapperType)
+        {
+            return
+                $"{MethodName}{wrapperType.GetPostfix()}";
+        }
+
+        public void Write(IndentedTextWriter2 writer, ShortTypeNameGenerator sng)
+        {
+            var returnName = MethodResult.GetString(sng);
+
+            var methodBody = _fullMethodBody(MethodName, returnName);
+
+            writer.WriteLine2(methodBody);
+        }
+    }
+
+    public static class MethodProductFactory
+    {
+        public static IMethodProduct Create(
             IMethodSymbol methodSymbol,
-            DpdtArgumentWrapperTypeEnum wrapperType
+            IReadOnlyList<DetectedConstructorArgument> constructorArguments,
+            Func<string, string, string> methodBody //(methodName, methodDeclaration) => methodBody
             )
         {
-            var methodName = GetMethodName(wrapperType);
+            var methodName = methodSymbol.Name;
+            var methodResult = new TypeMethodResult(methodSymbol.ReturnType);
 
-            return $@"
-{GetReturnModifiers(methodSymbol)} {ReturnType.ToDisplayString()} {methodName}({ConstructorArguments.Join(ca => ca.GetDeclarationSyntax(), ",")})
-";
+            var methodDeclaration = $@"{GetReturnModifiers(methodSymbol)} {methodSymbol.ReturnType.ToDisplayString()} {methodName}({constructorArguments.Join(ca => ca.GetDeclarationSyntax(), ",")})";
+
+            return new AdvancedMethodProduct(
+                methodName,
+                methodResult,
+                (methodName1, returnName1) => methodBody(methodName, methodDeclaration)
+                );
         }
 
-        private string GetReturnModifiers(IMethodSymbol methodSymbol)
+        public static IMethodProduct Create(
+            string methodName,
+            IMethodResult methodResult,
+            Func<string, string, string> fullMethodBody //(methodName, returnType) => methodBody
+            )
+        {
+            return new AdvancedMethodProduct(
+                methodName,
+                methodResult,
+                fullMethodBody
+                );
+        }
+
+        private static string GetReturnModifiers(IMethodSymbol methodSymbol)
         {
             if (methodSymbol.ReturnsByRefReadonly)
             {
@@ -112,11 +125,51 @@ namespace DpdtInject.Generator.Producer.Product
 
             return string.Empty;
         }
+    }
 
-        public string GetMethodName(DpdtArgumentWrapperTypeEnum wrapperType)
+    public interface IMethodResult
+    {
+        string GetString(ShortTypeNameGenerator sng);
+    }
+
+
+    public class StringMethodResult: IMethodResult
+    {
+        private readonly string _type;
+
+        public StringMethodResult(string type)
         {
-            return
-                $"{MethodName}{wrapperType.GetPostfix()}";
+            if (type is null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
+            _type = type;
+        }
+
+        public string GetString(ShortTypeNameGenerator sng)
+        {
+            return _type;
+        }
+    }
+
+    public class TypeMethodResult : IMethodResult
+    {
+        private readonly ITypeSymbol _type;
+
+        public TypeMethodResult(ITypeSymbol type)
+        {
+            if (type is null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
+            _type = type;
+        }
+
+        public string GetString(ShortTypeNameGenerator sng)
+        {
+            return sng.GetShortName(_type);
         }
     }
 }
