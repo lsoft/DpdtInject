@@ -132,6 +132,7 @@ namespace DpdtInject.Extension.ViewModel.Add
         } = new ObservableCollection<BindFromViewModel>();
 
         private Visibility _chooseBindFromGridVisibility = Visibility.Hidden;
+        private ICommand? _invertStatusCommand;
 
         public Visibility ChooseBindFromGridVisibility
         {
@@ -144,6 +145,32 @@ namespace DpdtInject.Extension.ViewModel.Add
             {
                 _chooseBindFromGridVisibility = value;
                 OnPropertyChanged(nameof(ChooseBindFromGridVisibility));
+            }
+        }
+
+        public ICommand InvertStatusCommand
+        {
+            get
+            {
+                if (_invertStatusCommand == null)
+                {
+                    _invertStatusCommand = new RelayCommand(
+                        a =>
+                        {
+                            var selected = BindFromList.Where(i => i.IsSelected).ToList();
+
+                            if (selected.Count == 0)
+                            {
+                                return;
+                            }
+
+                            var newValue = !selected[0].IsChecked;
+                            selected.ForEach(s => s.IsChecked = newValue);
+                        }
+                        );
+                }
+
+                return _invertStatusCommand;
             }
         }
 
@@ -687,27 +714,39 @@ namespace DpdtInject.Extension.ViewModel.Add
             #region search for all binds from
 
             var bindFromList = new List<BindFromViewModel>();
-            foreach (var inter in targetClass.AllInterfaces)
-            {
-                bindFromList.Add(
-                    new BindFromViewModel(
-                        _dispatcher,
-                        inter
-                        )
-                    );
-            }
-            var baseType = targetClass;
-            while (baseType != null)
-            {
-                bindFromList.Add(
-                    new BindFromViewModel(
-                        _dispatcher,
-                        baseType
-                        )
-                    );
 
-                baseType = baseType.BaseType;
+            foreach (var (level, parent) in targetClass.IterateInterfaces())
+            {
+                bindFromList.Add(
+                    new BindFromViewModel(
+                        _dispatcher,
+                        level,
+                        parent
+                        )
+                    );
             }
+            foreach (var (level, parent) in targetClass.IterateClasses())
+            {
+                bindFromList.Add(
+                    new BindFromViewModel(
+                        _dispatcher,
+                        level,
+                        parent
+                        )
+                    );
+            }
+
+            //foreach (var inter in targetClass.AllInterfaces)
+            //{
+            //    bindFromList.Add(
+            //        new BindFromViewModel(
+            //            _dispatcher,
+            //            inter
+            //            )
+            //        );
+            //}
+
+
             if (bindFromList.Count > 0)
             {
                 foreach (var bm in bindFromList)

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DpdtInject.Generator;
-using DpdtInject.Generator.BindExtractor;
-using DpdtInject.Generator.Helpers;
-using DpdtInject.Generator.TypeInfo;
-using DpdtInject.Generator.TypeScanner;
+using DpdtInject.Generator.Core;
+using DpdtInject.Generator.Core.BindExtractor;
+using DpdtInject.Generator.Core.Helpers;
+using DpdtInject.Generator.Core.TypeInfo;
+using DpdtInject.Generator.Core.TypeScanner;
 using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
 

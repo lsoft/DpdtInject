@@ -53,6 +53,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <!--
   <PropertyGroup Condition="!Exists('$(ProjectDir)..\.please_sign_my_assemblies.secret')">
     <CreateVsixContainer>False</CreateVsixContainer>
     <DeployExtension>False</DeployExtension>
@@ -63,8 +64,11 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(ProjectDir)..\dpdt.extension.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+-->
   <ItemGroup>
+    <Compile Include="Helper\RoslynHelper.cs" />
     <Compile Include="ImageMonikers.cs" />
+    <Compile Include="SpaceKeyDownEventTrigger.cs" />
     <Compile Include="ViewModel\Add\ConstructorViewModel.cs" />
     <Compile Include="ViewModel\Add\ConstructorArgumentViewModel.cs" />
     <Compile Include="ViewModel\Add\BindFromViewModel.cs" />
@@ -113,20 +117,6 @@
     <Compile Include="Helper\WpfHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <!--
-    <Content Include="Microsoft.VisualStudio.Threading.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="bin\Debug\DpdtInject.Generator.pdb">
-      <IncludeInVSIX>true</IncludeInVSIX>
-      <VSIXSubPath>.</VSIXSubPath>
-    </Content>
-    <Content Include="bin\Debug\DpdtInject.Injector.pdb">
-      <IncludeInVSIX>true</IncludeInVSIX>
-      <VSIXSubPath>.</VSIXSubPath>
-    </Content>
--->
     <Content Include="Monikers.imagemanifest">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
@@ -192,6 +182,9 @@
     <PackageReference Include="Microsoft.VisualStudio.Shell.Framework">
       <Version>16.5.29911.84</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
+      <Version>1.1.31</Version>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.3</Version>
     </PackageReference>
@@ -211,9 +204,9 @@
       <Project>{2E646CF6-C92F-4911-8F75-5A7C18451B93}</Project>
       <Name>DpdtInject.Extension.Shared</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DpdtInject.Generator\DpdtInject.Generator.csproj">
+    <ProjectReference Include="..\DpdtInject.Generator.Core\DpdtInject.Generator.Core.csproj">
       <Project>{f468fe62-e611-4c50-a5c1-e408d2c8f811}</Project>
-      <Name>DpdtInject.Generator</Name>
+      <Name>DpdtInject.Generator.Core</Name>
       <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>

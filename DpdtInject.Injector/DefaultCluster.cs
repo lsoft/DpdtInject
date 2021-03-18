@@ -12,6 +12,18 @@ namespace DpdtInject.Injector
     {
         public const string BindMethodName = nameof(Bind);
 
+        protected IToOrConstantBinding Bind<T1, T2, T3, T4, T5, T6>(
+            )
+        {
+            throw new NotImplementedException();
+        }
+
+        protected IToOrConstantBinding Bind<T1, T2, T3, T4, T5>(
+            )
+        {
+            throw new NotImplementedException();
+        }
+
         protected IToOrConstantBinding Bind<T1, T2, T3, T4>(
             )
         {

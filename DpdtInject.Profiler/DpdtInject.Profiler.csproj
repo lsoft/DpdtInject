@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DpdtInject.Generator\DpdtInject.Generator.csproj" />
+    <ProjectReference Include="..\DpdtInject.Generator.Core\DpdtInject.Generator.Core.csproj" />
     <ProjectReference Include="..\DpdtInject.Injector\DpdtInject.Injector.csproj" />
     <ProjectReference Include="..\DpdtInject.Tests\DpdtInject.Tests.csproj" />
   </ItemGroup>

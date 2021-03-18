@@ -8,6 +8,7 @@
               xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
               xmlns:vsshell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
               xmlns:platformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
               Height="300" Width="500" 
               MinHeight="300" MinWidth="500"
               WindowStyle="SingleBorderWindow"
@@ -195,12 +196,22 @@
                 Background="Transparent"
                 Margin="2"
                 ItemsSource="{Binding Path=DataContext.BindFromList, ElementName=AddBindingWindowName}"
+                PreviewKeyDown="ListView_PreviewKeyDown"
                 >
+                <b:Interaction.Triggers>
+                    <main:SpaceKeyDownEventTrigger EventName="KeyUp">
+                        <b:InvokeCommandAction Command="{Binding InvertStatusCommand}"/>
+                    </main:SpaceKeyDownEventTrigger>
+                </b:Interaction.Triggers>
                 <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="Focusable" Value="false"/>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
                         <Setter Property="Background" Value="Transparent" />
                     </Style>
+                    <!--<Style TargetType="ListViewItem">
+                        <Setter Property="Focusable" Value="false"/>
+                        <Setter Property="Background" Value="Transparent" />
+                    </Style>-->
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -214,6 +225,7 @@
                                 Grid.Column="0"
                                 Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
                                 IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                Margin="{Binding LeftMargin}"
                                 >
                                 <CheckBox.Content>
                                     <Grid>

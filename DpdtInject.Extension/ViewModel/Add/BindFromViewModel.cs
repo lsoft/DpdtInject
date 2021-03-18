@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Threading;
 using DpdtInject.Extension.Helper;
 using Microsoft.CodeAnalysis;
@@ -9,9 +10,20 @@ namespace DpdtInject.Extension.ViewModel.Add
     {
         private bool _isChecked;
 
+        public Thickness LeftMargin
+        {
+            get;
+        }
+
         public INamedTypeSymbol FromType
         {
             get;
+        }
+
+        public bool IsSelected
+        {
+            get;
+            set;
         }
 
         public bool IsChecked
@@ -38,6 +50,7 @@ namespace DpdtInject.Extension.ViewModel.Add
         /// <inheritdoc />
         public BindFromViewModel(
             Dispatcher dispatcher,
+            int level,
             INamedTypeSymbol fromType
             )
             : base(dispatcher)
@@ -47,6 +60,7 @@ namespace DpdtInject.Extension.ViewModel.Add
                 throw new ArgumentNullException(nameof(fromType));
             }
 
+            LeftMargin = new Thickness(level * 5, 0, 0, 0);
             FromType = fromType;
 
             VisualRepresentationTypeName = $"{fromType.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)}";

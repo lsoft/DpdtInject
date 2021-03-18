@@ -1,6 +1,5 @@
-﻿using DpdtInject.Generator;
+﻿using DpdtInject.Generator.Core;
 using DpdtInject.Injector;
-using DpdtInject.Injector.Excp;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
@@ -185,7 +184,7 @@ namespace DpdtInject.Tests
                 throw new ArgumentNullException(nameof(assemblyPath));
             }
 
-            if (assemblyPath.Contains("DpdtInject.Generator.dll"))
+            if (assemblyPath.Contains("DpdtInject.Generator.Core.dll"))
             {
                 return true;
             }

@@ -1,5 +1,6 @@
-﻿using DpdtInject.Generator.Reporter;
-using DpdtInject.Generator.TypeInfo;
+﻿using DpdtInject.Generator.Core;
+using DpdtInject.Generator.Core.Reporter;
+using DpdtInject.Generator.Core.TypeInfo;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;

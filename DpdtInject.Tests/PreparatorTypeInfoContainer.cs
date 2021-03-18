@@ -1,5 +1,5 @@
-﻿using DpdtInject.Generator;
-using DpdtInject.Generator.TypeInfo;
+﻿using DpdtInject.Generator.Core;
+using DpdtInject.Generator.Core.TypeInfo;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Emit;
 using Microsoft.CodeAnalysis.Text;

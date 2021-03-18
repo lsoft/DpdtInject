@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DpdtInject.Extension", "Dpd
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DpdtInject.Profiler", "DpdtInject.Profiler\DpdtInject.Profiler.csproj", "{4AB52548-2A1B-49E4-9426-3D033B125F8A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DpdtInject.Generator.Core", "DpdtInject.Generator.Core\DpdtInject.Generator.Core.csproj", "{43D5E6DF-9028-4344-A479-E87761F6EA55}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{4AB52548-2A1B-49E4-9426-3D033B125F8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AB52548-2A1B-49E4-9426-3D033B125F8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AB52548-2A1B-49E4-9426-3D033B125F8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43D5E6DF-9028-4344-A479-E87761F6EA55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43D5E6DF-9028-4344-A479-E87761F6EA55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43D5E6DF-9028-4344-A479-E87761F6EA55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43D5E6DF-9028-4344-A479-E87761F6EA55}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

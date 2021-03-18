@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="DpdtVisualStudioExtension.D8309F30-ACAE-40E4-B029-770C42D4F2EB" Version="0.4.2.1" Language="en-US" Publisher="lsoft" />
+        <Identity Id="DpdtVisualStudioExtension.D8309F30-ACAE-40E4-B029-770C42D4F2EB" Version="0.4.3.0" Language="en-US" Publisher="lsoft" />
         <DisplayName>DpdtVisualStudioExtension</DisplayName>
         <Description xml:space="preserve">Dpdt Extension for Visual Studio 2019 helps you to be more productive when using Dpdt Injector.</Description>
         <MoreInfo>https://github.com/lsoft/DpdtInject</MoreInfo>
@@ -17,11 +17,6 @@
     <Dependencies>
         <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
         <Dependency d:Source="Installed" Version="[16.0,17.0)" Id="Microsoft.VisualStudio.MPF.16.0" DisplayName="Visual Studio MPF 16.0" />
-
-        <!--
-        <Dependency d:Source="Project" d:ProjectName="DpdtInject.Injector2" d:InstallSource="Embed" Location="|DpdtInject.Injector2;VSIXContainerProjectOutputGroup|" DisplayName="|DpdtInject.Injector2;VSIXNameProjectOutputGroup|" Id="|DpdtInject.Injector2;VSIXIdentifierProjectOutputGroup|" />
-        <Dependency d:Source="Project" d:ProjectName="DpdtInject.Generator2" d:InstallSource="Embed" Location="|DpdtInject.Generator2;VSIXContainerProjectOutputGroup|" DisplayName="|DpdtInject.Generator2;VSIXNameProjectOutputGroup|" Id="|DpdtInject.Generator2;VSIXIdentifierProjectOutputGroup|" />
--->
     </Dependencies>
     <Prerequisites>
         <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[16.0,17.0)" DisplayName="Visual Studio core editor" />
@@ -31,13 +26,9 @@
         <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
         <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" />
         <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="DpdtInject.Injector" Path="|DpdtInject.Injector|" AssemblyName="|DpdtInject.Injector;AssemblyName|" />
-        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="DpdtInject.Generator" Path="|DpdtInject.Generator|" AssemblyName="|DpdtInject.Generator;AssemblyName|" />
-
-        <!--
-        <Asset d:Source="Project" d:ProjectName="DpdtInject.Injector2" d:InstallSource="Embed" Location="|DpdtInject.Injector2;VSIXContainerProjectOutputGroup|" DisplayName="|DpdtInject.Injector2;VSIXNameProjectOutputGroup|" Id="|DpdtInject.Injector2;VSIXIdentifierProjectOutputGroup|" />
-        <Asset d:Source="Project" d:ProjectName="DpdtInject.Generator2" d:InstallSource="Embed" Location="|DpdtInject.Generator2;VSIXContainerProjectOutputGroup|" DisplayName="|DpdtInject.Generator2;VSIXNameProjectOutputGroup|" Id="|DpdtInject.Generator2;VSIXIdentifierProjectOutputGroup|" />
--->
-        <!--
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="DpdtInject.Generator.Core" Path="|DpdtInject.Generator.Core|" AssemblyName="|DpdtInject.Generator.Core;AssemblyName|" />
+<!--
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="Microsoft.Xaml.Behaviors.dll" AssemblyName="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
 -->
     </Assets>
 </PackageManifest>
