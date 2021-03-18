@@ -55,7 +55,7 @@ namespace DpdtInject.Generator
             }
         }
 
-        public List<Exception> TrySafelyDispose(
+        private List<Exception> TrySafelyDispose(
             )
         {
             var result = new List<Exception>();

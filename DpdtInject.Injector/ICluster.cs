@@ -10,9 +10,6 @@ namespace DpdtInject.Injector
     {
         T GetToChild<T>(IResolutionRequest resolutionRequest);
 
-        List<Exception> TrySafelyDispose(
-            );
-
         CustomScopeObject CreateCustomScope();
     }
 }
