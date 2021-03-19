@@ -88,15 +88,15 @@ namespace DpdtInject.Generator.Core
         }
 
         private void TryToSafeDispose(
-            Action disposeAction,
-            ref List<Exception> exceptions
+            System.Action disposeAction,
+            ref System.Collections.Generic.List<Exception> exceptions
             )
         {
             try
             {
                 disposeAction();
             }
-            catch (Exception excp)
+            catch (System.Exception excp)
             {
                 exceptions.Add(excp);
             }

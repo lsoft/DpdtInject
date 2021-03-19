@@ -8,6 +8,22 @@ using System.Windows.Input;
 
 namespace DpdtInject.Extension
 {
+    public class EnterKeyDownEventTrigger : EventTrigger
+    {
+
+        public EnterKeyDownEventTrigger()
+            : base("KeyUp")
+        {
+        }
+
+        protected override void OnEvent(EventArgs eventArgs)
+        {
+            var e = eventArgs as KeyEventArgs;
+            if (e != null && e.Key == Key.Enter)
+                this.InvokeActions(eventArgs);
+        }
+    }
+
     public class SpaceKeyDownEventTrigger : EventTrigger
     {
 

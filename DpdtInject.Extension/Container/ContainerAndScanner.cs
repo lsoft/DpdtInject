@@ -254,7 +254,7 @@ namespace DpdtInject.Extension.Container
 
                     if (token.IsCancellationRequested)
                     {
-                        _outputPane!.OutputStringThreadSafe($"Dpdt scanning is cancelled{Environment.NewLine}");
+                        _outputPane!.OutputStringThreadSafe($"  Dpdt scanning is cancelled{Environment.NewLine}");
 
                         break;
                     }
@@ -313,7 +313,7 @@ namespace DpdtInject.Extension.Container
                     //first check for cancellation...
                     if (token.IsCancellationRequested)
                     {
-                        _outputPane!.OutputStringThreadSafe($"Dpdt scanning is cancelled{Environment.NewLine}");
+                        _outputPane!.OutputStringThreadSafe($"  Dpdt scanning is cancelled{Environment.NewLine}");
 
                         break;
                     }
@@ -324,7 +324,7 @@ namespace DpdtInject.Extension.Container
                         continue;
                     }
 
-                    _outputPane!.OutputStringThreadSafe($"Compilation {project.Name} taken :{swt.Elapsed}{Environment.NewLine}");
+                    _outputPane!.OutputStringThreadSafe($"    Compilation {project.Name} taken: {swt.Elapsed}{Environment.NewLine}");
 
                     var diag = compilation.GetDiagnostics();
 
@@ -341,11 +341,12 @@ namespace DpdtInject.Extension.Container
                         //    errorMessage
                         //    );
 
-                        _outputPane!.OutputStringThreadSafe($"Compilation error:{Environment.NewLine}");
+                        _outputPane!.OutputStringThreadSafe($"    Compilation error:{Environment.NewLine}");
                         _outputPane!.OutputStringThreadSafe(errorMessage);
                         _outputPane!.OutputStringThreadSafe(Environment.NewLine);
 
-                        continue;
+                        //do not skip this project analyzis, it may be partially fine
+                        //continue;
                     }
 
                     swt.Restart();
@@ -366,11 +367,11 @@ namespace DpdtInject.Extension.Container
                         typeInfoContainer
                         );
 
-                    _outputPane!.OutputStringThreadSafe($"Binding extraction from {project.Name} taken :{swt.Elapsed}{Environment.NewLine}");
+                    _outputPane!.OutputStringThreadSafe($"    Binding extraction from {project.Name} taken: {swt.Elapsed}{Environment.NewLine}");
 
                     if (token.IsCancellationRequested)
                     {
-                        _outputPane!.OutputStringThreadSafe($"Dpdt scanning is cancelled{Environment.NewLine}");
+                        _outputPane!.OutputStringThreadSafe($"  Dpdt scanning is cancelled{Environment.NewLine}");
 
                         break;
                     }
