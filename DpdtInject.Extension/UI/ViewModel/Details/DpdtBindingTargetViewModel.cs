@@ -29,10 +29,8 @@ namespace DpdtInject.Extension.ViewModel.Details
 
         /// <inheritdoc />
         public DpdtBindingTargetViewModel(
-            Dispatcher dispatcher,
             IDpdtBindingTarget target
             )
-            : base(dispatcher)
         {
             if (target is null)
             {
@@ -43,11 +41,9 @@ namespace DpdtInject.Extension.ViewModel.Details
 
             BindingIdentifier = target.BindingIdentifier;
             ClusterDetail = new DpdtClusterDetailViewModel(
-                dispatcher,
                 target.ClusterDetail
                 );
             BindingDetail = new DpdtBindingDetailViewModel(
-                dispatcher,
                 target.BindingDetail
                 );
         }

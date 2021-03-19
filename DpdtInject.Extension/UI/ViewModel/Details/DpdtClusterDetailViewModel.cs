@@ -34,9 +34,8 @@ namespace DpdtInject.Extension.ViewModel.Details
 
 
         public DpdtClusterDetailViewModel(
-            Dispatcher dispatcher,
             IDpdtClusterDetail target
-            ) : base(dispatcher)
+            )
         {
             _target = target;
 

@@ -22,9 +22,8 @@ namespace DpdtInject.Extension.ViewModel.Details
 
 
         public DpdtBindingDetailViewModel(
-            Dispatcher dispatcher,
             IDpdtBindingDetail target
-            ) : base(dispatcher)
+            )
         {
             _target = target;
 

@@ -68,7 +68,6 @@ namespace DpdtInject.Extension
             )
         {
             var viewModel = new AddBindingViewModel(
-                this.Dispatcher,
                 _target!
                 );
             DataContext = viewModel;

@@ -49,11 +49,9 @@ namespace DpdtInject.Extension.ViewModel.Add
 
         /// <inheritdoc />
         public BindFromViewModel(
-            Dispatcher dispatcher,
             int level,
             INamedTypeSymbol fromType
             )
-            : base(dispatcher)
         {
             if (fromType is null)
             {

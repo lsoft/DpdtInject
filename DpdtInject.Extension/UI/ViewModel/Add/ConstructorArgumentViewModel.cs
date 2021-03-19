@@ -37,10 +37,8 @@ namespace DpdtInject.Extension.ViewModel.Add
 
         /// <inheritdoc />
         public ConstructorArgumentViewModel(
-            Dispatcher dispatcher,
             IParameterSymbol parameter
             )
-            : base(dispatcher)
         {
             if (parameter is null)
             {

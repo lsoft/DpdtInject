@@ -47,11 +47,9 @@ namespace DpdtInject.Extension.ViewModel.Add
 
         /// <inheritdoc />
         public ConstructorViewModel(
-            Dispatcher dispatcher,
             INamedTypeSymbol targetType,
             IMethodSymbol constructor
             )
-            : base(dispatcher)
         {
             if (constructor is null)
             {

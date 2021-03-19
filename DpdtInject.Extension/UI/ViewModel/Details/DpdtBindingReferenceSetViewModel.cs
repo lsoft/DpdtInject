@@ -24,10 +24,8 @@ namespace DpdtInject.Extension.ViewModel.Details
 
         /// <inheritdoc />
         public DpdtBindingReferenceSetViewModel(
-            Dispatcher dispatcher,
             DpdtBindingReferenceSet set
             )
-            : base(dispatcher)
         {
             if (set is null)
             {
@@ -42,7 +40,6 @@ namespace DpdtInject.Extension.ViewModel.Details
             {
                 bindingTargets.Add(
                     new DpdtBindingTargetViewModel(
-                        dispatcher,
                         bindingTarget
                         )
                     );

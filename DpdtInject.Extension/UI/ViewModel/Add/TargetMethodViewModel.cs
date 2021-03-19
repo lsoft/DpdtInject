@@ -36,10 +36,8 @@ namespace DpdtInject.Extension.ViewModel.Add
 
         /// <inheritdoc />
         public TargetMethodViewModel(
-            Dispatcher dispatcher,
             MethodBindContainer mbc
             )
-            : base(dispatcher)
         {
             if (mbc is null)
             {

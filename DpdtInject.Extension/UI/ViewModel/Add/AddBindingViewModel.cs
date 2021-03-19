@@ -446,10 +446,8 @@ namespace DpdtInject.Extension.ViewModel.Add
 
         /// <inheritdoc />
         public AddBindingViewModel(
-            Dispatcher dispatcher,
             CodeLensTarget target
             )
-            : base(dispatcher)
         {
             if (target is null)
             {
@@ -586,7 +584,6 @@ namespace DpdtInject.Extension.ViewModel.Add
                     {
                         ConstructorArgumentList.Add(
                             new ConstructorArgumentViewModel(
-                                _dispatcher,
                                 parameter
                                 )
                             );
@@ -665,7 +662,6 @@ namespace DpdtInject.Extension.ViewModel.Add
 
                             targetMethodList.Add(
                                 new TargetMethodViewModel(
-                                    _dispatcher,
                                     methodBind
                                     )
 
@@ -719,7 +715,6 @@ namespace DpdtInject.Extension.ViewModel.Add
             {
                 bindFromList.Add(
                     new BindFromViewModel(
-                        _dispatcher,
                         level,
                         parent
                         )
@@ -729,23 +724,11 @@ namespace DpdtInject.Extension.ViewModel.Add
             {
                 bindFromList.Add(
                     new BindFromViewModel(
-                        _dispatcher,
                         level,
                         parent
                         )
                     );
             }
-
-            //foreach (var inter in targetClass.AllInterfaces)
-            //{
-            //    bindFromList.Add(
-            //        new BindFromViewModel(
-            //            _dispatcher,
-            //            inter
-            //            )
-            //        );
-            //}
-
 
             if (bindFromList.Count > 0)
             {
@@ -772,7 +755,6 @@ namespace DpdtInject.Extension.ViewModel.Add
 
                 ConstructorList.Add(
                     new ConstructorViewModel(
-                        _dispatcher,
                         targetClass,
                         constructor
                         )

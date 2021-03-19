@@ -28,7 +28,6 @@ namespace DpdtInject.Extension
                 var detailsUI = new BindDetailsWindow();
 
                 var viewModel = new DpdtBindingReferenceSetViewModel(
-                    detailsUI.Dispatcher,
                     set
                     );
 
