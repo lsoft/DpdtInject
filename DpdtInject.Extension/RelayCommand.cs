@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DpdtInject.Extension.Shared;
+using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -196,6 +197,10 @@ namespace DpdtInject.Extension
             try
             {
                 await _execute(parameter);
+            }
+            catch (Exception excp)
+            {
+                Logging.LogVS(excp);
             }
             finally
             {

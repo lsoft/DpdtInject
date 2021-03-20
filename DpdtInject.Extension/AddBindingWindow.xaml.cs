@@ -10,7 +10,6 @@ using DpdtInject.Extension.Helper;
 using DpdtInject.Extension.Shared.Dto;
 using DpdtInject.Injector.Bind;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.PlatformUI;
@@ -19,15 +18,10 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.TextManager.Interop;
-using Microsoft.VisualStudio.Editor;
 using EnvDTE80;
 using Microsoft.CodeAnalysis.Editing;
-
-using Task = System.Threading.Tasks.Task;
-using Microsoft.CodeAnalysis.Options;
-using Microsoft.CodeAnalysis.CSharp.Formatting;
 using DpdtInject.Extension.Options;
-using DpdtInject.Extension.ViewModel.Add;
+using Task = System.Threading.Tasks.Task;
 
 namespace DpdtInject.Extension
 {
@@ -36,25 +30,26 @@ namespace DpdtInject.Extension
     /// </summary>
     public partial class AddBindingWindow : DialogWindow
     {
-        private readonly CodeLensTarget? _target;
-        private CancellationTokenSource? _cts;
+        private readonly Func<AddBindingWindow, Task> _factory;
 
         public AddBindingWindow()
         {
+            _factory = null!;
+
             InitializeComponent();
         }
 
         /// <inheritdoc />
         public AddBindingWindow(
-            CodeLensTarget target
+            Func<AddBindingWindow, Task> factory
             )
         {
-            if (target is null)
+            if (factory is null)
             {
-                throw new ArgumentNullException(nameof(target));
+                throw new ArgumentNullException(nameof(factory));
             }
 
-            _target = target;
+            _factory = factory;
 
             InitializeComponent();
 
@@ -67,24 +62,9 @@ namespace DpdtInject.Extension
             RoutedEventArgs e
             )
         {
-            var viewModel = new AddBindingViewModel(
-                _target!
-                );
-            DataContext = viewModel;
-
-            _cts = new CancellationTokenSource();
-            viewModel.LoadWindowDataAsync(_cts)
-                .FileAndForget(nameof(AddBindingWindow_OnLoaded))
-                ;
+            await _factory(this);
         }
 
-        private void ButtonBase_OnClick(
-            object sender,
-            RoutedEventArgs e
-            )
-        {
-            MessageBox.Show("Test");
-        }
 
         private void AddBindingWindow_OnKeyUp(
             object sender,
@@ -97,13 +77,6 @@ namespace DpdtInject.Extension
             }
         }
 
-        private void ListView_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Space)
-            {
-                e.Handled = true;
-            }
-        }
     }
 
     public class DocumentModifier

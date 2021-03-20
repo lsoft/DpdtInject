@@ -2,8 +2,9 @@
 using System.Windows.Threading;
 using DpdtInject.Extension.Helper;
 using DpdtInject.Extension.Shared.Dto;
+using DpdtInject.Extension.UI.ViewModel.Details;
 
-namespace DpdtInject.Extension.ViewModel.Details
+namespace DpdtInject.Extension.UI.ViewModel.Details
 {
     public class DpdtBindingTargetViewModel : BaseViewModel, IDpdtBindingTarget
     {

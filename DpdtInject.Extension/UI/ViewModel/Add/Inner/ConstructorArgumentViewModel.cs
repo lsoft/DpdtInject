@@ -3,7 +3,7 @@ using System.Windows.Threading;
 using DpdtInject.Extension.Helper;
 using Microsoft.CodeAnalysis;
 
-namespace DpdtInject.Extension.ViewModel.Add
+namespace DpdtInject.Extension.UI.ViewModel.Add.Inner
 {
     public class ConstructorArgumentViewModel : BaseViewModel
     {

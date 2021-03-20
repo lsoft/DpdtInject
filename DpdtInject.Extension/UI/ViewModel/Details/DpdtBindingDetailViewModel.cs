@@ -2,7 +2,7 @@
 using DpdtInject.Extension.Helper;
 using DpdtInject.Extension.Shared.Dto;
 
-namespace DpdtInject.Extension.ViewModel.Details
+namespace DpdtInject.Extension.UI.ViewModel.Details
 {
     public class DpdtBindingDetailViewModel : BaseViewModel, IDpdtBindingDetail
     {

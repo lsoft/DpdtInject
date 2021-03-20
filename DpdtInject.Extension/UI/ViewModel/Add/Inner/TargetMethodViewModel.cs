@@ -3,7 +3,7 @@ using System.Windows.Threading;
 using DpdtInject.Extension.Container;
 using DpdtInject.Extension.Helper;
 
-namespace DpdtInject.Extension.ViewModel.Add
+namespace DpdtInject.Extension.UI.ViewModel.Add.Inner
 {
     public class TargetMethodViewModel : BaseViewModel
     {

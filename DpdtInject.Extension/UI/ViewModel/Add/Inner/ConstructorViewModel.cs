@@ -7,7 +7,7 @@ using DpdtInject.Extension.Helper;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.Shell;
 
-namespace DpdtInject.Extension.ViewModel.Add
+namespace DpdtInject.Extension.UI.ViewModel.Add.Inner
 {
     public class ConstructorViewModel : BaseViewModel
     {

@@ -5,7 +5,7 @@ using DpdtInject.Extension.Helper;
 using DpdtInject.Extension.Shared.Dto;
 using Microsoft.VisualStudio.Imaging.Interop;
 
-namespace DpdtInject.Extension.ViewModel.Details
+namespace DpdtInject.Extension.UI.ViewModel.Details
 {
     public class DpdtBindingReferenceSetViewModel : BaseViewModel, IDpdtBindingReferenceSet
     {

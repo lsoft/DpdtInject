@@ -6,23 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace DpdtInject.Extension
+namespace DpdtInject.Extension.UI.Helper
 {
-    public class EnterKeyDownEventTrigger : EventTrigger
-    {
-
-        public EnterKeyDownEventTrigger()
-            : base("KeyUp")
-        {
-        }
-
-        protected override void OnEvent(EventArgs eventArgs)
-        {
-            var e = eventArgs as KeyEventArgs;
-            if (e != null && e.Key == Key.Enter)
-                this.InvokeActions(eventArgs);
-        }
-    }
 
     public class SpaceKeyDownEventTrigger : EventTrigger
     {
@@ -36,7 +21,7 @@ namespace DpdtInject.Extension
         {
             var e = eventArgs as KeyEventArgs;
             if (e != null && e.Key == Key.Space)
-                this.InvokeActions(eventArgs);
+                InvokeActions(eventArgs);
         }
     }
 }

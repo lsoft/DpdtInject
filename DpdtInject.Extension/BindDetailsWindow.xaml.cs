@@ -6,7 +6,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using DpdtInject.Extension.Container;
 using DpdtInject.Extension.Helper;
-using DpdtInject.Extension.ViewModel.Details;
 using DpdtInject.Generator.Core.Binding;
 using EnvDTE80;
 using Microsoft.CodeAnalysis;
@@ -19,6 +18,10 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.TextManager.Interop;
+using DpdtInject.Extension.UI.ViewModel.Details;
+using DpdtInject.Extension.Shared.Dto;
+using DpdtInject.Extension.UI.ChainStep;
+using Task = System.Threading.Tasks.Task;
 
 namespace DpdtInject.Extension
 {
@@ -80,16 +83,49 @@ namespace DpdtInject.Extension
 
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            var dte = Package.GetGlobalService(typeof(EnvDTE.DTE)) as DTE2;
-            if (dte == null)
-            {
-                return;
-            }
+            var codelensTarget = tag.Target as CodeLensTarget;
 
             var window = new AddBindingWindow(
-                tag.Target
+                async anw =>
+                {
+                    var choosedParameters = new ChoosedParameters(codelensTarget);
+
+                    var apcs = new AdditionalParametersChainStep(
+                        anw,
+                        anw.CenterContentControl,
+                        choosedParameters
+                        );
+
+                    var tmcs = new TargetMethodsChainStep(
+                        anw.CenterContentControl,
+                        choosedParameters
+                        );
+
+                    var bfcs = new BindsFromChainStep(
+                        anw.CenterContentControl,
+                        choosedParameters
+                        );
+
+                    var cacs = new ConstructorArgumentsChainStep(
+                        anw.CenterContentControl,
+                        choosedParameters
+                        );
+
+                    var clcs = new ConstructorListChainStep(
+                        anw.CenterContentControl,
+                        choosedParameters
+                        );
+
+                    apcs.SetSteps(tmcs);
+                    tmcs.SetSteps(bfcs, apcs);
+                    bfcs.SetSteps(cacs, tmcs);
+                    cacs.SetSteps(clcs, bfcs);
+                    clcs.SetSteps(cacs);
+
+                    await clcs.CreateAsync();
+                }
                 );
-            //window.Owner = dte.MainWindow;
+
 
             window.ShowModal();
         }

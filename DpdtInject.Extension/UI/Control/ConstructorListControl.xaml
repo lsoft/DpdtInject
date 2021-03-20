@@ -1,0 +1,134 @@
+﻿<UserControl x:Class="DpdtInject.Extension.UI.Control.ConstructorListControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DpdtInject.Extension.UI.Control"
+             xmlns:main="clr-namespace:DpdtInject.Extension"
+             xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
+             xmlns:vsshell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
+             xmlns:platformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid
+            Grid.Row="0"
+            Name="ChooseConstructorGrid"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+
+            <TextBlock
+                Grid.Row="0"
+                Margin="2"
+                Background="Transparent"
+                Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+                Text="Choose a constructor to bind:"
+                />
+
+
+            <ListView
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="Transparent"
+                Margin="2"
+                ItemsSource="{Binding Path=ConstructorList}"
+                >
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Focusable" Value="false"/>
+                        <Setter Property="Background" Value="Transparent" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <RadioButton
+                                Grid.Column="0"
+                                GroupName="ConstructorRadioButtonGroup"
+                                Foreground="{Binding ForegroundColor}"
+                                IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                Content="{Binding VisualRepresentation}"
+                                />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+
+        <Grid
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            Margin="0,10,0,0"
+            >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button
+                Grid.Column="0"
+                Margin="2"
+                Padding="10,5,10,5"
+                HorizontalAlignment="Left"
+                Content="Cancel"
+                Width="80"
+                Command="{Binding CloseCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}} }"
+                />
+
+            <!--<Button
+                Grid.Column="1"
+                Margin="2"
+                Padding="10,5,10,5"
+                HorizontalAlignment="Right"
+                Content="Back"
+                Width="80"
+                Command="{Binding PreviousCommand}"
+                />-->
+
+            <Button
+                Grid.Column="2"
+                Margin="2"
+                Padding="10,5,10,5"
+                HorizontalAlignment="Right"
+                Width="80"
+                Command="{Binding NextCommand}"
+                >
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <imaging:CrispImage
+                            Moniker="{x:Static main:ImageMonikers.Logo}"
+                            Width="10"
+                            Height="10"
+                            />
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            Text="{Binding NextButtonTitle, FallbackValue=Next}"
+                            />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+
+        </Grid>
+
+    </Grid>
+</UserControl>

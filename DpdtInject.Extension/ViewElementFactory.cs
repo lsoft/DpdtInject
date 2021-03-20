@@ -2,10 +2,10 @@
 using System.ComponentModel.Composition;
 using System.Windows;
 using DpdtInject.Extension.Shared.Dto;
-using DpdtInject.Extension.ViewModel.Details;
 using Microsoft.VisualStudio.Text.Adornments;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
+using DpdtInject.Extension.UI.ViewModel.Details;
 
 namespace DpdtInject.Extension
 {
