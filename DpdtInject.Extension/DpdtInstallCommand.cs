@@ -1,4 +1,5 @@
-﻿using DpdtInject.Extension.Shared;
+﻿using DpdtInject.Extension.Options;
+using DpdtInject.Extension.Shared;
 using EnvDTE;
 using EnvDTE80;
 using Microsoft.CodeAnalysis;
@@ -174,6 +175,12 @@ namespace DpdtInject.Extension
             {
                 if (!(sender is OleMenuCommand omc))
                 {
+                    return;
+                }
+
+                if (!GeneralOptions.Instance.Enabled)
+                {
+                    omc.Visible = false;
                     return;
                 }
 

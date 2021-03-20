@@ -54,7 +54,7 @@
               <CommandFlag>DynamicVisibility</CommandFlag>
               <Icon guid="logo2_16_gallery" id="logo2_16" />
               <Strings>
-                  <ButtonText>Install Dpdt...</ButtonText>
+                  <ButtonText>Install latest Dpdt...</ButtonText>
               </Strings>
           </Button>
       </Buttons>

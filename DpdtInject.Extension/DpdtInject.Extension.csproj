@@ -133,11 +133,6 @@
     <Compile Include="UI\ViewModel\Details\DpdtBindingReferenceSetViewModel.cs" />
     <Compile Include="UI\ViewModel\Details\DpdtBindingTargetViewModel.cs" />
     <Compile Include="UI\ViewModel\Details\DpdtClusterDetailViewModel.cs" />
-    <Compile Include="Dpdt.Extension.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Dpdt.Extension.vsct</DependentUpon>
-    </Compile>
     <VSCTCompile Include="Dpdt.Extension.vsct">
       <Generator>VsctGenerator</Generator>
       <ResourceName>Menus.ctmenu</ResourceName>
@@ -295,9 +290,7 @@
       </ItemGroup>
     </Target>
 -->
-  <ItemGroup>
-    <Folder Include="UI\ViewModel\Add\S\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>
