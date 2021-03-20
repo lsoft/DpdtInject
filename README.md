@@ -442,7 +442,11 @@ This is to turn off code beautification so Dpdt will produce cluster code a bit 
 
 To make a dealing with Dpdt easier, a [Visual Studio Extension](https://marketplace.visualstudio.com/items?itemName=lsoft.DpdtVisualStudioExtension) has been developed. Make note: it only supports Visual Studio 2019 16.8, because I can't test it against older version of Visual Studio.
 
-The following images makes the picture brighter:
+If you click on a project in Solution Explorer and there is no Dpdt nuget installed, you can install its latest version easily:
+
+![Dpdt Extension Image 4](extension4.png)
+
+But the main function is to generate a binding clauses through the custom codelens. The following images makes the picture brighter:
 
 ![Dpdt Extension Image 0](extension0.png)
 

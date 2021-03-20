@@ -43,6 +43,7 @@ namespace DpdtInject.Extension
     [ProvideAutoLoad(VSConstants.UICONTEXT.NoSolution_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExistsAndFullyLoaded_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideOptionPage(typeof(DialogPageProvider.General), "Dpdt", "General", 0, 0, true)]
+    [ProvideMenuResource("Menus.ctmenu", 1)]
     public sealed class DpdtPackage : AsyncPackage
     {
         public const string PackageGuid = "d53ea3df-798b-402f-b6fd-0dc4544a4be7";
@@ -82,6 +83,7 @@ namespace DpdtInject.Extension
             // When initialized asynchronously, the current thread may be a background thread at this point.
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+            await DpdtInstallCommand.InitializeAsync(this);
 
             LogVS("Start 3");
 

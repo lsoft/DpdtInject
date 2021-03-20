@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dpdt.Injector" Version="0.4.2.0-alpha" />
+    <PackageReference Include="Dpdt.Injector" Version="0.4.3.1-alpha" />
   </ItemGroup>
 
 </Project>
