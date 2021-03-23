@@ -1,15 +1,7 @@
 ﻿using DpdtInject.Extension.Shared;
-using DpdtInject.Extension.Shared.Dto;
-using DpdtInject.Extension.UI.ChainStep;
 using DpdtInject.Extension.UI.Control;
 using DpdtInject.Extension.UI.ViewModel.Add;
-using Microsoft.CodeAnalysis;
-using Microsoft.VisualStudio.Shell;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using Task = System.Threading.Tasks.Task;
 
@@ -20,7 +12,8 @@ namespace DpdtInject.Extension.UI.ChainStep
         private readonly ContentControl _targetControl;
         private readonly ChoosedParameters _choosedParameters;
         
-        private IChainStep? _nextStep;
+        private IChainStep? _nextStepIfConstructorArgumentsExists;
+        private IChainStep? _nextStepIfNoConstructorArgumentsExists;
 
         public ConstructorListChainStep(
             ContentControl targetControl,
@@ -43,15 +36,22 @@ namespace DpdtInject.Extension.UI.ChainStep
         }
 
         public void SetSteps(
-            IChainStep nextStep
+            IChainStep nextStepIfConstructorArgumentsExists,
+            IChainStep nextStepIfNoConstructorArgumentsExists
             )
         {
-            if (nextStep is null)
+            if (nextStepIfConstructorArgumentsExists is null)
             {
-                throw new ArgumentNullException(nameof(nextStep));
+                throw new ArgumentNullException(nameof(nextStepIfConstructorArgumentsExists));
             }
 
-            _nextStep = nextStep;
+            if (nextStepIfNoConstructorArgumentsExists is null)
+            {
+                throw new ArgumentNullException(nameof(nextStepIfNoConstructorArgumentsExists));
+            }
+
+            _nextStepIfConstructorArgumentsExists = nextStepIfConstructorArgumentsExists;
+            _nextStepIfNoConstructorArgumentsExists = nextStepIfNoConstructorArgumentsExists;
         }
 
         public async Task CreateAsync()
@@ -79,12 +79,24 @@ namespace DpdtInject.Extension.UI.ChainStep
 
         public Task NextAsync()
         {
-            if (_nextStep == null)
+            if (_choosedParameters.ChoosedConstructor?.Parameters.Length > 0)
             {
-                throw new InvalidOperationException("Next step is not set");
-            }
+                if (_nextStepIfConstructorArgumentsExists == null)
+                {
+                    throw new InvalidOperationException("Next step is not set");
+                }
 
-            return _nextStep.CreateAsync();
+                return _nextStepIfConstructorArgumentsExists.CreateAsync();
+            }
+            else
+            {
+                if (_nextStepIfNoConstructorArgumentsExists == null)
+                {
+                    throw new InvalidOperationException("Next step is not set");
+                }
+
+                return _nextStepIfNoConstructorArgumentsExists.CreateAsync();
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -17,12 +18,38 @@ namespace DpdtInject.Extension.Shared
     /// </summary>
     public static class Logging
     {
-        private static readonly object @lock = new object();
+        private static readonly object _locker = new object();
 
         // Logs go to: C:\Users\<user>\AppData\Local\Temp\dpdt_extension.*.log
         // We're using one log file for each process to prevent concurrent file access.
         private static readonly string vsLogFile = $"{Path.GetTempPath()}/dpdt_extension.vs.log";
         private static readonly string clLogFile = $"{Path.GetTempPath()}/dpdt_extension.codelens.log";
+
+        static Logging()
+        {
+            if (File.Exists(vsLogFile))
+            {
+                try
+                {
+                    File.Delete(vsLogFile);
+                }
+                catch
+                {
+                    //we do nothing here
+                }
+            }
+            if (File.Exists(clLogFile))
+            {
+                try
+                {
+                    File.Delete(clLogFile);
+                }
+                catch
+                {
+                    //we do nothing here
+                }
+            }
+        }
 
         [Conditional("DEBUG")]
         public static void LogVS(
@@ -44,7 +71,7 @@ namespace DpdtInject.Extension.Shared
             string callingMethod,
             object? data = null)
         {
-            lock (@lock)
+            lock (_locker)
             {
                 File.AppendAllText(
                     logFile,

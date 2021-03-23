@@ -5,17 +5,12 @@ using DpdtInject.Extension.UI.Control.AddClusterMethod;
 using DpdtInject.Extension.UI.ViewModel.AddClusterMethod;
 using EnvDTE;
 using EnvDTE80;
-using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.ComponentModelHost;
-using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using NuGet.VisualStudio;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.Design;
-using System.Linq;
-using System.Text;
 using Task = System.Threading.Tasks.Task;
 
 namespace DpdtInject.Extension

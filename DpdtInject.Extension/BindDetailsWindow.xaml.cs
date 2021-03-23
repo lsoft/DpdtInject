@@ -8,20 +8,15 @@ using DpdtInject.Extension.Container;
 using DpdtInject.Extension.Helper;
 using DpdtInject.Generator.Core.Binding;
 using EnvDTE80;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Editor;
-using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.TextManager.Interop;
 using DpdtInject.Extension.UI.ViewModel.Details;
 using DpdtInject.Extension.Shared.Dto;
 using DpdtInject.Extension.UI.ChainStep;
-using Task = System.Threading.Tasks.Task;
 
 namespace DpdtInject.Extension
 {
@@ -118,9 +113,9 @@ namespace DpdtInject.Extension
 
                     apcs.SetSteps(tmcs);
                     tmcs.SetSteps(bfcs, apcs);
-                    bfcs.SetSteps(cacs, tmcs);
+                    bfcs.SetSteps(cacs, clcs, tmcs);
                     cacs.SetSteps(clcs, bfcs);
-                    clcs.SetSteps(cacs);
+                    clcs.SetSteps(cacs, bfcs);
 
                     await clcs.CreateAsync();
                 }

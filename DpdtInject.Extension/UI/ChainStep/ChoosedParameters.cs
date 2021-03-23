@@ -4,9 +4,8 @@ using DpdtInject.Injector.Bind;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using DpdtInject.Extension.AddMachinery;
 
 namespace DpdtInject.Extension.UI.ChainStep
 {
@@ -69,6 +68,7 @@ namespace DpdtInject.Extension.UI.ChainStep
             }
 
             Target = target;
+            ChoosedConstructorArguments = new List<IParameterSymbol>();
         }
 
 

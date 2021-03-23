@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Threading;
 using DpdtInject.Extension.Helper;
 using DpdtInject.Extension.Shared.Dto;
-using Microsoft.VisualStudio.Imaging.Interop;
 
 namespace DpdtInject.Extension.UI.ViewModel.Details
 {

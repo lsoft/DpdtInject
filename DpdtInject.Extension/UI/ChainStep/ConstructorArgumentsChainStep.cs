@@ -1,15 +1,7 @@
 ﻿using DpdtInject.Extension.Shared;
-using DpdtInject.Extension.Shared.Dto;
-using DpdtInject.Extension.UI.ChainStep;
 using DpdtInject.Extension.UI.Control;
 using DpdtInject.Extension.UI.ViewModel.Add;
-using Microsoft.CodeAnalysis;
-using Microsoft.VisualStudio.Shell;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using Task = System.Threading.Tasks.Task;
 

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO.Pipes;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DpdtInject.Extension.Shared;
-using Microsoft;
 using StreamJsonRpc;
 using CodeLensConnections = System.Collections.Concurrent.ConcurrentDictionary<System.Guid, DpdtInject.Extension.CodeLens.CodeLensConnectionHandler>;
 

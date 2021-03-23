@@ -1,12 +1,6 @@
 using System;
 using System.ComponentModel.Composition;
-using System.Diagnostics;
-using DpdtInject.Extension.ExtensionStatus.FullyLoaded;
-using EnvDTE;
 using EnvDTE80;
-using Microsoft.CodeAnalysis;
-using Microsoft.VisualStudio.ComponentModelHost;
-using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 

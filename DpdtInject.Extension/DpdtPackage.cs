@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using DpdtInject.Extension.CodeLens;
-using DpdtInject.Extension.Container;
 using DpdtInject.Extension.ExtensionStatus;
-using DpdtInject.Extension.ExtensionStatus.FullyLoaded;
 using DpdtInject.Extension.Options;
-using EnvDTE80;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.ComponentModelHost;
-using Microsoft.VisualStudio.Debugger;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;

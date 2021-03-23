@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualStudio.PlatformUI;
-using System;
-using System.Windows.Controls;
+﻿using System;
 using Task = System.Threading.Tasks.Task;
 
 namespace DpdtInject.Extension.UI.ChainStep

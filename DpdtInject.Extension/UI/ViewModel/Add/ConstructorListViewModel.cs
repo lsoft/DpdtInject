@@ -1,5 +1,4 @@
 ﻿using DpdtInject.Extension.Helper;
-using DpdtInject.Extension.Shared.Dto;
 using DpdtInject.Extension.UI.ChainStep;
 using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
@@ -7,12 +6,9 @@ using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.Shell;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Task = System.Threading.Tasks.Task;
@@ -33,6 +29,12 @@ namespace DpdtInject.Extension.UI.ViewModel.Add
             get;
         } = new ObservableCollection<ConstructorViewModel>();
 
+
+        public string ErrorMessage
+        {
+            get;
+            set;
+        } = string.Empty;
 
         public ICommand CloseCommand
         {
@@ -63,10 +65,13 @@ namespace DpdtInject.Extension.UI.ViewModel.Add
                     _nextCommand = new AsyncRelayCommand(
                         async a =>
                         {
-                            _choosedParameters.ChoosedConstructor = GetChoosedConstructor();
-                            await _nextStepAction();
+                            if (TryGetChoosedConstructor(out var choosedConstructor))
+                            {
+                                _choosedParameters.ChoosedConstructor = choosedConstructor;
+                                await _nextStepAction();
+                            }
                         },
-                        r => true
+                        r => TryGetChoosedConstructor(out _)
                         );
                 }
 
@@ -104,6 +109,7 @@ namespace DpdtInject.Extension.UI.ViewModel.Add
                 );
             if (document == null)
             {
+                ErrorMessage = "Cannot obtain a document";
                 return;
             }
 
@@ -116,8 +122,8 @@ namespace DpdtInject.Extension.UI.ViewModel.Add
                 );
             if (targetClass == null)
             {
+                ErrorMessage = "Cannot obtain a symbol info";
                 return;
-
             }
 
 
@@ -140,6 +146,12 @@ namespace DpdtInject.Extension.UI.ViewModel.Add
                     );
             }
 
+            if (ConstructorList.Count == 0)
+            {
+                ErrorMessage = "No constructors available";
+                return;
+            }
+
             if (_choosedParameters.ChoosedConstructor != null)
             {
                 var selected = ConstructorList.FirstOrDefault(c => SymbolEqualityComparer.Default.Equals(c.Constructor, _choosedParameters.ChoosedConstructor));
@@ -153,9 +165,17 @@ namespace DpdtInject.Extension.UI.ViewModel.Add
             ConstructorList.First().IsChecked = true;
         }
 
-        private IMethodSymbol GetChoosedConstructor()
+        private bool TryGetChoosedConstructor(out IMethodSymbol? choosedConstructor)
         {
-            return ConstructorList.First(c => c.IsChecked).Constructor;
+            var choosedConstructorVM = ConstructorList.FirstOrDefault(c => c.IsChecked);
+            if (choosedConstructorVM == null)
+            {
+                choosedConstructor = null;
+                return false;
+            }
+
+            choosedConstructor = choosedConstructorVM.Constructor;
+            return true;
         }
 
     }

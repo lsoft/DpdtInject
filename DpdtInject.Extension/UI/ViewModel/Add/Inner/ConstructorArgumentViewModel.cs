@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Threading;
 using DpdtInject.Extension.Helper;
 using Microsoft.CodeAnalysis;
 

@@ -1,12 +1,10 @@
 ﻿using DpdtInject.Extension.Helper;
-using DpdtInject.Extension.Shared.Dto;
 using DpdtInject.Extension.UI.ChainStep;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;

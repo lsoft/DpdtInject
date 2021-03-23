@@ -267,7 +267,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
             {
                 throw new DpdtException(
                     DpdtExceptionTypeEnum.IncorrectBinding_IncorrectTarget,
-                    $"Type [{_toType.ToDisplayString()}] is not a class or struct",
+                    $"Type [{_toType.ToDisplayString()}] is not a class or struct, it is {_toType.Kind}",
                     _toType.ToDisplayString()
                     );
             }

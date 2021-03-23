@@ -2,11 +2,7 @@
 using Microsoft.VisualStudio.OperationProgress;
 using Microsoft.VisualStudio.Shell;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 
 using static DpdtInject.Extension.Shared.Logging;

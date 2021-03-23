@@ -3,14 +3,10 @@ using System.ComponentModel.Composition;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Threading;
 using System.Collections.Generic;
-using Microsoft.CodeAnalysis;
-using Microsoft.VisualStudio.LanguageServices;
-using System.Linq;
 
 using static DpdtInject.Extension.Shared.Logging;
 

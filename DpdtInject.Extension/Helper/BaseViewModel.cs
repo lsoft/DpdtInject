@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Input;
-using System.Windows.Threading;
 
 namespace DpdtInject.Extension.Helper
 {

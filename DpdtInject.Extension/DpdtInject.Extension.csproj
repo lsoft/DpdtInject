@@ -66,12 +66,16 @@
   </PropertyGroup>
 -->
   <ItemGroup>
+    <Compile Include="AddMachinery\BindClauseProducer.cs" />
     <Compile Include="DoCreateClusterCommand.cs" />
+    <Compile Include="AddMachinery\DocumentModifier.cs" />
     <Compile Include="DpdtInstallCommand.cs" />
     <Compile Include="Helper\DTEHelper.cs" />
     <Compile Include="Helper\RoslynHelper.cs" />
     <Compile Include="Helper\ParameterEqualityComparer.cs" />
     <Compile Include="ImageMonikers.cs" />
+    <Compile Include="AddMachinery\NewBindingInfo.cs" />
+    <Compile Include="AddMachinery\SyntaxSurgeon.cs" />
     <Compile Include="UI\ChainStep\AdditionalParametersChainStep.cs" />
     <Compile Include="UI\ChainStep\MedianeChainStep.cs" />
     <Compile Include="UI\ChainStep\TargetMethodsChainStep.cs" />
@@ -175,9 +179,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.Shell.UI.Internal">
-      <HintPath>..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Microsoft.VisualStudio.Shell.UI.Internal.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
