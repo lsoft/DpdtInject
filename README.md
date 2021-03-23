@@ -29,8 +29,7 @@ It's only a proof-of-concept. Nor alpha, neither beta.
 0. Child kernels (aka child clusters).
 0. Additional compile-time safety.
 0. Binding settings that modify compile-time code generation.
-0. Same performance on the platforms with no compilation at runtine.
-0. If you are writing a DLL (or nuget) you are free now to use Dpdt because no DI-container dependency will arise to your distribution.
+0. Same performance on the platforms with no compilation at runtime.
 0. Dpdt Visual Studio Extension helps you to be more productive (see below).
 0. At last, Dpdt produces a very, very fast resolution code.
 
@@ -216,7 +215,7 @@ Bind clause with no defined scope raises a question: an author forgot set a scop
 
 ### Singleton
 
-The only one instance of defined type is created. If instance is `IDisposable` then `Dispose` method will be invoked at the moment the cluster is disposing. This operation is thread safety, user double checking locking algorithm.
+The only one instance of defined type is created. If instance is `IDisposable` then `Dispose` method will be invoked at the moment the cluster is disposing. This operation is thread safety, double checking locking algorithm is on.
 
 ### Transient
 
@@ -243,8 +242,8 @@ Constant scope is a scope when the cluster receive an outside-created object. It
 	using(var scope2 = cluster.CreateCustomScope())
 	{
 	    var a2 = cluster.Get<IA>(scope2);
-	}
-    }
+	} //here we dispose a2 if IA is IDisposable
+    } //here we dispose a1 if IA is IDisposable
 ```
 
 `IDisposable` custom-binded objects will be disposed at the moment of the scope object dispose. Keep in mind, custom-scoped bindings are resolved much slower than singleton/transient/constant bindings.
@@ -265,6 +264,8 @@ Each bind clause may have an additional filter e.g.
 ```
 
 Please refer unit tests to see the examples. Please note, than any filter makes a resolution process slower (a much slower! 10x slower in compare of unconditional binding!), so use this feature responsibly. Resolution slowdown with conditional bindings has an effect even on those bindings that do not have conditions, but they directly or indirectly takes conditional binding as its dependency. Therefore, it is advisable to place conditions as close to the resolution root as possible.
+
+Also, these predicates cannot be debugged because they are rewrited by Dpdt. See below how to overcome it.
 
 ## Fast resolutions
 
@@ -288,7 +289,7 @@ Dpdt can detect cases of singleton binding takes a transient/custom binding as i
 
 ### Circular dependencies
 
-Dpdt is available to determine circular dependencies in your dependency tree. In that cases it raise a compilation error. One additional point: if that circle contains a conditional binding, Dpdt can't determine if circular dependency will exists at runtime, so Dpdt raises a compile-time warning instead of error.
+Dpdt is available to determine circular dependencies in your dependency tree. In that cases it raise a compilation error. One additional point: if that circle contains a conditional binding, Dpdt can't determine if circular dependency will exists at runtime, so Dpdt raises a compile-time warning instead of error. This behaviour can be changed by appropriate setting.
 
 ### More than 1 unconditional child
 
@@ -331,7 +332,7 @@ If some binging does not exist in local cluster, Dpdt will request it from paren
 
 ## Async resolutions
 
-Dpdt is a constructor-based injector. Async resolutions are not supported because we have no an async constructors. Consider using an async factory class.
+Dpdt is a constructor-based injector. Async resolutions are not supported because we have no an async constructors. Consider using a factory class with an async method `async Task<Something> CreateSomethingAsync(...)`.
 
 
 ## Settings
@@ -467,3 +468,7 @@ Any ideas for new features are welcome.
 * Dpdt extension do not support few types (in different assemblies) with the same full name. I will investigate it further.
 
 If any problem occurs with this extension or the generator itself, please let me know. I will need to see the following log files `C:\Users\<user>\AppData\Local\Temp\dpdt_*.log`.
+
+# Feedback
+
+Feel free to send a feedback by creating an issues here. Cheers!
