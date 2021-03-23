@@ -19,7 +19,6 @@
 
         <Grid
             Grid.Row="0"
-            Name="ChooseConstructorGrid"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             >

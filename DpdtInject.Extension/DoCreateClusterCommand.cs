@@ -1,6 +1,8 @@
 ﻿using DpdtInject.Extension.Helper;
 using DpdtInject.Extension.Options;
 using DpdtInject.Extension.Shared;
+using DpdtInject.Extension.UI.Control.AddClusterMethod;
+using DpdtInject.Extension.UI.ViewModel.AddClusterMethod;
 using EnvDTE;
 using EnvDTE80;
 using Microsoft.CodeAnalysis;
@@ -18,16 +20,15 @@ using Task = System.Threading.Tasks.Task;
 
 namespace DpdtInject.Extension
 {
-    public class DpdtInstallCommand
+    public class DoCreateClusterCommandId
     {
-
         public static string ProjectKind = "{52AEFF70-BBD8-11d2-8598-006097C68E81}";
 
 
         /// <summary>
         /// Command ID.
         /// </summary>
-        public const int CommandId = 0xC100;
+        public const int CommandId = 0xC101;
 
         /// <summary>
         /// Command menu group (command set GUID).
@@ -39,16 +40,13 @@ namespace DpdtInject.Extension
         /// </summary>
         private readonly AsyncPackage _package;
 
-        private bool _isInProgress = false;
-
-
         /// <summary>
         /// Initializes a new instance of the <see cref="DpdtInstallCommand"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
         /// <param name="commandService">Command service to add command to, not null.</param>
-        private DpdtInstallCommand(AsyncPackage package, OleMenuCommandService commandService)
+        private DoCreateClusterCommandId(AsyncPackage package, OleMenuCommandService commandService)
         {
             this._package = package ?? throw new ArgumentNullException(nameof(package));
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
@@ -62,7 +60,7 @@ namespace DpdtInject.Extension
         /// <summary>
         /// Gets the instance of the command.
         /// </summary>
-        public static DpdtInstallCommand? Instance
+        public static DoCreateClusterCommandId? Instance
         {
             get;
             private set;
@@ -88,7 +86,7 @@ namespace DpdtInject.Extension
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
             var commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
-            Instance = new DpdtInstallCommand(package, commandService!);
+            Instance = new DoCreateClusterCommandId(package, commandService!);
         }
 
         /// <summary>
@@ -98,59 +96,46 @@ namespace DpdtInject.Extension
         /// </summary>
         /// <param name="sender">Event sender.</param>
         /// <param name="e">Event args.</param>
-        private void Execute(object sender, EventArgs e)
+        private async void Execute(object sender, EventArgs e)
         {
-            _isInProgress = true;
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-            ThreadHelper.JoinableTaskFactory.Run(
-                $"Install {DpdtPackage.DpdtNugetPackageName} Nuget package",
-                async (progress) =>
+            try
+            {
+                var componentModel = await _package.GetServiceAsync(typeof(SComponentModel)) as IComponentModel;
+                if (componentModel == null)
                 {
-                    try
-                    {
-                        var componentModel = await _package.GetServiceAsync(typeof(SComponentModel)) as IComponentModel;
-                        if (componentModel == null)
-                        {
-                            return;
-                        }
+                    return;
+                }
 
-                        var dte = await _package.GetServiceAsync(typeof(DTE)) as DTE2;
-                        if (dte == null)
-                        {
-                            Logging.LogVS("Failed to get DTE service.");
-                            return;
-                        }
+                var dte = await _package.GetServiceAsync(typeof(DTE)) as DTE2;
+                if (dte == null)
+                {
+                    Logging.LogVS("Failed to get DTE service.");
+                    return;
+                }
 
-                        if (!dte.TryGetSelectedProject(out var envProject))
-                        {
-                            return;
-                        }
+                var additionalFolders = string.Empty;
+                if (dte.TryGetSelectedProject(out var envProject))
+                {
+                    //project selected
+                    additionalFolders = "CompositionRoot";
+                }
 
-                        try
-                        {
-                            progress.Report(
-                                new ThreadedWaitDialogProgressData(
-                                    $"Installing {DpdtPackage.DpdtNugetPackageName} Nuget package, this may take a minute..."
-                                    )
-                                );
+                var vm = new AddClusterMethodViewModel(
+                    additionalFolders
+                    );
+                var v = new AddClusterMethodControl();
+                v.DataContext = vm;
 
-                            //await Task.Delay(10000);
+                v.ShowModal();
 
-                            var packageInstaller = componentModel.GetService<IVsPackageInstaller2>();
-                            packageInstaller.InstallLatestPackage(null, envProject, DpdtPackage.DpdtNugetPackageName, true, false);
-                        }
-                        catch (Exception excp)
-                        {
-                            Logging.LogVS(excp);
-                            ShowError(excp.Message + Environment.NewLine + excp.StackTrace);
-                        }
-                    }
-                    finally
-                    {
-                        _isInProgress = false;
-                    }
-
-            });
+            }
+            catch (Exception excp)
+            {
+                Logging.LogVS(excp);
+                ShowError(excp.Message + Environment.NewLine + excp.StackTrace);
+            }
         }
 
 
@@ -176,12 +161,6 @@ namespace DpdtInject.Extension
                 }
 
                 if (!GeneralOptions.Instance.Enabled)
-                {
-                    omc.Visible = false;
-                    return;
-                }
-
-                if (_isInProgress)
                 {
                     omc.Visible = false;
                     return;
@@ -215,10 +194,9 @@ namespace DpdtInject.Extension
                     return;
                 }
 
-                var isDpdtInstalled = installerServices.IsPackageInstalled(envProject, "Dpdt.Injector");
+                var isDpdtInstalled = installerServices.IsPackageInstalled(envProject, DpdtPackage.DpdtNugetPackageName);
 
-                omc.Visible = true;
-                //omc.Visible = !isDpdtInstalled;
+                omc.Visible = isDpdtInstalled;
                 return;
             }
             catch (Exception excp)

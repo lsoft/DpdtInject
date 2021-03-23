@@ -21,7 +21,6 @@
 
         <Grid
             Grid.Row="0"
-            Name="ChooseConstructorArgumentGrid"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             >

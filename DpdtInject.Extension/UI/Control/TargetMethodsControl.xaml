@@ -19,7 +19,6 @@
 
         <Grid
             Grid.Row="0"
-            Name="ChooseTargetMethodGrid"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             >

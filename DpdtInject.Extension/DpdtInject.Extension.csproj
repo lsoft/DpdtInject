@@ -66,7 +66,9 @@
   </PropertyGroup>
 -->
   <ItemGroup>
+    <Compile Include="DoCreateClusterCommand.cs" />
     <Compile Include="DpdtInstallCommand.cs" />
+    <Compile Include="Helper\DTEHelper.cs" />
     <Compile Include="Helper\RoslynHelper.cs" />
     <Compile Include="Helper\ParameterEqualityComparer.cs" />
     <Compile Include="ImageMonikers.cs" />
@@ -74,6 +76,9 @@
     <Compile Include="UI\ChainStep\MedianeChainStep.cs" />
     <Compile Include="UI\ChainStep\TargetMethodsChainStep.cs" />
     <Compile Include="UI\ChainStep\BindsFromChainStep.cs" />
+    <Compile Include="UI\Control\AddClusterMethod\AddClusterMethodControl.xaml.cs">
+      <DependentUpon>AddClusterMethodControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Helper\EnterKeyDownEventTrigger.cs" />
     <Compile Include="UI\Helper\SpaceKeyDownEventTrigger.cs" />
     <Compile Include="UI\Control\AdditionalParametersControl.xaml.cs">
@@ -95,6 +100,8 @@
     <Compile Include="UI\ChainStep\ConstructorArgumentsChainStep.cs" />
     <Compile Include="UI\ChainStep\ConstructorListChainStep.cs" />
     <Compile Include="UI\ChainStep\IChainStep.cs" />
+    <Compile Include="UI\ViewModel\AddClusterMethod\AddClusterMethodViewModel.cs" />
+    <Compile Include="UI\ViewModel\AddClusterMethod\ClusterClassViewModel.cs" />
     <Compile Include="UI\ViewModel\Add\Inner\ConstructorViewModel.cs" />
     <Compile Include="UI\ViewModel\Add\Inner\ConstructorArgumentViewModel.cs" />
     <Compile Include="UI\ViewModel\Add\Inner\BindFromViewModel.cs" />
@@ -168,6 +175,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.Shell.UI.Internal">
+      <HintPath>..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Microsoft.VisualStudio.Shell.UI.Internal.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -183,6 +193,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="BindDetailsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Control\AddClusterMethod\AddClusterMethodControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -235,6 +249,11 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Shell.Framework">
       <Version>16.5.29911.84</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers">
+      <Version>16.9.60</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>none</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
       <Version>1.1.31</Version>

@@ -32,8 +32,14 @@
     with command ids defined by other packages. -->
  
       <Groups>
-          <Group guid="guidDpdtPackageCmdSet" id="DpdtInstallMenuGroup" priority="0x07df">
+          <Group guid="guidDpdtPackageCmdSet" id="DpdtInstallMenuGroup" priority="0x07de">
               <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE"/>
+          </Group>
+          <Group guid="guidDpdtPackageCmdSet" id="DoCreateClusterMenuGroup" priority="0x07df">
+              <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE"/>
+          </Group>
+          <Group guid="guidDpdtPackageCmdSet" id="DoCreateClusterMenuGroup" priority="0x07df">
+              <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_FOLDERNODE"/>
           </Group>
       </Groups>
       
@@ -55,6 +61,15 @@
               <Icon guid="logo2_16_gallery" id="logo2_16" />
               <Strings>
                   <ButtonText>Install latest Dpdt...</ButtonText>
+              </Strings>
+          </Button>
+          <Button guid="guidDpdtPackageCmdSet" id="DoCreateClusterCommandId" priority="0x0102" type="Button">
+              <Parent guid="guidDpdtPackageCmdSet" id="DoCreateClusterMenuGroup" />
+              <CommandFlag>DefaultInvisible</CommandFlag>
+              <CommandFlag>DynamicVisibility</CommandFlag>
+              <Icon guid="logo2_16_gallery" id="logo2_16" />
+              <Strings>
+                  <ButtonText>Create Dpdt cluster/method...</ButtonText>
               </Strings>
           </Button>
       </Buttons>
@@ -85,8 +100,11 @@
 
       <!-- This is the guid used to group the menu commands together -->
       <GuidSymbol name="guidDpdtPackageCmdSet" value="{A30C3B4B-537C-4EEF-A7FF-232D47063286}">
-          <IDSymbol name="DpdtInstallMenuGroup" value="0x1021" />
+          <IDSymbol name="DpdtInstallMenuGroup" value="0x1020" />
           <IDSymbol name="DoInstallCommandId" value="0xC100" />
+
+          <IDSymbol name="DoCreateClusterMenuGroup" value="0x1021" />
+          <IDSymbol name="DoCreateClusterCommandId" value="0xC101" />
       </GuidSymbol>
   </Symbols>
 </CommandTable>

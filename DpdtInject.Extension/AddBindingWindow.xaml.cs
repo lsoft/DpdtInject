@@ -217,7 +217,14 @@ namespace DpdtInject.Extension
                 return;
             }
 
-            workspace.TryApplyChanges(surgedDocument.Project.Solution);
+            if (!workspace.TryApplyChanges(surgedDocument.Project.Solution))
+            {
+                DpdtPackage.ShowMessageBox(
+                    "Error",
+                    "Error happened while additing a new binding clause. Please try again."
+                    );
+                return;
+            }
 
             if (!newBindingInfo.IsBindingComplete && addedBinding != null)
             {

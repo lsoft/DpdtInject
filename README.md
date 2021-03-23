@@ -1,4 +1,4 @@
-# DpDtInject
+# DpdtInject
 
 ![Dpdt logo](logo.png)
 
@@ -124,7 +124,7 @@ Please refer to Dpdt.Injector [nuget package](https://www.nuget.org/packages/Dpd
 
 Dpdt syntax was partially inspired by Ninject.
 
-# Regular singleton/transient/custom binding
+### Regular singleton/transient/custom binding
 
 ```csharp
 Bind<IB1, IB2>()
@@ -133,7 +133,7 @@ Bind<IB1, IB2>()
     ;
 ```
 
-# Regular const binding
+### Regular const binding
 
 Only readonly fields, static readonly fields and in-place compile-time constants are allowed to be a target constant:
 
@@ -148,7 +148,7 @@ Bind<string>()
     ;
 ```
 
-# Conditional bindings
+### Conditional bindings
 
 ```csharp
 Bind<IA>()
@@ -157,7 +157,7 @@ Bind<IA>()
     ;
 ```
 
-# Predefined constructor arguments with additional setting
+### Predefined constructor arguments with additional setting
 
 ```csharp
 Bind<IB>()
@@ -169,7 +169,7 @@ Bind<IB>()
      ;
 ```
 
-# Additional examples
+### Additional examples
 
 Proxy (and decorator at the same time) binding example:
 
@@ -331,7 +331,7 @@ If some binging does not exist in local cluster, Dpdt will request it from paren
 
 ## Async resolutions
 
-Dpdt is a constructor-based injector. Async resolutions are not supported because we have not an async constructors. Consider using an async factory class.
+Dpdt is a constructor-based injector. Async resolutions are not supported because we have no an async constructors. Consider using an async factory class.
 
 
 ## Settings

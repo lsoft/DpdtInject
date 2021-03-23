@@ -46,6 +46,8 @@ namespace DpdtInject.Extension
     [ProvideMenuResource("Menus.ctmenu", 1)]
     public sealed class DpdtPackage : AsyncPackage
     {
+        public const string DpdtNugetPackageName = "Dpdt.Injector";
+
         public const string PackageGuid = "d53ea3df-798b-402f-b6fd-0dc4544a4be7";
 
         /// <summary>
@@ -84,6 +86,7 @@ namespace DpdtInject.Extension
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             await DpdtInstallCommand.InitializeAsync(this);
+            await DoCreateClusterCommandId.InitializeAsync(this);
 
             LogVS("Start 3");
 

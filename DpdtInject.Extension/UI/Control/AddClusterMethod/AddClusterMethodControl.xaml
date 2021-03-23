@@ -1,0 +1,154 @@
+﻿<platformUi:DialogWindow
+    x:Class="DpdtInject.Extension.UI.Control.AddClusterMethod.AddClusterMethodControl"
+    xmlns:platformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+    xmlns:platformUi2="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.UI.Internal"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:DpdtInject.Extension.UI.Control"
+    xmlns:main="clr-namespace:DpdtInject.Extension"
+    xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
+    xmlns:vsshell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+    Background="{DynamicResource {x:Static vsshell:VsBrushes.WindowKey}}"
+    Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+    mc:Ignorable="d" 
+    WindowStyle="SingleBorderWindow"
+    ResizeMode="CanResize"
+    ShowInTaskbar="False"
+    SnapsToDevicePixels="True"
+    Title="Add new Dpdt cluster\method..."
+    Height="130" Width="800"
+    MinHeight="130" MinWidth="800"
+    d:DesignHeight="130" d:DesignWidth="800">
+    
+    <Grid
+        Margin="5"
+        >
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid
+            Grid.Row="0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Bottom"
+            >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Background="Transparent"
+                HorizontalAlignment="Left"
+                Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+                Text="Addititonal folders (e.g. CompositionRoot\MyClusterFolder):"
+            />
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="0,0,5,0"
+                Background="Transparent"
+                HorizontalAlignment="Stretch"
+                Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+                Text="{Binding AdditionalFolders, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            />
+
+
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Background="Transparent"
+                Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+                Text="Cluster class name:"
+            />
+            <platformUi2:VsComboBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="0,0,5,0"
+                HorizontalAlignment="Stretch"
+                DisplayMemberPath="ClusterName"
+                IsEditable="True"
+                ItemsSource="{Binding ClusterClassNameList}"
+                Text="{Binding ClusterClassName, UpdateSourceTrigger=LostFocus}"
+                >
+
+            </platformUi2:VsComboBox>
+
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="2"
+                Background="Transparent"
+                Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+                Text="Cluster method name:"
+            />
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="2"
+                HorizontalAlignment="Stretch"
+                Background="Transparent"
+                Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+                Text="{Binding BindingMethodName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            />
+
+
+        </Grid>
+
+        <Grid
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            Margin="0,10,0,0"
+            >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Button
+                Grid.Column="0"
+                Margin="2"
+                Padding="10,5,10,5"
+                HorizontalAlignment="Left"
+                Content="Cancel"
+                Width="80"
+                Command="{Binding CloseCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}} }"
+                />
+
+            <Button
+                Grid.Column="1"
+                Margin="2"
+                Padding="10,5,10,5"
+                HorizontalAlignment="Right"
+                Width="80"
+                Command="{Binding NextCommand}"
+                >
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <imaging:CrispImage
+                            Moniker="{x:Static main:ImageMonikers.Logo}"
+                            Width="10"
+                            Height="10"
+                            />
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            Text="{Binding NextButtonTitle, FallbackValue=Next}"
+                            />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+
+        </Grid>
+
+    </Grid>
+</platformUi:DialogWindow>
