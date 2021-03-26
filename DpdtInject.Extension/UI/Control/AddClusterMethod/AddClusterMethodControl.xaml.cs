@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.PlatformUI;
+using System.Windows;
 
 namespace DpdtInject.Extension.UI.Control.AddClusterMethod
 {
@@ -10,6 +11,13 @@ namespace DpdtInject.Extension.UI.Control.AddClusterMethod
         public AddClusterMethodControl()
         {
             InitializeComponent();
+
+            this.ShouldBeThemed();
+
+            //var comboTheme = System.Windows.Application.LoadComponent(new System.Uri("DpdtInject.Extension;component/UI/Control/VsThemedComboBox.xaml", System.UriKind.Relative));
+            //ResourceDictionary allResources = new ResourceDictionary();
+            //allResources.MergedDictionaries.Add(comboTheme);
+
         }
     }
 }

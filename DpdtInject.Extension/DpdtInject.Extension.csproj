@@ -104,6 +104,7 @@
     <Compile Include="UI\ChainStep\ConstructorArgumentsChainStep.cs" />
     <Compile Include="UI\ChainStep\ConstructorListChainStep.cs" />
     <Compile Include="UI\ChainStep\IChainStep.cs" />
+    <Compile Include="UI\Theme.cs" />
     <Compile Include="UI\ViewModel\AddClusterMethod\AddClusterMethodViewModel.cs" />
     <Compile Include="UI\ViewModel\AddClusterMethod\ClusterClassViewModel.cs" />
     <Compile Include="UI\ViewModel\Add\Inner\ConstructorViewModel.cs" />
@@ -218,6 +219,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Control\TargetMethodsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Control\VsThemedComboBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
