@@ -6,12 +6,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:local="clr-namespace:DpdtInject.Extension.UI.Control"
+    xmlns:ui="clr-namespace:DpdtInject.Extension.UI"
     xmlns:main="clr-namespace:DpdtInject.Extension"
     xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
     xmlns:vsshell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
     xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     Background="{DynamicResource {x:Static vsshell:VsBrushes.WindowKey}}"
     Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+    ui:VsTheme.UseVsTheme="True"
     mc:Ignorable="d" 
     WindowStyle="SingleBorderWindow"
     ResizeMode="CanResize"
@@ -21,14 +23,6 @@
     Height="130" Width="800"
     MinHeight="130" MinWidth="800"
     d:DesignHeight="130" d:DesignWidth="800">
-
-    <!--<Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="DpdtInject.Extension;component/UI/Control/VsThemedComboBox.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>-->
     
     <Grid
         Margin="5"
@@ -56,18 +50,14 @@
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="0"
-                Background="Transparent"
                 HorizontalAlignment="Left"
-                Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
                 Text="Addititonal folders (e.g. CompositionRoot\MyClusterFolder):"
             />
             <TextBox
                 Grid.Row="1"
                 Grid.Column="0"
                 Margin="0,0,5,0"
-                Background="Transparent"
                 HorizontalAlignment="Stretch"
-                Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
                 Text="{Binding AdditionalFolders, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             />
 
@@ -75,8 +65,6 @@
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="1"
-                Background="Transparent"
-                Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
                 Text="Cluster class name:"
             />
             <!--<TextBox
@@ -93,25 +81,17 @@
                 Grid.Column="1"
                 Margin="0,0,5,0"
                 HorizontalAlignment="Stretch"
-                
                 />
-<!--
-            Style="{StaticResource ResourceKey=ComboBox}"
-            -->
 
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="2"
-                Background="Transparent"
-                Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
                 Text="Cluster method name:"
             />
             <TextBox
                 Grid.Row="1"
                 Grid.Column="2"
                 HorizontalAlignment="Stretch"
-                Background="Transparent"
-                Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
                 Text="{Binding BindingMethodName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             />
 
