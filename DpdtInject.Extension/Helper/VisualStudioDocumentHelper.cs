@@ -28,6 +28,17 @@ namespace DpdtInject.Extension.Helper
             _textManager = Package.GetGlobalService(typeof(VsTextManagerClass)) as IVsTextManager;
         }
 
+        public void Open(
+            )
+        {
+            ThreadHelper.ThrowIfNotOnUIThread(nameof(OpenAndNavigate));
+
+            var logicalView = VSConstants.LOGVIEWID_Code;
+
+            OpenDocument(logicalView, out _);
+        }
+
+
         public void OpenAndNavigate(
             int startLine,
             int startColumn,

@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using NuGet.VisualStudio;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Design;
 using Task = System.Threading.Tasks.Task;
 
@@ -110,15 +111,31 @@ namespace DpdtInject.Extension
                     return;
                 }
 
+                if (!TryGetProjectAndItem(dte, out var envProject, out var envProjectItem))
+                {
+                    return;
+                }
+
                 var additionalFolders = string.Empty;
-                if (dte.TryGetSelectedProject(out var envProject))
+                if (envProjectItem == null)
                 {
                     //project selected
                     additionalFolders = "CompositionRoot";
                 }
 
+                var addClusterData = new AddClusterData(
+                    envProject!,
+                    envProjectItem,
+                    additionalFolders,
+                    new List<string>
+                    {
+                        "Class1",
+                        "Class2"
+                    }
+                    );
+
                 var vm = new AddClusterMethodViewModel(
-                    additionalFolders
+                    addClusterData
                     );
                 var v = new AddClusterMethodControl();
                 v.DataContext = vm;
@@ -148,6 +165,8 @@ namespace DpdtInject.Extension
 
         private void MenuItem_BeforeQueryStatus(object sender, EventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             try
             {
                 if (!(sender is OleMenuCommand omc))
@@ -169,7 +188,7 @@ namespace DpdtInject.Extension
                     return;
                 }
 
-                if (!dte.TryGetSelectedProject(out var envProject))
+                if (!TryGetProjectAndItem(dte, out var envProject, out var envProjectItem))
                 {
                     omc.Visible = false;
                     return;
@@ -200,5 +219,32 @@ namespace DpdtInject.Extension
             }
         }
 
+        private bool TryGetProjectAndItem(
+            DTE2 dte,
+            out Project? project,
+            out ProjectItem? projectItem
+            )
+        {
+            project = null;
+            projectItem = null;
+
+            if (!dte.TryGetSelectedProject(out var envProject))
+            {
+                if (!dte.TryGetSelectedProjectFolder(out var envProjectItem))
+                {
+                    return false;
+                }
+
+                project = envProjectItem!.ContainingProject;
+                projectItem = envProjectItem;
+            }
+            else
+            {
+                project = envProject;
+                projectItem = null;
+            }
+
+            return true;
+        }
     }
 }

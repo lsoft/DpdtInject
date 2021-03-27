@@ -73,6 +73,7 @@
     <Compile Include="Helper\DTEHelper.cs" />
     <Compile Include="Helper\RoslynHelper.cs" />
     <Compile Include="Helper\ParameterEqualityComparer.cs" />
+    <Compile Include="Helper\SolutionHelper.cs" />
     <Compile Include="ImageMonikers.cs" />
     <Compile Include="AddMachinery\NewBindingInfo.cs" />
     <Compile Include="AddMachinery\SyntaxSurgeon.cs" />
@@ -106,7 +107,6 @@
     <Compile Include="UI\ChainStep\IChainStep.cs" />
     <Compile Include="UI\Theme.cs" />
     <Compile Include="UI\ViewModel\AddClusterMethod\AddClusterMethodViewModel.cs" />
-    <Compile Include="UI\ViewModel\AddClusterMethod\ClusterClassViewModel.cs" />
     <Compile Include="UI\ViewModel\Add\Inner\ConstructorViewModel.cs" />
     <Compile Include="UI\ViewModel\Add\Inner\ConstructorArgumentViewModel.cs" />
     <Compile Include="UI\ViewModel\Add\Inner\BindFromViewModel.cs" />
