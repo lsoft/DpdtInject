@@ -1409,6 +1409,56 @@ namespace DpdtInject.Tests.Properties {
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///
+        ///namespace DpdtInject.Tests.Scope.Constant.Target.InPlace0
+        ///{
+        ///    public partial class ScopeConstantTargetInPlace0_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;string&gt;()
+        ///                .WithConstScope(&quot;my const string&quot;) //no not extract it! we checks in-place constant in this test!
+        ///                ;
+        ///        }
+        ///
+        ///        public cl [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeConstantTargetInPlace0_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeConstantTargetInPlace0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Constant.Target.InPlace1
+        ///{
+        ///    public partial class ScopeConstantTargetInPlace1_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;ulong&gt;()
+        ///                .WithConstScope(123456789UL) //no not extract it! we checks in-place constant in this test!
+        ///                ;
+        ///        }
+        ///
+        ///        public class Sco [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeConstantTargetInPlace1_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeConstantTargetInPlace1_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///
         ///namespace DpdtInject.Tests.Scope.Constant.Target.M0
         ///{
         ///    public partial class ScopeConstantTargetM0_Cluster : DefaultCluster

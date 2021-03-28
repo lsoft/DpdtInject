@@ -13,6 +13,7 @@ using DpdtInject.Injector.RContext;
 using DpdtInject.Injector.Bind.Settings;
 using System.IO;
 using System.Diagnostics;
+using DpdtInject.Generator.Core.Producer.Product.Tuple;
 
 
 namespace DpdtInject.Generator.Core.Producer
@@ -167,6 +168,8 @@ namespace DpdtInject.Generator.Core.Producer
                 wrapperSymbol
                 );
 
+            var canBeImplicitelyCastedToObject = wrapperSymbol.IsReferenceType;
+
             var nonGenericGetProduct = new CreateTupleProduct(
                 new TypeTypePair
                 (
@@ -179,7 +182,9 @@ namespace DpdtInject.Generator.Core.Producer
                         _typeInfoProvider.GetTypeByMetadataName(typeof(IResolutionRequest).FullName!)!,
                         _typeInfoProvider.Object()!
                         ),
-                    getMethodProduct.MethodName
+                    canBeImplicitelyCastedToObject
+                        ? getMethodProduct.MethodName
+                        : $"(r) => {getMethodProduct.MethodName}(r)"
                 )
                 );
 
@@ -212,7 +217,9 @@ namespace DpdtInject.Generator.Core.Producer
                         _typeInfoProvider.GetTypeByMetadataName(typeof(IResolutionRequest).FullName!)!,
                         _typeInfoProvider.Object()!
                         ),
-                    getAllMethodProduct.MethodName
+                    canBeImplicitelyCastedToObject
+                        ? getAllMethodProduct.MethodName
+                        : $"(r) => {getAllMethodProduct.MethodName}(r)"
                 )
                 );
 

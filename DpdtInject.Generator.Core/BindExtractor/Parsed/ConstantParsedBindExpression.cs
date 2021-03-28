@@ -142,7 +142,11 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
         private void CheckForAllowedSyntaxForConstantBinding(
             )
         {
-            var ils = _constantClause.DescendantNodes().OfType<IdentifierNameSyntax>().ToList();
+            var ils = (
+                from node in _constantClause.DescendantNodes()
+                where node is IdentifierNameSyntax || node is LiteralExpressionSyntax
+                select node
+                ).ToList();
 
             if (ils.Count == 0)
             {

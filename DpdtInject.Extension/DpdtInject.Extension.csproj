@@ -106,6 +106,7 @@
     <Compile Include="UI\ChainStep\ConstructorListChainStep.cs" />
     <Compile Include="UI\ChainStep\IChainStep.cs" />
     <Compile Include="UI\Theme.cs" />
+    <Compile Include="UI\ViewModel\AddClusterMethod\AddClusterData.cs" />
     <Compile Include="UI\ViewModel\AddClusterMethod\AddClusterMethodViewModel.cs" />
     <Compile Include="UI\ViewModel\Add\Inner\ConstructorViewModel.cs" />
     <Compile Include="UI\ViewModel\Add\Inner\ConstructorArgumentViewModel.cs" />
