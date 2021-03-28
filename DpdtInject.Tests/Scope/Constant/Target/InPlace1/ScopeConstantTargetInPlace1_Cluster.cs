@@ -22,9 +22,17 @@ namespace DpdtInject.Tests.Scope.Constant.Target.InPlace1
                     null
                     );
 
-                var s = cluster.Get<ulong>();
-                Assert.IsNotNull(s);
-                Assert.AreEqual(123456789UL, s);
+                var ul0 = cluster.Get<ulong>();
+                Assert.IsNotNull(ul0);
+                Assert.AreEqual(123456789UL, ul0);
+
+                var ul1 = cluster.Get(typeof(ulong));
+                Assert.IsNotNull(ul1);
+                Assert.AreEqual(123456789UL, ul1);
+
+                var ul2 = cluster.GetFast(default(ulong));
+                Assert.IsNotNull(ul2);
+                Assert.AreEqual(123456789UL, ul2);
             }
         }
     }
