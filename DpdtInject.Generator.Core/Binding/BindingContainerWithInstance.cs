@@ -36,16 +36,11 @@ namespace DpdtInject.Generator.Core.Binding
             BindingContainerTypes types,
             IReadOnlyList<DetectedConstructorArgument> constructorArguments,
             BindScopeEnum scope,
-            ExpressionStatementSyntax expressionNode,
+            ExpressionStatementSyntax? expressionNode,
             ArgumentSyntax? whenArgumentClause,
             IReadOnlyList<ISetting> settings
             ) : base(types, scope, expressionNode, whenArgumentClause, null, settings)
         {
-            if (expressionNode is null)
-            {
-                throw new ArgumentNullException(nameof(expressionNode));
-            }
-
             if (constructorArguments is null)
             {
                 throw new ArgumentNullException(nameof(constructorArguments));

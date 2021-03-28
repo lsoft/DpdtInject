@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DpdtInject.Generator.Core.BindExtractor.Parsed;
 using DpdtInject.Generator.Core.TypeScanner;
+using DpdtInject.Generator.Core.BindExtractor.Parsed.Factory;
 
 namespace DpdtInject.Generator.Core
 {
@@ -111,16 +112,27 @@ namespace DpdtInject.Generator.Core
                 foreach (var bindMethodSyntax in bindMethodSyntaxes)
                 {
                     var bindExtractor =
-                        new DefaultBindExtractor(
+                        new BindClauseExtractor(
                             semanticModelDecorator,
-                            new ParsedBindExpressionFactory(
-                                typeInfoContainer,
-                                semanticModelDecorator,
-                                new ConstructorArgumentFromSyntaxExtractor(
-                                    semanticModelDecorator
+                            new DetermineBindExpressionFactory(
+                                new ExplicitBindExpressionFactory(
+                                    typeInfoContainer,
+                                    semanticModelDecorator,
+                                    new ConstructorArgumentFromSyntaxExtractor(
+                                        semanticModelDecorator
+                                        ),
+                                    new ConstructorArgumentDetector(
+                                        new BindConstructorChooser()
+                                        )
                                     ),
-                                new ConstructorArgumentDetector(
-                                    new BindConstructorChooser()
+                                new ConventionalBindExpressionFactory(
+                                    typeInfoContainer,
+                                    new ConstructorArgumentFromSyntaxExtractor(
+                                        semanticModelDecorator
+                                        ),
+                                    new ConstructorArgumentDetector(
+                                        new BindConstructorChooser()
+                                        )
                                     )
                                 )
                             );

@@ -46,7 +46,7 @@ namespace DpdtInject.Generator.Core.Binding
             get;
         }
 
-        public ExpressionStatementSyntax ExpressionNode
+        public ExpressionStatementSyntax? ExpressionNode
         {
             get;
         }
@@ -78,7 +78,7 @@ namespace DpdtInject.Generator.Core.Binding
         protected BaseBindingContainer(
             BindingContainerTypes types,
             BindScopeEnum scope,
-            ExpressionStatementSyntax expressionNode,
+            ExpressionStatementSyntax? expressionNode,
             ArgumentSyntax? whenArgumentClause,
             ArgumentSyntax? constantSyntax,
             IReadOnlyList<ISetting> settings
@@ -87,11 +87,6 @@ namespace DpdtInject.Generator.Core.Binding
             if (types is null)
             {
                 throw new ArgumentNullException(nameof(types));
-            }
-
-            if (expressionNode is null)
-            {
-                throw new ArgumentNullException(nameof(expressionNode));
             }
 
             if (scope == BindScopeEnum.Constant && constantSyntax is null)

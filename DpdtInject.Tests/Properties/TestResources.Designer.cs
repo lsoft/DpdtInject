@@ -812,6 +812,56 @@ namespace DpdtInject.Tests.Properties {
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System.Linq;
+        ///
+        ///namespace DpdtInject.Tests.Conventions.ToSingleInterface0
+        ///{
+        ///    public partial class ConventionsToSingleInterface0_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            ScanInAssembliesWith&lt;A0&gt;()
+        ///                .SelectAllWith&lt;IA&gt;()
+        ///                .FromAllInterfaces()
+        ///                .To&lt;IA&gt;()
+        ///                .WithSingletonScope()
+        ///    [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ConventionsToSingleInterface0_Cluster {
+            get {
+                return ResourceManager.GetString("ConventionsToSingleInterface0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System.Linq;
+        ///
+        ///namespace DpdtInject.Tests.Conventions.ToSingleInterface1
+        ///{
+        ///    public partial class ConventionsToSingleInterface1_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            ScanInAssembliesWith&lt;A0&gt;()
+        ///                .SelectAllWith&lt;IA&gt;()
+        ///                .FromAllInterfaces()
+        ///                .To&lt;IA&gt;()
+        ///                .WithSingletonScope()
+        ///    [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ConventionsToSingleInterface1_Cluster {
+            get {
+                return ResourceManager.GetString("ConventionsToSingleInterface1_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using DpdtInject.Injector.Bind;
         ///
         ///namespace DpdtInject.Tests.Factory.Complex0

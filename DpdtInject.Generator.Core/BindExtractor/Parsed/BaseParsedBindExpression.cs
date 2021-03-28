@@ -14,18 +14,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
     public abstract class BaseParsedBindExpression : IParsedBindExpression
     {
         protected readonly List<ISetting> _settings = new List<ISetting>();
-
-        /// <inheritdoc />
-        public abstract ExpressionStatementSyntax ExpressionNode
-        {
-            get;
-        }
-
-        /// <inheritdoc />
-        public abstract BindScopeEnum Scope
-        {
-            get;
-        }
+        protected readonly BindScopeEnum _scope;
 
 
         /// <inheritdoc />
@@ -43,6 +32,8 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
             {
                 throw new ArgumentNullException(nameof(invocationSymbols));
             }
+
+            _scope = scope;
 
             var settingScopes = new HashSet<string>();
 

@@ -23,11 +23,10 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
         private readonly ITypeInfoContainer _typeInfoContainer;
         private readonly ConstructorArgumentFromSyntaxExtractor _extractor;
         private readonly ConstructorArgumentDetector _constructorArgumentDetector;
+        private readonly ExpressionStatementSyntax? _expressionNode;
 
         private readonly List<Tuple<InvocationExpressionSyntax, IMethodSymbol>> _invocationSymbols;
-        private readonly Tuple<InvocationExpressionSyntax, IMethodSymbol> _from;
         private readonly ImmutableArray<ITypeSymbol> _fromTypes;
-        private readonly Tuple<InvocationExpressionSyntax, IMethodSymbol> _to;
         private readonly ITypeSymbol _toType;
         private readonly Tuple<InvocationExpressionSyntax, IMethodSymbol>? _factoryPayload;
         private readonly Tuple<InvocationExpressionSyntax, IMethodSymbol>? _proxySettings;
@@ -35,23 +34,16 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
 
         private bool _typesAlreadyBuild = false;
 
-        public override ExpressionStatementSyntax ExpressionNode
-        {
-            get;
-        }
-
-        public override BindScopeEnum Scope
-        {
-            get;
-        }
 
 
         public STCParsedBindExpression(
             ITypeInfoContainer typeInfoContainer,
             ConstructorArgumentFromSyntaxExtractor extractor,
             ConstructorArgumentDetector constructorArgumentDetector,
-            ExpressionStatementSyntax expressionNode,
+            ExpressionStatementSyntax? expressionNode,
             List<Tuple<InvocationExpressionSyntax, IMethodSymbol>> invocationSymbols,
+            in ImmutableArray<ITypeSymbol> fromTypes,
+            ITypeSymbol toType,
             BindScopeEnum scope
             ) : base(scope, invocationSymbols)
         {
@@ -70,14 +62,14 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
                 throw new ArgumentNullException(nameof(constructorArgumentDetector));
             }
 
-            if (expressionNode is null)
-            {
-                throw new ArgumentNullException(nameof(expressionNode));
-            }
-
             if (invocationSymbols is null)
             {
                 throw new ArgumentNullException(nameof(invocationSymbols));
+            }
+
+            if (toType is null)
+            {
+                throw new ArgumentNullException(nameof(toType));
             }
 
             if (scope == BindScopeEnum.Constant)
@@ -88,19 +80,11 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
             _typeInfoContainer = typeInfoContainer;
             _extractor = extractor;
             _constructorArgumentDetector = constructorArgumentDetector;
-
-            ExpressionNode = expressionNode;
+            _expressionNode = expressionNode;
             _invocationSymbols = invocationSymbols;
-            Scope = scope;
 
-            _from = invocationSymbols.First(
-                s => s.Item2.ContainingType.ToDisplayString() == typeof(DefaultCluster).FullName && s.Item2.Name == DefaultCluster.BindMethodName
-                );
-            _fromTypes = _from.Item2.TypeArguments;
-
-
-            _to = GetTo(invocationSymbols);
-            _toType = _to.Item2.TypeArguments.First();
+            _fromTypes = fromTypes;
+            _toType = toType;
 
             _factoryPayload = invocationSymbols.FirstOrDefault(
                 s => s.Item2.ContainingType.ToDisplayString() == typeof(IToFactoryBinding).FullName && s.Item2.Name == nameof(IToFactoryBinding.WithPayload)
@@ -143,8 +127,8 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
             var bindingContainer = new BindingContainerWithInstance(
                 types,
                 constructorArguments,
-                Scope,
-                ExpressionNode,
+                _scope,
+                _expressionNode,
                 _whenArgumentClause,
                 _settings
                 );
@@ -159,7 +143,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
 
         private List<DetectedConstructorArgument> GetConstructorArguments()
         {
-            _extractor.ClearAndVisit(ExpressionNode);
+            _extractor.ClearAndVisit(_expressionNode);
 
             var constructorArguments = _extractor.GetConstructorArguments();
 
@@ -328,44 +312,5 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
 
             }
         }
-
-
-        private static Tuple<InvocationExpressionSyntax, IMethodSymbol> GetTo(
-            List<Tuple<InvocationExpressionSyntax, IMethodSymbol>> invocationSymbols
-            )
-        {
-            var pair = invocationSymbols.FirstOrDefault(
-                s => s.Item2.ContainingType.ToDisplayString() == typeof(IToOrConstantBinding).FullName && s.Item2.Name == nameof(IToOrConstantBinding.To)
-                );
-
-            if (pair is not null)
-            {
-                return pair;
-            }
-
-            pair = invocationSymbols.FirstOrDefault(
-                s => s.Item2.ContainingType.ToDisplayString() == typeof(IToOrConstantBinding).FullName && s.Item2.Name == nameof(IToOrConstantBinding.ToIsolatedFactory)
-                );
-
-            if (pair is not null)
-            {
-                return pair;
-            }
-
-            pair = invocationSymbols.FirstOrDefault(
-                s => s.Item2.ContainingType.ToDisplayString() == typeof(IToOrConstantBinding).FullName && s.Item2.Name == nameof(IToOrConstantBinding.ToProxy)
-                );
-
-            if (pair is not null)
-            {
-                return pair;
-            }
-
-            throw new DpdtException(
-                DpdtExceptionTypeEnum.InternalError,
-                $"Unknown problem to access 'To' clause"
-                );
-        }
-
     }
 }

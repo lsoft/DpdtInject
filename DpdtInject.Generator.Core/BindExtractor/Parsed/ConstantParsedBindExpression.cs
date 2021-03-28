@@ -15,6 +15,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
     public class ConstantParsedBindExpression : BaseParsedBindExpression
     {
         private readonly SemanticModelDecorator _semanticModel;
+        private readonly ExpressionStatementSyntax _expressionNode;
 
         private readonly List<Tuple<InvocationExpressionSyntax, IMethodSymbol>> _invocationSymbols;
         private readonly ArgumentSyntax _constantClause;
@@ -26,12 +27,6 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
 
         private bool _typesAlreadyBuild = false;
 
-        public override ExpressionStatementSyntax ExpressionNode
-        {
-            get;
-        }
-
-        public override BindScopeEnum Scope => BindScopeEnum.Constant;
 
         public ConstantParsedBindExpression(
             SemanticModelDecorator semanticModel,
@@ -55,8 +50,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
             }
 
             _semanticModel = semanticModel;
-
-            ExpressionNode = expressionNode;
+            _expressionNode = expressionNode;
             _invocationSymbols = invocationSymbols;
 
             var constantClause = DetermineArgumentSubClause(
@@ -104,8 +98,8 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
             var bindingContainer = new ConstantBindingContainer(
                 types,
                 _constantClause,
-                Scope,
-                ExpressionNode,
+                _scope,
+                _expressionNode,
                 _whenArgumentClause,
                 _settings
                 );

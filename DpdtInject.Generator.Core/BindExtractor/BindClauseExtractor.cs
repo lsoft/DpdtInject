@@ -1,32 +1,30 @@
 ﻿using DpdtInject.Generator.Core.Binding;
-using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DpdtInject.Generator.Core.BindExtractor.Parsed;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Bind;
-using System.Reflection;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Generator.Core.Helpers;
+using DpdtInject.Generator.Core.BindExtractor.Parsed.Factory;
 
 namespace DpdtInject.Generator.Core.BindExtractor
 {
-    public class DefaultBindExtractor : CSharpSyntaxRewriter
+    public class BindClauseExtractor : CSharpSyntaxRewriter
     {
         private static readonly IReadOnlyDictionary<string, Type> _set;
 
         private readonly SemanticModelDecorator _semanticModel;
-        private readonly ParsedBindExpressionFactory _pbeFactory;
+        private readonly BindExpressionFactory _beFactory;
 
         private readonly List<IBindingContainer> _bindingContainers;
 
         public IReadOnlyList<IBindingContainer> BindingContainers => _bindingContainers;
 
-        static DefaultBindExtractor()
+        static BindClauseExtractor()
         {
             _set =
                 new[]
@@ -39,13 +37,16 @@ namespace DpdtInject.Generator.Core.BindExtractor
                     typeof(IConfigureAndConditionalBinding),
                     typeof(IConditionalBinding),
                     typeof(IConfigureBinding),
-                    typeof(IConstantConditionalBinding)
+                    typeof(IConstantConditionalBinding),
+                    typeof(IConventionalBinding),
+                    typeof(IConventionalBinding2),
+                    typeof(IConventionalBinding3),
                 }.ToDictionary(s => s.FullName!, s => s);
         }
 
-        public DefaultBindExtractor(
+        public BindClauseExtractor(
             SemanticModelDecorator semanticModel,
-            ParsedBindExpressionFactory pbeFactory
+            BindExpressionFactory beFactory
             )
         {
             if (semanticModel is null)
@@ -53,13 +54,13 @@ namespace DpdtInject.Generator.Core.BindExtractor
                 throw new ArgumentNullException(nameof(semanticModel));
             }
 
-            if (pbeFactory is null)
+            if (beFactory is null)
             {
-                throw new ArgumentNullException(nameof(pbeFactory));
+                throw new ArgumentNullException(nameof(beFactory));
             }
 
             _semanticModel = semanticModel;
-            _pbeFactory = pbeFactory;
+            _beFactory = beFactory;
 
             _bindingContainers = new List<IBindingContainer>();
 
@@ -173,21 +174,25 @@ namespace DpdtInject.Generator.Core.BindExtractor
                     );
             }
 
-            var pbe = _pbeFactory.Create(
+            #endregion
+
+
+            var pbes = _beFactory.Create(
                 expressionNode,
                 invocationSymbols
                 );
 
-            pbe.Validate();
+            foreach (var pbe in pbes)
+            {
+                pbe.Validate();
 
-            #endregion
+                //looks like we found what we want
 
-            //looks like we found what we want
+                var bindingContainer = pbe.CreateBindingContainer(
+                    );
 
-            var bindingContainer = pbe.CreateBindingContainer(
-                );
-
-            _bindingContainers.Add(bindingContainer);
+                _bindingContainers.Add(bindingContainer);
+            }
 
             return expressionNode;
         }

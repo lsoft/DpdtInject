@@ -125,7 +125,7 @@ namespace DpdtInject.Extension
             window.ShowModal();
         }
 
-        private void BindUnbind_OnMouseLeftButtonUp(
+        private void Unbind_OnMouseLeftButtonUp(
             object sender,
             MouseButtonEventArgs e
             )
@@ -166,15 +166,10 @@ namespace DpdtInject.Extension
             var currentDocumentFilePath = System.IO.Path.Combine(dte.ActiveDocument.Path, dte.ActiveDocument.Name);
             currentActiveView.GetCaretPos(out var currentLine, out var currentColumn);
 
-            //var textDocumentFactoryService = Package.GetGlobalService(typeof(ITextDocumentFactoryService)) as ITextDocumentFactoryService;
-
-            //currentActiveView..GetBuffer(out var buffer);
-
-            //var currentDoc = textDocumentFactoryService.TryGetTextDocument(
-            //    buffer.text,
-            //    out var textDocument
-            //    );
-
+            if (bindingContainer!.ExpressionNode == null)
+            {
+                return;
+            }
 
             //switch to modified document
             var expressionNode = bindingContainer!.ExpressionNode;
@@ -280,6 +275,11 @@ namespace DpdtInject.Extension
             ThreadHelper.ThrowIfNotOnUIThread();
 
             if (!TryGetBindingContainer(bindingIdentifier, out _, out var bindingContainer))
+            {
+                return;
+            }
+
+            if (bindingContainer!.ExpressionNode == null)
             {
                 return;
             }

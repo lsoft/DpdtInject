@@ -6,16 +6,6 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
 {
     public interface IParsedBindExpression
     {
-        ExpressionStatementSyntax ExpressionNode
-        {
-            get;
-        }
-
-        BindScopeEnum Scope
-        {
-            get;
-        }
-
         void Validate();
 
         IBindingContainer CreateBindingContainer(

@@ -89,7 +89,7 @@
                                     Background="Transparent"
                                     Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
                                     Cursor="Hand"
-                                    MouseLeftButtonUp="BindUnbind_OnMouseLeftButtonUp"
+                                    MouseLeftButtonUp="Unbind_OnMouseLeftButtonUp"
                                     Tag="{Binding}"
                                 />
                             </DataTemplate>

@@ -38,6 +38,7 @@ namespace DpdtInject.Generator.Core.Binding
         {
             get;
         }
+
         IReadOnlyCollection<ITypeSymbol> NotBindConstructorArgumentTypes
         {
             get;
@@ -54,16 +55,27 @@ namespace DpdtInject.Generator.Core.Binding
             get;
         }
 
-        ExpressionStatementSyntax ExpressionNode
+        /// <summary>
+        /// Binding expression syntax node. Null if it is a conventional binding.
+        /// </summary>
+        ExpressionStatementSyntax? ExpressionNode
         {
             get;
         }
 
+        /// <summary>
+        /// When argument syntax node. Null if there is no When predicate.
+        /// Conventional bindings CAN have a When predicates.
+        /// </summary>
         ArgumentSyntax? WhenArgumentClause
         {
             get;
         }
 
+        /// <summary>
+        /// Constant value syntax node. Null if it is NOT a constant binding 
+        /// OR it is a conventional binding (which cannot be constant).
+        /// </summary>
         ArgumentSyntax? ConstantSyntax
         {
             get;

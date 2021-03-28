@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using DpdtInject.Extension.Helper;
 using DpdtInject.Extension.Shared.Dto;
 
