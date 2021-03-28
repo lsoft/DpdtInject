@@ -13,6 +13,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using Task = System.Threading.Tasks.Task;
+using DpdtInject.Extension.Machinery.AddClusterMethod;
+using Microsoft.VisualStudio.LanguageServices;
+using Microsoft.CodeAnalysis;
 
 namespace DpdtInject.Extension
 {
@@ -104,6 +107,12 @@ namespace DpdtInject.Extension
                     return;
                 }
 
+                var workspace = (Workspace)componentModel.GetService<VisualStudioWorkspace>();
+                if (workspace == null)
+                {
+                    return;
+                }
+
                 var dte = await _package.GetServiceAsync(typeof(DTE)) as DTE2;
                 if (dte == null)
                 {
@@ -126,12 +135,8 @@ namespace DpdtInject.Extension
                 var addClusterData = new AddClusterData(
                     envProject!,
                     envProjectItem,
-                    additionalFolders,
-                    new List<string>
-                    {
-                        "Class1",
-                        "Class2"
-                    }
+                    workspace,
+                    additionalFolders
                     );
 
                 var vm = new AddClusterMethodViewModel(
@@ -221,7 +226,7 @@ namespace DpdtInject.Extension
 
         private bool TryGetProjectAndItem(
             DTE2 dte,
-            out Project? project,
+            out EnvDTE.Project? project,
             out ProjectItem? projectItem
             )
         {

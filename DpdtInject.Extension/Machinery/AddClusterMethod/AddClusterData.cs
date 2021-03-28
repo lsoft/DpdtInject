@@ -8,12 +8,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DpdtInject.Extension.UI.ViewModel.AddClusterMethod;
+using Microsoft.CodeAnalysis;
+using System.Collections.ObjectModel;
 
-namespace DpdtInject.Extension.UI.ViewModel.AddClusterMethod
+namespace DpdtInject.Extension.Machinery.AddClusterMethod
 {
     public class AddClusterData
     {
-        public Project Project
+        private readonly Workspace _workspace;
+
+        public EnvDTE.Project Project
         {
             get;
         }
@@ -29,7 +34,7 @@ namespace DpdtInject.Extension.UI.ViewModel.AddClusterMethod
             set;
         }
 
-        public List<string> ClusterClassNameList
+        public ObservableCollection<string> ClusterClassNameList
         {
             get;
         }
@@ -47,15 +52,20 @@ namespace DpdtInject.Extension.UI.ViewModel.AddClusterMethod
         }
 
         public AddClusterData(
-            Project project,
+            EnvDTE.Project project,
             ProjectItem? projectItem,
-            string additionalFolders,
-            List<string> clusterClassNameList
+            Workspace workspace,
+            string additionalFolders
             )
         {
             if (project is null)
             {
                 throw new System.ArgumentNullException(nameof(project));
+            }
+
+            if (workspace is null)
+            {
+                throw new ArgumentNullException(nameof(workspace));
             }
 
             //projectItem allowed to be null
@@ -65,15 +75,11 @@ namespace DpdtInject.Extension.UI.ViewModel.AddClusterMethod
                 throw new System.ArgumentNullException(nameof(additionalFolders));
             }
 
-            if (clusterClassNameList is null)
-            {
-                throw new System.ArgumentNullException(nameof(clusterClassNameList));
-            }
-
             Project = project;
             ProjectItem = projectItem;
+            _workspace = workspace;
             AdditionalFolders = additionalFolders;
-            ClusterClassNameList = clusterClassNameList;
+            ClusterClassNameList = new ObservableCollection<string>();
 
             BindingMethodName = "DeclareBindings";
             ClusterClassName = ClusterClassNameList.FirstOrDefault() ?? "MyCluster";
@@ -110,15 +116,16 @@ namespace DpdtInject.Extension.UI.ViewModel.AddClusterMethod
 
             var fileName = $"{this.ClusterClassName}.cs";
             var filePath = Path.Combine(
-                (currentProjectItems.Parent as ProjectItem)!.Properties.Item("FullPath").Value.ToString(),
+                (currentProjectItems.Parent as dynamic)!.Properties.Item("FullPath").Value.ToString(),
                 fileName
                 );
 
-            var namesp =
-                this.ProjectItem != null
-                    ? this.ProjectItem.Properties.Item("DefaultNamespace").Value.ToString() + "." + AdditionalFolders.Replace(Path.DirectorySeparatorChar, '.').Replace(Path.AltDirectorySeparatorChar, '.')
-                    : Project.Properties.Item("RootNamespace").Value.ToString() + "." + AdditionalFolders.Replace(Path.DirectorySeparatorChar, '.').Replace(Path.AltDirectorySeparatorChar, '.')
-                    ;
+            if (File.Exists(filePath))
+            {
+                return null;
+            }
+
+            var namesp = GetDestinationNamespace();
 
             var attrName = typeof(DpdtBindingMethodAttribute).Name;
             var cutAttrName = attrName.Substring(0, attrName.Length - "Attribute".Length);
@@ -133,14 +140,14 @@ namespace {namesp}
     public partial class {this.ClusterClassName} : DefaultCluster
     {{
         public {this.ClusterClassName}()
-            : this((ICluster)null!) //remove this line or better add at least 1 binding to remove compilation error
+            : this((ICluster)null!) //to remove this line compilation error, just remove this line or (better) add at least 1 binding
         {{
         }}
 
         [{cutAttrName}]
         public void {this.BindingMethodName}()
         {{
-            //TODO: add bingins here
+            //TODO: add bindings here
         }}
     }}
 }}
@@ -206,14 +213,107 @@ namespace {namesp}
                 return false;
             }
 
+            //check against target file exists
+            var targetFilePath = GetTargetFilePath();
+            if (File.Exists(targetFilePath))
+            {
+                errorMessage = $"File already exists: {targetFilePath}";
+                return false;
+            }
+
+            //check against target class\method exists
+
+            var destinationNamespace = GetDestinationNamespace();
+            var fullClassName = $"{destinationNamespace}.{ClusterClassName}";
+
+            ISymbol? foundTargetMethod = null;
+            ThreadHelper.JoinableTaskFactory.Run(
+                async () =>
+                {
+                    var typeDict = await _workspace.GetAllTypesInNamespaceAsync(destinationNamespace);
+                    if (typeDict.TryGetValue(fullClassName, out var foundTargetClass))
+                    {
+                        //this type already exists
+                        //check for method exists
+                        foundTargetMethod = (
+                            from member in foundTargetClass.GetMembers()
+                            where member.Kind == SymbolKind.Method
+                            where member.Name == BindingMethodName
+                            select member
+                            ).FirstOrDefault();
+                    }
+                });
+
+            if (foundTargetMethod != null)
+            {
+                //class and method already exists
+                errorMessage = $"{fullClassName} with the method {BindingMethodName} already exists";
+                return false;
+            }
+
             errorMessage = null;
             return true;
+        }
+
+
+        public async System.Threading.Tasks.Task UpdateClusterClassNameListAsync()
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
+            ClusterClassNameList.Clear();
+
+            var destinationNamespace = GetDestinationNamespace();
+
+            var typeDict = await _workspace.GetAllTypesInNamespaceAsync(destinationNamespace);
+            foreach (var pair in typeDict)
+            {
+                var t = pair.Value;
+                if (t.BaseType!.ToDisplayString() == typeof(DefaultCluster).FullName)
+                {
+                    ClusterClassNameList.Add(t.Name);
+                }
+            }
         }
 
 
         private string[] SplitAdditionalFolders()
         {
             return AdditionalFolders.Split(new[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        private string GetDestinationNamespace()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            var namesp =
+                this.ProjectItem != null
+                    ? this.ProjectItem.Properties.Item("DefaultNamespace").Value.ToString()
+                    : Project.Properties.Item("RootNamespace").Value.ToString()
+                    ;
+
+            if (!string.IsNullOrEmpty(AdditionalFolders))
+            {
+                namesp += "." + AdditionalFolders.Replace(Path.DirectorySeparatorChar, '.').Replace(Path.AltDirectorySeparatorChar, '.');
+            }
+
+            return namesp;
+        }
+
+        private string GetTargetFilePath()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            var selectedItemPath = (this.ProjectItem?.Properties.Item("FullPath").Value.ToString() ?? this.Project.Properties.Item("FullPath").Value.ToString());
+
+            var fileName = $"{this.ClusterClassName}.cs";
+            
+            var filePath = Path.Combine(
+                selectedItemPath,
+                AdditionalFolders,
+                fileName
+                );
+
+            return filePath;
         }
     }
 }

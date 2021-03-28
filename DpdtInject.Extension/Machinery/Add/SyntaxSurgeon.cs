@@ -7,8 +7,9 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
 using DpdtInject.Extension.Options;
+using DpdtInject.Extension.Machinery.Add;
 
-namespace DpdtInject.Extension.AddMachinery
+namespace DpdtInject.Extension.Machinery.Add
 {
     public class SyntaxSurgeon
     {

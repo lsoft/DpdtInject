@@ -66,17 +66,17 @@
   </PropertyGroup>
 -->
   <ItemGroup>
-    <Compile Include="AddMachinery\BindClauseProducer.cs" />
+    <Compile Include="Machinery\Add\BindClauseProducer.cs" />
     <Compile Include="DoCreateClusterCommand.cs" />
-    <Compile Include="AddMachinery\DocumentModifier.cs" />
+    <Compile Include="Machinery\Add\DocumentModifier.cs" />
     <Compile Include="DpdtInstallCommand.cs" />
     <Compile Include="Helper\DTEHelper.cs" />
     <Compile Include="Helper\RoslynHelper.cs" />
     <Compile Include="Helper\ParameterEqualityComparer.cs" />
     <Compile Include="Helper\SolutionHelper.cs" />
     <Compile Include="ImageMonikers.cs" />
-    <Compile Include="AddMachinery\NewBindingInfo.cs" />
-    <Compile Include="AddMachinery\SyntaxSurgeon.cs" />
+    <Compile Include="Machinery\Add\NewBindingInfo.cs" />
+    <Compile Include="Machinery\Add\SyntaxSurgeon.cs" />
     <Compile Include="UI\ChainStep\AdditionalParametersChainStep.cs" />
     <Compile Include="UI\ChainStep\MedianeChainStep.cs" />
     <Compile Include="UI\ChainStep\TargetMethodsChainStep.cs" />
@@ -106,7 +106,7 @@
     <Compile Include="UI\ChainStep\ConstructorListChainStep.cs" />
     <Compile Include="UI\ChainStep\IChainStep.cs" />
     <Compile Include="UI\Theme.cs" />
-    <Compile Include="UI\ViewModel\AddClusterMethod\AddClusterData.cs" />
+    <Compile Include="Machinery\AddClusterMethod\AddClusterData.cs" />
     <Compile Include="UI\ViewModel\AddClusterMethod\AddClusterMethodViewModel.cs" />
     <Compile Include="UI\ViewModel\Add\Inner\ConstructorViewModel.cs" />
     <Compile Include="UI\ViewModel\Add\Inner\ConstructorArgumentViewModel.cs" />

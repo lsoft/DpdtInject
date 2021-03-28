@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DpdtInject.Extension.Helper
 {
@@ -19,18 +20,6 @@ namespace DpdtInject.Extension.Helper
                     yield return child;
                 }
             }
-
-            //var btLevel = level;
-            //var baseType = s.BaseType;
-            //while (baseType != null)
-            //{
-            //    yield return (btLevel, baseType);
-
-            //    baseType = baseType.BaseType;
-            //    btLevel++;
-            //}
-
-            //yield return (level, s);
         }
 
         public static IEnumerable<(int, INamedTypeSymbol)> IterateClasses(
@@ -49,5 +38,26 @@ namespace DpdtInject.Extension.Helper
 
             yield return (0, s);
         }
+
+        public static IEnumerable<INamedTypeSymbol> GetAllTypes(this INamespaceSymbol @namespace)
+        {
+            foreach (var type in @namespace.GetTypeMembers())
+                foreach (var nestedType in type.GetNestedTypes())
+                    yield return nestedType;
+
+            foreach (var nestedNamespace in @namespace.GetNamespaceMembers())
+                foreach (var type in nestedNamespace.GetAllTypes())
+                    yield return type;
+        }
+
+
+        public static IEnumerable<INamedTypeSymbol> GetNestedTypes(this INamedTypeSymbol type)
+        {
+            yield return type;
+            foreach (var nestedType in type.GetTypeMembers()
+                .SelectMany(nestedType => nestedType.GetNestedTypes()))
+                yield return nestedType;
+        }
+
     }
 }

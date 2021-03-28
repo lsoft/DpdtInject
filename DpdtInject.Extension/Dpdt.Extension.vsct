@@ -38,7 +38,7 @@
           <Group guid="guidDpdtPackageCmdSet" id="DoCreateClusterMenuGroup" priority="0x07df">
               <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE"/>
           </Group>
-          <Group guid="guidDpdtPackageCmdSet" id="DoCreateClusterMenuGroup" priority="0x07df">
+          <Group guid="guidDpdtPackageCmdSet" id="DoCreateClusterMenuGroup" priority="0x06df">
               <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_FOLDERNODE"/>
           </Group>
       </Groups>

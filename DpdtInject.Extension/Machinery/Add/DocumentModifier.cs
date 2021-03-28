@@ -9,8 +9,9 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.TextManager.Interop;
 using EnvDTE80;
 using Task = System.Threading.Tasks.Task;
+using DpdtInject.Extension.Machinery.Add;
 
-namespace DpdtInject.Extension.AddMachinery
+namespace DpdtInject.Extension.Machinery.Add
 {
     public class DocumentModifier
     {

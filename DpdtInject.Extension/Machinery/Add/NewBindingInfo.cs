@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace DpdtInject.Extension.AddMachinery
+namespace DpdtInject.Extension.Machinery.Add
 {
     public class NewBindingInfo
     {

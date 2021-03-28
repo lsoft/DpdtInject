@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DpdtInject.Extension.AddMachinery;
+using DpdtInject.Extension.Machinery.Add;
 
 namespace DpdtInject.Extension.UI.ChainStep
 {

@@ -120,6 +120,7 @@
                 Foreground="Red"
                 HorizontalAlignment="Center"
                 TextWrapping="Wrap"
+                VerticalAlignment="Center"
                 Text="{Binding ErrorMessage}"
                 />
 

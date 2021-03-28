@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.LanguageServices;
+using Task = System.Threading.Tasks.Task;
 
 namespace DpdtInject.Extension.Helper
 {
@@ -46,6 +49,39 @@ namespace DpdtInject.Extension.Helper
             return sln.GetDocument(currentContextId);
         }
 
+
+        public static async Task<Dictionary<string, INamedTypeSymbol>> GetAllTypesInNamespaceAsync(
+            this Workspace workspace,
+            string sourceNamespace
+            )
+        {
+            if (workspace is null)
+            {
+                throw new ArgumentNullException(nameof(workspace));
+            }
+
+
+            var result = new Dictionary<string, INamedTypeSymbol>();
+            foreach (var cproject in workspace.CurrentSolution.Projects)
+            {
+                var ccompilation = await cproject.GetCompilationAsync();
+                if (ccompilation == null)
+                {
+                    continue;
+                }
+
+                foreach (var ctype in ccompilation.Assembly.GlobalNamespace.GetAllTypes())
+                {
+                    var ctnds = ctype.ContainingNamespace.ToDisplayString();
+                    if (sourceNamespace == ctnds)
+                    {
+                        result[ctype.ToDisplayString()] = ctype;
+                    }
+                }
+            }
+
+            return result;
+        }
 
         // Code adapted from Microsoft.VisualStudio.LanguageServices.CodeLens.CodeLensCallbackListener.TryGetDocument()
         public static Document? GetDocument(this VisualStudioWorkspace workspace, string filePath, Guid projGuid)

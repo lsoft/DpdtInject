@@ -5,8 +5,9 @@ using DpdtInject.Injector.Bind;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using DpdtInject.Extension.Machinery.Add;
 
-namespace DpdtInject.Extension.AddMachinery
+namespace DpdtInject.Extension.Machinery.Add
 {
     public class BindClauseProducer
     {

@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using Task = System.Threading.Tasks.Task;
+using DpdtInject.Extension.Machinery.AddClusterMethod;
+using Microsoft.VisualStudio.Shell;
 
 namespace DpdtInject.Extension.UI.ViewModel.AddClusterMethod
 {
@@ -19,6 +21,10 @@ namespace DpdtInject.Extension.UI.ViewModel.AddClusterMethod
             set
             {
                 _addClusterData.AdditionalFolders = value;
+
+                _addClusterData.UpdateClusterClassNameListAsync()
+                    .FileAndForget(nameof(AddClusterData.UpdateClusterClassNameListAsync));
+
                 OnPropertyChanged();
             }
         }
@@ -33,10 +39,7 @@ namespace DpdtInject.Extension.UI.ViewModel.AddClusterMethod
             }
         }
 
-        public ObservableCollection<string> ClusterClassNameList
-        {
-            get;
-        }
+        public ObservableCollection<string> ClusterClassNameList => _addClusterData.ClusterClassNameList;
 
         public string BindingMethodName
         {
@@ -117,7 +120,8 @@ namespace DpdtInject.Extension.UI.ViewModel.AddClusterMethod
 
             _addClusterData = addClusterData;
 
-            ClusterClassNameList = new ObservableCollection<string>(_addClusterData.ClusterClassNameList);
+            _addClusterData.UpdateClusterClassNameListAsync()
+                .FileAndForget(nameof(AddClusterData.UpdateClusterClassNameListAsync));
         }
     }
 }
