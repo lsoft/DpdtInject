@@ -447,6 +447,10 @@ If you click on a project in Solution Explorer and there is no Dpdt nuget instal
 
 ![Dpdt Extension Image 4](extension4.png)
 
+Also, you can create a new cluster/binding method:
+
+![Dpdt Extension Image 5](extension5.png)
+
 But the main function is to generate a binding clauses through the custom codelens. The following images makes the picture brighter:
 
 ![Dpdt Extension Image 0](extension0.png)

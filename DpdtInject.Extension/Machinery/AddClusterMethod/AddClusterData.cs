@@ -293,7 +293,7 @@ namespace {namesp}
 
             if (!string.IsNullOrEmpty(AdditionalFolders))
             {
-                namesp += "." + AdditionalFolders.Replace(Path.DirectorySeparatorChar, '.').Replace(Path.AltDirectorySeparatorChar, '.');
+                namesp += "." + string.Join(".", SplitAdditionalFolders());
             }
 
             return namesp;
