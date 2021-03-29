@@ -33,6 +33,7 @@
     {
         IScopeBinding ToBaseClass();
 
+        IScopeBinding ToItself();
 
         IScopeBinding To<T1>();
 

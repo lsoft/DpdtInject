@@ -814,9 +814,9 @@ namespace DpdtInject.Tests.Properties {
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System.Linq;
         ///
-        ///namespace DpdtInject.Tests.Conventions.ToSingleInterface0
+        ///namespace DpdtInject.Tests.Conventions.FromSingleInterface0
         ///{
-        ///    public partial class ConventionsToSingleInterface0_Cluster : DefaultCluster
+        ///    public partial class ConventionsFromSingleInterface0_Cluster : DefaultCluster
         ///    {
         ///        [DpdtBindingMethod]
         ///        public void BindMethod()
@@ -824,13 +824,12 @@ namespace DpdtInject.Tests.Properties {
         ///            ScanInAssembliesWith&lt;A0&gt;()
         ///                .SelectAllWith&lt;IA&gt;()
         ///                .FromAllInterfaces()
-        ///                .To&lt;IA&gt;()
-        ///                .WithSingletonScope()
-        ///    [rest of string was truncated]&quot;;.
+        ///                .ToItself()
+        ///                .WithSingletonScope( [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string ConventionsToSingleInterface0_Cluster {
+        internal static string ConventionsFromSingleInterface0_Cluster {
             get {
-                return ResourceManager.GetString("ConventionsToSingleInterface0_Cluster", resourceCulture);
+                return ResourceManager.GetString("ConventionsFromSingleInterface0_Cluster", resourceCulture);
             }
         }
         
@@ -839,23 +838,23 @@ namespace DpdtInject.Tests.Properties {
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System.Linq;
         ///
-        ///namespace DpdtInject.Tests.Conventions.ToSingleInterface1
+        ///namespace DpdtInject.Tests.Conventions.FromSingleInterface1
         ///{
-        ///    public partial class ConventionsToSingleInterface1_Cluster : DefaultCluster
+        ///    public partial class ConventionsFromSingleInterface1_Cluster : DefaultCluster
         ///    {
         ///        [DpdtBindingMethod]
         ///        public void BindMethod()
         ///        {
         ///            ScanInAssembliesWith&lt;A0&gt;()
         ///                .SelectAllWith&lt;IA&gt;()
-        ///                .FromAllInterfaces()
-        ///                .To&lt;IA&gt;()
-        ///                .WithSingletonScope()
-        ///    [rest of string was truncated]&quot;;.
+        ///                .ExcludeAllWith&lt;IExclude&gt;()
+        ///                .From&lt;IA&gt;()
+        ///                .ToItself()
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string ConventionsToSingleInterface1_Cluster {
+        internal static string ConventionsFromSingleInterface1_Cluster {
             get {
-                return ResourceManager.GetString("ConventionsToSingleInterface1_Cluster", resourceCulture);
+                return ResourceManager.GetString("ConventionsFromSingleInterface1_Cluster", resourceCulture);
             }
         }
         

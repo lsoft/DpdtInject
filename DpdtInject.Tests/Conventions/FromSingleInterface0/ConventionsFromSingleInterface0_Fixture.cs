@@ -1,10 +1,10 @@
 using DpdtInject.Tests.Properties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DpdtInject.Tests.Conventions.ToSingleInterface0
+namespace DpdtInject.Tests.Conventions.FromSingleInterface0
 {
     [TestClass]
-    public class ConventionsToSingleInterface0_Fixture
+    public class ConventionsFromSingleInterface0_Fixture
     {
         public TestContext TestContext
         {
@@ -17,9 +17,9 @@ namespace DpdtInject.Tests.Conventions.ToSingleInterface0
         {
             var preparation = new Preparator(
                 TestContext,
-                nameof(ConventionsToSingleInterface0_Cluster.ConventionsToSingleInterface0_ClusterTester),
-                nameof(TestResources.ConventionsToSingleInterface0_Cluster),
-                TestResources.ConventionsToSingleInterface0_Cluster
+                nameof(ConventionsFromSingleInterface0_Cluster.ConventionsFromSingleInterface0_ClusterTester),
+                nameof(TestResources.ConventionsFromSingleInterface0_Cluster),
+                TestResources.ConventionsFromSingleInterface0_Cluster
                 );
 
             preparation.Check();

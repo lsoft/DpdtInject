@@ -10,6 +10,7 @@ using DpdtInject.Injector;
 using DpdtInject.Injector.Helper;
 using DpdtInject.Generator.Core.Helpers;
 using System.Collections.Immutable;
+using DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional;
 
 namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
 {
@@ -71,35 +72,12 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
                     );
             }
 
-            var scanInList = invocationSymbols
-                .Where(
-                    s => s.Item2.ContainingType.ToDisplayString() == typeof(DefaultCluster).FullName && s.Item2.Name == DefaultCluster.ScanInAssembliesWithMethodName
-                    )
-                .SelectMany(s => s.Item2.TypeArguments)
-                .ToList()
-                ;
+            var bindingSyntaxParser = new ConventionalBindingSyntaxParser(
+                expressionNode,
+                invocationSymbols
+                );
 
-            var selectWithSet = invocationSymbols
-                .Where(
-                    s => s.Item2.ContainingType.ToDisplayString().In(typeof(IConventionalBinding).FullName, typeof(IConventionalBinding2).FullName) && s.Item2.Name == nameof(IConventionalBinding.SelectAllWith)
-                    )
-                .SelectMany(s => s.Item2.TypeArguments)
-                .ToList()
-                ;
-
-            var excludeWithSet = invocationSymbols
-                .Where(
-                    s => s.Item2.ContainingType.ToDisplayString().In(typeof(IConventionalBinding).FullName, typeof(IConventionalBinding2).FullName) && s.Item2.Name == nameof(IConventionalBinding2.ExcludeAllWith)
-                    )
-                .SelectMany(s => s.Item2.TypeArguments)
-                .ToList()
-                ;
-
-            var assemblies = new HashSet<IAssemblySymbol>(SymbolEqualityComparer.Default);
-            foreach (var type in scanInList)
-            {
-                assemblies.Add(type.ContainingAssembly);
-            }
+            var assemblies = bindingSyntaxParser.GetAssemblesOfInterest();
 
             var processed = new HashSet<ITypeSymbol>(SymbolEqualityComparer.Default);
             foreach (var assembly in assemblies)
@@ -111,17 +89,17 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
                         continue;
                     }
 
-                    if (excludeWithSet.Any(ew => type.CanBeCastedTo(ew.GetFullyQualifiedName())))
+                    if (bindingSyntaxParser.ExcludeWithSet.Any(ew => type.CanBeCastedTo(ew.GetFullyQualifiedName())))
                     {
                         continue;
                     }
 
-                    if (selectWithSet.All(sw => !type.CanBeCastedTo(sw.GetFullyQualifiedName())))
+                    if (bindingSyntaxParser.SelectWithSet.All(sw => !type.CanBeCastedTo(sw.GetFullyQualifiedName())))
                     {
                         continue;
                     }
 
-                    var inters = type.AllInterfaces.Cast<ITypeSymbol>().ToImmutableArray();
+                    var inters = bindingSyntaxParser.FromTypesProvider.GetBindFromTypes(type);
 
                     result.Add(
                         new STCParsedBindExpression(
@@ -142,12 +120,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
 
             return result;
         }
-    }
 
-    //public enum ConventionalBindingModeEnum
-    //{
-    //    ToConcreteType,
-    //    ToBaseClass,
-    //    ToAllInterfaces
-    //}
+
+    }
 }
