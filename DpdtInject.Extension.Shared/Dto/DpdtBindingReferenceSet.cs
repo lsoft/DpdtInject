@@ -198,13 +198,21 @@ namespace DpdtInject.Extension.Shared.Dto
             set;
         }
 
+        public bool ConventionalBinding
+        {
+            get;
+            set;
+        }
+
         public DpdtBindingDetail(
             string bindScope,
-            bool conditionalBinding
+            bool conditionalBinding,
+            bool conventionalBinding
             )
         {
             BindScope = bindScope;
             ConditionalBinding = conditionalBinding;
+            ConventionalBinding = conventionalBinding;
         }
     }
 

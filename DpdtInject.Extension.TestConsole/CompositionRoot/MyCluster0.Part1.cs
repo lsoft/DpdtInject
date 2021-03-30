@@ -18,6 +18,13 @@ namespace DpdtInject.Extension.TestConsole.CompositionRoot
                 .To<BindPayload1>()
                 .WithCustomScope()
                 ;
+
+            ScanInAssembliesWith<IConventional>()
+                .SelectAllWith<IConventional>()
+                .FromAllInterfaces()
+                .ToItself()
+                .WithSingletonScope()
+                ;
         }
     }
 

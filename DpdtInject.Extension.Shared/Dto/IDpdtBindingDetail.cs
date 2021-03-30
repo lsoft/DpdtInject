@@ -11,5 +11,10 @@
         {
             get;
         }
+
+        bool ConventionalBinding
+        {
+            get;
+        }
     }
 }

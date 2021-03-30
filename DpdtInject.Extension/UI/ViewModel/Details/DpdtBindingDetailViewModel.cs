@@ -1,5 +1,6 @@
 ﻿using DpdtInject.Extension.Helper;
 using DpdtInject.Extension.Shared.Dto;
+using System.Windows;
 
 namespace DpdtInject.Extension.UI.ViewModel.Details
 {
@@ -19,6 +20,18 @@ namespace DpdtInject.Extension.UI.ViewModel.Details
             get;
         }
 
+        public bool ConventionalBinding
+        {
+            get;
+        }
+
+        public Visibility UnbindVisibility
+        {
+            get
+            {
+                return ConventionalBinding ? Visibility.Hidden : Visibility.Visible;
+            }
+        }
 
         public DpdtBindingDetailViewModel(
             IDpdtBindingDetail target
@@ -28,6 +41,7 @@ namespace DpdtInject.Extension.UI.ViewModel.Details
 
             BindScope = target.BindScope;
             ConditionalBinding = target.ConditionalBinding;
+            ConventionalBinding = target.ConventionalBinding;
         }
 
     }

@@ -7,9 +7,11 @@
              xmlns:vsshell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
              xmlns:helper="clr-namespace:DpdtInject.Extension.Helper"
              xmlns:main="clr-namespace:DpdtInject.Extension"
+             xmlns:ui="clr-namespace:DpdtInject.Extension.UI"
              mc:Ignorable="d" 
              VerticalAlignment="Stretch"
              d:DesignHeight="450" d:DesignWidth="800"
+             ui:VsTheme.UseVsTheme="True"
              Loaded="BindDetailsWindow_OnLoaded"
              >
 
@@ -41,15 +43,12 @@
             ItemsSource="{Binding Path=DataContext.BindingTargets, RelativeSource={RelativeSource AncestorType=UserControl}}"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             ScrollViewer.HorizontalScrollBarVisibility="Auto"
-            Background="{DynamicResource {x:Static vsshell:VsBrushes.WindowKey}}"
-            Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
             >
 
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     <Setter Property="Focusable" Value="false"/>
-                    <Setter Property="Background" Value="Transparent" />
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListViewItem}">
@@ -75,8 +74,6 @@
                     <GridView.ColumnHeaderContainerStyle>
                         <Style TargetType="{x:Type GridViewColumnHeader}">
                             <Setter Property="HorizontalContentAlignment" Value="Center" />
-                            <Setter Property="Background" Value="{DynamicResource {x:Static vsshell:VsBrushes.WindowKey}}" />
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}" />
                             <Setter Property="IsEnabled" Value="False" />
                         </Style>
                     </GridView.ColumnHeaderContainerStyle>
@@ -86,31 +83,15 @@
                                 <TextBlock
                                     Text="Unbind"
                                     TextDecorations="Underline"
-                                    Background="Transparent"
-                                    Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
                                     Cursor="Hand"
                                     MouseLeftButtonUp="Unbind_OnMouseLeftButtonUp"
+                                    Visibility="{Binding Path=BindingDetail.UnbindVisibility}"
                                     Tag="{Binding}"
                                 />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewConverter}, ConverterParameter=15}">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate >
-                                <TextBlock
-                                    Text="Go to method"
-                                    TextDecorations="Underline"
-                                    Background="Transparent"
-                                    Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
-                                    Cursor="Hand"
-                                    MouseLeftButtonUp="GoToMethod_OnMouseLeftButtonUp"
-                                    Tag="{Binding}"
-                                />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                   <GridViewColumn Header="Cluster name" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewConverter}, ConverterParameter=55}">
+                   <GridViewColumn Header="Cluster name" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewConverter}, ConverterParameter=75}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate >
                                 <Grid
@@ -123,14 +104,15 @@
                                     <TextBlock
                                         Grid.Column="0"
                                         Text="{Binding ClusterDetail.FullName}"
-                                        Background="Transparent"
-                                        Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+                                        TextDecorations="Underline"
+                                        Cursor="Hand"
+                                        MouseLeftButtonUp="GoTo_OnMouseLeftButtonUp"
+                                        Tag="{Binding}"
                                     />
                                     <TextBlock
                                         Grid.Column="1"
                                         Text="{Binding ClusterDetail.ClassNamespace}"
-                                        Margin="20,0,0,0"
-                                        Background="Transparent"
+                                        Margin="10,0,0,0"
                                         Foreground="Gray"
                                     />
                                 </Grid>
@@ -139,7 +121,8 @@
                     </GridViewColumn>
 
                     <GridViewColumn Header="Bind scope" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewConverter}, ConverterParameter=10}" DisplayMemberBinding="{Binding BindingDetail.BindScope, FallbackValue=-}" />
-                    <GridViewColumn Header="Is conditional" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewConverter}, ConverterParameter=10}">
+                    
+                    <GridViewColumn Header="Is conditional" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewConverter}, ConverterParameter=5}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <CheckBox
@@ -159,7 +142,6 @@
             Grid.Row="2"
             Text="Create non-const binding..."
             TextDecorations="Underline"
-            Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
             HorizontalAlignment="Right"
             Cursor="Hand"
             Margin="0,0,2,0"

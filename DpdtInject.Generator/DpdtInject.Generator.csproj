@@ -70,9 +70,9 @@
     <!--<PackageIconUrl>https://github.com/lsoft/DpdtInject/raw/master/logo.png</PackageIconUrl>-->
     <RepositoryUrl>https://github.com/lsoft/DpdtInject</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>Dpdt is a DI container based on C# Source Generators. Its goal is to remove everything possible from runtime and make resolving process as faster as we can. This is achieved by transferring huge piece of resolving logic to the compilation stage into the source generator.</Description>
+    <Description>Dpdt is a compile-time DI container based on C# Source Generators. Its goal is to remove everything possible from runtime and make resolving process as faster as we can. This is achieved by transferring huge piece of resolving logic to the compilation stage into the source generator.</Description>
     <!--<PackageReleaseNotes>Summary of changes made in this release of the package or delete this line.</PackageReleaseNotes>-->
-    <PackageTags>sourcegenerator, generator, ioc, dicontainer</PackageTags>
+    <PackageTags>sourcegenerator, generator, ioc, di, dicontainer</PackageTags>
     <NoPackageAnalysis>true</NoPackageAnalysis>
 <!--
     <IncludeSymbols>true</IncludeSymbols>

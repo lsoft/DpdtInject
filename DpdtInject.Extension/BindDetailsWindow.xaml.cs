@@ -224,7 +224,7 @@ namespace DpdtInject.Extension
                 );
         }
 
-        private void GoToMethod_OnMouseLeftButtonUp(
+        private void GoTo_OnMouseLeftButtonUp(
             object sender,
             MouseButtonEventArgs e
             )

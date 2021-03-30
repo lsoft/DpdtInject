@@ -83,7 +83,8 @@ namespace DpdtInject.Extension
                                             ),
                                         new DpdtBindingDetail(
                                             bindingContainer.Scope.ToString(),
-                                            bindingContainer.IsConditional
+                                            bindingContainer.IsConditional,
+                                            bindingContainer.IsConventional
                                             )
                                         )
                                     );
