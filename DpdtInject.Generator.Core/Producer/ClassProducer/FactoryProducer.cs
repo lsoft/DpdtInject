@@ -152,12 +152,12 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
                 (methodName, returnType) =>
                 {
                     return $@"
-public {returnType} {methodName}({usedConstructorArguments.Join(cafm => cafm.GetDeclarationSyntax(), ",")})
-{{
-    return new {_factoryPayloadType.ToDisplayString()}(
-        {caCombined.Join(cac => cac, ",")}
-        );
-}}
+        public {returnType} {methodName}({usedConstructorArguments.Join(cafm => cafm.GetDeclarationSyntax(), ",")})
+        {{
+            return new {_factoryPayloadType.ToDisplayString()}(
+                {caCombined.Join(cac => cac, ",")}
+                );
+        }}
 ";
                 }
                 );

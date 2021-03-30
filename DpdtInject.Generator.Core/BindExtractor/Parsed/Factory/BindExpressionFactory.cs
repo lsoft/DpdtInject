@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DpdtInject.Injector.Bind;
+using DpdtInject.Injector.Excp;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -9,13 +10,72 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
 {
     public abstract class BindExpressionFactory
     {
+
         public abstract IReadOnlyList<IParsedBindExpression> Create(
             ExpressionStatementSyntax expressionNode,
             List<Tuple<InvocationExpressionSyntax, IMethodSymbol>> invocationSymbols
             );
 
+
+
+        public ITypeSymbol GetTo(
+            List<Tuple<InvocationExpressionSyntax, IMethodSymbol>> invocationSymbols,
+            ITypeSymbol? processedType = null
+            )
+        {
+            var pair = invocationSymbols.FirstOrDefault(
+                s => s.Item2.ContainingType.ToDisplayString() == typeof(IToOrConstantBinding).FullName && s.Item2.Name == nameof(IToOrConstantBinding.To)
+                );
+
+            if (pair is not null)
+            {
+                return pair.Item2.TypeArguments.First();
+            }
+
+            pair = invocationSymbols.FirstOrDefault(
+                s => s.Item2.ContainingType.ToDisplayString() == typeof(IToOrConstantBinding).FullName && s.Item2.Name == nameof(IToOrConstantBinding.ToIsolatedFactory)
+                );
+
+            if (pair is not null)
+            {
+                return pair.Item2.TypeArguments.First();
+            }
+
+            pair = invocationSymbols.FirstOrDefault(
+                s => s.Item2.ContainingType.ToDisplayString() == typeof(IToOrConstantBinding).FullName && s.Item2.Name == nameof(IToOrConstantBinding.ToProxy)
+                );
+
+            if (pair is not null)
+            {
+                return pair.Item2.TypeArguments.First();
+            }
+
+            pair = invocationSymbols.FirstOrDefault(
+                s => s.Item2.ContainingType.ToDisplayString() == typeof(IConventionalBinding3).FullName && s.Item2.Name == nameof(IConventionalBinding3.ToItself)
+                );
+
+            if (pair is not null)
+            {
+                if (processedType is null)
+                {
+                    throw new DpdtException(
+                        DpdtExceptionTypeEnum.InternalError,
+                        $"Unknown problem to set processed type"
+                        );
+                }
+
+                return processedType;
+            }
+
+            throw new DpdtException(
+                DpdtExceptionTypeEnum.IncorrectBinding_IncorrectConfiguration,
+                $"Unknown problem to access 'To' clause"
+                );
+        }
+
+
         protected BindScopeEnum DetermineScope(
-            IReadOnlyList<Tuple<InvocationExpressionSyntax, IMethodSymbol>> symbols
+            List<Tuple<InvocationExpressionSyntax, IMethodSymbol>> symbols
             )
         {
             if (symbols.Any(s => s.Item2.ContainingType.ToDisplayString() == typeof(IScopeBinding).FullName && s.Item2.Name == nameof(IScopeBinding.WithSingletonScope)))
@@ -35,7 +95,10 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
                 return BindScopeEnum.Custom;
             }
 
-            throw new InvalidOperationException("unknown scope");
+            throw new DpdtException(
+                DpdtExceptionTypeEnum.IncorrectBinding_IncorrectConfiguration,
+                $"Unknown scope"
+                );
         }
     }
 }

@@ -90,7 +90,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
                             expressionNode,
                             invocationSymbols,
                             from.Item2.TypeArguments,
-                            to.Item2.TypeArguments.First(),
+                            to,
                             scope
                             )
                         );
@@ -112,43 +112,5 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
 
             return result;
         }
-
-        private static Tuple<InvocationExpressionSyntax, IMethodSymbol> GetTo(
-            List<Tuple<InvocationExpressionSyntax, IMethodSymbol>> invocationSymbols
-            )
-        {
-            var pair = invocationSymbols.FirstOrDefault(
-                s => s.Item2.ContainingType.ToDisplayString() == typeof(IToOrConstantBinding).FullName && s.Item2.Name == nameof(IToOrConstantBinding.To)
-                );
-
-            if (pair is not null)
-            {
-                return pair;
-            }
-
-            pair = invocationSymbols.FirstOrDefault(
-                s => s.Item2.ContainingType.ToDisplayString() == typeof(IToOrConstantBinding).FullName && s.Item2.Name == nameof(IToOrConstantBinding.ToIsolatedFactory)
-                );
-
-            if (pair is not null)
-            {
-                return pair;
-            }
-
-            pair = invocationSymbols.FirstOrDefault(
-                s => s.Item2.ContainingType.ToDisplayString() == typeof(IToOrConstantBinding).FullName && s.Item2.Name == nameof(IToOrConstantBinding.ToProxy)
-                );
-
-            if (pair is not null)
-            {
-                return pair;
-            }
-
-            throw new DpdtException(
-                DpdtExceptionTypeEnum.InternalError,
-                $"Unknown problem to access 'To' clause"
-                );
-        }
-
     }
 }

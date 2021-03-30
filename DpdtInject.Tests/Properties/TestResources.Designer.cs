@@ -814,6 +814,31 @@ namespace DpdtInject.Tests.Properties {
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System.Linq;
         ///
+        ///namespace DpdtInject.Tests.Conventions.From2Interfaces0
+        ///{
+        ///    public partial class ConventionsFrom2Interfaces0_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            ScanInAssembliesWith&lt;A0&gt;()
+        ///                .SelectAllWith&lt;IA&gt;()
+        ///                .From&lt;IA, IB&gt;()
+        ///                .ToItself()
+        ///                .WithSingletonScope()
+        ///           [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ConventionsFrom2Interfaces0_Cluster {
+            get {
+                return ResourceManager.GetString("ConventionsFrom2Interfaces0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System.Linq;
+        ///
         ///namespace DpdtInject.Tests.Conventions.FromSingleInterface0
         ///{
         ///    public partial class ConventionsFromSingleInterface0_Cluster : DefaultCluster

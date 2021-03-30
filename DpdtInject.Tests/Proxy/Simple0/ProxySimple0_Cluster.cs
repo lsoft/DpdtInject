@@ -85,6 +85,9 @@ namespace DpdtInject.Tests.Proxy.Simple0
     }
 
 
+    /// <summary>
+    /// In real applications this class MUST be THREAD SAFE!
+    /// </summary>
     public class SessionSaver : BaseSessionSaver
     {
         public static Guid SessionGuid

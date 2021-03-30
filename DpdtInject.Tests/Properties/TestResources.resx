@@ -208,6 +208,9 @@
   <data name="ConditionalNonGenericOnlyOneInMiddle_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Conditional\NonGeneric\OnlyOneInMiddle\ConditionalNonGenericOnlyOneInMiddle_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="ConventionsFrom2Interfaces0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Conventions\From2Interfaces0\ConventionsFrom2Interfaces0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="ConventionsFromSingleInterface0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Conventions\FromSingleInterface0\ConventionsFromSingleInterface0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

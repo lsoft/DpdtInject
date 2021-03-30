@@ -17,6 +17,9 @@ namespace DpdtInject.Generator.Core.TypeInfo
         protected Compilation _compilation;
         private readonly List<ClassDeclarationSyntax>? _candidateClasses;
 
+        private readonly HashSet<ITypeSymbol> _factoryTargetTypes = new HashSet<ITypeSymbol>(SymbolEqualityComparer.Default);
+        private readonly HashSet<ITypeSymbol> _proxyTargetTypes = new HashSet<ITypeSymbol>(SymbolEqualityComparer.Default);
+
         protected TypeInfoContainer(
             Compilation compilation,
             List<ClassDeclarationSyntax>? candidateClasses = null
@@ -29,16 +32,6 @@ namespace DpdtInject.Generator.Core.TypeInfo
 
             _compilation = compilation;
             _candidateClasses = candidateClasses;
-
-            //for profiling
-            //_candidateClasses = new List<ClassDeclarationSyntax>();
-            //foreach (var st in _compilation.SyntaxTrees)
-            //{
-            //    //var cus = SyntaxFactory.ParseCompilationUnit(File.ReadAllText("C:\\projects\\github\\DpdtInject\\DpdtInject.Tests.Performance\\TimeConsume\\BigTree0\\Singleton\\DpdtCluster.cs"));
-            //    _candidateClasses.AddRange(
-            //        st.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().Where(a => a.Identifier.ToString().Contains("TimeConsumeBigTree0_Cluster")).ToList()
-            //        );
-            //}
         }
 
         public SemanticModel GetSemanticModel(SyntaxTree syntaxTree)
@@ -48,7 +41,6 @@ namespace DpdtInject.Generator.Core.TypeInfo
 
         public INamedTypeSymbol? GetTypeByMetadataName(string fullyQualifiedMetadataName)
         {
-            //_compilation.meta
             return _compilation.GetTypeByMetadataName(fullyQualifiedMetadataName);
         }
 
@@ -101,7 +93,42 @@ namespace DpdtInject.Generator.Core.TypeInfo
             return scanned;
         }
 
-        public abstract void AddSources(ModificationDescription[] modificationDescriptions);
+        public void AddSources(ModificationDescription[] modificationDescriptions)
+        {
+            AddSourcesInternal(modificationDescriptions);
+        }
+
+        public bool IsFactoryBuildFor(ITypeSymbol factoryTargetType)
+        {
+            if (factoryTargetType is null)
+            {
+                throw new ArgumentNullException(nameof(factoryTargetType));
+            }
+
+            return _factoryTargetTypes.Contains(factoryTargetType);
+        }
+
+        public void AddFactoryBuildFor(ITypeSymbol factoryTargetType)
+        {
+            _factoryTargetTypes.Add(factoryTargetType);
+        }
+
+        public bool IsProxyBuildFor(ITypeSymbol proxyTargetType)
+        {
+            if (proxyTargetType is null)
+            {
+                throw new ArgumentNullException(nameof(proxyTargetType));
+            }
+
+            return _proxyTargetTypes.Contains(proxyTargetType);
+        }
+
+        public void AddProxyBuildFor(ITypeSymbol proxyTargetType)
+        {
+            _proxyTargetTypes.Add(proxyTargetType);
+        }
+
+        protected abstract void AddSourcesInternal(ModificationDescription[] modificationDescriptions);
 
         protected void UpdateCompilationWith(SourceText[] sourceTexts)
         {

@@ -29,7 +29,7 @@ namespace DpdtInject.Tests
             _generatedSourceFolderFullPath = generatedSourceFolderFullPath;
         }
 
-        public override void AddSources(
+        protected override void AddSourcesInternal(
             ModificationDescription[] modificationDescriptions
             )
         {

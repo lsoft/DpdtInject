@@ -15,7 +15,7 @@ namespace DpdtInject.Extension.Container.Component
         }
 
         /// <inheritdoc />
-        public override void AddSources(
+        protected override void AddSourcesInternal(
             ModificationDescription[] modificationDescriptions
             )
         {

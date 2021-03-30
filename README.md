@@ -174,19 +174,28 @@ Proxy (and decorator at the same time) binding example:
 
 ```csharp
 
-//example of the binding, that will be injected into the proxy:
+//your custom telemetry event saver
+//saver is invoked from multiple threads even in parallel
+//so saver must be thread-safe
+Bind<SessionSaver>()
+    .To<SessionSaver>()
+    .WithSingletonScope()
+    ;
+
+//example of the payload, that will be injected into the proxy:
 Bind<ICalculator>()
     .To<Calculator>()
-    .WithSingletonScope()
+    .WithSingletonScope() //may be singleton or transient
     .When(rt => rt.WhenInjectedExactlyInto<ProxyCalculator>())
     ;
 
 
-//proxy binding example:
+//proxy binding example
+//proxy invokes its saver for every invocation of the proxied methods, EVEN in parallel!
 Bind<ICalculator>()
     .ToProxy<ProxyCalculator>()
     .WithProxySettings<TelemetryAttribute, SessionSaver>() //additional details about these classes are available at the tests project
-    .WithSingletonScope()
+    .WithSingletonScope() //proxy should be in the same scope as its payload
     .Setup<SuppressCircularCheck>() //this suppress unused warning
     .When(rt => rt.WhenInjectedExactlyNotInto<ProxyCalculator>()) //this suppress stack overflow during resolution
     ;

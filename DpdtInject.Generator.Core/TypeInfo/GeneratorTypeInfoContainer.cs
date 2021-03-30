@@ -26,7 +26,7 @@ namespace DpdtInject.Generator.Core.TypeInfo
             UnitsGenerated = 0;
         }
 
-        public override void AddSources(ModificationDescription[] modificationDescriptions)
+        protected override void AddSourcesInternal(ModificationDescription[] modificationDescriptions)
         {
             var sourceTexts = new List<SourceText>();
             foreach (var modificationDescription in modificationDescriptions)

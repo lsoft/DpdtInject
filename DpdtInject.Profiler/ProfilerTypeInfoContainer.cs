@@ -18,7 +18,7 @@ namespace DpdtInject.Profiler
 
         }
 
-        public override void AddSources(ModificationDescription[] modificationDescriptions)
+        protected override void AddSourcesInternal(ModificationDescription[] modificationDescriptions)
         {
             //nothing to do
         }

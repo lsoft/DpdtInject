@@ -169,40 +169,43 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
                 _toType
                 );
 
-            IClassProducer? classProducer =  null;
+            var updateTypes = false;
             if (_factoryPayload is not null)
             {
-                classProducer = new FactoryProducer(
-                    types,
-                    _factoryPayload.Item2.TypeArguments[0]
-                    );
+                if (!_typeInfoContainer.IsFactoryBuildFor(types.BindFromTypes[0]))
+                {
+                    var factoryProducer = new FactoryProducer(
+                        types,
+                        _factoryPayload.Item2.TypeArguments[0]
+                        );
+
+                    UpdateCompilation(types, factoryProducer);
+                    
+                    _typeInfoContainer.AddFactoryBuildFor(types.BindFromTypes[0]);
+                }
+
+                updateTypes = true;
             }
             else if (_proxySettings is not null)
             {
-                classProducer = new ProxyProducer(
-                    types,
-                    _proxySettings.Item2.TypeArguments[0],
-                    _proxySettings.Item2.TypeArguments[1]
-                    );
+                if (!_typeInfoContainer.IsProxyBuildFor(types.BindFromTypes[0]))
+                {
+                    var proxyProducer = new ProxyProducer(
+                        types,
+                        _proxySettings.Item2.TypeArguments[0],
+                        _proxySettings.Item2.TypeArguments[1]
+                        );
+
+                    UpdateCompilation(types, proxyProducer);
+                    
+                    _typeInfoContainer.AddProxyBuildFor(types.BindFromTypes[0]);
+                }
+
+                updateTypes = true;
             }
 
-            if (classProducer is not null)
+            if (updateTypes)
             {
-                var product = classProducer.GenerateProduct();
-
-                var productSourceCode = product.GetSourceCode();
-
-                _typeInfoContainer.AddSources(
-                    new ModificationDescription[]
-                    {
-                        new ModificationDescription(
-                            (INamedTypeSymbol) types.BindToType,
-                            $"{types.BindToType.Name}.Pregenerated.cs",
-                            productSourceCode
-                            )
-                    }
-                    );
-
                 var updatedBindToType = _typeInfoContainer.GetTypeByMetadataName(
                     types.BindToType.ToDisplayString()
                     );
@@ -225,6 +228,26 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
             return types;
         }
 
+        private void UpdateCompilation(
+            BindingContainerTypes types,
+            IClassProducer classProducer
+            )
+        {
+            var product = classProducer.GenerateProduct();
+
+            var productSourceCode = product.GetSourceCode();
+
+            _typeInfoContainer.AddSources(
+                new ModificationDescription[]
+                {
+                    new ModificationDescription(
+                        (INamedTypeSymbol) types.BindToType,
+                        $"{types.BindToType.Name}.Pregenerated.cs",
+                        productSourceCode
+                        )
+                }
+                );
+        }
 
         private void CheckForAbsenceForConfigureStatements()
         {

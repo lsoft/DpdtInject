@@ -40,6 +40,15 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
                 throw new ArgumentNullException(nameof(sessionSaverType));
             }
 
+
+            if (types.BindFromTypes.Count != 1)
+            {
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.IncorrectBinding_IncorrectFrom,
+                    $"Proxy only support single bind-from type"
+                    );
+            }
+
             _types = types;
             _methodAttributeType = methodAttributeType;
             _sessionSaverType = sessionSaverType;
@@ -66,9 +75,17 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
             )
         {
             var result = new List<IMethodProduct>();
-            var declaredMethods = _types.BindFromTypes[0].GetMembers().FindAll(m => m.Kind == SymbolKind.Method);
 
-            foreach (IMethodSymbol declaredMethod in declaredMethods)
+            var declaredMethods = (
+                from m in _types.BindFromTypes[0].GetMembers()
+                where m.Kind == SymbolKind.Method
+                where m is IMethodSymbol
+                let mms = m as IMethodSymbol
+                where mms.MethodKind == MethodKind.Ordinary
+                select mms
+                ).ToList();
+
+            foreach (var declaredMethod in declaredMethods)
             {
                 var implementedMethod = _types.BindToType.FindImplementationForInterfaceMember(declaredMethod);
                 if (!(implementedMethod is null))

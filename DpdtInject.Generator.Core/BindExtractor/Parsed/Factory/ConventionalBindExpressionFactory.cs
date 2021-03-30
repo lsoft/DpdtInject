@@ -99,7 +99,8 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
                         continue;
                     }
 
-                    var inters = bindingSyntaxParser.FromTypesProvider.GetBindFromTypes(type);
+                    var froms = bindingSyntaxParser.FromTypesProvider.GetBindFromTypes(type);
+                    var to = GetTo(invocationSymbols, type);
 
                     result.Add(
                         new STCParsedBindExpression(
@@ -108,8 +109,8 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
                             _constructorArgumentDetector,
                             null,
                             invocationSymbols,
-                            inters,
-                            type,
+                            froms,
+                            to,
                             scope
                             )
                         );

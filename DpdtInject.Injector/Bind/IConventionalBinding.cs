@@ -31,11 +31,6 @@
 
     public interface IConventionalBinding3
     {
-        IScopeBinding ToBaseClass();
-
         IScopeBinding ToItself();
-
-        IScopeBinding To<T1>();
-
     }
 }
