@@ -1404,6 +1404,32 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Threading;
+        ///using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Bind;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.RContext;
+        ///using DpdtInject.Injector.Bind.Settings;
+        ///
+        ///namespace DpdtInject.Tests.Proxy.TwoSameProxy
+        ///{
+        ///    public partial class ProxyTwoSameProxy_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;SessionSaver&gt;()
+        ///                .To&lt;SessionSaver&gt;()
+        ///       [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ProxyTwoSameProxy_Cluster {
+            get {
+                return ResourceManager.GetString("ProxyTwoSameProxy_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
         ///using DpdtInject.Injector.Bind.Settings;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
