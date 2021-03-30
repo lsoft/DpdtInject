@@ -56,9 +56,18 @@ namespace DpdtInject.Generator.Core.Binding
         }
 
         /// <summary>
-        /// Binding expression syntax node. Null if it is a conventional binding.
+        /// This binding container is produced from conventional binding statement and
+        /// has no explicit binding statement.
         /// </summary>
-        ExpressionStatementSyntax? ExpressionNode
+        bool IsConventional
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Binding expression syntax node. In case of conventional binding, it contains a conventional binding statement.
+        /// </summary>
+        ExpressionStatementSyntax ExpressionNode
         {
             get;
         }

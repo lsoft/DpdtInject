@@ -36,7 +36,7 @@ namespace DpdtInject.Generator.Core.Binding
             ExpressionStatementSyntax expressionNode,
             ArgumentSyntax? whenArgumentClause,
             IReadOnlyList<ISetting> settings
-            ) : base(types, scope, expressionNode, whenArgumentClause, constantSyntax, settings)
+            ) : base(types, scope, expressionNode, whenArgumentClause, constantSyntax, settings, false)
         {
             ConstructorArguments = new List<DetectedConstructorArgument>();
             NotBindConstructorArgumentTypes = new HashSet<ITypeSymbol>(

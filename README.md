@@ -27,6 +27,7 @@ It's only a proof-of-concept. Nor alpha, neither beta.
 0. Transient, singleton and constant scopes.
 0. Custom scopes.
 0. Child kernels (aka child clusters).
+0. Bindings by conventions.
 0. Additional compile-time safety.
 0. Binding settings that modify compile-time code generation.
 0. Same performance on the platforms with no compilation at runtime.
@@ -168,9 +169,7 @@ Bind<IB>()
      ;
 ```
 
-### Additional examples
-
-Proxy (and decorator at the same time) binding example:
+### Proxy (and decorator at the same time) bindings
 
 ```csharp
 
@@ -204,6 +203,23 @@ Bind<ICalculator>()
 public partial class ProxyCalculator : ICalculator { }
 
 ```
+
+### Conventional bindings
+
+Conventional bindings are "machine-gun" binding producing machine, that scans your assemblies and produces a lot of binding statements. If you are know Ninject.Conventions you know what I wanted to implement. Conventional bindings works with Roslyn symbols and are produced at compile-time.
+
+```csharp
+ScanInAssembliesWith<A0>() //scan assembly(ies) that contains a specified type(s)
+    .SelectAllWith<IA>() //select all classes that implements a specific class/interface
+    .ExcludeAllWith<IExclude>() //but not to include all classes that implements this class/interface
+    .From<IA, IB>() //binds from these interfaces/classes (they may be different with the classes/interfaces in SelectAllWith); others options are exists too
+    .ToItself() //to the processed class
+    .WithSingletonScope() //and now we continue with regular binding syntax, including With*Scope/Setup/Configure/When and etc.
+    ;
+```
+
+Dpdt does not support conventional bindings to proxy or factory, because of design.
+
 
 A lot of examples of allowed syntaxes are available in the test project. Please refer that code.
 

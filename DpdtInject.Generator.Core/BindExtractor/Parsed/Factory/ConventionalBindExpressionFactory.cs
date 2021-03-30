@@ -107,11 +107,12 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
                             _typeInfoContainer,
                             _extractor,
                             _constructorArgumentDetector,
-                            null,
+                            expressionNode,
                             invocationSymbols,
                             froms,
                             to,
-                            scope
+                            scope,
+                            true
                             )
                         );
 

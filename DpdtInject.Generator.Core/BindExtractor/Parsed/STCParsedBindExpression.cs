@@ -23,11 +23,12 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
         private readonly ITypeInfoContainer _typeInfoContainer;
         private readonly ConstructorArgumentFromSyntaxExtractor _extractor;
         private readonly ConstructorArgumentDetector _constructorArgumentDetector;
-        private readonly ExpressionStatementSyntax? _expressionNode;
+        private readonly ExpressionStatementSyntax _expressionNode;
 
         private readonly List<Tuple<InvocationExpressionSyntax, IMethodSymbol>> _invocationSymbols;
         private readonly ImmutableArray<ITypeSymbol> _fromTypes;
         private readonly ITypeSymbol _toType;
+        private readonly bool _isConventional;
         private readonly Tuple<InvocationExpressionSyntax, IMethodSymbol>? _factoryPayload;
         private readonly Tuple<InvocationExpressionSyntax, IMethodSymbol>? _proxySettings;
         private readonly ArgumentSyntax? _whenArgumentClause;
@@ -40,11 +41,12 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
             ITypeInfoContainer typeInfoContainer,
             ConstructorArgumentFromSyntaxExtractor extractor,
             ConstructorArgumentDetector constructorArgumentDetector,
-            ExpressionStatementSyntax? expressionNode,
+            ExpressionStatementSyntax expressionNode,
             List<Tuple<InvocationExpressionSyntax, IMethodSymbol>> invocationSymbols,
             in ImmutableArray<ITypeSymbol> fromTypes,
             ITypeSymbol toType,
-            BindScopeEnum scope
+            BindScopeEnum scope,
+            bool isConventional
             ) : base(scope, invocationSymbols)
         {
             if (typeInfoContainer is null)
@@ -85,7 +87,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
 
             _fromTypes = fromTypes;
             _toType = toType;
-
+            _isConventional = isConventional;
             _factoryPayload = invocationSymbols.FirstOrDefault(
                 s => s.Item2.ContainingType.ToDisplayString() == typeof(IToFactoryBinding).FullName && s.Item2.Name == nameof(IToFactoryBinding.WithPayload)
                 );
@@ -130,7 +132,8 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
                 _scope,
                 _expressionNode,
                 _whenArgumentClause,
-                _settings
+                _settings,
+                _isConventional
                 );
 
             return bindingContainer;

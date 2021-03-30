@@ -121,7 +121,6 @@
       <DependentUpon>AddBindingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="CodeLens\CodeLensConnectionHandler.cs" />
-    <Compile Include="Container\BindingMethodContainer.PerDocument.cs" />
     <Compile Include="Container\ContainerAndScanner.cs" />
     <Compile Include="Container\Component\ExtensionTypeScanner.cs" />
     <Compile Include="ExtensionStatus\ExtensionStatusContainer.cs" />

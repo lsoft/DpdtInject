@@ -36,10 +36,11 @@ namespace DpdtInject.Generator.Core.Binding
             BindingContainerTypes types,
             IReadOnlyList<DetectedConstructorArgument> constructorArguments,
             BindScopeEnum scope,
-            ExpressionStatementSyntax? expressionNode,
+            ExpressionStatementSyntax expressionNode,
             ArgumentSyntax? whenArgumentClause,
-            IReadOnlyList<ISetting> settings
-            ) : base(types, scope, expressionNode, whenArgumentClause, null, settings)
+            IReadOnlyList<ISetting> settings,
+            bool isConventional
+            ) : base(types, scope, expressionNode, whenArgumentClause, null, settings, isConventional)
         {
             if (constructorArguments is null)
             {

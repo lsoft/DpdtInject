@@ -143,6 +143,11 @@ namespace DpdtInject.Extension
                 return;
             }
 
+            if (bindingContainer!.IsConventional)
+            {
+                return;
+            }
+
             var dte = Package.GetGlobalService(typeof(EnvDTE.DTE)) as DTE2;
             if (dte == null)
             {
@@ -166,11 +171,6 @@ namespace DpdtInject.Extension
             var currentDocumentFilePath = System.IO.Path.Combine(dte.ActiveDocument.Path, dte.ActiveDocument.Name);
             currentActiveView.GetCaretPos(out var currentLine, out var currentColumn);
 
-            if (bindingContainer!.ExpressionNode == null)
-            {
-                return;
-            }
-
             //switch to modified document
             var expressionNode = bindingContainer!.ExpressionNode;
             var location = expressionNode.GetLocation();
@@ -186,27 +186,6 @@ namespace DpdtInject.Extension
                 lineSpan.EndLinePosition.Line,
                 lineSpan.EndLinePosition.Character
                 );
-
-
-            //var workspace = (Workspace)componentModel.GetService<VisualStudioWorkspace>();
-            //if (workspace == null)
-            //{
-            //    return;
-            //}
-
-            //var documentId = workspace.CurrentSolution.GetDocumentIdsWithFilePath(
-            //    expressionNode.SyntaxTree.FilePath
-            //    );
-            //if (documentId.Length != 1)
-            //{
-            //    return;
-            //}
-
-            //var document =  workspace.CurrentSolution.GetDocument(documentId[0]);
-            //if (document == null)
-            //{
-            //    return;
-            //}
 
             try
             {
@@ -225,17 +204,12 @@ namespace DpdtInject.Extension
                             bindingContainer.ExpressionNode.Span.Length
                             )
                         );
-
-                    //document = document!.WithText(SourceText.From("//123"));
                 }
             }
             finally
             {
                 dte.UndoContext.Close();
             }
-
-            //workspace.TryApplyChanges(document.Project.Solution);
-
 
             //get back to our document
             var sourceDocumentHelper = new VisualStudioDocumentHelper(
@@ -248,10 +222,6 @@ namespace DpdtInject.Extension
                 currentLine,
                 currentColumn
                 );
-
-            //System.Threading.Tasks.Task.Run(
-            //    () => containerAndScanner!.AsyncStartScan()
-            //    ).FileAndForget(nameof(BindUnbind_OnMouseLeftButtonUp));
         }
 
         private void GoToMethod_OnMouseLeftButtonUp(
@@ -275,11 +245,6 @@ namespace DpdtInject.Extension
             ThreadHelper.ThrowIfNotOnUIThread();
 
             if (!TryGetBindingContainer(bindingIdentifier, out _, out var bindingContainer))
-            {
-                return;
-            }
-
-            if (bindingContainer!.ExpressionNode == null)
             {
                 return;
             }

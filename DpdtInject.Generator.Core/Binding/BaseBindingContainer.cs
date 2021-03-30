@@ -46,7 +46,7 @@ namespace DpdtInject.Generator.Core.Binding
             get;
         }
 
-        public ExpressionStatementSyntax? ExpressionNode
+        public ExpressionStatementSyntax ExpressionNode
         {
             get;
         }
@@ -74,14 +74,20 @@ namespace DpdtInject.Generator.Core.Binding
             get;
         }
 
+        /// <inheritdoc/>
+        public bool IsConventional
+        {
+            get;
+        }
 
         protected BaseBindingContainer(
             BindingContainerTypes types,
             BindScopeEnum scope,
-            ExpressionStatementSyntax? expressionNode,
+            ExpressionStatementSyntax expressionNode,
             ArgumentSyntax? whenArgumentClause,
             ArgumentSyntax? constantSyntax,
-            IReadOnlyList<ISetting> settings
+            IReadOnlyList<ISetting> settings,
+            bool isConventional
             )
         {
             if (types is null)
@@ -110,6 +116,7 @@ namespace DpdtInject.Generator.Core.Binding
             WhenArgumentClause = whenArgumentClause;
             ConstantSyntax = constantSyntax;
             _settings = settings;
+            IsConventional = isConventional;
             Identifier = Guid.NewGuid();
             FromTypeFullNames = new HashSet<string>(BindFromTypes.ConvertAll(b => b.ToDisplayString()));
         }

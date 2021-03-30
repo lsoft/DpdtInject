@@ -269,7 +269,7 @@ namespace DpdtInject.Extension.Container
                     var letsgo = false;
                     foreach (var reference in project.AnalyzerReferences)
                     {
-                        //surrogate marker for Dpdt.Injector has installed to the project
+                        //surrogate marker for nuget Dpdt.Injector has installed to the project
                         if (reference.Display == "DpdtInject.Generator")
                         {
                             letsgo = true;
