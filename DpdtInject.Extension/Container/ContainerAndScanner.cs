@@ -24,6 +24,7 @@ using Project = Microsoft.CodeAnalysis.Project;
 using Thread = System.Threading.Thread;
 
 using static DpdtInject.Extension.Shared.Logging;
+using DpdtInject.Extension.BuildStatus;
 
 namespace DpdtInject.Extension.Container
 {
@@ -31,7 +32,7 @@ namespace DpdtInject.Extension.Container
     public class ContainerAndScanner
     {
         private readonly object _locker = new object();
-
+        private readonly BuildStatusContainer _buildStatusContainer;
         private IVsOutputWindowPane? _outputPane;
 
         private TaskProgressData _data;
@@ -41,8 +42,16 @@ namespace DpdtInject.Extension.Container
 
         [ImportingConstructor]
         public ContainerAndScanner(
+            BuildStatusContainer buildStatusContainer
             )
         {
+            if (buildStatusContainer is null)
+            {
+                throw new ArgumentNullException(nameof(buildStatusContainer));
+            }
+
+            _buildStatusContainer = buildStatusContainer;
+            _buildStatusContainer.ChangeBuildStatusEvent += buildStatusContainer_ChangeBuildStatusEvent;
         }
 
         public async Task InitializeAsync()
@@ -76,6 +85,11 @@ namespace DpdtInject.Extension.Container
             }
         }
 
+        private void buildStatusContainer_ChangeBuildStatusEvent(bool buildIsInProgressNow)
+        {
+            AsyncStartScan();
+        }
+
         private void SyncStopScanInternal()
         {
             //stop scanning if it is working now
@@ -103,7 +117,8 @@ namespace DpdtInject.Extension.Container
 
 
                 _backgroundScanner = new BackgroundScanner(
-                    _outputPane!
+                    _outputPane!,
+                    _buildStatusContainer
                     );
 
                 CodeLensConnectionHandler.RefreshAllCodeLensDataPointsAsync()
@@ -147,6 +162,7 @@ namespace DpdtInject.Extension.Container
     public class BackgroundScanner
     {
         private readonly IVsOutputWindowPane _outputPane;
+        private readonly BuildStatusContainer _buildStatusContainer;
         private readonly CancellationTokenSource _cancellationTokenSource;
 
         private readonly Thread _scanTask;
@@ -170,7 +186,8 @@ namespace DpdtInject.Extension.Container
         }
 
         public BackgroundScanner(
-            IVsOutputWindowPane outputPane
+            IVsOutputWindowPane outputPane,
+            BuildStatusContainer buildStatusContainer
             )
         {
             if (outputPane is null)
@@ -178,7 +195,13 @@ namespace DpdtInject.Extension.Container
                 throw new ArgumentNullException(nameof(outputPane));
             }
 
+            if (buildStatusContainer is null)
+            {
+                throw new ArgumentNullException(nameof(buildStatusContainer));
+            }
+
             _outputPane = outputPane;
+            _buildStatusContainer = buildStatusContainer;
             _cancellationTokenSource = new CancellationTokenSource();
 
             _scanTask = new Thread(
@@ -221,6 +244,12 @@ namespace DpdtInject.Extension.Container
                 //    Progress = ((float)cc) / max;
                 //}
 
+                if (_buildStatusContainer.BuildIsInProgress)
+                {
+                    _outputPane!.OutputStringThreadSafe($"Dpdt scanning is cancelled due to build/cleanup is in progress{Environment.NewLine}");
+                    return;
+                }
+
                 _outputPane!.OutputStringThreadSafe($"Dpdt scanning is started{Environment.NewLine}");
 
                 var componentModel = (IComponentModel)Package.GetGlobalService(typeof(SComponentModel));
@@ -247,7 +276,12 @@ namespace DpdtInject.Extension.Container
                     if (token.IsCancellationRequested)
                     {
                         _outputPane!.OutputStringThreadSafe($"  Dpdt scanning is cancelled{Environment.NewLine}");
+                        break;
+                    }
 
+                    if (_buildStatusContainer.BuildIsInProgress)
+                    {
+                        _outputPane!.OutputStringThreadSafe($"  Dpdt scanning is cancelled due to build/cleanup is in progress{Environment.NewLine}");
                         break;
                     }
 

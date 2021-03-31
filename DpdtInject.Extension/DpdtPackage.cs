@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
 using static DpdtInject.Extension.Shared.Logging;
+using DpdtInject.Extension.BuildStatus;
 
 namespace DpdtInject.Extension
 {
@@ -83,15 +84,19 @@ namespace DpdtInject.Extension
 
             LogVS("Start 3");
 
-            //no, absense of await here is by design! we do not wait it for its completion.
-            _ = CodeLensConnectionHandler.AcceptCodeLensConnectionsAsync();
+            //we do not wait it for its completion.
+            CodeLensConnectionHandler.AcceptCodeLensConnectionsAsync()
+                .FileAndForget(nameof(CodeLensConnectionHandler.AcceptCodeLensConnectionsAsync))
+                ;
 
             LogVS("Start 4");
 
-            //var dte = GetService(typeof(EnvDTE.DTE)) as DTE2;
             var container = (await this.GetServiceAsync(typeof(SComponentModel)) as IComponentModel)!;
 
             LogVS("Start 5");
+
+            var bsc = container.GetService<BuildStatusContainer>();
+            bsc.Subscribe();
 
             var solution = await this.GetServiceAsync(typeof(SVsSolution)) as IVsSolution;
             if (solution != null)

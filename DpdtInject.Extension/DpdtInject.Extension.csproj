@@ -66,6 +66,7 @@
   </PropertyGroup>
 -->
   <ItemGroup>
+    <Compile Include="BuildStatus\BuildStatusContainer.cs" />
     <Compile Include="Machinery\Add\BindClauseProducer.cs" />
     <Compile Include="DoCreateClusterCommand.cs" />
     <Compile Include="Machinery\Add\DocumentModifier.cs" />
