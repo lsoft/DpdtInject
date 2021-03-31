@@ -19,7 +19,7 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer.Product
         {
             get;
         }
-        public IReadOnlyList<IMethodProduct> MethodProducts
+        public IReadOnlyList<IWritable> MembersProduct
         {
             get;
         }
@@ -28,7 +28,7 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer.Product
             ITypeSymbol bindFromType,
             ITypeSymbol proxyClassType,
             ITypeSymbol sessionSaverType,
-            IReadOnlyList<IMethodProduct> methodProducts
+            IReadOnlyList<IWritable> membersProducts
             )
         {
             if (bindFromType is null)
@@ -46,15 +46,15 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer.Product
                 throw new ArgumentNullException(nameof(sessionSaverType));
             }
 
-            if (methodProducts is null)
+            if (membersProducts is null)
             {
-                throw new ArgumentNullException(nameof(methodProducts));
+                throw new ArgumentNullException(nameof(membersProducts));
             }
 
             BindFromType = bindFromType;
             BindToType = proxyClassType;
             _sessionSaverType = sessionSaverType;
-            MethodProducts = methodProducts;
+            MembersProduct = membersProducts;
         }
 
         public string GetSourceCode()
@@ -62,7 +62,7 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer.Product
             var writer = new IndentedTextWriter2(2, false);
             var sng = new ShortTypeNameGenerator();
 
-            foreach (var methodProduct in MethodProducts)
+            foreach (var methodProduct in MembersProduct)
             {
                 methodProduct.Write(writer, sng);
             }

@@ -40,15 +40,6 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
                 throw new ArgumentNullException(nameof(sessionSaverType));
             }
 
-
-            if (types.BindFromTypes.Count != 1)
-            {
-                throw new DpdtException(
-                    DpdtExceptionTypeEnum.IncorrectBinding_IncorrectFrom,
-                    $"Proxy only support single bind-from type"
-                    );
-            }
-
             _types = types;
             _methodAttributeType = methodAttributeType;
             _sessionSaverType = sessionSaverType;
@@ -57,7 +48,7 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
         /// <inheritdoc />
         public IProducedClassProduct GenerateProduct()
         {
-            var methodProducts = ScanForMethodsToImplement(
+            var methodProducts = ScanForMembersToImplement(
                 );
 
             var result = new ProxyClassProduct(
@@ -71,82 +62,213 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
         }
 
 
-        private List<IMethodProduct> ScanForMethodsToImplement(
+        private List<IWritable> ScanForMembersToImplement(
             )
         {
-            var result = new List<IMethodProduct>();
+            var result = new List<IWritable>();
 
-            var declaredMethods = (
+            var members = (
                 from m in _types.BindFromTypes[0].GetMembers()
-                where m.Kind == SymbolKind.Method
-                where m is IMethodSymbol
-                let mms = m as IMethodSymbol
-                where mms.MethodKind == MethodKind.Ordinary
-                select mms
+                where
+                    (m.Kind == SymbolKind.Method && (m is IMethodSymbol mms) && mms.MethodKind == MethodKind.Ordinary)
+                    ||
+                    (m.Kind == SymbolKind.Property)
+                select m
                 ).ToList();
 
-            foreach (var declaredMethod in declaredMethods)
+            foreach (var member in members)
             {
-                var implementedMethod = _types.BindToType.FindImplementationForInterfaceMember(declaredMethod);
-                if (!(implementedMethod is null))
-                {
-                    continue;
-                }
-
-                //method is not implemented in the proto class
-
-                var telemetryAttribute = declaredMethod
+                var telemetryAttribute = member
                     .GetAttributes()
                     .FirstOrDefault(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, _methodAttributeType))
                     ;
 
-                if (telemetryAttribute is not null)
+                var implementedMember = _types.BindToType.FindImplementationForInterfaceMember(member);
+                if (!(implementedMember is null))
                 {
-                    var declaredMethodProduct = GetProxiedMethodProduct(
-                        declaredMethod
-                        );
+                    //member already implemented into proto class
 
-                    result.Add(declaredMethodProduct);
+                    if (telemetryAttribute is not null)
+                    {
+                        //but it marked with proxy attribute!
+
+                        throw new DpdtException(
+                            DpdtExceptionTypeEnum.IncorrectBinding_IncorrectConfiguration,
+                            $"Proxy binding for [{_types.BindToType.ToGlobalDisplayString()}] has proxied member [{member.Name}] which is implemented into proto class. Remove implementation or proxy attribute.",
+                            _types.BindToType.ToGlobalDisplayString()
+                            );
+                    }
+
+                    continue;
                 }
-                else
-                {
-                    var declaredMethodProduct = GetNonProxiedMethodProduct(
-                        declaredMethod
-                        );
 
-                    result.Add(declaredMethodProduct);
+                //member is not implemented in the proto class
+
+                if (member is IPropertySymbol property)
+                {
+                    if (telemetryAttribute is not null)
+                    {
+                        var declaredPropertyProduct = GetProxiedPropertyProduct(
+                            property
+                            );
+
+                        result.Add(declaredPropertyProduct);
+                    }
+                    else
+                    {
+                        var declaredPropertyProduct = GetNonProxiedPropertyProduct(
+                            property
+                            );
+
+                        result.Add(declaredPropertyProduct);
+                    }
+                }
+                if (member is IMethodSymbol method)
+                {
+                    if (telemetryAttribute is not null)
+                    {
+                        var declaredMethodProduct = GetProxiedMethodProduct(
+                            method
+                            );
+
+                        result.Add(declaredMethodProduct);
+                    }
+                    else
+                    {
+                        var declaredMethodProduct = GetNonProxiedMethodProduct(
+                            method
+                            );
+
+                        result.Add(declaredMethodProduct);
+                    }
                 }
             }
 
             return result;
         }
 
-        private IMethodProduct GetNonProxiedMethodProduct(
-            IMethodSymbol methodSymbol
+
+        private PropertyProduct GetProxiedPropertyProduct(
+            IPropertySymbol property
             )
         {
-            if (methodSymbol is null)
+            if (property is null)
             {
-                throw new ArgumentNullException(nameof(methodSymbol));
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            return new PropertyProduct(
+                "public",
+                property.Type.ToGlobalDisplayString(),
+                property.Name,
+                (property.GetMethod != null ? $@"
+                var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
+                    _payloadFullName,
+                    nameof({property.Name}),
+                    null
+                    );
+
+                var startDate = global::System.Diagnostics.Stopwatch.GetTimestamp();
+                try
+                {{
+                    var result = _payload.{property.Name};
+
+                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+                        sessionGuid,
+                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                        null
+                        );
+
+                    return result;
+                }}
+                catch (global::System.Exception excp)
+                {{
+                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+                        sessionGuid,
+                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                        excp
+                        );
+
+                    throw;
+                }}
+" : null),
+                (property.SetMethod != null ? $@"
+                var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
+                    _payloadFullName,
+                    nameof({property.Name}),
+                    null
+                    );
+
+                var startDate = global::System.Diagnostics.Stopwatch.GetTimestamp();
+                try
+                {{
+                    _payload.{property.Name} = value;
+
+                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+                        sessionGuid,
+                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                        null
+                        );
+                }}
+                catch (global::System.Exception excp)
+                {{
+                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+                        sessionGuid,
+                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                        excp
+                        );
+
+                    throw;
+                }}
+" : null)
+                );
+        }
+
+        private PropertyProduct GetNonProxiedPropertyProduct(
+            IPropertySymbol property
+            )
+        {
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            return new PropertyProduct(
+                "public",
+                property.Type.ToGlobalDisplayString(),
+                property.Name,
+                (property.GetMethod != null ? $"return _payload.{property.Name};" : null),
+                (property.SetMethod != null ? $"_payload.{property.Name} = value;" : null)
+                );
+        }
+
+
+        private IMethodProduct GetNonProxiedMethodProduct(
+            IMethodSymbol method
+            )
+        {
+            if (method is null)
+            {
+                throw new ArgumentNullException(nameof(method));
             }
 
             var extractor = new ConstructorArgumentFromMethodExtractor();
-            var constructorArguments = extractor.GetConstructorArguments(methodSymbol);
+            var constructorArguments = extractor.GetConstructorArguments(method);
 
 
-            var returnModifier = methodSymbol.ReturnsVoid
+            var returnModifier = method.ReturnsVoid
                 ? string.Empty
                 : "return"
                 ;
 
             var refModifier =
-                (methodSymbol.ReturnsByRef || methodSymbol.ReturnsByRefReadonly)
+                (method.ReturnsByRef || method.ReturnsByRefReadonly)
                     ? "ref"
                     : string.Empty
                 ;
 
             var result = MethodProductFactory.Create(
-                methodSymbol,
+                method,
                 constructorArguments,
                 (methodName, h) =>
                 {
@@ -161,24 +283,24 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
         }
 
         private IMethodProduct GetProxiedMethodProduct(
-            IMethodSymbol methodSymbol
+            IMethodSymbol method
             )
         {
-            if (methodSymbol is null)
+            if (method is null)
             {
-                throw new ArgumentNullException(nameof(methodSymbol));
+                throw new ArgumentNullException(nameof(method));
             }
 
             var extractor = new ConstructorArgumentFromMethodExtractor();
-            var constructorArguments = extractor.GetConstructorArguments(methodSymbol);
+            var constructorArguments = extractor.GetConstructorArguments(method);
 
-            var proxyArguments = GetProxyArguments(methodSymbol);
+            var proxyArguments = GetProxyArguments(method);
 
             IMethodProduct result;
-            if (methodSymbol.ReturnsVoid)
+            if (method.ReturnsVoid)
             {
                 result = MethodProductFactory.Create(
-                    methodSymbol,
+                    method,
                     constructorArguments,
                     (methodName, h) =>
                     {
@@ -219,13 +341,13 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
             else
             {
                 var refModifier = 
-                    (methodSymbol.ReturnsByRef || methodSymbol.ReturnsByRefReadonly)
+                    (method.ReturnsByRef || method.ReturnsByRefReadonly)
                         ? "ref"
                         : string.Empty
                     ;
 
                 result = MethodProductFactory.Create(
-                    methodSymbol,
+                    method,
                     constructorArguments,
                     (methodName, h) =>
                     {

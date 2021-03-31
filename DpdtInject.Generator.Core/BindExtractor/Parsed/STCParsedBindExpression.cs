@@ -109,6 +109,8 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
 
             if (_proxySettings is not null)
             {
+                CheckBindFromIsOnlyOneAndIsInterface();
+
                 CheckForAbsenceForConfigureStatements();
             }
         }
@@ -250,6 +252,28 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
                         )
                 }
                 );
+        }
+
+        private void CheckBindFromIsOnlyOneAndIsInterface()
+        {
+            if (_fromTypes.Length != 1)
+            {
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.IncorrectBinding_IncorrectConfiguration,
+                    $"Proxy binding for [{_toType.ToGlobalDisplayString()}] should have 1 bind from clause.",
+                    _toType.ToGlobalDisplayString()
+                    );
+            }
+
+            if (_fromTypes[0].TypeKind != TypeKind.Interface)
+            {
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.IncorrectBinding_IncorrectConfiguration,
+                    $"Proxy binding for [{_toType.ToGlobalDisplayString()}] only support interfaces as bind-from, but [{_fromTypes[0].ToGlobalDisplayString()}] is not an interface.",
+                    _toType.ToGlobalDisplayString()
+                    );
+            }
+
         }
 
         private void CheckForAbsenceForConfigureStatements()

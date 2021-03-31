@@ -1,9 +1,10 @@
 ﻿using System;
+using DpdtInject.Injector;
 using DpdtInject.Injector.Excp;
 
 namespace DpdtInject.Generator.Core.Producer.Product
 {
-    public class PropertyProduct
+    public class PropertyProduct : IWritable
     {
         public string Modifiers
         {
@@ -15,17 +16,17 @@ namespace DpdtInject.Generator.Core.Producer.Product
             get;
         }
 
-        public string? ExplicitType
-        { 
-            get; 
-        }
-        
         public string Name
         {
             get;
         }
 
-        public string DefaultValue
+        public string? GetBody
+        {
+            get;
+        }
+        
+        public string? SetBody
         {
             get;
         }
@@ -33,9 +34,9 @@ namespace DpdtInject.Generator.Core.Producer.Product
         public PropertyProduct(
             string modifiers,
             string type,
-            string? explicitType,
             string name,
-            string defaultValue
+            string? getBody,
+            string? setBody
             )
         {
             if (modifiers is null)
@@ -53,33 +54,54 @@ namespace DpdtInject.Generator.Core.Producer.Product
                 throw new ArgumentNullException(nameof(name));
             }
 
-            if (defaultValue is null)
+            if (getBody is null && setBody is null)
             {
-                throw new ArgumentNullException(nameof(defaultValue));
+                throw new ArgumentOutOfRangeException("getBody && setBody are both null");
             }
+
 
             Modifiers = modifiers;
             Type = type;
-            ExplicitType = explicitType;
             Name = name;
-            DefaultValue = defaultValue;
-
-            if(!(string.IsNullOrEmpty(explicitType) ^ string.IsNullOrEmpty(modifiers)))
-            {
-                throw new DpdtException(DpdtExceptionTypeEnum.GeneralError, "Only one must be set");
-            }
+            GetBody = getBody;
+            SetBody = setBody;
         }
 
         public string GetText()
         {
-            if (string.IsNullOrEmpty(ExplicitType))
+            var get = string.Empty;
+            if (GetBody != null)
             {
-                return $"{Modifiers} {Type} {Name} {{ get; }} = {DefaultValue};";
+                get = $@"
+            get
+            {{
+                {GetBody}
+            }}
+";
             }
-            else
+            var set = string.Empty;
+            if (SetBody != null)
             {
-                return $"{Type} {ExplicitType}.{Name} {{ get; }} = {DefaultValue};";
+                set = $@"
+            set
+            {{
+                {SetBody}
+            }}
+";
             }
+
+            return $@"
+        {Modifiers} {Type} {Name}
+        {{
+            {get}
+            {set}
+        }}
+";
+        }
+
+        public void Write(IndentedTextWriter2 writer, ShortTypeNameGenerator sng)
+        {
+            writer.WriteLine2(GetText());
         }
     }
 
