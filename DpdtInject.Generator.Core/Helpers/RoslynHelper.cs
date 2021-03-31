@@ -13,6 +13,39 @@ namespace DpdtInject.Generator.Core.Helpers
 {
     public static class RoslynHelper
     {
+        public static string GetJoinedParametersNameAndType(
+            this IPropertySymbol property
+            )
+        {
+            var parameters = string.Empty;
+            if (property.Parameters.Length > 0)
+            {
+                parameters = string.Join(
+                    ",",
+                    property.Parameters.Select(p => p.Type.ToGlobalDisplayString() + " " + p.Name)
+                    );
+            }
+
+            return parameters;
+        }
+
+        public static string GetJoinedParametersName(
+            this IPropertySymbol property
+            )
+        {
+            var parameters = string.Empty;
+            if (property.Parameters.Length > 0)
+            {
+                parameters = string.Join(
+                    ",",
+                    property.Parameters.Select(p => p.Name)
+                    );
+            }
+
+            return parameters;
+        }
+
+
         public static bool IsClusterType(
             this INamedTypeSymbol t
             )

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DpdtInject.Generator.Core.BindExtractor;
 using DpdtInject.Generator.Core.Binding;
+using DpdtInject.Generator.Core.Helpers;
 using DpdtInject.Generator.Core.Producer.ClassProducer.Product;
 using DpdtInject.Generator.Core.Producer.Product;
 using DpdtInject.Injector.Bind;
@@ -104,7 +105,7 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
 
                 //member is not implemented in the proto class
 
-                if (member is IPropertySymbol property)
+                if (member is IPropertySymbol property && !property.IsIndexer)
                 {
                     if (telemetryAttribute is not null)
                     {
@@ -118,6 +119,25 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
                     {
                         var declaredPropertyProduct = GetNonProxiedPropertyProduct(
                             property
+                            );
+
+                        result.Add(declaredPropertyProduct);
+                    }
+                }
+                if (member is IPropertySymbol indexer && indexer.IsIndexer)
+                {
+                    if (telemetryAttribute is not null)
+                    {
+                        var declaredPropertyProduct = GetProxiedIndexerProduct(
+                            indexer
+                            );
+
+                        result.Add(declaredPropertyProduct);
+                    }
+                    else
+                    {
+                        var declaredPropertyProduct = GetNonProxiedIndexerProduct(
+                            indexer
                             );
 
                         result.Add(declaredPropertyProduct);
@@ -148,6 +168,104 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
         }
 
 
+
+        private IndexerProduct GetProxiedIndexerProduct(
+            IPropertySymbol indexer
+            )
+        {
+            if (indexer is null)
+            {
+                throw new ArgumentNullException(nameof(indexer));
+            }
+
+            var parameters = indexer.GetJoinedParametersName();
+
+            return new IndexerProduct(
+                "public",
+                indexer,
+                (indexer.GetMethod != null ? $@"
+                var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
+                    _payloadFullName,
+                    ""{indexer.Type.ToFullDisplayString()} {indexer.Name}"",
+                    null
+                    );
+
+                var startDate = global::System.Diagnostics.Stopwatch.GetTimestamp();
+                try
+                {{
+                    var result = _payload[{parameters}];
+
+                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+                        sessionGuid,
+                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                        null
+                        );
+
+                    return result;
+                }}
+                catch (global::System.Exception excp)
+                {{
+                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+                        sessionGuid,
+                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                        excp
+                        );
+
+                    throw;
+                }}
+" : null),
+                (indexer.SetMethod != null ? $@"
+                var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
+                    _payloadFullName,
+                    ""{indexer.Type.ToFullDisplayString()} {indexer.Name}"",
+                    null
+                    );
+
+                var startDate = global::System.Diagnostics.Stopwatch.GetTimestamp();
+                try
+                {{
+                    _payload[{parameters}] = value;
+
+                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+                        sessionGuid,
+                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                        null
+                        );
+                }}
+                catch (global::System.Exception excp)
+                {{
+                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+                        sessionGuid,
+                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                        excp
+                        );
+
+                    throw;
+                }}
+" : null)
+                );
+        }
+
+        private IndexerProduct GetNonProxiedIndexerProduct(
+            IPropertySymbol indexer
+            )
+        {
+            if (indexer is null)
+            {
+                throw new ArgumentNullException(nameof(indexer));
+            }
+
+            var parameters = indexer.GetJoinedParametersName();
+
+            return new IndexerProduct(
+                "public",
+                indexer,
+                (indexer.GetMethod != null ? $"return _payload[{parameters}];" : null),
+                (indexer.SetMethod != null ? $"_payload[{parameters}] = value;" : null)
+                );
+        }
+
+
         private PropertyProduct GetProxiedPropertyProduct(
             IPropertySymbol property
             )
@@ -159,8 +277,7 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
 
             return new PropertyProduct(
                 "public",
-                property.Type.ToGlobalDisplayString(),
-                property.Name,
+                property,
                 (property.GetMethod != null ? $@"
                 var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
                     _payloadFullName,
@@ -235,8 +352,7 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
 
             return new PropertyProduct(
                 "public",
-                property.Type.ToGlobalDisplayString(),
-                property.Name,
+                property,
                 (property.GetMethod != null ? $"return _payload.{property.Name};" : null),
                 (property.SetMethod != null ? $"_payload.{property.Name} = value;" : null)
                 );

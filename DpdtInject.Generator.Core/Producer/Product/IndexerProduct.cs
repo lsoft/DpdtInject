@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Linq;
-using DpdtInject.Generator.Core.Helpers;
 using DpdtInject.Injector;
-using DpdtInject.Injector.Excp;
 using Microsoft.CodeAnalysis;
 
 namespace DpdtInject.Generator.Core.Producer.Product
 {
-
-    public class PropertyProduct : IWritable
+    public class IndexerProduct : IWritable
     {
         public string Modifiers
         {
@@ -26,13 +22,13 @@ namespace DpdtInject.Generator.Core.Producer.Product
         {
             get;
         }
-        
+
         public string? SetBody
         {
             get;
         }
 
-        public PropertyProduct(
+        public IndexerProduct(
             string modifiers,
             IPropertySymbol property,
             string? getBody,
@@ -58,6 +54,8 @@ namespace DpdtInject.Generator.Core.Producer.Product
 
         public string GetText()
         {
+            var parameters = Property.GetJoinedParametersNameAndType();
+
             var get = string.Empty;
             if (GetBody != null)
             {
@@ -80,7 +78,7 @@ namespace DpdtInject.Generator.Core.Producer.Product
             }
 
             return $@"
-        {Modifiers} {Type} {Name}
+        {Modifiers} {Type} this[{parameters}]
         {{
             {get}
             {set}

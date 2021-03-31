@@ -46,36 +46,26 @@ namespace DpdtInject.Tests.Proxy.Indexer0
                 Assert.IsNotNull(propertyContainer);
 
                 propertyContainer[(short)2] = 2;
-                Assert.IsTrue(SessionSaver.ProxyWasInDeal);
-                Assert.AreEqual(typeof(PropertyContainer).FullName, SessionSaver.FullClassName);
-                Assert.AreEqual("", SessionSaver.MemberName);
-                Assert.IsTrue(SessionSaver.TakenInSeconds > 0.0);
-                Assert.IsNull(SessionSaver.Exception);
-                Assert.IsNull(SessionSaver.Arguments);
+                Assert.IsFalse(SessionSaver.ProxyWasInDeal);
 
                 SessionSaver.ProxyWasInDeal = false;
                 Assert.AreEqual(2L, propertyContainer[(short)2]);
+                Assert.IsFalse(SessionSaver.ProxyWasInDeal);
+
+                SessionSaver.ProxyWasInDeal = false;
+                propertyContainer[(int)3, (int)4] = 7;
                 Assert.IsTrue(SessionSaver.ProxyWasInDeal);
                 Assert.AreEqual(typeof(PropertyContainer).FullName, SessionSaver.FullClassName);
-                Assert.AreEqual("", SessionSaver.MemberName);
+                //SessionSaver.MemberName is too complicated to check it
                 Assert.IsTrue(SessionSaver.TakenInSeconds > 0.0);
                 Assert.IsNull(SessionSaver.Exception);
                 Assert.IsNull(SessionSaver.Arguments);
 
                 SessionSaver.ProxyWasInDeal = false;
-                propertyContainer[(int)3] = 3;
+                Assert.AreEqual(7L, propertyContainer[(int)3, (int)4]);
                 Assert.IsTrue(SessionSaver.ProxyWasInDeal);
                 Assert.AreEqual(typeof(PropertyContainer).FullName, SessionSaver.FullClassName);
-                Assert.AreEqual("", SessionSaver.MemberName);
-                Assert.IsTrue(SessionSaver.TakenInSeconds > 0.0);
-                Assert.IsNull(SessionSaver.Exception);
-                Assert.IsNull(SessionSaver.Arguments);
-
-                SessionSaver.ProxyWasInDeal = false;
-                Assert.AreEqual(3L, propertyContainer[(int)3]);
-                Assert.IsTrue(SessionSaver.ProxyWasInDeal);
-                Assert.AreEqual(typeof(PropertyContainer).FullName, SessionSaver.FullClassName);
-                Assert.AreEqual("", SessionSaver.MemberName);
+                //SessionSaver.MemberName is too complicated to check it
                 Assert.IsTrue(SessionSaver.TakenInSeconds > 0.0);
                 Assert.IsNull(SessionSaver.Exception);
                 Assert.IsNull(SessionSaver.Arguments);
@@ -174,10 +164,8 @@ namespace DpdtInject.Tests.Proxy.Indexer0
 
     }
 
-
     public interface IPropertyContainer
     {
-
         long this[byte i]
         {
             get;
@@ -191,7 +179,7 @@ namespace DpdtInject.Tests.Proxy.Indexer0
         }
 
         [Telemetry]
-        long this[int i]
+        long this[int i, int j]
         {
             get;
             set;
@@ -212,16 +200,17 @@ namespace DpdtInject.Tests.Proxy.Indexer0
             set { }
         }
 
-        public long this[int i]
+
+        public long this[int i, int j]
         {
-            get => i;
+            get => i + j;
             set { }
         }
     }
 
     public partial class ProxyCalculator : IFakeProxy<IPropertyContainer>
     {
-        long this[byte i]
+        public long this[byte i]
         {
             get => i;
             set { }
