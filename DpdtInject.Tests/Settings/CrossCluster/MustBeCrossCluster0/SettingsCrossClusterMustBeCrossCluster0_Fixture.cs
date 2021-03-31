@@ -1,3 +1,4 @@
+using DpdtInject.Generator.Core.Producer;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Tests.Properties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -28,7 +29,7 @@ namespace DpdtInject.Tests.Settings.CrossCluster.MustBeCrossCluster0
             Assert.AreEqual(1, preparation.DiagnosticReporter.ErrorCount, "Error count");
             Assert.AreEqual(0, preparation.DiagnosticReporter.WarningCount, "Warning count");
             Assert.AreEqual(DpdtExceptionTypeEnum.LocalBindingFound, preparation.DiagnosticReporter.GetDpdtException().Type);
-            Assert.AreEqual(typeof(IA).FullName, preparation.DiagnosticReporter.GetDpdtException().AdditionalArgument);
+            Assert.AreEqual(typeof(IA).ToGlobalDisplayString(), preparation.DiagnosticReporter.GetDpdtException().AdditionalArgument);
         }
     }
 }

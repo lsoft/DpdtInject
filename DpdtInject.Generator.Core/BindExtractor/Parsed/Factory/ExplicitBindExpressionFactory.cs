@@ -9,6 +9,7 @@ using DpdtInject.Generator.Core.BindExtractor.Parsed.Factory;
 using DpdtInject.Generator.Core.BindExtractor.Parsed;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector;
+using DpdtInject.Generator.Core.Producer;
 
 namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
 {
@@ -77,7 +78,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
                 case BindScopeEnum.Singleton:
                 case BindScopeEnum.Custom:
                     var from = invocationSymbols.First(
-                        s => s.Item2.ContainingType.ToDisplayString() == typeof(DefaultCluster).FullName && s.Item2.Name == DefaultCluster.BindMethodName
+                        s => s.Item2.ContainingType.ToGlobalDisplayString() == typeof(DefaultCluster).ToGlobalDisplayString() && s.Item2.Name == DefaultCluster.BindMethodName
                         );
                     var to = GetTo(invocationSymbols);
 

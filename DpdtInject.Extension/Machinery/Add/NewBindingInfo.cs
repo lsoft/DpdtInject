@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DpdtInject.Generator.Core.Producer;
 using DpdtInject.Injector.Bind;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -104,7 +105,7 @@ namespace DpdtInject.Extension.Machinery.Add
 
             foreach (var bindFrom in BindFroms)
             {
-                var key = bindFrom.ContainingNamespace.ToDisplayString();
+                var key = bindFrom.ContainingNamespace.ToGlobalDisplayString();
                 result[key] = 
                     SyntaxFactory.UsingDirective(
                         SyntaxFactory.ParseName(
@@ -114,7 +115,7 @@ namespace DpdtInject.Extension.Machinery.Add
                     ;
             }
             {
-                var key = BindTo.ContainingNamespace.ToDisplayString();
+                var key = BindTo.ContainingNamespace.ToGlobalDisplayString();
                 result[key] = 
                     SyntaxFactory.UsingDirective(
                         SyntaxFactory.ParseName(

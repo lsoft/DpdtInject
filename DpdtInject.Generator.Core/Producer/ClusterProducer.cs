@@ -141,10 +141,6 @@ namespace DpdtInject.Generator.Core.Producer
             {
                 usings.Add(additionalUsing.ToString());
             }
-            usings.Add($"using {typeof(IResolution).Namespace};");
-            usings.Add($"using {typeof(IResolution<object>).Namespace};");
-            usings.Add($"using {typeof(IResolutionRequest).Namespace};");
-            usings.Add($"using {typeof(IResolutionTarget).Namespace};");
 
             var sng = new ShortTypeNameGenerator();
 
@@ -188,11 +184,11 @@ namespace DpdtInject.Generator.Core.Producer
             var fixedCompilationUnit = compilationUnit
                 .CheckAndReplace(
                     "//GENERATOR: aggressive inline and optimize",
-                    "[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]"
+                    "[global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining | global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveOptimization)]"
                     )
                 .ReplaceLineStartsWith(
                     "namespace",
-                    $"namespace {ClusterBindings.ClusterType.ContainingNamespace.ToDisplayString()}"
+                    $"namespace {ClusterBindings.ClusterType.ContainingNamespace.ToFullDisplayString()}"
                     )
                 .CheckAndReplace(
                     nameof(CarcassCluster),
@@ -239,73 +235,5 @@ namespace DpdtInject.Generator.Core.Producer
 
             return fixedCompilationUnit;
         }
-    }
-
-    public class ShortTypeNameGenerator
-    {
-        private readonly Dictionary<string, string> _nameDict = new Dictionary<string, string>();
-        public ShortTypeNameGenerator()
-        {
-
-        }
-
-        public string GetShortName(ITypeSymbol type)
-        {
-            if (type is null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
-
-            var key = type.ToDisplayString();
-
-            if (!key.Contains('.'))
-            {
-                //it's string, int, long etc. 
-                //no need to put it into the dict
-                return key;
-            }
-
-            if (_nameDict.TryGetValue(key, out var shortName))
-            {
-                return shortName;
-            }
-
-            while (true)
-            {
-                var newShortName = type.GetSpecialName() + "_" + Guid.NewGuid().RemoveMinuses().Substring(0, 8);
-                if (_nameDict.ContainsKey(newShortName))
-                {
-                    continue;
-                }
-
-                _nameDict[key] = newShortName;
-
-                return newShortName;
-            }
-        }
-
-        public string GetCombinedUsings(
-            )
-        {
-            var sb = new StringBuilder();
-
-            foreach (var pair in _nameDict)
-            {
-                sb.AppendLine($"using {pair.Value} = {pair.Key};");
-            }
-
-            return sb.ToString();
-        }
-
-        public void WriteUsings(
-            HashSet<string> set
-            )
-        {
-            foreach (var pair in _nameDict)
-            {
-                set.Add($"using {pair.Value} = {pair.Key};");
-            }
-        }
-
     }
 }

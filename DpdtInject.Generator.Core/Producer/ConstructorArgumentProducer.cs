@@ -83,16 +83,16 @@ namespace DpdtInject.Generator.Core.Producer
             {
                 throw new DpdtException(
                     DpdtExceptionTypeEnum.NoBindingAvailable,
-                    $"No bindings available for {ConstructorArgument.Type!.ToDisplayString()}, consider to relax cross-cluster restriction (setting)",
-                    ConstructorArgument.Type.ToDisplayString()
+                    $"No bindings available for {ConstructorArgument.Type!.ToGlobalDisplayString()}, consider to relax cross-cluster restriction (setting)",
+                    ConstructorArgument.Type!.ToGlobalDisplayString()
                     );
             }
             if (crossClusterSetting == CrossClusterSettingEnum.MustBeCrossCluster && clusterCanGetChildren)
             {
                 throw new DpdtException(
                     DpdtExceptionTypeEnum.LocalBindingFound,
-                    $"Local binding for {ConstructorArgument.Type!.ToDisplayString()} has been found, but it's forbidden by specific setting, consider to relax cross-cluster restriction (setting)",
-                    ConstructorArgument.Type.ToDisplayString()
+                    $"Local binding for {ConstructorArgument.Type!.ToGlobalDisplayString()} has been found, but it's forbidden by specific setting, consider to relax cross-cluster restriction (setting)",
+                    ConstructorArgument.Type!.ToGlobalDisplayString()
                     );
             }
 
@@ -103,7 +103,7 @@ namespace DpdtInject.Generator.Core.Producer
             {
                 return
                     new ConstructorArgumentProduct(
-                            $"{ConstructorArgument.Name}: RaiseTooManyBindingException<{ConstructorArgument.Type!.ToDisplayString()}>()"
+                            $"{ConstructorArgument.Name}: RaiseTooManyBindingException<{ConstructorArgument.Type!.ToGlobalDisplayString()}>()"
                         );
             }
 
@@ -114,12 +114,12 @@ namespace DpdtInject.Generator.Core.Producer
                     //actually it's not faster but a bit slower
                     //return
                     //    new ConstructorArgumentProduct(
-                    //        $"{ConstructorArgument.Name}: GetFast(default({ConstructorArgument.Type!.ToDisplayString()}), resolutionTarget, \"{ConstructorArgument.Name}\" )"
+                    //        $"{ConstructorArgument.Name}: GetFast(default({ConstructorArgument.Type!.ToGlobalDisplayString()}), resolutionTarget, \"{ConstructorArgument.Name}\" )"
                     //        );
 
                     return
                         new ConstructorArgumentProduct(
-                                $"{ConstructorArgument.Name}: GetFromLocalUnsafely<{ConstructorArgument.Type!.ToDisplayString()}>( resolutionTarget, \"{ConstructorArgument.Name}\" )"
+                                $"{ConstructorArgument.Name}: GetFromLocalUnsafely<{ConstructorArgument.Type!.ToGlobalDisplayString()}>( resolutionTarget, \"{ConstructorArgument.Name}\" )"
                             );
                 }
                 else
@@ -127,12 +127,12 @@ namespace DpdtInject.Generator.Core.Producer
                     //actually it's not faster but a bit slower
                     //return
                     //    new ConstructorArgumentProduct(
-                    //        $"{ConstructorArgument.Name}: GetFast(default({ConstructorArgument.Type!.ToDisplayString()}))"
+                    //        $"{ConstructorArgument.Name}: GetFast(default({ConstructorArgument.Type!.ToGlobalDisplayString()}))"
                     //        );
 
                     return
                         new ConstructorArgumentProduct(
-                                $"{ConstructorArgument.Name}: GetFromLocalUnsafely<{ConstructorArgument.Type!.ToDisplayString()}>()"
+                                $"{ConstructorArgument.Name}: GetFromLocalUnsafely<{ConstructorArgument.Type!.ToGlobalDisplayString()}>()"
                             );
                 }
             }
@@ -146,7 +146,7 @@ namespace DpdtInject.Generator.Core.Producer
 
                 return
                     new ConstructorArgumentProduct(
-                            $"{ConstructorArgument.Name}: GetFromParent<{ConstructorArgument.Type!.ToDisplayString()}>( resolutionTarget, \"{ConstructorArgument.Name}\"  )"
+                            $"{ConstructorArgument.Name}: GetFromParent<{ConstructorArgument.Type!.ToGlobalDisplayString()}>( resolutionTarget, \"{ConstructorArgument.Name}\"  )"
                         );
             }
         }

@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using DpdtInject.Extension.Machinery.Add;
+using DpdtInject.Generator.Core.Producer;
 
 namespace DpdtInject.Extension.Machinery.Add
 {
@@ -34,12 +35,12 @@ namespace DpdtInject.Extension.Machinery.Add
 
             var clauses = new List<string>();
 
-            var bindFroms = string.Join(",", _newBindingInfo.BindFroms.Select(b => b.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
+            var bindFroms = string.Join(",", _newBindingInfo.BindFroms.Select(b => b.ToGlobalDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
             clauses.Add($"Bind<{bindFroms}>()");
 
             if (_newBindingInfo.BindScope != BindScopeEnum.Constant)
             {
-                clauses.Add($"{indend2}.To<{_newBindingInfo.BindTo.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)}>()");
+                clauses.Add($"{indend2}.To<{_newBindingInfo.BindTo.ToGlobalDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)}>()");
                 clauses.Add($"{indend2}.With{_newBindingInfo.BindScope}Scope()");
             }
             else

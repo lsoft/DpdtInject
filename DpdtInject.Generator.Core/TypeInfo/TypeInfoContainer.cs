@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Generator.Core.Helpers;
+using DpdtInject.Generator.Core.Producer;
 using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -66,8 +67,8 @@ namespace DpdtInject.Generator.Core.TypeInfo
                         continue;
                     }
 
-                    var fullName = symbol.ToDisplayString();
-                    if (result.ContainsKey(fullName))
+                    var globalName = symbol.ToGlobalDisplayString();
+                    if (result.ContainsKey(globalName))
                     {
                         continue;
                     }
@@ -77,7 +78,7 @@ namespace DpdtInject.Generator.Core.TypeInfo
                         continue;
                     }
 
-                    result[fullName] = symbol;
+                    result[globalName] = symbol;
                 }
 
                 if (result.Count > 0)

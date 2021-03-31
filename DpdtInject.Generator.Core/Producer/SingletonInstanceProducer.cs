@@ -6,6 +6,7 @@ using DpdtInject.Injector;
 using DpdtInject.Injector.Helper;
 using System;
 using DpdtInject.Generator.Core.Producer.Product;
+using DpdtInject.Injector.RContext;
 
 namespace DpdtInject.Generator.Core.Producer
 {
@@ -60,10 +61,10 @@ namespace DpdtInject.Generator.Core.Producer
                     $"CheckPredicate_{_bindingExtender.BindingContainer.BindToType.Name}_{_bindingExtender.BindingContainer.GetStableSuffix()}",
                     new TypeMethodResult(_typeInfoProvider.Bool()),
                     (methodName, returnType) => $@"
-[MethodImpl(MethodImplOptions.AggressiveInlining)]
-private {returnType} {methodName}(IResolutionTarget resolutionTarget)
+{GN.AggressiveInlining}
+private {returnType} {methodName}({GN.IResolutionTarget} resolutionTarget)
 {{
-    Func<IResolutionTarget, bool> predicate = 
+    global::System.Func<{GN.IResolutionTarget}, bool> predicate = 
         {_bindingExtender.BindingContainer.WhenArgumentClause}
         ;
 
@@ -80,12 +81,12 @@ private {returnType} {methodName}(IResolutionTarget resolutionTarget)
                 $"GetInstance_{_bindingExtender.BindingContainer.BindToType.Name}_{_bindingExtender.BindingContainer.GetStableSuffix()}",
                 new TypeMethodResult(_bindingExtender.BindingContainer.BindToType),
                 (methodName, returnType) => $@"
-private volatile {_bindingExtender.BindingContainer.BindToType.ToDisplayString()} {singletonInstanceName} = null;
-private readonly System.Object {lockerName} = new System.Object();
+private volatile {_bindingExtender.BindingContainer.BindToType.ToGlobalDisplayString()} {singletonInstanceName} = null;
+private readonly global::System.Object {lockerName} = new global::System.Object();
 
-[MethodImpl(MethodImplOptions.AggressiveInlining)]
+{GN.AggressiveInlining}
 private {returnType} {methodName}(
-    IResolutionTarget resolutionTarget
+    {GN.IResolutionTarget} resolutionTarget
     )
 {{
     if({singletonInstanceName} is null)
@@ -94,7 +95,7 @@ private {returnType} {methodName}(
         {{
             if({singletonInstanceName} is null)
             {{
-                {singletonInstanceName} = new {_bindingExtender.BindingContainer.BindToType.ToDisplayString()}(
+                {singletonInstanceName} = new {_bindingExtender.BindingContainer.BindToType.ToGlobalDisplayString()}(
                     {caps.Join(p => p.ResolveConstructorArgumentClause, ",")}
                     );
             }}
@@ -109,9 +110,9 @@ private {returnType} {methodName}(
                 $"GetInstance_{ _bindingExtender.BindingContainer.BindToType.Name}_{_bindingExtender.BindingContainer.GetStableSuffix()}{DpdtArgumentWrapperTypeEnum.Func.GetPostfix()}",
                 new TypeMethodResult(_typeInfoProvider.Func(_bindingExtender.BindingContainer.BindToType)),
                 (methodName, returnType) => $@"
-[MethodImpl(MethodImplOptions.AggressiveInlining)]
+{GN.AggressiveInlining}
 private {returnType} {methodName}(
-    IResolutionTarget resolutionTarget
+    {GN.IResolutionTarget} resolutionTarget
     )
 {{
     return () => {retrieveObjectMethod.GetWrappedMethodName(DpdtArgumentWrapperTypeEnum.None)}(resolutionTarget);
@@ -125,7 +126,7 @@ private {returnType} {methodName}(
 private {returnType} {methodName}(
     )
 {{
-    if({singletonInstanceName} is {nameof(IDisposable)} d)
+    if({singletonInstanceName} is {GN.IDisposable} d)
     {{
         d.{nameof(IDisposable.Dispose)}();
     }}

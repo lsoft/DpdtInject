@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using DpdtInject.Injector;
+using DpdtInject.Generator.Core.Producer;
 
 namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
 {
@@ -45,7 +46,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
                 throw new ArgumentNullException(nameof(invocationSymbols));
             }
 
-            if (invocationSymbols[0].Item2.Name == DefaultCluster.ScanInAssembliesWithMethodName && invocationSymbols[0].Item2.ContainingType.ToDisplayString() == typeof(DefaultCluster).FullName)
+            if (invocationSymbols[0].Item2.Name == DefaultCluster.ScanInAssembliesWithMethodName && invocationSymbols[0].Item2.ContainingType.ToGlobalDisplayString() == typeof(DefaultCluster).ToGlobalDisplayString())
             {
                 return _conventionalbef.Create(expressionNode, invocationSymbols);
             }

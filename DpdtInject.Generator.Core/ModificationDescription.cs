@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using DpdtInject.Generator.Core.Producer;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using System;
 using System.IO;
@@ -11,7 +12,7 @@ namespace DpdtInject.Generator.Core
 
         public string ModifiedTypeName => ModifiedType.Name;
 
-        public string ModifiedTypeFullName => ModifiedType.ToDisplayString();
+        public string ModifiedTypeGlobalName => ModifiedType.ToGlobalDisplayString();
 
         public string NewFileName { get; }
 

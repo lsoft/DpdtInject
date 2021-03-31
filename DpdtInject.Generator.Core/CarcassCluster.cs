@@ -1,14 +1,4 @@
 ﻿#pragma warning disable CS0105
-using DpdtInject.Injector;
-using DpdtInject.Injector.CustomScope;
-using DpdtInject.Injector.Excp;
-using DpdtInject.Injector.Reinvented;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
-using System.Threading;
-using DpdtInject.Injector.RContext;
 // ReSharper disable SuspiciousTypeConversion.Global
 
 //GENERATOR: place for an additional usings
@@ -16,27 +6,27 @@ using DpdtInject.Injector.RContext;
 namespace DpdtInject.Generator.Core
 {
 #nullable disable
-    public partial class CarcassCluster : ICluster
+    public partial class CarcassCluster : global::DpdtInject.Injector.ICluster
         //GENERATOR: place for a resolution interfaces
     {
-        private readonly ICluster _parentCluster;
-        private long _disposed = 0L;
+        private readonly global::DpdtInject.Injector.ICluster _parentCluster;
+        private global::System.Int64 _disposed = 0L;
 
-        private readonly FixedSizeFactoryContainer _typeContainerGet;
-        private readonly FixedSizeFactoryContainer _typeContainerGetAll;
+        private readonly global::DpdtInject.Injector.Reinvented.FixedSizeFactoryContainer _typeContainerGet;
+        private readonly global::DpdtInject.Injector.Reinvented.FixedSizeFactoryContainer _typeContainerGetAll;
 
         public CarcassCluster(
-            ICluster parentCluster
+            global::DpdtInject.Injector.ICluster parentCluster
             )
         {
             //parentCluster allowed to be null
 
             _parentCluster = parentCluster;
 
-            _typeContainerGet = new FixedSizeFactoryContainer(
+            _typeContainerGet = new global::DpdtInject.Injector.Reinvented.FixedSizeFactoryContainer(
                 //GENERATOR: add nongeneric GET binding
                 );
-            _typeContainerGetAll = new FixedSizeFactoryContainer(
+            _typeContainerGetAll = new global::DpdtInject.Injector.Reinvented.FixedSizeFactoryContainer(
                 //GENERATOR: add nongeneric GET ALL binding
                 );
 
@@ -51,52 +41,35 @@ namespace DpdtInject.Generator.Core
 
             if(exceptions.Count > 0)
             {
-                throw new AggregateException(exceptions);
+                throw new global::System.AggregateException(exceptions);
             }
         }
 
-        private List<Exception> TrySafelyDispose(
+        private global::System.Collections.Generic.List<global::System.Exception> TrySafelyDispose(
             )
         {
-            var result = new List<Exception>();
+            var result = new global::System.Collections.Generic.List<global::System.Exception>();
 
-            if (Interlocked.Exchange(ref _disposed, 1L) != 0L)
+            if (global::System.Threading.Interlocked.Exchange(ref _disposed, 1L) != 0L)
             {
                 return result;
             }
 
             //GENERATOR: place for a dispose clauses
 
-            //why do we need to dispose a parent cluster??
-            //if (!(_parentCluster is null))
-            //{
-            //    try
-            //    {
-            //        var parentExceptions = _parentCluster.TrySafelyDispose();
-            //        if (parentExceptions.Count > 0)
-            //        {
-            //            result.AddRange(parentExceptions);
-            //        }
-            //    }
-            //    catch (Exception excp)
-            //    {
-            //        result.Add(excp);
-            //    }
-            //}
-
             return result;
         }
 
         private void TryToSafeDispose(
-            System.Action disposeAction,
-            ref System.Collections.Generic.List<Exception> exceptions
+            global::System.Action disposeAction,
+            ref global::System.Collections.Generic.List<global::System.Exception> exceptions
             )
         {
             try
             {
                 disposeAction();
             }
-            catch (System.Exception excp)
+            catch (global::System.Exception excp)
             {
                 exceptions.Add(excp);
             }
@@ -104,7 +77,7 @@ namespace DpdtInject.Generator.Core
 
         #endregion
 
-        public CustomScopeObject CreateCustomScope(
+        public global::DpdtInject.Injector.CustomScope.CustomScopeObject CreateCustomScope(
             )
         {
             return new(
@@ -115,21 +88,21 @@ namespace DpdtInject.Generator.Core
 #region IsRegisteredFrom<> and IsRegisteredFrom(Type)
 
         //GENERATOR: aggressive inline and optimize
-        public bool IsRegisteredFrom<T>()
+        public global::System.Boolean IsRegisteredFrom<T>()
         {
-            return this is IResolution<T>;
+            return this is global::DpdtInject.Injector.IResolution<T>;
         }
 
         //GENERATOR: aggressive inline and optimize
-        public bool IsRegisteredFrom(System.Type requestedType)
+        public global::System.Boolean IsRegisteredFrom(System.Type requestedType)
         {
             return _typeContainerGet.IsRegisteredFrom(requestedType);
         }
 
         //GENERATOR: aggressive inline and optimize
-        public bool IsRegisteredFromRecursive<T>()
+        public global::System.Boolean IsRegisteredFromRecursive<T>()
         {
-            if(this is IResolution<T>)
+            if(this is global::DpdtInject.Injector.IResolution<T>)
             {
                 return true;
             }
@@ -149,7 +122,7 @@ namespace DpdtInject.Generator.Core
         //GENERATOR: aggressive inline and optimize
         public T Get<T>()
         {
-            if (this is IResolution<T> r)
+            if (this is global::DpdtInject.Injector.IResolution<T> r)
             {
                 return r.Get(
                     null
@@ -162,12 +135,12 @@ namespace DpdtInject.Generator.Core
         }
 
         //GENERATOR: aggressive inline and optimize
-        public T Get<T>(CustomScopeObject customScope)
+        public T Get<T>(global::DpdtInject.Injector.CustomScope.CustomScopeObject customScope)
         {
-            if (this is IResolution<T> r)
+            if (this is global::DpdtInject.Injector.IResolution<T> r)
             {
                 return r.Get(
-                    new ResolutionRequest<CarcassCluster, T>(
+                    new global::DpdtInject.Injector.RContext.ResolutionRequest<CarcassCluster, T>(
                         false,
                         customScope
                         )
@@ -184,9 +157,9 @@ namespace DpdtInject.Generator.Core
         #region GetAll<>
 
         //GENERATOR: aggressive inline and optimize
-        public List<T> GetAll<T>()
+        public global::System.Collections.Generic.List<T> GetAll<T>()
         {
-            if (this is IResolution<T> r)
+            if (this is global::DpdtInject.Injector.IResolution<T> r)
             {
                 return r.GetAll(
                     null
@@ -194,8 +167,8 @@ namespace DpdtInject.Generator.Core
             }
             else
             {
-                throw new DpdtException(
-                    DpdtExceptionTypeEnum.NoBindingAvailable,
+                throw new global::DpdtInject.Injector.Excp.DpdtException(
+                    global::DpdtInject.Injector.Excp.DpdtExceptionTypeEnum.NoBindingAvailable,
                     $"No bindings available for {typeof(T).FullName}",
                     typeof(T).FullName
                     );
@@ -203,12 +176,12 @@ namespace DpdtInject.Generator.Core
         }
 
         //GENERATOR: aggressive inline and optimize
-        public List<T> GetAll<T>(CustomScopeObject customScope)
+        public global::System.Collections.Generic.List<T> GetAll<T>(global::DpdtInject.Injector.CustomScope.CustomScopeObject customScope)
         {
-            if (this is IResolution<T> r)
+            if (this is global::DpdtInject.Injector.IResolution<T> r)
             {
                 return r.GetAll(
-                    new ResolutionRequest<CarcassCluster, T>(
+                    new global::DpdtInject.Injector.RContext.ResolutionRequest<CarcassCluster, T>(
                         true,
                         customScope
                         )
@@ -216,8 +189,8 @@ namespace DpdtInject.Generator.Core
             }
             else
             {
-                throw new DpdtException(
-                    DpdtExceptionTypeEnum.NoBindingAvailable,
+                throw new global::DpdtInject.Injector.Excp.DpdtException(
+                    global::DpdtInject.Injector.Excp.DpdtExceptionTypeEnum.NoBindingAvailable,
                     $"No bindings available for {typeof(T).FullName}",
                     typeof(T).FullName
                     );
@@ -228,7 +201,7 @@ namespace DpdtInject.Generator.Core
 
         #region Get(Type)
 
-        public object Get(System.Type requestedType)
+        public global::System.Object Get(global::System.Type requestedType)
         {
             var result = _typeContainerGet.GetGetObject(
                 requestedType,
@@ -236,11 +209,11 @@ namespace DpdtInject.Generator.Core
                 );
             return result;
         }
-        public object Get(System.Type requestedType, CustomScopeObject scope)
+        public global::System.Object Get(global::System.Type requestedType, global::DpdtInject.Injector.CustomScope.CustomScopeObject scope)
         {
             var result = _typeContainerGet.GetGetObject(
                 requestedType,
-                new ResolutionRequest<CarcassCluster>(
+                new global::DpdtInject.Injector.RContext.ResolutionRequest<CarcassCluster>(
                     false,
                     requestedType,
                     scope
@@ -254,26 +227,26 @@ namespace DpdtInject.Generator.Core
 #region GetAll(Type)
 
 
-        public IEnumerable<object> GetAll(Type requestedType)
+        public global::System.Collections.Generic.IEnumerable<global::System.Object> GetAll(global::System.Type requestedType)
         {
             var result = _typeContainerGetAll.GetGetObject(
                 requestedType,
                 null
                 );
-            return (IEnumerable<object>)result;
+            return (global::System.Collections.Generic.IEnumerable<global::System.Object>)result;
         }
 
-        public IEnumerable<object> GetAll(Type requestedType, CustomScopeObject scope)
+        public global::System.Collections.Generic.IEnumerable<global::System.Object> GetAll(global::System.Type requestedType, global::DpdtInject.Injector.CustomScope.CustomScopeObject scope)
         {
             var result = _typeContainerGetAll.GetGetObject(
                 requestedType,
-                new ResolutionRequest<CarcassCluster>(
+                new global::DpdtInject.Injector.RContext.ResolutionRequest<CarcassCluster>(
                     true,
                     requestedType,
                     scope
                     )
                 );
-            return (IEnumerable<object>)result;
+            return (global::System.Collections.Generic.IEnumerable<global::System.Object>)result;
         }
 
 #endregion
@@ -290,10 +263,10 @@ namespace DpdtInject.Generator.Core
 
 #region cross cluster methods
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public T GetToChild<T>(IResolutionRequest resolutionRequest)
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public T GetToChild<T>(global::DpdtInject.Injector.RContext.IResolutionRequest resolutionRequest)
         {
-            if (!(this is IResolution<T> r))
+            if (!(this is global::DpdtInject.Injector.IResolution<T> r))
             {
                 if (_parentCluster is null)
                 {
@@ -310,10 +283,10 @@ namespace DpdtInject.Generator.Core
                 );
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private T GetFromParent<T>(
-            IResolutionTarget resolutionTarget,
-            string constructorArgument
+            global::DpdtInject.Injector.RContext.IResolutionTarget resolutionTarget,
+            global::System.String constructorArgument
             )
         {
             if (_parentCluster is null)
@@ -322,7 +295,10 @@ namespace DpdtInject.Generator.Core
             }
 
             return _parentCluster.GetToChild<T>(
-                new ResolutionRequest<CarcassCluster, T>(resolutionTarget, constructorArgument)
+                new global::DpdtInject.Injector.RContext.ResolutionRequest<CarcassCluster, T>(
+                    resolutionTarget,
+                    constructorArgument
+                    )
                 );
         }
 
@@ -330,23 +306,26 @@ namespace DpdtInject.Generator.Core
 
 #region private cluster methods
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private T GetFromLocalUnsafely<T>(
             )
         {
-            return ((IResolution<T>)this).Get(
+            return ((global::DpdtInject.Injector.IResolution<T>)this).Get(
                 null
                 );
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private T GetFromLocalUnsafely<T>(
-            IResolutionTarget resolutionTarget,
-            string constructorArgument
+            global::DpdtInject.Injector.RContext.IResolutionTarget resolutionTarget,
+            global::System.String constructorArgument
             )
         {
-            return ((IResolution<T>)this).Get(
-                new ResolutionRequest<CarcassCluster, T>(resolutionTarget, constructorArgument)
+            return ((global::DpdtInject.Injector.IResolution<T>)this).Get(
+                new global::DpdtInject.Injector.RContext.ResolutionRequest<CarcassCluster, T>(
+                    resolutionTarget,
+                    constructorArgument
+                    )
                 );
         }
 
@@ -355,31 +334,31 @@ namespace DpdtInject.Generator.Core
 
         #region raise exceptions
 
-        [DoesNotReturn]
+        [global::System.Diagnostics.CodeAnalysis.DoesNotReturn]
         private T RaiseNoCustomScopeObject<T>()
         {
-            throw new DpdtException(
-                DpdtExceptionTypeEnum.CustomScopeObjectDoesNotFound,
+            throw new global::DpdtInject.Injector.Excp.DpdtException(
+                global::DpdtInject.Injector.Excp.DpdtExceptionTypeEnum.CustomScopeObjectDoesNotFound,
                 $"No custom scope object available for {typeof(T).FullName}",
                 typeof(T).FullName
                 );
         }
 
-        [DoesNotReturn]
+        [global::System.Diagnostics.CodeAnalysis.DoesNotReturn]
         private T RaiseNoBindingAvailable<T>()
         {
-            throw new DpdtException(
-                DpdtExceptionTypeEnum.NoBindingAvailable,
+            throw new global::DpdtInject.Injector.Excp.DpdtException(
+                global::DpdtInject.Injector.Excp.DpdtExceptionTypeEnum.NoBindingAvailable,
                 $"No bindings available for {typeof(T).FullName}",
                 typeof(T).FullName
                 );
         }
 
-        [DoesNotReturn]
+        [global::System.Diagnostics.CodeAnalysis.DoesNotReturn]
         private T RaiseTooManyBindingException<T>()
         {
-            throw new DpdtException(
-                DpdtExceptionTypeEnum.DuplicateBinding,
+            throw new global::DpdtInject.Injector.Excp.DpdtException(
+                global::DpdtInject.Injector.Excp.DpdtExceptionTypeEnum.DuplicateBinding,
                 $"Too many bindings available for {typeof(T).FullName}",
                 typeof(T).FullName
                 );

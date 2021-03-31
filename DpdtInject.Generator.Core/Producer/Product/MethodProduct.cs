@@ -90,7 +90,7 @@ namespace DpdtInject.Generator.Core.Producer.Product
             var methodName = methodSymbol.Name;
             var methodResult = new TypeMethodResult(methodSymbol.ReturnType);
 
-            var methodDeclaration = $@"{GetReturnModifiers(methodSymbol)} {methodSymbol.ReturnType.ToDisplayString()} {methodName}({constructorArguments.Join(ca => ca.GetDeclarationSyntax(), ",")})";
+            var methodDeclaration = $@"{GetReturnModifiers(methodSymbol)} {methodSymbol.ReturnType.ToGlobalDisplayString()} {methodName}({constructorArguments.Join(ca => ca.GetDeclarationSyntax(), ",")})";
 
             return new AdvancedMethodProduct(
                 methodName,

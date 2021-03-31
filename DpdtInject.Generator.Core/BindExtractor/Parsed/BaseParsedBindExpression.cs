@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using DpdtInject.Generator.Core.Binding;
+using DpdtInject.Generator.Core.Producer;
 using DpdtInject.Injector.Bind;
 using DpdtInject.Injector.Bind.Settings;
 using DpdtInject.Injector.Excp;
@@ -46,31 +47,31 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
                 {
                     throw new DpdtException(
                         DpdtExceptionTypeEnum.IncorrectBinding_IncorrectSetting,
-                        $"Incorrect setting used [{settingSymbol.ToDisplayString()}]",
-                        settingSymbol.ToDisplayString()
+                        $"Incorrect setting used [{settingSymbol.ToGlobalDisplayString()}]",
+                        settingSymbol.ToGlobalDisplayString()
                         );
                 }
 
-                if (settingScopes.Contains(settingSymbol.BaseType.ToDisplayString()))
+                if (settingScopes.Contains(settingSymbol.BaseType.ToGlobalDisplayString()))
                 {
                     throw new DpdtException(
                         DpdtExceptionTypeEnum.IncorrectBinding_IncorrectSetting,
-                        $"Only one settings of each scope is allowed [{settingSymbol.BaseType.ToDisplayString()}]",
-                        settingSymbol.BaseType.ToDisplayString()
+                        $"Only one settings of each scope is allowed [{settingSymbol.BaseType.ToGlobalDisplayString()}]",
+                        settingSymbol.BaseType.ToGlobalDisplayString()
                         );
                 }
-                settingScopes.Add(settingSymbol.BaseType.ToDisplayString());
+                settingScopes.Add(settingSymbol.BaseType.ToGlobalDisplayString());
 
                 var settingType = typeof(ISetting).Assembly.GetType(
-                    settingSymbol.ToDisplayString()
+                    settingSymbol.ToFullDisplayString()
                     );
 
                 if (settingType is null)
                 {
                     throw new DpdtException(
                         DpdtExceptionTypeEnum.InternalError,
-                        $"Internal error with instanciate a [{settingSymbol.ToDisplayString()}]",
-                        settingSymbol.BaseType.ToDisplayString()
+                        $"Internal error with instanciate a [{settingSymbol.ToGlobalDisplayString()}]",
+                        settingSymbol.BaseType.ToGlobalDisplayString()
                         );
                 }
 
@@ -100,7 +101,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
 
             foreach (var method in methods)
             {
-                var when = invocationSymbols.FirstOrDefault(s => s.Item2.ContainingType.ToDisplayString() == method.DeclaringType!.FullName && s.Item2.Name == method.Name);
+                var when = invocationSymbols.FirstOrDefault(s => s.Item2.ContainingType.ToGlobalDisplayString() == method.DeclaringType!.ToGlobalDisplayString() && s.Item2.Name == method.Name);
 
                 if (when is null)
                 {

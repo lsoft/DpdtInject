@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using DpdtInject.Generator.Core.Producer;
 using DpdtInject.Injector.Bind;
 using DpdtInject.Injector.Bind.Settings;
 using Microsoft.CodeAnalysis;
@@ -27,7 +28,7 @@ namespace DpdtInject.Generator.Core.Binding
         {
             get
             {
-                return BindToType.ToDisplayString();
+                return BindToType.ToGlobalDisplayString();
             }
         }
 

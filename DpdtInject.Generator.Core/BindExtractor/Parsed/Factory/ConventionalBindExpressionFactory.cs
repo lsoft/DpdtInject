@@ -11,6 +11,7 @@ using DpdtInject.Injector.Helper;
 using DpdtInject.Generator.Core.Helpers;
 using System.Collections.Immutable;
 using DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional;
+using DpdtInject.Generator.Core.Producer;
 
 namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
 {

@@ -25,6 +25,7 @@ using Thread = System.Threading.Thread;
 
 using static DpdtInject.Extension.Shared.Logging;
 using DpdtInject.Extension.BuildStatus;
+using DpdtInject.Generator.Core.Producer;
 
 namespace DpdtInject.Extension.Container
 {

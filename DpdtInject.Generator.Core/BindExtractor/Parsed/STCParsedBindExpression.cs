@@ -89,11 +89,11 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
             _toType = toType;
             _isConventional = isConventional;
             _factoryPayload = invocationSymbols.FirstOrDefault(
-                s => s.Item2.ContainingType.ToDisplayString() == typeof(IToFactoryBinding).FullName && s.Item2.Name == nameof(IToFactoryBinding.WithPayload)
+                s => s.Item2.ContainingType.ToGlobalDisplayString() == typeof(IToFactoryBinding).ToGlobalDisplayString() && s.Item2.Name == nameof(IToFactoryBinding.WithPayload)
                 );
 
             _proxySettings = invocationSymbols.FirstOrDefault(
-                s => s.Item2.ContainingType.ToDisplayString() == typeof(IToProxyBinding).FullName && s.Item2.Name == nameof(IToProxyBinding.WithProxySettings)
+                s => s.Item2.ContainingType.ToGlobalDisplayString() == typeof(IToProxyBinding).ToGlobalDisplayString() && s.Item2.Name == nameof(IToProxyBinding.WithProxySettings)
                 );
 
             _whenArgumentClause = DetermineArgumentSubClause(
@@ -210,15 +210,15 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
             if (updateTypes)
             {
                 var updatedBindToType = _typeInfoContainer.GetTypeByMetadataName(
-                    types.BindToType.ToDisplayString()
+                    types.BindToType.ToFullDisplayString()
                     );
 
                 if (updatedBindToType is null)
                 {
                     throw new DpdtException(
                         DpdtExceptionTypeEnum.InternalError,
-                        $"Cannot get an updated version of the class [{types.BindToType.ToDisplayString()}]",
-                        types.BindToType.ToDisplayString()
+                        $"Cannot get an updated version of the class [{types.BindToType.ToGlobalDisplayString()}]",
+                        types.BindToType.ToGlobalDisplayString()
                         );
                 }
 
@@ -255,15 +255,15 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
         private void CheckForAbsenceForConfigureStatements()
         {
             var configures = _invocationSymbols.FindAll(
-                s => s.Item2.ContainingType.ToDisplayString() == typeof(IConfigureBinding).FullName && s.Item2.Name == nameof(IConfigureBinding.Configure)
+                s => s.Item2.ContainingType.ToGlobalDisplayString() == typeof(IConfigureBinding).ToGlobalDisplayString() && s.Item2.Name == nameof(IConfigureBinding.Configure)
                 );
 
             if (configures.Count != 0)
             {
                 throw new DpdtException(
                     DpdtExceptionTypeEnum.IncorrectBinding_IncorrectConfiguration,
-                    $"Proxy binding for [{_toType.ToDisplayString()}] should have 0 {nameof(IConfigureBinding.Configure)} invocations. There is nothing to configure.",
-                    _toType.ToDisplayString()
+                    $"Proxy binding for [{_toType.ToGlobalDisplayString()}] should have 0 {nameof(IConfigureBinding.Configure)} invocations. There is nothing to configure.",
+                    _toType.ToGlobalDisplayString()
                     );
             }
         }
@@ -277,8 +277,8 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
             {
                 throw new DpdtException(
                     DpdtExceptionTypeEnum.IncorrectBinding_IncorrectTarget,
-                    $"Type [{_toType.ToDisplayString()}] is not a class or struct, it is {_toType.Kind}",
-                    _toType.ToDisplayString()
+                    $"Type [{_toType.ToGlobalDisplayString()}] is not a class or struct, it is {_toType.Kind}",
+                    _toType.ToGlobalDisplayString()
                     );
             }
 
@@ -291,8 +291,8 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
                 {
                     throw new DpdtException(
                         DpdtExceptionTypeEnum.IncorrectBinding_IncorrectFrom,
-                        $"It is allowed only one bind-from-type for this kind of bindings. Take a look to [{_toType.ToDisplayString()}] binding.",
-                        _toType.ToDisplayString()
+                        $"It is allowed only one bind-from-type for this kind of bindings. Take a look to [{_toType.ToGlobalDisplayString()}] binding.",
+                        _toType.ToGlobalDisplayString()
                         );
                 }
 
@@ -310,8 +310,8 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
                         {
                             throw new DpdtException(
                                 DpdtExceptionTypeEnum.TargetClassMustBePartial,
-                                $"Type [{_toType.ToDisplayString()}] must be partial",
-                                _toType.ToDisplayString()
+                                $"Type [{_toType.ToGlobalDisplayString()}] must be partial",
+                                _toType.ToGlobalDisplayString()
                                 );
                         }
                     }
@@ -326,12 +326,12 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
                 //check for cast exists
                 foreach (var bindFrom in _fromTypes)
                 {
-                    if (!_toType.CanBeCastedTo(bindFrom.ToDisplayString()))
+                    if (!_toType.CanBeCastedTo(bindFrom.ToFullDisplayString()))
                     {
                         throw new DpdtException(
                             DpdtExceptionTypeEnum.IncorrectBinding_IncorrectFrom,
-                            $"Type [{_toType.ToDisplayString()}] cannot be casted to [{bindFrom.ToDisplayString()}]",
-                            _toType.ToDisplayString()
+                            $"Type [{_toType.ToGlobalDisplayString()}] cannot be casted to [{bindFrom.ToGlobalDisplayString()}]",
+                            _toType.ToGlobalDisplayString()
                             );
                     }
                 }

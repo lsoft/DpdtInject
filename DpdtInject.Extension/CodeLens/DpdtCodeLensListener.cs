@@ -8,6 +8,7 @@ using DpdtInject.Extension.Options;
 using DpdtInject.Extension.Shared;
 using DpdtInject.Extension.Shared.Dto;
 using DpdtInject.Generator.Core.Helpers;
+using DpdtInject.Generator.Core.Producer;
 using Microsoft.VisualStudio.Language.CodeLens;
 using Microsoft.VisualStudio.Utilities;
 

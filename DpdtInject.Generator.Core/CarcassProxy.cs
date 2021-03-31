@@ -1,7 +1,4 @@
 ﻿#pragma warning disable CS0105
-using System;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using BindFromType = System.Object;
 using SessionSaver = DpdtInject.Injector.Bind.BaseSessionSaver;
 //PROXYPRODUCER: additonal usings
@@ -13,7 +10,7 @@ namespace DpdtInject.Generator.Core
     public partial class CarcassProxy
         : BindFromType
     {
-        private static readonly double _stopwatchFrequency = (double)Stopwatch.Frequency;
+        private static readonly double _stopwatchFrequency = (double)global::System.Diagnostics.Stopwatch.Frequency;
 
         private readonly BindFromType _payload;
         private readonly SessionSaver _sessionSaver;
@@ -27,12 +24,12 @@ namespace DpdtInject.Generator.Core
         {
             if (payload is null)
             {
-                throw new ArgumentNullException(nameof(payload));
+                throw new global::System.ArgumentNullException(nameof(payload));
             }
 
             if (sessionSaver is null)
             {
-                throw new ArgumentNullException(nameof(sessionSaver));
+                throw new global::System.ArgumentNullException(nameof(sessionSaver));
             }
 
             _payload = payload;

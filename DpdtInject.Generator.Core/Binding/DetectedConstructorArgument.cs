@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Generator.Core.ArgumentWrapper;
+using DpdtInject.Generator.Core.Producer;
 using DpdtInject.Injector.Excp;
 using Microsoft.CodeAnalysis;
 using System;
@@ -138,11 +139,11 @@ namespace DpdtInject.Generator.Core.Binding
 
             if (HasExplicitDefaultValue)
             {
-                return $"{GetDeclarationModifiers()} {Type.ToDisplayString()} {Name} = {ExplicitDefaultValue?.ToString() ?? "null"}";
+                return $"{GetDeclarationModifiers()} {Type.ToGlobalDisplayString()} {Name} = {ExplicitDefaultValue?.ToString() ?? "null"}";
             }
             else
             {
-                return $"{GetDeclarationModifiers()} {Type.ToDisplayString()} {Name}";
+                return $"{GetDeclarationModifiers()} {Type.ToGlobalDisplayString()} {Name}";
             }
         }
 

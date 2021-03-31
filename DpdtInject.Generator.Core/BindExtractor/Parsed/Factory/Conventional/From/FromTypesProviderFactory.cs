@@ -1,4 +1,5 @@
-﻿using DpdtInject.Injector.Bind;
+﻿using DpdtInject.Generator.Core.Producer;
+using DpdtInject.Injector.Bind;
 using DpdtInject.Injector.Excp;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -21,7 +22,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional.Fr
 
             var fai = invocationSymbols
                 .FirstOrDefault(
-                    s => s.Item2.ContainingType.ToDisplayString() == typeof(IConventionalBinding2).FullName && s.Item2.Name == nameof(IConventionalBinding2.FromAllInterfaces)
+                    s => s.Item2.ContainingType.ToGlobalDisplayString() == typeof(IConventionalBinding2).ToGlobalDisplayString() && s.Item2.Name == nameof(IConventionalBinding2.FromAllInterfaces)
                     );
             if (fai != null)
             {
@@ -30,7 +31,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional.Fr
 
             var fitself = invocationSymbols
                 .FirstOrDefault(
-                    s => s.Item2.ContainingType.ToDisplayString() == typeof(IConventionalBinding2).FullName && s.Item2.Name == nameof(IConventionalBinding2.FromItself)
+                    s => s.Item2.ContainingType.ToGlobalDisplayString() == typeof(IConventionalBinding2).ToGlobalDisplayString() && s.Item2.Name == nameof(IConventionalBinding2.FromItself)
                     );
             if (fitself != null)
             {
@@ -39,7 +40,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional.Fr
 
             var fst = invocationSymbols
                 .FirstOrDefault(
-                    s => s.Item2.ContainingType.ToDisplayString() == typeof(IConventionalBinding2).FullName && s.Item2.Name == nameof(IConventionalBinding2.From)
+                    s => s.Item2.ContainingType.ToGlobalDisplayString() == typeof(IConventionalBinding2).ToGlobalDisplayString() && s.Item2.Name == nameof(IConventionalBinding2.From)
                     );
             if (fst != null)
             {

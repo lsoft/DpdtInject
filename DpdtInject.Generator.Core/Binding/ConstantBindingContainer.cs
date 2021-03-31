@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using DpdtInject.Injector.Bind;
 using DpdtInject.Injector.Bind.Settings;
+using DpdtInject.Generator.Core.Producer;
 
 namespace DpdtInject.Generator.Core.Binding
 {
@@ -24,7 +25,7 @@ namespace DpdtInject.Generator.Core.Binding
         {
             get
             {
-                return $"constant[{BindToType.ToDisplayString()}]";
+                return $"constant[{BindToType.ToGlobalDisplayString()}]";
             }
         }
 

@@ -74,13 +74,13 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
                 }
 
                 //method is not implemented in the proto class
-                if(!_factoryPayloadType.CanBeCastedTo(declaredMethod.ReturnType.ToDisplayString()))
+                if(!_factoryPayloadType.CanBeCastedTo(declaredMethod.ReturnType.ToFullDisplayString()))
                 {
                     //return type is not a factory payload
                     throw new DpdtException(
                         DpdtExceptionTypeEnum.IncorrectBinding_IncorrectReturnType,
-                        $"Factory [{_types.BindToType.ToDisplayString()}] contains a method [{declaredMethod.Name}] with return type [{declaredMethod.ReturnType.ToDisplayString()}] that cannot be produced by casting a payload [{_factoryPayloadType.ToDisplayString()}]",
-                        _types.BindToType.ToDisplayString()
+                        $"Factory [{_types.BindToType.ToGlobalDisplayString()}] contains a method [{declaredMethod.Name}] with return type [{declaredMethod.ReturnType.ToGlobalDisplayString()}] that cannot be produced by casting a payload [{_factoryPayloadType.ToGlobalDisplayString()}]",
+                        _types.BindToType.ToGlobalDisplayString()
                         );
                 }
 
@@ -123,8 +123,8 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
                 {
                     throw new DpdtException(
                         DpdtExceptionTypeEnum.CannotBuildFactory,
-                        $"Cannot instanciate factory [{_types.BindToType.ToDisplayString()}] because of 2 or more constructors contains same parameter name [{constructorArgument.Name}] with different types",
-                        _types.BindToType.ToDisplayString()
+                        $"Cannot instanciate factory [{_types.BindToType.ToGlobalDisplayString()}] because of 2 or more constructors contains same parameter name [{constructorArgument.Name}] with different types",
+                        _types.BindToType.ToGlobalDisplayString()
                         );
                 }
 
@@ -154,7 +154,7 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
                     return $@"
         public {returnType} {methodName}({usedConstructorArguments.Join(cafm => cafm.GetDeclarationSyntax(), ",")})
         {{
-            return new {_factoryPayloadType.ToDisplayString()}(
+            return new {_factoryPayloadType.ToGlobalDisplayString()}(
                 {caCombined.Join(cac => cac, ",")}
                 );
         }}

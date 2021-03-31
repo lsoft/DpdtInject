@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Generator.Core.Helpers;
+using DpdtInject.Generator.Core.Producer;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional.Fr
 
             foreach (var specificType in SpecificTypes)
             {
-                if (type.CanBeCastedTo(specificType.ToDisplayString()))
+                if (type.CanBeCastedTo(specificType.ToFullDisplayString()))
                 {
                     result.Add(specificType);
                 }

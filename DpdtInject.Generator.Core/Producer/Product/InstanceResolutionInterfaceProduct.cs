@@ -46,7 +46,7 @@ namespace DpdtInject.Generator.Core.Producer.Product
             ShortTypeNameGenerator sng
             )
         {
-            itwMethods.WriteLine($"#region {BindFrom.ToDisplayString()}");
+            itwMethods.WriteLine($"#region {BindFrom.ToFullDisplayString()}");
             itwMethods.WriteLine();
 
             foreach (var (resolutionProduct, isLast1) in ResolutionProducts.IterateWithLastSignal())

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using DpdtInject.Generator.Core.Producer;
 using DpdtInject.Injector.Bind;
 using DpdtInject.Injector.Bind.Settings;
 using DpdtInject.Injector.Excp;
@@ -62,11 +63,6 @@ namespace DpdtInject.Generator.Core.Binding
             get;
         }
 
-        public IReadOnlyCollection<string> FromTypeFullNames
-        {
-            get;
-        }
-
         public bool IsConditional => WhenArgumentClause is not null;
 
         public abstract string TargetRepresentation
@@ -118,7 +114,6 @@ namespace DpdtInject.Generator.Core.Binding
             _settings = settings;
             IsConventional = isConventional;
             Identifier = Guid.NewGuid();
-            FromTypeFullNames = new HashSet<string>(BindFromTypes.ConvertAll(b => b.ToDisplayString()));
         }
 
         public bool IsSetup<T>()
@@ -134,8 +129,6 @@ namespace DpdtInject.Generator.Core.Binding
 
             return setting != null;
         }
-
-        public string GetFromTypeFullNamesCombined(string separator = "_") => string.Join(separator, FromTypeFullNames);
 
         public string GetStableSuffix()
         {

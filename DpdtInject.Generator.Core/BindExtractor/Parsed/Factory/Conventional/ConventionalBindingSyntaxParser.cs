@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional.From;
+using DpdtInject.Generator.Core.Producer;
 
 namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional
 {
@@ -64,7 +65,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional
 
             ScanInList = invocationSymbols
                 .Where(
-                    s => s.Item2.ContainingType.ToDisplayString() == typeof(DefaultCluster).FullName && s.Item2.Name == DefaultCluster.ScanInAssembliesWithMethodName
+                    s => s.Item2.ContainingType.ToGlobalDisplayString() == typeof(DefaultCluster).ToGlobalDisplayString() && s.Item2.Name == DefaultCluster.ScanInAssembliesWithMethodName
                     )
                 .SelectMany(s => s.Item2.TypeArguments)
                 .ToList()
@@ -72,7 +73,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional
 
             SelectWithSet = invocationSymbols
                 .Where(
-                    s => s.Item2.ContainingType.ToDisplayString().In(typeof(IConventionalBinding).FullName, typeof(IConventionalBinding2).FullName) && s.Item2.Name == nameof(IConventionalBinding.SelectAllWith)
+                    s => s.Item2.ContainingType.ToGlobalDisplayString().In(typeof(IConventionalBinding).ToGlobalDisplayString(), typeof(IConventionalBinding2).ToGlobalDisplayString()) && s.Item2.Name == nameof(IConventionalBinding.SelectAllWith)
                     )
                 .SelectMany(s => s.Item2.TypeArguments)
                 .ToList()
@@ -80,7 +81,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional
 
             ExcludeWithSet = invocationSymbols
                 .Where(
-                    s => s.Item2.ContainingType.ToDisplayString().In(typeof(IConventionalBinding).FullName, typeof(IConventionalBinding2).FullName) && s.Item2.Name == nameof(IConventionalBinding2.ExcludeAllWith)
+                    s => s.Item2.ContainingType.ToGlobalDisplayString().In(typeof(IConventionalBinding).ToGlobalDisplayString(), typeof(IConventionalBinding2).ToGlobalDisplayString()) && s.Item2.Name == nameof(IConventionalBinding2.ExcludeAllWith)
                     )
                 .SelectMany(s => s.Item2.TypeArguments)
                 .ToList()

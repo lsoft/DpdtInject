@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
 using DpdtInject.Generator.Core.Binding;
+using DpdtInject.Generator.Core.Producer;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Bind;
 using DpdtInject.Injector.Excp;
@@ -69,12 +70,12 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
             _constantClause = constantClause;
 
             _from = invocationSymbols.First(
-                s => s.Item2.ContainingType.ToDisplayString() == typeof(DefaultCluster).FullName && s.Item2.Name == DefaultCluster.BindMethodName
+                s => s.Item2.ContainingType.ToGlobalDisplayString() == typeof(DefaultCluster).ToGlobalDisplayString() && s.Item2.Name == DefaultCluster.BindMethodName
                 );
             _fromTypes =  _from.Item2.TypeArguments;
 
             _constScope = invocationSymbols.First(
-                s => s.Item2.ContainingType.ToDisplayString() == typeof(IToOrConstantBinding).FullName && s.Item2.Name == nameof(IToOrConstantBinding.WithConstScope)
+                s => s.Item2.ContainingType.ToGlobalDisplayString() == typeof(IToOrConstantBinding).ToGlobalDisplayString() && s.Item2.Name == nameof(IToOrConstantBinding.WithConstScope)
                 );
 
             _whenArgumentClause = DetermineArgumentSubClause(

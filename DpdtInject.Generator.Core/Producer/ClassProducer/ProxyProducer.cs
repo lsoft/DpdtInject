@@ -190,22 +190,22 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
                 {proxyArguments}
                 );
 
-            var startDate = System.Diagnostics.Stopwatch.GetTimestamp();
+            var startDate = global::System.Diagnostics.Stopwatch.GetTimestamp();
             try
             {{
                 _payload.{methodName}({constructorArguments.Join(cafm => cafm.GetUsageSyntax(), ",")});
 
                 _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
                     sessionGuid,
-                    (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                    (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
                     null
                     );
             }}
-            catch (Exception excp)
+            catch (global::System.Exception excp)
             {{
                 _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
                     sessionGuid,
-                    (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                    (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
                     excp
                     );
 
@@ -237,24 +237,24 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
                 {proxyArguments}
                 );
 
-            var startDate = System.Diagnostics.Stopwatch.GetTimestamp();
+            var startDate = global::System.Diagnostics.Stopwatch.GetTimestamp();
             try
             {{
                 var result = {refModifier} _payload.{methodName}({constructorArguments.Join(cafm => cafm.GetUsageSyntax(), ",")});
 
                 _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
                     sessionGuid,
-                    (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                    (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
                     null
                     );
 
                 return result;
             }}
-            catch (Exception excp)
+            catch (global::System.Exception excp)
             {{
                 _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
                     sessionGuid,
-                    (System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                    (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
                     excp
                     );
 

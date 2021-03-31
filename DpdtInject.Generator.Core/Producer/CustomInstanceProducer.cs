@@ -6,6 +6,7 @@ using DpdtInject.Injector;
 using DpdtInject.Injector.Helper;
 using System;
 using DpdtInject.Generator.Core.Producer.Product;
+using DpdtInject.Injector.RContext;
 
 namespace DpdtInject.Generator.Core.Producer
 {
@@ -61,10 +62,10 @@ namespace DpdtInject.Generator.Core.Producer
                     $"CheckPredicate_{_bindingExtender.BindingContainer.BindToType.Name}_{_bindingExtender.BindingContainer.GetStableSuffix()}",
                     new TypeMethodResult(_typeInfoProvider.Bool()),
                     (methodName, returnType) => $@"
-[MethodImpl(MethodImplOptions.AggressiveInlining)]
-private {returnType} {methodName}(IResolutionTarget resolutionTarget)
+{GN.AggressiveInlining}
+private {returnType} {methodName}({GN.IResolutionTarget} resolutionTarget)
 {{
-    Func<IResolutionTarget, bool> predicate = 
+    global::System.Func<{GN.IResolutionTarget}, bool> predicate = 
         {_bindingExtender.BindingContainer.WhenArgumentClause}
         ;
 
@@ -80,21 +81,21 @@ private {returnType} {methodName}(IResolutionTarget resolutionTarget)
                 $"GetInstance_{_bindingExtender.BindingContainer.BindToType.Name}_{_bindingExtender.BindingContainer.GetStableSuffix()}",
                 new TypeMethodResult(_bindingExtender.BindingContainer.BindToType),
                 (methodName, returnType) => $@"
-private readonly System.Guid {scopeGuidName} = new System.Guid(""{Guid.NewGuid()}"");
+private readonly global::System.Guid {scopeGuidName} = new global::System.Guid(""{Guid.NewGuid()}"");
 
-[MethodImpl(MethodImplOptions.AggressiveInlining)]
+{GN.AggressiveInlining}
 private {returnType} {methodName}(
-    IResolutionTarget resolutionTarget
+    {GN.IResolutionTarget} resolutionTarget
     )
 {{
     if(resolutionTarget.ScopeObject is null)
     {{
-        RaiseNoCustomScopeObject<{_bindingExtender.BindingContainer.BindToType.ToDisplayString()}>();
+        RaiseNoCustomScopeObject<{_bindingExtender.BindingContainer.BindToType.ToGlobalDisplayString()}>();
     }}
 
-    var result = ({_bindingExtender.BindingContainer.BindToType.ToDisplayString()}) resolutionTarget.ScopeObject.GetOrAdd(
+    var result = ({_bindingExtender.BindingContainer.BindToType.ToGlobalDisplayString()}) resolutionTarget.ScopeObject.GetOrAdd(
         {scopeGuidName},
-        () => new {_bindingExtender.BindingContainer.BindToType.ToDisplayString()}(
+        () => new {_bindingExtender.BindingContainer.BindToType.ToGlobalDisplayString()}(
             {caps.Join(p => p.ResolveConstructorArgumentClause, ",")}
             )
         );
@@ -107,9 +108,9 @@ private {returnType} {methodName}(
                 $"GetInstance_{_bindingExtender.BindingContainer.BindToType.Name}_{_bindingExtender.BindingContainer.GetStableSuffix()}{DpdtArgumentWrapperTypeEnum.Func.GetPostfix()}",
                 new TypeMethodResult(_typeInfoProvider.Func(_bindingExtender.BindingContainer.BindToType)),
                 (methodName, returnType) => $@"
-[MethodImpl(MethodImplOptions.AggressiveInlining)]
+{GN.AggressiveInlining}
 private {returnType} {methodName}(
-    IResolutionTarget resolutionTarget
+    {GN.IResolutionTarget} resolutionTarget
     )
 {{
     return () => {retrieveObjectMethod.GetWrappedMethodName(DpdtArgumentWrapperTypeEnum.None)}(resolutionTarget);

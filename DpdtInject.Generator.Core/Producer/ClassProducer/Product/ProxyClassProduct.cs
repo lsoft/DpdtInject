@@ -72,7 +72,7 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer.Product
             var fixedCompilationUnit = compilationUnit
                 .ReplaceLineStartsWith(
                     "namespace",
-                    $"namespace {BindToType.ContainingNamespace.ToDisplayString()}"
+                    $"namespace {BindToType.ContainingNamespace.ToFullDisplayString()}"
                     )
                 .ReplaceLineStartsWith(
                     "using BindFromType",
@@ -92,11 +92,11 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer.Product
                     )
                 .CheckAndReplace(
                     "BindFromType",
-                    BindFromType.ToDisplayString()
+                    BindFromType.ToGlobalDisplayString()
                     )
                 .CheckAndReplace(
                     "SessionSaver",
-                    _sessionSaverType.ToDisplayString()
+                    _sessionSaverType.ToGlobalDisplayString()
                     )
                 .CheckAndReplace(
                     "//PROXYPRODUCER: put methods here",

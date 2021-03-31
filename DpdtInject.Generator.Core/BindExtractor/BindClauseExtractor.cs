@@ -10,6 +10,7 @@ using DpdtInject.Injector.Bind;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Generator.Core.Helpers;
 using DpdtInject.Generator.Core.BindExtractor.Parsed.Factory;
+using DpdtInject.Generator.Core.Producer;
 
 namespace DpdtInject.Generator.Core.BindExtractor
 {
@@ -41,7 +42,7 @@ namespace DpdtInject.Generator.Core.BindExtractor
                     typeof(IConventionalBinding),
                     typeof(IConventionalBinding2),
                     typeof(IConventionalBinding3),
-                }.ToDictionary(s => s.FullName!, s => s);
+                }.ToDictionary(s => s.ToGlobalDisplayString(), s => s);
         }
 
         public BindClauseExtractor(
@@ -115,7 +116,7 @@ namespace DpdtInject.Generator.Core.BindExtractor
 
             invocations.Reverse();
 
-            var currentType = _set[typeof(DefaultCluster).FullName!];
+            var currentType = _set[typeof(DefaultCluster).ToGlobalDisplayString()];
 
             var invocationSymbols = new List<Tuple<InvocationExpressionSyntax, IMethodSymbol>>();
             for(var invocationIndex = 0; invocationIndex < invocations.Count; invocationIndex++)
@@ -134,7 +135,7 @@ namespace DpdtInject.Generator.Core.BindExtractor
                     continue;
                 }
 
-                var setds = symbol.ContainingType.ToDisplayString();
+                var setds = symbol.ContainingType.ToGlobalDisplayString();
                 if (!_set.ContainsKey(setds))
                 {
                     throw new DpdtException(
@@ -155,7 +156,7 @@ namespace DpdtInject.Generator.Core.BindExtractor
 
                 if (isLast && invocations.Count == 2)
                 {
-                    if (symbol.ContainingType.ToDisplayString() == typeof(IToFactoryBinding).FullName)
+                    if (symbol.ContainingType.ToGlobalDisplayString() == typeof(IToFactoryBinding).ToGlobalDisplayString())
                     {
                         throw new DpdtException(
                             DpdtExceptionTypeEnum.IncorrectBinding_IncorrectClause,

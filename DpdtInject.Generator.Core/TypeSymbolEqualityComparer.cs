@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using DpdtInject.Generator.Core.Producer;
+using Microsoft.CodeAnalysis;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
@@ -28,7 +29,7 @@ namespace DpdtInject.Generator.Core
                 return false;
             }
 
-            if (x.ToDisplayString() == y.ToDisplayString())
+            if (x.ToGlobalDisplayString() == y.ToGlobalDisplayString())
             {
                 return true;
             }
@@ -38,7 +39,7 @@ namespace DpdtInject.Generator.Core
 
         public int GetHashCode([DisallowNull] ITypeSymbol obj)
         {
-            return obj.ToDisplayString().GetHashCode();
+            return obj.ToGlobalDisplayString().GetHashCode();
         }
     }
 }

@@ -73,14 +73,14 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer.Product
             return ($@"
 {sng.GetCombinedUsings()}
 
-namespace {BindToType.ContainingNamespace.ToDisplayString()}
+namespace {BindToType.ContainingNamespace.ToFullDisplayString()}
 {{
-    public partial class {BindToType.Name} : {BindFromType.ToDisplayString()}
+    public partial class {BindToType.Name} : {BindFromType.ToGlobalDisplayString()}
     {{
-        {Unknowns.Join(u => $"private readonly {u.Type!.ToDisplayString()} {u.Name};")}
+        {Unknowns.Join(u => $"private readonly {u.Type!.ToGlobalDisplayString()} {u.Name};")}
 
         public {BindToType.Name}(
-            {Unknowns.Join(u => $"{u.Type!.ToDisplayString()} {u.Name}", ",")}
+            {Unknowns.Join(u => $"{u.Type!.ToGlobalDisplayString()} {u.Name}", ",")}
             )
         {{
             {Unknowns.Join(u => $"this.{u.Name} = {u.Name};")}

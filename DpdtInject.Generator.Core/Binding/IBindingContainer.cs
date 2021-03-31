@@ -19,10 +19,6 @@ namespace DpdtInject.Generator.Core.Binding
             get;
         }
 
-        IReadOnlyCollection<string> FromTypeFullNames
-        {
-            get;
-        }
 
         ITypeSymbol BindToType
         {
@@ -90,8 +86,6 @@ namespace DpdtInject.Generator.Core.Binding
             get;
         }
 
-
-        string GetFromTypeFullNamesCombined(string separator = "_");
 
         string GetStableSuffix();
 

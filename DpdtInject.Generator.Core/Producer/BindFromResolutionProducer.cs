@@ -145,11 +145,11 @@ namespace DpdtInject.Generator.Core.Producer
             )
         {
             var interfaceProduct = new NamedGeneric1Interface(
-                nameof(IResolution<object>),
+                GN.IResolution,
                 wrapperSymbol
                 );
             var interfaceFastProduct = new NamedGeneric1Interface(
-                nameof(IResolutionFast<object>),
+                GN.IResolutionFast,
                 wrapperSymbol
                 );
 
@@ -233,7 +233,7 @@ namespace DpdtInject.Generator.Core.Producer
                 (methodName, returnType) =>
                 {
                     return $@"
-[MethodImpl(MethodImplOptions.AggressiveInlining)]
+{GN.AggressiveInlining}
 public {returnType} {methodName}({returnType} unused)
 {{
     return {getMethodProduct.MethodName}(
@@ -272,7 +272,7 @@ public {returnType} {methodName}({returnType} unused)
             var explicitMethodProduct = MethodProductFactory.Create(
                 explicitMethodName,
                 nonExplicitMethod.MethodResult,
-                (methodName, returnType) => $@"{returnType} IResolution<{wrapperSymbol.ToDisplayString()}>.{methodName}(IResolutionRequest resolutionRequest)
+                (methodName, returnType) => $@"{returnType} {GN.IResolution}<{wrapperSymbol.ToGlobalDisplayString()}>.{methodName}({GN.IResolutionRequest} resolutionRequest)
 {{
     return {nonExplicitMethod.MethodName}(resolutionRequest);
 }}
@@ -304,11 +304,11 @@ public {returnType} {methodName}({returnType} unused)
                 new TypeMethodResult(returnType),
                 (methodName, returnType) =>
                 {
-                    var methodBody = $@"private {returnType} {methodName}(IResolutionRequest resolutionRequest)
+                    var methodBody = $@"private {returnType} {methodName}({GN.IResolutionRequest} resolutionRequest)
 {{
-    resolutionRequest  = resolutionRequest ?? new {nameof(ResolutionRequest<object, object>)}<{ClusterBindings.ClusterType.ToDisplayString()}, {wrapperSymbol.ToDisplayString()}>(true);
+    resolutionRequest  = resolutionRequest ?? new {GN.ResolutionRequest}<{ClusterBindings.ClusterType.ToGlobalDisplayString()}, {wrapperSymbol.ToGlobalDisplayString()}>(true);
 
-    var result = new List<{wrapperSymbol.ToDisplayString()}>();
+    var result = new global::System.Collections.Generic.List<{wrapperSymbol.ToGlobalDisplayString()}>();
 ";
 
                     foreach (var instanceProduct in filteredInstanceProducts)
@@ -319,7 +319,7 @@ public {returnType} {methodName}({returnType} unused)
                         {
                             methodBody += $@"
     var {modifiedContext} =
-        new {nameof(ResolutionTarget<object, object>)}<{ClusterBindings.ClusterType.ToDisplayString()}, {instanceProduct.BindingExtender.BindingContainer.BindToType.ToDisplayString()}>(
+        new {GN.ResolutionTarget}<{ClusterBindings.ClusterType.ToGlobalDisplayString()}, {instanceProduct.BindingExtender.BindingContainer.BindToType.ToGlobalDisplayString()}>(
             resolutionRequest
             );
 ";
@@ -394,10 +394,10 @@ public {returnType} {methodName}({returnType} unused)
                 getMethodProduct = MethodProductFactory.Create(
                     nonExplicitMethodName,
                     new TypeMethodResult(wrapperSymbol),
-                    (methodName, returnType) => $@"[MethodImpl(MethodImplOptions.AggressiveInlining)]
-private {returnType} {methodName}(IResolutionRequest resolutionRequest)
+                    (methodName, returnType) => $@"{GN.AggressiveInlining}
+private {returnType} {methodName}({GN.IResolutionRequest} resolutionRequest)
 {{
-    return RaiseNoBindingAvailable<{wrapperSymbol.ToDisplayString()}>();
+    return RaiseNoBindingAvailable<{wrapperSymbol.ToGlobalDisplayString()}>();
 }}
 ");
 
@@ -415,10 +415,10 @@ private {returnType} {methodName}(IResolutionRequest resolutionRequest)
                     var modifiedContext = $"target_{instanceProduct.BindingExtender.BindingContainer.GetStableSuffix()}";
 
                     methodBody = $@"
-    resolutionRequest  = resolutionRequest ?? new {nameof(ResolutionRequest<object, object>)}<{ClusterBindings.ClusterType.ToDisplayString()}, {wrapperSymbol.ToDisplayString()}>(false);
+    resolutionRequest  = resolutionRequest ?? new {GN.ResolutionRequest}<{ClusterBindings.ClusterType.ToGlobalDisplayString()}, {wrapperSymbol.ToGlobalDisplayString()}>(false);
 
     var {modifiedContext} =
-        new {nameof(ResolutionTarget<object, object>)}<{ClusterBindings.ClusterType.ToDisplayString()}, {instanceProduct.BindingExtender.BindingContainer.BindToType.ToDisplayString()}>(
+        new {GN.ResolutionTarget}<{ClusterBindings.ClusterType.ToGlobalDisplayString()}, {instanceProduct.BindingExtender.BindingContainer.BindToType.ToGlobalDisplayString()}>(
             resolutionRequest
             );
 
@@ -435,8 +435,8 @@ private {returnType} {methodName}(IResolutionRequest resolutionRequest)
                 getMethodProduct = MethodProductFactory.Create(
                     nonExplicitMethodName,
                     new TypeMethodResult(wrapperSymbol),
-                    (methodName, returnType) => $@"[MethodImpl(MethodImplOptions.AggressiveInlining)]
-private {returnType} {methodName}(IResolutionRequest resolutionRequest)
+                    (methodName, returnType) => $@"{GN.AggressiveInlining}
+private {returnType} {methodName}({GN.IResolutionRequest} resolutionRequest)
 {{
     {methodBody}
 }}
@@ -449,10 +449,10 @@ private {returnType} {methodName}(IResolutionRequest resolutionRequest)
                     getMethodProduct = MethodProductFactory.Create(
                         nonExplicitMethodName,
                         new TypeMethodResult(wrapperSymbol),
-                        (methodName, returnType) => $@"[MethodImpl(MethodImplOptions.AggressiveInlining)]
-private {returnType} {methodName}(IResolutionRequest resolutionRequest)
+                        (methodName, returnType) => $@"{GN.AggressiveInlining}
+private {returnType} {methodName}({GN.IResolutionRequest} resolutionRequest)
 {{
-    return RaiseTooManyBindingException<{wrapperSymbol.ToDisplayString()}>();
+    return RaiseTooManyBindingException<{wrapperSymbol.ToGlobalDisplayString()}>();
 }}
 ");
 
@@ -462,7 +462,7 @@ private {returnType} {methodName}(IResolutionRequest resolutionRequest)
                     var targetDict = new Dictionary<string, string>();
 
                     var methodBody = $@"
-    resolutionRequest  = resolutionRequest ?? new {nameof(ResolutionRequest<object, object>)}<{ClusterBindings.ClusterType.ToDisplayString()}, {wrapperSymbol.ToDisplayString()}>(false);
+    resolutionRequest  = resolutionRequest ?? new {GN.ResolutionRequest}<{ClusterBindings.ClusterType.ToGlobalDisplayString()}, {wrapperSymbol.ToGlobalDisplayString()}>(false);
 
     int allowedChildrenCount = {itselfNonConditional};
 ";
@@ -477,7 +477,7 @@ private {returnType} {methodName}(IResolutionRequest resolutionRequest)
                         methodBody += $@"
     var predicate_{instanceProduct.BindingExtender.BindingContainer.GetStableSuffix()} = false;
     var {modifiedContext} =
-        new {nameof(ResolutionTarget<object, object>)}<{ClusterBindings.ClusterType.ToDisplayString()}, {instanceProduct.BindingExtender.BindingContainer.BindToType.ToDisplayString()}>(
+        new {GN.ResolutionTarget}<{ClusterBindings.ClusterType.ToGlobalDisplayString()}, {instanceProduct.BindingExtender.BindingContainer.BindToType.ToGlobalDisplayString()}>(
             resolutionRequest
             );
 ";
@@ -489,7 +489,7 @@ private {returnType} {methodName}(IResolutionRequest resolutionRequest)
     {{
         if(++allowedChildrenCount > 1)
         {{
-            RaiseTooManyBindingException<{wrapperSymbol.ToDisplayString()}>();
+            RaiseTooManyBindingException<{wrapperSymbol.ToGlobalDisplayString()}>();
         }}
 
         predicate_{instanceProduct.BindingExtender.BindingContainer.GetStableSuffix()} = true;
@@ -501,7 +501,7 @@ private {returnType} {methodName}(IResolutionRequest resolutionRequest)
                     methodBody += $@"
     if(allowedChildrenCount == 0)
     {{
-        return RaiseNoBindingAvailable<{wrapperSymbol.ToDisplayString()}>();
+        return RaiseNoBindingAvailable<{wrapperSymbol.ToGlobalDisplayString()}>();
     }}
 ";
 
@@ -533,8 +533,8 @@ private {returnType} {methodName}(IResolutionRequest resolutionRequest)
                     getMethodProduct = MethodProductFactory.Create(
                         nonExplicitMethodName,
                         new TypeMethodResult(wrapperSymbol),
-                        (methodName, returnType) => $@"[MethodImpl(MethodImplOptions.AggressiveInlining)]
-private {returnType} {methodName}(IResolutionRequest resolutionRequest)
+                        (methodName, returnType) => $@"{GN.AggressiveInlining}
+private {returnType} {methodName}({GN.IResolutionRequest} resolutionRequest)
 {{
     {methodBody}
 }}

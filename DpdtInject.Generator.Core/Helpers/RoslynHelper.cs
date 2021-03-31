@@ -7,26 +7,12 @@ using System.Linq;
 using DpdtInject.Generator.Core.BindExtractor;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Excp;
+using DpdtInject.Generator.Core.Producer;
 
 namespace DpdtInject.Generator.Core.Helpers
 {
     public static class RoslynHelper
     {
-        private static readonly SymbolDisplayFormat SymbolDisplayFormat = new SymbolDisplayFormat(typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces);
-
-
-        public static string GetFullyQualifiedName(
-            this ISymbol s
-            )
-        {
-            if (s is null)
-            {
-                throw new ArgumentNullException(nameof(s));
-            }
-
-            return s.ToDisplayString(SymbolDisplayFormat);
-        }
-
         public static bool IsClusterType(
             this INamedTypeSymbol t
             )
@@ -36,7 +22,7 @@ namespace DpdtInject.Generator.Core.Helpers
                 return false;
             }
 
-            if (t.BaseType!.ToDisplayString() != typeof(DefaultCluster).FullName)
+            if (t.BaseType!.ToFullDisplayString() != typeof(DefaultCluster).FullName)
             {
                 return false;
             }
@@ -57,7 +43,7 @@ namespace DpdtInject.Generator.Core.Helpers
                 from member in clusterType.GetMembers()
                 where member is IMethodSymbol
                 let method = member as IMethodSymbol
-                where method.GetAttributes().Any(a => a.AttributeClass?.ToDisplayString() == typeof(DpdtBindingMethodAttribute).FullName)
+                where method.GetAttributes().Any(a => a.AttributeClass?.ToGlobalDisplayString() == typeof(DpdtBindingMethodAttribute).ToGlobalDisplayString())
                 select method
                 ).ToArray();
 
@@ -65,7 +51,7 @@ namespace DpdtInject.Generator.Core.Helpers
             {
                 throw new DpdtException(
                     DpdtExceptionTypeEnum.IncorrectBinding_IncorrectConfiguration,
-                    $"Something wrong with type {clusterType.ToDisplayString()} : no bind methods found. Please add at least one bind method or remove this class."
+                    $"Something wrong with type {clusterType.ToGlobalDisplayString()} : no bind methods found. Please add at least one bind method or remove this class."
                     );
             }
 
@@ -85,7 +71,7 @@ namespace DpdtInject.Generator.Core.Helpers
                 {
                     throw new DpdtException(
                         DpdtExceptionTypeEnum.IncorrectBinding_IncorrectConfiguration,
-                        $"Something wrong with method {bindMethod.ToDisplayString()} : refs to bind method = {bindMethodRefs.Length}, should only one."
+                        $"Something wrong with method {bindMethod.ToGlobalDisplayString()} : refs to bind method = {bindMethodRefs.Length}, should only one."
                         );
                 }
 
@@ -244,7 +230,7 @@ namespace DpdtInject.Generator.Core.Helpers
             string subjectTypeFullName
             )
         {
-            var roslynTypeFullName = target.ToDisplayString();
+            var roslynTypeFullName = target.ToFullDisplayString();
 
             if (StringComparer.InvariantCultureIgnoreCase.Compare(roslynTypeFullName, subjectTypeFullName) == 0)
             {
@@ -253,7 +239,7 @@ namespace DpdtInject.Generator.Core.Helpers
 
             foreach (INamedTypeSymbol @interface in target.AllInterfaces)
             {
-                var roslynInterfaceFullName = @interface.ToDisplayString();
+                var roslynInterfaceFullName = @interface.ToFullDisplayString();
 
                 if (StringComparer.InvariantCultureIgnoreCase.Compare(roslynInterfaceFullName, subjectTypeFullName) == 0)
                 {
