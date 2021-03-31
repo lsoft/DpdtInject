@@ -1386,6 +1386,32 @@ namespace DpdtInject.Tests.Properties {
         ///using DpdtInject.Injector.RContext;
         ///using DpdtInject.Injector.Bind.Settings;
         ///
+        ///namespace DpdtInject.Tests.Proxy.Indexer0
+        ///{
+        ///    public partial class ProxyIndexer0_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;SessionSaver&gt;()
+        ///                .To&lt;SessionSaver&gt;()
+        ///               [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ProxyIndexer0_Cluster {
+            get {
+                return ResourceManager.GetString("ProxyIndexer0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Threading;
+        ///using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Bind;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.RContext;
+        ///using DpdtInject.Injector.Bind.Settings;
+        ///
         ///namespace DpdtInject.Tests.Proxy.Property0
         ///{
         ///    public partial class ProxyProperty0_Cluster : DefaultCluster

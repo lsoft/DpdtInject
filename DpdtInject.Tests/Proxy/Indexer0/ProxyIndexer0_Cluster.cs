@@ -6,9 +6,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DpdtInject.Injector.RContext;
 using DpdtInject.Injector.Bind.Settings;
 
-namespace DpdtInject.Tests.Proxy.Property0
+namespace DpdtInject.Tests.Proxy.Indexer0
 {
-    public partial class ProxyProperty0_Cluster : DefaultCluster
+    public partial class ProxyIndexer0_Cluster : DefaultCluster
     {
         [DpdtBindingMethod]
         public void BindMethod()
@@ -34,23 +34,48 @@ namespace DpdtInject.Tests.Proxy.Property0
 
         }
 
-        public class ProxyProperty0_ClusterTester
+        public class ProxyIndexer0_ClusterTester
         {
             public void PerformClusterTesting()
             {
-                var cluster = new FakeCluster<ProxyProperty0_Cluster>(
+                var cluster = new FakeCluster<ProxyIndexer0_Cluster>(
                     null
                     );
 
                 var propertyContainer = cluster.Get<IPropertyContainer>();
                 Assert.IsNotNull(propertyContainer);
 
-                propertyContainer.ReadWriteProperty2 = "1";
-                Assert.AreEqual("1", propertyContainer.ReadWriteProperty2);
-
+                propertyContainer[(short)2] = 2;
                 Assert.IsTrue(SessionSaver.ProxyWasInDeal);
                 Assert.AreEqual(typeof(PropertyContainer).FullName, SessionSaver.FullClassName);
-                Assert.AreEqual(nameof(PropertyContainer.ReadWriteProperty2), SessionSaver.MemberName);
+                Assert.AreEqual("", SessionSaver.MemberName);
+                Assert.IsTrue(SessionSaver.TakenInSeconds > 0.0);
+                Assert.IsNull(SessionSaver.Exception);
+                Assert.IsNull(SessionSaver.Arguments);
+
+                SessionSaver.ProxyWasInDeal = false;
+                Assert.AreEqual(2L, propertyContainer[(short)2]);
+                Assert.IsTrue(SessionSaver.ProxyWasInDeal);
+                Assert.AreEqual(typeof(PropertyContainer).FullName, SessionSaver.FullClassName);
+                Assert.AreEqual("", SessionSaver.MemberName);
+                Assert.IsTrue(SessionSaver.TakenInSeconds > 0.0);
+                Assert.IsNull(SessionSaver.Exception);
+                Assert.IsNull(SessionSaver.Arguments);
+
+                SessionSaver.ProxyWasInDeal = false;
+                propertyContainer[(int)3] = 3;
+                Assert.IsTrue(SessionSaver.ProxyWasInDeal);
+                Assert.AreEqual(typeof(PropertyContainer).FullName, SessionSaver.FullClassName);
+                Assert.AreEqual("", SessionSaver.MemberName);
+                Assert.IsTrue(SessionSaver.TakenInSeconds > 0.0);
+                Assert.IsNull(SessionSaver.Exception);
+                Assert.IsNull(SessionSaver.Arguments);
+
+                SessionSaver.ProxyWasInDeal = false;
+                Assert.AreEqual(3L, propertyContainer[(int)3]);
+                Assert.IsTrue(SessionSaver.ProxyWasInDeal);
+                Assert.AreEqual(typeof(PropertyContainer).FullName, SessionSaver.FullClassName);
+                Assert.AreEqual("", SessionSaver.MemberName);
                 Assert.IsTrue(SessionSaver.TakenInSeconds > 0.0);
                 Assert.IsNull(SessionSaver.Exception);
                 Assert.IsNull(SessionSaver.Arguments);
@@ -79,7 +104,7 @@ namespace DpdtInject.Tests.Proxy.Property0
         public static bool ProxyWasInDeal
         {
             get;
-            private set;
+            set;
         }
 
         public static string FullClassName
@@ -152,30 +177,21 @@ namespace DpdtInject.Tests.Proxy.Property0
 
     public interface IPropertyContainer
     {
-        string AlreadyImplementedProperty
+
+        long this[byte i]
         {
             get;
             set;
         }
 
-        string ReadProperty
-        {
-            get;
-        }
-
-        string WriteProperty
-        {
-            set;
-        }
-
-        string ReadWriteProperty
+        long this[short i]
         {
             get;
             set;
         }
 
         [Telemetry]
-        string ReadWriteProperty2
+        long this[int i]
         {
             get;
             set;
@@ -184,37 +200,31 @@ namespace DpdtInject.Tests.Proxy.Property0
 
     public class PropertyContainer : IPropertyContainer
     {
-        public string ReadProperty => "You read";
-
-        public string AlreadyImplementedProperty
+        public long this[byte i]
         {
-            get;
-            set;
-        }
-        public string WriteProperty
-        {
+            get => i;
             set { }
         }
-        public string ReadWriteProperty
+
+        public long this[short i]
         {
-            get;
-            set;
+            get => i;
+            set { }
         }
 
-        public string ReadWriteProperty2
+        public long this[int i]
         {
-            get;
-            set;
+            get => i;
+            set { }
         }
-
     }
 
     public partial class ProxyCalculator : IFakeProxy<IPropertyContainer>
     {
-        public string AlreadyImplementedProperty
+        long this[byte i]
         {
-            get;
-            set;
+            get => i;
+            set { }
         }
     }
 
