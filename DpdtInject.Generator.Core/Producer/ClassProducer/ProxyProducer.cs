@@ -73,7 +73,7 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
                 where
                     (m.Kind == SymbolKind.Method && (m is IMethodSymbol mms) && mms.MethodKind == MethodKind.Ordinary)
                     ||
-                    (m.Kind == SymbolKind.Property)
+                    (m.Kind.In(SymbolKind.Property, SymbolKind.Event))
                 select m
                 ).ToList();
 
@@ -143,6 +143,25 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
                         result.Add(declaredPropertyProduct);
                     }
                 }
+                if (member is IEventSymbol @event)
+                {
+                    if (telemetryAttribute is not null)
+                    {
+                        var declaredMethodProduct = GetProxiedEventProduct(
+                            @event
+                            );
+
+                        result.Add(declaredMethodProduct);
+                    }
+                    else
+                    {
+                        var declaredMethodProduct = GetNonProxiedEventProduct(
+                            @event
+                            );
+
+                        result.Add(declaredMethodProduct);
+                    }
+                }
                 if (member is IMethodSymbol method)
                 {
                     if (telemetryAttribute is not null)
@@ -167,6 +186,96 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
             return result;
         }
 
+
+        private EventProduct GetProxiedEventProduct(
+            IEventSymbol @event
+            )
+        {
+            if (@event is null)
+            {
+                throw new ArgumentNullException(nameof(@event));
+            }
+
+            return new EventProduct(
+                "public",
+                @event,
+                (@event.AddMethod != null ? $@"
+                var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
+                    _payloadFullName,
+                    nameof({@event.Name}),
+                    null
+                    );
+
+                var startDate = global::System.Diagnostics.Stopwatch.GetTimestamp();
+                try
+                {{
+                    _payload.{@event.Name} += value;
+
+                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+                        sessionGuid,
+                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                        null
+                        );
+                }}
+                catch (global::System.Exception excp)
+                {{
+                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+                        sessionGuid,
+                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                        excp
+                        );
+
+                    throw;
+                }}
+" : null),
+                (@event.RemoveMethod != null ? $@"
+                var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
+                    _payloadFullName,
+                    nameof({@event.Name}),
+                    null
+                    );
+
+                var startDate = global::System.Diagnostics.Stopwatch.GetTimestamp();
+                try
+                {{
+                    _payload.{@event.Name} -= value;
+
+                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+                        sessionGuid,
+                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                        null
+                        );
+                }}
+                catch (global::System.Exception excp)
+                {{
+                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
+                        sessionGuid,
+                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
+                        excp
+                        );
+
+                    throw;
+                }}
+" : null)
+                );
+        }
+
+        private EventProduct GetNonProxiedEventProduct(
+            IEventSymbol @event
+            )
+        {
+            if (@event is null)
+            {
+                throw new ArgumentNullException(nameof(@event));
+            }
+
+            return new EventProduct(
+                "public",
+                @event,
+                (@event.AddMethod != null ? $"_payload.{@event.Name} += value;" : null),
+                (@event.RemoveMethod != null ? $"_payload.{@event.Name} -= value;" : null)
+                );
+        }
 
 
         private IndexerProduct GetProxiedIndexerProduct(

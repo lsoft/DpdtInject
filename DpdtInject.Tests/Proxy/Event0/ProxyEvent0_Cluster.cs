@@ -5,10 +5,11 @@ using DpdtInject.Injector.Bind;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DpdtInject.Injector.RContext;
 using DpdtInject.Injector.Bind.Settings;
+using System.Text;
 
-namespace DpdtInject.Tests.Proxy.Indexer0
+namespace DpdtInject.Tests.Proxy.Event0
 {
-    public partial class ProxyIndexer0_Cluster : DefaultCluster
+    public partial class ProxyEvent0_Cluster : DefaultCluster
     {
         [DpdtBindingMethod]
         public void BindMethod()
@@ -18,54 +19,45 @@ namespace DpdtInject.Tests.Proxy.Indexer0
                 .WithSingletonScope()
                 ;
 
-            Bind<IIndexerContainer>()
-                .To<IndexerContainer>()
+            Bind<IEventContainer>()
+                .To<EventContainer>()
                 .WithSingletonScope()
-                .When(rt => rt.WhenInjectedExactlyInto<IndexerContainerProxy>())
+                .When(rt => rt.WhenInjectedExactlyInto<EventContainerProxy>())
                 ;
 
-            Bind<IIndexerContainer>()
-                .ToProxy<IndexerContainerProxy>()
+            Bind<IEventContainer>()
+                .ToProxy<EventContainerProxy>()
                 .WithProxySettings<TelemetryAttribute, SessionSaver>()
                 .WithSingletonScope()
                 .Setup<SuppressCircularCheck>()
-                .When(rt => rt.WhenInjectedExactlyNotInto<IndexerContainerProxy>())
+                .When(rt => rt.WhenInjectedExactlyNotInto<EventContainerProxy>())
                 ;
 
         }
 
-        public class ProxyIndexer0_ClusterTester
+        public class ProxyEvent0_ClusterTester
         {
             public void PerformClusterTesting()
             {
-                var cluster = new FakeCluster<ProxyIndexer0_Cluster>(
+                var cluster = new FakeCluster<ProxyEvent0_Cluster>(
                     null
                     );
 
-                var propertyContainer = cluster.Get<IIndexerContainer>();
+                var propertyContainer = cluster.Get<IEventContainer>();
                 Assert.IsNotNull(propertyContainer);
 
-                propertyContainer[(short)2] = 2;
+                propertyContainer.AEvent += a => { };
                 Assert.IsFalse(SessionSaver.ProxyWasInDeal);
 
                 SessionSaver.ProxyWasInDeal = false;
-                Assert.AreEqual(2L, propertyContainer[(short)2]);
+                propertyContainer.BEvent += b => 1;
                 Assert.IsFalse(SessionSaver.ProxyWasInDeal);
 
                 SessionSaver.ProxyWasInDeal = false;
-                propertyContainer[(int)3, (int)4] = 7;
+                propertyContainer.CEvent += c => null;
                 Assert.IsTrue(SessionSaver.ProxyWasInDeal);
-                Assert.AreEqual(typeof(IndexerContainer).FullName, SessionSaver.FullClassName);
-                //SessionSaver.MemberName is too complicated to check it
-                Assert.IsTrue(SessionSaver.TakenInSeconds > 0.0);
-                Assert.IsNull(SessionSaver.Exception);
-                Assert.IsNull(SessionSaver.Arguments);
-
-                SessionSaver.ProxyWasInDeal = false;
-                Assert.AreEqual(7L, propertyContainer[(int)3, (int)4]);
-                Assert.IsTrue(SessionSaver.ProxyWasInDeal);
-                Assert.AreEqual(typeof(IndexerContainer).FullName, SessionSaver.FullClassName);
-                //SessionSaver.MemberName is too complicated to check it
+                Assert.AreEqual(typeof(EventContainer).FullName, SessionSaver.FullClassName);
+                Assert.AreEqual(nameof(EventContainer.CEvent), SessionSaver.MemberName);
                 Assert.IsTrue(SessionSaver.TakenInSeconds > 0.0);
                 Assert.IsNull(SessionSaver.Exception);
                 Assert.IsNull(SessionSaver.Arguments);
@@ -74,7 +66,7 @@ namespace DpdtInject.Tests.Proxy.Indexer0
     }
 
 
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Event | AttributeTargets.Property | AttributeTargets.Method)]
     public class TelemetryAttribute : Attribute
     {
     }
@@ -164,57 +156,44 @@ namespace DpdtInject.Tests.Proxy.Indexer0
 
     }
 
-    public interface IIndexerContainer
-    {
-        long this[byte i]
-        {
-            get;
-            set;
-        }
+    public delegate void ADelegate(int a);
+    public delegate ulong BDelegate(ulong b);
+    public delegate Encoding CDelegate(StringBuilder c);
 
-        long this[short i]
-        {
-            get;
-            set;
-        }
+    public interface IEventContainer
+    {
+        event ADelegate AEvent;
+
+        event BDelegate BEvent;
 
         [Telemetry]
-        long this[int i, int j]
-        {
-            get;
-            set;
-        }
+        event CDelegate CEvent;
     }
 
-    public class IndexerContainer : IIndexerContainer
+    public class EventContainer : IEventContainer
     {
-        public long this[byte i]
-        {
-            get => i;
-            set { }
-        }
+        //IPropertyContainer _payload;
+        //public event ADelegate AEvent
+        //{
+        //    add
+        //    {
+        //        _payload.AEvent += value;
+        //    }
 
-        public long this[short i]
-        {
-            get => i;
-            set { }
-        }
+        //    remove
+        //    {
+        //        _payload.AEvent -= value;
+        //    }
+        //}
 
-
-        public long this[int i, int j]
-        {
-            get => i + j;
-            set { }
-        }
+        public event ADelegate AEvent;
+        public event BDelegate BEvent;
+        public event CDelegate CEvent;
     }
 
-    public partial class IndexerContainerProxy : IFakeProxy<IIndexerContainer>
+    public partial class EventContainerProxy : IFakeProxy<IEventContainer>
     {
-        public long this[byte i]
-        {
-            get => i;
-            set { }
-        }
+        public event ADelegate AEvent;
     }
 
 }

@@ -18,18 +18,18 @@ namespace DpdtInject.Tests.Proxy.Simple0
                 .WithSingletonScope()
                 ;
 
-            Bind<ICalculator>()
-                .To<Calculator>()
+            Bind<IMethodContainer>()
+                .To<MethodContainer>()
                 .WithSingletonScope()
-                .When(rt => rt.WhenInjectedExactlyInto<ProxyCalculator>())
+                .When(rt => rt.WhenInjectedExactlyInto<MethodContainerProxy>())
                 ;
 
-            Bind<ICalculator>()
-                .ToProxy<ProxyCalculator>()
+            Bind<IMethodContainer>()
+                .ToProxy<MethodContainerProxy>()
                 .WithProxySettings<TelemetryAttribute, SessionSaver>()
                 .WithSingletonScope()
                 .Setup<SuppressCircularCheck>()
-                .When(rt => rt.WhenInjectedExactlyNotInto<ProxyCalculator>())
+                .When(rt => rt.WhenInjectedExactlyNotInto<MethodContainerProxy>())
                 ;
 
         }
@@ -42,7 +42,7 @@ namespace DpdtInject.Tests.Proxy.Simple0
                     null
                     );
 
-                var calculator = cluster.Get<ICalculator>();
+                var calculator = cluster.Get<IMethodContainer>();
                 Assert.IsNotNull(calculator);
 
                 const int InitialValue = 1;
@@ -53,11 +53,11 @@ namespace DpdtInject.Tests.Proxy.Simple0
                 Assert.IsFalse(SessionSaver.ProxyWasInDeal);
 
                 var someConstant = calculator.GetSomeConstant();
-                Assert.AreEqual(Calculator.SomeConstant, someConstant);
+                Assert.AreEqual(MethodContainer.SomeConstant, someConstant);
                 Assert.IsFalse(SessionSaver.ProxyWasInDeal);
 
                 calculator.DoNothing();
-                Assert.IsTrue(Calculator.DoNothingExecuted);
+                Assert.IsTrue(MethodContainer.DoNothingExecuted);
 
                 var one = calculator.GetOne();
                 Assert.AreEqual(1, one);
@@ -66,13 +66,13 @@ namespace DpdtInject.Tests.Proxy.Simple0
                 Assert.AreEqual(InitialValue + 1, wpIncremented);
 
                 Assert.IsTrue(SessionSaver.ProxyWasInDeal);
-                Assert.AreEqual(typeof(Calculator).FullName, SessionSaver.FullClassName);
-                Assert.AreEqual(nameof(Calculator.DoIncrement), SessionSaver.MemberName);
+                Assert.AreEqual(typeof(MethodContainer).FullName, SessionSaver.FullClassName);
+                Assert.AreEqual(nameof(MethodContainer.DoIncrement), SessionSaver.MemberName);
                 Assert.IsTrue(SessionSaver.TakenInSeconds > 0.0);
                 Assert.IsNull(SessionSaver.Exception);
                 Assert.IsNotNull(SessionSaver.Arguments);
                 Assert.AreEqual(2, SessionSaver.Arguments.Length);
-                Assert.AreEqual(Calculator.ArgumentName, SessionSaver.Arguments[0] as string);
+                Assert.AreEqual(MethodContainer.ArgumentName, SessionSaver.Arguments[0] as string);
                 Assert.AreEqual(InitialValue, (int)SessionSaver.Arguments[1]);
             }
         }
@@ -170,7 +170,7 @@ namespace DpdtInject.Tests.Proxy.Simple0
     }
 
 
-    public interface ICalculator
+    public interface IMethodContainer
     {
         [Telemetry]
         void DoNothing(
@@ -193,7 +193,7 @@ namespace DpdtInject.Tests.Proxy.Simple0
             );
     }
 
-    public class Calculator : ICalculator
+    public class MethodContainer : IMethodContainer
     {
         public static readonly int SomeConstant = 123;
 
@@ -241,7 +241,7 @@ namespace DpdtInject.Tests.Proxy.Simple0
         }
     }
 
-    public partial class ProxyCalculator : IFakeProxy<ICalculator>
+    public partial class MethodContainerProxy : IFakeProxy<IMethodContainer>
     {
     }
 

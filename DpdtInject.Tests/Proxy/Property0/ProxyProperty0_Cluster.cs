@@ -21,15 +21,15 @@ namespace DpdtInject.Tests.Proxy.Property0
             Bind<IPropertyContainer>()
                 .To<PropertyContainer>()
                 .WithSingletonScope()
-                .When(rt => rt.WhenInjectedExactlyInto<ProxyCalculator>())
+                .When(rt => rt.WhenInjectedExactlyInto<PropertyContainerProxy>())
                 ;
 
             Bind<IPropertyContainer>()
-                .ToProxy<ProxyCalculator>()
+                .ToProxy<PropertyContainerProxy>()
                 .WithProxySettings<TelemetryAttribute, SessionSaver>()
                 .WithSingletonScope()
                 .Setup<SuppressCircularCheck>()
-                .When(rt => rt.WhenInjectedExactlyNotInto<ProxyCalculator>())
+                .When(rt => rt.WhenInjectedExactlyNotInto<PropertyContainerProxy>())
                 ;
 
         }
@@ -209,7 +209,7 @@ namespace DpdtInject.Tests.Proxy.Property0
 
     }
 
-    public partial class ProxyCalculator : IFakeProxy<IPropertyContainer>
+    public partial class PropertyContainerProxy : IFakeProxy<IPropertyContainer>
     {
         public string AlreadyImplementedProperty
         {
