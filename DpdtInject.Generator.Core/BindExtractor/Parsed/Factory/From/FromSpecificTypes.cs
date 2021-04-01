@@ -4,18 +4,22 @@ using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.From;
 
-namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional.From
+namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.From
 {
     public class FromSpecificTypes : IFromTypesProvider
     {
+        private readonly bool _strictMode;
+
         public IReadOnlyList<ITypeSymbol> SpecificTypes
         {
             get;
         }
 
         public FromSpecificTypes(
-            IReadOnlyList<ITypeSymbol> specificTypes
+            IReadOnlyList<ITypeSymbol> specificTypes,
+            bool strictMode
             )
         {
             if (specificTypes is null)
@@ -24,15 +28,16 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional.Fr
             }
 
             SpecificTypes = specificTypes;
+            _strictMode = strictMode;
         }
 
-        public ImmutableArray<ITypeSymbol> GetBindFromTypes(INamedTypeSymbol type)
+        public ImmutableArray<ITypeSymbol> GetBindFromTypes(ITypeSymbol type)
         {
             var result = new List<ITypeSymbol>();
 
             foreach (var specificType in SpecificTypes)
             {
-                if (type.CanBeCastedTo(specificType))
+                if (_strictMode || type.CanBeCastedTo(specificType))
                 {
                     result.Add(specificType);
                 }

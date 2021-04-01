@@ -521,6 +521,8 @@ This is to turn off code beautification so Dpdt will produce cluster code a bit 
 
 To make a dealing with Dpdt easier, a [Visual Studio Extension](https://marketplace.visualstudio.com/items?itemName=lsoft.DpdtVisualStudioExtension) has been developed. Make note: it only supports Visual Studio 2019 16.8, because I can't test it against older version of Visual Studio.
 
+Please make note: Dpdt Visual Studio extension should be the SAME version as your Dpdt.Injector package version, only last digit may differ.
+
 If you click on a project in Solution Explorer and there is no Dpdt nuget installed, you can install its latest version easily:
 
 ![Dpdt Extension Image 4](extension4.png)

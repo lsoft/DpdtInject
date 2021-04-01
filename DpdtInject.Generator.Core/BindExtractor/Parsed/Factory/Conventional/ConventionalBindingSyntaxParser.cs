@@ -11,8 +11,8 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional.From;
 using DpdtInject.Generator.Core.Producer;
+using DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.From;
 
 namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional
 {

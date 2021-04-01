@@ -10,6 +10,7 @@ using DpdtInject.Generator.Core.BindExtractor.Parsed;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector;
 using DpdtInject.Generator.Core.Producer;
+using DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.From;
 
 namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
 {
@@ -77,10 +78,13 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
                 case BindScopeEnum.Transient:
                 case BindScopeEnum.Singleton:
                 case BindScopeEnum.Custom:
-                    var from = invocationSymbols.First(
-                        s => s.Item2.ContainingType.ToGlobalDisplayString() == typeof(DefaultCluster).ToGlobalDisplayString() && s.Item2.Name == DefaultCluster.BindMethodName
-                        );
                     var to = GetTo(invocationSymbols);
+
+                    var fromTypesProvider = FromTypesProviderFactory.CreateFromTypesProvider(invocationSymbols);
+                    var from = fromTypesProvider.GetBindFromTypes(to);
+                    //var from = invocationSymbols.First(
+                    //    s => s.Item2.ContainingType.ToGlobalDisplayString() == typeof(DefaultCluster).ToGlobalDisplayString() && s.Item2.Name == DefaultCluster.BindMethodName
+                    //    );
 
 
                     result.Add(
@@ -90,7 +94,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
                             _constructorArgumentDetector,
                             expressionNode,
                             invocationSymbols,
-                            from.Item2.TypeArguments,
+                            from,
                             to,
                             scope,
                             false

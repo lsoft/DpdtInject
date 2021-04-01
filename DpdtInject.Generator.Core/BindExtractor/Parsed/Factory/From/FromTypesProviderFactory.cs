@@ -1,4 +1,5 @@
 ﻿using DpdtInject.Generator.Core.Producer;
+using DpdtInject.Injector;
 using DpdtInject.Injector.Bind;
 using DpdtInject.Injector.Excp;
 using Microsoft.CodeAnalysis;
@@ -7,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional.From
+namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.From
 {
     public static class FromTypesProviderFactory
     {
@@ -20,14 +21,32 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional.Fr
                 throw new ArgumentNullException(nameof(invocationSymbols));
             }
 
-            var fai = invocationSymbols
+            var fdc = invocationSymbols.FirstOrDefault(
+                s => s.Item2.ContainingType.ToGlobalDisplayString() == typeof(DefaultCluster).ToGlobalDisplayString() && s.Item2.Name == DefaultCluster.BindMethodName
+                );
+            if (fdc != null)
+            {
+                return new FromSpecificTypes(fdc.Item2.TypeArguments, true);
+            }
+
+            var fai0 = invocationSymbols
                 .FirstOrDefault(
-                    s => s.Item2.ContainingType.ToGlobalDisplayString() == typeof(IConventionalBinding2).ToGlobalDisplayString() && s.Item2.Name == nameof(IConventionalBinding2.FromAllInterfaces)
+                    s => s.Item2.ContainingType.ToGlobalDisplayString() == typeof(DefaultCluster).ToGlobalDisplayString() && s.Item2.Name == DefaultCluster.BindAllInterfacesMethodName
                     );
-            if (fai != null)
+            if (fai0 != null)
             {
                 return new FromAllInterfaces();
             }
+
+            var fai1 = invocationSymbols
+                .FirstOrDefault(
+                    s => s.Item2.ContainingType.ToGlobalDisplayString() == typeof(IConventionalBinding2).ToGlobalDisplayString() && s.Item2.Name == nameof(IConventionalBinding2.FromAllInterfaces)
+                    );
+            if (fai1 != null)
+            {
+                return new FromAllInterfaces();
+            }
+
 
             var fitself = invocationSymbols
                 .FirstOrDefault(
@@ -44,7 +63,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional.Fr
                     );
             if (fst != null)
             {
-                return new FromSpecificTypes(fst.Item2.TypeArguments);
+                return new FromSpecificTypes(fst.Item2.TypeArguments, false);
             }
 
             throw new DpdtException(

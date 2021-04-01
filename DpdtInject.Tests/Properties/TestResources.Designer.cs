@@ -2558,6 +2558,32 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using DpdtInject.Injector.Bind;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.FromAllInterfaces0
+        ///{
+        ///    public partial class UnsortedFromAllInterfaces0_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            BindAllInterfaces()
+        ///                .To&lt;A&gt;()
+        ///                .WithSingletonScope()
+        ///                ;
+        ///        }
+        ///
+        ///        public class UnsortedFromAllInterfaces0_ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedFromAllInterfaces0_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedFromAllInterfaces0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///
         ///namespace DpdtInject.Tests.Unsorted.GenericInterface

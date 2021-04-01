@@ -11,6 +11,7 @@ namespace DpdtInject.Injector
     public abstract class DefaultCluster
     {
         public const string BindMethodName = nameof(Bind);
+        public const string BindAllInterfacesMethodName = nameof(BindAllInterfaces);
         public const string ScanInAssembliesWithMethodName = nameof(ScanInAssembliesWith);
 
         protected IConventionalBinding ScanInAssembliesWith<T1>(
@@ -34,6 +35,11 @@ namespace DpdtInject.Injector
 
 
 
+        protected IToOrConstantBinding BindAllInterfaces(
+            )
+        {
+            throw new NotImplementedException();
+        }
 
         protected IToOrConstantBinding Bind<T1, T2, T3, T4, T5, T6>(
             )
