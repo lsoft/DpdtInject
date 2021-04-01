@@ -132,7 +132,8 @@ namespace DpdtInject.Generator.Core
                                         ),
                                     new ConstructorArgumentDetector(
                                         new BindConstructorChooser()
-                                        )
+                                        ),
+                                    _diagnosticReporter
                                     )
                                 )
                             );

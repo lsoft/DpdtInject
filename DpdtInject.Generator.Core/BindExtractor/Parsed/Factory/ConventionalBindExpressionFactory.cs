@@ -12,6 +12,7 @@ using DpdtInject.Generator.Core.Helpers;
 using System.Collections.Immutable;
 using DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional;
 using DpdtInject.Generator.Core.Producer;
+using DpdtInject.Injector.Compilation;
 
 namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
 {
@@ -20,11 +21,13 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
         private readonly ITypeInfoContainer _typeInfoContainer;
         private readonly ConstructorArgumentFromSyntaxExtractor _extractor;
         private readonly ConstructorArgumentDetector _constructorArgumentDetector;
+        private readonly IDiagnosticReporter _diagnosticReporter;
 
         public ConventionalBindExpressionFactory(
             ITypeInfoContainer typeInfoContainer,
             ConstructorArgumentFromSyntaxExtractor extractor,
-            ConstructorArgumentDetector constructorArgumentDetector
+            ConstructorArgumentDetector constructorArgumentDetector,
+            IDiagnosticReporter diagnosticReporter
             )
         {
             if (typeInfoContainer is null)
@@ -42,9 +45,15 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
                 throw new ArgumentNullException(nameof(constructorArgumentDetector));
             }
 
+            if (diagnosticReporter is null)
+            {
+                throw new ArgumentNullException(nameof(diagnosticReporter));
+            }
+
             _typeInfoContainer = typeInfoContainer;
             _extractor = extractor;
             _constructorArgumentDetector = constructorArgumentDetector;
+            _diagnosticReporter = diagnosticReporter;
         }
 
         public override IReadOnlyList<IParsedBindExpression> Create(
@@ -92,6 +101,10 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
 
                     if (bindingSyntaxParser.ExcludeWithSet.Any(ew => type.CanBeCastedTo(ew)))
                     {
+                        _diagnosticReporter.ReportInfo(
+                            $"Dpdt generator skipped [{type.ToFullDisplayString()}]",
+                            $"Dpdt generator skipped [{type.ToFullDisplayString()}] for conventional binding due to it's excluded"
+                            );
                         continue;
                     }
 
@@ -115,6 +128,11 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
                             scope,
                             true
                             )
+                        );
+
+                    _diagnosticReporter.ReportInfo(
+                        $"Dpdt generator processed [{type.ToFullDisplayString()}]",
+                        $"Dpdt generator processed [{type.ToFullDisplayString()}] for conventional binding"
                         );
 
                     processed.Add(type);

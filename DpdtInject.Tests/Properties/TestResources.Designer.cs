@@ -849,12 +849,36 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            ScanInAssembliesWith&lt;A0&gt;()
         ///                .SelectAllWithOpenGeneric&lt;IA&lt;object&gt;&gt;()
-        ///                .FromAllInterfaces()
-        ///                .ToItsel [rest of string was truncated]&quot;;.
+        ///                .ExcludeAllWithOpenGeneric&lt;IExclude&lt;object&gt;&gt;() [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConventionsFromGenericInterface0_Cluster {
             get {
                 return ResourceManager.GetString("ConventionsFromGenericInterface0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using System.Collections;
+        ///using System.Linq;
+        ///using System.Text;
+        ///
+        ///namespace DpdtInject.Tests.Conventions.FromGenericInterface1
+        ///{
+        ///    public partial class ConventionsFromGenericInterface1_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            ScanInAssembliesWith&lt;A0&gt;()
+        ///                .SelectAllWithOpenGeneric&lt;IA&lt;IEnumerable, Array&gt;&gt;()
+        ///         [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ConventionsFromGenericInterface1_Cluster {
+            get {
+                return ResourceManager.GetString("ConventionsFromGenericInterface1_Cluster", resourceCulture);
             }
         }
         
