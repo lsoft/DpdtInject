@@ -225,7 +225,7 @@ Example how to bind from open generic:
 //the following statement will bind A0 and A2; A1 will be excluded due to IExclude<>
 ScanInAssembliesWith<A0>()
     .SelectAllWithOpenGeneric<IA<object>>() //generic argument 'object' means NOTHING! it will be removed by Dpdt, so IA<object> will be transformed into IA<> (open generic)
-    .ExcludeAllWithOpenGeneric<IExclude<object>>() //also, 'object' means nothing, as above
+    .ExcludeAllWithOpenGeneric<IExclude<object>>() //again, 'object' means nothing, as above
     .FromAllInterfaces()
     .ToItself()
     .WithSingletonScope()
@@ -519,6 +519,13 @@ Any ideas for new features are welcome.
 * Dpdt extension do not support few types (in different assemblies) with the same full name. I will investigate it further.
 
 If any problem occurs with this extension or the generator itself, please let me know. I will need to see the following log files `C:\Users\<user>\AppData\Local\Temp\dpdt_*.log`.
+
+# Alternatives
+
+You may be interesting in the following alternatives:
+
+- [Strong Inject](https://github.com/YairHalberstadt/stronginject)
+
 
 # Feedback
 
