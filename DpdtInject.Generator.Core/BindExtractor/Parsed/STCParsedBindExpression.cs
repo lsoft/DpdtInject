@@ -350,7 +350,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
                 //check for cast exists
                 foreach (var bindFrom in _fromTypes)
                 {
-                    if (!_toType.CanBeCastedTo(bindFrom.ToFullDisplayString()))
+                    if (!_toType.CanBeCastedTo(bindFrom))
                     {
                         throw new DpdtException(
                             DpdtExceptionTypeEnum.IncorrectBinding_IncorrectFrom,

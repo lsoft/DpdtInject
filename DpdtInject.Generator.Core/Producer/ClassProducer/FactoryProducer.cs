@@ -74,7 +74,7 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
                 }
 
                 //method is not implemented in the proto class
-                if(!_factoryPayloadType.CanBeCastedTo(declaredMethod.ReturnType.ToFullDisplayString()))
+                if(!_factoryPayloadType.CanBeCastedTo(declaredMethod.ReturnType))
                 {
                     //return type is not a factory payload
                     throw new DpdtException(

@@ -71,22 +71,45 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional
                 .ToList()
                 ;
 
-            SelectWithSet = invocationSymbols
-                .Where(
-                    s => s.Item2.ContainingType.ToGlobalDisplayString().In(typeof(IConventionalBinding).ToGlobalDisplayString(), typeof(IConventionalBinding2).ToGlobalDisplayString()) && s.Item2.Name == nameof(IConventionalBinding.SelectAllWith)
-                    )
-                .SelectMany(s => s.Item2.TypeArguments)
-                .ToList()
-                ;
+            var selectWithSet = new List<ITypeSymbol>();
+            selectWithSet.AddRange(
+                invocationSymbols
+                    .Where(
+                        s => s.Item2.ContainingType.ToGlobalDisplayString().In(typeof(IConventionalBinding).ToGlobalDisplayString(), typeof(IConventionalBinding2).ToGlobalDisplayString()) && s.Item2.Name == nameof(IConventionalBinding.SelectAllWith)
+                        )
+                    .SelectMany(s => s.Item2.TypeArguments)
+                );
+            selectWithSet.AddRange(
+                invocationSymbols
+                    .Where(
+                        s => s.Item2.ContainingType.ToGlobalDisplayString().In(typeof(IConventionalBinding).ToGlobalDisplayString(), typeof(IConventionalBinding2).ToGlobalDisplayString()) && s.Item2.Name == nameof(IConventionalBinding.SelectAllWithOpenGeneric)
+                        )
+                    .SelectMany(s => s.Item2.TypeArguments)
+                    .Select(ta => ta as INamedTypeSymbol)
+                    .Where(nta => nta != null)
+                    .Select(nta => nta!.ConstructedFrom)
+                );
+            SelectWithSet = selectWithSet;
 
-            ExcludeWithSet = invocationSymbols
-                .Where(
-                    s => s.Item2.ContainingType.ToGlobalDisplayString().In(typeof(IConventionalBinding).ToGlobalDisplayString(), typeof(IConventionalBinding2).ToGlobalDisplayString()) && s.Item2.Name == nameof(IConventionalBinding2.ExcludeAllWith)
-                    )
-                .SelectMany(s => s.Item2.TypeArguments)
-                .ToList()
-                ;
-
+            var excludeWithSet = new List<ITypeSymbol>();
+            excludeWithSet.AddRange(
+                invocationSymbols
+                    .Where(
+                        s => s.Item2.ContainingType.ToGlobalDisplayString().In(typeof(IConventionalBinding).ToGlobalDisplayString(), typeof(IConventionalBinding2).ToGlobalDisplayString()) && s.Item2.Name == nameof(IConventionalBinding2.ExcludeAllWith)
+                        )
+                    .SelectMany(s => s.Item2.TypeArguments)
+                );
+            excludeWithSet.AddRange(
+                invocationSymbols
+                    .Where(
+                        s => s.Item2.ContainingType.ToGlobalDisplayString().In(typeof(IConventionalBinding).ToGlobalDisplayString(), typeof(IConventionalBinding2).ToGlobalDisplayString()) && s.Item2.Name == nameof(IConventionalBinding2.ExcludeAllWithOpenGeneric)
+                        )
+                    .SelectMany(s => s.Item2.TypeArguments)
+                    .Select(ta => ta as INamedTypeSymbol)
+                    .Where(nta => nta != null)
+                    .Select(nta => nta!.ConstructedFrom)
+                );
+            ExcludeWithSet = excludeWithSet;
 
             FromTypesProvider = FromTypesProviderFactory.CreateFromTypesProvider(invocationSymbols);
         }

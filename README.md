@@ -218,6 +218,28 @@ ScanInAssembliesWith<A0>() //scan assembly(ies) that contains a specified type(s
     ;
 ```
 
+Example how to bind from open generic:
+
+```csharp
+
+//the following statement will bind A0 and A2; A1 will be excluded due to IExclude<>
+ScanInAssembliesWith<A0>()
+    .SelectAllWithOpenGeneric<IA<object>>() //generic argument 'object' means NOTHING! it will be removed by Dpdt, so IA<object> will be transformed into IA<> (open generic)
+    .ExcludeAllWithOpenGeneric<IExclude<object>>() //also, 'object' means nothing, as above
+    .FromAllInterfaces()
+    .ToItself()
+    .WithSingletonScope()
+    ;
+
+
+public interface IA { }
+public interface IA<T1> : IA { }
+public interface IExclude<T> { }
+public class A0 : IA<object> { }
+public class A1 : IA<string>, IExclude<ulong> { }
+public class A2 : IA<StringBuilder> { }
+```
+
 Dpdt does not support conventional bindings to proxy or factory, because of design.
 
 

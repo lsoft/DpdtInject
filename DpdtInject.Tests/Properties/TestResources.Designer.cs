@@ -838,6 +838,30 @@ namespace DpdtInject.Tests.Properties {
         ///   Looks up a localized string similar to using DpdtInject.Injector;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System.Linq;
+        ///using System.Text;
+        ///
+        ///namespace DpdtInject.Tests.Conventions.FromGenericInterface0
+        ///{
+        ///    public partial class ConventionsFromGenericInterface0_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            ScanInAssembliesWith&lt;A0&gt;()
+        ///                .SelectAllWithOpenGeneric&lt;IA&lt;object&gt;&gt;()
+        ///                .FromAllInterfaces()
+        ///                .ToItsel [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ConventionsFromGenericInterface0_Cluster {
+            get {
+                return ResourceManager.GetString("ConventionsFromGenericInterface0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System.Linq;
         ///
         ///namespace DpdtInject.Tests.Conventions.FromSingleInterface0
         ///{

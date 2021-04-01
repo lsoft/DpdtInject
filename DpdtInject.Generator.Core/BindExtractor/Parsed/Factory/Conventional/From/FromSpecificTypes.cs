@@ -32,7 +32,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional.Fr
 
             foreach (var specificType in SpecificTypes)
             {
-                if (type.CanBeCastedTo(specificType.ToFullDisplayString()))
+                if (type.CanBeCastedTo(specificType))
                 {
                     result.Add(specificType);
                 }

@@ -1,13 +1,21 @@
-﻿namespace DpdtInject.Injector.Bind
+﻿using System;
+
+namespace DpdtInject.Injector.Bind
 {
     public interface IConventionalBinding
     {
+        IConventionalBinding2 SelectAllWithOpenGeneric<T1>();
+
         IConventionalBinding2 SelectAllWith<T1>();
     }
 
     public interface IConventionalBinding2
     {
+        IConventionalBinding2 SelectAllWithOpenGeneric<T1>();
+
         IConventionalBinding2 SelectAllWith<T1>();
+
+        IConventionalBinding2 ExcludeAllWithOpenGeneric<T1>();
 
         IConventionalBinding2 ExcludeAllWith<T1>();
 

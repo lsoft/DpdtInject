@@ -259,40 +259,43 @@ namespace DpdtInject.Generator.Core.Helpers
         }
 
         public static bool CanBeCastedTo(
-            this ITypeSymbol target,
-            string subjectTypeFullName
+            this ITypeSymbol source,
+            ITypeSymbol target
             )
         {
-            var roslynTypeFullName = target.ToFullDisplayString();
-
-            if (StringComparer.InvariantCultureIgnoreCase.Compare(roslynTypeFullName, subjectTypeFullName) == 0)
+            if (SymbolEqualityComparer.Default.Equals(source, target))
             {
                 return true;
             }
-
-            foreach (INamedTypeSymbol @interface in target.AllInterfaces)
+            if (source is INamedTypeSymbol ntSource)
             {
-                var roslynInterfaceFullName = @interface.ToFullDisplayString();
-
-                if (StringComparer.InvariantCultureIgnoreCase.Compare(roslynInterfaceFullName, subjectTypeFullName) == 0)
+                if (SymbolEqualityComparer.Default.Equals(ntSource.ConstructedFrom, target))
                 {
                     return true;
                 }
             }
 
-            if (target.BaseType != null && !SymbolEqualityComparer.Default.Equals(target.BaseType, target))
+            foreach (INamedTypeSymbol @interface in source.AllInterfaces)
             {
-                if (CanBeCastedTo(target.BaseType, subjectTypeFullName))
+                if (SymbolEqualityComparer.Default.Equals(@interface, target))
                 {
                     return true;
                 }
             }
 
-            foreach (INamedTypeSymbol @interface in target.AllInterfaces)
+            if (source.BaseType != null && !SymbolEqualityComparer.Default.Equals(source.BaseType, source))
+            {
+                if (CanBeCastedTo(source.BaseType, target))
+                {
+                    return true;
+                }
+            }
+
+            foreach (INamedTypeSymbol @interface in source.AllInterfaces)
             {
                 var r = CanBeCastedTo(
                     @interface,
-                    subjectTypeFullName
+                    target
                     );
 
                 if (r)

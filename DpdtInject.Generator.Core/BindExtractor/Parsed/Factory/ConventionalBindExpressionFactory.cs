@@ -90,12 +90,12 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
                         continue;
                     }
 
-                    if (bindingSyntaxParser.ExcludeWithSet.Any(ew => type.CanBeCastedTo(ew.GetFullyQualifiedName())))
+                    if (bindingSyntaxParser.ExcludeWithSet.Any(ew => type.CanBeCastedTo(ew)))
                     {
                         continue;
                     }
 
-                    if (bindingSyntaxParser.SelectWithSet.All(sw => !type.CanBeCastedTo(sw.GetFullyQualifiedName())))
+                    if (bindingSyntaxParser.SelectWithSet.All(sw => !type.CanBeCastedTo(sw)))
                     {
                         continue;
                     }
