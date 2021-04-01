@@ -240,6 +240,37 @@ public class A1 : IA<string>, IExclude<ulong> { }
 public class A2 : IA<StringBuilder> { }
 ```
 
+Example how to exclude an item from a conventional binding. Imagine you have the following:
+
+```csharp
+//this statement will bind A0 A1 A2 classes
+ScanInAssembliesWith<A0>()
+    .SelectAllWith<IA>()
+    .From<IA>()
+    .ToItself()
+    .WithSingletonScope()
+    ;
+```
+
+but you want to bind `A1` in a slightly different way. You can easily do that:
+
+```csharp
+//this statement will bind A0 A2 classes
+ScanInAssembliesWith<A0>()
+    .SelectAllWith<IA>()
+    .ExcludeAllWith<A1>() //only append this
+    .From<IA>()
+    .ToItself()
+    .WithSingletonScope()
+    ;
+
+//and add a new binding statement
+Bind<IA>()
+    .To<A1>()
+    .WithTransientScope() //here is the difference: transient instead of singleton
+    ;
+```
+
 Dpdt does not support conventional bindings to proxy or factory, because of design.
 
 
