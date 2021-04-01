@@ -6,6 +6,7 @@ using DpdtInject.Generator.Core.BindExtractor;
 using DpdtInject.Generator.Core.Binding;
 using DpdtInject.Generator.Core.Helpers;
 using DpdtInject.Generator.Core.Producer.ClassProducer.Product;
+using DpdtInject.Generator.Core.Producer.ClassProducer.Proxy;
 using DpdtInject.Generator.Core.Producer.Product;
 using DpdtInject.Injector.Bind;
 using DpdtInject.Injector.Excp;
@@ -19,6 +20,9 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
         private readonly BindingContainerTypes _types;
         private readonly ITypeSymbol _methodAttributeType;
         private readonly ITypeSymbol _sessionSaverType;
+
+        private readonly IProxyMemberFactory _notProxiedMemberFactory = new NotProxiedMemberFactory();
+        private readonly IProxyMemberFactory _proxiedMemberFactory = new ProxiedMemberFactory();
 
         public ProxyProducer(
             BindingContainerTypes types,
@@ -105,542 +109,48 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
 
                 //member is not implemented in the proto class
 
+                var factory =
+                    telemetryAttribute is not null
+                        ? _proxiedMemberFactory
+                        : _notProxiedMemberFactory
+                        ;
+
+
                 if (member is IPropertySymbol property && !property.IsIndexer)
                 {
-                    if (telemetryAttribute is not null)
-                    {
-                        var declaredPropertyProduct = GetProxiedPropertyProduct(
-                            property
-                            );
+                    var declaredPropertyProduct = factory.GetPropertyProduct(
+                        property
+                        );
 
-                        result.Add(declaredPropertyProduct);
-                    }
-                    else
-                    {
-                        var declaredPropertyProduct = GetNonProxiedPropertyProduct(
-                            property
-                            );
-
-                        result.Add(declaredPropertyProduct);
-                    }
+                    result.Add(declaredPropertyProduct);
                 }
                 if (member is IPropertySymbol indexer && indexer.IsIndexer)
                 {
-                    if (telemetryAttribute is not null)
-                    {
-                        var declaredPropertyProduct = GetProxiedIndexerProduct(
-                            indexer
-                            );
+                    var declaredPropertyProduct = factory.GetIndexerProduct(
+                        indexer
+                        );
 
-                        result.Add(declaredPropertyProduct);
-                    }
-                    else
-                    {
-                        var declaredPropertyProduct = GetNonProxiedIndexerProduct(
-                            indexer
-                            );
-
-                        result.Add(declaredPropertyProduct);
-                    }
+                    result.Add(declaredPropertyProduct);
                 }
                 if (member is IEventSymbol @event)
                 {
-                    if (telemetryAttribute is not null)
-                    {
-                        var declaredMethodProduct = GetProxiedEventProduct(
-                            @event
-                            );
+                    var declaredMethodProduct = factory.GetEventProduct(
+                        @event
+                        );
 
-                        result.Add(declaredMethodProduct);
-                    }
-                    else
-                    {
-                        var declaredMethodProduct = GetNonProxiedEventProduct(
-                            @event
-                            );
-
-                        result.Add(declaredMethodProduct);
-                    }
+                    result.Add(declaredMethodProduct);
                 }
                 if (member is IMethodSymbol method)
                 {
-                    if (telemetryAttribute is not null)
-                    {
-                        var declaredMethodProduct = GetProxiedMethodProduct(
-                            method
-                            );
+                    var declaredMethodProduct = factory.GetMethodProduct(
+                        method
+                        );
 
-                        result.Add(declaredMethodProduct);
-                    }
-                    else
-                    {
-                        var declaredMethodProduct = GetNonProxiedMethodProduct(
-                            method
-                            );
-
-                        result.Add(declaredMethodProduct);
-                    }
+                    result.Add(declaredMethodProduct);
                 }
             }
 
             return result;
-        }
-
-
-        private EventProduct GetProxiedEventProduct(
-            IEventSymbol @event
-            )
-        {
-            if (@event is null)
-            {
-                throw new ArgumentNullException(nameof(@event));
-            }
-
-            return new EventProduct(
-                "public",
-                @event,
-                (@event.AddMethod != null ? $@"
-                var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
-                    _payloadFullName,
-                    nameof({@event.Name}),
-                    null
-                    );
-
-                var startDate = global::System.Diagnostics.Stopwatch.GetTimestamp();
-                try
-                {{
-                    _payload.{@event.Name} += value;
-
-                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-                        sessionGuid,
-                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                        null
-                        );
-                }}
-                catch (global::System.Exception excp)
-                {{
-                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-                        sessionGuid,
-                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                        excp
-                        );
-
-                    throw;
-                }}
-" : null),
-                (@event.RemoveMethod != null ? $@"
-                var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
-                    _payloadFullName,
-                    nameof({@event.Name}),
-                    null
-                    );
-
-                var startDate = global::System.Diagnostics.Stopwatch.GetTimestamp();
-                try
-                {{
-                    _payload.{@event.Name} -= value;
-
-                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-                        sessionGuid,
-                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                        null
-                        );
-                }}
-                catch (global::System.Exception excp)
-                {{
-                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-                        sessionGuid,
-                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                        excp
-                        );
-
-                    throw;
-                }}
-" : null)
-                );
-        }
-
-        private EventProduct GetNonProxiedEventProduct(
-            IEventSymbol @event
-            )
-        {
-            if (@event is null)
-            {
-                throw new ArgumentNullException(nameof(@event));
-            }
-
-            return new EventProduct(
-                "public",
-                @event,
-                (@event.AddMethod != null ? $"_payload.{@event.Name} += value;" : null),
-                (@event.RemoveMethod != null ? $"_payload.{@event.Name} -= value;" : null)
-                );
-        }
-
-
-        private IndexerProduct GetProxiedIndexerProduct(
-            IPropertySymbol indexer
-            )
-        {
-            if (indexer is null)
-            {
-                throw new ArgumentNullException(nameof(indexer));
-            }
-
-            var parameters = indexer.GetJoinedParametersName();
-
-            return new IndexerProduct(
-                "public",
-                indexer,
-                (indexer.GetMethod != null ? $@"
-                var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
-                    _payloadFullName,
-                    ""{indexer.Type.ToFullDisplayString()} {indexer.Name}"",
-                    null
-                    );
-
-                var startDate = global::System.Diagnostics.Stopwatch.GetTimestamp();
-                try
-                {{
-                    var result = _payload[{parameters}];
-
-                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-                        sessionGuid,
-                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                        null
-                        );
-
-                    return result;
-                }}
-                catch (global::System.Exception excp)
-                {{
-                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-                        sessionGuid,
-                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                        excp
-                        );
-
-                    throw;
-                }}
-" : null),
-                (indexer.SetMethod != null ? $@"
-                var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
-                    _payloadFullName,
-                    ""{indexer.Type.ToFullDisplayString()} {indexer.Name}"",
-                    null
-                    );
-
-                var startDate = global::System.Diagnostics.Stopwatch.GetTimestamp();
-                try
-                {{
-                    _payload[{parameters}] = value;
-
-                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-                        sessionGuid,
-                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                        null
-                        );
-                }}
-                catch (global::System.Exception excp)
-                {{
-                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-                        sessionGuid,
-                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                        excp
-                        );
-
-                    throw;
-                }}
-" : null)
-                );
-        }
-
-        private IndexerProduct GetNonProxiedIndexerProduct(
-            IPropertySymbol indexer
-            )
-        {
-            if (indexer is null)
-            {
-                throw new ArgumentNullException(nameof(indexer));
-            }
-
-            var parameters = indexer.GetJoinedParametersName();
-
-            return new IndexerProduct(
-                "public",
-                indexer,
-                (indexer.GetMethod != null ? $"return _payload[{parameters}];" : null),
-                (indexer.SetMethod != null ? $"_payload[{parameters}] = value;" : null)
-                );
-        }
-
-
-        private PropertyProduct GetProxiedPropertyProduct(
-            IPropertySymbol property
-            )
-        {
-            if (property is null)
-            {
-                throw new ArgumentNullException(nameof(property));
-            }
-
-            return new PropertyProduct(
-                "public",
-                property,
-                (property.GetMethod != null ? $@"
-                var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
-                    _payloadFullName,
-                    nameof({property.Name}),
-                    null
-                    );
-
-                var startDate = global::System.Diagnostics.Stopwatch.GetTimestamp();
-                try
-                {{
-                    var result = _payload.{property.Name};
-
-                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-                        sessionGuid,
-                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                        null
-                        );
-
-                    return result;
-                }}
-                catch (global::System.Exception excp)
-                {{
-                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-                        sessionGuid,
-                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                        excp
-                        );
-
-                    throw;
-                }}
-" : null),
-                (property.SetMethod != null ? $@"
-                var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
-                    _payloadFullName,
-                    nameof({property.Name}),
-                    null
-                    );
-
-                var startDate = global::System.Diagnostics.Stopwatch.GetTimestamp();
-                try
-                {{
-                    _payload.{property.Name} = value;
-
-                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-                        sessionGuid,
-                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                        null
-                        );
-                }}
-                catch (global::System.Exception excp)
-                {{
-                    _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-                        sessionGuid,
-                        (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                        excp
-                        );
-
-                    throw;
-                }}
-" : null)
-                );
-        }
-
-        private PropertyProduct GetNonProxiedPropertyProduct(
-            IPropertySymbol property
-            )
-        {
-            if (property is null)
-            {
-                throw new ArgumentNullException(nameof(property));
-            }
-
-            return new PropertyProduct(
-                "public",
-                property,
-                (property.GetMethod != null ? $"return _payload.{property.Name};" : null),
-                (property.SetMethod != null ? $"_payload.{property.Name} = value;" : null)
-                );
-        }
-
-
-        private IMethodProduct GetNonProxiedMethodProduct(
-            IMethodSymbol method
-            )
-        {
-            if (method is null)
-            {
-                throw new ArgumentNullException(nameof(method));
-            }
-
-            var extractor = new ConstructorArgumentFromMethodExtractor();
-            var constructorArguments = extractor.GetConstructorArguments(method);
-
-
-            var returnModifier = method.ReturnsVoid
-                ? string.Empty
-                : "return"
-                ;
-
-            var refModifier =
-                (method.ReturnsByRef || method.ReturnsByRefReadonly)
-                    ? "ref"
-                    : string.Empty
-                ;
-
-            var result = MethodProductFactory.Create(
-                method,
-                constructorArguments,
-                (methodName, h) =>
-                {
-                    return $@"public {h}
-        {{
-            {returnModifier} {refModifier} _payload.{methodName}({constructorArguments.Join(ca => ca.GetUsageSyntax(), ",")});
-        }}
-";
-                }
-                );
-            return result;
-        }
-
-        private IMethodProduct GetProxiedMethodProduct(
-            IMethodSymbol method
-            )
-        {
-            if (method is null)
-            {
-                throw new ArgumentNullException(nameof(method));
-            }
-
-            var extractor = new ConstructorArgumentFromMethodExtractor();
-            var constructorArguments = extractor.GetConstructorArguments(method);
-
-            var proxyArguments = GetProxyArguments(method);
-
-            IMethodProduct result;
-            if (method.ReturnsVoid)
-            {
-                result = MethodProductFactory.Create(
-                    method,
-                    constructorArguments,
-                    (methodName, h) =>
-                    {
-                        return $@"public {h}
-        {{
-            var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
-                _payloadFullName,
-                nameof({methodName}),
-                {proxyArguments}
-                );
-
-            var startDate = global::System.Diagnostics.Stopwatch.GetTimestamp();
-            try
-            {{
-                _payload.{methodName}({constructorArguments.Join(cafm => cafm.GetUsageSyntax(), ",")});
-
-                _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-                    sessionGuid,
-                    (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                    null
-                    );
-            }}
-            catch (global::System.Exception excp)
-            {{
-                _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-                    sessionGuid,
-                    (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                    excp
-                    );
-
-                throw;
-            }}
-        }}
-";
-                    }
-                    );
-            }
-            else
-            {
-                var refModifier = 
-                    (method.ReturnsByRef || method.ReturnsByRefReadonly)
-                        ? "ref"
-                        : string.Empty
-                    ;
-
-                result = MethodProductFactory.Create(
-                    method,
-                    constructorArguments,
-                    (methodName, h) =>
-                    {
-                        return $@"public {h}
-        {{
-            var sessionGuid = _sessionSaver.{nameof(BaseSessionSaver.StartSessionSafely)}(
-                _payloadFullName,
-                nameof({methodName}),
-                {proxyArguments}
-                );
-
-            var startDate = global::System.Diagnostics.Stopwatch.GetTimestamp();
-            try
-            {{
-                var result = {refModifier} _payload.{methodName}({constructorArguments.Join(cafm => cafm.GetUsageSyntax(), ",")});
-
-                _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-                    sessionGuid,
-                    (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                    null
-                    );
-
-                return result;
-            }}
-            catch (global::System.Exception excp)
-            {{
-                _sessionSaver.{nameof(BaseSessionSaver.FixSessionSafely)}(
-                    sessionGuid,
-                    (global::System.Diagnostics.Stopwatch.GetTimestamp() - startDate) / _stopwatchFrequency,
-                    excp
-                    );
-
-                throw;
-            }}
-        }}";
-                    }
-                    );
-            }
-
-
-            return result;
-        }
-
-        private static string GetProxyArguments(
-            IMethodSymbol methodSymbol
-            )
-        {
-            if (methodSymbol is null)
-            {
-                throw new ArgumentNullException(nameof(methodSymbol));
-            }
-
-            if (methodSymbol.Parameters.Length == 0)
-            {
-                return "null";
-            }
-
-            var sb = new List<string>();
-
-            foreach (var parameter in methodSymbol.Parameters)
-            {
-                sb.Add($"nameof({parameter.Name})");
-                sb.Add($"{parameter.Name}");
-            }
-
-            var joined = string.Join(",", sb);
-
-            return $"new object[] {{ {joined} }}";
         }
 
     }
