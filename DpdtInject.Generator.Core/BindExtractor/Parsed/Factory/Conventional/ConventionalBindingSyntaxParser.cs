@@ -87,7 +87,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional
                     .SelectMany(s => s.Item2.TypeArguments)
                     .Select(ta => ta as INamedTypeSymbol)
                     .Where(nta => nta != null)
-                    .Select(nta => nta!.ConstructedFrom)
+                    .Select(nta => nta!.OriginalDefinition)
                 );
             SelectWithSet = selectWithSet;
 
@@ -107,7 +107,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional
                     .SelectMany(s => s.Item2.TypeArguments)
                     .Select(ta => ta as INamedTypeSymbol)
                     .Where(nta => nta != null)
-                    .Select(nta => nta!.ConstructedFrom)
+                    .Select(nta => nta!.OriginalDefinition)
                 );
             ExcludeWithSet = excludeWithSet;
 

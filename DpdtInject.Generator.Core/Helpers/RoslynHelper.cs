@@ -269,7 +269,7 @@ namespace DpdtInject.Generator.Core.Helpers
             }
             if (source is INamedTypeSymbol ntSource)
             {
-                if (SymbolEqualityComparer.Default.Equals(ntSource.ConstructedFrom, target))
+                if (SymbolEqualityComparer.Default.Equals(ntSource.OriginalDefinition, target))
                 {
                     return true;
                 }
