@@ -139,7 +139,7 @@ namespace DpdtInject.Generator.Core.Binding
 
             if (HasExplicitDefaultValue)
             {
-                return $"{GetDeclarationModifiers()} {Type.ToGlobalDisplayString()} {Name} = {ExplicitDefaultValue?.ToString() ?? "null"}";
+                return $"{GetDeclarationModifiers()} {Type.ToGlobalDisplayString()} {Name} = {ExplicitDefaultValue?.ToString() ?? "default"}";
             }
             else
             {
