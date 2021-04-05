@@ -8,15 +8,16 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
 using DpdtInject.Extension.Options;
 using DpdtInject.Extension.Machinery.Add;
+using DpdtInject.Generator.Core.Binding.Xml;
 
 namespace DpdtInject.Extension.Machinery.Add
 {
     public class SyntaxSurgeon
     {
-        private readonly MethodBindContainer _targetMethod;
+        private readonly IMethodBindContainer _targetMethod;
 
         public SyntaxSurgeon(
-            MethodBindContainer targetMethod
+            IMethodBindContainer targetMethod
             )
         {
             if (targetMethod is null)
@@ -75,7 +76,7 @@ namespace DpdtInject.Extension.Machinery.Add
             var methodSyntax = documentEditor.OriginalRoot
                 .DescendantNodes()
                 .OfType<MethodDeclarationSyntax>()
-                .FirstOrDefault(m => m.Identifier.Text == _targetMethod.MethodSyntax.Identifier.Text)
+                .FirstOrDefault(m => m.Identifier.Text == _targetMethod.MethodDeclaration.MethodName)
                 ;
             if (methodSyntax == null)
             {

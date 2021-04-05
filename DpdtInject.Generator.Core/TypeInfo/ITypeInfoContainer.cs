@@ -13,5 +13,9 @@ namespace DpdtInject.Generator.Core.TypeInfo
         void AddSources(
             ModificationDescription[] modificationDescriptions
             );
+
+        void AddAdditionalFile(
+            string xmlBody
+            );
     }
 }

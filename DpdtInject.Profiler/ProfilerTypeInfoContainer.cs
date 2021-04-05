@@ -22,5 +22,13 @@ namespace DpdtInject.Profiler
         {
             //nothing to do
         }
+
+        /// <inheritdoc />
+        protected override void AddAdditionalFileInternal(
+            string xmlBody
+            )
+        {
+            //nothing to do
+        }
     }
 }

@@ -99,6 +99,12 @@ namespace DpdtInject.Generator.Core.TypeInfo
             AddSourcesInternal(modificationDescriptions);
         }
 
+        /// <inheritdoc />
+        public void AddAdditionalFile(string xmlBody)
+        {
+            AddAdditionalFileInternal(xmlBody);
+        }
+
         public bool IsFactoryBuildFor(ITypeSymbol factoryTargetType)
         {
             if (factoryTargetType is null)
@@ -130,6 +136,8 @@ namespace DpdtInject.Generator.Core.TypeInfo
         }
 
         protected abstract void AddSourcesInternal(ModificationDescription[] modificationDescriptions);
+
+        protected abstract void AddAdditionalFileInternal(string xmlBody);
 
         protected void UpdateCompilationWith(SourceText[] sourceTexts)
         {

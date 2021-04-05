@@ -1,6 +1,7 @@
 ﻿using System;
 using DpdtInject.Extension.Container;
 using DpdtInject.Extension.Helper;
+using DpdtInject.Generator.Core.Binding.Xml;
 
 namespace DpdtInject.Extension.UI.ViewModel.Add.Inner
 {
@@ -8,7 +9,7 @@ namespace DpdtInject.Extension.UI.ViewModel.Add.Inner
     {
         private bool _isChecked;
 
-        public MethodBindContainer MethodBindContainer
+        public IMethodBindContainer MethodBindContainer
         {
             get;
         }
@@ -35,7 +36,7 @@ namespace DpdtInject.Extension.UI.ViewModel.Add.Inner
 
         /// <inheritdoc />
         public TargetMethodViewModel(
-            MethodBindContainer mbc
+            IMethodBindContainer mbc
             )
         {
             if (mbc is null)
@@ -45,8 +46,8 @@ namespace DpdtInject.Extension.UI.ViewModel.Add.Inner
 
             MethodBindContainer = mbc;
 
-            VisualRepresentationClassMethod = $"{mbc.ClusterType.Name}.{mbc.MethodSyntax.Identifier.Text}";
-            VisualRepresentationNamespace = $"({mbc.ClusterType.ContainingNamespace.ToDisplayString()})";
+            VisualRepresentationClassMethod = $"{mbc.ClusterTypeInfo.Name}.{mbc.MethodDeclaration.MethodName}";
+            VisualRepresentationNamespace = $"({mbc.ClusterTypeInfo.FullNamespaceDisplayName})";
         }
     }
 }

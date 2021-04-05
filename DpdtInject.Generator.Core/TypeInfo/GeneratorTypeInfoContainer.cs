@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using System.Collections.Generic;
@@ -46,6 +47,20 @@ namespace DpdtInject.Generator.Core.TypeInfo
             UpdateCompilationWith(sourceTexts.ToArray());
         }
 
+        /// <inheritdoc />
+        protected override void AddAdditionalFileInternal(string xmlBody)
+        {
+            if (xmlBody is null)
+            {
+                throw new ArgumentNullException(nameof(xmlBody));
+            }
 
+            var sourceText = SourceText.From(xmlBody, Encoding.UTF8);
+
+            _context.AddSource(
+                DpdtInternalGenerator.DpdtXmlArtifactFile,
+                sourceText
+                );
+        }
     }
 }

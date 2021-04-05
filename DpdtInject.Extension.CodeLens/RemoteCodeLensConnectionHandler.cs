@@ -1,34 +1,34 @@
 ﻿using System;
 using System.IO.Pipes;
 using System.Threading.Tasks;
-using DpdtInject.Extension.CodeLens;
+using DpdtInject.Extension.Shared;
 using StreamJsonRpc;
 
-namespace DpdtInject.Extension.Shared
+namespace DpdtInject.Extension.CodeLens
 {
     /// <summary>
     /// Taken from  https://github.com/bert2/microscope completely.
     /// Take a look to that repo, it's amazing!
     /// </summary>
-    public class VisualStudioConnectionHandler : IRemoteCodeLens, IDisposable
+    public class RemoteCodeLensConnectionHandler : IRemoteCodeLens, IDisposable
     {
         private readonly DpdtCodeLensDataPoint _owner;
         private readonly NamedPipeClientStream _stream;
         private JsonRpc? _rpc;
 
-        public async static Task<VisualStudioConnectionHandler> Create(DpdtCodeLensDataPoint owner, int vspid)
+        public async static Task<RemoteCodeLensConnectionHandler> CreateAsync(DpdtCodeLensDataPoint owner, int vspid)
         {
-            var handler = new VisualStudioConnectionHandler(owner, vspid);
-            await handler.Connect().ConfigureAwait(false);
+            var handler = new RemoteCodeLensConnectionHandler(owner, vspid);
+            await handler.ConnectAsync().ConfigureAwait(false);
             return handler;
         }
 
-        public VisualStudioConnectionHandler(DpdtCodeLensDataPoint owner, int vspid)
+        public RemoteCodeLensConnectionHandler(DpdtCodeLensDataPoint owner, int vspid)
         {
             _owner = owner;
             _stream = new NamedPipeClientStream(
                 serverName: ".",
-                PipeName.Get(vspid),
+                CodeLensPipeName.Get(vspid),
                 PipeDirection.InOut,
                 PipeOptions.Asynchronous
                 );
@@ -36,13 +36,14 @@ namespace DpdtInject.Extension.Shared
 
         public void Dispose() => _stream.Dispose();
 
-        public async Task Connect()
+        public void Refresh() => _owner.Refresh();
+
+        private async Task ConnectAsync()
         {
             await _stream.ConnectAsync().ConfigureAwait(false);
             _rpc = JsonRpc.Attach(_stream, this);
-            await _rpc.InvokeAsync(nameof(IRemoteVisualStudio.RegisterCodeLensDataPoint), _owner.UniqueIdentifier).ConfigureAwait(false);
+            await _rpc.InvokeAsync(nameof(IRemoteVisualStudioCodeLens.RegisterCodeLensDataPoint), _owner.UniqueIdentifier).ConfigureAwait(false);
         }
 
-        public void Refresh() => _owner.Refresh();
     }
 }

@@ -21,5 +21,13 @@ namespace DpdtInject.Extension.Container.Component
         {
             //nothing to do
         }
+
+        /// <inheritdoc />
+        protected override void AddAdditionalFileInternal(
+            string xmlBody
+            )
+        {
+            //nothing to do
+        }
     }
 }

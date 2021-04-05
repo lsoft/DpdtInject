@@ -13,11 +13,16 @@ using System.Linq;
 using DpdtInject.Generator.Core.BindExtractor.Parsed;
 using DpdtInject.Generator.Core.TypeScanner;
 using DpdtInject.Generator.Core.BindExtractor.Parsed.Factory;
+using DpdtInject.Generator.Core.Binding.Xml;
+using DpdtInject.Generator.Core.Meta;
+using DpdtInject.Injector.Helper;
 
 namespace DpdtInject.Generator.Core
 {
     public class DpdtInternalGenerator
     {
+        public const string DpdtXmlArtifactFile = "dpdt_artifact.xml";
+
         private readonly IDiagnosticReporter _diagnosticReporter;
         private readonly bool _doBeautify;
 
@@ -44,13 +49,17 @@ namespace DpdtInject.Generator.Core
                 throw new ArgumentNullException(nameof(typeInfoContainer));
             }
 
-            var cmb = DoExtraction(
+            var clusterMethodBindings = DoExtraction(
                 typeInfoContainer
                 );
 
-            DoGeneration(typeInfoContainer, cmb);
-        }
+            DoGenerateXml(
+                typeInfoContainer,
+                clusterMethodBindings
+                );
 
+            DoGenerateBindingSourceCode(typeInfoContainer, clusterMethodBindings);
+        }
 
         public IReadOnlyList<ClusterMethodBindings> DoExtraction(
             ITypeInfoContainer typeInfoContainer
@@ -152,7 +161,79 @@ namespace DpdtInject.Generator.Core
             return stepResults;
         }
 
-        private void DoGeneration(
+
+        private void DoGenerateXml(
+            ITypeInfoContainer typeInfoContainer,
+            IReadOnlyList<ClusterMethodBindings> clusterMethodBindings
+            )
+        {
+            if (typeInfoContainer is null)
+            {
+                throw new ArgumentNullException(nameof(typeInfoContainer));
+            }
+
+            if (clusterMethodBindings is null)
+            {
+                throw new ArgumentNullException(nameof(clusterMethodBindings));
+            }
+
+
+
+            var clusterXmls = new List<ClusterBindContainerXml>();
+            foreach (var clusterMethodBinding in clusterMethodBindings)
+            {
+                var clusterType = clusterMethodBinding.ClusterType;
+                var clusterTypeXml = clusterType.ToXml();
+
+                var methodBindXmls = new List<MethodBindContainerXml>();
+                foreach (var methodBinding in clusterMethodBinding.MethodBindings)
+                {
+                    var methodDeclaration = methodBinding.Item1;
+
+                    var methodDeclarationXml = new MethodDeclarationInfoXml(
+                        methodDeclaration.ToXml(),
+                        methodDeclaration.Identifier.Text
+                        );
+
+                    var methodBindXml = new MethodBindContainerXml(
+                        clusterTypeXml,
+                        methodDeclarationXml,
+                        methodBinding.Item2.ConvertAll(
+                            bc => new BindingXml(
+                                bc.Identifier.ToString(),
+                                bc.TargetRepresentation,
+                                bc.BindFromTypes.ConvertAll(s => s.ToXml()).ToArray(),
+                                bc.BindToType.ToXml(),
+                                bc.Scope.ToString(),
+                                (int)bc.Scope,
+                                bc.IsConditional,
+                                bc.IsConventional,
+                                bc.ExpressionNode.ToXml()
+                                )
+                            ).ToArray()
+                        );
+                    methodBindXmls.Add(methodBindXml);
+                }
+
+                var clusterXml = new ClusterBindContainerXml(
+                    clusterTypeXml,
+                    methodBindXmls.ToArray()
+                    );
+                clusterXmls.Add(clusterXml);
+            }
+
+            var solutionXml = new SolutionBindContainerXml(
+                clusterXmls.ToArray()
+                );
+
+            var meta = new BuiltinMeta();
+            meta.Store(
+                typeInfoContainer,
+                solutionXml
+                );
+        }
+
+        private void DoGenerateBindingSourceCode(
             ITypeInfoContainer typeInfoContainer,
             IReadOnlyList<ClusterMethodBindings> clusterMethodBindings
             )

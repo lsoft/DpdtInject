@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using DpdtInject.Extension.Container;
 using DpdtInject.Extension.Helper;
 using Microsoft.CodeAnalysis;
@@ -10,15 +11,16 @@ using Microsoft.VisualStudio.TextManager.Interop;
 using EnvDTE80;
 using Task = System.Threading.Tasks.Task;
 using DpdtInject.Extension.Machinery.Add;
+using DpdtInject.Generator.Core.Binding.Xml;
 
 namespace DpdtInject.Extension.Machinery.Add
 {
     public class DocumentModifier
     {
-        private readonly MethodBindContainer _targetMethod;
+        private readonly IMethodBindContainer _targetMethod;
 
         public DocumentModifier(
-            MethodBindContainer targetMethod
+            IMethodBindContainer targetMethod
             )
         {
             if (targetMethod is null)
@@ -36,6 +38,11 @@ namespace DpdtInject.Extension.Machinery.Add
             if (newBindingInfo is null)
             {
                 throw new ArgumentNullException(nameof(newBindingInfo));
+            }
+
+            if (string.IsNullOrEmpty(_targetMethod.MethodDeclaration.Position.FilePath))
+            {
+                return;
             }
 
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
@@ -69,39 +76,17 @@ namespace DpdtInject.Extension.Machinery.Add
             var currentDocumentFilePath = System.IO.Path.Combine(dte.ActiveDocument.Path, dte.ActiveDocument.Name);
             currentActiveView.GetCaretPos(out var currentLine, out var currentColumn);
 
-
-            var methods = _targetMethod.ClusterType.GetMembers(_targetMethod.MethodSyntax.Identifier.Text);
-            if (methods.Length != 1)
-            {
-                return;
-            }
-
-            var method = methods[0];
-            if (method.Locations.Length != 1)
-            {
-                return;
-            }
-
-            var methodLocation = method.Locations[0];
-            var methodFilePath = methodLocation.SourceTree?.FilePath;
-
-            if (methodFilePath == null)
-            {
-                return;
-            }
-
             #region open modified document
 
             var modifiedDocumentHelper = new VisualStudioDocumentHelper(
-                methodFilePath
+                _targetMethod.MethodDeclaration.Position.FilePath
                 );
 
-            var lineSpan = methodLocation.GetLineSpan();
             modifiedDocumentHelper.OpenAndNavigate(
-                lineSpan.StartLinePosition.Line,
-                lineSpan.StartLinePosition.Character,
-                lineSpan.EndLinePosition.Line,
-                lineSpan.EndLinePosition.Character
+                _targetMethod.MethodDeclaration.Position.StartLine,
+                _targetMethod.MethodDeclaration.Position.StartColumn,
+                _targetMethod.MethodDeclaration.Position.EndLine,
+                _targetMethod.MethodDeclaration.Position.EndColumn
                 );
 
             #endregion
@@ -125,17 +110,12 @@ namespace DpdtInject.Extension.Machinery.Add
             #endregion
 
             var document = workspace.GetDocument(
-                methodFilePath
+                _targetMethod.MethodDeclaration.Position.FilePath
                 );
             if (document == null)
             {
                 return;
             }
-
-            //OptionSet options = workspace.Options;
-            //options = options.WithChangedOption(CSharpFormattingOptions.NewLinesForBracesInMethods, true);
-            //options = options.WithChangedOption(CSharpFormattingOptions.NewLinesForBracesInProperties, true);
-
 
             var surgeon = new SyntaxSurgeon(
                 _targetMethod

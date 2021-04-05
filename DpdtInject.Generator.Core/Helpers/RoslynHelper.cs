@@ -3,16 +3,62 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.SymbolStore;
 using System.Linq;
 using DpdtInject.Generator.Core.BindExtractor;
+using DpdtInject.Generator.Core.Binding.Xml;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Generator.Core.Producer;
+using DpdtInject.Injector.Helper;
 
 namespace DpdtInject.Generator.Core.Helpers
 {
     public static class RoslynHelper
     {
+        public static ClassTypeInfoXml ToXml(
+            this ITypeSymbol symbol
+            )
+        {
+            if (symbol is null)
+            {
+                throw new ArgumentNullException(nameof(symbol));
+            }
+
+            var result = new ClassTypeInfoXml(
+                symbol.ToFullDisplayString(),
+                symbol.ToFullyQualifiedName(),
+                symbol.Name,
+                symbol.ContainingNamespace.ToFullDisplayString()
+                );
+
+            return result;
+        }
+
+        public static PositionXml ToXml(
+            this SyntaxNode syntax
+            )
+        {
+            if (syntax is null)
+            {
+                throw new ArgumentNullException(nameof(syntax));
+            }
+
+            var location = syntax.GetLocation();
+            var lineSpan = location.GetLineSpan();
+
+            return
+                new PositionXml(
+                    location.SourceTree?.FilePath ?? string.Empty,
+                    lineSpan.StartLinePosition.Line,
+                    lineSpan.StartLinePosition.Character,
+                    lineSpan.EndLinePosition.Line,
+                    lineSpan.EndLinePosition.Character,
+                    syntax.Span.Start,
+                    syntax.Span.End
+                    );
+        }
+
         public static string GetJoinedParametersNameAndType(
             this IPropertySymbol property
             )

@@ -202,9 +202,5 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
                     );
             }
         }
-
-
-
-
     }
 }

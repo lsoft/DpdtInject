@@ -53,6 +53,14 @@ namespace DpdtInject.Tests
             UpdateCompilationWith(sourceTexts.ToArray());
         }
 
+        /// <inheritdoc />
+        protected override void AddAdditionalFileInternal(
+            string xmlBody
+            )
+        {
+            //nothing to do
+        }
+
         public EmitResult Emit(
             string outputPath
             )

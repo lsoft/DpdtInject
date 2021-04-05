@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Input;
 using Task = System.Threading.Tasks.Task;
 using DpdtInject.Extension.UI.ViewModel.Add.Inner;
+using DpdtInject.Generator.Core.Binding.Xml;
 
 namespace DpdtInject.Extension.UI.ViewModel.Add
 {
@@ -130,25 +131,18 @@ namespace DpdtInject.Extension.UI.ViewModel.Add
             var solutionBind = _containerAndScanner.Binds;
             if (solutionBind != null)
             {
-                foreach (var ppair in solutionBind.Dict)
+                foreach (var clusterBind in solutionBind.ClusterBindContainers)
                 {
-                    var projectBind = ppair.Value;
-
-                    foreach (var cpair in projectBind.DictByDisplayString)
+                    foreach (var mpair in clusterBind.GetMethodBindContainerDict())
                     {
-                        var clusterBind = cpair.Value;
+                        var methodBind = mpair.Value;
 
-                        foreach (var mpair in clusterBind.Dict)
-                        {
-                            var methodBind = mpair.Value;
+                        targetMethodList.Add(
+                            new TargetMethodViewModel(
+                                methodBind
+                                )
 
-                            targetMethodList.Add(
-                                new TargetMethodViewModel(
-                                    methodBind
-                                    )
-
-                                );
-                        }
+                            );
                     }
                 }
             }
@@ -159,14 +153,14 @@ namespace DpdtInject.Extension.UI.ViewModel.Add
             }
 
 
-            foreach (var bm in targetMethodList.OrderBy(bm => bm.MethodBindContainer.ClusterType.ToDisplayString()))
+            foreach (var bm in targetMethodList.OrderBy(bm => bm.MethodBindContainer.ClusterTypeInfo.FullDisplayName))
             {
                 TargetMethodList.Add(bm);
             }
 
             if (_choosedParameters.ChoosedTargetMethod != null)
             {
-                var foundTargetMethod = TargetMethodList.FirstOrDefault(tm => ReferenceEquals(tm.MethodBindContainer.MethodSyntax, _choosedParameters.ChoosedTargetMethod.MethodSyntax));
+                var foundTargetMethod = TargetMethodList.FirstOrDefault(tm => tm.MethodBindContainer.MethodDeclaration == _choosedParameters.ChoosedTargetMethod.MethodDeclaration);
                 if (foundTargetMethod != null)
                 {
                     foundTargetMethod.IsChecked = true;
@@ -178,7 +172,7 @@ namespace DpdtInject.Extension.UI.ViewModel.Add
         }
 
 
-        private MethodBindContainer GetChoosedTargetMethod()
+        private IMethodBindContainer GetChoosedTargetMethod()
         {
             return TargetMethodList.First(t => t.IsChecked).MethodBindContainer;
         }

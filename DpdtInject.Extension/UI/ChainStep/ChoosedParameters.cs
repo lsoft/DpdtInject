@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DpdtInject.Extension.Machinery.Add;
+using DpdtInject.Generator.Core.Binding.Xml;
 
 namespace DpdtInject.Extension.UI.ChainStep
 {
@@ -40,7 +41,7 @@ namespace DpdtInject.Extension.UI.ChainStep
             internal set;
         }
 
-        public MethodBindContainer? ChoosedTargetMethod
+        public IMethodBindContainer? ChoosedTargetMethod
         {
             get;
             internal set;

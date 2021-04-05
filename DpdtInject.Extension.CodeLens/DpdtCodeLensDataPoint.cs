@@ -18,7 +18,7 @@ namespace DpdtInject.Extension.CodeLens
         private readonly ICodeLensCallbackService _callbackService;
         private readonly CodeLensDescriptor _descriptor;
         
-        private VisualStudioConnectionHandler? _visualStudioConnection;
+        private RemoteCodeLensConnectionHandler? _visualStudioConnection;
         private readonly ManualResetEventSlim _dataHasLoaded = new ManualResetEventSlim(initialState: false);
         
         private DpdtBindingReferenceSet? _bindings;
@@ -57,8 +57,8 @@ namespace DpdtInject.Extension.CodeLens
             int vspid
             )
         {
-            _visualStudioConnection = await VisualStudioConnectionHandler
-                .Create(owner: this, vspid)
+            _visualStudioConnection = await RemoteCodeLensConnectionHandler
+                .CreateAsync(owner: this, vspid)
                 .ConfigureAwait(false)
                 ;
         }

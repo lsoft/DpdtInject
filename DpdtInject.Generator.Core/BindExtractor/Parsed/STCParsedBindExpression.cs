@@ -243,7 +243,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
             var productSourceCode = product.GetSourceCode();
 
             _typeInfoContainer.AddSources(
-                new ModificationDescription[]
+                new []
                 {
                     new ModificationDescription(
                         (INamedTypeSymbol) types.BindToType,

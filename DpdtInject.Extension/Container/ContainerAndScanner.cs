@@ -18,14 +18,17 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TaskStatusCenter;
 using Microsoft.VisualStudio.Threading;
 using System.Diagnostics;
-
+using System.Linq.Expressions;
 using Task = System.Threading.Tasks.Task;
 using Project = Microsoft.CodeAnalysis.Project;
 using Thread = System.Threading.Thread;
 
 using static DpdtInject.Extension.Shared.Logging;
 using DpdtInject.Extension.BuildStatus;
+using DpdtInject.Generator.Core.Binding.Xml;
+using DpdtInject.Generator.Core.Meta;
 using DpdtInject.Generator.Core.Producer;
+using DpdtInject.Injector.Helper;
 
 namespace DpdtInject.Extension.Container
 {
@@ -39,7 +42,7 @@ namespace DpdtInject.Extension.Container
         private TaskProgressData _data;
         private BackgroundScanner? _backgroundScanner;
 
-        public SolutionBindContainer? Binds => _backgroundScanner?.SolutionBindContainer;
+        public ISolutionBindContainer? Binds => _backgroundScanner?.SolutionBindContainer;
 
         [ImportingConstructor]
         public ContainerAndScanner(
@@ -180,7 +183,7 @@ namespace DpdtInject.Extension.Container
             private set;
         }
 
-        public SolutionBindContainer? SolutionBindContainer
+        public ISolutionBindContainer? SolutionBindContainer
         {
             get;
             private set;
@@ -229,7 +232,7 @@ namespace DpdtInject.Extension.Container
         {
             var token = _cancellationTokenSource.Token;
 
-            SolutionBindContainer? sbc = null;
+            SolutionBindContainerXml? sbc = null;
             try
             {
                 //const int max = 100;
@@ -267,7 +270,7 @@ namespace DpdtInject.Extension.Container
                     return;
                 }
 
-                sbc = new SolutionBindContainer();
+                sbc = new SolutionBindContainerXml();
                 var index = -1;
                 var projectCount = workspace.CurrentSolution.Projects.Count();
                 foreach (var project in workspace.CurrentSolution.Projects)
@@ -315,6 +318,7 @@ namespace DpdtInject.Extension.Container
 
                     if (!letsgo)
                     {
+                        _outputPane!.OutputStringThreadSafe($"  {project.Name} skipped due to absense of Dpdt package installed{Environment.NewLine}");
                         continue;
                     }
 
@@ -373,27 +377,18 @@ namespace DpdtInject.Extension.Container
                         _outputPane!.OutputStringThreadSafe(errorMessage);
                         _outputPane!.OutputStringThreadSafe(Environment.NewLine);
 
-                        //do not skip this project analyzis, it may be partially fine
+                        //do not skip this project analysis, it may be partially fine
                         //continue;
                     }
 
                     swt.Restart();
 
-                    var typeInfoContainer = new ExtensionTypeInfoContainer(
-                        compilation
-                        );
-
-                    var diagnosticReporter = new DebugDiagnosticReporter(
-                        );
-
-                    var internalGenerator = new DpdtInternalGenerator(
-                        diagnosticReporter,
-                        false
-                        );
-
-                    var clusterBindings = internalGenerator.DoExtraction(
-                        typeInfoContainer
-                        );
+                    var meta = new BuiltinMeta();
+                    if(!meta.TryExtract(compilation, out var solutionXml))
+                    {
+                        continue;
+                    }
+                    sbc.Append(solutionXml!);
 
                     _outputPane!.OutputStringThreadSafe($"    Binding extraction from {project.Name} taken: {swt.Elapsed}{Environment.NewLine}");
 
@@ -403,31 +398,13 @@ namespace DpdtInject.Extension.Container
 
                         break;
                     }
-
-                    var pbc = new ProjectBindContainer(project);
-                    foreach (var clusterBinding in clusterBindings)
-                    {
-                        var cbc = new ClusterBindContainer(clusterBinding.ClusterType);
-                        foreach (var methodBinding in clusterBinding.MethodBindings)
-                        {
-                            cbc.Add(
-                                new MethodBindContainer(
-                                    clusterBinding.ClusterType,
-                                    methodBinding.Item1,
-                                    methodBinding.Item2
-                                    )
-                                );
-                        }
-
-                        pbc.Add(cbc);
-                    }
-
-                    sbc.Add(pbc);
                 }
             }
             catch (Exception excp)
             {
                 LogVS(excp);
+                _outputPane!.OutputStringThreadSafe($"  Dpdt scanning failed: {excp.Message}{Environment.NewLine}");
+                _outputPane!.OutputStringThreadSafe($"  Dpdt scanning failed: {excp.StackTrace}{Environment.NewLine}");
             }
             finally
             {
@@ -450,189 +427,4 @@ namespace DpdtInject.Extension.Container
         }
 
     }
-
-    public class SolutionBindContainer
-    {
-        private readonly Dictionary<string, ProjectBindContainer> _dict = new Dictionary<string, ProjectBindContainer>();
-
-        public IReadOnlyDictionary<string, ProjectBindContainer> Dict => _dict;
-
-        public SolutionBindContainer(
-            )
-        {
-        }
-
-        public void Add(
-            ProjectBindContainer pbc
-            )
-        {
-            if (pbc is null)
-            {
-                throw new ArgumentNullException(nameof(pbc));
-            }
-
-            _dict[pbc.Project.Name] = pbc;
-        }
-
-        public void Clear()
-        {
-            _dict.Clear();
-        }
-
-        public bool TryGetBindingContainer(
-            Guid bindingIdentifier,
-            out IBindingContainer? resultBindingContainer
-            )
-        {
-            foreach (var ppair in Dict)
-            {
-                var projectBind = ppair.Value;
-
-                foreach (var cpair in projectBind.DictByDisplayString)
-                {
-                    var clusterBind = cpair.Value;
-
-                    foreach (var mpair in clusterBind.Dict)
-                    {
-                        var methodBind = mpair.Value;
-
-                        foreach (var bindingContainer in methodBind.BindingContainers)
-                        {
-                            if (bindingContainer.Identifier == bindingIdentifier)
-                            {
-                                resultBindingContainer = bindingContainer;
-
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-
-
-            resultBindingContainer = null;
-            return false;
-        }
-    }
-
-    public class ProjectBindContainer
-    {
-        private readonly Dictionary<string, ClusterBindContainer> _dictByDisplayString = new Dictionary<string, ClusterBindContainer>();
-        private readonly Dictionary<string, ClusterBindContainer> _dictByFullyQualifiedName = new Dictionary<string, ClusterBindContainer>();
-
-        public Project Project
-        {
-            get;
-        }
-        public IReadOnlyDictionary<string, ClusterBindContainer> DictByDisplayString => _dictByDisplayString;
-        public IReadOnlyDictionary<string, ClusterBindContainer> DictByFullyQualifiedName => _dictByFullyQualifiedName;
-
-        public ProjectBindContainer(
-            Project project
-            )
-        {
-            if (project is null)
-            {
-                throw new ArgumentNullException(nameof(project));
-            }
-
-            Project = project;
-        }
-
-        public void Add(
-            ClusterBindContainer cbc
-            )
-        {
-            if (cbc is null)
-            {
-                throw new ArgumentNullException(nameof(cbc));
-            }
-
-            _dictByDisplayString[cbc.ClusterType.ToDisplayString()] = cbc;
-            _dictByFullyQualifiedName[cbc.ClusterType.GetFullyQualifiedName()] = cbc;
-        }
-    }
-
-    public class ClusterBindContainer
-    {
-        private readonly Dictionary<string, MethodBindContainer> _dict =  new Dictionary<string, MethodBindContainer>();
-
-        public INamedTypeSymbol ClusterType
-        {
-            get;
-        }
-
-        public IReadOnlyDictionary<string, MethodBindContainer> Dict => _dict;
-
-
-        public ClusterBindContainer(
-            INamedTypeSymbol clusterType
-            )
-        {
-            if (clusterType is null)
-            {
-                throw new ArgumentNullException(nameof(clusterType));
-            }
-
-            ClusterType = clusterType;
-        }
-
-        public void Add(
-            MethodBindContainer mbc
-            )
-        {
-            if (mbc is null)
-            {
-                throw new ArgumentNullException(nameof(mbc));
-            }
-
-            _dict[mbc.MethodSyntax.Identifier.Text] = mbc;
-        }
-    }
-
-    public class MethodBindContainer
-    {
-        public INamedTypeSymbol ClusterType
-        {
-            get;
-        }
-
-        public MethodDeclarationSyntax MethodSyntax
-        {
-            get;
-        }
-
-        public IReadOnlyList<IBindingContainer> BindingContainers
-        {
-            get;
-        }
-
-        public MethodBindContainer(
-            INamedTypeSymbol clusterType,
-            MethodDeclarationSyntax methodSyntax,
-            IReadOnlyList<IBindingContainer> bindingContainers
-            )
-        {
-            if (clusterType is null)
-            {
-                throw new ArgumentNullException(nameof(clusterType));
-            }
-
-            if (methodSyntax is null)
-            {
-                throw new ArgumentNullException(nameof(methodSyntax));
-            }
-
-            if (bindingContainers is null)
-            {
-                throw new ArgumentNullException(nameof(bindingContainers));
-            }
-
-            ClusterType = clusterType;
-            MethodSyntax = methodSyntax;
-            BindingContainers = bindingContainers;
-        }
-
-    }
-
 }

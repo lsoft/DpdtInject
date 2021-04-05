@@ -51,7 +51,7 @@ namespace DpdtInject.Generator.Core.Producer
             return ds;
         }
 
-        public static string GetFullyQualifiedName(
+        public static string ToFullyQualifiedName(
             this ISymbol s
             )
         {

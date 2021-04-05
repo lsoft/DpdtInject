@@ -17,6 +17,7 @@ using Microsoft.VisualStudio.TextManager.Interop;
 using DpdtInject.Extension.UI.ViewModel.Details;
 using DpdtInject.Extension.Shared.Dto;
 using DpdtInject.Extension.UI.ChainStep;
+using DpdtInject.Generator.Core.Binding.Xml;
 
 namespace DpdtInject.Extension
 {
@@ -138,12 +139,12 @@ namespace DpdtInject.Extension
                 return;
             }
 
-            if (!TryGetBindingContainer(tag.BindingIdentifier, out var containerAndScanner, out var bindingContainer))
+            if (!TryGetBinding(tag.BindingIdentifier, out var containerAndScanner, out var binding))
             {
                 return;
             }
 
-            if (bindingContainer!.IsConventional)
+            if (binding!.IsConventional)
             {
                 return;
             }
@@ -172,24 +173,20 @@ namespace DpdtInject.Extension
             currentActiveView.GetCaretPos(out var currentLine, out var currentColumn);
 
             //switch to modified document
-            var expressionNode = bindingContainer!.ExpressionNode;
-            var location = expressionNode.GetLocation();
-            var lineSpan = location.GetLineSpan();
-
             var modifiedDocumentHelper = new VisualStudioDocumentHelper(
-                expressionNode.SyntaxTree.FilePath
+                binding!.Position.FilePath
                 );
 
             modifiedDocumentHelper.OpenAndNavigate(
-                lineSpan.StartLinePosition.Line,
-                lineSpan.StartLinePosition.Character,
-                lineSpan.EndLinePosition.Line,
-                lineSpan.EndLinePosition.Character
+                binding!.Position.StartLine,
+                binding!.Position.StartColumn,
+                binding!.Position.EndLine,
+                binding!.Position.EndColumn
                 );
 
             try
             {
-                dte.UndoContext.Open($"Remove bind {bindingContainer.TargetRepresentation}");
+                dte.UndoContext.Open($"Remove bind {binding.TargetRepresentation}");
 
                 ErrorHandler.ThrowOnFailure(textManager.GetActiveView(1, null, out var activeView));
 
@@ -200,8 +197,8 @@ namespace DpdtInject.Extension
                 {
                     textView.TextBuffer.Delete(
                         new Span(
-                            bindingContainer.ExpressionNode.Span.Start,
-                            bindingContainer.ExpressionNode.Span.Length
+                            binding.Position.SpanStart,
+                            binding.Position.SpanLength
                             )
                         );
                 }
@@ -244,39 +241,35 @@ namespace DpdtInject.Extension
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            if (!TryGetBindingContainer(bindingIdentifier, out _, out var bindingContainer))
+            if (!TryGetBinding(bindingIdentifier, out _, out var binding))
             {
                 return;
             }
 
-            var expressionNode = bindingContainer!.ExpressionNode;
-            var location = expressionNode.GetLocation();
-            var lineSpan = location.GetLineSpan();
-
             var documentHelper = new VisualStudioDocumentHelper(
-                expressionNode.SyntaxTree.FilePath
+                binding!.Position.FilePath
                 );
 
             documentHelper.OpenAndNavigate(
-                lineSpan.StartLinePosition.Line,
-                lineSpan.StartLinePosition.Character,
-                lineSpan.EndLinePosition.Line,
-                lineSpan.EndLinePosition.Character
+                binding!.Position.StartLine,
+                binding!.Position.StartColumn,
+                binding!.Position.EndLine,
+                binding!.Position.EndColumn
                 );
 
         }
 
-        private static bool TryGetBindingContainer(
+        private static bool TryGetBinding(
             Guid bindingIdentifier,
             out ContainerAndScanner? containerAndScanner,
-            out IBindingContainer? bindingContainer
+            out IBindingStatement? binding
             )
         {
             var componentModel = Package.GetGlobalService(typeof(SComponentModel)) as IComponentModel;
             if (componentModel == null)
             {
                 containerAndScanner = null;
-                bindingContainer = null;
+                binding = null;
                 return false;
             }
 
@@ -285,14 +278,14 @@ namespace DpdtInject.Extension
             if (solutionBinds == null)
             {
                 containerAndScanner = null;
-                bindingContainer = null;
+                binding = null;
                 return false;
             }
 
-            if (!solutionBinds.TryGetBindingContainer(bindingIdentifier, out bindingContainer))
+            if (!solutionBinds.TryGetBinding(bindingIdentifier, out binding))
             {
                 containerAndScanner = null;
-                bindingContainer = null;
+                binding = null;
                 return false;
             }
 

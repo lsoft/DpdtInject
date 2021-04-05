@@ -33,7 +33,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-<!--
+  <!--
   <PropertyGroup Condition="Exists('$(ProjectDir)..\.please_sign_my_assemblies.secret')">
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(ProjectDir)..\dpdt.extension.snk</AssemblyOriginatorKeyFile>
@@ -53,6 +53,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dto\CodeLensTarget.cs" />
+    <Compile Include="Dto\DpdtBindingDetail.cs" />
+    <Compile Include="Dto\DpdtBindingReferenceSetStatusEnum.cs" />
+    <Compile Include="Dto\DpdtBindingTarget.cs" />
+    <Compile Include="Dto\DpdtClusterDetail.cs" />
     <Compile Include="IDpdtCodeLensListener.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

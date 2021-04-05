@@ -57,39 +57,32 @@ namespace DpdtInject.Extension
             }
 
             var list = new List<DpdtBindingTarget>();
-            foreach (var ppair in solutionBind.Dict)
+            foreach (var clusterBind in solutionBind.ClusterBindContainers)
             {
-                var projectBind = ppair.Value;
-
-                foreach (var cpair in projectBind.DictByDisplayString)
+                foreach (var mpair in clusterBind.GetMethodBindContainerDict())
                 {
-                    var clusterBind = cpair.Value;
+                    var methodBind = mpair.Value;
 
-                    foreach (var mpair in clusterBind.Dict)
+                    foreach (var binding in methodBind.Bindings)
                     {
-                        var methodBind = mpair.Value;
-
-                        foreach (var bindingContainer in methodBind.BindingContainers)
+                        var bindingFound = binding.BindToType.FullyQualifiedName == target.FullyQualifiedName;
+                        if (bindingFound)
                         {
-                            var bindingFound = bindingContainer.BindToType.GetFullyQualifiedName() == target.FullyQualifiedName;
-                            if (bindingFound)
-                            {
-                                list.Add(
-                                    new DpdtBindingTarget(
-                                        bindingContainer.Identifier,
-                                        new DpdtClusterDetail(
-                                            clusterBind.ClusterType.ContainingNamespace.ToDisplayString(),
-                                            clusterBind.ClusterType.Name,
-                                            mpair.Key
-                                            ),
-                                        new DpdtBindingDetail(
-                                            bindingContainer.Scope.ToString(),
-                                            bindingContainer.IsConditional,
-                                            bindingContainer.IsConventional
-                                            )
+                            list.Add(
+                                new DpdtBindingTarget(
+                                    binding.Identifier,
+                                    new DpdtClusterDetail(
+                                        clusterBind.ClusterTypeInfo.FullNamespaceDisplayName,
+                                        clusterBind.ClusterTypeInfo.Name,
+                                        mpair.Key
+                                        ),
+                                    new DpdtBindingDetail(
+                                        binding.ScopeString,
+                                        binding.IsConditional,
+                                        binding.IsConventional
                                         )
-                                    );
-                            }
+                                    )
+                                );
                         }
                     }
                 }
