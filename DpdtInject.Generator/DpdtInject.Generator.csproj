@@ -14,12 +14,7 @@
   <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <NoWarn>$(NoWarn);nullable;CS8766;CS8767</NoWarn>
   </PropertyGroup>
-<!--
-  <PropertyGroup Condition="Exists('$(ProjectDir)..\.please_sign_my_assemblies.secret')">
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>$(ProjectDir)..\dpdt.extension.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
--->
+
   <PropertyGroup>
     <RestoreAdditionalProjectSources>https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json;$(RestoreAdditionalProjectSources)</RestoreAdditionalProjectSources>
   </PropertyGroup>
@@ -63,7 +58,7 @@
   <PropertyGroup>
 <!--    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>  -->
     <PackageId>Dpdt.Injector</PackageId>
-    <PackageVersion>0.5.1.2-alpha</PackageVersion>
+    <PackageVersion>0.5.2.0-alpha</PackageVersion>
     <Authors>ls</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/lsoft/DpdtInject</PackageProjectUrl>

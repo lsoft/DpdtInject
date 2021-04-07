@@ -19,6 +19,7 @@ using Microsoft.VisualStudio.TaskStatusCenter;
 using Microsoft.VisualStudio.Threading;
 using System.Diagnostics;
 using System.Linq.Expressions;
+using System.Text;
 using Task = System.Threading.Tasks.Task;
 using Project = Microsoft.CodeAnalysis.Project;
 using Thread = System.Threading.Thread;
@@ -318,7 +319,7 @@ namespace DpdtInject.Extension.Container
 
                     if (!letsgo)
                     {
-                        _outputPane!.OutputStringThreadSafe($"  {project.Name} skipped due to absense of Dpdt package installed{Environment.NewLine}");
+                        _outputPane!.OutputStringThreadSafe($"  {project.Name}: Project skipped due to absense of Dpdt package installed{Environment.NewLine}");
                         continue;
                     }
 
@@ -356,7 +357,7 @@ namespace DpdtInject.Extension.Container
                         continue;
                     }
 
-                    _outputPane!.OutputStringThreadSafe($"    Compilation {project.Name} taken: {swt.Elapsed}{Environment.NewLine}");
+                    _outputPane!.OutputStringThreadSafe($"    {project.Name}: compilation taken {swt.Elapsed}{Environment.NewLine}");
 
                     var diag = compilation.GetDiagnostics();
 
@@ -373,8 +374,8 @@ namespace DpdtInject.Extension.Container
                         //    errorMessage
                         //    );
 
-                        _outputPane!.OutputStringThreadSafe($"    Compilation error:{Environment.NewLine}");
-                        _outputPane!.OutputStringThreadSafe(errorMessage);
+                        _outputPane!.OutputStringThreadSafe($"     {project.Name}: compilation error {Environment.NewLine}");
+                        _outputPane!.OutputStringThreadSafe("     " + errorMessage);
                         _outputPane!.OutputStringThreadSafe(Environment.NewLine);
 
                         //do not skip this project analysis, it may be partially fine
@@ -384,13 +385,14 @@ namespace DpdtInject.Extension.Container
                     swt.Restart();
 
                     var meta = new BuiltinMeta();
-                    if(!meta.TryExtract(compilation, out var solutionXml))
+                    if(!meta.TryExtract(compilation, out var projectXml))
                     {
                         continue;
                     }
-                    sbc.Append(solutionXml!);
+                    sbc.Append(projectXml!);
 
-                    _outputPane!.OutputStringThreadSafe($"    Binding extraction from {project.Name} taken: {swt.Elapsed}{Environment.NewLine}");
+                    _outputPane!.OutputStringThreadSafe($"    {project.Name}: Binding extraction taken {swt.Elapsed}{Environment.NewLine}");
+                    _outputPane!.OutputStringThreadSafe($"    {project.Name}: Found {projectXml.TotalBindingCount} binding{Environment.NewLine}");
 
                     if (token.IsCancellationRequested)
                     {

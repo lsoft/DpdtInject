@@ -7,13 +7,7 @@
     <WarningsAsErrors>nullable;CS8766;CS8767;CS8785</WarningsAsErrors>
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
   </PropertyGroup>
-<!--
-  <PropertyGroup Condition="Exists('$(ProjectDir)..\.please_sign_my_assemblies.secret')">
-    <SignAssembly>true</SignAssembly>
-    <DelaySign>false</DelaySign>
-    <AssemblyOriginatorKeyFile>$(ProjectDir)..\dpdt.extension.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
--->
+
   <ItemGroup>
     <ProjectReference Include="..\DpdtInject.Generator\DpdtInject.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true">
        <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework>

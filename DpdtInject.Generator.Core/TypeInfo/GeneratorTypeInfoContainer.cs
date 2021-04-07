@@ -58,7 +58,7 @@ namespace DpdtInject.Generator.Core.TypeInfo
             var sourceText = SourceText.From(xmlBody, Encoding.UTF8);
 
             _context.AddSource(
-                DpdtInternalGenerator.DpdtXmlArtifactFile,
+                DpdtInternalGenerator.DpdtXmlArtifactFileHint,
                 sourceText
                 );
         }

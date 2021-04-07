@@ -21,7 +21,8 @@ namespace DpdtInject.Generator.Core
 {
     public class DpdtInternalGenerator
     {
-        public const string DpdtXmlArtifactFile = "dpdt_artifact.xml";
+        public const string DpdtXmlArtifactFileHint = "dpdt_artifact.xml.cs";
+        public const string DpdtXmlArtifactFilePath = @"DpdtInject.Generator\DpdtInject.Generator.DpdtGenerator\" + DpdtXmlArtifactFileHint;
 
         private readonly IDiagnosticReporter _diagnosticReporter;
         private readonly bool _doBeautify;
@@ -177,7 +178,7 @@ namespace DpdtInject.Generator.Core
                 throw new ArgumentNullException(nameof(clusterMethodBindings));
             }
 
-
+            #region create xml representation
 
             var clusterXmls = new List<ClusterBindContainerXml>();
             foreach (var clusterMethodBinding in clusterMethodBindings)
@@ -222,14 +223,16 @@ namespace DpdtInject.Generator.Core
                 clusterXmls.Add(clusterXml);
             }
 
-            var solutionXml = new SolutionBindContainerXml(
+            var projectXml = new ProjectBindContainerXml(
                 clusterXmls.ToArray()
                 );
+
+            #endregion
 
             var meta = new BuiltinMeta();
             meta.Store(
                 typeInfoContainer,
-                solutionXml
+                projectXml
                 );
         }
 

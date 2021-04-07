@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,10 +14,11 @@ namespace DpdtInject.Generator.Core.Meta
 {
     public class BuiltinMeta
     {
+        private const string SingleLineComment = "//";
 
         public void Store(
             ITypeInfoContainer typeInfoContainer,
-            SolutionBindContainerXml solutionXml
+            ProjectBindContainerXml projectXml
             )
         {
             if (typeInfoContainer is null)
@@ -24,71 +26,50 @@ namespace DpdtInject.Generator.Core.Meta
                 throw new ArgumentNullException(nameof(typeInfoContainer));
             }
 
-            if (solutionXml is null)
+            if (projectXml is null)
             {
-                throw new ArgumentNullException(nameof(solutionXml));
+                throw new ArgumentNullException(nameof(projectXml));
             }
 
-            var xml = @$"
-namespace Dpdt.Xml
-{{
-    private class DpdtXml
-    {{
-        private const string DpdtXmlBody = @""{solutionXml.GetXml().Replace("\"", "\"\"")}"";
-    }}
-}}
-";
+            var sb = new StringBuilder();
+            foreach (var line in projectXml.GetXml().Split(new [] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                sb.Append(SingleLineComment);
+                sb.AppendLine(line);
+            }
+
+            var xml = sb.ToString();
+
             typeInfoContainer.AddAdditionalFile(xml);
         }
 
         public bool TryExtract(
             Compilation compilation,
-            out SolutionBindContainerXml? solutionXml)
+            [NotNullWhen(true)] out ProjectBindContainerXml? projectXml
+            )
         {
             if (compilation is null)
             {
                 throw new ArgumentNullException(nameof(compilation));
             }
 
-            var xmlType = compilation.GetTypeByMetadataName("Dpdt.Xml.DpdtXml");
-            if (xmlType == null)
+            var xmlFile = compilation.SyntaxTrees.FirstOrDefault(st => st.FilePath == DpdtInternalGenerator.DpdtXmlArtifactFilePath);
+            if (xmlFile == null)
             {
-                solutionXml = null;
+                projectXml = null;
                 return false;
             }
 
-            if (xmlType.Locations.Length != 1)
+            var sb = new StringBuilder();
+            foreach (var line in xmlFile.GetText().ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
             {
-                solutionXml = null;
-                return false;
+                sb.AppendLine(line.Substring(SingleLineComment.Length));
             }
 
-            var source = xmlType.Locations[0].SourceTree!;
+            var xml = sb.ToString();
 
-            var semanticModel = compilation.GetSemanticModel(
-                source,
-                true
-                );
-            if (semanticModel == null)
-            {
-                solutionXml = null;
-                return false;
-            }
+            projectXml = xml.GetObjectFromXml<ProjectBindContainerXml>();
 
-            var constant = source.GetRoot()
-                    .DescendantNodes()
-                    .OfType<LiteralExpressionSyntax>()
-                    .FirstOrDefault()
-                ;
-            if (constant == null)
-            {
-                solutionXml = null;
-                return false;
-            }
-
-            var cv = semanticModel.GetConstantValue(constant);
-            var cvs = cv.Value as string;
-            solutionXml = cvs!.GetObjectFromXml<SolutionBindContainerXml>();
             return true;
         }
     }

@@ -33,12 +33,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <!--
-   <PropertyGroup Condition="Exists('$(ProjectDir)..\.please_sign_my_assemblies.secret')">
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>$(ProjectDir)..\dpdt.extension.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
--->
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Language">
       <Version>16.8.239</Version>

@@ -23,26 +23,15 @@ namespace DpdtInject.Generator.Core.Binding.Xml
 
     public class SolutionBindContainerXml : ISolutionBindContainer
     {
-        [XmlElement(ElementName = "ClusterBindContainer")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public ClusterBindContainerXml[] ClusterBindContainers
-        {
-            get;
-            set;
-        }
+        private readonly List<ClusterBindContainerXml> _clusterBindContainers;
 
-        IReadOnlyList<IClusterBindContainer> ISolutionBindContainer.ClusterBindContainers => ClusterBindContainers;
+        public IReadOnlyList<IClusterBindContainer> ClusterBindContainers => _clusterBindContainers;
+
+
 
         public SolutionBindContainerXml()
         {
-            ClusterBindContainers = new ClusterBindContainerXml[0];
-        }
-
-        public SolutionBindContainerXml(
-            ClusterBindContainerXml[] clusterBindContainers
-            )
-        {
-            ClusterBindContainers = clusterBindContainers;
+            _clusterBindContainers = new List<ClusterBindContainerXml>();
         }
 
 
@@ -76,66 +65,71 @@ namespace DpdtInject.Generator.Core.Binding.Xml
         }
 
         public void Append(
-            SolutionBindContainerXml other
+            ProjectBindContainerXml other
             )
         {
-            var newClusterBindContainers = new ClusterBindContainerXml[
-                ClusterBindContainers.Length + other.ClusterBindContainers.Length
-                ];
-
-            ClusterBindContainers.CopyTo(newClusterBindContainers, 0);
-            other.ClusterBindContainers.CopyTo(newClusterBindContainers, ClusterBindContainers.Length);
-
-            ClusterBindContainers = newClusterBindContainers;
+            _clusterBindContainers.AddRange(other.ClusterBindContainers);
         }
     }
 
 
-    //public interface IProjectBindContainer
-    //{
+    public interface IProjectBindContainer
+    {
 
-    //    IReadOnlyList<IClusterBindContainer> ClusterBindContainers
-    //    {
-    //        get;
-    //    }
+        IReadOnlyList<IClusterBindContainer> ClusterBindContainers
+        {
+            get;
+        }
 
-    //    IReadOnlyDictionary<string, IClusterBindContainer> GetDictByDisplayString();
+        IReadOnlyDictionary<string, IClusterBindContainer> GetDictByDisplayString();
 
-    //}
+    }
 
-    //public class ProjectBindContainerXml : IProjectBindContainer
-    //{
-    //    [XmlElement(ElementName = "ClusterBindContainer")]
-    //    [EditorBrowsable(EditorBrowsableState.Never)]
-    //    public ClusterBindContainerXml[] ClusterBindContainers
-    //    {
-    //        get;
-    //        set;
-    //    }
+    public class ProjectBindContainerXml : IProjectBindContainer
+    {
+        [XmlElement(ElementName = "ClusterBindContainer")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public ClusterBindContainerXml[] ClusterBindContainers
+        {
+            get;
+            set;
+        }
 
-    //    /// <inheritdoc />
-    //    public IReadOnlyDictionary<string, IClusterBindContainer> GetDictByDisplayString()
-    //    {
-    //        return this.ClusterBindContainers.ToDictionary(
-    //            cbc => cbc.ClusterTypeInfo.FullDisplayName,
-    //            cbc => (IClusterBindContainer)cbc
-    //            );
-    //    }
+        public int TotalBindingCount
+        {
+            get
+            {
+                return ClusterBindContainers.Sum(
+                    c => c.MethodBindContainers.Sum(
+                        m => m.Bindings.Length
+                        )
+                    );
+            }
+        }
 
-    //    IReadOnlyList<IClusterBindContainer> IProjectBindContainer.ClusterBindContainers => ClusterBindContainers;
+        /// <inheritdoc />
+        public IReadOnlyDictionary<string, IClusterBindContainer> GetDictByDisplayString()
+        {
+            return this.ClusterBindContainers.ToDictionary(
+                cbc => cbc.ClusterTypeInfo.FullDisplayName,
+                cbc => (IClusterBindContainer)cbc
+                );
+        }
 
-    //    public ProjectBindContainerXml()
-    //    {
-    //        ClusterBindContainers = null!;
-    //    }
+        IReadOnlyList<IClusterBindContainer> IProjectBindContainer.ClusterBindContainers => ClusterBindContainers;
 
-    //    public ProjectBindContainerXml(
-    //        ClusterBindContainerXml[] clusterBindContainers
-    //        )
-    //    {
-    //        ClusterBindContainers = clusterBindContainers;
-    //    }
-    //}
+        public ProjectBindContainerXml()
+        {
+            ClusterBindContainers = null!;
+        }
+
+        public ProjectBindContainerXml(
+            ClusterBindContainerXml[] clusterBindContainers
+            )
+        {
+            ClusterBindContainers = clusterBindContainers;
+        }
+    }
 
 
     public interface IClusterBindContainer
