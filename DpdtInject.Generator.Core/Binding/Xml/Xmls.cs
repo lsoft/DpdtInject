@@ -66,7 +66,10 @@ namespace DpdtInject.Generator.Core.Binding.Xml
             ProjectBindContainerXml other
             )
         {
-            _clusterBindContainers.AddRange(other.ClusterBindContainers);
+            if (other?.ClusterBindContainers != null)
+            {
+                _clusterBindContainers.AddRange(other.ClusterBindContainers);
+            }
         }
     }
 
@@ -97,10 +100,15 @@ namespace DpdtInject.Generator.Core.Binding.Xml
         {
             get
             {
+                if (ClusterBindContainers == null)
+                {
+                    return 0;
+                }
+
                 return ClusterBindContainers.Sum(
-                    c => c.MethodBindContainers.Sum(
+                    c => c.MethodBindContainers?.Sum(
                         m => m.Bindings.Length
-                        )
+                        ) ?? 0
                     );
             }
         }
@@ -108,6 +116,11 @@ namespace DpdtInject.Generator.Core.Binding.Xml
         /// <inheritdoc />
         public IReadOnlyDictionary<string, IClusterBindContainer> GetDictByDisplayString()
         {
+            if (this.ClusterBindContainers == null)
+            {
+                return new Dictionary<string, IClusterBindContainer>();
+            }
+
             return this.ClusterBindContainers.ToDictionary(
                 cbc => cbc.ClusterTypeInfo.FullDisplayName,
                 cbc => (IClusterBindContainer)cbc
@@ -118,7 +131,7 @@ namespace DpdtInject.Generator.Core.Binding.Xml
 
         public ProjectBindContainerXml()
         {
-            ClusterBindContainers = null!;
+            ClusterBindContainers = new ClusterBindContainerXml[0];
         }
 
         public ProjectBindContainerXml(
