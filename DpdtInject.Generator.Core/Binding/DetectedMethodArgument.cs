@@ -6,7 +6,7 @@ using System;
 
 namespace DpdtInject.Generator.Core.Binding
 {
-    public class DetectedConstructorArgument
+    public class DetectedMethodArgument
     {
         public string Name
         {
@@ -39,7 +39,7 @@ namespace DpdtInject.Generator.Core.Binding
 
         public bool DefineInBindNode => !string.IsNullOrEmpty(Body);
 
-        public DetectedConstructorArgument(
+        public DetectedMethodArgument(
             string name,
             string body
             )
@@ -61,7 +61,7 @@ namespace DpdtInject.Generator.Core.Binding
             HasExplicitDefaultValue = false;
         }
 
-        public DetectedConstructorArgument(
+        public DetectedMethodArgument(
             string name,
             ITypeSymbol type,
             RefKind refKind,

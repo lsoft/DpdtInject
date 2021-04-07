@@ -43,7 +43,7 @@ namespace DpdtInject.Generator.Core.Binding
         }
 
         public bool TryGetChildren(
-            DetectedConstructorArgument constructorArgument,
+            DetectedMethodArgument constructorArgument,
             out IReadOnlyList<ExtenderAndTypePair> result
             )
         {

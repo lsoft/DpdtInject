@@ -5,6 +5,7 @@ using DpdtInject.Injector.Bind;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DpdtInject.Injector.RContext;
 using DpdtInject.Injector.Bind.Settings;
+using System.Linq;
 
 namespace DpdtInject.Tests.Proxy.Indexer0
 {
@@ -59,7 +60,13 @@ namespace DpdtInject.Tests.Proxy.Indexer0
                 //SessionSaver.MemberName is too complicated to check it
                 Assert.IsTrue(SessionSaver.TakenInSeconds > 0.0);
                 Assert.IsNull(SessionSaver.Exception);
-                Assert.IsNull(SessionSaver.Arguments);
+                Assert.IsNotNull(SessionSaver.Arguments);
+                Assert.IsTrue(
+                    Enumerable.SequenceEqual(
+                        SessionSaver.Arguments,
+                        new object [] { "i", 3, "j", 4}
+                        )
+                    );
 
                 SessionSaver.ProxyWasInDeal = false;
                 Assert.AreEqual(7L, propertyContainer[(int)3, (int)4]);
@@ -68,7 +75,14 @@ namespace DpdtInject.Tests.Proxy.Indexer0
                 //SessionSaver.MemberName is too complicated to check it
                 Assert.IsTrue(SessionSaver.TakenInSeconds > 0.0);
                 Assert.IsNull(SessionSaver.Exception);
-                Assert.IsNull(SessionSaver.Arguments);
+                Assert.IsNotNull(SessionSaver.Arguments);
+                Assert.AreEqual(4, SessionSaver.Arguments.Length);
+                Assert.IsTrue(
+                    Enumerable.SequenceEqual(
+                        SessionSaver.Arguments,
+                        new object[] { "i", 3, "j", 4 }
+                        )
+                    );
             }
         }
     }

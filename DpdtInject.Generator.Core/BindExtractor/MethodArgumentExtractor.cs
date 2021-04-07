@@ -6,9 +6,9 @@ using System.Collections.Generic;
 
 namespace DpdtInject.Generator.Core.BindExtractor
 {
-    public class ConstructorArgumentFromMethodExtractor
+    public class MethodArgumentExtractor
     {
-        public List<DetectedConstructorArgument> GetConstructorArguments(
+        public List<DetectedMethodArgument> GetMethodArguments(
             IMethodSymbol methodSymbol
             )
         {
@@ -19,7 +19,7 @@ namespace DpdtInject.Generator.Core.BindExtractor
 
             return
                 methodSymbol.Parameters.ConvertAll(
-                    p => new DetectedConstructorArgument(
+                    p => new DetectedMethodArgument(
                         p.Name, 
                         p.Type, 
                         p.RefKind,

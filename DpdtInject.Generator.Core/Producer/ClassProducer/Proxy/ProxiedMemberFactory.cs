@@ -53,15 +53,29 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer.Proxy
                 throw new ArgumentNullException(nameof(@event));
             }
 
+            //add and remove method shares same arguments
+            var proxyArguments = GetProxyArguments(@event.AddMethod ?? @event.RemoveMethod!);
+
+
             return new EventProduct(
                 "public",
                 @event,
                 (@event.AddMethod != null
-                    ? GetProxySnippet($"nameof({@event.Name})", "null", $"_payload.{@event.Name} += value;", string.Empty)
+                    ? GetProxySnippet(
+                        $"nameof({@event.Name})",
+                        proxyArguments,
+                        $"_payload.{@event.Name} += value;",
+                        string.Empty
+                        )
                     : null
                     ),
                 (@event.RemoveMethod != null
-                    ? GetProxySnippet($"nameof({@event.Name})", "null", $"_payload.{@event.Name} -= value;", string.Empty)
+                    ? GetProxySnippet(
+                        $"nameof({@event.Name})",
+                        proxyArguments,
+                        $"_payload.{@event.Name} -= value;",
+                        string.Empty
+                        )
                     : null
                     )
                 );
@@ -78,15 +92,28 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer.Proxy
 
             var parameters = indexer.GetJoinedParametersName();
 
+            //get and set method shares same arguments
+            var proxyArguments = GetProxyArguments(indexer.GetMethod ?? indexer.SetMethod!);
+
             return new IndexerProduct(
                 "public",
                 indexer,
                 (indexer.GetMethod != null
-                    ? GetProxySnippet($"\"{indexer.Type.ToFullDisplayString()} {indexer.Name}\"", "null", $"var result = _payload[{parameters}];", "return result;")
+                    ? GetProxySnippet(
+                        $"\"{indexer.Type.ToFullDisplayString()} {indexer.Name}\"",
+                        proxyArguments,
+                        $"var result = _payload[{parameters}];",
+                        "return result;"
+                        )
                     : null
                     ),
                 (indexer.SetMethod != null
-                    ? GetProxySnippet($"\"{indexer.Type.ToFullDisplayString()} {indexer.Name}\"", "null", $"_payload[{parameters}] = value;", string.Empty)
+                    ? GetProxySnippet(
+                        $"\"{indexer.Type.ToFullDisplayString()} {indexer.Name}\"",
+                        proxyArguments,
+                        $"_payload[{parameters}] = value;",
+                        string.Empty
+                        )
                     : null
                     )
                 );
@@ -124,8 +151,8 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer.Proxy
                 throw new ArgumentNullException(nameof(method));
             }
 
-            var extractor = new ConstructorArgumentFromMethodExtractor();
-            var constructorArguments = extractor.GetConstructorArguments(method);
+            var extractor = new MethodArgumentExtractor();
+            var arguments = extractor.GetMethodArguments(method);
 
             var proxyArguments = GetProxyArguments(method);
 
@@ -134,13 +161,13 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer.Proxy
             {
                 result = MethodProductFactory.Create(
                     method,
-                    constructorArguments,
+                    arguments,
                     (methodName, h) =>
                     {
                         var codeSnippet = GetProxySnippet(
                             $"nameof({methodName})",
                             proxyArguments,
-                            $"_payload.{methodName}({constructorArguments.Join(cafm => cafm.GetUsageSyntax(), ", ")});",
+                            $"_payload.{methodName}({arguments.Join(cafm => cafm.GetUsageSyntax(), ", ")});",
                             string.Empty
                             );
 
@@ -162,13 +189,13 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer.Proxy
 
                 result = MethodProductFactory.Create(
                     method,
-                    constructorArguments,
+                    arguments,
                     (methodName, h) =>
                     {
                         var codeSnippet = GetProxySnippet(
                             $"nameof({methodName})",
                             proxyArguments,
-                            $"var result = _payload.{methodName}({constructorArguments.Join(cafm => cafm.GetUsageSyntax(), ", ")});",
+                            $"var result = _payload.{methodName}({arguments.Join(cafm => cafm.GetUsageSyntax(), ", ")});",
                             "return result;"
                             );
 
@@ -217,8 +244,18 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer.Proxy
 
             foreach (var parameter in methodSymbol.Parameters)
             {
+                if (parameter.RefKind == RefKind.Out)
+                {
+                    continue;
+                }
+
                 sb.Add($"nameof({parameter.Name})");
                 sb.Add($"{parameter.Name}");
+            }
+
+            if (sb.Count == 0)
+            {
+                return "null";
             }
 
             var joined = string.Join(",", sb);

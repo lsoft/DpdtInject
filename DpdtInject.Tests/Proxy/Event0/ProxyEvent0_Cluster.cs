@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DpdtInject.Injector.RContext;
 using DpdtInject.Injector.Bind.Settings;
 using System.Text;
+using System.Linq;
 
 namespace DpdtInject.Tests.Proxy.Event0
 {
@@ -53,14 +54,40 @@ namespace DpdtInject.Tests.Proxy.Event0
                 propertyContainer.BEvent += b => 1;
                 Assert.IsFalse(SessionSaver.ProxyWasInDeal);
 
+                CDelegate cDelegate = c => null;
+
                 SessionSaver.ProxyWasInDeal = false;
-                propertyContainer.CEvent += c => null;
+                propertyContainer.CEvent += cDelegate;
                 Assert.IsTrue(SessionSaver.ProxyWasInDeal);
                 Assert.AreEqual(typeof(EventContainer).FullName, SessionSaver.FullClassName);
                 Assert.AreEqual(nameof(EventContainer.CEvent), SessionSaver.MemberName);
                 Assert.IsTrue(SessionSaver.TakenInSeconds > 0.0);
                 Assert.IsNull(SessionSaver.Exception);
-                Assert.IsNull(SessionSaver.Arguments);
+                Assert.IsNotNull(SessionSaver.Arguments);
+                Assert.AreEqual(2, SessionSaver.Arguments.Length);
+                Assert.IsTrue(
+                    Enumerable.SequenceEqual(
+                        SessionSaver.Arguments,
+                        new object[] { "value", cDelegate }
+                        )
+                    );
+
+                SessionSaver.ProxyWasInDeal = false;
+                propertyContainer.CEvent -= cDelegate;
+                Assert.IsTrue(SessionSaver.ProxyWasInDeal);
+                Assert.AreEqual(typeof(EventContainer).FullName, SessionSaver.FullClassName);
+                Assert.AreEqual(nameof(EventContainer.CEvent), SessionSaver.MemberName);
+                Assert.IsTrue(SessionSaver.TakenInSeconds > 0.0);
+                Assert.IsNull(SessionSaver.Exception);
+                Assert.IsNotNull(SessionSaver.Arguments);
+                Assert.AreEqual(2, SessionSaver.Arguments.Length);
+                Assert.IsTrue(
+                    Enumerable.SequenceEqual(
+                        SessionSaver.Arguments,
+                        new object[] { "value", cDelegate }
+                        )
+                    );
+
             }
         }
     }

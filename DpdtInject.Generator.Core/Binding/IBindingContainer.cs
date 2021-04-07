@@ -30,7 +30,7 @@ namespace DpdtInject.Generator.Core.Binding
             get;
         }
 
-        IReadOnlyList<DetectedConstructorArgument> ConstructorArguments
+        IReadOnlyList<DetectedMethodArgument> ConstructorArguments
         {
             get;
         }

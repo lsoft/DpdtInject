@@ -25,7 +25,7 @@ namespace DpdtInject.Generator.Core.BindExtractor
 
         public int AppendUnknown(
             INamedTypeSymbol typeSymbol,
-            ref List<DetectedConstructorArgument> constructorArguments
+            ref List<DetectedMethodArgument> constructorArguments
             )
         {
             if (typeSymbol is null)
@@ -53,7 +53,7 @@ namespace DpdtInject.Generator.Core.BindExtractor
                 if (found is null)
                 {
                     constructorArguments.Add(
-                        new DetectedConstructorArgument(
+                        new DetectedMethodArgument(
                             cParameterName,
                             cParameterType,
                             cParameter.RefKind,

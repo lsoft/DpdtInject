@@ -16,7 +16,7 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
     {
         private readonly ConstructorArgumentDetector _constructorArgumentDetector;
 
-        private readonly List<DetectedConstructorArgument> _unknowns = new();
+        private readonly List<DetectedMethodArgument> _unknowns = new();
         private readonly BindingContainerTypes _types;
         private readonly ITypeSymbol _factoryPayloadType;
 
@@ -101,8 +101,8 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
                 throw new ArgumentNullException(nameof(methodSymbol));
             }
 
-            var extractor = new ConstructorArgumentFromMethodExtractor();
-            var constructorArguments = extractor.GetConstructorArguments(methodSymbol);
+            var extractor = new MethodArgumentExtractor();
+            var constructorArguments = extractor.GetMethodArguments(methodSymbol);
 
             var appended = _constructorArgumentDetector.AppendUnknown(
                 (INamedTypeSymbol)_factoryPayloadType,

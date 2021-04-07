@@ -14,7 +14,7 @@ namespace DpdtInject.Generator.Core.BindExtractor
     public class ConstructorArgumentFromSyntaxExtractor
         : CSharpSyntaxRewriter
     {
-        private readonly List<DetectedConstructorArgument> _constructorArguments;
+        private readonly List<DetectedMethodArgument> _constructorArguments;
         private readonly SemanticModelDecorator _semanticModel;
 
         public ConstructorArgumentFromSyntaxExtractor(
@@ -28,7 +28,7 @@ namespace DpdtInject.Generator.Core.BindExtractor
 
             _semanticModel = semanticModel;
 
-            _constructorArguments = new List<DetectedConstructorArgument>();
+            _constructorArguments = new List<DetectedMethodArgument>();
         }
 
         public void ClearAndVisit(SyntaxNode? syntaxNode)
@@ -58,7 +58,7 @@ namespace DpdtInject.Generator.Core.BindExtractor
             var body = constructorArgumentBodyNode.ToString();
 
             _constructorArguments.Add(
-                new DetectedConstructorArgument(
+                new DetectedMethodArgument(
                     argument,
                     body
                     )
@@ -67,7 +67,7 @@ namespace DpdtInject.Generator.Core.BindExtractor
             return base.VisitObjectCreationExpression(node)!;
         }
 
-        internal List<DetectedConstructorArgument> GetConstructorArguments()
+        internal List<DetectedMethodArgument> GetConstructorArguments()
         {
             return new(_constructorArguments);
         }

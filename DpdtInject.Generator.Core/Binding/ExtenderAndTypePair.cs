@@ -9,14 +9,14 @@ namespace DpdtInject.Generator.Core.Binding
             get;
         }
         
-        public DetectedConstructorArgument ConstructorArgument
+        public DetectedMethodArgument ConstructorArgument
         {
             get;
         }
 
         public ExtenderAndTypePair(
             BindingContainerExtender bindingExtender,
-            DetectedConstructorArgument constructorArgument
+            DetectedMethodArgument constructorArgument
             )
         {
             if (bindingExtender is null)

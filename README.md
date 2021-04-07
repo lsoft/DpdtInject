@@ -210,6 +210,38 @@ public partial class ProxyCalculator : ICalculator { }
 
 ```
 
+Dpdt proxy can decorate a methods, properties (get/set), events (add/remove) and indexers.
+
+#### What is saver?
+
+Saver is an interceptor that is used by the Proxy-decorator to convey some info about the current invocation. Saver MUST be thread-safe!
+
+Saver has 2 methods:
+
+0. StartSessionSafely
+0. FixSessionSafely
+
+`Safely` means that this method should not raise any exception; please wrap their bodies into `try`-`catch`.
+
+`StartSessionSafely` is invoked at the beginning of decorated (proxied) method. Its arguments:
+
+0. `fullClassName` contains a full class name (e.g. `Dpdt.Injector.DefaultCluster`)
+0. `memberName` contains a method\property\event name, or  `long this[]` for an indexer, where `long` is a indexer return type
+0. `arguments` contains an array of member arguments; imagine a method `void DoSomething(int a, long b)`, in this case `arguments` will contain: name of argument a (e.g. string "a"), value of argument a (e.g. some int), name of argument b (e.g. string "b"), value of argument b (e.g. some long); if no arguments exists `arguments` may be `null`
+
+Please make note: parameters with `out` modifier will not appear in `arguments`.
+
+`StartSessionSafely` return a newly created `Guid`.
+
+`FixSessionSafely` is invoked at the eng of proxied-method. Its arguments:
+
+0. `sessionGuid` contains a Guid that earlier has been returned from `StartSessionSafely`
+0. `takenInSeconds` contains a time (a fraction of seconds) that has been spent in decorated member
+0. `exception` contains an exception in the case if decorated member raises an exception, otherwise `null`
+
+In the wild, session class usually uses `ConcurrentDictionary` to store sessions in `StartSessionSafely`. In `FixSessionSafely` you can do `TryRemove`, append the timings and exception, and send this completed session to the logger or whatever you need/want.
+
+
 ### Conventional bindings
 
 Conventional bindings are "machine-gun" binding producing machine, that scans your assemblies and produces a lot of binding statements. If you are know Ninject.Conventions you know what I wanted to implement. Conventional bindings works with Roslyn symbols and are produced at compile-time.

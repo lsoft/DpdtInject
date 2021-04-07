@@ -83,7 +83,7 @@ namespace DpdtInject.Generator.Core.Producer.Product
     {
         public static IMethodProduct Create(
             IMethodSymbol methodSymbol,
-            IReadOnlyList<DetectedConstructorArgument> constructorArguments,
+            IReadOnlyList<DetectedMethodArgument> constructorArguments,
             Func<string, string, string> methodBody //(methodName, methodDeclaration) => methodBody
             )
         {

@@ -77,8 +77,8 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer.Proxy
                 throw new ArgumentNullException(nameof(method));
             }
 
-            var extractor = new ConstructorArgumentFromMethodExtractor();
-            var constructorArguments = extractor.GetConstructorArguments(method);
+            var extractor = new MethodArgumentExtractor();
+            var constructorArguments = extractor.GetMethodArguments(method);
 
 
             var returnModifier = method.ReturnsVoid

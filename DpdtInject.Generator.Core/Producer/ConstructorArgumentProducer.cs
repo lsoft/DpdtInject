@@ -18,7 +18,7 @@ namespace DpdtInject.Generator.Core.Producer
             get;
         }
 
-        public DetectedConstructorArgument ConstructorArgument
+        public DetectedMethodArgument ConstructorArgument
         {
             get;
         }
@@ -27,7 +27,7 @@ namespace DpdtInject.Generator.Core.Producer
         public ConstructorArgumentProducer(
             ClusterBindings clusterBindings,
             BindingContainerExtender bindingExtender,
-            DetectedConstructorArgument constructorArgument
+            DetectedMethodArgument constructorArgument
             )
         {
             if (clusterBindings is null)

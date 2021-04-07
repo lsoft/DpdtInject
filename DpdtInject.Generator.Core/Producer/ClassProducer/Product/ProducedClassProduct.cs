@@ -22,7 +22,7 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer.Product
         {
             get;
         }
-        public IReadOnlyList<DetectedConstructorArgument> Unknowns
+        public IReadOnlyList<DetectedMethodArgument> Unknowns
         {
             get;
         }
@@ -31,7 +31,7 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer.Product
             ITypeSymbol bindFromType,
             ITypeSymbol factoryType,
             IReadOnlyList<IMethodProduct> methodProducts,
-            IReadOnlyList<DetectedConstructorArgument> unknowns
+            IReadOnlyList<DetectedMethodArgument> unknowns
             )
         {
             if (bindFromType is null)

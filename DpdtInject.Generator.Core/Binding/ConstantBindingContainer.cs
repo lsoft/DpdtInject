@@ -11,7 +11,7 @@ namespace DpdtInject.Generator.Core.Binding
     [DebuggerDisplay("{BindFromTypes[0].Name} -> {TargetRepresentation}")]
     public class ConstantBindingContainer : BaseBindingContainer
     {
-        public override IReadOnlyList<DetectedConstructorArgument> ConstructorArguments
+        public override IReadOnlyList<DetectedMethodArgument> ConstructorArguments
         {
             get;
         }
@@ -39,7 +39,7 @@ namespace DpdtInject.Generator.Core.Binding
             IReadOnlyList<ISetting> settings
             ) : base(types, scope, expressionNode, whenArgumentClause, constantSyntax, settings, false)
         {
-            ConstructorArguments = new List<DetectedConstructorArgument>();
+            ConstructorArguments = new List<DetectedMethodArgument>();
             NotBindConstructorArgumentTypes = new HashSet<ITypeSymbol>(
                 TypeSymbolEqualityComparer.Entity
                 );

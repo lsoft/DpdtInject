@@ -146,7 +146,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
 
 
 
-        private List<DetectedConstructorArgument> GetConstructorArguments()
+        private List<DetectedMethodArgument> GetConstructorArguments()
         {
             _extractor.ClearAndVisit(_expressionNode);
 

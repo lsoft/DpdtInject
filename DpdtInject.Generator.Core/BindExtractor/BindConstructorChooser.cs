@@ -11,7 +11,7 @@ namespace DpdtInject.Generator.Core.BindExtractor
     {
         public IMethodSymbol Choose(
             INamedTypeSymbol fullBindToTypeName,
-            IReadOnlyList<DetectedConstructorArgument> constructorArguments
+            IReadOnlyList<DetectedMethodArgument> constructorArguments
             )
         {
             if (fullBindToTypeName is null)
@@ -62,7 +62,7 @@ namespace DpdtInject.Generator.Core.BindExtractor
 
         private bool ContainsAllArguments(
             IMethodSymbol constructor,
-            IReadOnlyList<DetectedConstructorArgument> constructorArguments
+            IReadOnlyList<DetectedMethodArgument> constructorArguments
             )
         {
             if (constructorArguments.Count == 0)

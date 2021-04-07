@@ -14,7 +14,7 @@ namespace DpdtInject.Generator.Core.Binding
     public class BindingContainerWithInstance : BaseBindingContainer
     {
 
-        public override IReadOnlyList<DetectedConstructorArgument> ConstructorArguments
+        public override IReadOnlyList<DetectedMethodArgument> ConstructorArguments
         {
             get;
         }
@@ -35,7 +35,7 @@ namespace DpdtInject.Generator.Core.Binding
 
         public BindingContainerWithInstance(
             BindingContainerTypes types,
-            IReadOnlyList<DetectedConstructorArgument> constructorArguments,
+            IReadOnlyList<DetectedMethodArgument> constructorArguments,
             BindScopeEnum scope,
             ExpressionStatementSyntax expressionNode,
             ArgumentSyntax? whenArgumentClause,

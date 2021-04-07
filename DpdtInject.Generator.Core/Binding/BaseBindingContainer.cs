@@ -32,7 +32,7 @@ namespace DpdtInject.Generator.Core.Binding
         public ITypeSymbol BindToType => _types.BindToType;
 
 
-        public abstract IReadOnlyList<DetectedConstructorArgument> ConstructorArguments
+        public abstract IReadOnlyList<DetectedMethodArgument> ConstructorArguments
         {
             get;
         }
