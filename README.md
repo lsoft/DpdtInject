@@ -146,6 +146,12 @@ private /*static*/ readonly string _roString = "readonly string";
 Bind<string>()
     .WithConstScope(_roString)
     ;
+
+
+Bind<string>()
+    .WithConstScope("some inplace string")
+    ;
+
 ```
 
 ### Conditional bindings
@@ -497,7 +503,7 @@ Because of source generators are generating new code based on your code, it's im
 
 As a regular source generator, Dpdt is able to store pregenerated C# code at the disk. The only thing you need is correctly setup your csproj. For example:
 
-```
+```xml
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     <!-- next line allows you to define a custom directory to store Dpdt's artifacts, for example: -->
     <!-- <CompilerGeneratedFilesOutputPath>$(ProjectDir)Dpdt.Pregenerated</CompilerGeneratedFilesOutputPath> -->
@@ -505,7 +511,7 @@ As a regular source generator, Dpdt is able to store pregenerated C# code at the
 
 If your clusters are huge, you may face with slowdowns in your work in VS because VS runs Dpdt in the background. To overcome this please put the following into your csproj:
 
-```
+```xml
   <PropertyGroup>
     <Dpdt_Generator_Beautify>false</Dpdt_Generator_Beautify>
   </PropertyGroup>
