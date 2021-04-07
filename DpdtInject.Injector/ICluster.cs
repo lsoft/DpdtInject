@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using DpdtInject.Injector.CustomScope;
 using DpdtInject.Injector.RContext;
 

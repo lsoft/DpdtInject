@@ -1,11 +1,7 @@
-﻿using DpdtInject.Injector.Compilation;
+﻿using DpdtInject.Generator.Core;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DpdtInject.Injector
+namespace DpdtInject.Tests
 {
     public class DTimer : IDisposable
     {
@@ -34,7 +30,7 @@ namespace DpdtInject.Injector
 
             _diagnosticReporter = diagnosticReporter;
             _message = message;
-            
+
             _before = DateTime.Now;
             _after = _before;
         }

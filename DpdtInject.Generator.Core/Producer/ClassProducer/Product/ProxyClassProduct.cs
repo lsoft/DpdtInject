@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using DpdtInject.Generator.Core.Producer.Product;
-using DpdtInject.Injector;
-using DpdtInject.Injector.Helper;
+using DpdtInject.Generator.Core.Helpers;
 using Microsoft.CodeAnalysis;
 
 namespace DpdtInject.Generator.Core.Producer.ClassProducer.Product

@@ -6,7 +6,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using DpdtInject.Extension.Container;
 using DpdtInject.Extension.Helper;
-using DpdtInject.Generator.Core.Binding;
 using EnvDTE80;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.ComponentModelHost;

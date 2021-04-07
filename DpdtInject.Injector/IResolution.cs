@@ -1,7 +1,6 @@
 ﻿using DpdtInject.Injector.CustomScope;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using DpdtInject.Injector.RContext;
 
 namespace DpdtInject.Injector

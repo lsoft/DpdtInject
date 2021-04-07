@@ -4,9 +4,9 @@ using DpdtInject.Injector;
 using DpdtInject.Injector.Bind;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DpdtInject.Injector.RContext;
-using DpdtInject.Injector.Bind.Settings;
 using System.Text;
 using System.Linq;
+using DpdtInject.Injector.Bind.Settings.Circular;
 
 namespace DpdtInject.Tests.Proxy.Event0
 {

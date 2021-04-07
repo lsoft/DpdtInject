@@ -1,7 +1,4 @@
-﻿using DpdtInject.Injector;
-using DpdtInject.Generator.Core.Producer.Product;
-
-namespace DpdtInject.Generator.Core.Producer.Product.Tuple
+﻿namespace DpdtInject.Generator.Core.Producer.Product.Tuple
 {
     public interface IWritablePair
     {

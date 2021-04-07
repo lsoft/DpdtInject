@@ -1,13 +1,10 @@
 ﻿using System;
 using System.CodeDom.Compiler;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace DpdtInject.Injector
+namespace DpdtInject.Generator.Core
 {
     public class IndentedTextWriter2
     {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DpdtInject.Injector.Bind
+﻿namespace DpdtInject.Injector.Bind
 {
     public interface IConventionalBinding
     {

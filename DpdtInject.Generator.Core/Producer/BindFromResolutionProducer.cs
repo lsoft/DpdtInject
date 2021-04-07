@@ -4,17 +4,13 @@ using DpdtInject.Generator.Core.Helpers;
 using DpdtInject.Generator.Core.Producer.Product;
 using DpdtInject.Generator.Core.TypeInfo;
 using DpdtInject.Injector;
-using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using DpdtInject.Injector.RContext;
-using DpdtInject.Injector.Bind.Settings;
-using System.IO;
-using System.Diagnostics;
 using DpdtInject.Generator.Core.Producer.Product.Tuple;
-
+using DpdtInject.Injector.Bind.Settings.Wrapper;
 
 namespace DpdtInject.Generator.Core.Producer
 {

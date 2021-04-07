@@ -1,7 +1,6 @@
 ﻿using DpdtInject.Generator.Core.ArgumentWrapper;
 using DpdtInject.Generator.Core.Binding;
 using DpdtInject.Generator.Core.TypeInfo;
-using DpdtInject.Injector;
 using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
@@ -9,11 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using DpdtInject.Generator.Core.Producer.Product;
 using DpdtInject.Injector.Bind;
-using DpdtInject.Injector.RContext;
 using Microsoft.CodeAnalysis;
-using System.CodeDom.Compiler;
-using System.IO;
-using System.Text;
+using DpdtInject.Generator.Core.Helpers;
 
 namespace DpdtInject.Generator.Core.Producer
 {

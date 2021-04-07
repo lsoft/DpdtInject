@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using DpdtInject.Generator.Core.Helpers;
 using DpdtInject.Generator.Core.TypeInfo;
-using DpdtInject.Injector;
 using Microsoft.CodeAnalysis;
 
 namespace DpdtInject.Generator.Core.TypeScanner

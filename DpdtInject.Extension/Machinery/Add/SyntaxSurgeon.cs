@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using DpdtInject.Extension.Container;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
 using DpdtInject.Extension.Options;
-using DpdtInject.Extension.Machinery.Add;
 using DpdtInject.Generator.Core.Binding.Xml;
 
 namespace DpdtInject.Extension.Machinery.Add

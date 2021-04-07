@@ -2,7 +2,6 @@
 using DpdtInject.Injector.Helper;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using DpdtInject.Injector.RContext;
 

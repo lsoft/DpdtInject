@@ -3,14 +3,12 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Diagnostics.SymbolStore;
 using System.Linq;
 using DpdtInject.Generator.Core.BindExtractor;
 using DpdtInject.Generator.Core.Binding.Xml;
 using DpdtInject.Injector;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Generator.Core.Producer;
-using DpdtInject.Injector.Helper;
 
 namespace DpdtInject.Generator.Core.Helpers
 {

@@ -1,10 +1,8 @@
 ﻿using DpdtInject.Generator.Core.Helpers;
-using DpdtInject.Generator.Core.Producer;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.From;
 
 namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.From
 {

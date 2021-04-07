@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using DpdtInject.Generator.Core.Binding;
 using DpdtInject.Generator.Core.Producer.Product;
-using DpdtInject.Injector;
 using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
 

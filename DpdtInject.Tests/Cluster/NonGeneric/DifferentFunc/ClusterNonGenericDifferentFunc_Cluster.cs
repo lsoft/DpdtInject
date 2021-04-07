@@ -1,7 +1,8 @@
 ﻿using DpdtInject.Injector;
-using DpdtInject.Injector.Bind.Settings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using DpdtInject.Injector.Bind.Settings.CrossCluster;
+using DpdtInject.Injector.Bind.Settings.Wrapper;
 
 namespace DpdtInject.Tests.Cluster.NonGeneric.DifferentFunc
 {

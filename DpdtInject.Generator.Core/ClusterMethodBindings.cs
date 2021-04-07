@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using DpdtInject.Generator.Core.BindExtractor;
 using DpdtInject.Generator.Core.Binding;
-using DpdtInject.Generator.Core.Binding.Xml;
-using DpdtInject.Injector;
-using DpdtInject.Injector.Compilation;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 

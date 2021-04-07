@@ -4,11 +4,9 @@ using EnvDTE;
 using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using DpdtInject.Extension.UI.ViewModel.AddClusterMethod;
 using Microsoft.CodeAnalysis;
 using System.Collections.ObjectModel;
 

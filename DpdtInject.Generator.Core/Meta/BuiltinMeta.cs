@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using DpdtInject.Generator.Core.Binding.Xml;
+using DpdtInject.Generator.Core.Helpers;
 using DpdtInject.Generator.Core.TypeInfo;
-using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace DpdtInject.Generator.Core.Meta
 {

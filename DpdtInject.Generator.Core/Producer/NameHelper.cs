@@ -1,5 +1,5 @@
-﻿using DpdtInject.Injector.Excp;
-using DpdtInject.Injector.Helper;
+﻿using DpdtInject.Generator.Core.Helpers;
+using DpdtInject.Injector.Excp;
 using Microsoft.CodeAnalysis;
 using System;
 

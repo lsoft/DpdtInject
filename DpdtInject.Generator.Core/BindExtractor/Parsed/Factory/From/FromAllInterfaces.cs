@@ -1,6 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
-using DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.From;
 
 namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.From
 {

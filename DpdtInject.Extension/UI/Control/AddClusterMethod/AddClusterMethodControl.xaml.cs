@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.PlatformUI;
-using System.Windows;
 
 namespace DpdtInject.Extension.UI.Control.AddClusterMethod
 {

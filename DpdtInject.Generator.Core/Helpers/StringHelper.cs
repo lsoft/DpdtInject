@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 
-namespace DpdtInject.Injector.Helper
+namespace DpdtInject.Generator.Core.Helpers
 {
     public static class StringHelper
     {
@@ -69,9 +68,9 @@ namespace DpdtInject.Injector.Helper
 
             var lines = source.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
-            for(var l = 0; l < lines.Length; l++)
+            for (var l = 0; l < lines.Length; l++)
             {
-                if(lines[l].StartsWith(startsWith))
+                if (lines[l].StartsWith(startsWith))
                 {
                     lines[l] = newValue;
                 }

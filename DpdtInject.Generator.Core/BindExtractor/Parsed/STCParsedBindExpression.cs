@@ -8,7 +8,6 @@ using DpdtInject.Generator.Core.Helpers;
 using DpdtInject.Generator.Core.Producer;
 using DpdtInject.Generator.Core.Producer.ClassProducer;
 using DpdtInject.Generator.Core.TypeInfo;
-using DpdtInject.Injector;
 using DpdtInject.Injector.Bind;
 using DpdtInject.Injector.Excp;
 using DpdtInject.Injector.Helper;

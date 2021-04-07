@@ -1,5 +1,4 @@
-﻿using DpdtInject.Injector.Compilation;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 
 namespace DpdtInject.Generator.Core.Reporter
 {

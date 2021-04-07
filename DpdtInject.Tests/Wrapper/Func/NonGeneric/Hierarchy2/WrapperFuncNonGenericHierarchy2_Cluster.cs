@@ -1,5 +1,5 @@
 ﻿using DpdtInject.Injector;
-using DpdtInject.Injector.Bind.Settings;
+using DpdtInject.Injector.Bind.Settings.Wrapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 

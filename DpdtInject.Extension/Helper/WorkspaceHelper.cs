@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.LanguageServices;
-using Task = System.Threading.Tasks.Task;
 
 namespace DpdtInject.Extension.Helper
 {

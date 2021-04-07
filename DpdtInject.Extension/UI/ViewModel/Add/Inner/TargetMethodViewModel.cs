@@ -1,5 +1,4 @@
 ﻿using System;
-using DpdtInject.Extension.Container;
 using DpdtInject.Extension.Helper;
 using DpdtInject.Generator.Core.Binding.Xml;
 

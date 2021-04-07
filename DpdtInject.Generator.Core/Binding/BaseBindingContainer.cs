@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using DpdtInject.Generator.Core.Producer;
+using DpdtInject.Generator.Core.Helpers;
 using DpdtInject.Injector.Bind;
 using DpdtInject.Injector.Bind.Settings;
 using DpdtInject.Injector.Excp;
-using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 

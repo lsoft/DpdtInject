@@ -1,9 +1,9 @@
-﻿using DpdtInject.Injector.Helper;
-using System;
+﻿using System;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using System.Text;
+using DpdtInject.Generator.Core.Helpers;
 
 namespace DpdtInject.Generator.Core.Producer
 {

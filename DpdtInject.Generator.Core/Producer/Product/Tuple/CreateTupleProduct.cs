@@ -1,5 +1,4 @@
-﻿using DpdtInject.Injector;
-using DpdtInject.Injector.Helper;
+﻿using DpdtInject.Generator.Core.Helpers;
 
 namespace DpdtInject.Generator.Core.Producer.Product.Tuple
 {

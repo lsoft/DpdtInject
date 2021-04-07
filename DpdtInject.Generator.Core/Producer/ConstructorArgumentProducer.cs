@@ -1,5 +1,6 @@
 ﻿using DpdtInject.Generator.Core.Binding;
 using DpdtInject.Injector.Bind.Settings;
+using DpdtInject.Injector.Bind.Settings.CrossCluster;
 using DpdtInject.Injector.Excp;
 using System;
 using System.Linq;

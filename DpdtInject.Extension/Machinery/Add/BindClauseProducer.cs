@@ -5,7 +5,6 @@ using DpdtInject.Injector.Bind;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using DpdtInject.Extension.Machinery.Add;
 using DpdtInject.Generator.Core.Producer;
 
 namespace DpdtInject.Extension.Machinery.Add

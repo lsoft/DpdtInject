@@ -1,6 +1,4 @@
-﻿using DpdtInject.Injector;
-using System;
-using System.CodeDom.Compiler;
+﻿using System;
 using DpdtInject.Generator.Core.Producer.Product.Tuple;
 
 namespace DpdtInject.Generator.Core.Producer.Product

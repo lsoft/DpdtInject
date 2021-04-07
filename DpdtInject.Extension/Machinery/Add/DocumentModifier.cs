@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using DpdtInject.Extension.Container;
 using DpdtInject.Extension.Helper;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.ComponentModelHost;
@@ -10,7 +8,6 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.TextManager.Interop;
 using EnvDTE80;
 using Task = System.Threading.Tasks.Task;
-using DpdtInject.Extension.Machinery.Add;
 using DpdtInject.Generator.Core.Binding.Xml;
 
 namespace DpdtInject.Extension.Machinery.Add

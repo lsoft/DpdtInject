@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Linq;
-using DpdtInject.Generator.Core.Helpers;
-using DpdtInject.Injector;
-using DpdtInject.Injector.Excp;
 using Microsoft.CodeAnalysis;
 
 namespace DpdtInject.Generator.Core.Producer.Product

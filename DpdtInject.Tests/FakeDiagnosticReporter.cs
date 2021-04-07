@@ -1,4 +1,4 @@
-﻿using DpdtInject.Injector.Compilation;
+﻿using DpdtInject.Generator.Core;
 using DpdtInject.Injector.Excp;
 using System;
 using System.Collections.Generic;

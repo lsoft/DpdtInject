@@ -1,8 +1,6 @@
 ﻿using DpdtInject.Extension.Helper;
 using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Input;
-using Task = System.Threading.Tasks.Task;
 using DpdtInject.Extension.Machinery.AddClusterMethod;
 using Microsoft.VisualStudio.Shell;
 

@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Serialization;
 
-namespace DpdtInject.Injector.Helper
+namespace DpdtInject.Generator.Core.Helpers
 {
     public static class XmlHelper
     {
@@ -23,7 +18,7 @@ namespace DpdtInject.Injector.Helper
 
             using (var reader = new StringReader(xml))
             {
-                return (T) serializer.Deserialize(reader)!;
+                return (T)serializer.Deserialize(reader)!;
             }
         }
 
@@ -36,7 +31,7 @@ namespace DpdtInject.Injector.Helper
             //serializer.UnknownElement += Serializer_UnknownElement;
             //serializer.UnknownAttribute += Serializer_UnknownAttribute;
             //serializer.UnreferencedObject += Serializer_UnreferencedObject;
-            
+
             using (var writer = new StringWriter())
             {
                 serializer.Serialize(writer, obj);

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.Linq;
 using DpdtInject.Generator.Core.Binding;
-using DpdtInject.Injector;
 
 namespace DpdtInject.Generator.Core.Producer.Product
 {

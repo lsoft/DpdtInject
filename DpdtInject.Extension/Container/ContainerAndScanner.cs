@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading;
 using DpdtInject.Extension.CodeLens;
-using DpdtInject.Extension.Container.Component;
-using DpdtInject.Generator.Core;
-using DpdtInject.Generator.Core.Binding;
-using DpdtInject.Generator.Core.Helpers;
-using DpdtInject.Injector.Compilation;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.Shell;
@@ -18,18 +11,13 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TaskStatusCenter;
 using Microsoft.VisualStudio.Threading;
 using System.Diagnostics;
-using System.Linq.Expressions;
-using System.Text;
 using Task = System.Threading.Tasks.Task;
-using Project = Microsoft.CodeAnalysis.Project;
 using Thread = System.Threading.Thread;
 
 using static DpdtInject.Extension.Shared.Logging;
 using DpdtInject.Extension.BuildStatus;
 using DpdtInject.Generator.Core.Binding.Xml;
 using DpdtInject.Generator.Core.Meta;
-using DpdtInject.Generator.Core.Producer;
-using DpdtInject.Injector.Helper;
 
 namespace DpdtInject.Extension.Container
 {

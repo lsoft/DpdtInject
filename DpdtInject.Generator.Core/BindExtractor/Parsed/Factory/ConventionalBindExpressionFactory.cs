@@ -6,13 +6,10 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using DpdtInject.Injector.Excp;
 using System.Linq;
-using DpdtInject.Injector;
 using DpdtInject.Injector.Helper;
 using DpdtInject.Generator.Core.Helpers;
-using System.Collections.Immutable;
 using DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional;
 using DpdtInject.Generator.Core.Producer;
-using DpdtInject.Injector.Compilation;
 
 namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
 {

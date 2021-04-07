@@ -1,5 +1,4 @@
 ﻿using System;
-using DpdtInject.Injector;
 using Microsoft.CodeAnalysis;
 
 namespace DpdtInject.Generator.Core.Producer.Product
