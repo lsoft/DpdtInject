@@ -21,6 +21,8 @@ namespace DpdtInject.Extension
     public class DoCreateClusterCommandId
     {
         public static string ProjectKind = "{52AEFF70-BBD8-11d2-8598-006097C68E81}";
+        
+        private static IComponentModel? _componentModel;
 
 
         /// <summary>
@@ -82,6 +84,8 @@ namespace DpdtInject.Extension
         public static async Task InitializeAsync(AsyncPackage package)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
+            
+            _componentModel = Package.GetGlobalService(typeof(SComponentModel)) as IComponentModel;
 
             var commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
             Instance = new DoCreateClusterCommandId(package, commandService!);
@@ -198,14 +202,13 @@ namespace DpdtInject.Extension
                     return;
                 }
 
-                var componentModel = Package.GetGlobalService(typeof(SComponentModel)) as IComponentModel;
-                if (componentModel == null)
+                if (_componentModel == null)
                 {
                     omc.Visible = false;
                     return;
                 }
 
-                var installerServices = componentModel.GetService<IVsPackageInstallerServices>();
+                var installerServices = _componentModel.GetService<IVsPackageInstallerServices>();
                 if (installerServices == null)
                 {
                     omc.Visible = false;

@@ -30,19 +30,17 @@
             </Grid.RowDefinitions>
 
             <TextBlock
-            Grid.Row="0"
-            Margin="2"
-            Background="Transparent"
-            Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
-            Text="Choose a manual defined arguments:"
-            />
+                Grid.Row="0"
+                Margin="2"
+                Text="Choose a manual defined arguments:"
+                Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+                />
 
 
             <ListView
                 Grid.Row="1"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Background="Transparent"
                 Margin="2"
                 ItemsSource="{Binding Path=ConstructorArgumentList}"
                 PreviewKeyDown="ListView_PreviewKeyDown"
@@ -81,15 +79,15 @@
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
                                         <TextBlock
-                                        Grid.Column="0"
-                                        Text="{Binding VisualRepresentationTypeAndName}"
-                                        />
+                                            Grid.Column="0"
+                                            Text="{Binding VisualRepresentationTypeAndName}"
+                                            />
                                         <TextBlock
-                                        Grid.Column="1"
-                                        Foreground="Gray"
-                                        Margin="10,0,0,0"
-                                        Text="{Binding VisualRepresentationNamespace}"
-                                        />
+                                            Grid.Column="1"
+                                            Foreground="Gray"
+                                            Margin="10,0,0,0"
+                                            Text="{Binding VisualRepresentationNamespace}"
+                                            />
                                     </Grid>
                                 </CheckBox.Content>
                             </CheckBox>

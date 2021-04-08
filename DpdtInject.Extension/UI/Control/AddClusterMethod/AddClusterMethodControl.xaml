@@ -11,8 +11,6 @@
     xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
     xmlns:vsshell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
     xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
-    Background="{DynamicResource {x:Static vsshell:VsBrushes.WindowKey}}"
-    Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
     ui:VsTheme.UseVsTheme="True"
     mc:Ignorable="d" 
     WindowStyle="SingleBorderWindow"
@@ -51,8 +49,10 @@
                 Grid.Row="0"
                 Grid.Column="0"
                 HorizontalAlignment="Left"
+                Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
                 Text="Addititonal folders (e.g. CompositionRoot\MyClusterFolder):"
             />
+            
             <TextBox
                 Grid.Row="1"
                 Grid.Column="0"
@@ -66,7 +66,8 @@
                 Grid.Row="0"
                 Grid.Column="1"
                 Text="Cluster class name:"
-            />
+                Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+                />
 
             <ComboBox
                 Grid.Row="1"
@@ -82,7 +83,8 @@
                 Grid.Row="0"
                 Grid.Column="2"
                 Text="Cluster method name:"
-            />
+                Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+                />
             <TextBox
                 Grid.Row="1"
                 Grid.Column="2"

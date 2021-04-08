@@ -32,7 +32,6 @@
             <TextBlock
                 Grid.Row="0"
                 Margin="2"
-                Background="Transparent"
                 Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
                 Text="Choose a constructor to bind:"
                 />
@@ -42,7 +41,6 @@
                 Grid.Row="1"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Background="Transparent"
                 Margin="2"
                 ItemsSource="{Binding Path=ConstructorList}"
                 >

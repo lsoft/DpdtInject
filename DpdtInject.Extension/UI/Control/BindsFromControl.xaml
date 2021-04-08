@@ -31,17 +31,15 @@
             <TextBlock
                 Grid.Row="0"
                 Margin="2"
-                Background="Transparent"
                 Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
                 Text="Choose a bind from:"
-            />
+                />
 
 
             <ListView
                 Grid.Row="1"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Background="Transparent"
                 Margin="2"
                 ItemsSource="{Binding Path=BindFromList}"
                 PreviewKeyDown="ListView_PreviewKeyDown"

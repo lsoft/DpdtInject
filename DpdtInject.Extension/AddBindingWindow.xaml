@@ -20,8 +20,6 @@
     Title="Add new binding..."
     Name="AddBindingWindowName"
     Loaded="AddBindingWindow_OnLoaded"
-    Background="{DynamicResource {x:Static vsshell:VsBrushes.WindowKey}}"
-    Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
     WindowStartupLocation="CenterOwner"
     d:DesignHeight="500" d:DesignWidth="500"
     ui:VsTheme.UseVsTheme="True"

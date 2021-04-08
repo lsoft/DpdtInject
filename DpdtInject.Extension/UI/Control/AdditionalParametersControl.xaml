@@ -31,10 +31,9 @@
             <TextBlock
                 Grid.Row="0"
                 Margin="2"
-                Background="Transparent"
-                Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
                 Text="Choose an additional parameters:"
-            />
+                Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+                />
 
             <Grid
                 Grid.Row="1"
