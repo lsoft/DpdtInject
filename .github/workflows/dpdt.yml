@@ -25,6 +25,8 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2        
       with:
         vs-version: '[16.8,17.0)'
+    - name: Add nuget.org
+      run: dotnet nuget add source https://api.nuget.org/v3/indesx.json --name nuget.org
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
