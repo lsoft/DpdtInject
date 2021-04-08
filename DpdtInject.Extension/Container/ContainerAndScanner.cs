@@ -221,7 +221,7 @@ namespace DpdtInject.Extension.Container
         {
             var token = _cancellationTokenSource.Token;
 
-            SolutionBindContainerXml? sbc = null;
+            SolutionBindContainer? sbc = null;
             try
             {
                 //const int max = 100;
@@ -259,7 +259,7 @@ namespace DpdtInject.Extension.Container
                     return;
                 }
 
-                sbc = new SolutionBindContainerXml();
+                sbc = new SolutionBindContainer();
                 var index = -1;
                 var projectCount = workspace.CurrentSolution.Projects.Count();
                 foreach (var project in workspace.CurrentSolution.Projects)

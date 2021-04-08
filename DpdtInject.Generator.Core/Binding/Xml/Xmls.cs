@@ -19,7 +19,7 @@ namespace DpdtInject.Generator.Core.Binding.Xml
             );
     }
 
-    public class SolutionBindContainerXml : ISolutionBindContainer
+    public class SolutionBindContainer : ISolutionBindContainer
     {
         private readonly List<ClusterBindContainerXml> _clusterBindContainers;
 
@@ -27,7 +27,7 @@ namespace DpdtInject.Generator.Core.Binding.Xml
 
 
 
-        public SolutionBindContainerXml()
+        public SolutionBindContainer()
         {
             _clusterBindContainers = new List<ClusterBindContainerXml>();
         }
@@ -107,7 +107,7 @@ namespace DpdtInject.Generator.Core.Binding.Xml
 
                 return ClusterBindContainers.Sum(
                     c => c.MethodBindContainers?.Sum(
-                        m => m.Bindings.Length
+                        m => m.Bindings?.Length ?? 0
                         ) ?? 0
                     );
             }
