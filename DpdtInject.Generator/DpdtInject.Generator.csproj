@@ -49,40 +49,11 @@
     </ItemGroup>
   </Target>
 
-
+<!--
   <PropertyGroup>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <IncludeBuildOutput>false</IncludeBuildOutput>
   </PropertyGroup>
-
-  <PropertyGroup>
-<!--    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>  -->
-    <PackageId>Dpdt.Injector</PackageId>
-    <PackageVersion>0.5.2.3-alpha</PackageVersion>
-    <Authors>ls</Authors>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/lsoft/DpdtInject</PackageProjectUrl>
-    <!--<PackageIconUrl>https://github.com/lsoft/DpdtInject/raw/master/logo.png</PackageIconUrl>-->
-    <RepositoryUrl>https://github.com/lsoft/DpdtInject</RepositoryUrl>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>Dpdt is a compile-time DI container based on C# Source Generators. Its goal is to remove everything possible from runtime and make resolving process as faster as we can. This is achieved by transferring huge piece of resolving logic to the compilation stage into the source generator.</Description>
-    <!--<PackageReleaseNotes>Summary of changes made in this release of the package or delete this line.</PackageReleaseNotes>-->
-    <PackageTags>sourcegenerator, generator, ioc, di, dicontainer</PackageTags>
-    <NoPackageAnalysis>true</NoPackageAnalysis>
-<!--
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
 -->
-  </PropertyGroup>
-
-
-  <ItemGroup>
-    <None Include="$(OutputPath)\netstandard2.0\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-    <None Include="$(OutputPath)\netstandard2.0\DpdtInject.Injector.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="true" />
-    <None Include="$(OutputPath)\netstandard2.0\DpdtInject.Generator.Core.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="true" />
-    <None Include="$(OutputPath)\netstandard2.0\DpdtInject.Injector.dll" Pack="true" PackagePath="lib/netstandard2.0" Visible="true" /> 
-  </ItemGroup>
-
-
 
 </Project>

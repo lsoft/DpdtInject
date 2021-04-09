@@ -10,11 +10,20 @@
 
 Dpdt is a compile-time DI container based on C# Source Generators. Its goal is to remove everything possible from runtime and make resolving process as faster as we can. This is achieved by transferring huge piece of resolving logic to the compilation stage into the source generator.
 
+As an additional concept, Dpdt adds no references to your distribution, so if you are developing a library/nuget package, you are free to use Dpdt as DI container. You will not impose your DI to your users, everything will builtin in your dlls.
+
 # Status
 
-It's only a proof-of-concept. Nor alpha, neither beta.
+It's still a proof-of-concept. Nor alpha, neither beta.
 
-# Features
+# Design features
+
+0. As mentioned above, Dpdt suitable for lib/nuget developers.
+0. Dpdt Visual Studio Extension helps you to be more productive (see below).
+0. Additional compile-time checks (see below).
+0. No performance decrease on the platforms with no compilation at runtime (because of absense runtime compilation!).
+
+# Other features
 
 0. Easy-to-read syntax `Bind<IA>().To<A>().WithTransientScope()`.
 0. Custom constructor arguments `... Configure(new ConstructorArgument("message", Message))`.
@@ -28,11 +37,8 @@ It's only a proof-of-concept. Nor alpha, neither beta.
 0. Custom scopes.
 0. Child kernels (aka child clusters).
 0. Bindings by conventions.
-0. Additional compile-time safety.
-0. Binding settings that modify compile-time code generation.
-0. Same performance on the platforms with no compilation at runtime.
-0. Dpdt Visual Studio Extension helps you to be more productive (see below).
-0. At last, Dpdt produces a very, very fast resolution code.
+0. Binding settings which modifies compile-time code generation.
+0. At last, Dpdt produces a very, very fast resolution code (it's the last due to it's really unimportant; every modern DI fast enough for virtually all use cases).
 
 More to come!
 
@@ -103,7 +109,7 @@ Please refer to Dpdt.Injector [nuget package](https://www.nuget.org/packages/Dpd
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dpdt.Injector" Version="0.4.2.1-alpha" />
+    <PackageReference Include="Dpdt.Injector" Version="0.5.2.3-alpha" />
   </ItemGroup>
 
 </Project>
@@ -214,14 +220,14 @@ Dpdt proxy can decorate a methods, properties (get/set), events (add/remove) and
 
 #### What is saver?
 
-Saver is an interceptor that is used by the Proxy-decorator to convey some info about the current invocation. Saver MUST be thread-safe!
+Saver is an interceptor class that is used by the Proxy-decorator to convey some info about the current invocation. Saver MUST be thread-safe!
 
 Saver has 2 methods:
 
 0. StartSessionSafely
 0. FixSessionSafely
 
-`Safely` means that this method should not raise any exception; please wrap their bodies into `try`-`catch`.
+Suffix `Safely` means that this method should not raise any exception; please wrap their bodies into `try`-`catch`.
 
 `StartSessionSafely` is invoked at the beginning of decorated (proxied) method. Its arguments:
 
@@ -231,9 +237,9 @@ Saver has 2 methods:
 
 Please make note: parameters with `out` modifier will not appear in `arguments`.
 
-`StartSessionSafely` return a newly created `Guid`.
+`StartSessionSafely` returns a newly created `Guid`.
 
-`FixSessionSafely` is invoked at the eng of proxied-method. Its arguments:
+`FixSessionSafely` is invoked at the end of proxied-method. Its arguments:
 
 0. `sessionGuid` contains a Guid that earlier has been returned from `StartSessionSafely`
 0. `takenInSeconds` contains a time (a fraction of seconds) that has been spent in decorated member
@@ -387,7 +393,7 @@ Also, these predicates cannot be debugged because they are rewrited by Dpdt. See
 
 Dpdt contains a special resolution type named 'fast'. Its syntax is `cluster.GetFast(default(IMyInterface));`. In general this syntax is faster that generic resolutions, but it has one additional constraint: you need to resolve directly from cluster type, it is impossible to cast cluster to the one of its interface (like `ICluster` or `IResolution`) and do fast resolutions.
 
-## Compile-time safety
+## Compile-time checks
 
 Each safety checks are processed in the scope of concrete cluster. Dpdt cannot check for cross-cluster issues because clusters tree is built at runtime. But cross-cluster checks are performed in the cluster constructor at runtime.
 

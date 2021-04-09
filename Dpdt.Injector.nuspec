@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>Dpdt.Injector</id>
+    <version>0.6.0-alpha</version>
+    <authors>ls</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/lsoft/DpdtInject</projectUrl>
+    <!-- <iconUrl>http://icon_url_here_or_delete_this_line/</iconUrl> -->
+    <description>Dpdt is a compile-time DI container based on C# Source Generators. Its goal is to remove everything possible from runtime and make resolving process as faster as we can. This is achieved by transferring huge piece of resolving logic to the compilation stage into the source generator.</description>
+    <!-- <releaseNotes></releaseNotes> -->
+    <copyright>(c) ls 2021</copyright>
+    <tags>sourcegenerator, generator, ioc, di, dicontainer</tags>
+
+<!--
+    <dependencies>
+      <group targetFramework=".NETStandard2.1">
+        <dependency id="SampleDependency" version="1.0.0" />
+      </group>
+    </dependencies>
+-->
+
+    <contentFiles>
+      <files include="DpdtInject.Injector\Src\**\*.cs" buildAction="compile" flatten="false" copyToOutput="true"/>
+    </contentFiles>
+
+  </metadata>
+
+  <files>
+    <file src="DpdtInject.Injector\bin\Release\netstandard2.0\DpdtInject.Injector.dll" target="analyzers/dotnet/cs" />
+    <file src="DpdtInject.Generator.Core\bin\Release\netstandard2.0\DpdtInject.Generator.Core.dll" target="analyzers/dotnet/cs" />
+    <file src="DpdtInject.Generator\bin\Release\netstandard2.0\DpdtInject.Generator.dll" target="analyzers/dotnet/cs" />
+
+
+    <file src="DpdtInject.Injector\Src\**\*.cs" target="contentFiles/any/any/DpdtInject.Injector/Src" />
+  </files>
+
+</package>
