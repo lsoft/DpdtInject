@@ -364,11 +364,13 @@ Constant scope is a scope when the cluster receive an outside-created object. It
 	using(var scope2 = cluster.CreateCustomScope())
 	{
 	    var a2 = cluster.Get<IA>(scope2);
-	} //here we dispose a2 if IA is IDisposable
-    } //here we dispose a1 if IA is IDisposable
+	} //here we dispose a2 if target for IA is IDisposable
+    } //here we dispose a1 if target for IA is IDisposable
 ```
 
 `IDisposable` custom-binded objects will be disposed at the moment of the scope object dispose. Keep in mind, custom-scoped bindings are resolved much slower than singleton/transient/constant bindings.
+
+DO NOT forget to invoke `Dispose` on scope object! Otherwise, Custom-scoped disposable objects will not be disposed too.
 
 ## Conditional binding
 
@@ -416,6 +418,10 @@ Dpdt is available to determine circular dependencies in your dependency tree. In
 ### More than 1 unconditional child
 
 If for some binding more than 1 unconditional child exists it renders parent unresolvable, so Dpdt will break the compilation is that case.
+
+### Conventional bindings
+
+Dpdt will write some info in Debug log for every conventional binding produced. For regular binding - will not. It is useful for debugging conventional bindings results.
 
 ## Cluster life cycle
 
@@ -571,7 +577,7 @@ If you click on a project in Solution Explorer and there is no Dpdt nuget instal
 
 ![Dpdt Extension Image 4](extension4.png)
 
-Also, you can create a new cluster/binding method:
+Also, you can create a new cluster class or add a new binding method to the existing cluster:
 
 ![Dpdt Extension Image 5](extension5.png)
 
@@ -587,9 +593,9 @@ Settings window:
 
 ![Dpdt Extension Image 3](extension3.png)
 
-A lot of thanks to bert2 and his amazing example `https://github.com/bert2/microscope`, without his `microscope` no Dpdt extension will appear because of lack of tutorials in the scope of VS extension development.
+`EnableWhitespaceNormalization` sets whitespace normalization when you create a new binding through Dpdt Visual Studio Extension.
 
-Any ideas for new features are welcome.
+A lot of thanks to bert2 and his amazing example `https://github.com/bert2/microscope`, without his `microscope` no Dpdt extension will appear because of lack of tutorials in the scope of VS extension development.
 
 # Known problems
 
@@ -605,5 +611,7 @@ You may be interesting in the following alternatives:
 
 
 # Feedback
+
+Any ideas for new features of Dpdt and Dpdt Visual Studio Extension are welcome.
 
 Feel free to send a feedback by creating an issues here. Cheers!
