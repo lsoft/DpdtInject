@@ -1,6 +1,6 @@
 //seed: -624853138
-using DpdtInject.Injector;
-using DpdtInject.Injector.Excp;
+using DpdtInject.Injector.Src;
+using DpdtInject.Injector.Src.Excp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
