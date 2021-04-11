@@ -1,6 +1,6 @@
-﻿using DpdtInject.Injector.Bind.Settings;
+﻿using DpdtInject.Injector.Src.Bind.Settings;
 
-namespace DpdtInject.Injector.Bind
+namespace DpdtInject.Injector.Src.Bind
 {
     public interface IConfigureAndConditionalBinding :
         IConditionalBinding, IConfigureBinding

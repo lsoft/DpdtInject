@@ -1,8 +1,8 @@
 ﻿using DpdtInject.Generator.Core;
-using DpdtInject.Injector.Excp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using DpdtInject.Injector.Src.Excp;
 
 namespace DpdtInject.Tests
 {

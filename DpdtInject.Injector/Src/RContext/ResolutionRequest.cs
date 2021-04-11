@@ -1,7 +1,7 @@
 ﻿using System;
-using DpdtInject.Injector.CustomScope;
+using DpdtInject.Injector.Src.CustomScope;
 
-namespace DpdtInject.Injector.RContext
+namespace DpdtInject.Injector.Src.RContext
 {
     public class ResolutionRequest<TClusterType> : BaseResolutionRequest<TClusterType>
     {

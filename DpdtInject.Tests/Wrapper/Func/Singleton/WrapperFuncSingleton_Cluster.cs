@@ -1,7 +1,7 @@
-﻿using DpdtInject.Injector;
-using DpdtInject.Injector.Bind.Settings.Wrapper;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using DpdtInject.Injector.Src.Bind.Settings.Wrapper;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Tests.Wrapper.Func.Singleton
 {

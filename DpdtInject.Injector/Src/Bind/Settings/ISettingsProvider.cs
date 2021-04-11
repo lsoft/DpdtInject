@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace DpdtInject.Injector.Bind.Settings
+namespace DpdtInject.Injector.Src.Bind.Settings
 {
     public interface ISettingsProvider
     {

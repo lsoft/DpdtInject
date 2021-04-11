@@ -1,6 +1,5 @@
-﻿using DpdtInject.Injector;
-using DpdtInject.Injector.Bind;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Tests.Unsorted.FromAllInterfaces0
 {

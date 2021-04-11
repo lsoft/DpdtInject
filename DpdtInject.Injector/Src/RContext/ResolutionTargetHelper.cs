@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace DpdtInject.Injector.RContext
+namespace DpdtInject.Injector.Src.RContext
 {
     public static class ResolutionTargetHelper
     {

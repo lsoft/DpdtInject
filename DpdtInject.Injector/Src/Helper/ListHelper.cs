@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DpdtInject.Injector.Helper
+namespace DpdtInject.Injector.Src.Helper
 {
     public static class ListHelper
     {

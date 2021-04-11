@@ -2,9 +2,9 @@
 using DpdtInject.Generator.Core.Binding;
 using DpdtInject.Generator.Core.Helpers;
 using DpdtInject.Generator.Core.TypeInfo;
-using DpdtInject.Injector;
 using System;
 using DpdtInject.Generator.Core.Producer.Product;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Generator.Core.Producer
 {

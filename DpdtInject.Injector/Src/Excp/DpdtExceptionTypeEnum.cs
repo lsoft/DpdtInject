@@ -1,4 +1,4 @@
-﻿namespace DpdtInject.Injector.Excp
+﻿namespace DpdtInject.Injector.Src.Excp
 {
     public enum DpdtExceptionTypeEnum
     {

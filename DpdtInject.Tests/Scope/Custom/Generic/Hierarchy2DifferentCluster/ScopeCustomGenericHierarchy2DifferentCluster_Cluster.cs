@@ -1,7 +1,7 @@
-﻿using DpdtInject.Injector;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DpdtInject.Injector.Bind;
-using DpdtInject.Injector.Bind.Settings.CrossCluster;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
+using DpdtInject.Injector.Src.Bind;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Tests.Scope.Custom.Generic.Hierarchy2DifferentCluster
 {

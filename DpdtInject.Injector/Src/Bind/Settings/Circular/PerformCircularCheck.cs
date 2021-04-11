@@ -1,4 +1,4 @@
-﻿namespace DpdtInject.Injector.Bind.Settings.Circular
+﻿namespace DpdtInject.Injector.Src.Bind.Settings.Circular
 {
     public class PerformCircularCheck : CircularSetting
     {

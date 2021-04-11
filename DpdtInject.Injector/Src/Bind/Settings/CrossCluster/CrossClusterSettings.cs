@@ -1,6 +1,6 @@
-﻿using DpdtInject.Injector.Helper;
+﻿using DpdtInject.Injector.Src.Helper;
 
-namespace DpdtInject.Injector.Bind.Settings.CrossCluster
+namespace DpdtInject.Injector.Src.Bind.Settings.CrossCluster
 {
     public abstract class CrossClusterSettings : ISetting
     {

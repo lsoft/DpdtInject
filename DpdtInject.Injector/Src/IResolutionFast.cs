@@ -1,4 +1,4 @@
-﻿namespace DpdtInject.Injector
+﻿namespace DpdtInject.Injector.Src
 {
     public interface IResolutionFast<TR>
     {

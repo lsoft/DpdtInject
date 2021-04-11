@@ -1,7 +1,7 @@
 ﻿using System;
-using DpdtInject.Injector.RContext;
+using DpdtInject.Injector.Src.RContext;
 
-namespace DpdtInject.Injector.Bind
+namespace DpdtInject.Injector.Src.Bind
 {
     public interface IConditionalBinding
     {

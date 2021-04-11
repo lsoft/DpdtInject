@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using DpdtInject.Generator.Core.Binding;
 using DpdtInject.Generator.Core.Producer.Product;
-using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
+using DpdtInject.Injector.Src.Helper;
 
 namespace DpdtInject.Generator.Core.Producer.ClassProducer.Product
 {

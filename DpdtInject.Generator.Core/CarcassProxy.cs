@@ -1,6 +1,7 @@
 ﻿#pragma warning disable CS0105
 using BindFromType = System.Object;
-using SessionSaver = DpdtInject.Injector.Bind.BaseSessionSaver;
+using SessionSaver = DpdtInject.Injector.Src.Bind.BaseSessionSaver;
+using DpdtInject.Injector.Src.Bind;
 //PROXYPRODUCER: additonal usings
 // ReSharper disable SuspiciousTypeConversion.Global
 

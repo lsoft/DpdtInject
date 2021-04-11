@@ -1,5 +1,4 @@
 ﻿using DpdtInject.Extension.Helper;
-using DpdtInject.Injector;
 using EnvDTE;
 using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using System.Collections.ObjectModel;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Extension.Machinery.AddClusterMethod
 {

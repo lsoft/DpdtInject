@@ -1,4 +1,4 @@
-﻿using DpdtInject.Injector;
+﻿using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Tests.Unsorted.CircularDependency3
 {

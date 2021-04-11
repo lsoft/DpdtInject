@@ -1,7 +1,7 @@
 ﻿using DpdtInject.Generator.Core.Producer;
-using DpdtInject.Injector;
-using DpdtInject.Injector.RContext;
 using System;
+using DpdtInject.Injector.Src.RContext;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Generator.Core
 {

@@ -1,6 +1,6 @@
-﻿using DpdtInject.Injector;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DpdtInject.Injector.Bind.Settings.CrossCluster;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional2
 {

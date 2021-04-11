@@ -1,6 +1,6 @@
-﻿using DpdtInject.Injector;
-using DpdtInject.Injector.Bind.Settings.CrossCluster;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Tests.Settings.CrossCluster.OnlyLocalCluster0
 {

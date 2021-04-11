@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using DpdtInject.Injector;
-using DpdtInject.Injector.Excp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using DpdtInject.Injector.Src.Excp;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Tests.NonGeneric.IncorrectRequest
 {

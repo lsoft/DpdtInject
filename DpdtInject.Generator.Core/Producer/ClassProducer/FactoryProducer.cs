@@ -6,9 +6,9 @@ using DpdtInject.Generator.Core.Binding;
 using DpdtInject.Generator.Core.Helpers;
 using DpdtInject.Generator.Core.Producer.ClassProducer.Product;
 using DpdtInject.Generator.Core.Producer.Product;
-using DpdtInject.Injector.Excp;
-using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
+using DpdtInject.Injector.Src.Excp;
+using DpdtInject.Injector.Src.Helper;
 
 namespace DpdtInject.Generator.Core.Producer.ClassProducer
 {

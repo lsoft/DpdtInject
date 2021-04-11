@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading;
-using DpdtInject.Injector;
-using DpdtInject.Injector.Bind;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DpdtInject.Injector.RContext;
 using System.Text;
 using System.Linq;
-using DpdtInject.Injector.Bind.Settings.Circular;
+using DpdtInject.Injector.Src.Bind.Settings.Circular;
+using DpdtInject.Injector.Src.Bind;
+using DpdtInject.Injector.Src.RContext;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Tests.Proxy.Event0
 {

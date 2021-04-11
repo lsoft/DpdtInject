@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DpdtInject.Injector.Bind;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using DpdtInject.Generator.Core.Producer;
+using DpdtInject.Injector.Src.Bind;
 
 namespace DpdtInject.Extension.Machinery.Add
 {

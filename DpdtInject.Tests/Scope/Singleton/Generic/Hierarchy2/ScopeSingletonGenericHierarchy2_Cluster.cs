@@ -1,5 +1,5 @@
-﻿using DpdtInject.Injector;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Tests.Scope.Singleton.Generic.Hierarchy2
 {

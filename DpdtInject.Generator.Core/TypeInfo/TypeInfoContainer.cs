@@ -1,12 +1,12 @@
 ﻿using DpdtInject.Generator.Core.Helpers;
 using DpdtInject.Generator.Core.Producer;
-using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
+using DpdtInject.Injector.Src.Helper;
 
 namespace DpdtInject.Generator.Core.TypeInfo
 {

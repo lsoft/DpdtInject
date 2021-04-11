@@ -1,6 +1,6 @@
-﻿using DpdtInject.Injector;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Tests.Conventions.FromSingleInterface0
 {

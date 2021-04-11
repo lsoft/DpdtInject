@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DpdtInject.Injector.Excp
+namespace DpdtInject.Injector.Src.Excp
 {
     public class DpdtException : Exception
     {

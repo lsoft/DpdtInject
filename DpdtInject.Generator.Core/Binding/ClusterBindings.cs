@@ -1,10 +1,10 @@
 ﻿using DpdtInject.Generator.Core.Graph;
-using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DpdtInject.Injector.Bind;
+using DpdtInject.Injector.Src.Bind;
+using DpdtInject.Injector.Src.Helper;
 
 namespace DpdtInject.Generator.Core.Binding
 {

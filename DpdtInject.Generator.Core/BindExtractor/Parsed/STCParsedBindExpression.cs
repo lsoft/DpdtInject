@@ -8,12 +8,12 @@ using DpdtInject.Generator.Core.Helpers;
 using DpdtInject.Generator.Core.Producer;
 using DpdtInject.Generator.Core.Producer.ClassProducer;
 using DpdtInject.Generator.Core.TypeInfo;
-using DpdtInject.Injector.Bind;
-using DpdtInject.Injector.Excp;
-using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using DpdtInject.Injector.Src.Bind;
+using DpdtInject.Injector.Src.Excp;
+using DpdtInject.Injector.Src.Helper;
 
 namespace DpdtInject.Generator.Core.BindExtractor.Parsed
 {

@@ -1,8 +1,8 @@
 ﻿using DpdtInject.Generator.Core.ArgumentWrapper;
 using DpdtInject.Generator.Core.Producer;
-using DpdtInject.Injector.Excp;
 using Microsoft.CodeAnalysis;
 using System;
+using DpdtInject.Injector.Src.Excp;
 
 namespace DpdtInject.Generator.Core.Binding
 {

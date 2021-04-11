@@ -1,11 +1,11 @@
-﻿using DpdtInject.Injector.Excp;
-using DpdtInject.Injector.Helper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using DpdtInject.Injector.RContext;
+using DpdtInject.Injector.Src.Excp;
+using DpdtInject.Injector.Src.Helper;
+using DpdtInject.Injector.Src.RContext;
 
-namespace DpdtInject.Injector.Reinvented
+namespace DpdtInject.Injector.Src.Reinvented
 {
     /// <summary>
     /// Special thanks to neuecc from https://github.com/neuecc for amazing idea.

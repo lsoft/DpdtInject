@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DpdtInject.Injector.Helper
+namespace DpdtInject.Injector.Src.Helper
 {
     public static class MathHelper
     {

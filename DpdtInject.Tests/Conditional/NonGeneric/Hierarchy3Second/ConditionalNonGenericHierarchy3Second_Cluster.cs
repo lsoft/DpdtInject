@@ -1,7 +1,7 @@
-﻿using DpdtInject.Injector;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using DpdtInject.Injector.Bind;
+using DpdtInject.Injector.Src.Bind;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Tests.Conditional.NonGeneric.Hierarchy3Second
 {

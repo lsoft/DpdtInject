@@ -1,9 +1,9 @@
-﻿using DpdtInject.Injector.CustomScope;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using DpdtInject.Injector.RContext;
+using DpdtInject.Injector.Src.CustomScope;
+using DpdtInject.Injector.Src.RContext;
 
-namespace DpdtInject.Injector
+namespace DpdtInject.Injector.Src
 {
     public interface IResolution
     {

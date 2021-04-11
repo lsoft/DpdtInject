@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using DpdtInject.Injector.CustomScope;
+using DpdtInject.Injector.Src.CustomScope;
 
-namespace DpdtInject.Injector.RContext
+namespace DpdtInject.Injector.Src.RContext
 {
     public interface IResolutionTarget
     {

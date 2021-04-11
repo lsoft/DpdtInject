@@ -1,5 +1,5 @@
-﻿using DpdtInject.Injector;
-using DpdtInject.Injector.Bind;
+﻿using DpdtInject.Injector.Src.Bind;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Tests.Unsorted.CannotBeCasted
 {

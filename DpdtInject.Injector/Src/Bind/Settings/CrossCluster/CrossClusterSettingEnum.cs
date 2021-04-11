@@ -1,4 +1,4 @@
-﻿namespace DpdtInject.Injector.Bind.Settings
+﻿namespace DpdtInject.Injector.Src.Bind.Settings.CrossCluster
 {
     public enum CrossClusterSettingEnum
     {

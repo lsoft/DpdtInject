@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DpdtInject.Injector
+namespace DpdtInject.Injector.Src
 {
 
     /// <summary>

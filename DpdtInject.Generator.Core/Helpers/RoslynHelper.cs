@@ -6,9 +6,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using DpdtInject.Generator.Core.BindExtractor;
 using DpdtInject.Generator.Core.Binding.Xml;
-using DpdtInject.Injector;
-using DpdtInject.Injector.Excp;
 using DpdtInject.Generator.Core.Producer;
+using DpdtInject.Injector.Src.Excp;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Generator.Core.Helpers
 {

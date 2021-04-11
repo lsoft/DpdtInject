@@ -1,7 +1,7 @@
 ﻿using System;
-using DpdtInject.Injector.Bind;
+using DpdtInject.Injector.Src.Bind;
 
-namespace DpdtInject.Injector
+namespace DpdtInject.Injector.Src
 {
     public abstract class DefaultCluster
     {

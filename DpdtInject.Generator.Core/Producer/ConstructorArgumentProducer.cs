@@ -1,9 +1,8 @@
 ﻿using DpdtInject.Generator.Core.Binding;
-using DpdtInject.Injector.Bind.Settings;
-using DpdtInject.Injector.Bind.Settings.CrossCluster;
-using DpdtInject.Injector.Excp;
 using System;
 using System.Linq;
+using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
+using DpdtInject.Injector.Src.Excp;
 
 namespace DpdtInject.Generator.Core.Producer
 {

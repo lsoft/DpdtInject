@@ -1,6 +1,6 @@
-﻿using DpdtInject.Injector.Helper;
+﻿using DpdtInject.Injector.Src.Helper;
 
-namespace DpdtInject.Injector.Bind.Settings.Circular
+namespace DpdtInject.Injector.Src.Bind.Settings.Circular
 {
     public abstract class CircularSetting : ISetting
     {

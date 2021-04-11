@@ -1,7 +1,7 @@
-﻿using DpdtInject.Injector.Reinvented;
-using System;
+﻿using System;
+using DpdtInject.Injector.Src.Reinvented;
 
-namespace DpdtInject.Injector.CustomScope
+namespace DpdtInject.Injector.Src.CustomScope
 {
     public sealed class CustomScopeObject : ICustomScopeObject, IDisposable
     {

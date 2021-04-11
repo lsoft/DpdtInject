@@ -1,13 +1,13 @@
-﻿using DpdtInject.Injector;
-using DpdtInject.Injector.Bind;
-using DpdtInject.Injector.Helper;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using DpdtInject.Generator.Core.Producer;
 using DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.From;
+using DpdtInject.Injector.Src.Bind;
+using DpdtInject.Injector.Src.Helper;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.Conventional
 {

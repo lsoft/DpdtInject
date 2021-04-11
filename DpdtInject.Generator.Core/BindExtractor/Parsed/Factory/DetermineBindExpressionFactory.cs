@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using DpdtInject.Injector;
 using DpdtInject.Generator.Core.Producer;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
 {

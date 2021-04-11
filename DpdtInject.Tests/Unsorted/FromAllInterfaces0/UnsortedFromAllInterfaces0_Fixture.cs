@@ -1,4 +1,3 @@
-using DpdtInject.Injector.Excp;
 using DpdtInject.Tests.Properties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

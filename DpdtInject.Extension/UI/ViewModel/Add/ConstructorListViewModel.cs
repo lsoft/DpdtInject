@@ -1,6 +1,5 @@
 ﻿using DpdtInject.Extension.Helper;
 using DpdtInject.Extension.UI.ChainStep;
-using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.LanguageServices;
@@ -13,6 +12,7 @@ using System.Windows;
 using System.Windows.Input;
 using Task = System.Threading.Tasks.Task;
 using DpdtInject.Extension.UI.ViewModel.Add.Inner;
+using DpdtInject.Injector.Src.Helper;
 
 namespace DpdtInject.Extension.UI.ViewModel.Add
 {

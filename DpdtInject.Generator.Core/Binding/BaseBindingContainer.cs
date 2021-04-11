@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using DpdtInject.Generator.Core.Helpers;
-using DpdtInject.Injector.Bind;
-using DpdtInject.Injector.Bind.Settings;
-using DpdtInject.Injector.Excp;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using DpdtInject.Injector.Src.Bind.Settings;
+using DpdtInject.Injector.Src.Bind;
+using DpdtInject.Injector.Src.Excp;
 
 namespace DpdtInject.Generator.Core.Binding
 {

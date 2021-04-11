@@ -1,4 +1,4 @@
-﻿namespace DpdtInject.Injector.Bind
+﻿namespace DpdtInject.Injector.Src.Bind
 {
     public interface IConfigureBinding
     {

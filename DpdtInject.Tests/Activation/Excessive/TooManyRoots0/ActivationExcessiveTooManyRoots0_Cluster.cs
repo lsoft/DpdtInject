@@ -1,7 +1,7 @@
-﻿using DpdtInject.Injector;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DpdtInject.Injector.Excp;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading;
+using DpdtInject.Injector.Src.Excp;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots0
 {

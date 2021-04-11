@@ -1,4 +1,4 @@
-﻿namespace DpdtInject.Injector.Bind.Settings.Wrapper
+﻿namespace DpdtInject.Injector.Src.Bind.Settings.Wrapper
 {
     public abstract class WrappersSettings : ISetting
     {

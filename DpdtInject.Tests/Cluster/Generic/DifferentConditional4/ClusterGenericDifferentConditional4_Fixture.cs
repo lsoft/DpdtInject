@@ -1,6 +1,6 @@
-using DpdtInject.Injector.Excp;
 using DpdtInject.Tests.Properties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using DpdtInject.Injector.Src.Excp;
 
 namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional4
 {

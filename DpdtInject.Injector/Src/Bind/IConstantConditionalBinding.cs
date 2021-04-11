@@ -1,8 +1,8 @@
 ﻿using System;
-using DpdtInject.Injector.Bind.Settings;
-using DpdtInject.Injector.RContext;
+using DpdtInject.Injector.Src.Bind.Settings;
+using DpdtInject.Injector.Src.RContext;
 
-namespace DpdtInject.Injector.Bind
+namespace DpdtInject.Injector.Src.Bind
 {
     public interface IConstantConditionalBinding
     {

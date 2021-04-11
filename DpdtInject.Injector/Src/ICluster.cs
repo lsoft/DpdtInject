@@ -1,8 +1,8 @@
 ﻿using System;
-using DpdtInject.Injector.CustomScope;
-using DpdtInject.Injector.RContext;
+using DpdtInject.Injector.Src.CustomScope;
+using DpdtInject.Injector.Src.RContext;
 
-namespace DpdtInject.Injector
+namespace DpdtInject.Injector.Src
 {
     public interface ICluster
         : IDisposable, IResolution

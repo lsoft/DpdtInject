@@ -1,4 +1,4 @@
-﻿namespace DpdtInject.Injector.CustomScope
+﻿namespace DpdtInject.Injector.Src.CustomScope
 {
     //#nullable disable
 

@@ -1,12 +1,12 @@
 ﻿using DpdtInject.Generator.Core.BindExtractor;
 using DpdtInject.Generator.Core.Helpers;
 using DpdtInject.Generator.Core.Producer.Product;
-using DpdtInject.Injector.Bind;
-using DpdtInject.Injector.Helper;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DpdtInject.Injector.Src.Bind;
+using DpdtInject.Injector.Src.Helper;
 
 namespace DpdtInject.Generator.Core.Producer.ClassProducer.Proxy
 {

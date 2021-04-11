@@ -1,11 +1,11 @@
 ﻿using DpdtInject.Extension.Shared.Dto;
-using DpdtInject.Injector.Bind;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DpdtInject.Extension.Machinery.Add;
 using DpdtInject.Generator.Core.Binding.Xml;
+using DpdtInject.Injector.Src.Bind;
 
 namespace DpdtInject.Extension.UI.ChainStep
 {

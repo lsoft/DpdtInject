@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using DpdtInject.Generator.Core.TypeInfo;
-using DpdtInject.Injector.Bind;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using DpdtInject.Generator.Core.BindExtractor.Parsed.Factory.From;
+using DpdtInject.Injector.Src.Bind;
 
 namespace DpdtInject.Generator.Core.BindExtractor.Parsed.Factory
 {

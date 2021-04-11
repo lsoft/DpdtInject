@@ -1,6 +1,6 @@
 ﻿using System;
-using DpdtInject.Injector;
 using Microsoft.CodeAnalysis;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Generator.Core.Producer
 {

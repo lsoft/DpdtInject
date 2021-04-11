@@ -1,9 +1,9 @@
 ﻿using DpdtInject.Extension.UI.ChainStep;
-using DpdtInject.Injector.Bind;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using DpdtInject.Injector.Src.Bind;
 
 namespace DpdtInject.Extension.UI.ViewModel.Add
 {

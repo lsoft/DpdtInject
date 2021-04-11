@@ -5,11 +5,11 @@ using System.Linq;
 using System.Reflection;
 using DpdtInject.Generator.Core.Binding;
 using DpdtInject.Generator.Core.Producer;
-using DpdtInject.Injector;
-using DpdtInject.Injector.Bind;
-using DpdtInject.Injector.Excp;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using DpdtInject.Injector.Src.Bind;
+using DpdtInject.Injector.Src.Excp;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Generator.Core.BindExtractor.Parsed
 {

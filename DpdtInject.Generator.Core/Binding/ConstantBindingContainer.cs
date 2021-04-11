@@ -2,9 +2,9 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
 using System.Diagnostics;
-using DpdtInject.Injector.Bind;
-using DpdtInject.Injector.Bind.Settings;
 using DpdtInject.Generator.Core.Producer;
+using DpdtInject.Injector.Src.Bind.Settings;
+using DpdtInject.Injector.Src.Bind;
 
 namespace DpdtInject.Generator.Core.Binding
 {

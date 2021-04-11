@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
-using DpdtInject.Injector.Bind;
+using DpdtInject.Injector.Src.Bind;
 
 namespace DpdtInject.Generator.Core.BindExtractor
 {

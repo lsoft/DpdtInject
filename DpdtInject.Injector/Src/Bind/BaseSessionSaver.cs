@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DpdtInject.Injector.Bind
+namespace DpdtInject.Injector.Src.Bind
 {
     public abstract class BaseSessionSaver
     {

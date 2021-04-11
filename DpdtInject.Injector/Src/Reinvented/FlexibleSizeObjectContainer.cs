@@ -1,9 +1,9 @@
-﻿using DpdtInject.Injector.Helper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using DpdtInject.Injector.Src.Helper;
 
-namespace DpdtInject.Injector.Reinvented
+namespace DpdtInject.Injector.Src.Reinvented
 {
     /// <summary>
     /// Special thanks to neuecc from https://github.com/neuecc for amazing idea.

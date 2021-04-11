@@ -1,9 +1,9 @@
 ﻿using DpdtInject.Generator.Core.Binding;
-using DpdtInject.Injector.Excp;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DpdtInject.Injector.Src.Excp;
 
 namespace DpdtInject.Generator.Core.BindExtractor
 {

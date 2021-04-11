@@ -1,7 +1,7 @@
-﻿using DpdtInject.Injector;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Tests.GetAll.NonGeneric.TwoObjectsConditional0
 {
