@@ -64,8 +64,6 @@ namespace DpdtInject.Extension.ExtensionStatus.FullyLoaded
             SyncStop();
         }
 
-        private readonly Dictionary<string, TaskCompletionSource<bool>> _taskCompletionSources = new Dictionary<string, TaskCompletionSource<bool>>();
-
         private async System.Threading.Tasks.Task<int> ReadFullyLoadStatusAsync(
             CancellationToken token
             )
