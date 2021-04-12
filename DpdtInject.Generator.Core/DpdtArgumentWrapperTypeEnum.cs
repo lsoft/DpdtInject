@@ -1,4 +1,4 @@
-﻿namespace DpdtInject.Injector.Src
+﻿namespace DpdtInject.Generator.Core
 {
     public enum DpdtArgumentWrapperTypeEnum
     {

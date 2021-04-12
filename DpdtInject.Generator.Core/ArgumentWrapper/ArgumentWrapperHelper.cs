@@ -4,7 +4,6 @@ using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Generator.Core.ArgumentWrapper
 {

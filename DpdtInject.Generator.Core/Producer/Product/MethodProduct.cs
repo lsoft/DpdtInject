@@ -4,7 +4,6 @@ using DpdtInject.Generator.Core.ArgumentWrapper;
 using DpdtInject.Generator.Core.Binding;
 using Microsoft.CodeAnalysis;
 using DpdtInject.Injector.Src.Helper;
-using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Generator.Core.Producer.Product
 {
