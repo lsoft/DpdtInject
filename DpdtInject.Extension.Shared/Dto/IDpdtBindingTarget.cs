@@ -4,7 +4,7 @@ namespace DpdtInject.Extension.Shared.Dto
 {
     public interface IDpdtBindingTarget
     {
-        Guid BindingIdentifier
+        Guid BindingUniqueUnstableIdentifier
         {
             get;
         }

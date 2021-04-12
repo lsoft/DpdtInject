@@ -8,18 +8,19 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using DpdtInject.Injector.Src.Bind.Settings;
 using DpdtInject.Injector.Src.Bind;
 using DpdtInject.Injector.Src.Excp;
+using System.Security.Cryptography;
 
 namespace DpdtInject.Generator.Core.Binding
 {
     public abstract class BaseBindingContainer : IBindingContainer
     {
-        private readonly string _uniqueKey = Guid.NewGuid().RemoveMinuses().Substring(0, 8);
+        private readonly string _uniqueKey;
 
         private readonly BindingContainerTypes _types;
         private readonly IReadOnlyList<ISetting> _settings;
 
         /// <inheritdoc />
-        public Guid Identifier
+        public Guid UniqueUnstableIdentifier
         {
             get;
         }
@@ -112,7 +113,12 @@ namespace DpdtInject.Generator.Core.Binding
             ConstantSyntax = constantSyntax;
             _settings = settings;
             IsConventional = isConventional;
-            Identifier = Guid.NewGuid();
+            UniqueUnstableIdentifier = Guid.NewGuid();
+
+            var uniqueKey0 = expressionNode.SyntaxTree.FilePath.GetStringSha256Hash().SafeSubstring(0, 8);
+            var uniqueKey1 = expressionNode.Span.Start;
+            var uniqueKey2 = expressionNode.Span.End;
+            _uniqueKey = $"u{uniqueKey0}_{uniqueKey1}_{uniqueKey2}";
         }
 
         public bool IsSetup<T>()

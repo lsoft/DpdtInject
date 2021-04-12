@@ -138,7 +138,7 @@ namespace DpdtInject.Extension
                 return;
             }
 
-            if (!TryGetBinding(tag.BindingIdentifier, out var containerAndScanner, out var binding))
+            if (!TryGetBinding(tag.BindingUniqueUnstableIdentifier, out var containerAndScanner, out var binding))
             {
                 return;
             }
@@ -231,7 +231,7 @@ namespace DpdtInject.Extension
                 return;
             }
 
-            NavigateTo(tag.BindingIdentifier);
+            NavigateTo(tag.BindingUniqueUnstableIdentifier);
         }
         
         public void NavigateTo(
@@ -259,7 +259,7 @@ namespace DpdtInject.Extension
         }
 
         private static bool TryGetBinding(
-            Guid bindingIdentifier,
+            Guid bindingUniqueUnstableIdentifier,
             out ContainerAndScanner? containerAndScanner,
             out IBindingStatement? binding
             )
@@ -281,7 +281,7 @@ namespace DpdtInject.Extension
                 return false;
             }
 
-            if (!solutionBinds.TryGetBinding(bindingIdentifier, out binding))
+            if (!solutionBinds.TryGetBinding(bindingUniqueUnstableIdentifier, out binding))
             {
                 containerAndScanner = null;
                 binding = null;

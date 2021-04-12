@@ -9,7 +9,7 @@ namespace DpdtInject.Extension.UI.ViewModel.Details
         private readonly IDpdtBindingTarget _target;
 
         /// <inheritdoc />
-        public Guid BindingIdentifier
+        public Guid BindingUniqueUnstableIdentifier
         {
             get;
         }
@@ -38,7 +38,7 @@ namespace DpdtInject.Extension.UI.ViewModel.Details
 
             _target = target;
 
-            BindingIdentifier = target.BindingIdentifier;
+            BindingUniqueUnstableIdentifier = target.BindingUniqueUnstableIdentifier;
             ClusterDetail = new DpdtClusterDetailViewModel(
                 target.ClusterDetail
                 );

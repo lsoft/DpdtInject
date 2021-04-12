@@ -11,6 +11,7 @@ using DpdtInject.Generator.Core.Producer.Product.Tuple;
 using DpdtInject.Injector.Src.Bind.Settings.Wrapper;
 using DpdtInject.Injector.Src.RContext;
 using DpdtInject.Injector.Src;
+using DpdtInject.Injector.Src.Helper;
 
 namespace DpdtInject.Generator.Core.Producer
 {
@@ -285,8 +286,10 @@ public {returnType} {methodName}({returnType} unused)
             ITypeSymbol wrapperSymbol
             )
         {
+            var stableSuffix = GetStableSuffix(filteredInstanceProducts);
+
             string nonExplicitMethodName =
-                $"GetAll_{wrapperSymbol.GetSpecialName()}_{Guid.NewGuid().RemoveMinuses()}"
+                $"GetAll_{wrapperSymbol.GetSpecialName()}_{stableSuffix}"
                 ;
 
             var returnType = _typeInfoProvider
@@ -377,11 +380,13 @@ public {returnType} {methodName}({returnType} unused)
             ITypeSymbol wrapperSymbol
             )
         {
+            var stableSuffix = GetStableSuffix(filteredInstanceProducts);
+
             var total = filteredInstanceProducts.Count;
             var itselfNonConditional = filteredInstanceProducts.Count(p => !p.BindingExtender.BindingContainer.IsConditional);
 
             string nonExplicitMethodName = 
-                $"Get_{wrapperSymbol.GetSpecialName()}_{Guid.NewGuid().RemoveMinuses()}"
+                $"Get_{wrapperSymbol.GetSpecialName()}_{stableSuffix}"
                 ;
 
             IMethodProduct getMethodProduct;
@@ -541,5 +546,25 @@ private {returnType} {methodName}({GN.IResolutionRequest} resolutionRequest)
 
             return getMethodProduct;
         }
+
+
+
+        private static string GetStableSuffix(
+            IReadOnlyList<InstanceProduct> filteredInstanceProducts
+            )
+        {
+            if (filteredInstanceProducts is null)
+            {
+                throw new ArgumentNullException(nameof(filteredInstanceProducts));
+            }
+
+            var suffix = string.Join(
+                "",
+                filteredInstanceProducts.ConvertAll(fip => fip.BindingExtender.BindingContainer.GetStableSuffix())
+                ).GetStringSha256Hash().SafeSubstring(0, 16);
+
+            return suffix;
+        }
+
     }
 }

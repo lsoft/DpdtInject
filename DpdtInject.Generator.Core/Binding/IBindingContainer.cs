@@ -9,7 +9,7 @@ namespace DpdtInject.Generator.Core.Binding
 {
     public interface IBindingContainer : ISettingsProvider
     {
-        Guid Identifier
+        Guid UniqueUnstableIdentifier
         {
             get;
         }

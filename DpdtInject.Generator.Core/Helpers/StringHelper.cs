@@ -10,6 +10,21 @@ namespace DpdtInject.Generator.Core.Helpers
             return new StringBuilder(s);
         }
 
+        public static string SafeSubstring(this string s, int start, int length)
+        {
+            if (s is null)
+            {
+                throw new ArgumentNullException(nameof(s));
+            }
+
+            if (s.Length < start + length)
+            {
+                return s.Substring(start);
+            }
+
+            return s.Substring(start, length);
+        }
+
         public static string ReplaceLineContains(
             this string source,
             string substring,
@@ -138,12 +153,12 @@ namespace DpdtInject.Generator.Core.Helpers
                 ;
         }
 
-        public static string RemoveMinuses(
-            this Guid g
-            )
-        {
-            return g.ToString().Replace("-", "");
-        }
+        //public static string RemoveMinuses(
+        //    this Guid g
+        //    )
+        //{
+        //    return g.ToString().Replace("-", "");
+        //}
 
         public static string FormatAdv(
             this string root,

@@ -38,7 +38,9 @@ namespace DpdtInject.Generator.Core.Producer
 
             while (true)
             {
-                var newShortName = type.GetSpecialName() + "_" + Guid.NewGuid().RemoveMinuses().Substring(0, 8);
+
+                var newShortName = type.GetSpecialName() + "_" + key.GetStringSha256Hash().SafeSubstring(0, 8);
+
                 if (_nameDict.ContainsKey(newShortName))
                 {
                     continue;

@@ -4,7 +4,7 @@ namespace DpdtInject.Extension.Shared.Dto
 {
     public class DpdtBindingTarget : IDpdtBindingTarget
     {
-        public Guid BindingIdentifier
+        public Guid BindingUniqueUnstableIdentifier
         {
             get;
         }
@@ -37,7 +37,7 @@ namespace DpdtInject.Extension.Shared.Dto
                 throw new ArgumentNullException(nameof(bindingDetail));
             }
 
-            BindingIdentifier = bindingIdentifier;
+            BindingUniqueUnstableIdentifier = bindingIdentifier;
             ClusterDetail = clusterDetail;
             BindingDetail = bindingDetail;
         }

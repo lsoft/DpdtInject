@@ -68,7 +68,7 @@ namespace DpdtInject.Extension
                         {
                             list.Add(
                                 new DpdtBindingTarget(
-                                    binding.Identifier,
+                                    binding.UniqueUnstableIdentifier,
                                     new DpdtClusterDetail(
                                         clusterBind.ClusterTypeInfo.FullNamespaceDisplayName,
                                         clusterBind.ClusterTypeInfo.Name,

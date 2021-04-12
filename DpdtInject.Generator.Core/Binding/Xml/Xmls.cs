@@ -35,7 +35,7 @@ namespace DpdtInject.Generator.Core.Binding.Xml
 
         /// <inheritdoc />
         public bool TryGetBinding(
-            Guid bindingIdentifier,
+            Guid bindingUniqueUnstableIdentifier,
             out IBindingStatement? resultBinding
             )
         {
@@ -47,7 +47,7 @@ namespace DpdtInject.Generator.Core.Binding.Xml
 
                     foreach (var binding in methodBind.Bindings)
                     {
-                        if (binding.Identifier == bindingIdentifier)
+                        if (binding.UniqueUnstableIdentifier == bindingUniqueUnstableIdentifier)
                         {
                             resultBinding = binding;
 
@@ -291,15 +291,15 @@ namespace DpdtInject.Generator.Core.Binding.Xml
 
     public class BindingXml : IBindingStatement
     {
-        [XmlElement(ElementName = "Identifier")]
+        [XmlElement(ElementName = "UniqueUnstableIdentifier")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public string Identifier
+        public string UniqueUnstableIdentifier
         {
             get;
             set;
         }
 
-        Guid IBindingStatement.Identifier => new Guid(this.Identifier);
+        Guid IBindingStatement.UniqueUnstableIdentifier => new Guid(this.UniqueUnstableIdentifier);
 
         [XmlElement(ElementName = "TargetRepresentation")]
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -377,7 +377,7 @@ namespace DpdtInject.Generator.Core.Binding.Xml
 
         public BindingXml()
         {
-            Identifier = null!;
+            UniqueUnstableIdentifier = null!;
             TargetRepresentation = null!;
             FromTypes = null!;
             ToType = null!;
@@ -397,7 +397,7 @@ namespace DpdtInject.Generator.Core.Binding.Xml
             PositionXml position
             )
         {
-            Identifier = identifier;
+            UniqueUnstableIdentifier = identifier;
             TargetRepresentation = targetRepresentation;
             FromTypes = fromTypes;
             ToType = toType;
@@ -624,7 +624,7 @@ namespace DpdtInject.Generator.Core.Binding.Xml
 
     public interface IBindingStatement
     {
-        Guid Identifier
+        Guid UniqueUnstableIdentifier
         {
             get;
         }

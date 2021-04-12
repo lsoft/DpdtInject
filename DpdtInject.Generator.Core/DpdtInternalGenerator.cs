@@ -198,7 +198,7 @@ namespace DpdtInject.Generator.Core
                         methodDeclarationXml,
                         methodBinding.Item2.ConvertAll(
                             bc => new BindingXml(
-                                bc.Identifier.ToString(),
+                                bc.UniqueUnstableIdentifier.ToString(),
                                 bc.TargetRepresentation,
                                 bc.BindFromTypes.ConvertAll(s => s.ToXml()).ToArray(),
                                 bc.BindToType.ToXml(),
