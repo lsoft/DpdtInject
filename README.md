@@ -93,7 +93,7 @@ Also I recommend disable tiered compilation for composition root assembly if you
 
 Please refer to Dpdt.Injector [nuget package](https://www.nuget.org/packages/Dpdt.Injector/). Keep in mind you need to set 'net5' target framework. For example:
 
-```
+```xml
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
@@ -109,7 +109,7 @@ Please refer to Dpdt.Injector [nuget package](https://www.nuget.org/packages/Dpd
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dpdt.Injector" Version="0.5.2.3-alpha" />
+    <PackageReference Include="Dpdt.Injector" Version="0.6.0.0-alpha" />
   </ItemGroup>
 
 </Project>

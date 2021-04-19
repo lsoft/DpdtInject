@@ -23,9 +23,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DpdtInject.Extension.CodeLe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DpdtInject.Extension", "DpdtInject.Extension\DpdtInject.Extension.csproj", "{B896FF3C-FB27-4F5F-BD50-E0AFA5C82328}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DpdtInject.Profiler", "DpdtInject.Profiler\DpdtInject.Profiler.csproj", "{4AB52548-2A1B-49E4-9426-3D033B125F8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DpdtInject.Profiler", "DpdtInject.Profiler\DpdtInject.Profiler.csproj", "{4AB52548-2A1B-49E4-9426-3D033B125F8A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DpdtInject.Generator.Core", "DpdtInject.Generator.Core\DpdtInject.Generator.Core.csproj", "{43D5E6DF-9028-4344-A479-E87761F6EA55}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E02DE5DE-4A99-42CC-8CC3-F22D667D5CC9}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\dpdt.yml = .github\workflows\dpdt.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
