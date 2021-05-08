@@ -3,11 +3,18 @@ using DpdtInject.Generator.Core.Producer;
 using Microsoft.CodeAnalysis;
 using System;
 using DpdtInject.Injector.Src.Excp;
+using System.Globalization;
 
 namespace DpdtInject.Generator.Core.Binding
 {
     public class DetectedMethodArgument
     {
+        public int ArgumentIndex
+        {
+            get;
+            private set;
+        }
+
         public string Name
         {
             get;
@@ -16,6 +23,7 @@ namespace DpdtInject.Generator.Core.Binding
         public ITypeSymbol? Type
         {
             get;
+            private set;
         }
 
         public RefKind RefKind
@@ -40,6 +48,7 @@ namespace DpdtInject.Generator.Core.Binding
         public bool DefineInBindNode => !string.IsNullOrEmpty(Body);
 
         public DetectedMethodArgument(
+            int argumentIndex,
             string name,
             string body
             )
@@ -53,7 +62,7 @@ namespace DpdtInject.Generator.Core.Binding
             {
                 throw new ArgumentNullException(nameof(body));
             }
-
+            ArgumentIndex = argumentIndex;
             Name = name;
             Type = null;
             RefKind = RefKind.None;
@@ -62,6 +71,7 @@ namespace DpdtInject.Generator.Core.Binding
         }
 
         public DetectedMethodArgument(
+            int argumentIndex,
             string name,
             ITypeSymbol type,
             RefKind refKind,
@@ -83,13 +93,28 @@ namespace DpdtInject.Generator.Core.Binding
             {
                 throw new ArgumentNullException(nameof(explicitDefaultValueFunc));
             }
-
+            ArgumentIndex = argumentIndex;
             Name = name;
             Type = type;
             RefKind = refKind;
             Body = null;
             HasExplicitDefaultValue = hasExplicitDefaultValue;
             ExplicitDefaultValue = hasExplicitDefaultValue ? explicitDefaultValueFunc() : null;
+        }
+
+        internal void UpdateIndex(int argumentIndex)
+        {
+            ArgumentIndex = argumentIndex;
+        }
+
+        internal void UpdateType(ITypeSymbol type)
+        {
+            if (type is null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
+            Type = type;
         }
 
         public ITypeSymbol GetUnwrappedType(
@@ -139,12 +164,62 @@ namespace DpdtInject.Generator.Core.Binding
 
             if (HasExplicitDefaultValue)
             {
-                return $"{GetDeclarationModifiers()} {Type.ToGlobalDisplayString()} {Name} = {ExplicitDefaultValue?.ToString() ?? "default"}";
+                return $"{GetDeclarationModifiers()} {Type.ToGlobalDisplayString()} {Name} = {GetExplicitValueCodeRepresentation()}";
             }
             else
             {
                 return $"{GetDeclarationModifiers()} {Type.ToGlobalDisplayString()} {Name}";
             }
+        }
+
+        public string GetExplicitValueCodeRepresentation()
+        {
+            if (ExplicitDefaultValue is null)
+            {
+                return "default";
+            }
+
+            if (ExplicitDefaultValue is string sedv)
+            {
+                return $"\"{sedv}\"";
+            }
+
+            if (ExplicitDefaultValue is long ledv)
+            {
+                return $"{ledv}L";
+            }
+
+            if (ExplicitDefaultValue is ulong uledv)
+            {
+                return $"{uledv}UL";
+            }
+
+            if (ExplicitDefaultValue is char cedv)
+            {
+                return $"'{cedv}'";
+            }
+
+            if (ExplicitDefaultValue is float fedv)
+            {
+                return fedv.ToString(CultureInfo.InvariantCulture) + "f";
+            }
+
+            if (ExplicitDefaultValue is double dedv)
+            {
+                return dedv.ToString(CultureInfo.InvariantCulture) + "d";
+            }
+
+            if (ExplicitDefaultValue is decimal dcedv)
+            {
+                return dcedv.ToString(CultureInfo.InvariantCulture) + "m";
+            }
+
+            if (Type?.TypeKind == TypeKind.Enum)
+            {
+                return $"({Type.ToGlobalDisplayString()}){ExplicitDefaultValue}" ?? $"default({Type.ToGlobalDisplayString()})";
+            }
+
+            return ExplicitDefaultValue.ToString() ?? "default";
         }
 
         private string GetUsageModifiers()

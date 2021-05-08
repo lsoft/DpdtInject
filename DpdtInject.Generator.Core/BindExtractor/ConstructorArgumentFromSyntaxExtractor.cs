@@ -58,6 +58,7 @@ namespace DpdtInject.Generator.Core.BindExtractor
 
             _constructorArguments.Add(
                 new DetectedMethodArgument(
+                    -1, //fake index, it will be overwritten later
                     argument,
                     body
                     )

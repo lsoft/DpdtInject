@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Dpdt.Injector</id>
-    <version>0.6.0-alpha</version>
+    <version>0.7.0-alpha</version>
     <authors>ls</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>

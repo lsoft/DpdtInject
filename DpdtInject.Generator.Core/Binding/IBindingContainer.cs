@@ -7,9 +7,14 @@ using DpdtInject.Injector.Src.Bind;
 
 namespace DpdtInject.Generator.Core.Binding
 {
-    public interface IBindingContainer : ISettingsProvider
+    public interface IBindingContainer
     {
         Guid UniqueUnstableIdentifier
+        {
+            get;
+        }
+
+        IReadOnlyList<ISetting> Settings
         {
             get;
         }

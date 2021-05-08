@@ -4,6 +4,8 @@ namespace DpdtInject.Injector.Src.Bind.Settings.CrossCluster
 {
     public abstract class CrossClusterSettings : ISetting
     {
+        public const string ScopeConstant = nameof(CrossClusterSettings);
+        public string Scope => ScopeConstant;
 
         public abstract CrossClusterSettingEnum Setting
         {

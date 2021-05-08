@@ -104,8 +104,9 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
             var extractor = new MethodArgumentExtractor();
             var constructorArguments = extractor.GetMethodArguments(methodSymbol);
 
-            var appended = _constructorArgumentDetector.AppendUnknown(
+            var appended = _constructorArgumentDetector.ChooseConstructorAndAppendUnknownArguments(
                 (INamedTypeSymbol)_factoryPayloadType,
+                null,
                 ref constructorArguments
                 );
 

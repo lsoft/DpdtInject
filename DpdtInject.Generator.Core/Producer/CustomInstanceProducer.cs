@@ -42,14 +42,10 @@ namespace DpdtInject.Generator.Core.Producer
 
         public InstanceProduct Produce()
         {
-            var constructorArgumentProducers =
-                _bindingExtender.BindingContainer.ConstructorArguments.ConvertAll(
-                    bft => new ConstructorArgumentProducer(
-                        _clusterBindings,
-                        _bindingExtender,
-                        bft
-                        )
-                    );
+            var constructorArgumentProducers = _bindingExtender.BindingContainer.ConstructorArguments.ConvertToProducers(
+                _clusterBindings,
+                _bindingExtender
+                );
 
             var (caps, utps) = constructorArgumentProducers.Produce();
 

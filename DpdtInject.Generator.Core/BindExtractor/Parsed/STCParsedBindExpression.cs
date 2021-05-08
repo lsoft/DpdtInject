@@ -14,6 +14,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using DpdtInject.Injector.Src.Bind;
 using DpdtInject.Injector.Src.Excp;
 using DpdtInject.Injector.Src.Helper;
+using DpdtInject.Injector.Src.Bind.Settings;
+using DpdtInject.Injector.Src.Bind.Settings.Constructor;
 
 namespace DpdtInject.Generator.Core.BindExtractor.Parsed
 {
@@ -122,8 +124,11 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
 
             var constructorArguments = GetConstructorArguments();
 
-            _constructorArgumentDetector.AppendUnknown(
+            _settings.TryGetSettingInScope<ConstructorSetting>(ConstructorSetting.ScopeConstant, out var constructorSetting);
+
+            _constructorArgumentDetector.ChooseConstructorAndAppendUnknownArguments(
                 (INamedTypeSymbol) types.BindToType,
+                constructorSetting,
                 ref constructorArguments
                 );
 

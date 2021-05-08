@@ -61,9 +61,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System.Threading;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren0
         ///{
@@ -77,7 +77,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A1&gt;()
         ///                .WithSingletonScope()
-        ///                .Whe [rest of string was truncated]&quot;;.
+        ///                 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyChildren0_Cluster {
             get {
@@ -86,9 +86,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System.Threading;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren1
         ///{
@@ -102,7 +102,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A1&gt;()
         ///                .WithSingletonScope()
-        ///                .Whe [rest of string was truncated]&quot;;.
+        ///                 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyChildren1_Cluster {
             get {
@@ -111,10 +111,10 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using DpdtInject.Injector.Excp;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System.Threading;
+        ///using DpdtInject.Injector.Src.Excp;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren2
         ///{
@@ -127,7 +127,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A1&gt;()
-        ///                .WithSingl [rest of string was truncated]&quot;;.
+        ///                .W [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyChildren2_Cluster {
             get {
@@ -136,10 +136,10 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using DpdtInject.Injector.Excp;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System.Threading;
+        ///using DpdtInject.Injector.Src.Excp;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyChildren3
         ///{
@@ -152,7 +152,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A1&gt;()
-        ///                .WithSingl [rest of string was truncated]&quot;;.
+        ///                .W [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyChildren3_Cluster {
             get {
@@ -161,10 +161,10 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using DpdtInject.Injector.Excp;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System.Threading;
+        ///using DpdtInject.Injector.Src.Excp;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots0
         ///{
@@ -177,7 +177,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .To&lt;A1&gt;()
         ///                .WithSingletonScope()
         ///                .When(rc =&gt; true)
-        ///                [rest of string was truncated]&quot;;.
+        ///        [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyRoots0_Cluster {
             get {
@@ -186,9 +186,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System.Threading;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots1
         ///{
@@ -203,8 +203,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .When(rc =&gt; false)
         ///                ;
         ///
-        ///            Bind&lt;IA&gt;()
-        ///   [rest of string was truncated]&quot;;.
+        ///            Bind&lt;IA&gt;() [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyRoots1_Cluster {
             get {
@@ -213,9 +212,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System.Threading;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots2
         ///{
@@ -230,8 +229,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .When(rc =&gt; true)
         ///                ;
         ///
-        ///            Bind&lt;IA&gt;()
-        ///    [rest of string was truncated]&quot;;.
+        ///            Bind&lt;IA&gt;()        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyRoots2_Cluster {
             get {
@@ -240,10 +238,10 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using DpdtInject.Injector.Excp;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System.Threading;
+        ///using DpdtInject.Injector.Src.Excp;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Activation.Excessive.TooManyRoots3
         ///{
@@ -256,7 +254,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .To&lt;A1&gt;()
         ///                .WithSingletonScope()
         ///                .When(rc =&gt; false)
-        ///               [rest of string was truncated]&quot;;.
+        ///       [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActivationExcessiveTooManyRoots3_Cluster {
             get {
@@ -265,9 +263,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind.Settings;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Cluster.Generic.Different
         ///{
@@ -283,7 +281,7 @@ namespace DpdtInject.Tests.Properties {
         ///        }
         ///    }
         ///
-        ///    public partial class ClusterGenericDif [rest of string was truncated]&quot;;.
+        ///    public partial cl [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterGenericDifferent_Cluster {
             get {
@@ -292,9 +290,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind.Settings;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional0
         ///{
@@ -306,8 +304,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
-        ///                //.Setup&lt;MustBeCrossCluster&gt;()
-        ///         [rest of string was truncated]&quot;;.
+        ///                //.Setup&lt;MustBeCros [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterGenericDifferentConditional0_Cluster {
             get {
@@ -316,9 +313,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind.Settings;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional1
         ///{
@@ -331,7 +328,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
         ///                .When(rt =&gt;
-        ///                          r [rest of string was truncated]&quot;;.
+        ///       [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterGenericDifferentConditional1_Cluster {
             get {
@@ -340,9 +337,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind.Settings;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional2
         ///{
@@ -354,7 +351,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
-        ///                .When(rt =&gt; rt.ParentTarget.TargetType == [rest of string was truncated]&quot;;.
+        ///                .When(rt =&gt; rt.Paren [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterGenericDifferentConditional2_Cluster {
             get {
@@ -363,9 +360,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind.Settings;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional3
         ///{
@@ -377,7 +374,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
-        ///                .When(rt =&gt; rt.ParentTarget.TargetType == [rest of string was truncated]&quot;;.
+        ///                .When(rt =&gt; rt.Paren [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterGenericDifferentConditional3_Cluster {
             get {
@@ -386,9 +383,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind.Settings;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Cluster.Generic.DifferentConditional4
         ///{
@@ -400,7 +397,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
-        ///                .When(rt =&gt; rt.ParentTarget.TargetType == [rest of string was truncated]&quot;;.
+        ///                .When(rt =&gt; rt.Paren [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterGenericDifferentConditional4_Cluster {
             get {
@@ -409,10 +406,11 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind.Settings;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
+        ///using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
+        ///using DpdtInject.Injector.Src.Bind.Settings.Wrapper;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Cluster.Generic.DifferentFunc
         ///{
@@ -423,9 +421,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
-        ///                .WithTransientScope()
-        ///                .Setup&lt;ProduceWrappers&gt;()
-        ///                [rest of string was truncated]&quot;;.
+        ///                .WithT [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterGenericDifferentFunc_Cluster {
             get {
@@ -434,9 +430,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind.Settings;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Cluster.NonGeneric.Different
         ///{
@@ -452,7 +448,7 @@ namespace DpdtInject.Tests.Properties {
         ///        }
         ///    }
         ///
-        ///    public partial class ClusterNonG [rest of string was truncated]&quot;;.
+        ///    public part [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterNonGenericDifferent_Cluster {
             get {
@@ -461,9 +457,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind.Settings;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Cluster.NonGeneric.DifferentConditional0
         ///{
@@ -476,7 +472,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
         ///                .When(rt =&gt;
-        ///                      [rest of string was truncated]&quot;;.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterNonGenericDifferentConditional0_Cluster {
             get {
@@ -485,9 +481,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind.Settings;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Cluster.NonGeneric.DifferentConditional1
         ///{
@@ -500,7 +496,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
         ///                .When(rt =&gt;
-        ///                      [rest of string was truncated]&quot;;.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterNonGenericDifferentConditional1_Cluster {
             get {
@@ -509,10 +505,11 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind.Settings;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
+        ///using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
+        ///using DpdtInject.Injector.Src.Bind.Settings.Wrapper;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Cluster.NonGeneric.DifferentFunc
         ///{
@@ -523,9 +520,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
-        ///                .WithTransientScope()
-        ///                .Setup&lt;ProduceWrappers&gt;()
-        ///          [rest of string was truncated]&quot;;.
+        ///                 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterNonGenericDifferentFunc_Cluster {
             get {
@@ -534,10 +529,10 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind.Settings;
-        ///using DpdtInject.Injector.Excp;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
+        ///using DpdtInject.Injector.Src.Excp;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Cluster.UnknownEvenInParent
         ///{
@@ -547,7 +542,7 @@ namespace DpdtInject.Tests.Properties {
         ///        public void BindMethod()
         ///        {
         ///            //this cluster SHOULD NOT have a IA binding
-        ///            //because we&apos;re checked for UNKNOWN binding EVEN in parent clus [rest of string was truncated]&quot;;.
+        ///            //because we&apos;re checked for UNKNOWN bi [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterUnknownEvenInParent_Cluster {
             get {
@@ -556,8 +551,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Conditional.Generic.Hierarchy2
         ///{
@@ -574,7 +569,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A1&gt;()
-        ///         [rest of string was truncated]&quot;;.
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalGenericHierarchy2_Cluster {
             get {
@@ -583,8 +578,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Conditional.Generic.Hierarchy2SameConstant
         ///{
@@ -597,8 +592,7 @@ namespace DpdtInject.Tests.Properties {
         ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
-        ///                .WithConstScope(ConstantA1)
-        ///    [rest of string was truncated]&quot;;.
+        ///                .WithConstScope(ConstantA1)        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalGenericHierarchy2SameConstant_Cluster {
             get {
@@ -607,9 +601,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using DpdtInject.Injector.Bind;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Conditional.Generic.Hierarchy3First
         ///{
@@ -623,7 +617,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithSingletonScope()
-        ///                . [rest of string was truncated]&quot;;.
+        ///          [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalGenericHierarchy3First_Cluster {
             get {
@@ -632,9 +626,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using DpdtInject.Injector.Bind;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Conditional.Generic.Hierarchy3Second
         ///{
@@ -648,7 +642,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithSingletonScope()
-        ///                [rest of string was truncated]&quot;;.
+        ///        [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalGenericHierarchy3Second_Cluster {
             get {
@@ -657,8 +651,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Conditional.Generic.OnlyOneInMiddle
         ///{
@@ -675,7 +669,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///
         ///            Bind&lt;IB&gt;()
-        ///      [rest of string was truncated]&quot;;.
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalGenericOnlyOneInMiddle_Cluster {
             get {
@@ -684,8 +678,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Conditional.NonGeneric.Hierarchy2
         ///{
@@ -701,8 +695,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///
         ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A1&gt;()
-        ///   [rest of string was truncated]&quot;;.
+        ///                .To&lt;A1&gt;() [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalNonGenericHierarchy2_Cluster {
             get {
@@ -711,8 +704,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Conditional.NonGeneric.Hierarchy2SameConstant
         ///{
@@ -725,7 +718,7 @@ namespace DpdtInject.Tests.Properties {
         ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
-        ///                .WithConstScope(ConstantA1 [rest of string was truncated]&quot;;.
+        ///                .WithConstScope(Consta [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalNonGenericHierarchy2SameConstant_Cluster {
             get {
@@ -734,10 +727,10 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System.Collections.Generic;
-        ///using DpdtInject.Injector.Bind;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Conditional.NonGeneric.Hierarchy3First
         ///{
@@ -750,7 +743,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
-        ///                [rest of string was truncated]&quot;;.
+        ///        [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalNonGenericHierarchy3First_Cluster {
             get {
@@ -759,10 +752,10 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System.Collections.Generic;
-        ///using DpdtInject.Injector.Bind;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Conditional.NonGeneric.Hierarchy3Second
         ///{
@@ -775,7 +768,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
-        ///              [rest of string was truncated]&quot;;.
+        ///      [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalNonGenericHierarchy3Second_Cluster {
             get {
@@ -784,8 +777,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Conditional.NonGeneric.OnlyOneInMiddle
         ///{
@@ -801,7 +794,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .WithSingletonScope()
         ///                ;
         ///
-        ///            Bind&lt;IB&gt;()        /// [rest of string was truncated]&quot;;.
+        ///            Bind&lt;IB [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConditionalNonGenericOnlyOneInMiddle_Cluster {
             get {
@@ -810,9 +803,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System.Linq;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Conventions.From2Interfaces0
         ///{
@@ -826,7 +819,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .From&lt;IA, IB&gt;()
         ///                .ToItself()
         ///                .WithSingletonScope()
-        ///           [rest of string was truncated]&quot;;.
+        ///       [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConventionsFrom2Interfaces0_Cluster {
             get {
@@ -835,10 +828,10 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System.Linq;
         ///using System.Text;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Conventions.FromGenericInterface0
         ///{
@@ -849,7 +842,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            ScanInAssembliesWith&lt;A0&gt;()
         ///                .SelectAllWithOpenGeneric&lt;IA&lt;object&gt;&gt;()
-        ///                .ExcludeAllWithOpenGeneric&lt;IExclude&lt;object&gt;&gt;() [rest of string was truncated]&quot;;.
+        ///                .ExcludeAllWithOpenGeneric&lt;IExclude&lt;object [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConventionsFromGenericInterface0_Cluster {
             get {
@@ -858,12 +851,12 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Collections;
         ///using System.Linq;
         ///using System.Text;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Conventions.FromGenericInterface1
         ///{
@@ -874,7 +867,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            ScanInAssembliesWith&lt;A0&gt;()
         ///                .SelectAllWithOpenGeneric&lt;IA&lt;IEnumerable, Array&gt;&gt;()
-        ///         [rest of string was truncated]&quot;;.
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConventionsFromGenericInterface1_Cluster {
             get {
@@ -883,9 +876,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System.Linq;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Conventions.FromSingleInterface0
         ///{
@@ -898,7 +891,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .SelectAllWith&lt;IA&gt;()
         ///                .FromAllInterfaces()
         ///                .ToItself()
-        ///                .WithSingletonScope( [rest of string was truncated]&quot;;.
+        ///                .WithSingletonSc [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConventionsFromSingleInterface0_Cluster {
             get {
@@ -907,9 +900,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System.Linq;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Conventions.FromSingleInterface1
         ///{
@@ -922,8 +915,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .SelectAllWith&lt;IA&gt;()
         ///                .ExcludeAllWith&lt;IExclude&gt;()
         ///                .From&lt;IA&gt;()
-        ///                .ToItself()
-        /// [rest of string was truncated]&quot;;.
+        ///                .ToItself [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConventionsFromSingleInterface1_Cluster {
             get {
@@ -932,9 +924,87 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///   Looks up a localized string similar to using System.Linq;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using DpdtInject.Injector.Bind;
+        ///using DpdtInject.Injector.Src.Excp;
+        ///using DpdtInject.Injector.Src;
+        ///using System;
+        ///
+        ///namespace DpdtInject.Tests.DefaultValue.Custom
+        ///{
+        ///    public partial class DefaultValueCustom_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;Int_Const&gt;()
+        ///                .To&lt;Int_Const&gt;()
+        ///                .WithCustomScope()
+        ///                ;
+        ///            Bind&lt;Int_Default&gt;() [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string DefaultValueCustom_Cluster {
+            get {
+                return ResourceManager.GetString("DefaultValueCustom_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System.Linq;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Excp;
+        ///using DpdtInject.Injector.Src;
+        ///using System;
+        ///
+        ///namespace DpdtInject.Tests.DefaultValue.Singleton
+        ///{
+        ///    public partial class DefaultValueSingleton_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;Int_Const&gt;()
+        ///                .To&lt;Int_Const&gt;()
+        ///                .WithSingletonScope()
+        ///                ;
+        ///            Bind&lt;Int_D [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string DefaultValueSingleton_Cluster {
+            get {
+                return ResourceManager.GetString("DefaultValueSingleton_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System.Linq;
+        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Excp;
+        ///using DpdtInject.Injector.Src;
+        ///using System;
+        ///
+        ///namespace DpdtInject.Tests.DefaultValue.Transient
+        ///{
+        ///    public partial class DefaultValueTransient_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;Int_Const&gt;()
+        ///                .To&lt;Int_Const&gt;()
+        ///                .WithTransientScope()
+        ///                ;
+        ///            Bind&lt;Int_D [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string DefaultValueTransient_Cluster {
+            get {
+                return ResourceManager.GetString("DefaultValueTransient_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Factory.Complex0
         ///{
@@ -949,7 +1019,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;IAFactory&gt;()
         ///                .ToIsolatedFactory&lt;AFactory&gt;()
-        ///              [rest of string was truncated]&quot;;.
+        ///      [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FactoryComplex0_Cluster {
             get {
@@ -958,8 +1028,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Factory.ConstructorArgument0
         ///{
@@ -975,7 +1045,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class Fac [rest of string was truncated]&quot;;.
+        ///        public class [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FactoryConstructorArgument0_Cluster {
             get {
@@ -984,8 +1054,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Factory.Simple0
         ///{
@@ -1001,7 +1071,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class FactorySimple0_ClusterTester        /// [rest of string was truncated]&quot;;.
+        ///        public class FactorySimple0_ClusterTes [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FactorySimple0_Cluster {
             get {
@@ -1010,9 +1080,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using DpdtInject.Injector.Bind;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Factory.UnknownConstructorArgument0
         ///{
@@ -1025,7 +1095,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .ToIsolatedFactory&lt;AFactory&gt;()
         ///                .WithPayload&lt;A&gt;()
         ///                .WithSingletonScope()
-        ///          [rest of string was truncated]&quot;;.
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FactoryUnknownConstructorArgument0_Cluster {
             get {
@@ -1034,9 +1104,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using DpdtInject.Injector.Bind;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Factory.UnknownConstructorArgument1
         ///{
@@ -1050,7 +1120,7 @@ namespace DpdtInject.Tests.Properties {
         ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IAFactory&gt;()
-        ///                .ToIsol [rest of string was truncated]&quot;;.
+        ///                [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FactoryUnknownConstructorArgument1_Cluster {
             get {
@@ -1059,8 +1129,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Factory.UnrelatedMethod
         ///{
@@ -1076,7 +1146,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class FactoryUnrela [rest of string was truncated]&quot;;.
+        ///        public class FactoryUn [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FactoryUnrelatedMethod_Cluster {
             get {
@@ -1085,10 +1155,10 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Linq;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.GetAll.Generic.Hierarchy2Conditional
         ///{
@@ -1101,7 +1171,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .To&lt;Z&gt;()
         ///                .WithSingletonScope()
         ///                .When(rt =&gt; rt.IsGetAllResolution)
-        ///                ;        /// [rest of string was truncated]&quot;;.
+        ///               [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllGenericHierarchy2Conditional_Cluster {
             get {
@@ -1110,9 +1180,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Excp;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Excp;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.GetAll.Generic.NoBinding
         ///{
@@ -1128,7 +1198,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            public void PerformClusterTesting()
         ///            {
-        ///               [rest of string was truncated]&quot;;.
+        ///       [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllGenericNoBinding_Cluster {
             get {
@@ -1137,8 +1207,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.GetAll.Generic.SingleObject
         ///{
@@ -1155,7 +1225,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///        public class GetAllGenericSingleObject_ClusterTester
         ///        {
-        ///            public [rest of string was truncated]&quot;;.
+        ///            pu [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllGenericSingleObject_Cluster {
             get {
@@ -1164,10 +1234,10 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Linq;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.GetAll.Generic.TwoObjects
         ///{
@@ -1183,7 +1253,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A1&gt;()
-        ///                .Wi [rest of string was truncated]&quot;;.
+        ///                [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllGenericTwoObjects_Cluster {
             get {
@@ -1192,9 +1262,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.GetAll.Generic.TwoObjectsConditional0
         ///{
@@ -1210,7 +1280,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///
         ///            Bind&lt;IA&gt;()
-        ///       [rest of string was truncated]&quot;;.
+        ///   [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllGenericTwoObjectsConditional0_Cluster {
             get {
@@ -1219,10 +1289,10 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Linq;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.GetAll.Generic.TwoObjectsConditional1
         ///{
@@ -1235,7 +1305,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .To&lt;A0&gt;()
         ///                .WithSingletonScope()
         ///                .When(rt =&gt; rt.IsGetAllResolution)
-        ///                [rest of string was truncated]&quot;;.
+        ///            [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllGenericTwoObjectsConditional1_Cluster {
             get {
@@ -1244,11 +1314,11 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Collections.Generic;
         ///using System.Linq;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.GetAll.NonGeneric.Hierarchy2Conditional
         ///{
@@ -1260,7 +1330,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IZ&gt;()
         ///                .To&lt;Z&gt;()
         ///                .WithSingletonScope()
-        ///                .When(rt =&gt; r [rest of string was truncated]&quot;;.
+        ///                .When(rt  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllNonGenericHierarchy2Conditional_Cluster {
             get {
@@ -1269,10 +1339,10 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Excp;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System.Collections.Generic;
+        ///using DpdtInject.Injector.Src.Excp;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.GetAll.NonGeneric.NoBinding
         ///{
@@ -1286,7 +1356,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///        public class GetAllNonGenericNoBinding_ClusterTester
         ///        {
-        ///            public void PerformClu [rest of string was truncated]&quot;;.
+        ///            public void Pe [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllNonGenericNoBinding_Cluster {
             get {
@@ -1295,9 +1365,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System.Collections.Generic;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.GetAll.NonGeneric.SingleObject
         ///{
@@ -1312,7 +1382,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class GetAllNonGenericSingleObject_ [rest of string was truncated]&quot;;.
+        ///        public class GetAllNonGenericSingleObj [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllNonGenericSingleObject_Cluster {
             get {
@@ -1321,11 +1391,11 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Collections.Generic;
         ///using System.Linq;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.GetAll.NonGeneric.TwoObjects
         ///{
@@ -1340,7 +1410,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///
         ///            Bind&lt;IA&gt;()
-        ///      [rest of string was truncated]&quot;;.
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllNonGenericTwoObjects_Cluster {
             get {
@@ -1349,10 +1419,10 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Collections.Generic;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.GetAll.NonGeneric.TwoObjectsConditional0
         ///{
@@ -1365,7 +1435,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .To&lt;A0&gt;()
         ///                .WithSingletonScope()
         ///                .When(rt =&gt; false)
-        ///           [rest of string was truncated]&quot;;.
+        ///       [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllNonGenericTwoObjectsConditional0_Cluster {
             get {
@@ -1374,11 +1444,11 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using System.Collections.Generic;
         ///using System.Linq;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.GetAll.NonGeneric.TwoObjectsConditional1
         ///{
@@ -1390,7 +1460,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A0&gt;()
         ///                .WithSingletonScope()
-        ///                .When(rt = [rest of string was truncated]&quot;;.
+        ///                .When( [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetAllNonGenericTwoObjectsConditional1_Cluster {
             get {
@@ -1400,9 +1470,9 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using System.Linq;
-        ///using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Excp;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Excp;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.NonGeneric.IncorrectRequest
         ///{
@@ -1417,7 +1487,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class NonGenericIncorr [rest of string was truncated]&quot;;.
+        ///        public class NonGener [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string NonGenericIncorrectRequest_Cluster {
             get {
@@ -1428,12 +1498,13 @@ namespace DpdtInject.Tests.Properties {
         /// <summary>
         ///   Looks up a localized string similar to using System;
         ///using System.Threading;
-        ///using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using DpdtInject.Injector.RContext;
-        ///using DpdtInject.Injector.Bind.Settings;
         ///using System.Text;
+        ///using System.Linq;
+        ///using DpdtInject.Injector.Src.Bind.Settings.Circular;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src.RContext;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Proxy.Event0
         ///{
@@ -1442,8 +1513,7 @@ namespace DpdtInject.Tests.Properties {
         ///        [DpdtBindingMethod]
         ///        public void BindMethod()
         ///        {
-        ///            Bind&lt;SessionSaver&gt;()
-        ///                .To&lt;SessionSaver&gt;() [rest of string was truncated]&quot;;.
+        ///            Bind&lt;Session [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ProxyEvent0_Cluster {
             get {
@@ -1454,11 +1524,12 @@ namespace DpdtInject.Tests.Properties {
         /// <summary>
         ///   Looks up a localized string similar to using System;
         ///using System.Threading;
-        ///using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using DpdtInject.Injector.RContext;
-        ///using DpdtInject.Injector.Bind.Settings;
+        ///using System.Linq;
+        ///using DpdtInject.Injector.Src.Bind.Settings.Circular;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src.RContext;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Proxy.Indexer0
         ///{
@@ -1468,8 +1539,7 @@ namespace DpdtInject.Tests.Properties {
         ///        public void BindMethod()
         ///        {
         ///            Bind&lt;SessionSaver&gt;()
-        ///                .To&lt;SessionSaver&gt;()
-        ///               [rest of string was truncated]&quot;;.
+        ///       [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ProxyIndexer0_Cluster {
             get {
@@ -1480,11 +1550,11 @@ namespace DpdtInject.Tests.Properties {
         /// <summary>
         ///   Looks up a localized string similar to using System;
         ///using System.Threading;
-        ///using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using DpdtInject.Injector.RContext;
-        ///using DpdtInject.Injector.Bind.Settings;
+        ///using DpdtInject.Injector.Src.Bind.Settings.Circular;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src.RContext;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Proxy.Property0
         ///{
@@ -1494,8 +1564,7 @@ namespace DpdtInject.Tests.Properties {
         ///        public void BindMethod()
         ///        {
         ///            Bind&lt;SessionSaver&gt;()
-        ///                .To&lt;SessionSaver&gt;()
-        ///             [rest of string was truncated]&quot;;.
+        ///                .To&lt;Sess [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ProxyProperty0_Cluster {
             get {
@@ -1506,11 +1575,11 @@ namespace DpdtInject.Tests.Properties {
         /// <summary>
         ///   Looks up a localized string similar to using System;
         ///using System.Threading;
-        ///using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using DpdtInject.Injector.RContext;
-        ///using DpdtInject.Injector.Bind.Settings;
+        ///using DpdtInject.Injector.Src.Bind.Settings.Circular;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src.RContext;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Proxy.Simple0
         ///{
@@ -1520,8 +1589,7 @@ namespace DpdtInject.Tests.Properties {
         ///        public void BindMethod()
         ///        {
         ///            Bind&lt;SessionSaver&gt;()
-        ///                .To&lt;SessionSaver&gt;()
-        ///                 [rest of string was truncated]&quot;;.
+        ///                .To&lt;SessionS [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ProxySimple0_Cluster {
             get {
@@ -1532,11 +1600,11 @@ namespace DpdtInject.Tests.Properties {
         /// <summary>
         ///   Looks up a localized string similar to using System;
         ///using System.Threading;
-        ///using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using DpdtInject.Injector.RContext;
-        ///using DpdtInject.Injector.Bind.Settings;
+        ///using DpdtInject.Injector.Src.Bind.Settings.Circular;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src.RContext;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Proxy.SimpleWithDefault0
         ///{
@@ -1546,7 +1614,7 @@ namespace DpdtInject.Tests.Properties {
         ///        public void BindMethod()
         ///        {
         ///            Bind&lt;SessionSaver&gt;()
-        ///                .To&lt;SessionSave [rest of string was truncated]&quot;;.
+        ///       [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ProxySimpleWithDefault0_Cluster {
             get {
@@ -1557,11 +1625,11 @@ namespace DpdtInject.Tests.Properties {
         /// <summary>
         ///   Looks up a localized string similar to using System;
         ///using System.Threading;
-        ///using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using DpdtInject.Injector.RContext;
-        ///using DpdtInject.Injector.Bind.Settings;
+        ///using DpdtInject.Injector.Src.Bind.Settings.Circular;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src.RContext;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Proxy.SimpleWithOut0
         ///{
@@ -1571,8 +1639,7 @@ namespace DpdtInject.Tests.Properties {
         ///        public void BindMethod()
         ///        {
         ///            Bind&lt;SessionSaver&gt;()
-        ///                .To&lt;SessionSaver&gt;()
-        ///   [rest of string was truncated]&quot;;.
+        ///               [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ProxySimpleWithOut0_Cluster {
             get {
@@ -1583,11 +1650,11 @@ namespace DpdtInject.Tests.Properties {
         /// <summary>
         ///   Looks up a localized string similar to using System;
         ///using System.Threading;
-        ///using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using DpdtInject.Injector.RContext;
-        ///using DpdtInject.Injector.Bind.Settings;
+        ///using DpdtInject.Injector.Src.Bind.Settings.Circular;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src.RContext;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Proxy.TwoSameProxy
         ///{
@@ -1597,8 +1664,7 @@ namespace DpdtInject.Tests.Properties {
         ///        public void BindMethod()
         ///        {
         ///            Bind&lt;SessionSaver&gt;()
-        ///                .To&lt;SessionSaver&gt;()
-        ///       [rest of string was truncated]&quot;;.
+        ///                .T [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ProxyTwoSameProxy_Cluster {
             get {
@@ -1607,9 +1673,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind.Settings;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Constant.Generic.SingleInterfaceSingleObject
         ///{
@@ -1622,7 +1687,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .WithConstScope(AInstance)
-        ///  [rest of string was truncated]&quot;;.
+        ///                //.Setup&lt;MustBeCrossClu [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeConstantGenericSingleInterfaceSingleObject_Cluster {
             get {
@@ -1631,8 +1696,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Constant.NonGeneric.SingleInterfaceSingleObject
         ///{
@@ -1648,7 +1713,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///      [rest of string was truncated]&quot;;.
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeConstantNonGenericSingleInterfaceSingleObject_Cluster {
             get {
@@ -1657,9 +1722,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Constant.Target.F0
         ///{
@@ -1673,7 +1738,7 @@ namespace DpdtInject.Tests.Properties {
         ///        /// &lt;inheritdoc /&gt;
         ///        public ScopeConstantTargetF0_Cluster()
         ///            : this((ICluster)null!)
-        ///         [rest of string was truncated]&quot;;.
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeConstantTargetF0_Cluster {
             get {
@@ -1682,9 +1747,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Constant.Target.InPlace0
         ///{
@@ -1698,7 +1763,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public cl [rest of string was truncated]&quot;;.
+        ///        publi [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeConstantTargetInPlace0_Cluster {
             get {
@@ -1707,9 +1772,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Constant.Target.InPlace1
         ///{
@@ -1723,7 +1788,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class Sco [rest of string was truncated]&quot;;.
+        ///        public class [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeConstantTargetInPlace1_Cluster {
             get {
@@ -1732,9 +1797,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Constant.Target.M0
         ///{
@@ -1750,7 +1815,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public cl [rest of string was truncated]&quot;;.
+        ///        publi [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeConstantTargetM0_Cluster {
             get {
@@ -1759,9 +1824,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Constant.Target.RO0
         ///{
@@ -1776,8 +1841,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            _roString = &quot;readonly string&quot;;
         ///        }
-        ///        #endif
-        ///  [rest of string was truncated]&quot;;.
+        ///        #endi [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeConstantTargetRO0_Cluster {
             get {
@@ -1786,9 +1850,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Constant.Target.SRO0
         ///{
@@ -1804,7 +1868,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class Sc [rest of string was truncated]&quot;;.
+        ///        public clas [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeConstantTargetSRO0_Cluster {
             get {
@@ -1813,9 +1877,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using DpdtInject.Injector.Bind;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Custom.Generic.Hierarchy2
         ///{
@@ -1831,7 +1895,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .WithCustomScope()
         ///                ;
         ///
-        ///         [rest of string was truncated]&quot;;.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeCustomGenericHierarchy2_Cluster {
             get {
@@ -1840,10 +1904,10 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using DpdtInject.Injector.Bind;
-        ///using DpdtInject.Injector.Bind.Settings;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Custom.Generic.Hierarchy2DifferentCluster
         ///{
@@ -1854,8 +1918,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
-        ///                .WithCustomScope()
-        ///        [rest of string was truncated]&quot;;.
+        ///                .W [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeCustomGenericHierarchy2DifferentCluster_Cluster {
             get {
@@ -1865,9 +1928,9 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using System;
-        ///using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Excp;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Excp;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Custom.Generic.SingleObject
         ///{
@@ -1882,7 +1945,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class ScopeCustomGen [rest of string was truncated]&quot;;.
+        ///        public class ScopeC [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeCustomGenericSingleObject_Cluster {
             get {
@@ -1891,9 +1954,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using DpdtInject.Injector.Bind;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Custom.NonGeneric.Hierarchy2
         ///{
@@ -1907,9 +1970,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithCustomScope()
-        ///                ;
-        ///
-        ///   [rest of string was truncated]&quot;;.
+        ///                [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeCustomNonGenericHierarchy2_Cluster {
             get {
@@ -1918,10 +1979,10 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using DpdtInject.Injector.Bind;
-        ///using DpdtInject.Injector.Bind.Settings;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Custom.NonGeneric.Hierarchy2DifferentCluster
         ///{
@@ -1932,8 +1993,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
-        ///                .WithCustomScope()
-        ///  [rest of string was truncated]&quot;;.
+        ///             [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeCustomNonGenericHierarchy2DifferentCluster_Cluster {
             get {
@@ -1943,9 +2003,9 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using System;
-        ///using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Excp;
         ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Excp;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Custom.NonGeneric.SingleObject
         ///{
@@ -1960,7 +2020,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class ScopeCus [rest of string was truncated]&quot;;.
+        ///        public class  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeCustomNonGenericSingleObject_Cluster {
             get {
@@ -1969,8 +2029,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Singleton.Fast.Hierarchy2
         ///{
@@ -1987,7 +2047,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IB&gt;()
         ///                .To&lt;B&gt;()
         ///                .WithSingletonScope()
-        ///       [rest of string was truncated]&quot;;.
+        ///   [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeSingletonFastHierarchy2_Cluster {
             get {
@@ -1996,8 +2056,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Singleton.Fast.SingleInterfaceSingleObject
         ///{
@@ -2012,7 +2072,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class ScopeSingletonFastSingleInter [rest of string was truncated]&quot;;.
+        ///        public class ScopeSingletonFastSingleI [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeSingletonFastSingleInterfaceSingleObject_Cluster {
             get {
@@ -2021,8 +2081,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Singleton.Fast.TwoInterfacesSingleObject
         ///{
@@ -2037,7 +2097,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class ScopeSingletonFastTwoInterf [rest of string was truncated]&quot;;.
+        ///        public class ScopeSingletonFastTwoIn [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeSingletonFastTwoInterfacesSingleObject_Cluster {
             get {
@@ -2046,8 +2106,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Singleton.Generic.Hierarchy2
         ///{
@@ -2063,8 +2123,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///            Bind&lt;IB&gt;()
         ///                .To&lt;B&gt;()
-        ///                .WithSingletonScope()
-        /// [rest of string was truncated]&quot;;.
+        ///                .WithSingletonScope [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeSingletonGenericHierarchy2_Cluster {
             get {
@@ -2073,8 +2132,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Singleton.Generic.SingleInterfaceSingleObject
         ///{
@@ -2089,7 +2148,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class ScopeSingletonGenericSi [rest of string was truncated]&quot;;.
+        ///        public class ScopeSingletonGener [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeSingletonGenericSingleInterfaceSingleObject_Cluster {
             get {
@@ -2098,9 +2157,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using DpdtInject.Injector.Bind;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Singleton.Generic.SingleObjectDefinedArgument
         ///{
@@ -2113,7 +2172,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
-        ///                .WithSing [rest of string was truncated]&quot;;.
+        ///                . [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeSingletonGenericSingleObjectDefinedArgument_Cluster {
             get {
@@ -2122,8 +2181,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Singleton.Generic.TwoInterfacesSingleObject
         ///{
@@ -2138,7 +2197,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class ScopeSingletonGeneric [rest of string was truncated]&quot;;.
+        ///        public class ScopeSingletonGen [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeSingletonGenericTwoInterfacesSingleObject_Cluster {
             get {
@@ -2147,8 +2206,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Singleton.NonGeneric.Hierarchy2
         ///{
@@ -2164,7 +2223,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///            Bind&lt;IB&gt;()
         ///                .To&lt;B&gt;()
-        ///                .WithSingletonSco [rest of string was truncated]&quot;;.
+        ///                .WithSingleto [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeSingletonNonGenericHierarchy2_Cluster {
             get {
@@ -2173,8 +2232,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Singleton.NonGeneric.SingleInterfaceSingleObject
         ///{
@@ -2189,7 +2248,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class ScopeSingletonNon [rest of string was truncated]&quot;;.
+        ///        public class ScopeSingleto [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeSingletonNonGenericSingleInterfaceSingleObject_Cluster {
             get {
@@ -2198,8 +2257,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Singleton.NonGeneric.TwoInterfacesSingleObject
         ///{
@@ -2214,7 +2273,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class ScopeSingletonN [rest of string was truncated]&quot;;.
+        ///        public class ScopeSingle [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeSingletonNonGenericTwoInterfacesSingleObject_Cluster {
             get {
@@ -2223,8 +2282,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Transient.Generic.Hierarchy2
         ///{
@@ -2240,8 +2299,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///            Bind&lt;IB&gt;()
         ///                .To&lt;B&gt;()
-        ///                .WithTransientScope()
-        /// [rest of string was truncated]&quot;;.
+        ///                .WithTransientScope [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeTransientGenericHierarchy2_Cluster {
             get {
@@ -2250,8 +2308,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Transient.Generic.SingleInterfaceSingleObject
         ///{
@@ -2266,7 +2324,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class ScopeTransientGenericSi [rest of string was truncated]&quot;;.
+        ///        public class ScopeTransientGener [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeTransientGenericSingleInterfaceSingleObject_Cluster {
             get {
@@ -2275,9 +2333,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using DpdtInject.Injector.Bind;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Transient.Generic.SingleObjectDefinedArgument
         ///{
@@ -2290,7 +2348,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
-        ///                .WithTran [rest of string was truncated]&quot;;.
+        ///                . [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeTransientGenericSingleObjectDefinedArgument_Cluster {
             get {
@@ -2299,8 +2357,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Transient.Generic.TwoInterfacesSingleObject
         ///{
@@ -2315,7 +2373,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class ScopeTransientGeneric [rest of string was truncated]&quot;;.
+        ///        public class ScopeTransientGen [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeTransientGenericTwoInterfacesSingleObject_Cluster {
             get {
@@ -2324,9 +2382,154 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind.Settings;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
+        ///using DpdtInject.Injector.Src.Bind.Settings.Constructor;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Settings.Constructor.AllAndOrder.One
+        ///{
+        ///    public partial class SettingsConstructorAllAndOrderOne_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;A&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithTransientScope()
+        ///         [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SettingsConstructorAllAndOrderOne_Cluster {
+            get {
+                return ResourceManager.GetString("SettingsConstructorAllAndOrderOne_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
+        ///using DpdtInject.Injector.Src.Bind.Settings.Constructor;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Settings.Constructor.AllAndOrder.Two
+        ///{
+        ///    public partial class SettingsConstructorAllAndOrderTwo_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///
+        ///            Bind&lt;B&gt;()
+        ///                .To&lt;B&gt;()
+        ///                .WithTransientScope()
+        ///       [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SettingsConstructorAllAndOrderTwo_Cluster {
+            get {
+                return ResourceManager.GetString("SettingsConstructorAllAndOrderTwo_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
+        ///using DpdtInject.Injector.Src.Bind.Settings.Constructor;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Settings.Constructor.SubsetAndOrder.One
+        ///{
+        ///    public partial class SettingsConstructorSubsetAndOrderOne_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;A&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithTransientScope()
+        ///   [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SettingsConstructorSubsetAndOrderOne_Cluster {
+            get {
+                return ResourceManager.GetString("SettingsConstructorSubsetAndOrderOne_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
+        ///using DpdtInject.Injector.Src.Bind.Settings.Constructor;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Settings.Constructor.SubsetAndOrder.Two
+        ///{
+        ///    public partial class SettingsConstructorSubsetAndOrderTwo_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;A&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithTransientScope()
+        ///   [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SettingsConstructorSubsetAndOrderTwo_Cluster {
+            get {
+                return ResourceManager.GetString("SettingsConstructorSubsetAndOrderTwo_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
+        ///using DpdtInject.Injector.Src.Bind.Settings.Constructor;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Settings.Constructor.SubsetNoOrder.One
+        ///{
+        ///    public partial class SettingsConstructorSubsetNoOrderOne_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;A&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithTransientScope()
+        ///     [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SettingsConstructorSubsetNoOrderOne_Cluster {
+            get {
+                return ResourceManager.GetString("SettingsConstructorSubsetNoOrderOne_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
+        ///using DpdtInject.Injector.Src.Bind.Settings.Constructor;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Settings.Constructor.SubsetNoOrder.Two
+        ///{
+        ///    public partial class SettingsConstructorSubsetNoOrderTwo_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;A&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithTransientScope()
+        ///     [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SettingsConstructorSubsetNoOrderTwo_Cluster {
+            get {
+                return ResourceManager.GetString("SettingsConstructorSubsetNoOrderTwo_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Settings.CrossCluster.MustBeCrossCluster0
         ///{
@@ -2339,10 +2542,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
         ///                ;
-        ///        }
-        ///    }
-        ///
-        ///    public [rest of string was truncated]&quot;;.
+        ///        } [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SettingsCrossClusterMustBeCrossCluster0_Cluster {
             get {
@@ -2351,9 +2551,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind.Settings;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Settings.CrossCluster.OnlyLocalCluster0
         ///{
@@ -2367,9 +2567,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .WithTransientScope()
         ///                ;
         ///        }
-        ///    }
-        ///
-        ///    public par [rest of string was truncated]&quot;;.
+        ///   [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SettingsCrossClusterOnlyLocalCluster0_Cluster {
             get {
@@ -2378,9 +2576,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Scope.Singleton.Dispose
         ///{
@@ -2398,7 +2596,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///        public class SingletonDispose_ClusterTester
         ///        {
-        ///            public void [rest of string was truncated]&quot;;.
+        ///            public  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SingletonDispose_Cluster {
             get {
@@ -2407,9 +2605,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Unsorted.BindFrom3And4
         ///{
@@ -2423,7 +2621,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .WithSingletonScope()
         ///                ;
         ///
-        ///            Bind&lt;IBInterface0, IBInterface1, IBInt [rest of string was truncated]&quot;;.
+        ///            Bind&lt;IBInterface0, IBInterface1, I [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedBindFrom3And4_Cluster {
             get {
@@ -2432,8 +2630,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind;
+        ///   Looks up a localized string similar to using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Unsorted.CannotBeCasted
         ///{
@@ -2448,8 +2646,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .To&lt;A&gt;()
         ///                .WithSingletonScope()
         ///                .Configure(new ConstructorArgument(&quot;message&quot;, Message))
-        ///                ;
-        ///  [rest of string was truncated]&quot;;.
+        ///             [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedCannotBeCasted_Cluster {
             get {
@@ -2458,7 +2655,7 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///   Looks up a localized string similar to using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Unsorted.CircularDependency3
         ///{
@@ -2477,7 +2674,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IB&gt;()
         ///                .To&lt;B&gt;()
         ///                .WithTransientScope()
-        ///       [rest of string was truncated]&quot;;.
+        ///   [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedCircularDependency3_Cluster {
             get {
@@ -2486,9 +2683,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Unsorted.ComplexTypeArgument0
         ///{
@@ -2500,8 +2697,7 @@ namespace DpdtInject.Tests.Properties {
         ///        [DpdtBindingMethod]
         ///        public void BindMethod()
         ///        {
-        ///            Bind&lt;Func&lt;Func&lt;object&gt;, Func&lt;string&gt;&gt;&gt;()
-        ///    [rest of string was truncated]&quot;;.
+        ///            Bind&lt;Func&lt;Func&lt;object&gt;, Func&lt;string&gt;&gt;&gt;()        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedComplexTypeArgument0_Cluster {
             get {
@@ -2510,11 +2706,11 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
-        ///using DpdtInject.Injector.Bind;
         ///using UnknownCustomNamespace;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Unsorted.CustomNamespace
         ///{
@@ -2527,7 +2723,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .To&lt;A&gt;()
         ///                .WithSingletonScope()
         ///                .Configure(
-        ///                    n [rest of string was truncated]&quot;;.
+        ///              [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedCustomNamespace_Cluster {
             get {
@@ -2555,9 +2751,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Unsorted.DisposeAndException
         ///{
@@ -2572,7 +2768,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///
         ///            Bind&lt;DerivedClass&gt;()
-        ///                .To&lt;DerivedClass&gt;() [rest of string was truncated]&quot;;.
+        ///                .To&lt;DerivedClas [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedDisposeAndException_Cluster {
             get {
@@ -2581,9 +2777,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Unsorted.DisposeAndException2
         ///{
@@ -2599,7 +2795,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///            Bind&lt;Class2&gt;()
         ///                .To&lt;Class2&gt;()
-        ///               [rest of string was truncated]&quot;;.
+        ///           [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedDisposeAndException2_Cluster {
             get {
@@ -2608,9 +2804,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Unsorted.FromAllInterfaces0
         ///{
@@ -2625,7 +2820,9 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class UnsortedFromAllInterfaces0_ [rest of string was truncated]&quot;;.
+        ///        public class UnsortedFromAllInterfaces0_ClusterTester
+        ///        {
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedFromAllInterfaces0_Cluster {
             get {
@@ -2634,8 +2831,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Unsorted.GenericInterface
         ///{
@@ -2651,7 +2848,7 @@ namespace DpdtInject.Tests.Properties {
         ///        }
         ///
         ///        public class UnsortedGenericInterface_ClusterTester
-        ///     [rest of string was truncated]&quot;;.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedGenericInterface_Cluster {
             get {
@@ -2660,8 +2857,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Unsorted.Generic.IsRegistered
         ///{
@@ -2678,7 +2875,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IB&gt;()
         ///                .To&lt;B&gt;()
         ///                .WithTransientScope()
-        ///          [rest of string was truncated]&quot;;.
+        ///      [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedGenericIsRegistered_Cluster {
             get {
@@ -2687,8 +2884,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind;
+        ///   Looks up a localized string similar to using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Unsorted.InvalidToType
         ///{
@@ -2703,8 +2900,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .To&lt;IA&gt;()
         ///                .WithSingletonScope()
         ///                .Configure(new ConstructorArgument(&quot;message&quot;, Message))
-        ///                ;
-        ///   [rest of string was truncated]&quot;;.
+        ///              [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedInvalidToType_Cluster {
             get {
@@ -2713,9 +2909,33 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
+        ///using DpdtInject.Injector.Src;
+        ///using DpdtInject.Injector.Src.Bind.Settings.Constructor;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.MirroredArguments0
+        ///{
+        ///    public partial class UnsortedMirroredArguments0_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;MyClass&gt;()
+        ///                .To&lt;MyClass&gt;()
+        ///                .WithSingletonScope( [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedMirroredArguments0_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedMirroredArguments0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Unsorted.NativeTypeArgument0
         ///{
@@ -2731,7 +2951,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///
         ///            Bind&lt;IA&gt;()
-        ///      [rest of string was truncated]&quot;;.
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedNativeTypeArgument0_Cluster {
             get {
@@ -2740,8 +2960,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Unsorted.NonGeneric.IsRegistered
         ///{
@@ -2757,8 +2977,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///            Bind&lt;IB&gt;()
         ///                .To&lt;B&gt;()
-        ///                .WithTransientScope()
-        ///    [rest of string was truncated]&quot;;.
+        ///                .WithTransientScope()        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedNonGenericIsRegistered_Cluster {
             get {
@@ -2767,9 +2986,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
-        ///using DpdtInject.Injector.Bind;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Unsorted.OptionalArgument0
         ///{
@@ -2782,8 +3001,7 @@ namespace DpdtInject.Tests.Properties {
         ///        public void BindMethod()
         ///        {
         ///            Bind&lt;IA&gt;()
-        ///                .To&lt;A&gt;()
-        /// [rest of string was truncated]&quot;;.
+        ///                .T [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedOptionalArgument0_Cluster {
             get {
@@ -2792,8 +3010,8 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Unsorted.OptionalArgument1
         ///{
@@ -2810,7 +3028,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        public class Unso [rest of string was truncated]&quot;;.
+        ///        public class  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedOptionalArgument1_Cluster {
             get {
@@ -2819,7 +3037,7 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///   Looks up a localized string similar to using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Unsorted.SingletonCustom
         ///{
@@ -2838,7 +3056,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IB&gt;()
         ///                .To&lt;B&gt;()
         ///                .WithSingletonScope()
-        ///        [rest of string was truncated]&quot;;.
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedSingletonCustom_Cluster {
             get {
@@ -2847,7 +3065,7 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///   Looks up a localized string similar to using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Unsorted.SingletonTransient
         ///{
@@ -2865,7 +3083,7 @@ namespace DpdtInject.Tests.Properties {
         ///
         ///            Bind&lt;IB&gt;()
         ///                .To&lt;B&gt;()
-        ///                .WithSingletonScope() [rest of string was truncated]&quot;;.
+        ///                .WithSingletonSco [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedSingletonTransient_Cluster {
             get {
@@ -2874,7 +3092,7 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
+        ///   Looks up a localized string similar to using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Unsorted.TooManyChildren
         ///{
@@ -2894,7 +3112,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///
         ///            Bind&lt;IB&gt;()
-        ///                .To&lt;B&gt;() [rest of string was truncated]&quot;;.
+        ///                .To&lt; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedTooManyChildren_Cluster {
             get {
@@ -2903,9 +3121,9 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Unsorted.TwoBindMethods
         ///{
@@ -2921,7 +3139,7 @@ namespace DpdtInject.Tests.Properties {
         ///                ;
         ///        }
         ///
-        ///        [DpdtBindingMethod] [rest of string was truncated]&quot;;.
+        ///        [DpdtBindingMet [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedTwoBindMethods_Cluster {
             get {
@@ -2930,10 +3148,10 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind.Settings;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
+        ///using DpdtInject.Injector.Src.Bind.Settings.Wrapper;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Wrapper.Func.Generic.DeclaredFunc
         ///{
@@ -2945,7 +3163,7 @@ namespace DpdtInject.Tests.Properties {
         ///        [DpdtBindingMethod]
         ///        public void BindMethod()
         ///        {
-        ///            Bind&lt;Func&lt;I [rest of string was truncated]&quot;;.
+        ///        [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string WrapperFuncGenericDeclaredFunc_Cluster {
             get {
@@ -2954,10 +3172,10 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind.Settings;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
+        ///using DpdtInject.Injector.Src.Bind.Settings.Wrapper;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Wrapper.Func.Generic.Hierarchy2
         ///{
@@ -2970,7 +3188,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
         ///                .Setup&lt;ProduceWrappers&gt;()
-        ///                 [rest of string was truncated]&quot;;.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string WrapperFuncGenericHierarchy2_Cluster {
             get {
@@ -2979,10 +3197,10 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind.Settings;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
+        ///using DpdtInject.Injector.Src.Bind.Settings.Wrapper;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Wrapper.Func.Generic.SingleInterfaceSingleObject
         ///{
@@ -2994,7 +3212,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
-        ///                .Setup&lt;Pr [rest of string was truncated]&quot;;.
+        ///          [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string WrapperFuncGenericSingleInterfaceSingleObject_Cluster {
             get {
@@ -3003,10 +3221,10 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind.Settings;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
+        ///using DpdtInject.Injector.Src.Bind.Settings.Wrapper;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Wrapper.Func.NonGeneric.DeclaredFunc
         ///{
@@ -3018,7 +3236,7 @@ namespace DpdtInject.Tests.Properties {
         ///        [DpdtBindingMethod]
         ///        public void BindMethod()
         ///        {
-        ///            Bind&lt; [rest of string was truncated]&quot;;.
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string WrapperFuncNonGenericDeclaredFunc_Cluster {
             get {
@@ -3027,10 +3245,10 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind.Settings;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
+        ///using DpdtInject.Injector.Src.Bind.Settings.Wrapper;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Wrapper.Func.NonGeneric.Hierarchy2
         ///{
@@ -3042,8 +3260,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
-        ///                .Setup&lt;ProduceWrappers&gt;()
-        ///           [rest of string was truncated]&quot;;.
+        ///                .Setup&lt;ProduceWrapper [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string WrapperFuncNonGenericHierarchy2_Cluster {
             get {
@@ -3052,10 +3269,10 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind.Settings;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
+        ///using DpdtInject.Injector.Src.Bind.Settings.Wrapper;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Wrapper.Func.NonGeneric.SingleInterfaceSingleObject
         ///{
@@ -3067,7 +3284,7 @@ namespace DpdtInject.Tests.Properties {
         ///            Bind&lt;IA&gt;()
         ///                .To&lt;A&gt;()
         ///                .WithTransientScope()
-        ///                .Se [rest of string was truncated]&quot;;.
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string WrapperFuncNonGenericSingleInterfaceSingleObject_Cluster {
             get {
@@ -3076,10 +3293,10 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using DpdtInject.Injector;
-        ///using DpdtInject.Injector.Bind.Settings;
-        ///using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
+        ///using DpdtInject.Injector.Src.Bind.Settings.Wrapper;
+        ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Wrapper.Func.Singleton
         ///{
@@ -3092,10 +3309,7 @@ namespace DpdtInject.Tests.Properties {
         ///                .To&lt;A&gt;()
         ///                .WithSingletonScope()
         ///                .Setup&lt;ProduceWrappers&gt;()
-        ///                ;
-        ///        }
-        ///
-        ///  [rest of string was truncated]&quot;;.
+        ///                ; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string WrapperFuncSingleton_Cluster {
             get {

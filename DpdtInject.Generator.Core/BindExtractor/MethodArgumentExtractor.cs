@@ -17,16 +17,26 @@ namespace DpdtInject.Generator.Core.BindExtractor
                 throw new ArgumentNullException(nameof(methodSymbol));
             }
 
-            return
-                methodSymbol.Parameters.ConvertAll(
-                    p => new DetectedMethodArgument(
-                        p.Name, 
-                        p.Type, 
+            var result = new List<DetectedMethodArgument>();
+
+            for (var i = 0; i < methodSymbol.Parameters.Length; i++)
+            {
+                var p = methodSymbol.Parameters[i];
+
+                result.Add(
+                    new DetectedMethodArgument(
+                        i,
+                        p.Name,
+                        p.Type,
                         p.RefKind,
                         p.HasExplicitDefaultValue,
                         () => p.ExplicitDefaultValue
                         )
                     );
+            }
+
+            return
+                result;
         }
     }
 }

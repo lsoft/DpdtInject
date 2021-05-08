@@ -8,7 +8,7 @@
 
 # Purpose
 
-Dpdt is a compile-time DI container based on C# Source Generators. Its goal is to remove everything possible from runtime and make resolving process as faster as we can. This is achieved by transferring huge piece of resolving logic to the compilation stage into the source generator.
+Dpdt is a compile-time general purpose DI container based on C# Source Generators. Its goal is to remove everything possible from runtime and make resolving process as faster as we can. This is achieved by transferring huge piece of resolving logic to the compilation stage into the source generator.
 
 As an additional concept, Dpdt adds no references to your distribution, so if you are developing a library/nuget package, you are free to use Dpdt as DI container. You will not impose your DI to your users, everything will builtin in your dlls.
 
@@ -18,7 +18,7 @@ It's still a proof-of-concept. Nor alpha, neither beta.
 
 # Design features
 
-0. As mentioned above, Dpdt suitable for lib/nuget developers.
+0. As mentioned above, Dpdt suitable for lib/nuget developers. This does not mean that it is not (or less) suitable for applications, it's not.
 0. Dpdt Visual Studio Extension helps you to be more productive (see below).
 0. Additional compile-time checks (see below).
 0. No performance decrease on the platforms with no compilation at runtime (because of absense runtime compilation!).
@@ -109,7 +109,7 @@ Please refer to Dpdt.Injector [nuget package](https://www.nuget.org/packages/Dpd
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dpdt.Injector" Version="0.6.0.0-alpha" />
+    <PackageReference Include="Dpdt.Injector" Version="0.7.0.0-alpha" />
   </ItemGroup>
 
 </Project>
@@ -169,13 +169,14 @@ Bind<IA>()
     ;
 ```
 
-### Predefined constructor arguments with additional setting
+### Predefined constructor arguments with additional settings
 
 ```csharp
 Bind<IB>()
      .To<B>()
      .WithSingletonScope()
      .Setup<AllowedCrossCluster>()
+     .Setup<SubsetNoOrderConstructorSetting<int, long>>() //imagine that argument1 is int, and argument2 is long; note: you are NOT forced to use constructor setting if you are using ConstructorArgument
      .Configure(new ConstructorArgument("argument1", field_or_property_or_expression1))
      .Configure(new ConstructorArgument("argument2", field_or_property_or_expression2))
      ;
@@ -324,12 +325,11 @@ Binding expressions are contained in methods marked with attribute `[DpdtBinding
 
 ## Choosing constructor
 
-Constructor is chosen at the compilation stage based on 2 principles:
+Constructor is chosen at the compilation stage based on 3 principles:
 
-0. Constructors are filtered by `ConstructorArgument` filter. If no `ConstructorArgument` has defined, all existing constructors will be taken.
-0. The constructor with the minimum number of parameters is selected to make a binding.
-
-Need to have a more complex constructor choosing algorithm? Let me know.
+0. If constructor filtering setting is set, it will be applied against existing constructors.
+0. If any `ConstructorArgument` filter are set, they will be applied against constructors filtered by previous step. If no `ConstructorArgument` has defined, all filtered constructors will be taken.
+0. After all filtering, the constructor with the minimum number of parameters is selected to make a binding.
 
 ## Scope
 
@@ -421,7 +421,7 @@ If for some binding more than 1 unconditional child exists it renders parent unr
 
 ### Conventional bindings
 
-Dpdt will write some info in Debug log for every conventional binding produced. For regular binding - will not. It is useful for debugging conventional bindings results.
+Dpdt will write some info in Build log for every conventional binding produced. For regular binding - will not. It is useful for debugging conventional bindings results.
 
 ## Cluster life cycle
 
@@ -508,6 +508,25 @@ Do circular checking. It is a default value.
 #### SuppressCircularCheck
 
 Do not circular checking. Use this for decorators bindings.
+
+
+### Constructor choosing
+
+These settings relates with a constructor choosing algorithm performed by Dpdt. These settings sets a constructor argument **types** filter.
+
+#### AllAndOrderConstructorSetting
+
+Dpdt will take the only constructor that have a parameters with the types selected in this setting and in the same order. For example `.Setup<AllAndOrderConstructorSetting<int, long>>()` means that only constructor `MyClass(int a, long b)` will choose (argument names does not matters).
+
+#### SubsetAndOrderConstructorSetting
+
+Dpdt will take the only constructors that have a parameters with the types selected in this setting and in the same order, and additional arguments may exists before or after the selected. For example `.Setup<SubsetAndOrderConstructorSetting<int, long>>()` will choose the following constructors `MyClass(..., string a, int b, long c)` `MyClass(int a, long b)` `MyClass(int a, long b, string c, ...)`.
+
+#### SubsetNoOrderConstructorSetting
+
+Dpdt will take the only constructors that have a parameters with the types selected in this setting and their order does not matters, any additional arguments may exists. For example `.Setup<SubsetNoOrderConstructorSetting<int, long>>()` will choose the following constructors `MyClass(long a, int b)` `MyClass(int a, long b)` `MyClass(..., int a, ... long b, ...)` `MyClass(..., long a, ..., int b, ...)`.
+
+Please make note: `in` `readonly` and `ref` modifiers of the constructor arguments will take into account.
 
 
 ## Debugging your clusters and conditional clauses

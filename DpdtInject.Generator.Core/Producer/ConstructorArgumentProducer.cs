@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
 using DpdtInject.Injector.Src.Excp;
+using DpdtInject.Injector.Src.Bind.Settings;
 
 namespace DpdtInject.Generator.Core.Producer
 {
@@ -57,14 +58,25 @@ namespace DpdtInject.Generator.Core.Producer
             //DefineInBindNode should be checked BEFORE than HasExplicitDefaultValue
             if (ConstructorArgument.DefineInBindNode)
             {
-                return 
+                return
                     new ConstructorArgumentProduct(
-                        $"{ConstructorArgument.Name}: {ConstructorArgument.Body}"
+                        $"({ConstructorArgument.Type!.ToGlobalDisplayString()})({ConstructorArgument.Body})"
                         );
+                //return
+                //    new ConstructorArgumentProduct(
+                //        $"{ConstructorArgument.Name}: ({ConstructorArgument.Type!.ToGlobalDisplayString()})({ConstructorArgument.Body})"
+                //        );
             }
             if (ConstructorArgument.HasExplicitDefaultValue)
             {
-                return ConstructorArgumentProduct.Empty;
+                return
+                    new ConstructorArgumentProduct(
+                        $"({ConstructorArgument.Type!.ToGlobalDisplayString()})({ConstructorArgument.GetExplicitValueCodeRepresentation()})"
+                        );
+                //return
+                //    new ConstructorArgumentProduct(
+                //        $"{ConstructorArgument.Name}: ({ConstructorArgument.Type!.ToGlobalDisplayString()})({ConstructorArgument.GetExplicitValueCodeRepresentation()})"
+                //        );
             }
 
             //check for own cluster can resolve
@@ -74,7 +86,7 @@ namespace DpdtInject.Generator.Core.Producer
                 );
 
             var crossClusterSetting = CrossClusterSettingEnum.OnlyLocal;
-            if (BindingExtender.BindingContainer.TryGetSettingInScope<CrossClusterSettings>(out var setting))
+            if (BindingExtender.BindingContainer.Settings.TryGetSettingInScope<CrossClusterSettings>(CrossClusterSettings.ScopeConstant, out var setting))
             {
                 crossClusterSetting = setting.Setting;
             }
@@ -103,37 +115,39 @@ namespace DpdtInject.Generator.Core.Producer
             {
                 return
                     new ConstructorArgumentProduct(
-                            $"{ConstructorArgument.Name}: RaiseTooManyBindingException<{ConstructorArgument.Type!.ToGlobalDisplayString()}>()"
+                            $"RaiseTooManyBindingException<{ConstructorArgument.Type!.ToGlobalDisplayString()}>()"
                         );
+                //return
+                //    new ConstructorArgumentProduct(
+                //            $"{ConstructorArgument.Name}: RaiseTooManyBindingException<{ConstructorArgument.Type!.ToGlobalDisplayString()}>()"
+                //        );
             }
 
             if (clusterCanGetChildren)
             {
                 if (BindingExtender.NeedToProcessResolutionContext)
                 {
-                    //actually it's not faster but a bit slower
-                    //return
-                    //    new ConstructorArgumentProduct(
-                    //        $"{ConstructorArgument.Name}: GetFast(default({ConstructorArgument.Type!.ToGlobalDisplayString()}), resolutionTarget, \"{ConstructorArgument.Name}\" )"
-                    //        );
-
                     return
                         new ConstructorArgumentProduct(
-                                $"{ConstructorArgument.Name}: GetFromLocalUnsafely<{ConstructorArgument.Type!.ToGlobalDisplayString()}>( resolutionTarget, \"{ConstructorArgument.Name}\" )"
+                                $"GetFromLocalUnsafely<{ConstructorArgument.Type!.ToGlobalDisplayString()}>( resolutionTarget, \"{ConstructorArgument.Name}\" )"
                             );
+
+                    //return
+                    //    new ConstructorArgumentProduct(
+                    //            $"{ConstructorArgument.Name}: GetFromLocalUnsafely<{ConstructorArgument.Type!.ToGlobalDisplayString()}>( resolutionTarget, \"{ConstructorArgument.Name}\" )"
+                    //        );
                 }
                 else
                 {
-                    //actually it's not faster but a bit slower
-                    //return
-                    //    new ConstructorArgumentProduct(
-                    //        $"{ConstructorArgument.Name}: GetFast(default({ConstructorArgument.Type!.ToGlobalDisplayString()}))"
-                    //        );
-
                     return
                         new ConstructorArgumentProduct(
-                                $"{ConstructorArgument.Name}: GetFromLocalUnsafely<{ConstructorArgument.Type!.ToGlobalDisplayString()}>()"
+                                $"GetFromLocalUnsafely<{ConstructorArgument.Type!.ToGlobalDisplayString()}>()"
                             );
+
+                    //return
+                    //    new ConstructorArgumentProduct(
+                    //            $"{ConstructorArgument.Name}: GetFromLocalUnsafely<{ConstructorArgument.Type!.ToGlobalDisplayString()}>()"
+                    //        );
                 }
             }
             else
@@ -146,8 +160,11 @@ namespace DpdtInject.Generator.Core.Producer
 
                 return
                     new ConstructorArgumentProduct(
-                            $"{ConstructorArgument.Name}: GetFromParent<{ConstructorArgument.Type!.ToGlobalDisplayString()}>( resolutionTarget, \"{ConstructorArgument.Name}\"  )"
+                            $"GetFromParent<{ConstructorArgument.Type!.ToGlobalDisplayString()}>( resolutionTarget, \"{ConstructorArgument.Name}\"  )"
                         );
+                    //new ConstructorArgumentProduct(
+                    //        $"{ConstructorArgument.Name}: GetFromParent<{ConstructorArgument.Type!.ToGlobalDisplayString()}>( resolutionTarget, \"{ConstructorArgument.Name}\"  )"
+                    //    );
             }
         }
     }

@@ -223,6 +223,15 @@
   <data name="ConventionsFromSingleInterface1_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Conventions\FromSingleInterface1\ConventionsFromSingleInterface1_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="DefaultValueCustom_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\DefaultValue\Custom\DefaultValueCustom_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="DefaultValueSingleton_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\DefaultValue\Singleton\DefaultValueSingleton_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="DefaultValueTransient_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\DefaultValue\Transient\DefaultValueTransient_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="FactoryComplex0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Factory\Complex0\FactoryComplex0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -385,6 +394,24 @@
   <data name="ScopeTransientGenericTwoInterfacesSingleObject_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Scope\Transient\Generic\TwoInterfacesSingleObject\ScopeTransientGenericTwoInterfacesSingleObject_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="SettingsConstructorAllAndOrderOne_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Settings\Constructor\AllAndOrder\One\SettingsConstructorAllAndOrderOne_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="SettingsConstructorAllAndOrderTwo_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Settings\Constructor\AllAndOrder\Two\SettingsConstructorAllAndOrderTwo_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="SettingsConstructorSubsetAndOrderOne_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Settings\Constructor\SubsetAndOrder\One\SettingsConstructorSubsetAndOrderOne_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="SettingsConstructorSubsetAndOrderTwo_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Settings\Constructor\SubsetAndOrder\Two\SettingsConstructorSubsetAndOrderTwo_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="SettingsConstructorSubsetNoOrderOne_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Settings\Constructor\SubsetNoOrder\One\SettingsConstructorSubsetNoOrderOne_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="SettingsConstructorSubsetNoOrderTwo_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Settings\Constructor\SubsetNoOrder\Two\SettingsConstructorSubsetNoOrderTwo_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="SettingsCrossClusterMustBeCrossCluster0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Settings\CrossCluster\MustBeCrossCluster0\SettingsCrossClusterMustBeCrossCluster0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -429,6 +456,9 @@
   </data>
   <data name="UnsortedInvalidToType_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\InvalidToType\UnsortedInvalidToType_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="UnsortedMirroredArguments0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\MirroredArguments0\UnsortedMirroredArguments0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="UnsortedNativeTypeArgument0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\NativeTypeArgument0\UnsortedNativeTypeArgument0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>

@@ -2,12 +2,57 @@
 using Microsoft.CodeAnalysis;
 using System;
 using DpdtInject.Injector.Src.Excp;
+using System.Reflection;
 
 namespace DpdtInject.Generator.Core.Producer
 {
     public static class NameHelper
     {
         private static readonly SymbolDisplayFormat SymbolDisplayFormat = new SymbolDisplayFormat(typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces);
+
+        private static readonly Type SymbolDisplayCompilerInternalOptionsType = typeof(SymbolDisplayFormat).Assembly.GetType("Microsoft.CodeAnalysis.SymbolDisplayCompilerInternalOptions")!;
+        private static readonly ConstructorInfo Constructor = typeof(SymbolDisplayFormat).GetConstructor(
+            BindingFlags.NonPublic | BindingFlags.Instance,
+            null,
+            CallingConventions.Any,
+            new Type[]
+            {
+                SymbolDisplayCompilerInternalOptionsType,
+                typeof(SymbolDisplayGlobalNamespaceStyle),
+                typeof(SymbolDisplayTypeQualificationStyle),
+                typeof(SymbolDisplayGenericsOptions),
+                typeof(SymbolDisplayMemberOptions),
+                typeof(SymbolDisplayParameterOptions),
+
+                typeof(SymbolDisplayDelegateStyle),
+                typeof(SymbolDisplayExtensionMethodStyle),
+                typeof(SymbolDisplayPropertyStyle),
+                typeof(SymbolDisplayLocalOptions),
+                typeof(SymbolDisplayKindOptions),
+                typeof(SymbolDisplayMiscellaneousOptions)
+            },
+            null
+            )!;
+        const int SymbolDisplayCompilerInternalOptions_UseArityForGenericTypes = 2;
+
+        private static readonly SymbolDisplayFormat ReflectionFormat = (SymbolDisplayFormat)Constructor.Invoke(
+            new object[]
+            {
+                        SymbolDisplayCompilerInternalOptions_UseArityForGenericTypes,
+                        SymbolDisplayGlobalNamespaceStyle.Omitted, //default(SymbolDisplayGlobalNamespaceStyle),
+                        SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces, //default(SymbolDisplayTypeQualificationStyle),
+                        SymbolDisplayGenericsOptions.IncludeTypeParameters, //default(SymbolDisplayGenericsOptions),
+                        default(SymbolDisplayMemberOptions),
+                        default(SymbolDisplayDelegateStyle),
+
+                        default(SymbolDisplayExtensionMethodStyle),
+                        default(SymbolDisplayParameterOptions),
+                        default(SymbolDisplayPropertyStyle),
+                        default(SymbolDisplayLocalOptions),
+                        default(SymbolDisplayKindOptions),
+                        default(SymbolDisplayMiscellaneousOptions)
+            });
+
 
         public static string ToGlobalDisplayString(
             this System.Type type
@@ -61,6 +106,44 @@ namespace DpdtInject.Generator.Core.Producer
             }
 
             return s.ToDisplayString(SymbolDisplayFormat);
+        }
+
+        public static string ToReflectionFormat(
+            this INamedTypeSymbol s,
+            bool deepLevel = false
+            )
+        {
+            if (s is null)
+            {
+                throw new ArgumentNullException(nameof(s));
+            }
+
+            var reflectionTypeString = s.ToDisplayString(ReflectionFormat);
+            if (s.TypeArguments.Length > 0)
+            {
+                reflectionTypeString += "[";
+                foreach (var gta in s.TypeArguments)
+                {
+                    if (gta is not INamedTypeSymbol ngta)
+                    {
+                        throw new DpdtException(
+                            DpdtExceptionTypeEnum.InternalError,
+                            $"[{gta.ToDisplayString()}] is not a {nameof(INamedTypeSymbol)}"
+                            );
+                    }
+
+                    reflectionTypeString += $"[{ngta.ToReflectionFormat(true)}]";
+                    reflectionTypeString += ",";
+                }
+                reflectionTypeString = reflectionTypeString.Substring(0, reflectionTypeString.Length - 1) + "]";
+            }
+
+            if (deepLevel)
+            {
+                reflectionTypeString += ", " + s.ContainingAssembly.ToDisplayString();
+            }
+
+            return reflectionTypeString;
         }
 
 

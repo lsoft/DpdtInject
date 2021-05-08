@@ -5,6 +5,7 @@ using DpdtInject.Generator.Core.TypeInfo;
 using System;
 using DpdtInject.Generator.Core.Producer.Product;
 using DpdtInject.Injector.Src.Helper;
+using System.Linq;
 
 namespace DpdtInject.Generator.Core.Producer
 {
@@ -41,14 +42,10 @@ namespace DpdtInject.Generator.Core.Producer
 
         public InstanceProduct Produce()
         {
-            var constructorArgumentProducers =
-                _bindingExtender.BindingContainer.ConstructorArguments.ConvertAll(
-                    bft => new ConstructorArgumentProducer(
-                        _clusterBindings,
-                        _bindingExtender,
-                        bft
-                        )
-                    );
+            var constructorArgumentProducers = _bindingExtender.BindingContainer.ConstructorArguments.ConvertToProducers(
+                _clusterBindings,
+                _bindingExtender
+                );
 
             var (caps, utps) = constructorArgumentProducers.Produce();
 

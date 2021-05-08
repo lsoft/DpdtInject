@@ -25,6 +25,8 @@ namespace DpdtInject.Generator.Core.Binding
             get;
         }
 
+        public IReadOnlyList<ISetting> Settings => _settings;
+
         public IReadOnlyList<ITypeSymbol> BindFromTypes => _types.BindFromTypes;
 
 
@@ -121,19 +123,6 @@ namespace DpdtInject.Generator.Core.Binding
             _uniqueKey = $"u{uniqueKey0}_{uniqueKey1}_{uniqueKey2}";
         }
 
-        public bool IsSetup<T>()
-             where T : class, ISetting
-        {
-            return _settings.Any(s => s.GetType().FullName == typeof(T).FullName!);
-        }
-
-        public bool TryGetSettingInScope<TScope>([NotNullWhen(true)] out TScope? setting)
-             where TScope : class, ISetting
-        {
-            setting = _settings.FirstOrDefault(s => s.GetType().BaseType!.FullName == typeof(TScope).FullName!) as TScope;
-
-            return setting != null;
-        }
 
         public string GetStableSuffix()
         {

@@ -4,6 +4,9 @@ namespace DpdtInject.Injector.Src.Bind.Settings.Circular
 {
     public abstract class CircularSetting : ISetting
     {
+        public const string ScopeConstant = nameof(CircularSetting);
+        public string Scope => ScopeConstant;
+
         public abstract bool DoCircularCheck
         {
             get;

@@ -52,18 +52,10 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
                         );
                 }
 
-                if (settingScopes.Contains(settingSymbol.BaseType.ToGlobalDisplayString()))
-                {
-                    throw new DpdtException(
-                        DpdtExceptionTypeEnum.IncorrectBinding_IncorrectSetting,
-                        $"Only one settings of each scope is allowed [{settingSymbol.BaseType.ToGlobalDisplayString()}]",
-                        settingSymbol.BaseType.ToGlobalDisplayString()
-                        );
-                }
-                settingScopes.Add(settingSymbol.BaseType.ToGlobalDisplayString());
+                var reflectionTypeString = ((INamedTypeSymbol)settingSymbol).ToReflectionFormat();
 
                 var settingType = typeof(ISetting).Assembly.GetType(
-                    settingSymbol.ToFullDisplayString()
+                    reflectionTypeString
                     );
 
                 if (settingType is null)
@@ -74,8 +66,19 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
                         settingSymbol.BaseType.ToGlobalDisplayString()
                         );
                 }
-
+                
                 var settingInstance = (ISetting)Activator.CreateInstance(settingType)!;
+
+                if (settingScopes.Contains(settingInstance.Scope))
+                {
+                    throw new DpdtException(
+                        DpdtExceptionTypeEnum.IncorrectBinding_IncorrectSetting,
+                        $"Only one settings of each scope is allowed [{settingInstance.Scope}]",
+                        settingSymbol.BaseType.ToGlobalDisplayString()
+                        );
+                }
+                settingScopes.Add(settingInstance.Scope);
+
 
                 if (!settingInstance.IsAllowedFor(scope))
                 {

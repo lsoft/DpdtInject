@@ -5,8 +5,8 @@ namespace DpdtInject.Generator.Core.Producer
 {
     internal static class LocalHelper
     {
-        public static (List<ConstructorArgumentProduct>, List<UnknownTypeProduct>) Produce(
-            this List<ConstructorArgumentProducer> constructorArgumentProducers
+        public static (IReadOnlyList<ConstructorArgumentProduct>, List<UnknownTypeProduct>) Produce(
+            this IReadOnlyList<ConstructorArgumentProducer> constructorArgumentProducers
             )
         {
             if (constructorArgumentProducers is null)
@@ -20,7 +20,7 @@ namespace DpdtInject.Generator.Core.Producer
             {
                 var cap = constructorArgumentProducer.Produce(out var utp);
 
-                if (ReferenceEquals(cap, ConstructorArgumentProduct.Empty))
+                if (string.IsNullOrEmpty(cap.ResolveConstructorArgumentClause))
                 {
                     continue;
                 }

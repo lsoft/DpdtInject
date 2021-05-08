@@ -1,4 +1,7 @@
 ﻿using DpdtInject.Generator.Core.Binding;
+using DpdtInject.Generator.Core.Producer;
+using DpdtInject.Injector.Src.Bind.Settings.Constructor;
+using DpdtInject.Injector.Src.Excp;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
@@ -23,8 +26,9 @@ namespace DpdtInject.Generator.Core.BindExtractor
             _constructorChooser = constructorChooser;
         }
 
-        public int AppendUnknown(
+        public int ChooseConstructorAndAppendUnknownArguments(
             INamedTypeSymbol typeSymbol,
+            ConstructorSetting? constructorSetting,
             ref List<DetectedMethodArgument> constructorArguments
             )
         {
@@ -40,12 +44,36 @@ namespace DpdtInject.Generator.Core.BindExtractor
 
             var chosenConstructor = _constructorChooser.Choose(
                 typeSymbol,
+                constructorSetting,
                 constructorArguments
                 );
 
-            var appended = 0;
-            foreach (var cParameter in chosenConstructor.Parameters)
+            //update indexes for predefined constructor arguments
+            foreach (var constructorArgument in constructorArguments)
             {
+                var p = chosenConstructor.Parameters.FirstOrDefault(p => p.Name == constructorArgument.Name);
+
+                if (p is null)
+                {
+                    throw new DpdtException(
+                        DpdtExceptionTypeEnum.ConstructorArgumentMiss,
+                        $"Choosen constructor for [{typeSymbol.ToGlobalDisplayString()}] does not contains an argument with name {constructorArgument.Name}",
+                        typeSymbol.ToGlobalDisplayString()
+                        );
+                    ;
+                }
+
+                var pindex = chosenConstructor.Parameters.IndexOf(p);
+
+                constructorArgument.UpdateIndex(pindex);
+                constructorArgument.UpdateType(p.Type);
+            }
+
+            var appended = 0;
+            for(var i = 0; i < chosenConstructor.Parameters.Length; i++)
+            {
+                var cParameter = chosenConstructor.Parameters[i];
+
                 var cParameterName = cParameter.Name;
                 var cParameterType = cParameter.Type;
 
@@ -54,6 +82,7 @@ namespace DpdtInject.Generator.Core.BindExtractor
                 {
                     constructorArguments.Add(
                         new DetectedMethodArgument(
+                            i,
                             cParameterName,
                             cParameterType,
                             cParameter.RefKind,
@@ -68,5 +97,6 @@ namespace DpdtInject.Generator.Core.BindExtractor
 
             return appended;
         }
+
     }
 }

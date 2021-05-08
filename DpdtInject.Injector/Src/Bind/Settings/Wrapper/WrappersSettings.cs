@@ -2,6 +2,9 @@
 {
     public abstract class WrappersSettings : ISetting
     {
+        public const string ScopeConstant = nameof(WrappersSettings);
+        public string Scope => ScopeConstant;
+
         public abstract bool DoProduceWrappers
         {
             get;

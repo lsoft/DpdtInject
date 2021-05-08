@@ -7,6 +7,7 @@ using System.Linq;
 using DpdtInject.Injector.Src.Bind.Settings.Circular;
 using DpdtInject.Injector.Src.Excp;
 using DpdtInject.Injector.Src.Helper;
+using DpdtInject.Injector.Src.Bind.Settings;
 
 namespace DpdtInject.Generator.Core.Graph
 {
@@ -45,7 +46,7 @@ namespace DpdtInject.Generator.Core.Graph
                 foreach (var bindingExtender in group.BindingExtenders.Shuffle())
                 {
                     var doCircularCheck = true;
-                    if (bindingExtender.BindingContainer.TryGetSettingInScope<CircularSetting>(out var setting))
+                    if (bindingExtender.BindingContainer.Settings.TryGetSettingInScope<CircularSetting>(CircularSetting.ScopeConstant, out var setting))
                     {
                         doCircularCheck = setting.DoCircularCheck;
                     }

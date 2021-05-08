@@ -12,6 +12,7 @@ using DpdtInject.Injector.Src.Bind.Settings.Wrapper;
 using DpdtInject.Injector.Src.RContext;
 using DpdtInject.Injector.Src;
 using DpdtInject.Injector.Src.Helper;
+using DpdtInject.Injector.Src.Bind.Settings;
 
 namespace DpdtInject.Generator.Core.Producer
 {
@@ -113,7 +114,7 @@ namespace DpdtInject.Generator.Core.Producer
             foreach (var instanceProduct in InstanceProducts)
             {
                 bool doProduceWrappers = false;
-                if (instanceProduct.BindingExtender.BindingContainer.TryGetSettingInScope<WrappersSettings>(out var setting))
+                if (instanceProduct.BindingExtender.BindingContainer.Settings.TryGetSettingInScope<WrappersSettings>(WrappersSettings.ScopeConstant, out var setting))
                 {
                     doProduceWrappers = setting.DoProduceWrappers;
                 }
