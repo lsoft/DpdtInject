@@ -15,8 +15,7 @@
         }
     }
 
-    public class AllAndOrderConstructorSetting
-        <T1, T2> : AllAndOrderConstructorSetting
+    public class AllAndOrderConstructorSetting<T1, T2> : AllAndOrderConstructorSetting
     {
         public AllAndOrderConstructorSetting()
         {

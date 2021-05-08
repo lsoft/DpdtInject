@@ -70,6 +70,7 @@
     <Compile Include="UI\ChainStep\MedianeChainStep.cs" />
     <Compile Include="UI\ChainStep\TargetMethodsChainStep.cs" />
     <Compile Include="UI\ChainStep\BindsFromChainStep.cs" />
+    <Compile Include="UI\ConstructorSettingEnum.cs" />
     <Compile Include="UI\Control\AddClusterMethod\AddClusterMethodControl.xaml.cs">
       <DependentUpon>AddClusterMethodControl.xaml</DependentUpon>
     </Compile>

@@ -6,6 +6,8 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using DpdtInject.Generator.Core.Producer;
 using DpdtInject.Injector.Src.Bind;
+using DpdtInject.Injector.Src.Bind.Settings.Constructor;
+using DpdtInject.Extension.UI;
 
 namespace DpdtInject.Extension.Machinery.Add
 {
@@ -47,6 +49,23 @@ namespace DpdtInject.Extension.Machinery.Add
                 clauses.Add($"{indend2}.WithConstScope(/* place here your (static) readonly field */)");
             }
 
+            var joined = string.Join(",", _newBindingInfo.Constructor.Parameters.Select(cp => cp.Type.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
+
+            switch (_newBindingInfo.ConstructorSetting)
+            {
+                case ConstructorSettingEnum.AllAndOrder:
+                    clauses.Add($"{indend2}.Setup<{nameof(AllAndOrderConstructorSetting)}<{joined}>>()");
+                    break;
+                case ConstructorSettingEnum.SubsetAndOrder:
+                    clauses.Add($"{indend2}.Setup<{nameof(SubsetAndOrderConstructorSetting)}<{joined}>>()");
+                    break;
+                case ConstructorSettingEnum.SubsetNoOrder:
+                    clauses.Add($"{indend2}.Setup<{nameof(SubsetNoOrderConstructorSetting)}<{joined}>>()");
+                    break;
+                case ConstructorSettingEnum.NotSelected:
+                default:
+                    break;
+            }
 
             if (_newBindingInfo.IsConditional)
             {

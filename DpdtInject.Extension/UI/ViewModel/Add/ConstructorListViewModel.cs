@@ -13,6 +13,7 @@ using System.Windows.Input;
 using Task = System.Threading.Tasks.Task;
 using DpdtInject.Extension.UI.ViewModel.Add.Inner;
 using DpdtInject.Injector.Src.Helper;
+using System.Windows.Threading;
 
 namespace DpdtInject.Extension.UI.ViewModel.Add
 {
@@ -20,6 +21,8 @@ namespace DpdtInject.Extension.UI.ViewModel.Add
     {
         private readonly Func<Task> _nextStepAction;
         private readonly ChoosedParameters _choosedParameters;
+
+        private ConstructorSettingEnum _constructorSetting = ConstructorSettingEnum.NotSelected;
 
         private ICommand? _nextCommand;
         private ICommand? _closeCommand;
@@ -35,6 +38,70 @@ namespace DpdtInject.Extension.UI.ViewModel.Add
             get;
             set;
         } = string.Empty;
+
+
+        public bool NoSettingSelected
+        {
+            get => _constructorSetting == ConstructorSettingEnum.NotSelected;
+            set
+            {
+                if (value)
+                {
+                    _constructorSetting = ConstructorSettingEnum.NotSelected;
+                }
+                OnPropertyChanged();
+            }
+        }
+        public bool AllAndOrderSelected
+        {
+            get => _constructorSetting == ConstructorSettingEnum.AllAndOrder;
+            set
+            {
+                if (value)
+                {
+                    _constructorSetting = ConstructorSettingEnum.AllAndOrder;
+                }
+                OnPropertyChanged();
+            }
+        }
+        public bool SubsetAndOrderSelected
+        {
+            get => _constructorSetting == ConstructorSettingEnum.SubsetAndOrder;
+            set
+            {
+                if (value)
+                {
+                    _constructorSetting = ConstructorSettingEnum.SubsetAndOrder;
+                }
+                OnPropertyChanged();
+            }
+        }
+        public bool SubsetNoOrderSelected
+        {
+            get => _constructorSetting == ConstructorSettingEnum.SubsetNoOrder;
+            set
+            {
+                if (value)
+                {
+                    _constructorSetting = ConstructorSettingEnum.SubsetNoOrder;
+                }
+                OnPropertyChanged();
+            }
+        }
+
+        public bool ConstructorSettingEnabled
+        {
+            get
+            {
+                var choosedConstructorVM = ConstructorList.FirstOrDefault(c => c.IsChecked);
+                if (choosedConstructorVM != null)
+                {
+                    return choosedConstructorVM.Constructor.Parameters.Length > 0;
+                }
+
+                return false;
+            }
+        }
 
         public ICommand CloseCommand
         {
@@ -68,6 +135,7 @@ namespace DpdtInject.Extension.UI.ViewModel.Add
                             if (TryGetChoosedConstructor(out var choosedConstructor))
                             {
                                 _choosedParameters.ChoosedConstructor = choosedConstructor;
+                                _choosedParameters.ConstructorSetting = _constructorSetting;
                                 await _nextStepAction();
                             }
                         },
@@ -141,7 +209,8 @@ namespace DpdtInject.Extension.UI.ViewModel.Add
                 ConstructorList.Add(
                     new ConstructorViewModel(
                         targetClass,
-                        constructor
+                        constructor,
+                        IsCheckedChange
                         )
                     );
             }
@@ -151,6 +220,8 @@ namespace DpdtInject.Extension.UI.ViewModel.Add
                 ErrorMessage = "No constructors available";
                 return;
             }
+
+            _constructorSetting = _choosedParameters.ConstructorSetting;
 
             if (_choosedParameters.ChoosedConstructor != null)
             {
@@ -163,6 +234,23 @@ namespace DpdtInject.Extension.UI.ViewModel.Add
             }
 
             ConstructorList.First().IsChecked = true;
+        }
+
+        private void IsCheckedChange(bool oldValue)
+        {
+            if (!oldValue)
+            {
+                var choosedConstructorVM = ConstructorList.FirstOrDefault(c => c.IsChecked);
+                if (choosedConstructorVM != null)
+                {
+                    if (choosedConstructorVM.Constructor.Parameters.Length == 0)
+                    {
+                        NoSettingSelected = true;
+                    }
+
+                    OnPropertyChanged();
+                }
+            }
         }
 
         private bool TryGetChoosedConstructor(out IMethodSymbol? choosedConstructor)

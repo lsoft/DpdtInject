@@ -11,6 +11,7 @@ namespace DpdtInject.Extension.UI.ViewModel.Add.Inner
     public class ConstructorViewModel : BaseViewModel
     {
         private bool _isChecked;
+        private readonly Action<bool> _isCheckedChanged;
 
         public INamedTypeSymbol TargetType
         {
@@ -27,8 +28,12 @@ namespace DpdtInject.Extension.UI.ViewModel.Add.Inner
             get => _isChecked;
             set
             {
-                _isChecked = value;
-                OnPropertyChanged(nameof(IsChecked));
+                if (_isChecked != value)
+                {
+                    _isChecked = value;
+                    _isCheckedChanged(_isChecked);
+                    OnPropertyChanged(nameof(IsChecked));
+                }
             }
         }
 
@@ -47,7 +52,8 @@ namespace DpdtInject.Extension.UI.ViewModel.Add.Inner
         /// <inheritdoc />
         public ConstructorViewModel(
             INamedTypeSymbol targetType,
-            IMethodSymbol constructor
+            IMethodSymbol constructor,
+            Action<bool> isCheckedChanged
             )
         {
             if (constructor is null)
@@ -57,7 +63,7 @@ namespace DpdtInject.Extension.UI.ViewModel.Add.Inner
 
             TargetType = targetType;
             Constructor = constructor;
-
+            _isCheckedChanged = isCheckedChanged;
             var arguments = string.Join(
                 ", ",
                 constructor.Parameters.Select(p => $"{p.Type.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)} {p.Name}")

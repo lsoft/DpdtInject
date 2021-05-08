@@ -6,6 +6,8 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using DpdtInject.Injector.Src.Bind;
+using DpdtInject.Extension.UI;
+using DpdtInject.Injector.Src.Bind.Settings.Constructor;
 
 namespace DpdtInject.Extension.Machinery.Add
 {
@@ -24,6 +26,10 @@ namespace DpdtInject.Extension.Machinery.Add
             get;
         }
         public List<IParameterSymbol> ManualConstructorArguments
+        {
+            get;
+        }
+        public ConstructorSettingEnum ConstructorSetting
         {
             get;
         }
@@ -66,6 +72,7 @@ namespace DpdtInject.Extension.Machinery.Add
             INamedTypeSymbol bindTo,
             IMethodSymbol constructor,
             List<IParameterSymbol> manualConstructorArguments,
+            ConstructorSettingEnum constructorSetting,
             BindScopeEnum bindScope,
             bool isConditional
             )
@@ -94,6 +101,7 @@ namespace DpdtInject.Extension.Machinery.Add
             BindTo = bindTo;
             Constructor = constructor;
             ManualConstructorArguments = manualConstructorArguments;
+            ConstructorSetting = constructorSetting;
             BindScope = bindScope;
             IsConditional = isConditional;
         }
@@ -142,7 +150,38 @@ namespace DpdtInject.Extension.Machinery.Add
                     SyntaxFactory.ParseName(
                         " " + constructorArgumentKey
                         )
-                    );
+                    ).WithTrailingTrivia(SyntaxFactory.CarriageReturnLineFeed);
+
+            switch (ConstructorSetting)
+            {
+                case ConstructorSettingEnum.AllAndOrder:
+                case ConstructorSettingEnum.SubsetAndOrder:
+                case ConstructorSettingEnum.SubsetNoOrder:
+                    var settingNamespace = typeof(AllAndOrderConstructorSetting).Namespace;
+                    result[settingNamespace] =
+                        SyntaxFactory.UsingDirective(
+                            SyntaxFactory.ParseName(
+                                " " + settingNamespace
+                                )
+                            ).WithTrailingTrivia(SyntaxFactory.CarriageReturnLineFeed)
+                        ;
+
+                    foreach (var cp in Constructor.Parameters)
+                    {
+                        var key = cp.Type.ContainingNamespace.ToDisplayString();
+                        result[key] =
+                            SyntaxFactory.UsingDirective(
+                                SyntaxFactory.ParseName(
+                                    " " + key
+                                    )
+                                ).WithTrailingTrivia(SyntaxFactory.CarriageReturnLineFeed)
+                            ;
+                    }
+                    break;
+                case ConstructorSettingEnum.NotSelected:
+                default:
+                    break;
+            }
 
             return result.Values.ToList();
         }

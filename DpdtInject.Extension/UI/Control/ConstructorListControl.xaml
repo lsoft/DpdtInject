@@ -16,6 +16,7 @@
             <RowDefinition/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <Grid
@@ -71,16 +72,62 @@
             </ListView>
         </Grid>
 
-        <TextBlock
+        <StackPanel
             Grid.Row="1"
+            HorizontalAlignment="Center"
+            Margin="0,00,0,0"
+            Orientation="Horizontal"
+            >
+
+            <RadioButton
+                Margin="0,0,20,0"
+                VerticalAlignment="Center"
+                Content="No setting"
+                GroupName="ConstructorSettingGroup"
+                Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+                IsEnabled="{Binding ConstructorSettingEnabled}"
+                IsChecked="{Binding NoSettingSelected, Mode=TwoWay}"
+                />
+            <RadioButton
+                Margin="0,0,20,0"
+                VerticalAlignment="Center"
+                Content="All And Order"
+                GroupName="ConstructorSettingGroup"
+                Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+                IsEnabled="{Binding ConstructorSettingEnabled}"
+                IsChecked="{Binding AllAndOrderSelected, Mode=TwoWay}"
+                />
+            <RadioButton
+                Margin="0,0,20,0"
+                VerticalAlignment="Center"
+                Content="Subset And Order"
+                GroupName="ConstructorSettingGroup"
+                Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+                IsEnabled="{Binding ConstructorSettingEnabled}"
+                IsChecked="{Binding SubsetAndOrderSelected, Mode=TwoWay}"
+                />
+            <RadioButton
+                Margin="0,0,0,0"
+                VerticalAlignment="Center"
+                Content="Subset No Order"
+                GroupName="ConstructorSettingGroup"
+                Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+                IsEnabled="{Binding ConstructorSettingEnabled}"
+                IsChecked="{Binding SubsetNoOrderSelected, Mode=TwoWay}"
+                />
+
+        </StackPanel>
+
+        <TextBlock
+            Grid.Row="2"
             Foreground="Red"
             HorizontalAlignment="Stretch"
             TextAlignment="Center"
-            Text="{Binding ErrorMessage}"
+            Text="{Binding ErrorMessage, FallbackValue=Default error message}"
             />
 
         <Grid
-            Grid.Row="2"
+            Grid.Row="3"
             HorizontalAlignment="Stretch"
             Margin="0,10,0,0"
             >
@@ -100,16 +147,6 @@
                 Command="{Binding CloseCommand}"
                 CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}} }"
                 />
-
-            <!--<Button
-                Grid.Column="1"
-                Margin="2"
-                Padding="10,5,10,5"
-                HorizontalAlignment="Right"
-                Content="Back"
-                Width="80"
-                Command="{Binding PreviousCommand}"
-                />-->
 
             <Button
                 Grid.Column="2"

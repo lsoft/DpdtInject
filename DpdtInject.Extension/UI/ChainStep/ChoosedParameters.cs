@@ -57,6 +57,11 @@ namespace DpdtInject.Extension.UI.ChainStep
             get;
             internal set;
         }
+        public ConstructorSettingEnum ConstructorSetting
+        {
+            get;
+            internal set;
+        }
 
         public ChoosedParameters(
             CodeLensTarget target
@@ -79,6 +84,7 @@ namespace DpdtInject.Extension.UI.ChainStep
                 TargetClass!,
                 ChoosedConstructor!,
                 ChoosedConstructorArguments!,
+                ConstructorSetting,
                 Scope,
                 IsConditionalBinding
                 );
