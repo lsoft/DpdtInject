@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DpdtInject.Extension.TestConsole.Payload;
-using DpdtInject.Injector;
+﻿using DpdtInject.Extension.TestConsole.Payload;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Extension.TestConsole.CompositionRoot
 {

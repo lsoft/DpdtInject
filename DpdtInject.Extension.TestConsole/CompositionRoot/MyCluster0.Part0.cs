@@ -1,9 +1,6 @@
 ﻿using DpdtInject.Extension.TestConsole.Payload;
-using DpdtInject.Injector;
-using DpdtInject.Extension.TestConsole.Payload.NewNamespace1;
-using DpdtInject.Extension.TestConsole.Payload.NewNamespace1.NewNamespace2;
-using System;
-using DpdtInject.Injector.Bind;
+using DpdtInject.Injector.Src;
+
 namespace DpdtInject.Extension.TestConsole.CompositionRoot
 {
     public partial class MyCluster0 : DefaultCluster
@@ -33,6 +30,7 @@ namespace DpdtInject.Extension.TestConsole.CompositionRoot
                 .WithTransientScope()
                 .When(rt => true)
                 ;
+
         }
     }
 
