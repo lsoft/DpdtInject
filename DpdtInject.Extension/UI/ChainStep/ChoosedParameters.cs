@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DpdtInject.Extension.Machinery.Add;
 using DpdtInject.Generator.Core.Binding.Xml;
 using DpdtInject.Injector.Src.Bind;
+using DpdtInject.Injector.Src.Bind.Settings.Constructor;
 
 namespace DpdtInject.Extension.UI.ChainStep
 {
@@ -57,7 +58,7 @@ namespace DpdtInject.Extension.UI.ChainStep
             get;
             internal set;
         }
-        public ConstructorSettingEnum ConstructorSetting
+        public ConstructorSettingsEnum ConstructorSetting
         {
             get;
             internal set;

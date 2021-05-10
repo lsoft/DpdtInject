@@ -7,6 +7,7 @@ using DpdtInject.Injector.Src.Excp;
 using DpdtInject.Injector.Src.Bind.Settings.Constructor;
 using DpdtInject.Generator.Core.Producer;
 using System.Text.RegularExpressions;
+using DpdtInject.Generator.Core.Binding.Settings.Constructor;
 
 namespace DpdtInject.Generator.Core.BindExtractor
 {
@@ -108,7 +109,7 @@ namespace DpdtInject.Generator.Core.BindExtractor
                 var need = constructorSetting.ConstructorArgumentsTypes[i];
                 var exists = constructor.Parameters[i].Type;
 
-                if (((INamedTypeSymbol)exists).ToReflectionFormat() != need.FullName)
+                if(!SymbolEqualityComparer.IncludeNullability.Equals(exists, need))
                 {
                     return false;
                 }
@@ -131,10 +132,7 @@ namespace DpdtInject.Generator.Core.BindExtractor
             var ps = constructor.Parameters.ToList();
             foreach (var cat in constructorSetting.ConstructorArgumentsTypes)
             {
-                var needFullName = cat.FullName;
-
-                startIndex = ps.FindIndex(startIndex, p => ((INamedTypeSymbol)p.Type).ToReflectionFormat() == needFullName);
-
+                startIndex = ps.FindIndex(startIndex, p => SymbolEqualityComparer.IncludeNullability.Equals(cat, p.Type));
                 if (startIndex < 0)
                 {
                     return false;
@@ -158,16 +156,17 @@ namespace DpdtInject.Generator.Core.BindExtractor
 
            var groups = (
                 from cat in constructorSetting.ConstructorArgumentsTypes
-                group cat by cat.FullName into catg
+                let catn = cat.ToDisplayString()
+                group cat by catn into catg
                 select catg).ToList();
 
             foreach (var group in groups)
             {
-                var needFullName = group.Key;
+                var needType = group.First();
                 var needCount = group.Count();
 
                 var existsCount = constructor.Parameters
-                    .Where(p => ((INamedTypeSymbol)p.Type).ToReflectionFormat() == needFullName)
+                    .Where(p => SymbolEqualityComparer.IncludeNullability.Equals(p.Type, needType))
                     .Count()
                     ;
 

@@ -7,6 +7,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using DpdtInject.Injector.Src.Bind.Settings;
 using DpdtInject.Injector.Src.Bind;
+using DpdtInject.Generator.Core.Binding.Settings.Constructor;
 
 namespace DpdtInject.Generator.Core.Binding
 {
@@ -39,7 +40,7 @@ namespace DpdtInject.Generator.Core.Binding
             BindScopeEnum scope,
             ExpressionStatementSyntax expressionNode,
             ArgumentSyntax? whenArgumentClause,
-            IReadOnlyList<ISetting> settings,
+            IReadOnlyList<IDefinedSetting> settings,
             bool isConventional
             ) : base(types, scope, expressionNode, whenArgumentClause, null, settings, isConventional)
         {

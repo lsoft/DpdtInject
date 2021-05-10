@@ -14,6 +14,7 @@ using Task = System.Threading.Tasks.Task;
 using DpdtInject.Extension.UI.ViewModel.Add.Inner;
 using DpdtInject.Injector.Src.Helper;
 using System.Windows.Threading;
+using DpdtInject.Injector.Src.Bind.Settings.Constructor;
 
 namespace DpdtInject.Extension.UI.ViewModel.Add
 {
@@ -22,7 +23,7 @@ namespace DpdtInject.Extension.UI.ViewModel.Add
         private readonly Func<Task> _nextStepAction;
         private readonly ChoosedParameters _choosedParameters;
 
-        private ConstructorSettingEnum _constructorSetting = ConstructorSettingEnum.NotSelected;
+        private ConstructorSettingsEnum _constructorSetting = ConstructorSettingsEnum.None;
 
         private ICommand? _nextCommand;
         private ICommand? _closeCommand;
@@ -42,48 +43,48 @@ namespace DpdtInject.Extension.UI.ViewModel.Add
 
         public bool NoSettingSelected
         {
-            get => _constructorSetting == ConstructorSettingEnum.NotSelected;
+            get => _constructorSetting == ConstructorSettingsEnum.None;
             set
             {
                 if (value)
                 {
-                    _constructorSetting = ConstructorSettingEnum.NotSelected;
+                    _constructorSetting = ConstructorSettingsEnum.None;
                 }
                 OnPropertyChanged();
             }
         }
         public bool AllAndOrderSelected
         {
-            get => _constructorSetting == ConstructorSettingEnum.AllAndOrder;
+            get => _constructorSetting == ConstructorSettingsEnum.AllAndOrder;
             set
             {
                 if (value)
                 {
-                    _constructorSetting = ConstructorSettingEnum.AllAndOrder;
+                    _constructorSetting = ConstructorSettingsEnum.AllAndOrder;
                 }
                 OnPropertyChanged();
             }
         }
         public bool SubsetAndOrderSelected
         {
-            get => _constructorSetting == ConstructorSettingEnum.SubsetAndOrder;
+            get => _constructorSetting == ConstructorSettingsEnum.SubsetAndOrder;
             set
             {
                 if (value)
                 {
-                    _constructorSetting = ConstructorSettingEnum.SubsetAndOrder;
+                    _constructorSetting = ConstructorSettingsEnum.SubsetAndOrder;
                 }
                 OnPropertyChanged();
             }
         }
         public bool SubsetNoOrderSelected
         {
-            get => _constructorSetting == ConstructorSettingEnum.SubsetNoOrder;
+            get => _constructorSetting == ConstructorSettingsEnum.SubsetNoOrder;
             set
             {
                 if (value)
                 {
-                    _constructorSetting = ConstructorSettingEnum.SubsetNoOrder;
+                    _constructorSetting = ConstructorSettingsEnum.SubsetNoOrder;
                 }
                 OnPropertyChanged();
             }

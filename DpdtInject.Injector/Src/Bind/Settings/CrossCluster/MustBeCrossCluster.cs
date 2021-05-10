@@ -1,8 +1,7 @@
 ﻿namespace DpdtInject.Injector.Src.Bind.Settings.CrossCluster
 {
-    public class MustBeCrossCluster : CrossClusterSettings
+    public class MustBeCrossCluster : ISetting
     {
-        public override CrossClusterSettingEnum Setting => CrossClusterSettingEnum.MustBeCrossCluster;
     }
 
 

@@ -1,8 +1,7 @@
 ﻿namespace DpdtInject.Injector.Src.Bind.Settings.Circular
 {
-    public class SuppressCircularCheck : CircularSetting
+    public class SuppressCircularCheck : ISetting
     {
-        public override bool DoCircularCheck => false;
     }
 
 

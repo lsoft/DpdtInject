@@ -1,9 +1,10 @@
 ﻿using DpdtInject.Generator.Core.Binding;
 using System;
 using System.Linq;
-using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
 using DpdtInject.Injector.Src.Excp;
 using DpdtInject.Injector.Src.Bind.Settings;
+using DpdtInject.Generator.Core.Binding.Settings.CrossCluster;
+using DpdtInject.Generator.Core.Helpers;
 
 namespace DpdtInject.Generator.Core.Producer
 {
@@ -86,7 +87,7 @@ namespace DpdtInject.Generator.Core.Producer
                 );
 
             var crossClusterSetting = CrossClusterSettingEnum.OnlyLocal;
-            if (BindingExtender.BindingContainer.Settings.TryGetSettingInScope<CrossClusterSettings>(CrossClusterSettings.ScopeConstant, out var setting))
+            if (BindingExtender.BindingContainer.Settings.TryGetSettingInScope<CrossClusterSetting>(CrossClusterSetting.ScopeConstant, out var setting))
             {
                 crossClusterSetting = setting.Setting;
             }

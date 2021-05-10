@@ -46,23 +46,23 @@ namespace DpdtInject.Extension.Machinery.Add
             }
             else
             {
-                clauses.Add($"{indend2}.WithConstScope(/* place here your (static) readonly field */)");
+                clauses.Add($"{indend2}.WithConstScope(/* place here your readonly_field/static_readonly_field/inplace_constant */)");
             }
 
             var joined = string.Join(",", _newBindingInfo.Constructor.Parameters.Select(cp => cp.Type.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
 
             switch (_newBindingInfo.ConstructorSetting)
             {
-                case ConstructorSettingEnum.AllAndOrder:
+                case ConstructorSettingsEnum.AllAndOrder:
                     clauses.Add($"{indend2}.Setup<{nameof(AllAndOrderConstructorSetting)}<{joined}>>()");
                     break;
-                case ConstructorSettingEnum.SubsetAndOrder:
+                case ConstructorSettingsEnum.SubsetAndOrder:
                     clauses.Add($"{indend2}.Setup<{nameof(SubsetAndOrderConstructorSetting)}<{joined}>>()");
                     break;
-                case ConstructorSettingEnum.SubsetNoOrder:
+                case ConstructorSettingsEnum.SubsetNoOrder:
                     clauses.Add($"{indend2}.Setup<{nameof(SubsetNoOrderConstructorSetting)}<{joined}>>()");
                     break;
-                case ConstructorSettingEnum.NotSelected:
+                case ConstructorSettingsEnum.None:
                 default:
                     break;
             }

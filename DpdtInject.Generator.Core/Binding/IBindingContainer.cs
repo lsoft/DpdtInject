@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using DpdtInject.Injector.Src.Bind.Settings;
 using DpdtInject.Injector.Src.Bind;
+using DpdtInject.Generator.Core.Binding.Settings.Constructor;
 
 namespace DpdtInject.Generator.Core.Binding
 {
@@ -14,7 +15,7 @@ namespace DpdtInject.Generator.Core.Binding
             get;
         }
 
-        IReadOnlyList<ISetting> Settings
+        IReadOnlyList<IDefinedSetting> Settings
         {
             get;
         }

@@ -5,6 +5,7 @@ using System.Diagnostics;
 using DpdtInject.Generator.Core.Producer;
 using DpdtInject.Injector.Src.Bind.Settings;
 using DpdtInject.Injector.Src.Bind;
+using DpdtInject.Generator.Core.Binding.Settings.Constructor;
 
 namespace DpdtInject.Generator.Core.Binding
 {
@@ -36,7 +37,7 @@ namespace DpdtInject.Generator.Core.Binding
             BindScopeEnum scope,
             ExpressionStatementSyntax expressionNode,
             ArgumentSyntax? whenArgumentClause,
-            IReadOnlyList<ISetting> settings
+            IReadOnlyList<IDefinedSetting> settings
             ) : base(types, scope, expressionNode, whenArgumentClause, constantSyntax, settings, false)
         {
             ConstructorArguments = new List<DetectedMethodArgument>();

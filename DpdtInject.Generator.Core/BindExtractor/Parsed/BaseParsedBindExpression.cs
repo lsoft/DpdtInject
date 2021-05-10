@@ -9,12 +9,20 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using DpdtInject.Injector.Src.Bind.Settings;
 using DpdtInject.Injector.Src.Bind;
 using DpdtInject.Injector.Src.Excp;
+using DpdtInject.Generator.Core.Binding.Settings.Constructor;
+using DpdtInject.Injector.Src.Bind.Settings.Constructor;
+using DpdtInject.Injector.Src.Bind.Settings.Circular;
+using DpdtInject.Generator.Core.Binding.Settings.Circular;
+using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
+using DpdtInject.Generator.Core.Binding.Settings.CrossCluster;
+using DpdtInject.Generator.Core.Binding.Settings.Wrapper;
+using DpdtInject.Injector.Src.Bind.Settings.Wrapper;
 
 namespace DpdtInject.Generator.Core.BindExtractor.Parsed
 {
     public abstract class BaseParsedBindExpression : IParsedBindExpression
     {
-        protected readonly List<ISetting> _settings = new List<ISetting>();
+        protected readonly List<IDefinedSetting> _settings = new List<IDefinedSetting>();
         protected readonly BindScopeEnum _scope;
 
 
@@ -41,9 +49,62 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
             var setupInvocations = invocationSymbols.FindAll(p => p.Item2.Name == nameof(IConfigureAndConditionalBinding.Setup));
             foreach (var setupInvocation in setupInvocations)
             {
-                var settingSymbol = setupInvocation.Item2.TypeArguments.First();
+                var settingSymbol = (INamedTypeSymbol)setupInvocation.Item2.TypeArguments.First();
 
-                if (settingSymbol.BaseType is null)
+                IDefinedSetting setting;
+                if (settingSymbol.BaseType != null && settingSymbol.BaseType.ToDisplayString() == typeof(AllAndOrderConstructorSetting).FullName)
+                {
+                    var constructorSetting = new ConstructorSetting(ConstructorSettingsEnum.AllAndOrder);
+                    constructorSetting.AddRange(
+                        settingSymbol.TypeArguments
+                        );
+                    setting = constructorSetting;
+                }
+                else if (settingSymbol.BaseType != null && settingSymbol.BaseType.ToDisplayString() == typeof(SubsetAndOrderConstructorSetting).FullName)
+                {
+                    var constructorSetting = new ConstructorSetting(ConstructorSettingsEnum.SubsetAndOrder);
+                    constructorSetting.AddRange(
+                        settingSymbol.TypeArguments
+                        );
+                    setting = constructorSetting;
+                }
+                else if (settingSymbol.BaseType != null && settingSymbol.BaseType.ToDisplayString() == typeof(SubsetNoOrderConstructorSetting).FullName)
+                {
+                    var constructorSetting = new ConstructorSetting(ConstructorSettingsEnum.SubsetNoOrder);
+                    constructorSetting.AddRange(
+                        settingSymbol.TypeArguments
+                        );
+                    setting = constructorSetting;
+                }
+                else if (settingSymbol.ToDisplayString() == typeof(PerformCircularCheck).FullName)
+                {
+                    setting = new CircularSetting(true);
+                }
+                else if (settingSymbol.ToDisplayString() == typeof(SuppressCircularCheck).FullName)
+                {
+                    setting = new CircularSetting(false);
+                }
+                else if (settingSymbol.ToDisplayString() == typeof(AllowedCrossCluster).FullName)
+                {
+                    setting = new CrossClusterSetting(CrossClusterSettingEnum.AllowedCrossCluster);
+                }
+                else if (settingSymbol.ToDisplayString() == typeof(MustBeCrossCluster).FullName)
+                {
+                    setting = new CrossClusterSetting(CrossClusterSettingEnum.MustBeCrossCluster);
+                }
+                else if (settingSymbol.ToDisplayString() == typeof(OnlyLocalCluster).FullName)
+                {
+                    setting = new CrossClusterSetting(CrossClusterSettingEnum.OnlyLocal);
+                }
+                else if (settingSymbol.ToDisplayString() == typeof(NoWrappers).FullName)
+                {
+                    setting = new WrapperSetting(false);
+                }
+                else if (settingSymbol.ToDisplayString() == typeof(ProduceWrappers).FullName)
+                {
+                    setting = new WrapperSetting(true);
+                }
+                else
                 {
                     throw new DpdtException(
                         DpdtExceptionTypeEnum.IncorrectBinding_IncorrectSetting,
@@ -52,43 +113,26 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
                         );
                 }
 
-                var reflectionTypeString = ((INamedTypeSymbol)settingSymbol).ToReflectionFormat();
-
-                var settingType = typeof(ISetting).Assembly.GetType(
-                    reflectionTypeString
-                    );
-
-                if (settingType is null)
-                {
-                    throw new DpdtException(
-                        DpdtExceptionTypeEnum.InternalError,
-                        $"Internal error with instanciate a [{settingSymbol.ToGlobalDisplayString()}]",
-                        settingSymbol.BaseType.ToGlobalDisplayString()
-                        );
-                }
-                
-                var settingInstance = (ISetting)Activator.CreateInstance(settingType)!;
-
-                if (settingScopes.Contains(settingInstance.Scope))
+                if (settingScopes.Contains(setting.Scope))
                 {
                     throw new DpdtException(
                         DpdtExceptionTypeEnum.IncorrectBinding_IncorrectSetting,
-                        $"Only one settings of each scope is allowed [{settingInstance.Scope}]",
-                        settingSymbol.BaseType.ToGlobalDisplayString()
+                        $"Only one settings of each scope is allowed [{setting.Scope}]",
+                        settingSymbol.ToGlobalDisplayString()
                         );
                 }
-                settingScopes.Add(settingInstance.Scope);
+                settingScopes.Add(setting.Scope);
 
 
-                if (!settingInstance.IsAllowedFor(scope))
+                if (!setting.IsAllowedFor(scope))
                 {
                     throw new DpdtException(
                         DpdtExceptionTypeEnum.IncorrectBinding_IncorrectSetting,
-                        $"Setting {settingInstance.GetType().Name} is incompatible with scope {scope}"
+                        $"Setting {setting.GetType().Name} is incompatible with scope {scope}"
                         );
                 }
 
-                _settings.Add(settingInstance);
+                _settings.Add(setting);
             }
         }
 

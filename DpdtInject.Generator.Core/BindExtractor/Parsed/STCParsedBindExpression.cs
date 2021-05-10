@@ -15,7 +15,7 @@ using DpdtInject.Injector.Src.Bind;
 using DpdtInject.Injector.Src.Excp;
 using DpdtInject.Injector.Src.Helper;
 using DpdtInject.Injector.Src.Bind.Settings;
-using DpdtInject.Injector.Src.Bind.Settings.Constructor;
+using DpdtInject.Generator.Core.Binding.Settings.Constructor;
 
 namespace DpdtInject.Generator.Core.BindExtractor.Parsed
 {

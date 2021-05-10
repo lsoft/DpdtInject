@@ -9,6 +9,7 @@ using DpdtInject.Injector.Src.Bind.Settings;
 using DpdtInject.Injector.Src.Bind;
 using DpdtInject.Injector.Src.Excp;
 using System.Security.Cryptography;
+using DpdtInject.Generator.Core.Binding.Settings.Constructor;
 
 namespace DpdtInject.Generator.Core.Binding
 {
@@ -17,7 +18,7 @@ namespace DpdtInject.Generator.Core.Binding
         private readonly string _uniqueKey;
 
         private readonly BindingContainerTypes _types;
-        private readonly IReadOnlyList<ISetting> _settings;
+        private readonly IReadOnlyList<IDefinedSetting> _settings;
 
         /// <inheritdoc />
         public Guid UniqueUnstableIdentifier
@@ -25,7 +26,7 @@ namespace DpdtInject.Generator.Core.Binding
             get;
         }
 
-        public IReadOnlyList<ISetting> Settings => _settings;
+        public IReadOnlyList<IDefinedSetting> Settings => _settings;
 
         public IReadOnlyList<ITypeSymbol> BindFromTypes => _types.BindFromTypes;
 
@@ -84,7 +85,7 @@ namespace DpdtInject.Generator.Core.Binding
             ExpressionStatementSyntax expressionNode,
             ArgumentSyntax? whenArgumentClause,
             ArgumentSyntax? constantSyntax,
-            IReadOnlyList<ISetting> settings,
+            IReadOnlyList<IDefinedSetting> settings,
             bool isConventional
             )
         {

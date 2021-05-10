@@ -29,7 +29,7 @@ namespace DpdtInject.Extension.Machinery.Add
         {
             get;
         }
-        public ConstructorSettingEnum ConstructorSetting
+        public ConstructorSettingsEnum ConstructorSetting
         {
             get;
         }
@@ -72,7 +72,7 @@ namespace DpdtInject.Extension.Machinery.Add
             INamedTypeSymbol bindTo,
             IMethodSymbol constructor,
             List<IParameterSymbol> manualConstructorArguments,
-            ConstructorSettingEnum constructorSetting,
+            ConstructorSettingsEnum constructorSetting,
             BindScopeEnum bindScope,
             bool isConditional
             )
@@ -154,9 +154,9 @@ namespace DpdtInject.Extension.Machinery.Add
 
             switch (ConstructorSetting)
             {
-                case ConstructorSettingEnum.AllAndOrder:
-                case ConstructorSettingEnum.SubsetAndOrder:
-                case ConstructorSettingEnum.SubsetNoOrder:
+                case ConstructorSettingsEnum.AllAndOrder:
+                case ConstructorSettingsEnum.SubsetAndOrder:
+                case ConstructorSettingsEnum.SubsetNoOrder:
                     var settingNamespace = typeof(AllAndOrderConstructorSetting).Namespace;
                     result[settingNamespace] =
                         SyntaxFactory.UsingDirective(
@@ -178,7 +178,7 @@ namespace DpdtInject.Extension.Machinery.Add
                             ;
                     }
                     break;
-                case ConstructorSettingEnum.NotSelected:
+                case ConstructorSettingsEnum.None:
                 default:
                     break;
             }

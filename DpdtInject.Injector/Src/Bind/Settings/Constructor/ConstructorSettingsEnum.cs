@@ -2,6 +2,8 @@
 {
     public enum ConstructorSettingsEnum
     {
+        None,
+
         /// <summary>
         /// All constructor arguments must exists, be in the same order (NO other arguments can lie between these), no additional arguments allowed to exists.
         /// </summary>

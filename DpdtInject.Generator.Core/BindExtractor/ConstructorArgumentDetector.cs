@@ -1,6 +1,6 @@
 ﻿using DpdtInject.Generator.Core.Binding;
+using DpdtInject.Generator.Core.Binding.Settings.Constructor;
 using DpdtInject.Generator.Core.Producer;
-using DpdtInject.Injector.Src.Bind.Settings.Constructor;
 using DpdtInject.Injector.Src.Excp;
 using Microsoft.CodeAnalysis;
 using System;

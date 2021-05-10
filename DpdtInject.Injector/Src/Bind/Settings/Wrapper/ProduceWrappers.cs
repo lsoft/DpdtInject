@@ -1,8 +1,7 @@
 ﻿namespace DpdtInject.Injector.Src.Bind.Settings.Wrapper
 {
-    public class ProduceWrappers : WrappersSettings
+    public class ProduceWrappers : ISetting
     {
-        public override bool DoProduceWrappers => true;
     }
 
 

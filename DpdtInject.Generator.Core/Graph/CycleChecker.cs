@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using DpdtInject.Injector.Src.Bind.Settings.Circular;
 using DpdtInject.Injector.Src.Excp;
 using DpdtInject.Injector.Src.Helper;
 using DpdtInject.Injector.Src.Bind.Settings;
+using DpdtInject.Generator.Core.Helpers;
+using DpdtInject.Generator.Core.Binding.Settings.Circular;
 
 namespace DpdtInject.Generator.Core.Graph
 {

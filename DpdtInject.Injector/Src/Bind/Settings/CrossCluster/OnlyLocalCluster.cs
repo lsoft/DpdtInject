@@ -1,8 +1,7 @@
 ﻿namespace DpdtInject.Injector.Src.Bind.Settings.CrossCluster
 {
-    public class OnlyLocalCluster : CrossClusterSettings
+    public class OnlyLocalCluster : ISetting
     {
-        public override CrossClusterSettingEnum Setting => CrossClusterSettingEnum.OnlyLocal;
     }
 
 

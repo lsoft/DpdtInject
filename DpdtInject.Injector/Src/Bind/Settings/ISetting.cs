@@ -6,12 +6,5 @@ namespace DpdtInject.Injector.Src.Bind.Settings
 {
     public interface ISetting
     {
-        string Scope
-        {
-            get;
-        }
-
-        bool IsAllowedFor(BindScopeEnum scope);
     }
-
 }
