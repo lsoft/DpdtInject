@@ -31,27 +31,27 @@ namespace DpdtInject.Extension
             _containerAndScanner = containerAndScanner;
         }
 
-        public async Task<bool> IsEnabled(
+        public Task<bool> IsEnabled(
             )
         {
             var opts = GeneralOptions.Instance;
-            return opts.Enabled;
+            return Task.FromResult(opts.Enabled);
         }
 
-        public async Task<DpdtBindingReferenceSet> GetReferenceSet(
+        public Task<DpdtBindingReferenceSet> GetReferenceSet(
             CodeLensTarget target
             )
         {
             var opts = GeneralOptions.Instance;
             if (!opts.Enabled)
             {
-                return DpdtBindingReferenceSet.GetDisabled(target);
+                return Task.FromResult(DpdtBindingReferenceSet.GetDisabled(target));
             }
 
             var solutionBind = _containerAndScanner.Binds;
             if (solutionBind == null)
             {
-                return DpdtBindingReferenceSet.GetInProgress(target);
+                return Task.FromResult(DpdtBindingReferenceSet.GetInProgress(target));
             }
 
             var list = new List<DpdtBindingTarget>();
@@ -66,27 +66,29 @@ namespace DpdtInject.Extension
                         var bindingFound = binding.BindToType.FullyQualifiedName == target.FullyQualifiedName;
                         if (bindingFound)
                         {
-                            list.Add(
-                                new DpdtBindingTarget(
-                                    binding.UniqueUnstableIdentifier,
-                                    new DpdtClusterDetail(
-                                        clusterBind.ClusterTypeInfo.FullNamespaceDisplayName,
-                                        clusterBind.ClusterTypeInfo.Name,
-                                        mpair.Key
-                                        ),
-                                    new DpdtBindingDetail(
-                                        binding.ScopeString,
-                                        binding.IsConditional,
-                                        binding.IsConventional
-                                        )
+                            var bt = new DpdtBindingTarget(
+                                new DpdtBindingIdentifier(
+                                    binding.UniqueUnstableIdentifier
+                                    ),
+                                new DpdtClusterDetail(
+                                    clusterBind.ClusterTypeInfo.FullNamespaceDisplayName,
+                                    clusterBind.ClusterTypeInfo.Name,
+                                    mpair.Key
+                                    ),
+                                new DpdtBindingDetail(
+                                    binding.ScopeString,
+                                    binding.IsConditional,
+                                    binding.IsConventional
                                     )
                                 );
+
+                            list.Add(bt);
                         }
                     }
                 }
             }
 
-            return DpdtBindingReferenceSet.GetWithResults(target, list);
+            return Task.FromResult(DpdtBindingReferenceSet.GetWithResults(target, list));
         }
 
         public int GetVisualStudioPid() => Process.GetCurrentProcess().Id;

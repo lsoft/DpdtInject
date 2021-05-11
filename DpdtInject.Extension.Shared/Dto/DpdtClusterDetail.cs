@@ -2,6 +2,7 @@
 
 namespace DpdtInject.Extension.Shared.Dto
 {
+
     public class DpdtClusterDetail : IDpdtClusterDetail
     {
         public string ClassNamespace

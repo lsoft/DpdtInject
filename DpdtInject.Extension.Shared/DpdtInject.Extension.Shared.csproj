@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Dto\CodeLensTarget.cs" />
     <Compile Include="Dto\DpdtBindingDetail.cs" />
+    <Compile Include="Dto\DpdtBindingIdentifier.cs" />
     <Compile Include="Dto\DpdtBindingReferenceSetStatusEnum.cs" />
     <Compile Include="Dto\DpdtBindingTarget.cs" />
     <Compile Include="Dto\DpdtClusterDetail.cs" />

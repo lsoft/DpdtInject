@@ -4,10 +4,12 @@ namespace DpdtInject.Extension.Shared.Dto
 {
     public class DpdtBindingTarget : IDpdtBindingTarget
     {
-        public Guid BindingUniqueUnstableIdentifier
+        public DpdtBindingIdentifier BindingIdentifier
         {
             get;
         }
+
+        public Guid BindingUniqueUnstableIdentifier => BindingIdentifier.BindingUniqueUnstableIdentifier;
 
         public IDpdtClusterDetail ClusterDetail
         {
@@ -22,11 +24,16 @@ namespace DpdtInject.Extension.Shared.Dto
         }
 
         public DpdtBindingTarget(
-            Guid bindingIdentifier,
+            DpdtBindingIdentifier bindingIdentifier,
             DpdtClusterDetail clusterDetail,
             DpdtBindingDetail bindingDetail
             )
         {
+            if (bindingIdentifier is null)
+            {
+                throw new ArgumentNullException(nameof(bindingIdentifier));
+            }
+
             if (clusterDetail is null)
             {
                 throw new ArgumentNullException(nameof(clusterDetail));
@@ -37,7 +44,7 @@ namespace DpdtInject.Extension.Shared.Dto
                 throw new ArgumentNullException(nameof(bindingDetail));
             }
 
-            BindingUniqueUnstableIdentifier = bindingIdentifier;
+            BindingIdentifier = bindingIdentifier;
             ClusterDetail = clusterDetail;
             BindingDetail = bindingDetail;
         }
