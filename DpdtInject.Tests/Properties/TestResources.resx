@@ -454,6 +454,12 @@
   <data name="UnsortedGenericIsRegistered_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\Generic\IsRegistered\UnsortedGenericIsRegistered_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="UnsortedGetAllDuplicate0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\GetAllDuplicate0\UnsortedGetAllDuplicate0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="UnsortedGetAllDuplicate1_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\GetAllDuplicate1\UnsortedGetAllDuplicate1_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="UnsortedInvalidToType_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\InvalidToType\UnsortedInvalidToType_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

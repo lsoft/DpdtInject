@@ -2884,6 +2884,55 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.GetAllDuplicate0
+        ///{
+        ///    public partial class UnsortedGetAllDuplicate0_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            ScanInAssembliesWith&lt;Handler1&gt;()
+        ///                .SelectAllWith&lt;IHandler&gt;()
+        ///                .FromAllInterfaces()
+        ///                .ToItself()
+        ///                .WithTransientScope()
+        ///                [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedGetAllDuplicate0_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedGetAllDuplicate0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
+        ///using System.Collections;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.GetAllDuplicate1
+        ///{
+        ///    public partial class UnsortedGetAllDuplicate1_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;HandlerContainer&gt;()
+        ///                .To&lt;HandlerContainer&gt;()
+        ///                .WithTransientScope()
+        ///            [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedGetAllDuplicate1_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedGetAllDuplicate1_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector.Src.Bind;
         ///using DpdtInject.Injector.Src;
         ///

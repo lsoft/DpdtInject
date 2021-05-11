@@ -10,6 +10,7 @@ using DpdtInject.Injector.Src.Bind;
 using DpdtInject.Injector.Src.Excp;
 using System.Security.Cryptography;
 using DpdtInject.Generator.Core.Binding.Settings.Constructor;
+using DpdtInject.Generator.Core.Producer;
 
 namespace DpdtInject.Generator.Core.Binding
 {
@@ -121,7 +122,8 @@ namespace DpdtInject.Generator.Core.Binding
             var uniqueKey0 = expressionNode.SyntaxTree.FilePath.GetStringSha256Hash().SafeSubstring(0, 8);
             var uniqueKey1 = expressionNode.Span.Start;
             var uniqueKey2 = expressionNode.Span.End;
-            _uniqueKey = $"u{uniqueKey0}_{uniqueKey1}_{uniqueKey2}";
+            var uniqueKey3 = types.BindToType.ToGlobalDisplayString().GetStringSha256Hash().SafeSubstring(0, 8);
+            _uniqueKey = $"u{uniqueKey0}_{uniqueKey1}_{uniqueKey2}_{uniqueKey3}";
         }
 
 
