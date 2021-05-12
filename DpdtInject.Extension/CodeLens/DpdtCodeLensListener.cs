@@ -67,9 +67,7 @@ namespace DpdtInject.Extension
                         if (bindingFound)
                         {
                             var bt = new DpdtBindingTarget(
-                                new DpdtBindingIdentifier(
-                                    binding.UniqueUnstableIdentifier
-                                    ),
+                                binding.UniqueUnstableIdentifier,
                                 new DpdtClusterDetail(
                                     clusterBind.ClusterTypeInfo.FullNamespaceDisplayName,
                                     clusterBind.ClusterTypeInfo.Name,
