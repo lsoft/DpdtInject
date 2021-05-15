@@ -109,7 +109,7 @@ Please refer to Dpdt.Injector [nuget package](https://www.nuget.org/packages/Dpd
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dpdt.Injector" Version="0.7.0.0-alpha" />
+    <PackageReference Include="Dpdt.Injector" Version="0.7.3-alpha" />
   </ItemGroup>
 
 </Project>
@@ -520,13 +520,13 @@ Dpdt will take the only constructor that have a parameters with the types select
 
 #### SubsetAndOrderConstructorSetting
 
-Dpdt will take the only constructors that have a parameters with the types selected in this setting and in the same order, and additional arguments may exists before or after the selected. For example `.Setup<SubsetAndOrderConstructorSetting<int, long>>()` will choose the following constructors `MyClass(..., string a, int b, long c)` `MyClass(int a, long b)` `MyClass(int a, long b, string c, ...)`.
+Dpdt will take the only constructors that have a parameters with the types selected in this setting and in the same order, and additional arguments may exists before or after the selected. For example `.Setup<SubsetAndOrderConstructorSetting<int, long>>()` will choose the following constructors `MyClass(..., int b, long c)` `MyClass(int a, long b)` `MyClass(int a, long b, ...)`.
 
 #### SubsetNoOrderConstructorSetting
 
 Dpdt will take the only constructors that have a parameters with the types selected in this setting and their order does not matters, any additional arguments may exists. For example `.Setup<SubsetNoOrderConstructorSetting<int, long>>()` will choose the following constructors `MyClass(long a, int b)` `MyClass(int a, long b)` `MyClass(..., int a, ... long b, ...)` `MyClass(..., long a, ..., int b, ...)`.
 
-Please make note: `in` `readonly` and `ref` modifiers of the constructor arguments will take into account.
+Please make note: `in` `readonly` and `ref` modifiers of the constructor arguments will not taken into account.
 
 
 ## Debugging your clusters and conditional clauses
