@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>365d3814-7ab5-490c-b598-6a237839ed49</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>DpdtInject.Extension.VsixShared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AddBindingWindow.xaml.cs">
+      <DependentUpon>AddBindingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)BindDetailsWindow.xaml.cs">
+      <DependentUpon>BindDetailsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)BuildStatus\BuildStatusContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CodeLens\CodeLensConnectionHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CodeLens\DpdtCodeLensListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Container\Component\ExtensionTypeScanner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Container\ContainerAndScanner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DoCreateClusterCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DpdtInstallCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DpdtPackage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExtensionStatus\ExtensionStatusContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExtensionStatus\FullyLoaded\FullyLoadedStatusContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExtensionStatus\IExtensionStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExtensionStatus\IntellisenseStatusContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helper\BaseViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helper\DTEHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helper\FileHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helper\GridViewConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helper\MethodHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helper\ParameterEqualityComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helper\RoslynHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helper\SolutionHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helper\VisualStudioDocumentHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helper\WorkspaceHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helper\WpfHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImageMonikers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IVsSolutionEventsExt.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Machinery\AddClusterMethod\AddClusterData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Machinery\Add\BindClauseProducer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Machinery\Add\DocumentModifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Machinery\Add\NewBindingInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Machinery\Add\SyntaxSurgeon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\BaseOptionModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\BaseOptionPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Options\DialogPageProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\GeneralOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RelayCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ChainStep\AdditionalParametersChainStep.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ChainStep\BindsFromChainStep.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ChainStep\ChoosedParameters.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ChainStep\ConstructorArgumentsChainStep.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ChainStep\ConstructorListChainStep.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ChainStep\IChainStep.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ChainStep\MedianeChainStep.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ChainStep\TargetMethodsChainStep.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Control\AddClusterMethod\AddClusterMethodControl.xaml.cs">
+      <DependentUpon>AddClusterMethodControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Control\AdditionalParametersControl.xaml.cs">
+      <DependentUpon>AdditionalParametersControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Control\BindsFromControl.xaml.cs">
+      <DependentUpon>BindsFromControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Control\ConstructorArgumentsControl.xaml.cs">
+      <DependentUpon>ConstructorArgumentsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Control\ConstructorListControl.xaml.cs">
+      <DependentUpon>ConstructorListControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Control\TargetMethodsControl.xaml.cs">
+      <DependentUpon>TargetMethodsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Helper\EnterKeyDownEventTrigger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Helper\SpaceKeyDownEventTrigger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Theme.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModel\AddClusterMethod\AddClusterMethodViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModel\Add\AdditionalParametersViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModel\Add\BindsFromViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModel\Add\ConstructorArgumentsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModel\Add\ConstructorListViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModel\Add\Inner\BindFromViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModel\Add\Inner\ConstructorArgumentViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModel\Add\Inner\ConstructorViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModel\Add\Inner\TargetMethodViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModel\Add\TargetMethodsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModel\ChainViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModel\Details\DpdtBindingDetailViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModel\Details\DpdtBindingReferenceSetViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModel\Details\DpdtBindingTargetViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModel\Details\DpdtClusterDetailViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewElementFactory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)AddBindingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)BindDetailsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UI\Control\AddClusterMethod\AddClusterMethodControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UI\Control\AdditionalParametersControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UI\Control\BindsFromControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UI\Control\ConstructorArgumentsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UI\Control\ConstructorListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UI\Control\TargetMethodsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+</Project>

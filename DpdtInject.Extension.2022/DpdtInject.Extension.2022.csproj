@@ -14,7 +14,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectTypeGuids>{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>{B896FF3C-FB27-4F5F-BD50-E0AFA5C82328}</ProjectGuid>
+    <ProjectGuid>{B896FF3C-FB27-4F5F-BD50-E0AFA5C82329}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <LangVersion>9.0</LangVersion>
@@ -54,100 +54,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="BuildStatus\BuildStatusContainer.cs" />
-    <Compile Include="Machinery\Add\BindClauseProducer.cs" />
-    <Compile Include="DoCreateClusterCommand.cs" />
-    <Compile Include="Machinery\Add\DocumentModifier.cs" />
-    <Compile Include="DpdtInstallCommand.cs" />
-    <Compile Include="Helper\DTEHelper.cs" />
-    <Compile Include="Helper\RoslynHelper.cs" />
-    <Compile Include="Helper\ParameterEqualityComparer.cs" />
-    <Compile Include="Helper\SolutionHelper.cs" />
-    <Compile Include="ImageMonikers.cs" />
-    <Compile Include="Machinery\Add\NewBindingInfo.cs" />
-    <Compile Include="Machinery\Add\SyntaxSurgeon.cs" />
-    <Compile Include="UI\ChainStep\AdditionalParametersChainStep.cs" />
-    <Compile Include="UI\ChainStep\MedianeChainStep.cs" />
-    <Compile Include="UI\ChainStep\TargetMethodsChainStep.cs" />
-    <Compile Include="UI\ChainStep\BindsFromChainStep.cs" />
-    <Compile Include="UI\Control\AddClusterMethod\AddClusterMethodControl.xaml.cs">
-      <DependentUpon>AddClusterMethodControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Helper\EnterKeyDownEventTrigger.cs" />
-    <Compile Include="UI\Helper\SpaceKeyDownEventTrigger.cs" />
-    <Compile Include="UI\Control\AdditionalParametersControl.xaml.cs">
-      <DependentUpon>AdditionalParametersControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Control\BindsFromControl.xaml.cs">
-      <DependentUpon>BindsFromControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Control\ConstructorArgumentsControl.xaml.cs">
-      <DependentUpon>ConstructorArgumentsControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Control\ConstructorListControl.xaml.cs">
-      <DependentUpon>ConstructorListControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Control\TargetMethodsControl.xaml.cs">
-      <DependentUpon>TargetMethodsControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\ChainStep\ChoosedParameters.cs" />
-    <Compile Include="UI\ChainStep\ConstructorArgumentsChainStep.cs" />
-    <Compile Include="UI\ChainStep\ConstructorListChainStep.cs" />
-    <Compile Include="UI\ChainStep\IChainStep.cs" />
-    <Compile Include="UI\Theme.cs" />
-    <Compile Include="Machinery\AddClusterMethod\AddClusterData.cs" />
-    <Compile Include="UI\ViewModel\AddClusterMethod\AddClusterMethodViewModel.cs" />
-    <Compile Include="UI\ViewModel\Add\Inner\ConstructorViewModel.cs" />
-    <Compile Include="UI\ViewModel\Add\Inner\ConstructorArgumentViewModel.cs" />
-    <Compile Include="UI\ViewModel\Add\Inner\BindFromViewModel.cs" />
-    <Compile Include="UI\ViewModel\Add\AdditionalParametersViewModel.cs" />
-    <Compile Include="UI\ViewModel\Add\BindsFromViewModel.cs" />
-    <Compile Include="UI\ViewModel\Add\ConstructorArgumentsViewModel.cs" />
-    <Compile Include="UI\ViewModel\Add\ConstructorListViewModel.cs" />
-    <Compile Include="UI\ViewModel\Add\TargetMethodsViewModel.cs" />
-    <Compile Include="UI\ViewModel\Add\Inner\TargetMethodViewModel.cs" />
-    <Compile Include="AddBindingWindow.xaml.cs">
-      <DependentUpon>AddBindingWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="CodeLens\CodeLensConnectionHandler.cs" />
-    <Compile Include="Container\ContainerAndScanner.cs" />
-    <Compile Include="Container\Component\ExtensionTypeScanner.cs" />
-    <Compile Include="ExtensionStatus\ExtensionStatusContainer.cs" />
-    <Compile Include="ExtensionStatus\FullyLoaded\FullyLoadedStatusContainer.cs" />
-    <Compile Include="ExtensionStatus\IExtensionStatus.cs" />
-    <Compile Include="ExtensionStatus\IntellisenseStatusContainer.cs" />
-    <Compile Include="Helper\BaseViewModel.cs" />
-    <Compile Include="Helper\FileHelper.cs" />
-    <Compile Include="Helper\MethodHelper.cs" />
-    <Compile Include="Helper\VisualStudioDocumentHelper.cs" />
-    <Compile Include="Helper\WorkspaceHelper.cs" />
-    <Compile Include="IVsSolutionEventsExt.cs" />
-    <Compile Include="Options\BaseOptionModel.cs" />
-    <Compile Include="Options\BaseOptionPage.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Options\DialogPageProvider.cs" />
-    <Compile Include="Options\GeneralOptions.cs" />
-    <Compile Include="RelayCommand.cs" />
-    <Compile Include="UI\ViewModel\ChainViewModel.cs" />
-    <Compile Include="UI\ViewModel\Details\DpdtBindingDetailViewModel.cs" />
-    <Compile Include="UI\ViewModel\Details\DpdtBindingReferenceSetViewModel.cs" />
-    <Compile Include="UI\ViewModel\Details\DpdtBindingTargetViewModel.cs" />
-    <Compile Include="UI\ViewModel\Details\DpdtClusterDetailViewModel.cs" />
     <VSCTCompile Include="Dpdt.Extension.vsct">
       <Generator>VsctGenerator</Generator>
       <ResourceName>Menus.ctmenu</ResourceName>
       <LastGenOutput>Dpdt.Extension.cs</LastGenOutput>
     </VSCTCompile>
-    <Compile Include="DpdtPackage.cs" />
-    <Compile Include="BindDetailsWindow.xaml.cs">
-      <DependentUpon>BindDetailsWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Helper\GridViewConverter.cs" />
-    <Compile Include="CodeLens\DpdtCodeLensListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewElementFactory.cs" />
-    <Compile Include="Helper\WpfHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Monikers.imagemanifest">
@@ -179,70 +91,36 @@
     <Reference Include="System.Xaml" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="AddBindingWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="BindDetailsWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Control\AddClusterMethod\AddClusterMethodControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Control\AdditionalParametersControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Control\BindsFromControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Control\ConstructorArgumentsControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Control\ConstructorListControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Control\TargetMethodsControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.Common">
-      <Version>3.8.0</Version>
+      <Version>3.10.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common">
-      <Version>3.8.0</Version>
+      <Version>3.10.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Composition">
-      <Version>16.4.11</Version>
+      <Version>16.9.20</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.SDK.Analyzers">
-      <Version>16.7.9</Version>
+      <Version>16.10.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis">
-      <Version>3.8.0</Version>
+      <Version>3.10.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Language">
-      <Version>16.8.239</Version>
+      <Version>17.0.82-g2ecf33c7f7</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.LanguageServices">
-      <Version>3.8.0</Version>
+      <Version>3.10.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.SDK" ExcludeAssets="runtime">
-      <Version>16.0.206</Version>
+      <Version>17.0.0-previews-1-31410-273</Version>
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Shell.Framework">
-      <Version>16.5.29911.84</Version>
+      <Version>17.0.0-previews-1-31410-258</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers">
-      <Version>16.9.60</Version>
+      <Version>17.0.17-alpha</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>none</PrivateAssets>
     </PackageReference>
@@ -253,7 +131,7 @@
       <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="NuGet.VisualStudio">
-      <Version>5.9.0</Version>
+      <Version>5.10.0</Version>
     </PackageReference>
     <PackageReference Include="StreamJsonRpc">
       <Version>2.5.46</Version>
@@ -301,6 +179,7 @@
     </Target>
 -->
   <ItemGroup />
+  <Import Project="..\DpdtInject.Extension.VsixShared\DpdtInject.Extension.VsixShared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>
