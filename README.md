@@ -5,6 +5,64 @@
 [![Compilation Status](https://github.com/lsoft/DpdtInject/actions/workflows/dpdt.yml/badge.svg)](https://github.com/lsoft/DpdtInject/actions)
 [![Nuget](https://buildstats.info/nuget/Dpdt.Injector?includePreReleases=true)](https://www.nuget.org/packages/Dpdt.Injector/)
 
+## Table Of Contents
+
+- [Purpose](#purpose)
+- [Status](#status)
+- [Design features](#design-features)
+- [Other features](#other-features)
+- [Performance](#performance)
+- [How to try](#how-to-try)
+- [Design](#design)
+  * [To be fair: design drawbacks at first place](#to-be-fair-design-drawbacks-at-first-place)
+  * [Syntax](#syntax)
+    + [Regular singleton/transient/custom binding](#regular-singletontransientcustom-binding)
+    + [Regular const binding](#regular-const-binding)
+    + [Conditional bindings](#conditional-bindings)
+    + [Predefined constructor arguments with additional settings](#predefined-constructor-arguments-with-additional-settings)
+    + [Proxy (and decorator at the same time) bindings](#proxy-and-decorator-at-the-same-time-bindings)
+      - [What is saver?](#what-is-saver)
+    + [Conventional bindings](#conventional-bindings)
+  * [Choosing constructor](#choosing-constructor)
+  * [Scope](#scope)
+    + [Singleton](#singleton)
+    + [Transient](#transient)
+    + [Constant](#constant)
+    + [Custom](#custom)
+  * [Conditional binding](#conditional-binding)
+  * [Fast resolutions](#fast-resolutions)
+  * [Compile-time checks](#compile-time-checks)
+    + [Did source generators are finished their job?](#did-source-generators-are-finished-their-job)
+    + [Unknown constructor argument](#unknown-constructor-argument)
+    + [Singleton takes transient or custom](#singleton-takes-transient-or-custom)
+    + [Circular dependencies](#circular-dependencies)
+    + [More than 1 unconditional child](#more-than-1-unconditional-child)
+    + [Conventional bindings](#conventional-bindings-1)
+  * [Cluster life cycle](#cluster-life-cycle)
+  * [Child clusters](#child-clusters)
+  * [Async resolutions](#async-resolutions)
+  * [Settings](#settings)
+    + [Cross cluster resolutions](#cross-cluster-resolutions)
+      - [OnlyLocalCluster](#onlylocalcluster)
+      - [AllowedCrossCluster](#allowedcrosscluster)
+      - [MustBeCrossCluster](#mustbecrosscluster)
+    + [Wrapper producing](#wrapper-producing)
+      - [NoWrappers](#nowrappers)
+      - [ProduceWrappers](#producewrappers)
+    + [Circular checking](#circular-checking)
+      - [PerformCircularCheck](#performcircularcheck)
+      - [SuppressCircularCheck](#suppresscircularcheck)
+    + [Constructor choosing](#constructor-choosing)
+      - [AllAndOrderConstructorSetting](#allandorderconstructorsetting)
+      - [SubsetAndOrderConstructorSetting](#subsetandorderconstructorsetting)
+      - [SubsetNoOrderConstructorSetting](#subsetnoorderconstructorsetting)
+  * [Debugging your clusters and conditional clauses](#debugging-your-clusters-and-conditional-clauses)
+  * [Artifact folder](#artifact-folder)
+- [Dpdt Visual Studio Extension](#dpdt-visual-studio-extension)
+- [Known problems](#known-problems)
+- [Alternatives](#alternatives)
+- [Feedback](#feedback)
+
 
 # Purpose
 
@@ -18,7 +76,7 @@ It's still a proof-of-concept. Nor alpha, neither beta.
 
 # Design features
 
-0. As mentioned above, Dpdt suitable for lib/nuget developers. This does not mean that it is not (or less) suitable for applications, it's not.
+0. As mentioned above, Dpdt suitable for lib/nuget developers. This **does not mean** that Dpdt is not (or less) suitable for applications.
 0. Dpdt Visual Studio Extension helps you to be more productive (see below).
 0. Additional compile-time checks (see below).
 0. No performance decrease on the platforms with no compilation at runtime (because of absense runtime compilation!).
