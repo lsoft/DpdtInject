@@ -60,6 +60,11 @@
       <ResourceName>Menus.ctmenu</ResourceName>
       <LastGenOutput>Dpdt.Extension.cs</LastGenOutput>
     </VSCTCompile>
+    <Compile Include="Dpdt.Extension.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Dpdt.Extension.vsct</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

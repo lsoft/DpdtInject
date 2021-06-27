@@ -18,6 +18,7 @@ using static DpdtInject.Extension.Shared.Logging;
 using DpdtInject.Extension.BuildStatus;
 using DpdtInject.Generator.Core.Binding.Xml;
 using DpdtInject.Generator.Core.Meta;
+using DpdtInject.Extension.UI.ViewModel.BindingList;
 
 namespace DpdtInject.Extension.Container
 {
@@ -410,6 +411,7 @@ namespace DpdtInject.Extension.Container
                 CodeLensConnectionHandler.RefreshAllCodeLensDataPointsAsync()
                     .FileAndForget(nameof(PerformScanBackground))
                     ;
+                BindingListViewModel.RefreshAction?.Invoke();
 
                 Progress = 1f;
                 IsFinished = true;

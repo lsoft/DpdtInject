@@ -646,9 +646,9 @@ This is to turn off code beautification so Dpdt will produce cluster code a bit 
 
 # Dpdt Visual Studio Extension
 
-To make a dealing with Dpdt easier, a [Visual Studio Extension](https://marketplace.visualstudio.com/items?itemName=lsoft.DpdtVisualStudioExtension) has been developed. Make note: it only supports Visual Studio 2019 16.8, because I can't test it against older version of Visual Studio.
+To make a dealing with Dpdt easier, a [Visual Studio Extension](https://marketplace.visualstudio.com/items?itemName=lsoft.DpdtVisualStudioExtension) has been developed. Make note: it only supports Visual Studio 2019 16.8 (and later) and Visual Studio 2022.
 
-Please make note: Dpdt Visual Studio extension should be the SAME version as your Dpdt.Injector package version, only last digit may differ.
+Please make note: Dpdt Visual Studio extension should be the SAME version as your Dpdt.Injector package version.
 
 If you click on a project in Solution Explorer and there is no Dpdt nuget installed, you can install its latest version easily:
 
@@ -657,6 +657,10 @@ If you click on a project in Solution Explorer and there is no Dpdt nuget instal
 Also, you can create a new cluster class or add a new binding method to the existing cluster:
 
 ![Dpdt Extension Image 5](extension5.png)
+
+There is a tool window to look, search and go to any binding in your solution:
+
+![Dpdt Extension Image 6](extension6.png)
 
 But the main function is to generate a binding clauses through the custom codelens. The following images makes the picture brighter:
 

@@ -60,10 +60,6 @@
                         <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
                         <Setter Property="Background" Value="Transparent" />
                     </Style>
-                    <!--<Style TargetType="ListViewItem">
-                        <Setter Property="Focusable" Value="false"/>
-                        <Setter Property="Background" Value="Transparent" />
-                    </Style>-->
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate>

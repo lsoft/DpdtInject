@@ -6,7 +6,7 @@
     <SharedGUID>365d3814-7ab5-490c-b598-6a237839ed49</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>DpdtInject.Extension.VsixShared</Import_RootNamespace>
+    <Import_RootNamespace>DpdtInject.Extension</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AddBindingWindow.xaml.cs">
@@ -14,6 +14,11 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)BindDetailsWindow.xaml.cs">
       <DependentUpon>BindDetailsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)BindingListWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BindingListWindowCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Control\BindingList\BindingListWindowControl.xaml.cs">
+      <DependentUpon>BindingListWindowControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)BuildStatus\BuildStatusContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CodeLens\CodeLensConnectionHandler.cs" />
@@ -91,6 +96,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModel\Add\Inner\ConstructorViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModel\Add\Inner\TargetMethodViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModel\Add\TargetMethodsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModel\BindingList\BindingListViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModel\ChainViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModel\Details\DpdtBindingDetailViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModel\Details\DpdtBindingReferenceSetViewModel.cs" />
@@ -104,6 +110,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)BindDetailsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UI\Control\BindingList\BindingListWindowControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -131,5 +141,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)UI\Control\BindingList\" />
   </ItemGroup>
 </Project>

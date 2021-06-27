@@ -1,110 +1,141 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-  <!--  This is the file that defines the actual layout and type of the commands.
+    <!--  This is the file that defines the actual layout and type of the commands.
         It is divided in different sections (e.g. command definition, command
         placement, ...), with each defining a specific set of properties.
         See the comment before each section for more details about how to
         use it. -->
 
-  <!--  The VSCT compiler (the tool that translates this file into the binary
+    <!--  The VSCT compiler (the tool that translates this file into the binary
         format that VisualStudio will consume) has the ability to run a preprocessor
         on the vsct file; this preprocessor is (usually) the C++ preprocessor, so
         it is possible to define includes and macros with the same syntax used
         in C++ files. Using this ability of the compiler here, we include some files
         defining some of the constants that we will use inside the file. -->
 
-  <!--This is the file that defines the IDs for all the commands exposed by VisualStudio. -->
-  <Extern href="stdidcmd.h"/>
+    <!--This is the file that defines the IDs for all the commands exposed by VisualStudio. -->
+    <Extern href="stdidcmd.h" />
 
-  <!--This header contains the command ids for the menus provided by the shell. -->
-  <Extern href="vsshlids.h"/>
+    <!--This header contains the command ids for the menus provided by the shell. -->
+    <Extern href="vsshlids.h" />
 
-  <!--The Commands section is where commands, menus, and menu groups are defined.
+    <!--The Commands section is where commands, menus, and menu groups are defined.
       This section uses a Guid to identify the package that provides the command defined inside it. -->
-  <Commands package="dpdtPackage">
-    <!-- Inside this section we have different sub-sections: one for the menus, another
+    <Commands package="dpdtPackage">
+        <!-- Inside this section we have different sub-sections: one for the menus, another
     for the menu groups, one for the buttons (the actual commands), one for the combos
     and the last one for the bitmaps used. Each element is identified by a command id that
     is a unique pair of guid and numeric identifier; the guid part of the identifier is usually
     called "command set" and is used to group different command inside a logically related
     group; your package should define its own command set in order to avoid collisions
     with command ids defined by other packages. -->
- 
-      <Groups>
-          <Group guid="guidDpdtPackageCmdSet" id="DpdtInstallMenuGroup" priority="0x07de">
-              <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE"/>
-          </Group>
-          <Group guid="guidDpdtPackageCmdSet" id="DoCreateClusterMenuGroup" priority="0x07df">
-              <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE"/>
-          </Group>
-          <Group guid="guidDpdtPackageCmdSet" id="DoCreateClusterMenuGroup" priority="0x06df">
-              <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_FOLDERNODE"/>
-          </Group>
-      </Groups>
-      
-      <!--Buttons section. -->
-      <!--This section defines the elements the user can interact with, like a menu command or a button
+
+        <Groups>
+            <Group guid="guidDpdtPackageCmdSet" id="DpdtMenuGroup" priority="0x0600">
+                <Parent guid="guidSHLMainMenu" id="IDM_VS_TOOL_MAINMENU" />
+            </Group>
+            <Group guid="guidDpdtPackageCmdSet" id="DpdtSubMenuGroup" priority="0x0000">
+                <Parent guid="guidDpdtPackageCmdSet" id="DpdtSubMenu" />
+            </Group>
+
+            <Group guid="guidDpdtPackageCmdSet" id="DpdtInstallMenuGroup" priority="0x07de">
+                <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE" />
+            </Group>
+            <Group guid="guidDpdtPackageCmdSet" id="DoCreateClusterMenuGroup" priority="0x07df">
+                <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE" />
+            </Group>
+            <Group guid="guidDpdtPackageCmdSet" id="DoCreateClusterMenuGroup" priority="0x06df">
+                <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_FOLDERNODE" />
+            </Group>
+        </Groups>
+
+
+        <Menus>
+            <Menu guid="guidDpdtPackageCmdSet" id="DpdtSubMenu" priority="0x0100" type="Menu">
+                <Parent guid="guidDpdtPackageCmdSet" id="DpdtMenuGroup" />
+                <Strings>
+                    <ButtonText>Dpdt</ButtonText>
+                </Strings>
+            </Menu>
+        </Menus>
+
+        <!--Buttons section. -->
+        <!--This section defines the elements the user can interact with, like a menu command or a button
         or combo box in a toolbar. -->
-      <Buttons>
-          <!--To define a menu group you have to specify its ID, the parent menu and its display priority.
+        <Buttons>
+            <!--To define a menu group you have to specify its ID, the parent menu and its display priority.
           The command is visible and enabled by default. If you need to change the visibility, status, etc, you can use
           the CommandFlag node.
           You can add more than one CommandFlag node e.g.:
               <CommandFlag>DefaultInvisible</CommandFlag>
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
-          <Button guid="guidDpdtPackageCmdSet" id="DoInstallCommandId" priority="0x0101" type="Button">
-              <Parent guid="guidDpdtPackageCmdSet" id="DpdtInstallMenuGroup" />
-              <CommandFlag>DefaultInvisible</CommandFlag>
-              <CommandFlag>DynamicVisibility</CommandFlag>
-              <Icon guid="logo2_16_gallery" id="logo2_16" />
-              <Strings>
-                  <ButtonText>Install latest Dpdt...</ButtonText>
-              </Strings>
-          </Button>
-          <Button guid="guidDpdtPackageCmdSet" id="DoCreateClusterCommandId" priority="0x0102" type="Button">
-              <Parent guid="guidDpdtPackageCmdSet" id="DoCreateClusterMenuGroup" />
-              <CommandFlag>DefaultInvisible</CommandFlag>
-              <CommandFlag>DynamicVisibility</CommandFlag>
-              <Icon guid="logo2_16_gallery" id="logo2_16" />
-              <Strings>
-                  <ButtonText>Create Dpdt cluster/method...</ButtonText>
-              </Strings>
-          </Button>
-      </Buttons>
-      
-      <!--The bitmaps section is used to define the bitmaps that are used for the commands.-->
-    <Bitmaps>
-      <!--  The bitmap id is defined in a way that is a little bit different from the others:
+            <Button guid="guidDpdtPackageCmdSet" id="DoInstallCommandId" priority="0x0101" type="Button">
+                <Parent guid="guidDpdtPackageCmdSet" id="DpdtInstallMenuGroup" />
+                <CommandFlag>DefaultInvisible</CommandFlag>
+                <CommandFlag>DynamicVisibility</CommandFlag>
+                <Icon guid="logo2_16_gallery" id="logo2_16" />
+                <Strings>
+                    <ButtonText>Install latest Dpdt...</ButtonText>
+                </Strings>
+            </Button>
+            <Button guid="guidDpdtPackageCmdSet" id="DoCreateClusterCommandId" priority="0x0102" type="Button">
+                <Parent guid="guidDpdtPackageCmdSet" id="DoCreateClusterMenuGroup" />
+                <CommandFlag>DefaultInvisible</CommandFlag>
+                <CommandFlag>DynamicVisibility</CommandFlag>
+                <Icon guid="logo2_16_gallery" id="logo2_16" />
+                <Strings>
+                    <ButtonText>Create Dpdt cluster/method...</ButtonText>
+                </Strings>
+            </Button>
+            <Button guid="guidDpdtPackageCmdSet" id="BindingListWindowCommandId" priority="0x0103" type="Button">
+                <Parent guid="guidDpdtPackageCmdSet" id="DpdtSubMenuGroup" />
+                <Icon guid="logo2_16_gallery" id="logo2_16" />
+                <Strings>
+                    <ButtonText>Show all bindings...</ButtonText>
+                </Strings>
+            </Button>
+        </Buttons>
+
+        <!--The bitmaps section is used to define the bitmaps that are used for the commands.-->
+        <Bitmaps>
+            <!--  The bitmap id is defined in a way that is a little bit different from the others:
             the declaration starts with a guid for the bitmap strip, then there is the resource id of the
             bitmap strip containing the bitmaps and then there are the numeric ids of the elements used
             inside a button definition. An important aspect of this declaration is that the element id
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
-      <Bitmap guid="logo2_32_gallery" href="Resources\logo2_32.png" usedList="logo2_32"/>
-        <Bitmap guid="logo2_16_gallery" href="Resources\logo2_16.png" usedList="logo2_16"/>
-    </Bitmaps>
-  </Commands>
+            <Bitmap guid="logo2_32_gallery" href="Resources\logo2_32.png" usedList="logo2_32" />
+            <Bitmap guid="logo2_16_gallery" href="Resources\logo2_16.png" usedList="logo2_16" />
+        </Bitmaps>
+    </Commands>
 
-  <Symbols>
-    <!-- This is the package guid. -->
-    <GuidSymbol name="dpdtPackage" value="{D53EA3DF-798B-402F-B6FD-0DC4544A4BE7}" />
+    <Symbols>
+        <!-- This is the package guid. -->
+        <GuidSymbol name="dpdtPackage" value="{D53EA3DF-798B-402F-B6FD-0DC4544A4BE7}" />
 
-      <GuidSymbol name="logo2_16_gallery" value="{015C876B-A40E-42ED-A616-C95E83FBFC99}" >
-          <IDSymbol name="logo2_16" value="1" />
-      </GuidSymbol>
+        <GuidSymbol name="logo2_16_gallery" value="{015C876B-A40E-42ED-A616-C95E83FBFC99}">
+            <IDSymbol name="logo2_16" value="1" />
+        </GuidSymbol>
 
-      <GuidSymbol name="logo2_32_gallery" value="{E8FE0869-DFED-4F46-BE04-938805281CFA}" >
-      <IDSymbol name="logo2_32" value="1" />
-    </GuidSymbol>
+        <GuidSymbol name="logo2_32_gallery" value="{E8FE0869-DFED-4F46-BE04-938805281CFA}">
+            <IDSymbol name="logo2_32" value="1" />
+        </GuidSymbol>
 
-      <!-- This is the guid used to group the menu commands together -->
-      <GuidSymbol name="guidDpdtPackageCmdSet" value="{A30C3B4B-537C-4EEF-A7FF-232D47063286}">
-          <IDSymbol name="DpdtInstallMenuGroup" value="0x1020" />
-          <IDSymbol name="DoInstallCommandId" value="0xC100" />
+        <!-- This is the guid used to group the menu commands together -->
+        <GuidSymbol name="guidDpdtPackageCmdSet" value="{A30C3B4B-537C-4EEF-A7FF-232D47063286}">
+            <IDSymbol name="DpdtMenuGroup" value="0x101D" />
+            <IDSymbol name="DpdtSubMenuGroup" value="0x101E" />
+            <IDSymbol name="DpdtSubMenu" value="0x101F" />
 
-          <IDSymbol name="DoCreateClusterMenuGroup" value="0x1021" />
-          <IDSymbol name="DoCreateClusterCommandId" value="0xC101" />
-      </GuidSymbol>
-  </Symbols>
+            <IDSymbol name="DpdtInstallMenuGroup" value="0x1020" />
+
+            <IDSymbol name="DoInstallCommandId" value="0xC100" />
+
+            <IDSymbol name="DoCreateClusterMenuGroup" value="0x1021" />
+            <IDSymbol name="DoCreateClusterCommandId" value="0xC101" />
+            <IDSymbol name="BindingListWindowCommandId" value="0xC102" />
+        </GuidSymbol>
+
+    </Symbols>
 </CommandTable>

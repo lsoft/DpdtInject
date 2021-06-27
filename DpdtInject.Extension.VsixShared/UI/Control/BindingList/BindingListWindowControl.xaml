@@ -1,0 +1,124 @@
+﻿<UserControl
+    x:Class="DpdtInject.Extension.UI.Control.BindingList.BindingListWindowControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:main="clr-namespace:DpdtInject.Extension"
+    xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
+    xmlns:vsshell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
+    xmlns:platformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+    xmlns:ui="clr-namespace:DpdtInject.Extension.UI"
+    ui:VsTheme.UseVsTheme="True"
+    SnapsToDevicePixels="True"
+    mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="300"
+    Name="BindingListControl">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBox
+            Grid.Row="0"
+            HorizontalAlignment="Stretch"
+            Margin="2"
+            MaxLength="100"
+            Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            />
+
+        <ListView
+            Grid.Row="1"
+            Margin="2"
+            Name="ItemListView"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="Transparent"
+            ItemsSource="{Binding BindingItemList}"
+            VirtualizingStackPanel.IsVirtualizing="True" 
+            VirtualizingStackPanel.VirtualizationMode="Recycling"
+            >
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <!--<Setter Property="HorizontalAlignment" Value="Stretch"/>-->
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Margin" Value="0,3,0,3"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <!--<Setter Property="IsSelected" Value="{Binding IsSelected}"/>-->
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Focusable" Value="false"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <Border Name="Selection" Visibility="Collapsed" />
+
+                                    <ContentPresenter
+                                        Grid.RowSpan="2"
+                                        Margin="{TemplateBinding Padding}"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                        />
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate
+                    >
+                    <VirtualizingStackPanel
+                        VirtualizingPanel.IsVirtualizing="True"
+                        VirtualizingPanel.VirtualizationMode="Recycling"
+                        >
+                        <VirtualizingStackPanel.InputBindings>
+                            <MouseBinding Gesture="LeftClick" CommandParameter="{Binding}" Command="{Binding ElementName=ItemListView, Path=DataContext.NavigateCommand}" />
+                        </VirtualizingStackPanel.InputBindings>
+
+                        <Border
+                            BorderThickness="1"
+                            CornerRadius="0"
+                            BorderBrush="{Binding BorderBrush}"
+                            Margin="0"
+                            Cursor="Hand"
+                            >
+
+                            <VirtualizingStackPanel
+                                Margin="5,2,5,2"
+                                >
+                                <TextBlock
+                                    Margin="2,0,2,5"
+                                    Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+                                    FontWeight="Bold"
+                                    Text="{Binding BindingTo}"
+                                    />
+                                <TextBlock
+                                    Margin="10,0,2,0"
+                                    Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+                                    Text="{Binding BindingsFrom}"
+                                    />
+                                <TextBlock
+                                    Margin="10,0,2,5"
+                                    Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+                                    Text="{Binding OtherParameters}"
+                                    />
+                                <TextBlock
+                                    Margin="2,0,2,0"
+                                    Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+                                    Text="{Binding BindingLocation}"
+                                    Opacity="0.75"
+                                    />
+                            </VirtualizingStackPanel>
+                        </Border>
+                    </VirtualizingStackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            
+        </ListView>
+        
+    </Grid>
+</UserControl>

@@ -18,7 +18,7 @@ using Microsoft.CodeAnalysis;
 
 namespace DpdtInject.Extension
 {
-    public class DoCreateClusterCommandId
+    public class DoCreateClusterCommand
     {
         public static string ProjectKind = "{52AEFF70-BBD8-11d2-8598-006097C68E81}";
         
@@ -46,7 +46,7 @@ namespace DpdtInject.Extension
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
         /// <param name="commandService">Command service to add command to, not null.</param>
-        private DoCreateClusterCommandId(AsyncPackage package, OleMenuCommandService commandService)
+        private DoCreateClusterCommand(AsyncPackage package, OleMenuCommandService commandService)
         {
             this._package = package ?? throw new ArgumentNullException(nameof(package));
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
@@ -60,7 +60,7 @@ namespace DpdtInject.Extension
         /// <summary>
         /// Gets the instance of the command.
         /// </summary>
-        public static DoCreateClusterCommandId? Instance
+        public static DoCreateClusterCommand? Instance
         {
             get;
             private set;
@@ -88,7 +88,7 @@ namespace DpdtInject.Extension
             _componentModel = Package.GetGlobalService(typeof(SComponentModel)) as IComponentModel;
 
             var commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
-            Instance = new DoCreateClusterCommandId(package, commandService!);
+            Instance = new DoCreateClusterCommand(package, commandService!);
         }
 
         /// <summary>
