@@ -15,6 +15,9 @@
 - [How to try](#how-to-try)
 - [Design](#design)
   * [To be fair: design drawbacks at first place](#to-be-fair-design-drawbacks-at-first-place)
+  * [Cluster](#cluster)
+  * [Cluster life cycle](#cluster-life-cycle)
+  * [Child clusters](#child-clusters)
   * [Syntax](#syntax)
     + [Regular singleton/transient/custom binding](#regular-singletontransientcustom-binding)
     + [Regular const binding](#regular-const-binding)
@@ -38,8 +41,6 @@
     + [Circular dependencies](#circular-dependencies)
     + [More than 1 unconditional child](#more-than-1-unconditional-child)
     + [Conventional bindings](#conventional-bindings-1)
-  * [Cluster life cycle](#cluster-life-cycle)
-  * [Child clusters](#child-clusters)
   * [Async resolutions](#async-resolutions)
   * [Settings](#settings)
     + [Cross cluster resolutions](#cross-cluster-resolutions)
@@ -215,9 +216,48 @@ Also I recommend disable tiered compilation for composition root assembly if you
 0. No deferred bindings by design with exception of cluster hierarchy.
 0. Slower source-to-IL compilation, slower JIT compilation.
 
+## Cluster
+
+Dpdt bingings organized in the groups named `clusters`. Cluster is a class that derived from Dpdt's `DpdtInject.Injector.Src.DefaultCluster`. This class should be `partial`. Each cluster may have any numbers of binding methods even in different compilation units. These methods should be marked with attribute `[DpdtBindingMethod]`. No argument allowed for that methods, and in fact they are not executed at all. You can use this to split your bindings into different groups (something like Ninject's modules).
+
+## Cluster life cycle
+
+The life cycle of the cluster begins by creating it with `new`. The cluster can take other cluster as its parent, so each unknown dependency will be resolved from the parent (if parent exists, otherwise exception would be thrown).
+
+The end of the life cycle of a cluster occurs after the call to its `Dispose` method. At this point, all of its disposable singleton bindings are also being disposed. It is prohibited to dispose of the cluster and use it for resolving in parallel . It is forbidden to resolve after a `Dispose`.
+
+## Child clusters
+
+```csharp
+    public partial class RootCluster : DefaultCluster
+    {
+        public RootCluster(your arguments) : this((ICluster)null!) { ... }
+    }
+
+    public partial class ChildCluster : DefaultCluster
+    {
+        public ChildCluster(ICluster cluster, your arguments) : this(cluster) { ... }
+    }
+
+...
+
+    var rootCluster = new RootCluster(
+        your arguments
+        );
+    var childCluster = new ChildCluster(
+        rootCluster,
+        your arguments
+        );
+```
+
+Clusters are organized into a tree. This tree cannot have a circular dependency, since it is based on constructor argument. Dependencies, consumed by the binding in the child cluster, are resolved from the home cluster if exists, if not - from **parent cluster**.
+
+If some binging does not exist in local cluster, Dpdt will request it from parent cluster at runtime. This behavior can be modified by settings `OnlyLocalCluster`/`AllowedCrossCluster`/`MustBeCrossCluster`.
+
+
 ## Syntax
 
-Dpdt syntax was partially inspired by Ninject.
+Dpdt syntax was partially inspired by Ninject. A lot of examples of allowed syntaxes are available in the test project. Please refer that code.
 
 ### Regular singleton/transient/custom binding
 
@@ -407,11 +447,6 @@ Bind<IA>()
 
 Dpdt does not support conventional bindings to proxy or factory, because of design.
 
-
-A lot of examples of allowed syntaxes are available in the test project. Please refer that code.
-
-Binding expressions are contained in methods marked with attribute `[DpdtBindingMethod]`. No argument allowed for that methods, and in fact they are not executed at all. Class with `[DpdtBindingMethod]`-methods should be derived from `DpdtInject.Injector.DefaultCluster`. This class should be `partial`. Many binding methods per cluster (even in different compilation units) allowed to exist. You can use this to split your bindings into different groups (something like Ninject's modules).
-
 ## Choosing constructor
 
 Constructor is chosen at the compilation stage based on 3 principles:
@@ -511,40 +546,6 @@ If for some binding more than 1 unconditional child exists it renders parent unr
 ### Conventional bindings
 
 Dpdt will write some info in Build log for every conventional binding produced. For regular binding - will not. It is useful for debugging conventional bindings results.
-
-## Cluster life cycle
-
-The life cycle of the cluster begins by creating it with `new`. The cluster can take other cluster as its parent, so each unknown dependency will be resolved from the parent (if parent exists, otherwise exception would be thrown).
-
-The end of the life cycle of a cluster occurs after the call to its `Dispose` method. At this point, all of its disposable singleton bindings are also being disposed. It is prohibited to dispose of the cluster and use it for resolving in parallel . It is forbidden to resolve after a `Dispose`.
-
-## Child clusters
-
-```csharp
-    public partial class RootCluster : DefaultCluster
-    {
-        public RootCluster(your arguments) : this((ICluster)null!) { ... }
-    }
-
-    public partial class ChildCluster : DefaultCluster
-    {
-        public ChildCluster(ICluster cluster, your arguments) : this(cluster) { ... }
-    }
-
-...
-
-    var rootCluster = new RootCluster(
-        your arguments
-        );
-    var childCluster = new ChildCluster(
-        rootCluster,
-        your arguments
-        );
-```
-
-Clusters are organized into a tree. This tree cannot have a circular dependency, since it is based on constructor argument. Dependencies, consumed by the binding in the child cluster, are resolved from the home cluster if exists, if not - from **parent cluster**.
-
-If some binging does not exist in local cluster, Dpdt will request it from parent cluster at runtime. This behavior can be modified by settings `OnlyLocalCluster`/`AllowedCrossCluster`/`MustBeCrossCluster`.
 
 
 ## Async resolutions
