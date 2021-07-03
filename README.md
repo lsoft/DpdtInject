@@ -678,9 +678,9 @@ This is to turn off code beautification so Dpdt will produce cluster code a bit 
 
 # Dpdt Visual Studio Extension
 
-To make a dealing with Dpdt easier, a [Visual Studio Extension](https://marketplace.visualstudio.com/items?itemName=lsoft.DpdtVisualStudioExtension) has been developed. Make note: it only supports Visual Studio 2019 16.8 (and later) and Visual Studio 2022.
+To make a dealing with Dpdt easier, a Visual Studio Extension has been developed. Make note: it only supports [Visual Studio 2019 16.8 (and later)](https://marketplace.visualstudio.com/items?itemName=lsoft.DpdtVisualStudioExtension) and [Visual Studio 2022](https://marketplace.visualstudio.com/items?itemName=lsoft.DpdtVisualStudioExtension2022).
 
-Please make note: Dpdt Visual Studio extension should be the SAME version as your Dpdt.Injector package version.
+Please make note: Dpdt Visual Studio extension should be the SAME version as your Dpdt.Injector package version. If it is not possible, please use the latest version of the both. I carefully try to publish compatible versions of the new nuget and new vsixes at the same time. Sometimes, a new version of vsix can be published without nuget, and the opposite. It means that the new version of vsix (or nuget) will be compatible with last existing version of the nuget (or vsix).
 
 If you click on a project in Solution Explorer and there is no Dpdt nuget installed, you can install its latest version easily:
 
