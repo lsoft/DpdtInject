@@ -149,7 +149,12 @@ Also I recommend disable tiered compilation for composition root assembly if you
 
 # How to try
 
-Please refer to Dpdt.Injector [nuget package](https://www.nuget.org/packages/Dpdt.Injector/). Keep in mind you need to set 'net5' target framework. For example:
+## Without Dpdt Visual Studio Extension
+
+- Create new Console Application in Visual Studio or `dotnet` console command. Keep in mind you need to set `net5` or `net6` target framework. 
+- Install latest `Dpdt.Injector` [nuget package](https://www.nuget.org/packages/Dpdt.Injector/). Keep in mind that nuget may be in the prerelease state.
+- (optional) You can disable tiered compilation for composition root assembly and set `EmitCompilerGeneratedFiles` to `true`.
+- At this point, you have something like the following in your csproj file:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -173,6 +178,32 @@ Please refer to Dpdt.Injector [nuget package](https://www.nuget.org/packages/Dpd
 </Project>
 ```
 
+- Next, create a class which will be resolved from a Dpdt container, for example: `public class MyPayload { }`
+- You will need a Dpdt cluster class:
+
+```csharp
+    public partial class MyCluster : DpdtInject.Injector.Src.DefaultCluster
+    {
+        [DpdtInject.Injector.Src.DpdtBindingMethod]
+        public void Bind()
+        {
+            Bind<MyPayload>()
+                .To<MyPayload>()
+                .WithSingletonScope()
+                ;
+        }
+    }
+```
+
+- Now, it's time to create a cluster and take our payload from it; put the following at `Program.Main`:
+
+```csharp
+    var cluster = new MyCluster(null);
+    var payload = cluster.Get<MyPayload>();
+    Console.WriteLine(payload.GetType().Name);
+```
+
+- Finally, run your program.
 
 # Design
 
