@@ -8,16 +8,16 @@ namespace DpdtInject.Generator.Core.Producer
 {
     public static class NameHelper
     {
-        private static readonly SymbolDisplayFormat SymbolDisplayFormat = new SymbolDisplayFormat(typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces);
+        private static readonly SymbolDisplayFormat _symbolDisplayFormat = new SymbolDisplayFormat(typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces);
 
-        private static readonly Type SymbolDisplayCompilerInternalOptionsType = typeof(SymbolDisplayFormat).Assembly.GetType("Microsoft.CodeAnalysis.SymbolDisplayCompilerInternalOptions")!;
-        private static readonly ConstructorInfo Constructor = typeof(SymbolDisplayFormat).GetConstructor(
+        private static readonly Type _symbolDisplayCompilerInternalOptionsType = typeof(SymbolDisplayFormat).Assembly.GetType("Microsoft.CodeAnalysis.SymbolDisplayCompilerInternalOptions")!;
+        private static readonly ConstructorInfo _constructor = typeof(SymbolDisplayFormat).GetConstructor(
             BindingFlags.NonPublic | BindingFlags.Instance,
             null,
             CallingConventions.Any,
             new Type[]
             {
-                SymbolDisplayCompilerInternalOptionsType,
+                _symbolDisplayCompilerInternalOptionsType,
                 typeof(SymbolDisplayGlobalNamespaceStyle),
                 typeof(SymbolDisplayTypeQualificationStyle),
                 typeof(SymbolDisplayGenericsOptions),
@@ -33,12 +33,12 @@ namespace DpdtInject.Generator.Core.Producer
             },
             null
             )!;
-        const int SymbolDisplayCompilerInternalOptions_UseArityForGenericTypes = 2;
+        const int _symbolDisplayCompilerInternalOptions_UseArityForGenericTypes = 2;
 
-        private static readonly SymbolDisplayFormat ReflectionFormat = (SymbolDisplayFormat)Constructor.Invoke(
+        private static readonly SymbolDisplayFormat _reflectionFormat = (SymbolDisplayFormat)_constructor.Invoke(
             new object[]
             {
-                        SymbolDisplayCompilerInternalOptions_UseArityForGenericTypes,
+                        _symbolDisplayCompilerInternalOptions_UseArityForGenericTypes,
                         SymbolDisplayGlobalNamespaceStyle.Omitted, //default(SymbolDisplayGlobalNamespaceStyle),
                         SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces, //default(SymbolDisplayTypeQualificationStyle),
                         SymbolDisplayGenericsOptions.IncludeTypeParameters, //default(SymbolDisplayGenericsOptions),
@@ -105,7 +105,7 @@ namespace DpdtInject.Generator.Core.Producer
                 throw new ArgumentNullException(nameof(s));
             }
 
-            return s.ToDisplayString(SymbolDisplayFormat);
+            return s.ToDisplayString(_symbolDisplayFormat);
         }
 
         public static string ToReflectionFormat(
@@ -118,7 +118,7 @@ namespace DpdtInject.Generator.Core.Producer
                 throw new ArgumentNullException(nameof(s));
             }
 
-            var reflectionTypeString = s.ToDisplayString(ReflectionFormat);
+            var reflectionTypeString = s.ToDisplayString(_reflectionFormat);
             if (s.TypeArguments.Length > 0)
             {
                 reflectionTypeString += "[";
