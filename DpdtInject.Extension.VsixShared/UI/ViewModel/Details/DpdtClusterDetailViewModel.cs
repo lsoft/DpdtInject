@@ -8,7 +8,7 @@ namespace DpdtInject.Extension.UI.ViewModel.Details
         private readonly IDpdtClusterDetail _target;
 
         /// <inheritdoc />
-        public string ClassNamespace
+        public string? ClassNamespace
         {
             get;
         }

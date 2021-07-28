@@ -2,7 +2,7 @@
 {
     public interface IDpdtClusterDetail
     {
-        string ClassNamespace
+        string? ClassNamespace
         {
             get;
         }

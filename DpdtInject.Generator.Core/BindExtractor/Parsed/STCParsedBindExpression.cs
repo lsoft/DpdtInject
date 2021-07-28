@@ -80,6 +80,14 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
                 throw new ArgumentOutOfRangeException(nameof(scope));
             }
 
+            if (fromTypes.Any(t => t is IDynamicTypeSymbol))
+            {
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.IncorrectBinding_IncorrectFrom,
+                    $"Dynamic cannot be used as bind from type"
+                    );
+            }
+
             _typeInfoContainer = typeInfoContainer;
             _extractor = extractor;
             _constructorArgumentDetector = constructorArgumentDetector;

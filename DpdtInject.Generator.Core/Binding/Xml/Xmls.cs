@@ -437,7 +437,7 @@ namespace DpdtInject.Generator.Core.Binding.Xml
 
         [XmlElement(ElementName = "FullNamespaceDisplayName")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public string FullNamespaceDisplayName
+        public string? FullNamespaceDisplayName
         {
             get;
             set;
@@ -455,7 +455,7 @@ namespace DpdtInject.Generator.Core.Binding.Xml
             string fullDisplayName,
             string fullyQualifiedName,
             string name,
-            string fullNamespaceDisplayName
+            string? fullNamespaceDisplayName
             )
         {
             FullDisplayName = fullDisplayName;
@@ -728,7 +728,7 @@ namespace DpdtInject.Generator.Core.Binding.Xml
             get;
         }
 
-        string FullNamespaceDisplayName
+        string? FullNamespaceDisplayName
         {
             get;
         }

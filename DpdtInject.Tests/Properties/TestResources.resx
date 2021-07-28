@@ -445,6 +445,15 @@
   <data name="UnsortedDisposeAndException_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\DisposeAndException\UnsortedDisposeAndException_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="UnsortedDynamic0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\Dynamic0\UnsortedDynamic0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="UnsortedDynamic1_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\Dynamic1\UnsortedDynamic1_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="UnsortedDynamic2_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\Dynamic2\UnsortedDynamic2_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="UnsortedFromAllInterfaces0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\FromAllInterfaces0\UnsortedFromAllInterfaces0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -463,8 +472,17 @@
   <data name="UnsortedInvalidToType_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\InvalidToType\UnsortedInvalidToType_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="UnsortedMDArray1_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\MDArray1\UnsortedMDArray1_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="UnsortedMDArray2_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\MDArray2\UnsortedMDArray2_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="UnsortedMirroredArguments0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\MirroredArguments0\UnsortedMirroredArguments0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="UnsortedNativeNumber0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\NativeNumber0\UnsortedNativeNumber0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="UnsortedNativeTypeArgument0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\NativeTypeArgument0\UnsortedNativeTypeArgument0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
@@ -478,6 +496,18 @@
   <data name="UnsortedOptionalArgument1_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\OptionalArgument1\UnsortedOptionalArgument1_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="UnsortedPlainArray0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\PlainArray0\UnsortedPlainArray0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="UnsortedPlainArray1_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\PlainArray1\UnsortedPlainArray1_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="UnsortedPlainArray2_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\PlainArray2\UnsortedPlainArray2_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="UnsortedPlainArray2_Cluster1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\PlainArray2\UnsortedPlainArray2_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="UnsortedSingletonCustom_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\SingletonCustom\UnsortedSingletonCustom_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -486,6 +516,9 @@
   </data>
   <data name="UnsortedTooManyChildren_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\TooManyChildren\UnsortedTooManyChildren_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="UnsortedTuple1_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Unsorted\Tuple1\UnsortedTuple1_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="UnsortedTwoBindMethods_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unsorted\TwoBindMethods\UnsortedTwoBindMethods_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>

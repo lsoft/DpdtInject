@@ -150,6 +150,10 @@ namespace DpdtInject.Generator.Core.Helpers
                 .Replace('<', '_')
                 .Replace('>', '_')
                 .Replace(',', '_')
+                .Replace('[', '_')
+                .Replace(']', '_')
+                .Replace('(', '_')
+                .Replace(')', '_')
                 ;
         }
 

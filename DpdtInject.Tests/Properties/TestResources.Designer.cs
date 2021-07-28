@@ -19,7 +19,7 @@ namespace DpdtInject.Tests.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class TestResources {
@@ -2805,6 +2805,83 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using DpdtInject.Injector.Src;
+        ///using System.Linq;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.Dynamic0
+        ///{
+        ///    public partial class UnsortedDynamic0_Cluster : DefaultCluster
+        ///    {
+        ///        public static readonly dynamic Constant = (123, new int[,]{ { 1, 2 }, { 3, 4 } });
+        ///
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;object, dynamic&gt;()
+        ///                .WithConstScope(Constant)
+        ///                ;        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedDynamic0_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedDynamic0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using DpdtInject.Injector.Src;
+        ///using System.Linq;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.Dynamic1
+        ///{
+        ///    public partial class UnsortedDynamic1_Cluster : DefaultCluster
+        ///    {
+        ///        public static readonly (nuint, int[,]) Constant = (123, new int[,]{ { 1, 2 }, { 3, 4 } });
+        ///
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;object, dynamic&gt;()
+        ///                .WithConstScope(Constant)
+        ///           [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedDynamic1_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedDynamic1_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using DpdtInject.Injector.Src;
+        ///using System.Linq;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.Dynamic2
+        ///{
+        ///    public partial class UnsortedDynamic2_Cluster : DefaultCluster
+        ///    {
+        ///        public static readonly dynamic Constant = (123, new int[,]{ { 1, 2 }, { 3, 4 } });
+        ///
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;object&gt;()
+        ///                .WithConstScope(Constant)
+        ///                ;
+        ///
+        ///       [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedDynamic2_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedDynamic2_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Unsorted.FromAllInterfaces0
@@ -2913,6 +2990,7 @@ namespace DpdtInject.Tests.Properties {
         ///using System.Collections;
         ///using System.Collections.Generic;
         ///using System.Linq;
+        ///using DpdtInject.Injector.Src.Bind;
         ///
         ///namespace DpdtInject.Tests.Unsorted.GetAllDuplicate1
         ///{
@@ -2923,8 +3001,7 @@ namespace DpdtInject.Tests.Properties {
         ///        {
         ///            Bind&lt;HandlerContainer&gt;()
         ///                .To&lt;HandlerContainer&gt;()
-        ///                .WithTransientScope()
-        ///            [rest of string was truncated]&quot;;.
+        ///              [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnsortedGetAllDuplicate1_Cluster {
             get {
@@ -2961,6 +3038,54 @@ namespace DpdtInject.Tests.Properties {
         ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using System;
         ///using DpdtInject.Injector.Src;
+        ///using System.Linq;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.MDArray1
+        ///{
+        ///    public partial class UnsortedMDArray1_Cluster : DefaultCluster
+        ///    {
+        ///        public static readonly int[][] Constant = new int[2][] { new int[] { 1, 2 }, new int[] { 2, 3 } };
+        ///
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;int[][]&gt;()
+        ///                .WithConstScope(Constant)
+        ///           [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedMDArray1_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedMDArray1_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using DpdtInject.Injector.Src;
+        ///using System.Linq;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.MDArray2
+        ///{
+        ///    public partial class UnsortedMDArray2_Cluster : DefaultCluster
+        ///    {
+        ///        public static readonly int[][][] Constant = new int[2][][] { new int[2][] { new int[] { 1, 2 }, new int[] { 2, 3 } }, new int[2][] { new int[] { 1, 2 }, new int[] { 2, 3 } } };
+        ///
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///     [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedMDArray2_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedMDArray2_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using DpdtInject.Injector.Src;
         ///using DpdtInject.Injector.Src.Bind.Settings.Constructor;
         ///using DpdtInject.Injector.Src.Bind;
         ///
@@ -2978,6 +3103,34 @@ namespace DpdtInject.Tests.Properties {
         internal static string UnsortedMirroredArguments0_Cluster {
             get {
                 return ResourceManager.GetString("UnsortedMirroredArguments0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using DpdtInject.Injector.Src;
+        ///using System.Linq;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.NativeNumber0
+        ///{
+        ///    public partial class UnsortedNativeNumber0_Cluster : DefaultCluster
+        ///    {
+        ///        public static readonly nuint Constant = 123;
+        ///
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;nuint&gt;()
+        ///                .WithConstScope(Constant)
+        ///                ;
+        ///
+        ///            Bind&lt;A&gt;()
+        ///             [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedNativeNumber0_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedNativeNumber0_Cluster", resourceCulture);
             }
         }
         
@@ -3086,6 +3239,106 @@ namespace DpdtInject.Tests.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using DpdtInject.Injector.Src;
+        ///using System.Linq;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.PlainArray0
+        ///{
+        ///    public partial class UnsortedPlainArray0_Cluster : DefaultCluster
+        ///    {
+        ///        public static readonly int[] Constant = new int[] { 1, 2, 3, 4, 5 };
+        ///
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;int[]&gt;()
+        ///                .WithConstScope(Constant)
+        ///                ;
+        ///
+        ///            Bin [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedPlainArray0_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedPlainArray0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using DpdtInject.Injector.Src;
+        ///using System.Linq;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.PlainArray1
+        ///{
+        ///    public partial class UnsortedPlainArray1_Cluster : DefaultCluster
+        ///    {
+        ///        public static readonly int[,] Constant = new int[,] { { 1, 2, 3, 4, 5 }, { 5, 6, 7, 8, 9 } };
+        ///
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;int[,]&gt;()
+        ///                .WithConstScope(Constant)
+        ///           [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedPlainArray1_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedPlainArray1_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using DpdtInject.Injector.Src;
+        ///using System.Linq;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.PlainArray2
+        ///{
+        ///    public partial class UnsortedPlainArray2_Cluster : DefaultCluster
+        ///    {
+        ///        public static readonly int[,,] Constant = new int[,,] { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } };
+        ///
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;int[,,]&gt;()
+        ///                .WithConstScope(Constant [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedPlainArray2_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedPlainArray2_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using DpdtInject.Injector.Src;
+        ///using System.Linq;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.PlainArray2
+        ///{
+        ///    public partial class UnsortedPlainArray2_Cluster : DefaultCluster
+        ///    {
+        ///        public static readonly int[,,] Constant = new int[,,] { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } };
+        ///
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;int[,,]&gt;()
+        ///                .WithConstScope(Constant [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedPlainArray2_Cluster1 {
+            get {
+                return ResourceManager.GetString("UnsortedPlainArray2_Cluster1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Unsorted.SingletonCustom
@@ -3166,6 +3419,31 @@ namespace DpdtInject.Tests.Properties {
         internal static string UnsortedTooManyChildren_Cluster {
             get {
                 return ResourceManager.GetString("UnsortedTooManyChildren_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using DpdtInject.Injector.Src;
+        ///using System.Linq;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.Tuple1
+        ///{
+        ///    public partial class UnsortedTuple1_Cluster : DefaultCluster
+        ///    {
+        ///        public static readonly (nuint, int[,]) Constant = (123, new int[,]{ { 1, 2 }, { 3, 4 } });
+        ///
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;(nuint, int[,])&gt;()
+        ///                .WithConstScope(Constant)
+        ///               [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedTuple1_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedTuple1_Cluster", resourceCulture);
             }
         }
         

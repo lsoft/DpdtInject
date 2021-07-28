@@ -72,11 +72,28 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
             _from = invocationSymbols.First(
                 s => s.Item2.ContainingType.ToGlobalDisplayString() == typeof(DefaultCluster).ToGlobalDisplayString() && s.Item2.Name == DefaultCluster.BindMethodName
                 );
-            _fromTypes =  _from.Item2.TypeArguments;
+            _fromTypes = _from.Item2.TypeArguments;
+
+            if (_fromTypes.Any(t => t is IDynamicTypeSymbol))
+            {
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.IncorrectBinding_IncorrectFrom,
+                    $"Dynamic cannot be used as bind from type"
+                    );
+            }
 
             _constScope = invocationSymbols.First(
                 s => s.Item2.ContainingType.ToGlobalDisplayString() == typeof(IToOrConstantBinding).ToGlobalDisplayString() && s.Item2.Name == nameof(IToOrConstantBinding.WithConstScope)
                 );
+
+            //euristric if constant is a dynamic actually
+            if (_constScope.Item2.TypeArguments[0].TypeKind == TypeKind.TypeParameter)
+            {
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.IncorrectBinding_IncorrectFrom,
+                    $"Dynamic cannot be used as bind from type"
+                    );
+            }
 
             _whenArgumentClause = DetermineArgumentSubClause(
                 invocationSymbols,

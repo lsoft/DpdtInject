@@ -5,7 +5,7 @@ namespace DpdtInject.Extension.Shared.Dto
 
     public class DpdtClusterDetail : IDpdtClusterDetail
     {
-        public string ClassNamespace
+        public string? ClassNamespace
         {
             get;
             set;
@@ -27,7 +27,7 @@ namespace DpdtInject.Extension.Shared.Dto
         public string FullName => $"{ClassFullName}.{MethodName}";
 
         public DpdtClusterDetail(
-            string classNamespace,
+            string? classNamespace,
             string classFullName,
             string methodName
             )

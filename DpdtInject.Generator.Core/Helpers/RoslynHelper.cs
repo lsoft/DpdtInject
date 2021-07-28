@@ -27,7 +27,7 @@ namespace DpdtInject.Generator.Core.Helpers
                 symbol.ToFullDisplayString(),
                 symbol.ToFullyQualifiedName(),
                 symbol.Name,
-                symbol.ContainingNamespace.ToFullDisplayString()
+                symbol.ContainingNamespace?.ToFullDisplayString()
                 );
 
             return result;

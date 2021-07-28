@@ -46,7 +46,15 @@ namespace DpdtInject.Extension.UI.ViewModel.Add.Inner
             MethodBindContainer = mbc;
 
             VisualRepresentationClassMethod = $"{mbc.ClusterTypeInfo.Name}.{mbc.MethodDeclaration.MethodName}";
-            VisualRepresentationNamespace = $"({mbc.ClusterTypeInfo.FullNamespaceDisplayName})";
+
+            if (mbc.ClusterTypeInfo.FullNamespaceDisplayName != null)
+            {
+                VisualRepresentationNamespace = $"({mbc.ClusterTypeInfo.FullNamespaceDisplayName})";
+            }
+            else
+            {
+                VisualRepresentationNamespace = string.Empty;
+            }
         }
     }
 }
