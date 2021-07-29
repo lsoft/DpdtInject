@@ -2882,6 +2882,31 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using DpdtInject.Injector.Src;
+        ///using System.Linq;
+        ///using DpdtInject.Injector.Src.Bind;
+        ///
+        ///namespace DpdtInject.Tests.Unsorted.DynamicConstructorArgument0
+        ///{
+        ///    public partial class UnsortedDynamicConstructorArgument0_Cluster : DefaultCluster
+        ///    {
+        ///        public static readonly dynamic Constant = (123, new int[,]{ { 1, 2 }, { 3, 4 } });
+        ///
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;A&gt;()
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UnsortedDynamicConstructorArgument0_Cluster {
+            get {
+                return ResourceManager.GetString("UnsortedDynamicConstructorArgument0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using DpdtInject.Injector.Src;
         ///
         ///namespace DpdtInject.Tests.Unsorted.FromAllInterfaces0
