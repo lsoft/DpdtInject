@@ -12,24 +12,100 @@
     ui:VsTheme.UseVsTheme="True"
     SnapsToDevicePixels="True"
     mc:Ignorable="d"
-    d:DesignHeight="300" d:DesignWidth="300"
+    d:DesignHeight="300" d:DesignWidth="400"
     Name="BindingListControl">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <TextBox
+        <Grid
             Grid.Row="0"
+            HorizontalAlignment="Stretch"
+            >
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <CheckBox
+                Grid.Row="0"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                Content="Singleton"
+                Margin="5,2,2,2"
+                IsChecked="{Binding IncludeSingleton, Mode=TwoWay}"
+                />
+            <CheckBox
+                Grid.Row="0"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                Content="Transient"
+                Margin="2"
+                IsChecked="{Binding IncludeTransient, Mode=TwoWay}"
+                />
+            <CheckBox
+                Grid.Row="0"
+                Grid.Column="2"
+                HorizontalAlignment="Left"
+                Content="Constant"
+                Margin="2"
+                IsChecked="{Binding IncludeConstant, Mode=TwoWay}"
+                />
+            <CheckBox
+                Grid.Row="0"
+                Grid.Column="3"
+                HorizontalAlignment="Left"
+                Content="Custom"
+                Margin="2,2,5,2"
+                IsChecked="{Binding IncludeCustom, Mode=TwoWay}"
+                />
+
+            <CheckBox
+                Grid.Row="1"
+                Grid.Column="2"
+                HorizontalAlignment="Left"
+                Content="Is Conditional"
+                Margin="2"
+                IsThreeState="True"
+                IsChecked="{Binding IncludeConditional, Mode=TwoWay}"
+                />
+
+            <CheckBox
+                Grid.Row="1"
+                Grid.Column="3"
+                HorizontalAlignment="Left"
+                Content="Is Conventional"
+                Margin="2,2,5,2"
+                IsThreeState="True"
+                IsChecked="{Binding IncludeConventional, Mode=TwoWay}"
+                />
+        </Grid>
+        
+        <TextBox
+            Grid.Row="1"
             HorizontalAlignment="Stretch"
             Margin="2"
             MaxLength="100"
             Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             />
 
+        <Label
+            Grid.Row="2"
+            Content="{Binding SummaryText}"
+            />
+
         <ListView
-            Grid.Row="1"
+            Grid.Row="3"
             Margin="2"
             Name="ItemListView"
             HorizontalAlignment="Stretch"

@@ -5,6 +5,8 @@ namespace DpdtInject.Extension.TestConsole.CompositionRoot
 {
     public partial class MyCluster0 : DefaultCluster
     {
+        private readonly int[] AInts = new int[0];
+
         /// <inheritdoc />
         public MyCluster0(
             )
@@ -15,6 +17,10 @@ namespace DpdtInject.Extension.TestConsole.CompositionRoot
         [DpdtBindingMethod]
         public void BindMethod0()
         {
+            Bind<int[]>()
+                .WithConstScope(AInts)
+                ;
+
             Bind<BindPayload0>()
                 .To<BindPayload0>()
                 .WithSingletonScope()

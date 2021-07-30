@@ -26,7 +26,15 @@ namespace DpdtInject.Extension.UI.ViewModel.BindingList
         private string _filterText;
         private string _lowerFilterText;
 
+        private int _filteredCount;
+
         private ICommand? _navigateCommand;
+        private bool _includeSingleton = true;
+        private bool _includeTransient = true;
+        private bool _includeConstant = true;
+        private bool _includeCustom = true;
+        private bool? _includeConditional = null;
+        private bool? _includeConventional = null;
 
         public string FilterText
         {
@@ -81,6 +89,81 @@ namespace DpdtInject.Extension.UI.ViewModel.BindingList
                     _navigateCommand;
             }
         }
+
+        public bool IncludeSingleton
+        {
+            get => _includeSingleton;
+            set
+            {
+                _includeSingleton = value;
+
+                RefreshBindingList();
+            }
+        }
+
+        public bool IncludeTransient
+        {
+            get => _includeTransient;
+            set
+            {
+                _includeTransient = value;
+
+                RefreshBindingList();
+            }
+        }
+
+        public bool IncludeConstant
+        {
+            get => _includeConstant;
+            set
+            {
+                _includeConstant = value;
+
+                RefreshBindingList();
+            }
+        }
+
+        public bool IncludeCustom
+        {
+            get => _includeCustom;
+            set
+            {
+                _includeCustom = value;
+
+                RefreshBindingList();
+            }
+        }
+
+        public bool? IncludeConditional
+        {
+            get => _includeConditional;
+            set
+            {
+                _includeConditional = value;
+
+                RefreshBindingList();
+            }
+        }
+
+        public bool? IncludeConventional
+        {
+            get => _includeConventional;
+            set
+            {
+                _includeConventional = value;
+
+                RefreshBindingList();
+            }
+        }
+
+        public string SummaryText
+        {
+            get
+            {
+                return $"Total binding found: {_bindingItemList.Count}, showed: {_filteredCount}.";
+            }
+        }
+
         public BindingListViewModel()
         {
             _filterText = string.Empty;
@@ -135,7 +218,7 @@ namespace DpdtInject.Extension.UI.ViewModel.BindingList
 
                 try
                 {
-                    BindingItemList.Refresh();
+                    RefreshBindingList();
                 }
                 catch (Exception excp)
                 {
@@ -157,25 +240,76 @@ namespace DpdtInject.Extension.UI.ViewModel.BindingList
                     return false;
                 }
 
+                if (bivm.BindingStatement.ScopeEnumValue == (int)BindScopeEnum.Singleton)
+                {
+                    if (!_includeSingleton)
+                    {
+                        return false;
+                    }
+                }
+                if (bivm.BindingStatement.ScopeEnumValue == (int)BindScopeEnum.Transient)
+                {
+                    if (!_includeTransient)
+                    {
+                        return false;
+                    }
+                }
+                if (bivm.BindingStatement.ScopeEnumValue == (int)BindScopeEnum.Constant)
+                {
+                    if (!_includeConstant)
+                    {
+                        return false;
+                    }
+                }
+                if (bivm.BindingStatement.ScopeEnumValue == (int)BindScopeEnum.Custom)
+                {
+                    if (!_includeCustom)
+                    {
+                        return false;
+                    }
+                }
+                if (_includeConditional.HasValue)
+                {
+                    if (bivm.BindingStatement.IsConditional != _includeConditional.Value)
+                    {
+                        return false;
+                    }
+                }
+                if (_includeConventional.HasValue)
+                {
+                    if (bivm.BindingStatement.IsConventional != _includeConventional.Value)
+                    {
+                        return false;
+                    }
+                }
+
                 if (string.IsNullOrEmpty(_lowerFilterText))
                 {
+                    _filteredCount++;
                     return true;
                 }
 
-                var result = bivm.IsRelatedTo(_lowerFilterText);
+                if (!bivm.IsRelatedTo(_lowerFilterText))
+                {
+                    return false;
+                }
 
-                return
-                    result;
+                _filteredCount++;
+                return true;
             }
             catch (Exception excp)
             {
-                //ErrorMessage = excp.Message;
                 Logging.LogVS(excp);
-                //Debug.WriteLine(excp.Message);
-                //Debug.Write(excp.StackTrace);
             }
 
             return false;
+        }
+
+        private void RefreshBindingList()
+        {
+            _filteredCount = 0;
+            BindingItemList.Refresh();
+            OnPropertyChanged();
         }
 
     }
