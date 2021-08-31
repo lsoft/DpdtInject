@@ -212,8 +212,8 @@ Also I recommend disable tiered compilation for composition root assembly if you
 - Restart Visual Studio.
 - Create new Console Application in Visual Studio. Keep in mind you need to set `net5` or `net6` target framework. 
 - (optional) You can disable tiered compilation for composition root assembly and set `EmitCompilerGeneratedFiles` to `true`.
-- Install the latest Dpdt Nuget Package via context menu [Dpdt Extension Image 4](extension4.png)
-- Create Dpdt cluster and binding method via context menu [Dpdt Extension Image 4](extension4.png) and the tool window [Dpdt Extension Image 5](extension5.png)
+- Install the latest Dpdt Nuget Package via [context menu](extension4.png)
+- Create Dpdt cluster and binding method via [context menu](extension4.png) and the [tool window](extension5.png)
 - Next, create a class which will be resolved from a Dpdt container, for example: `public class MyPayload { }`
 - You will need a Dpdt cluster class:
 
