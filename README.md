@@ -78,8 +78,8 @@ It's still a proof-of-concept. Nor alpha, neither beta.
 # Design features
 
 0. As mentioned above, Dpdt suitable for lib/nuget developers. This **does not mean** that Dpdt is not (or less) suitable for applications.
-0. Dpdt Visual Studio Extension helps you to be more productive (see below).
-0. Additional compile-time checks (see below).
+0. [Dpdt Visual Studio Extension](https://github.com/lsoft/DpdtInject#dpdt-visual-studio-extension) helps you to be more productive.
+0. [Additional compile-time checks](https://github.com/lsoft/DpdtInject#compile-time-checks).
 0. No performance decrease on the platforms with no compilation at runtime (because of absense runtime compilation!).
 
 # Other features
@@ -215,20 +215,13 @@ Also I recommend disable tiered compilation for composition root assembly if you
 - Install the latest Dpdt Nuget Package via [context menu](extension4.png)
 - Create Dpdt cluster and binding method via [context menu](extension4.png) and the [tool window](extension5.png)
 - Next, create a class which will be resolved from a Dpdt container, for example: `public class MyPayload { }`
-- You will need a Dpdt cluster class:
+- Add the binding clause to the `Bind` method of the produced cluster:
 
 ```csharp
-    public partial class MyCluster : DpdtInject.Injector.Src.DefaultCluster
-    {
-        [DpdtInject.Injector.Src.DpdtBindingMethod]
-        public void Bind()
-        {
-            Bind<MyPayload>()
-                .To<MyPayload>()
-                .WithSingletonScope()
-                ;
-        }
-    }
+Bind<MyPayload>()
+    .To<MyPayload>()
+    .WithSingletonScope()
+    ;
 ```
 
 - Now, it's time to create a cluster and take our payload from it; put the following at `Program.Main`:
