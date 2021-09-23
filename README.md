@@ -73,7 +73,7 @@ As an additional concept, Dpdt adds no references to your distribution, so if yo
 
 # Status
 
-It's still a proof-of-concept. Nor alpha, neither beta.
+There is a meduim size project powered by Dpdt that runs in its production. So, I think Dpdt is in Alpha status now.
 
 # Design features
 
