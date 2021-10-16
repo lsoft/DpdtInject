@@ -514,7 +514,7 @@ namespace DpdtInject.Extension.UI.ViewModel.BindingList
             BindingsFrom = string.Join(", ", bindingStatement.FromTypes.Select(ft => ft.FullDisplayName));
             OtherParameters = bindingStatement.ScopeString + (bindingStatement.IsConditional ? " Conditional" : string.Empty) + (bindingStatement.IsConventional ? " Conventional" : string.Empty);
             BindingLocation = bindingStatement.Position.FilePath + " : " + (bindingStatement.Position.StartLine + 1);
-            ConstructorArguments = bindingStatement.ConstructorArguments.FullDisplayNames;
+            ConstructorArguments = bindingStatement.ConstructorArguments?.FullDisplayNames ?? new List<string>();
 
             BorderBrush = (BindScopeEnum)bindingStatement.ScopeEnumValue switch
             {
