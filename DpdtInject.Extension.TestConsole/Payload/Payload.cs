@@ -8,7 +8,12 @@ namespace DpdtInject.Extension.TestConsole.Payload
 {
     public class BindPayload0
     {
+        public BindPayload0(
+            NaivePayload npayload
+            )
+        {
 
+        }
     }
 
     public class BindPayload1

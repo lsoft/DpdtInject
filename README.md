@@ -722,6 +722,16 @@ There is a tool window to look, search and go to any binding in your solution:
 
 ![Dpdt Extension Image 6](extension6.png)
 
+You can enter a text to search everywhere, or use the following predicates to set a search scope:
+
+- `from:` to search only in bind from fields
+- `to:` to search only in bind to field
+- `ca:` to search only in constructor arguments field
+- `other` to search only in the scope field
+- `location` to search only in binding location field
+
+Keep in mind: the searching is case sensitive (like C# too). Examples: `MyClass`, `ca:MyConstructorArgument`, `location:MyFile.cs` etc.
+
 But the main function is to generate a binding clauses through the custom codelens. The following images makes the picture brighter:
 
 ![Dpdt Extension Image 0](extension0.png)

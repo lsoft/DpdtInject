@@ -3,6 +3,7 @@ using DpdtInject.Extension.Helper;
 using DpdtInject.Extension.Shared;
 using DpdtInject.Generator.Core.Binding.Xml;
 using DpdtInject.Injector.Src.Bind;
+using DpdtInject.Injector.Src.Helper;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
 using System;
@@ -21,8 +22,8 @@ namespace DpdtInject.Extension.UI.ViewModel.BindingList
         public static Action? RefreshAction;
 
         private readonly List<BindingItemViewModel> _bindingItemList;
+        private FilterValue? _filterValue;
         private string _filterText;
-        private string _lowerFilterText;
 
         private int _filteredCount;
 
@@ -42,7 +43,7 @@ namespace DpdtInject.Extension.UI.ViewModel.BindingList
             {
                 _filteredCount = 0;
                 _filterText = value;
-                _lowerFilterText = value.ToLower();
+                _filterValue = new FilterValue(value);
 
                 BindingItemList.Refresh();
                 OnPropertyChanged();
@@ -70,7 +71,7 @@ namespace DpdtInject.Extension.UI.ViewModel.BindingList
                                 return;
                             }
 
-                            FilterText = type!;
+                            FilterText = nameof(FilterSearchEnum.CA) + ":" + type!;
                         });
                 }
 
@@ -192,7 +193,7 @@ namespace DpdtInject.Extension.UI.ViewModel.BindingList
         public BindingListViewModel()
         {
             _filterText = string.Empty;
-            _lowerFilterText = string.Empty;
+            _filterValue = null;
 
             _bindingItemList = new List<BindingItemViewModel>();
             ReadAllBindings();
@@ -308,13 +309,18 @@ namespace DpdtInject.Extension.UI.ViewModel.BindingList
                     }
                 }
 
-                if (string.IsNullOrEmpty(_lowerFilterText))
+                if (_filterValue == null)
+                {
+                    _filteredCount++;
+                    return true;
+                }
+                if (string.IsNullOrEmpty(_filterValue.Value))
                 {
                     _filteredCount++;
                     return true;
                 }
 
-                if (!bivm.IsRelatedTo(_lowerFilterText))
+                if (!bivm.IsRelatedTo(_filterValue))
                 {
                     return false;
                 }
@@ -339,9 +345,124 @@ namespace DpdtInject.Extension.UI.ViewModel.BindingList
 
     }
 
+    public class FilterValue
+    {
+        public string Value
+        {
+            get;
+        }
+
+        public FilterSearchEnum FilterSearch
+        {
+            get;
+        }
+
+        public FilterValue(
+            string filterText
+            )
+        {
+            if (filterText is null)
+            {
+                throw new ArgumentNullException(nameof(filterText));
+            }
+
+            Value = filterText;
+
+            if (Value.Contains(":"))
+            {
+                var parts = Value.Split(':');
+                if (parts.Length != 2)
+                {
+                    FilterSearch = FilterSearchEnum.All;
+                }
+
+                switch (true)
+                {
+                    case bool when parts[0].Equals(nameof(FilterSearchEnum.From), StringComparison.InvariantCultureIgnoreCase):
+                        FilterSearch = FilterSearchEnum.From;
+                        break;
+                    case bool when parts[0].Equals(nameof(FilterSearchEnum.To), StringComparison.InvariantCultureIgnoreCase):
+                        FilterSearch = FilterSearchEnum.To;
+                        break;
+                    case bool when parts[0].Equals(nameof(FilterSearchEnum.CA), StringComparison.InvariantCultureIgnoreCase):
+                        FilterSearch = FilterSearchEnum.CA;
+                        break;
+                    case bool when parts[0].Equals(nameof(FilterSearchEnum.OtherParameters), StringComparison.InvariantCultureIgnoreCase):
+                        FilterSearch = FilterSearchEnum.OtherParameters;
+                        break;
+                    case bool when parts[0].Equals(nameof(FilterSearchEnum.Other), StringComparison.InvariantCultureIgnoreCase):
+                        FilterSearch = FilterSearchEnum.Other;
+                        break;
+                    case bool when parts[0].Equals(nameof(FilterSearchEnum.BindingLocation), StringComparison.InvariantCultureIgnoreCase):
+                        FilterSearch = FilterSearchEnum.BindingLocation;
+                        break;
+                    case bool when parts[0].Equals(nameof(FilterSearchEnum.Location), StringComparison.InvariantCultureIgnoreCase):
+                        FilterSearch = FilterSearchEnum.Location;
+                        break;
+                    default:
+                        FilterSearch = FilterSearchEnum.All;
+                        break;
+                }
+
+                Value = parts[1];
+            }
+            else
+            {
+                FilterSearch = FilterSearchEnum.All;
+            }
+        }
+
+    }
+
+    /// <summary>
+    /// Where to search this filter
+    /// </summary>
+    [Flags]
+    public enum FilterSearchEnum
+    {
+        /// <summary>
+        /// Bind from types
+        /// </summary>
+        From = 1,
+
+        /// <summary>
+        /// Bind to type
+        /// </summary>
+        To = 2,
+
+        /// <summary>
+        /// Constructor arguments
+        /// </summary>
+        CA = 4,
+
+        /// <summary>
+        /// Other parameters
+        /// </summary>
+        OtherParameters = 8,
+
+        /// <summary>
+        /// Other parameters
+        /// </summary>
+        Other = 8,
+
+        /// <summary>
+        /// Binding location
+        /// </summary>
+        BindingLocation = 16,
+
+        /// <summary>
+        /// Binding location
+        /// </summary>
+        Location = 16,
+
+        /// <summary>
+        /// Everywhere
+        /// </summary>
+        All = From | To | CA | OtherParameters | BindingLocation
+    }
+
     public class BindingItemViewModel : BaseViewModel
     {
-        private readonly string _filter;
 
         public IBindingStatement BindingStatement
         {
@@ -404,13 +525,53 @@ namespace DpdtInject.Extension.UI.ViewModel.BindingList
                 _ => Brushes.Red
             };
 
-            _filter = $"{BindingTo} {BindingsFrom} {OtherParameters} {BindingLocation}".ToLower();
             BindingStatement = bindingStatement;
         }
 
-        internal bool IsRelatedTo(string lowerFilterText)
+        internal bool IsRelatedTo(FilterValue fv)
         {
-            return _filter.Contains(lowerFilterText);
+            if (fv is null)
+            {
+                throw new ArgumentNullException(nameof(fv));
+            }
+
+            if (fv.FilterSearch == FilterSearchEnum.All || fv.FilterSearch == FilterSearchEnum.From)
+            {
+                if (BindingsFrom.Contains(fv.Value))
+                {
+                    return true;
+                }
+            }
+            if (fv.FilterSearch == FilterSearchEnum.All || fv.FilterSearch == FilterSearchEnum.To)
+            {
+                if (BindingTo.Contains(fv.Value))
+                {
+                    return true;
+                }
+            }
+            if (fv.FilterSearch == FilterSearchEnum.All || fv.FilterSearch == FilterSearchEnum.CA)
+            {
+                if (ConstructorArguments.Any(ca => ca.Contains(fv.Value)))
+                {
+                    return true;
+                }
+            }
+            if (fv.FilterSearch == FilterSearchEnum.All || fv.FilterSearch.In(FilterSearchEnum.Other, FilterSearchEnum.OtherParameters))
+            {
+                if (OtherParameters.Contains(fv.Value))
+                {
+                    return true;
+                }
+            }
+            if (fv.FilterSearch == FilterSearchEnum.All || fv.FilterSearch.In(FilterSearchEnum.BindingLocation, FilterSearchEnum.Location))
+            {
+                if (BindingLocation.Contains(fv.Value))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
