@@ -15,7 +15,7 @@ namespace DpdtInject.Generator.Core.Producer
             get;
         }
 
-        public BindingContainerExtender BindingExtender
+        public BindingExtender BindingExtender
         {
             get;
         }
@@ -28,7 +28,7 @@ namespace DpdtInject.Generator.Core.Producer
 
         public ConstructorArgumentProducer(
             ClusterBindings clusterBindings,
-            BindingContainerExtender bindingExtender,
+            BindingExtender bindingExtender,
             DetectedMethodArgument constructorArgument
             )
         {
@@ -63,10 +63,6 @@ namespace DpdtInject.Generator.Core.Producer
                     new ConstructorArgumentProduct(
                         $"({ConstructorArgument.Type!.ToGlobalDisplayString()})({ConstructorArgument.Body})"
                         );
-                //return
-                //    new ConstructorArgumentProduct(
-                //        $"{ConstructorArgument.Name}: ({ConstructorArgument.Type!.ToGlobalDisplayString()})({ConstructorArgument.Body})"
-                //        );
             }
             if (ConstructorArgument.HasExplicitDefaultValue)
             {
@@ -74,10 +70,6 @@ namespace DpdtInject.Generator.Core.Producer
                     new ConstructorArgumentProduct(
                         $"({ConstructorArgument.Type!.ToGlobalDisplayString()})({ConstructorArgument.GetExplicitValueCodeRepresentation()})"
                         );
-                //return
-                //    new ConstructorArgumentProduct(
-                //        $"{ConstructorArgument.Name}: ({ConstructorArgument.Type!.ToGlobalDisplayString()})({ConstructorArgument.GetExplicitValueCodeRepresentation()})"
-                //        );
             }
 
             //check for own cluster can resolve
@@ -118,10 +110,6 @@ namespace DpdtInject.Generator.Core.Producer
                     new ConstructorArgumentProduct(
                             $"RaiseTooManyBindingException<{ConstructorArgument.Type!.ToGlobalDisplayString()}>()"
                         );
-                //return
-                //    new ConstructorArgumentProduct(
-                //            $"{ConstructorArgument.Name}: RaiseTooManyBindingException<{ConstructorArgument.Type!.ToGlobalDisplayString()}>()"
-                //        );
             }
 
             if (clusterCanGetChildren)
@@ -132,11 +120,6 @@ namespace DpdtInject.Generator.Core.Producer
                         new ConstructorArgumentProduct(
                                 $"GetFromLocalUnsafely<{ConstructorArgument.Type!.ToGlobalDisplayString()}>( resolutionTarget, \"{ConstructorArgument.Name}\" )"
                             );
-
-                    //return
-                    //    new ConstructorArgumentProduct(
-                    //            $"{ConstructorArgument.Name}: GetFromLocalUnsafely<{ConstructorArgument.Type!.ToGlobalDisplayString()}>( resolutionTarget, \"{ConstructorArgument.Name}\" )"
-                    //        );
                 }
                 else
                 {
@@ -144,11 +127,6 @@ namespace DpdtInject.Generator.Core.Producer
                         new ConstructorArgumentProduct(
                                 $"GetFromLocalUnsafely<{ConstructorArgument.Type!.ToGlobalDisplayString()}>()"
                             );
-
-                    //return
-                    //    new ConstructorArgumentProduct(
-                    //            $"{ConstructorArgument.Name}: GetFromLocalUnsafely<{ConstructorArgument.Type!.ToGlobalDisplayString()}>()"
-                    //        );
                 }
             }
             else
@@ -163,9 +141,6 @@ namespace DpdtInject.Generator.Core.Producer
                     new ConstructorArgumentProduct(
                             $"GetFromParent<{ConstructorArgument.Type!.ToGlobalDisplayString()}>( resolutionTarget, \"{ConstructorArgument.Name}\"  )"
                         );
-                    //new ConstructorArgumentProduct(
-                    //        $"{ConstructorArgument.Name}: GetFromParent<{ConstructorArgument.Type!.ToGlobalDisplayString()}>( resolutionTarget, \"{ConstructorArgument.Name}\"  )"
-                    //    );
             }
         }
     }

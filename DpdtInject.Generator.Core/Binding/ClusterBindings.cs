@@ -32,7 +32,7 @@ namespace DpdtInject.Generator.Core.Binding
         /// <summary>
         /// Cluster bindings extenders.
         /// </summary>
-        public IReadOnlyList<BindingContainerExtender> BindingExtenders
+        public IReadOnlyList<BindingExtender> BindingExtenders
         {
             get;
         }
@@ -61,7 +61,7 @@ namespace DpdtInject.Generator.Core.Binding
             ClusterType = clusterType;
             BindingContainers = bindingContainers;
 
-            BindingExtenders = bindingContainers.ConvertAll(c => new BindingContainerExtender(c));
+            BindingExtenders = bindingContainers.ConvertAll(c => new BindingExtender(c));
 
             Box = new BindingExtenderBox(
                 BindingExtenders

@@ -4,7 +4,7 @@ namespace DpdtInject.Generator.Core.Binding
 {
     public class ExtenderAndTypePair
     {
-        public BindingContainerExtender BindingExtender
+        public BindingExtender BindingExtender
         {
             get;
         }
@@ -15,7 +15,7 @@ namespace DpdtInject.Generator.Core.Binding
         }
 
         public ExtenderAndTypePair(
-            BindingContainerExtender bindingExtender,
+            BindingExtender bindingExtender,
             DetectedMethodArgument constructorArgument
             )
         {

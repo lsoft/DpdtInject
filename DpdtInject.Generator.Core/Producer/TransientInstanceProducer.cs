@@ -13,12 +13,12 @@ namespace DpdtInject.Generator.Core.Producer
     {
         private readonly ITypeInfoProvider _typeInfoProvider;
         private readonly ClusterBindings _clusterBindings;
-        private readonly BindingContainerExtender _bindingExtender;
+        private readonly BindingExtender _bindingExtender;
 
         public TransientInstanceProducer(
             ITypeInfoProvider typeInfoProvider,
             ClusterBindings clusterBindings,
-            BindingContainerExtender bindingExtender
+            BindingExtender bindingExtender
             )
         {
             if (typeInfoProvider is null)

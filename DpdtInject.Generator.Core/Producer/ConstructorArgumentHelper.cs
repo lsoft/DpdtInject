@@ -13,7 +13,7 @@ namespace DpdtInject.Generator.Core.Producer
         public static IReadOnlyList<ConstructorArgumentProducer> ConvertToProducers(
             this IReadOnlyList<DetectedMethodArgument> constructorArguments,
             ClusterBindings clusterBindings,
-            BindingContainerExtender bindingExtender
+            BindingExtender bindingExtender
             )
         {
             if (constructorArguments is null)

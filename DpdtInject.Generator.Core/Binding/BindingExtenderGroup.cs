@@ -4,18 +4,18 @@ using System.Collections.Generic;
 
 namespace DpdtInject.Generator.Core.Binding
 {
-    public class BindingContainerGroup
+    public class BindingExtenderGroup
     {
-        private readonly List<BindingContainerExtender> _bindingExtenders;
+        private readonly List<BindingExtender> _bindingExtenders;
 
         public ITypeSymbol BindFrom
         {
             get;
         }
 
-        public IReadOnlyList<BindingContainerExtender> BindingExtenders => _bindingExtenders;
+        public IReadOnlyList<BindingExtender> BindingExtenders => _bindingExtenders;
 
-        public BindingContainerGroup(
+        public BindingExtenderGroup(
             ITypeSymbol bindFrom
             )
         {
@@ -25,10 +25,10 @@ namespace DpdtInject.Generator.Core.Binding
             }
 
             BindFrom = bindFrom;
-            _bindingExtenders = new List<BindingContainerExtender>();
+            _bindingExtenders = new List<BindingExtender>();
         }
 
-        public void Add(BindingContainerExtender bindingExtender)
+        public void Add(BindingExtender bindingExtender)
         {
             if (bindingExtender is null)
             {

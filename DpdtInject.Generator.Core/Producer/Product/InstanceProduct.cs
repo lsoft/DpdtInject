@@ -6,7 +6,7 @@ namespace DpdtInject.Generator.Core.Producer.Product
 {
     public class InstanceProduct
     {
-        public BindingContainerExtender BindingExtender
+        public BindingExtender BindingExtender
         {
             get;
         }
@@ -35,7 +35,7 @@ namespace DpdtInject.Generator.Core.Producer.Product
         }
 
         public InstanceProduct(
-            BindingContainerExtender bindingExtender,
+            BindingExtender bindingExtender,
             IMethodProduct? predicateMethod,
             IMethodProduct factoryObjectMethod,
             IMethodProduct funcMethod,

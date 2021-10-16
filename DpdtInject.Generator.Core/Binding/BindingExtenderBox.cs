@@ -6,15 +6,20 @@ using DpdtInject.Injector.Src.Excp;
 
 namespace DpdtInject.Generator.Core.Binding
 {
+    /// <summary>
+    /// Bindings grouped by its bind-from clauses.
+    /// If there are many bind-from clauses in a single binding,
+    /// the binding will be put into appropriate (many) groups.
+    /// </summary>
     public class BindingExtenderBox
     {
-        private readonly Dictionary<ITypeSymbol, BindingContainerGroup> _groups;
+        private readonly Dictionary<ITypeSymbol, BindingExtenderGroup> _groups;
 
-        public IReadOnlyDictionary<ITypeSymbol, BindingContainerGroup> Groups => _groups;
+        public IReadOnlyDictionary<ITypeSymbol, BindingExtenderGroup> Groups => _groups;
 
 
         public BindingExtenderBox(
-            IReadOnlyList<BindingContainerExtender> bindingExtenders
+            IReadOnlyList<BindingExtender> bindingExtenders
             )
         {
             if (bindingExtenders is null)
@@ -22,7 +27,7 @@ namespace DpdtInject.Generator.Core.Binding
                 throw new ArgumentNullException(nameof(bindingExtenders));
             }
 
-            _groups = new Dictionary<ITypeSymbol, BindingContainerGroup>(
+            _groups = new Dictionary<ITypeSymbol, BindingExtenderGroup>(
                 TypeSymbolEqualityComparer.Entity
                 );
 
@@ -32,7 +37,7 @@ namespace DpdtInject.Generator.Core.Binding
                 {
                     if (!_groups.ContainsKey(bindFromType))
                     {
-                        _groups[bindFromType] = new BindingContainerGroup(bindFromType);
+                        _groups[bindFromType] = new BindingExtenderGroup(bindFromType);
                     }
 
                     _groups[bindFromType].Add(
@@ -42,6 +47,9 @@ namespace DpdtInject.Generator.Core.Binding
             }
         }
 
+        /// <summary>
+        /// Provide a binding list by constructor argument.
+        /// </summary>
         public bool TryGetChildren(
             DetectedMethodArgument constructorArgument,
             out IReadOnlyList<ExtenderAndTypePair> result
@@ -62,11 +70,11 @@ namespace DpdtInject.Generator.Core.Binding
                     );
             }
 
-            if (!Groups.TryGetValue(constructorArgument.Type, out var @group))
+            if (!_groups.TryGetValue(constructorArgument.Type, out var @group))
             {
                 var unwrappedType = constructorArgument.GetUnwrappedType();
 
-                if (!Groups.TryGetValue(unwrappedType, out group))
+                if (!_groups.TryGetValue(unwrappedType, out group))
                 {
                     result = new List<ExtenderAndTypePair>();
                     return false;
@@ -95,6 +103,13 @@ namespace DpdtInject.Generator.Core.Binding
             return rresult.Count > 0;
         }
 
+        /// <summary>
+        /// Provide all children of the specific binding container.
+        /// </summary>
+        /// <param name="bindingContainer">A binding container whose children we want to retrieve.</param>
+        /// <param name="tolerateMissingChildren">Should this method tolerate unknown (unresolvable) children?</param>
+        /// <param name="result">Found children.</param>
+        /// <returns>true if children has been found.</returns>
         public bool TryGetChildren(
             IBindingContainer bindingContainer,
             bool tolerateMissingChildren,
