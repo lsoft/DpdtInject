@@ -7,11 +7,8 @@ using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -41,6 +38,7 @@ namespace DpdtInject.Extension.UI.ViewModel.BindingList
             get => _filterText;
             set
             {
+                _filteredCount = 0;
                 _filterText = value;
                 _lowerFilterText = value.ToLower();
 
