@@ -17,11 +17,6 @@ namespace DpdtInject.Generator.Core.Binding
             get;
         }
 
-        public override IReadOnlyCollection<ITypeSymbol> NotBindConstructorArgumentTypes
-        {
-            get;
-        }
-
         public override string TargetRepresentation
         {
             get
@@ -41,9 +36,6 @@ namespace DpdtInject.Generator.Core.Binding
             ) : base(types, scope, expressionNode, whenArgumentClause, constantSyntax, settings, false)
         {
             ConstructorArguments = new List<DetectedMethodArgument>();
-            NotBindConstructorArgumentTypes = new HashSet<ITypeSymbol>(
-                TypeSymbolEqualityComparer.Entity
-                );
         }
     }
 }

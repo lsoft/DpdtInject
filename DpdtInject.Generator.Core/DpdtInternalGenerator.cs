@@ -129,7 +129,7 @@ namespace DpdtInject.Generator.Core
                                         semanticModelDecorator
                                         ),
                                     new ConstructorArgumentDetector(
-                                        new BindConstructorChooser()
+                                        BindConstructorChooser.Instance
                                         )
                                     ),
                                 new ConventionalBindExpressionFactory(
@@ -138,7 +138,7 @@ namespace DpdtInject.Generator.Core
                                         semanticModelDecorator
                                         ),
                                     new ConstructorArgumentDetector(
-                                        new BindConstructorChooser()
+                                        BindConstructorChooser.Instance
                                         ),
                                     _diagnosticReporter
                                     )

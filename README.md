@@ -559,7 +559,7 @@ Dpdt adds a warning to compilation log with the information about how many clust
 
 Dpdt will break ongoing compilation if binding has useless `ConstructorArgument` clause (no constructor with this parameter exists).
 
-### Singleton takes transient or custom
+### Singleton takes transient or custom (captive dependency)
 
 Dpdt can detect cases of singleton binding takes a transient/custom binding as its dependency, and make signals to the programmer. It's not always a bug, but warning might be useful.
 

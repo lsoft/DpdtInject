@@ -8,28 +8,36 @@ using DpdtInject.Injector.Src.Helper;
 
 namespace DpdtInject.Generator.Core.Binding
 {
+    /// <summary>
+    /// Container for all cluster bindings.
+    /// </summary>
     public class ClusterBindings
     {
+        /// <summary>
+        /// Cluster type.
+        /// </summary>
         public ITypeSymbol ClusterType
         {
             get;
         }
 
+        /// <summary>
+        /// Cluster bindings.
+        /// </summary>
         public IReadOnlyList<IBindingContainer> BindingContainers
         {
             get;
         }
 
+        /// <summary>
+        /// Cluster bindings extenders.
+        /// </summary>
         public IReadOnlyList<BindingContainerExtender> BindingExtenders
         {
             get;
         }
 
 
-        public Dictionary<ITypeSymbol, List<BindingContainerExtender>> NotBindParents
-        {
-            get;
-        }
         public BindingExtenderBox Box
         {
             get;
@@ -55,33 +63,33 @@ namespace DpdtInject.Generator.Core.Binding
 
             BindingExtenders = bindingContainers.ConvertAll(c => new BindingContainerExtender(c));
 
-            NotBindParents = new Dictionary<ITypeSymbol, List<BindingContainerExtender>>(
-                SymbolEqualityComparer.Default
-                );
-
-            foreach (var extender in BindingExtenders)
-            {
-                foreach (var cat in extender.BindingContainer.NotBindConstructorArgumentTypes)
-                {
-                    if (!NotBindParents.ContainsKey(cat))
-                    {
-                        NotBindParents[cat] = new List<BindingContainerExtender>();
-                    }
-
-                    NotBindParents[cat].Add(extender);
-                }
-            }
-
             Box = new BindingExtenderBox(
                 BindingExtenders
                 );
         }
 
+        /// <summary>
+        /// Analyze the binding tree and build appropriate flags.
+        /// </summary>
         internal void BuildFlags()
         {
             CheckForNeedToProcessResolutionContextInternal(
                 );
         }
+
+        /// <summary>
+        /// Analyze the built tree and raise diagnostics if needed.
+        /// </summary>
+        public void Analyze(
+            IDiagnosticReporter diagnosticReporter
+            )
+        {
+            AnalyzeForCircularDependencies(diagnosticReporter);
+            AnalyzeForMultipleUnconditionalChildExists(diagnosticReporter);
+            AnalyzeForSingletonTakesCustomOrTransient(diagnosticReporter);
+        }
+
+        #region private
 
         private void CheckForNeedToProcessResolutionContextInternal(
             )
@@ -126,16 +134,6 @@ namespace DpdtInject.Generator.Core.Binding
                 }
             }
         }
-        public void Analyze(
-            IDiagnosticReporter diagnosticReporter
-            )
-        {
-            AnalyzeForCircularDependencies(diagnosticReporter);
-            AnalyzeForMultipleUnconditionalChildExists(diagnosticReporter);
-            AnalyzeForSingletonTakesCustomOrTransient(diagnosticReporter);
-        }
-
-        #region private
 
         private void AnalyzeForMultipleUnconditionalChildExists(
             IDiagnosticReporter diagnosticReporter

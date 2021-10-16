@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace DpdtInject.Generator.Core.BindExtractor
 {
     /// <summary>
-    /// A few semantic model decorator
+    /// Semantic model decorator that encapsulate a few semantic models.
     /// </summary>
     public class SemanticModelDecorator
     {

@@ -1,10 +1,15 @@
 ﻿using DpdtInject.Generator.Core.Producer;
 using Microsoft.CodeAnalysis;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DpdtInject.Generator.Core
 {
+    /// <summary>
+    /// Roslyn symbol equality comparer.
+    /// </summary>
+    [Obsolete("Consider to use a " + nameof(SymbolEqualityComparer) + " instead of this.")]
     public class TypeSymbolEqualityComparer : IEqualityComparer<ITypeSymbol>
     {
         public static readonly TypeSymbolEqualityComparer Entity = new();

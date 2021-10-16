@@ -39,8 +39,7 @@ namespace DpdtInject.Generator.Core.Producer.ClassProducer
             _factoryPayloadType = factoryPayloadType;
 
             _constructorArgumentDetector = new ConstructorArgumentDetector(
-                new BindConstructorChooser(
-                    )
+                BindConstructorChooser.Instance
                 );
         }
 

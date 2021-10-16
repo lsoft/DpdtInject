@@ -10,48 +10,73 @@ namespace DpdtInject.Generator.Core.Binding
 {
     public interface IBindingContainer
     {
+        /// <summary>
+        /// Unique identifier that may change between the compilations.
+        /// MUST NOT used in cluster code generation!
+        /// Used mostly in Dpdt Visual Studio Extension UI.
+        /// </summary>
         Guid UniqueUnstableIdentifier
         {
             get;
         }
 
+        /// <summary>
+        /// Compile-time settings parsed from bind clause.
+        /// </summary>
         IReadOnlyList<IDefinedSetting> Settings
         {
             get;
         }
 
+        /// <summary>
+        /// Bind from types. For example for
+        /// <code>Bind<IA, IB>().To<ABClass>()...</code>
+        /// this will contain <code>IA</code> and <code>IB</code>
+        /// </summary>
         IReadOnlyList<ITypeSymbol> BindFromTypes
         {
             get;
         }
 
-
+        /// <summary>
+        /// Bind to type. For example for
+        /// <code>Bind<IA, IB>().To<ABClass>()...</code>
+        /// this will contain <code>ABClass</code>
+        /// </summary>
         ITypeSymbol BindToType
         {
             get;
         }
 
+        /// <summary>
+        /// Visual and human readable target type representation.
+        /// </summary>
         string TargetRepresentation
         {
             get;
         }
 
+        /// <summary>
+        /// Binding constructor arguments.
+        /// Empty for a constant bindings.
+        /// </summary>
         IReadOnlyList<DetectedMethodArgument> ConstructorArguments
         {
             get;
         }
 
-        IReadOnlyCollection<ITypeSymbol> NotBindConstructorArgumentTypes
-        {
-            get;
-        }
-
+        /// <summary>
+        /// Bind scope <see cref="BindScopeEnum"/>
+        /// </summary>
         BindScopeEnum Scope
         {
             get;
         }
 
-
+        /// <summary>
+        /// Is this binding conditional?
+        /// (does this binding has a When predicate?)
+        /// </summary>
         bool IsConditional
         {
             get;

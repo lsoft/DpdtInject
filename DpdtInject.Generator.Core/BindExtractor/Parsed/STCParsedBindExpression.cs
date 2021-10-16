@@ -130,16 +130,21 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
         {
             var types = BuildTypes();
 
+            //grab the binding clause's constructor arguments
             var constructorArguments = GetConstructorArguments();
 
+            //check if the binding clause settings contains a constructor setting
+            //if so, we need to take that setting into account during constructor choosing
             _settings.TryGetSettingInScope<ConstructorSetting>(ConstructorSetting.ScopeConstant, out var constructorSetting);
 
+            //choose appropriate constructor and modify our constructor arguments
             _constructorArgumentDetector.ChooseConstructorAndAppendUnknownArguments(
                 (INamedTypeSymbol) types.BindToType,
                 constructorSetting,
                 ref constructorArguments
                 );
 
+            //build binding container
             var bindingContainer = new BindingContainerWithInstance(
                 types,
                 constructorArguments,

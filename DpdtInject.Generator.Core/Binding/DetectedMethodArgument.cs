@@ -62,6 +62,7 @@ namespace DpdtInject.Generator.Core.Binding
             {
                 throw new ArgumentNullException(nameof(body));
             }
+
             ArgumentIndex = argumentIndex;
             Name = name;
             Type = null;

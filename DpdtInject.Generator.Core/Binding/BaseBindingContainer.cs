@@ -41,11 +41,6 @@ namespace DpdtInject.Generator.Core.Binding
             get;
         }
 
-        public abstract IReadOnlyCollection<ITypeSymbol> NotBindConstructorArgumentTypes
-        {
-            get;
-        }
-
         public BindScopeEnum Scope
         {
             get;

@@ -20,11 +20,6 @@ namespace DpdtInject.Generator.Core.Binding
             get;
         }
         
-        public override IReadOnlyCollection<ITypeSymbol> NotBindConstructorArgumentTypes
-        {
-            get;
-        }
-
         public override string TargetRepresentation
         {
             get
@@ -48,14 +43,8 @@ namespace DpdtInject.Generator.Core.Binding
             {
                 throw new ArgumentNullException(nameof(constructorArguments));
             }
-
+            
             ConstructorArguments = constructorArguments;
-            NotBindConstructorArgumentTypes = new HashSet<ITypeSymbol>(
-                constructorArguments
-                    .Where(ca => !ca.DefineInBindNode)
-                    .Select(ca => ca.Type!),
-                TypeSymbolEqualityComparer.Entity
-                );
         }
     }
 }

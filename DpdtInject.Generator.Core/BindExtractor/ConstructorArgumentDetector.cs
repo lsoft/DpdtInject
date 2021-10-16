@@ -26,6 +26,15 @@ namespace DpdtInject.Generator.Core.BindExtractor
             _constructorChooser = constructorChooser;
         }
 
+        /// <summary>
+        /// Choose constructor and append unknown arguments.
+        /// Unknown argument is an argument that came from the constructor symbol,
+        /// but not from the binding clause.
+        /// </summary>
+        /// <param name="typeSymbol">Type we choosing the constructor in</param>
+        /// <param name="constructorSetting">Constructor settings (if exists)</param>
+        /// <param name="constructorArguments">Binding clause constructor arguments</param>
+        /// <returns>How many unknown arguments has been appended.</returns>
         public int ChooseConstructorAndAppendUnknownArguments(
             INamedTypeSymbol typeSymbol,
             ConstructorSetting? constructorSetting,
@@ -42,6 +51,7 @@ namespace DpdtInject.Generator.Core.BindExtractor
                 throw new ArgumentNullException(nameof(constructorArguments));
             }
 
+            //choose the constructor base on constructor argument and constructor setting
             var chosenConstructor = _constructorChooser.Choose(
                 typeSymbol,
                 constructorSetting,
@@ -69,6 +79,7 @@ namespace DpdtInject.Generator.Core.BindExtractor
                 constructorArgument.UpdateType(p.Type);
             }
 
+            //append unknown constructor arguments to the result collection
             var appended = 0;
             for(var i = 0; i < chosenConstructor.Parameters.Length; i++)
             {
@@ -78,21 +89,24 @@ namespace DpdtInject.Generator.Core.BindExtractor
                 var cParameterType = cParameter.Type;
 
                 var found = constructorArguments.FirstOrDefault(ca => ca.Name == cParameterName);
-                if (found is null)
+                
+                if (found is not null)
                 {
-                    constructorArguments.Add(
-                        new DetectedMethodArgument(
-                            i,
-                            cParameterName,
-                            cParameterType,
-                            cParameter.RefKind,
-                            cParameter.HasExplicitDefaultValue,
-                            () => cParameter.ExplicitDefaultValue
-                            )
-                        );
-
-                    appended++;
+                    continue;
                 }
+
+                constructorArguments.Add(
+                    new DetectedMethodArgument(
+                        i,
+                        cParameterName,
+                        cParameterType,
+                        cParameter.RefKind,
+                        cParameter.HasExplicitDefaultValue,
+                        () => cParameter.ExplicitDefaultValue
+                        )
+                    );
+
+                appended++;
             }
 
             return appended;

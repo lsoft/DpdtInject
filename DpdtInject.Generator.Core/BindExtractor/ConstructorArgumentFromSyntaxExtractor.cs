@@ -9,7 +9,9 @@ using DpdtInject.Injector.Src.Bind;
 
 namespace DpdtInject.Generator.Core.BindExtractor
 {
-
+    /// <summary>
+    /// Binding node constructor argument extractor.
+    /// </summary>
     public class ConstructorArgumentFromSyntaxExtractor
         : CSharpSyntaxRewriter
     {

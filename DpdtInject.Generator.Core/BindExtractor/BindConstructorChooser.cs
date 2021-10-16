@@ -6,13 +6,29 @@ using System.Linq;
 using DpdtInject.Injector.Src.Excp;
 using DpdtInject.Injector.Src.Bind.Settings.Constructor;
 using DpdtInject.Generator.Core.Producer;
-using System.Text.RegularExpressions;
 using DpdtInject.Generator.Core.Binding.Settings.Constructor;
 
 namespace DpdtInject.Generator.Core.BindExtractor
 {
     public class BindConstructorChooser
     {
+        /// <summary>
+        /// <see cref="BindConstructorChooser"/> is stateless, so we can use it as a singleton.
+        /// </summary>
+        public static readonly BindConstructorChooser Instance = new BindConstructorChooser();
+
+        private BindConstructorChooser()
+        {
+        }
+
+        /// <summary>
+        /// Choose the constructor base on constructor argument and constructor setting.
+        /// Throws exception in no constructor matched.
+        /// </summary>
+        /// <param name="fullBindToTypeName">Type we choosing the constructor in</param>
+        /// <param name="constructorSetting">Constructor settings (if exists)</param>
+        /// <param name="constructorArguments">Binding clause constructor arguments</param>
+        /// <returns>Choosed (best matched) constructor</returns>
         public IMethodSymbol Choose(
             INamedTypeSymbol fullBindToTypeName,
             ConstructorSetting? constructorSetting,
@@ -34,28 +50,35 @@ namespace DpdtInject.Generator.Core.BindExtractor
             IMethodSymbol? chosenConstructor = null;
             foreach (var constructor in fullBindToTypeName.InstanceConstructors)
             {
+                //if constructor setting is here, we need check current constructor to be matched against it
                 if (constructorSetting is not null)
                 {
                     if (!CheckConstructor(constructorSetting, constructor))
                     {
+                        //if not matched -> skip this constructor
                         continue;
                     }
                 }
 
+                //check for named arguments exists
                 if (!ContainsAllNamedArguments(constructor, constructorArguments))
                 {
                     continue;
                 }
 
+                //all checks are green, so we need to decide - replace the constructor we found earlier or do not
                 if (chosenConstructor == null)
                 {
+                    //no constructor has been choosen earlier, so save the current one
                     chosenConstructor = constructor;
                 }
                 else
                 {
+                    //we need to compare 2 constructors
+                    //here is some kind of hardcoded heuristic: we prefer constructor with fewer parameters
                     if (chosenConstructor.Parameters.Length > constructor.Parameters.Length)
                     {
-                        //here is some kind of hardcoded heuristic: we prefer constructor with fewer parameters
+                        //the current constructor has fewer parameters, so take it
                         chosenConstructor = constructor;
                     }
                 }
@@ -72,6 +95,8 @@ namespace DpdtInject.Generator.Core.BindExtractor
 
             return chosenConstructor;
         }
+
+        #region constructor setting related code
 
         private bool CheckConstructor(
             ConstructorSetting constructorSetting, 
@@ -179,6 +204,14 @@ namespace DpdtInject.Generator.Core.BindExtractor
             return true;
         }
 
+        #endregion
+
+        /// <summary>
+        /// Check if the constructor has all named argument we need to have in.
+        /// </summary>
+        /// <param name="constructor">Choosed constructor.</param>
+        /// <param name="constructorArguments">Arguments to check.</param>
+        /// <returns>true - if constructor has contain all needed arguments.</returns>
         private bool ContainsAllNamedArguments(
             IMethodSymbol constructor,
             IReadOnlyList<DetectedMethodArgument> constructorArguments
