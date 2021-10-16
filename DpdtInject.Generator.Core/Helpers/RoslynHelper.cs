@@ -9,11 +9,31 @@ using DpdtInject.Generator.Core.Binding.Xml;
 using DpdtInject.Generator.Core.Producer;
 using DpdtInject.Injector.Src.Excp;
 using DpdtInject.Injector.Src;
+using DpdtInject.Generator.Core.Binding;
+using DpdtInject.Injector.Src.Helper;
 
 namespace DpdtInject.Generator.Core.Helpers
 {
     public static class RoslynHelper
     {
+        public static ConstructorArgumentsXml ToXml(
+            this IReadOnlyList<DetectedMethodArgument> constructorArguments
+            )
+        {
+            if (constructorArguments is null)
+            {
+                throw new ArgumentNullException(nameof(constructorArguments));
+            }
+
+            return
+                new ConstructorArgumentsXml(
+                    constructorArguments
+                        .FindAll(ca => !(ca.Type is null))
+                        .ConvertAll(ca => ca.Type!.ToFullDisplayString())
+                    );
+
+        }
+
         public static ClassTypeInfoXml ToXml(
             this ITypeSymbol symbol
             )

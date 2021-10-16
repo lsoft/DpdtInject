@@ -331,6 +331,16 @@ namespace DpdtInject.Generator.Core.Binding.Xml
 
         IClassTypeInfo IBindingStatement.BindToType => ToType;
 
+        [XmlElement(ElementName = "ConstructorArguments")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public ConstructorArgumentsXml ConstructorArguments
+        {
+            get;
+            set;
+        }
+
+        IConstructorArguments IBindingStatement.ConstructorArguments => ConstructorArguments;
+
         [XmlElement(ElementName = "ScopeString")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public string ScopeString
@@ -381,6 +391,7 @@ namespace DpdtInject.Generator.Core.Binding.Xml
             TargetRepresentation = null!;
             FromTypes = null!;
             ToType = null!;
+            ConstructorArguments = null!;
             ScopeString = null!;
             Position = null!;
         }
@@ -390,6 +401,7 @@ namespace DpdtInject.Generator.Core.Binding.Xml
             string targetRepresentation,
             ClassTypeInfoXml[] fromTypes,
             ClassTypeInfoXml toType,
+            ConstructorArgumentsXml constructorArguments,
             string scopeString,
             int scopeEnumValue,
             bool isConditional,
@@ -401,11 +413,39 @@ namespace DpdtInject.Generator.Core.Binding.Xml
             TargetRepresentation = targetRepresentation;
             FromTypes = fromTypes;
             ToType = toType;
+            ConstructorArguments = constructorArguments;
             ScopeString = scopeString;
             ScopeEnumValue = scopeEnumValue;
             IsConditional = isConditional;
             IsConventional = isConventional;
             Position = position;
+        }
+    }
+    public class ConstructorArgumentsXml : IConstructorArguments
+    {
+        [XmlElement(ElementName = "FullDisplayNames")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public List<string> FullDisplayNames
+        {
+            get;
+            set;
+        }
+
+        public ConstructorArgumentsXml()
+        {
+            FullDisplayNames = new List<string>();
+        }
+
+        public ConstructorArgumentsXml(
+            List<string> fullDisplayNames
+            )
+        {
+            if (fullDisplayNames is null)
+            {
+                throw new ArgumentNullException(nameof(fullDisplayNames));
+            }
+
+            FullDisplayNames = fullDisplayNames;
         }
     }
 
@@ -644,6 +684,11 @@ namespace DpdtInject.Generator.Core.Binding.Xml
             get;
         }
 
+        IConstructorArguments ConstructorArguments
+        {
+            get;
+        }
+
         string ScopeString
         {
             get;
@@ -709,6 +754,14 @@ namespace DpdtInject.Generator.Core.Binding.Xml
 
     }
 
+
+    public interface IConstructorArguments
+    {
+        List<string> FullDisplayNames
+        {
+            get;
+        }
+    }
 
 
     public interface IClassTypeInfo

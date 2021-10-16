@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -25,6 +26,7 @@ namespace DpdtInject.Extension.UI.ViewModel.BindingList
 
         private int _filteredCount;
 
+        private ICommand? _filterConstructorArgumentCommand;
         private ICommand? _navigateCommand;
         private bool _includeSingleton = true;
         private bool _includeTransient = true;
@@ -50,6 +52,31 @@ namespace DpdtInject.Extension.UI.ViewModel.BindingList
         public ICollectionView BindingItemList
         {
             get;
+        }
+
+        public ICommand FilterConstructorArgumentCommand
+        {
+            get
+            {
+                if (_filterConstructorArgumentCommand == null)
+                {
+                    _filterConstructorArgumentCommand = new RelayCommand(
+                        a =>
+                        {
+                            var type = a as string;
+
+                            if (string.IsNullOrEmpty(type))
+                            {
+                                return;
+                            }
+
+                            FilterText = type!;
+                        });
+                }
+
+                return
+                    _filterConstructorArgumentCommand;
+            }
         }
 
         public ICommand NavigateCommand
@@ -340,6 +367,14 @@ namespace DpdtInject.Extension.UI.ViewModel.BindingList
         {
             get;
         }
+
+        public Visibility ConstructorArgumentsVisibility => ConstructorArguments.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+
+        public List<string> ConstructorArguments
+        {
+            get;
+        }
+
         public Brush BorderBrush
         {
             get;
@@ -358,13 +393,15 @@ namespace DpdtInject.Extension.UI.ViewModel.BindingList
             BindingsFrom = string.Join(", ", bindingStatement.FromTypes.Select(ft => ft.FullDisplayName));
             OtherParameters = bindingStatement.ScopeString + (bindingStatement.IsConditional ? " Conditional" : string.Empty) + (bindingStatement.IsConventional ? " Conventional" : string.Empty);
             BindingLocation = bindingStatement.Position.FilePath + " : " + (bindingStatement.Position.StartLine + 1);
+            ConstructorArguments = bindingStatement.ConstructorArguments.FullDisplayNames;
 
-            BorderBrush = ((BindScopeEnum)bindingStatement.ScopeEnumValue) switch
+            BorderBrush = (BindScopeEnum)bindingStatement.ScopeEnumValue switch
             {
                 BindScopeEnum.Singleton => Brushes.Purple,
                 BindScopeEnum.Transient => Brushes.Green,
                 BindScopeEnum.Constant => Brushes.Blue,
-                BindScopeEnum.Custom => Brushes.Gray
+                BindScopeEnum.Custom => Brushes.Gray,
+                _ => Brushes.Red
             };
 
             _filter = $"{BindingTo} {BindingsFrom} {OtherParameters} {BindingLocation}".ToLower();

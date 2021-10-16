@@ -21,6 +21,11 @@ namespace DpdtInject.Extension.TestConsole.CompositionRoot
                 .WithConstScope(AInts)
                 ;
 
+            Bind<NaivePayload>()
+                .To<NaivePayload>()
+                .WithSingletonScope()
+                ;
+
             Bind<BindPayload0>()
                 .To<BindPayload0>()
                 .WithSingletonScope()

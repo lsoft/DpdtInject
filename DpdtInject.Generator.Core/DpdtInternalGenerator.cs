@@ -202,6 +202,7 @@ namespace DpdtInject.Generator.Core
                                 bc.TargetRepresentation,
                                 bc.BindFromTypes.ConvertAll(s => s.ToXml()).ToArray(),
                                 bc.BindToType.ToXml(),
+                                bc.ConstructorArguments.ToXml(),
                                 bc.Scope.ToString(),
                                 (int)bc.Scope,
                                 bc.IsConditional,

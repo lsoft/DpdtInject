@@ -178,6 +178,51 @@
                                     Text="{Binding BindingsFrom}"
                                     />
                                 <TextBlock
+                                    Margin="10,0,2,0"
+                                    Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+                                    Visibility="{Binding ConstructorArgumentsVisibility}"
+                                    Text="Constructor arguments:"
+                                    />
+                                <ListView
+                                    Margin="10,0,2,5"
+                                    HorizontalAlignment="Stretch"
+                                    Visibility="{Binding ConstructorArgumentsVisibility}"
+                                    ItemsSource="{Binding ConstructorArguments}"
+                                    BorderBrush="Transparent"
+                                    >
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="{x:Type ListViewItem}">
+                                            <Setter Property="Background" Value="Transparent" />
+                                            <Setter Property="Foreground" Value="Blue" />
+                                            <Setter Property="Opacity" Value="0.5" />
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                        <ContentPresenter />
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="ListViewItem.IsMouseOver" Value="True">
+                                                    <Setter Property="ListViewItem.Opacity" Value="1" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock
+                                                Text="{Binding}"
+                                                Cursor="Hand"
+                                                >
+                                                <TextBlock.InputBindings>
+                                                    <MouseBinding Gesture="LeftClick" CommandParameter="{Binding}" Command="{Binding ElementName=ItemListView, Path=DataContext.FilterConstructorArgumentCommand}" />
+                                                </TextBlock.InputBindings>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                                <TextBlock
                                     Margin="10,0,2,5"
                                     Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
                                     Text="{Binding OtherParameters}"
@@ -188,6 +233,7 @@
                                     Text="{Binding BindingLocation}"
                                     Opacity="0.75"
                                     />
+
                             </VirtualizingStackPanel>
                         </Border>
                     </VirtualizingStackPanel>
