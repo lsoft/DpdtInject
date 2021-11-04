@@ -10,7 +10,7 @@ namespace DpdtInject.Tests.Scope.Constant.Target.InPlace0
         public void BindMethod()
         {
             Bind<string>()
-                .WithConstScope("my const string") //no not extract it! we checks in-place constant in this test!
+                .WithConstScope("my const string") //do not extract it! we checks in-place constant in this test!
                 ;
         }
 

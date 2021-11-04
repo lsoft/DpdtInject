@@ -19,7 +19,7 @@ namespace DpdtInject.Tests.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class TestResources {
@@ -1759,7 +1759,7 @@ namespace DpdtInject.Tests.Properties {
         ///        public void BindMethod()
         ///        {
         ///            Bind&lt;string&gt;()
-        ///                .WithConstScope(&quot;my const string&quot;) //no not extract it! we checks in-place constant in this test!
+        ///                .WithConstScope(&quot;my const string&quot;) //do not extract it! we checks in-place constant in this test!
         ///                ;
         ///        }
         ///
@@ -1801,6 +1801,31 @@ namespace DpdtInject.Tests.Properties {
         ///using System;
         ///using DpdtInject.Injector.Src;
         ///
+        ///namespace DpdtInject.Tests.Scope.Constant.Target.InPlace2
+        ///{
+        ///    public partial class ScopeConstantTargetInPlace2_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;ulong&gt;()
+        ///                .WithConstScope(123456789UL) //no not extract it! we checks in-place constant in this test!
+        ///                ;
+        ///        }
+        ///
+        ///        public class [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ScopeConstantTargetInPlace2_Cluster {
+            get {
+                return ResourceManager.GetString("ScopeConstantTargetInPlace2_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using DpdtInject.Injector.Src;
+        ///
         ///namespace DpdtInject.Tests.Scope.Constant.Target.M0
         ///{
         ///    public partial class ScopeConstantTargetM0_Cluster : DefaultCluster
@@ -1834,14 +1859,16 @@ namespace DpdtInject.Tests.Properties {
         ///    {
         ///        private readonly string _roString;
         ///
-        ///        #if IN_UNIT_TEST_SYMBOL
+        ///#if IN_UNIT_TEST_SYMBOL
         ///        /// &lt;inheritdoc /&gt;
         ///        public ScopeConstantTargetRO0_Cluster()
         ///            : this((ICluster)null!)
         ///        {
         ///            _roString = &quot;readonly string&quot;;
         ///        }
-        ///        #endi [rest of string was truncated]&quot;;.
+        ///#endif
+        ///
+        ///        [Dp [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScopeConstantTargetRO0_Cluster {
             get {

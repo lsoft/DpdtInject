@@ -325,6 +325,9 @@
   <data name="ScopeConstantTargetInPlace1_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Scope\Constant\Target\InPlace1\ScopeConstantTargetInPlace1_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="ScopeConstantTargetInPlace2_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Constant\Target\InPlace2\ScopeConstantTargetInPlace2_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="ScopeConstantTargetM0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Scope\Constant\Target\M0\ScopeConstantTargetM0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
