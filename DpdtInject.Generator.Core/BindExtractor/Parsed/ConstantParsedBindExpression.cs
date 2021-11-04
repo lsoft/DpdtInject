@@ -154,13 +154,8 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
         private void CheckForAllowedSyntaxForConstantBinding(
             )
         {
-            var ils = (
-                from node in _constantClause.DescendantNodes()
-                where node is IdentifierNameSyntax || node is LiteralExpressionSyntax
-                select node
-                ).ToList();
-
-            if (ils.Count == 0)
+            var child = _constantClause.ChildNodes().FirstOrDefault();
+            if (child == null)
             {
                 throw new DpdtException(
                     DpdtExceptionTypeEnum.InternalError,
@@ -168,22 +163,14 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
                     );
             }
 
-            if (ils.Count > 1)
-            {
-                throw new DpdtException(
-                    DpdtExceptionTypeEnum.InternalError,
-                    $"Unknown error during validation a target in 'constant' binding."
-                    );
-            }
-
-            var cconstant = _semanticModel.GetConstantValue(ils[0]);
+            var cconstant = _semanticModel.GetConstantValue(child);
             if (cconstant.HasValue)
             {
                 //it's a true constant, keep going!
                 return;
             }
 
-            var ilsymbol = _semanticModel.GetSymbolInfo(ils[0]).Symbol;
+            var ilsymbol = _semanticModel.GetSymbolInfo(child).Symbol;
 
             if (ilsymbol is null)
             {

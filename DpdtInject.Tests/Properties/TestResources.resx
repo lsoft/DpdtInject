@@ -319,6 +319,12 @@
   <data name="ScopeConstantTargetF0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Scope\Constant\Target\F0\ScopeConstantTargetF0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="ScopeConstantTargetForeignSRO0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Constant\Target\ForeignSRO0\ScopeConstantTargetForeignSRO0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ScopeConstantTargetForeignSRO1_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scope\Constant\Target\ForeignSRO1\ScopeConstantTargetForeignSRO1_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="ScopeConstantTargetInPlace0_Cluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Scope\Constant\Target\InPlace0\ScopeConstantTargetInPlace0_Cluster.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

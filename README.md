@@ -173,7 +173,7 @@ Also I recommend disable tiered compilation for composition root assembly if you
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dpdt.Injector" Version="0.8.2-alpha" />
+    <PackageReference Include="Dpdt.Injector" Version="0.8.3-alpha" />
   </ItemGroup>
 
 </Project>
