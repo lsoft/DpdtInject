@@ -28,11 +28,13 @@ namespace DpdtInject.Tests
         {
         }
 
+        /// <inheritdoc />
         public bool IsRegisteredFrom<T1>()
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc />
         public bool IsRegisteredFrom(
             System.Type requestedType
             )
@@ -46,11 +48,13 @@ namespace DpdtInject.Tests
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc />
         public T1 Get<T1>()
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc />
         public T1 Get<T1>(
             CustomScopeObject customScope
             )
@@ -59,11 +63,13 @@ namespace DpdtInject.Tests
         }
 
 
+        /// <inheritdoc />
         public List<T1> GetAll<T1>()
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc />
         public List<T1> GetAll<T1>(
             CustomScopeObject customScope
             )
@@ -72,6 +78,7 @@ namespace DpdtInject.Tests
         }
 
 
+        /// <inheritdoc />
         public object Get(
             Type requestedType
             )
@@ -79,6 +86,7 @@ namespace DpdtInject.Tests
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc />
         public object Get(
             Type requestedType,
             CustomScopeObject customScope
@@ -88,6 +96,7 @@ namespace DpdtInject.Tests
         }
 
 
+        /// <inheritdoc />
         public IEnumerable<object> GetAll(
             Type requestedType
             )
@@ -95,6 +104,7 @@ namespace DpdtInject.Tests
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc />
         public IEnumerable<object> GetAll(
             Type requestedType,
             CustomScopeObject scope
@@ -104,6 +114,7 @@ namespace DpdtInject.Tests
         }
 
 
+        /// <inheritdoc />
         public T1 GetFast<T1>(
             T1 unused
             )
@@ -124,11 +135,13 @@ namespace DpdtInject.Tests
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc />
         public CustomScopeObject CreateCustomScope()
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc />
         public void Dispose()
         {
             throw new NotImplementedException();

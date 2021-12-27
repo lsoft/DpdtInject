@@ -14,14 +14,6 @@ namespace DpdtInject.Injector.Src.CustomScope
                 );
         }
 
-        //public bool TryGetObject(
-        //    Type requestedType,
-        //    [NotNullWhen(true)] out object? result
-        //    )
-        //{
-        //    return _dependencyContainer.TryGetObject(requestedType, out result);
-        //}
-
         public object GetOrAdd(
             Guid uniqueId,
             Func<object> objectProvider
