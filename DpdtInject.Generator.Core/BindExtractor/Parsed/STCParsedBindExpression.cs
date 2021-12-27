@@ -16,6 +16,7 @@ using DpdtInject.Injector.Src.Excp;
 using DpdtInject.Injector.Src.Helper;
 using DpdtInject.Injector.Src.Bind.Settings;
 using DpdtInject.Generator.Core.Binding.Settings.Constructor;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Generator.Core.BindExtractor.Parsed
 {
@@ -323,6 +324,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
                     );
             }
 
+            CheckForClusterTypes();
 
             if (_factoryPayload is not null || _proxySettings is not null)
             {
@@ -378,6 +380,16 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
                 }
 
             }
+        }
+
+        private void CheckForClusterTypes()
+        {
+            foreach (var fromType in _fromTypes)
+            {
+                CheckForClusterType(fromType);
+            }
+
+            CheckForClusterType(_toType);
         }
     }
 }

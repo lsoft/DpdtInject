@@ -264,6 +264,55 @@ namespace DpdtInject.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
+        ///using DpdtInject.Injector.Src.CustomScope;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using DpdtInject.Injector.Src.RContext;
+        ///
+        ///namespace DpdtInject.Tests.ClusterBind.Constant
+        ///{
+        ///    public partial class ClusterBindConstant_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;SubjectCluster&gt;()
+        ///                .WithConstScope(new SubjectCluster [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ClusterBindConstant_Cluster {
+            get {
+                return ResourceManager.GetString("ClusterBindConstant_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using DpdtInject.Injector.Src;
+        ///using DpdtInject.Injector.Src.CustomScope;
+        ///using System;
+        ///using System.Collections.Generic;
+        ///using DpdtInject.Injector.Src.RContext;
+        ///
+        ///namespace DpdtInject.Tests.ClusterBind.Transient
+        ///{
+        ///    public partial class ClusterBindTransient_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;SubjectCluster&gt;()
+        ///                .To&lt;SubjectCluster&gt;()
+        ///          [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ClusterBindTransient_Cluster {
+            get {
+                return ResourceManager.GetString("ClusterBindTransient_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
         ///using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
         ///using DpdtInject.Injector.Src;
         ///

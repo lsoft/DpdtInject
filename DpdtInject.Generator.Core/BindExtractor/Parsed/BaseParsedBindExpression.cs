@@ -17,6 +17,7 @@ using DpdtInject.Injector.Src.Bind.Settings.CrossCluster;
 using DpdtInject.Generator.Core.Binding.Settings.CrossCluster;
 using DpdtInject.Generator.Core.Binding.Settings.Wrapper;
 using DpdtInject.Injector.Src.Bind.Settings.Wrapper;
+using DpdtInject.Injector.Src;
 
 namespace DpdtInject.Generator.Core.BindExtractor.Parsed
 {
@@ -163,5 +164,21 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
             return null;
         }
 
+        protected void CheckForClusterType(ITypeSymbol type)
+        {
+            if (type is null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
+            if (type.AllInterfaces.Any(i => i.ToFullDisplayString() == typeof(ICluster).FullName))
+            {
+                throw new DpdtException(
+                    DpdtExceptionTypeEnum.BindToClusterType,
+                    $"It is not allowed to use Dpdt cluster type [{type.ToGlobalDisplayString()}] in a binding clause. Please remove that binding statement.",
+                    type.ToFullDisplayString()
+                    );
+            }
+        }
     }
 }

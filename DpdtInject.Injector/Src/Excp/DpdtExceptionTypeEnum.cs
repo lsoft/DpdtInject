@@ -24,5 +24,6 @@
         IncorrectBinding_IncorrectSetting,
 
         LocalBindingFound,
+        BindToClusterType
     }
 }

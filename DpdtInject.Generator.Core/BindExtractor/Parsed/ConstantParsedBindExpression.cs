@@ -104,6 +104,7 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
 
         public override void Validate()
         {
+            CheckForClusterTypes();
             CheckForAllowedSyntaxForConstantBinding();
         }
 
@@ -150,6 +151,14 @@ namespace DpdtInject.Generator.Core.BindExtractor.Parsed
             return types;
         }
 
+
+        private void CheckForClusterTypes()
+        {
+            foreach (var fromType in _fromTypes)
+            {
+                CheckForClusterType(fromType);
+            }
+        }
 
         private void CheckForAllowedSyntaxForConstantBinding(
             )
