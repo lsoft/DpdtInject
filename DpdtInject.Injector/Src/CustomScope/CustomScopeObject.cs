@@ -3,7 +3,7 @@ using DpdtInject.Injector.Src.Reinvented;
 
 namespace DpdtInject.Injector.Src.CustomScope
 {
-    public sealed class CustomScopeObject : ICustomScopeObject, IDisposable
+    public sealed class CustomScopeObject : IDisposable
     {
         private readonly FlexibleSizeObjectContainer _dependencyContainer;
 
@@ -14,6 +14,9 @@ namespace DpdtInject.Injector.Src.CustomScope
                 );
         }
 
+        /// <summary>
+        /// Internal use only. Please DO NOT use this method.
+        /// </summary>
         public object GetOrAdd(
             Guid uniqueId,
             Func<object> objectProvider

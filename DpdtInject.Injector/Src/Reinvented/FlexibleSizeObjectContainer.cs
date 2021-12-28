@@ -67,51 +67,6 @@ namespace DpdtInject.Injector.Src.Reinvented
         }
 
 
-        //public bool TryGetObject(
-        //    Type requestedType,
-        //    [NotNullWhen(true)] out object? result
-        //    )
-        //{
-        //    var index = CalculateIndex(requestedType);
-        //    var list = _table[index];
-
-        //    for (var i = 0; i < list.Count; i++)
-        //    {
-        //        var item = list[i];
-
-        //        if (item.Type == requestedType)
-        //        {
-        //            result = item.Object;
-        //            return true;
-        //        }
-        //    }
-
-        //    result = null;
-        //    return false;
-        //}
-
-        //public object? GetGetObject(Type requestedType)
-        //{
-        //    var index = CalculateIndex(requestedType);
-        //    var list = _table[index];
-
-        //    for (var i = 0; i < list.Count; i++)
-        //    {
-        //        var item = list[i];
-
-        //        if (item.Type == requestedType)
-        //        {
-        //            return item.Object;
-        //        }
-        //    }
-
-        //    throw new DpdtException(
-        //        DpdtExceptionTypeEnum.NoBindingAvailable,
-        //        $"No bindings available for {requestedType.FullName}",
-        //        requestedType.FullName!
-        //        );
-        //}
-
         public void Dispose()
         {
             var excps = new List<Exception>();
