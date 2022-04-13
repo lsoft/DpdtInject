@@ -26,7 +26,7 @@ namespace DpdtInject.Injector.Src.RContext
             get;
         }
 
-        CustomScopeObject? ScopeObject
+        CustomScopeObject ScopeObject
         {
             get;
         }

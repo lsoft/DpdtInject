@@ -13,7 +13,7 @@ namespace DpdtInject.Injector.Src.RContext
         public ResolutionRequest(
             bool isGetAllResolution,
             Type requestedType,
-            CustomScopeObject? scopeObject = null
+            CustomScopeObject scopeObject
             ) : base(isGetAllResolution, scopeObject)
         {
             RequestedType = requestedType;
@@ -35,7 +35,7 @@ namespace DpdtInject.Injector.Src.RContext
 
         public ResolutionRequest(
             bool isGetAllResolution,
-            CustomScopeObject? scopeObject = null
+            CustomScopeObject scopeObject
             ) : base(isGetAllResolution, scopeObject)
         {
         }

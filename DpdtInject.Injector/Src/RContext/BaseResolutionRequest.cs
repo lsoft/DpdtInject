@@ -48,14 +48,14 @@ namespace DpdtInject.Injector.Src.RContext
             get;
         }
 
-        public CustomScopeObject? ScopeObject
+        public CustomScopeObject ScopeObject
         {
             get;
         }
 
         protected BaseResolutionRequest(
             bool isGetAllResolution,
-            CustomScopeObject? scopeObject
+            CustomScopeObject scopeObject
             ) 
         {
             ParentTarget = null;

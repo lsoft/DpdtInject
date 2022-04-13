@@ -1,17 +1,27 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using DpdtInject.Injector.Src.Reinvented;
 
 namespace DpdtInject.Injector.Src.CustomScope
 {
-    public sealed class CustomScopeObject : IDisposable
+    public readonly struct CustomScopeObject : IEquatable<CustomScopeObject>, IDisposable
     {
-        private readonly FlexibleSizeObjectContainer _dependencyContainer;
+        public static readonly CustomScopeObject None = new CustomScopeObject(0);
+
+        private readonly FlexibleSizeObjectContainer? _dependencyContainer;
 
         public CustomScopeObject(int estimatedTypeCount)
         {
-            _dependencyContainer = new FlexibleSizeObjectContainer(
-                estimatedTypeCount
-                );
+            if (estimatedTypeCount > 0)
+            {
+                _dependencyContainer = new FlexibleSizeObjectContainer(
+                    estimatedTypeCount
+                    );
+            }
+            else
+            {
+                _dependencyContainer = null;
+            }
         }
 
         /// <summary>
@@ -22,6 +32,11 @@ namespace DpdtInject.Injector.Src.CustomScope
             Func<object> objectProvider
             )
         {
+            if (_dependencyContainer is null)
+            {
+                throw new InvalidOperationException("It's an empty custom scope object!");
+            }
+
             var result = _dependencyContainer.GetOrAdd(uniqueId, objectProvider);
 
             return result;
@@ -29,7 +44,18 @@ namespace DpdtInject.Injector.Src.CustomScope
 
         public void Dispose()
         {
-            _dependencyContainer.Dispose();
+            _dependencyContainer?.Dispose();
         }
+
+
+        public bool Equals(CustomScopeObject other) => ReferenceEquals(_dependencyContainer, other._dependencyContainer);
+
+        public override bool Equals([NotNullWhen(true)] object? other) => other is CustomScopeObject && Equals((CustomScopeObject)other);
+        
+        public override int GetHashCode() => _dependencyContainer?.GetHashCode() ?? 0;
+
+        public static bool operator ==(CustomScopeObject left, CustomScopeObject right) => left.Equals(right);
+
+        public static bool operator !=(CustomScopeObject left, CustomScopeObject right) => !left.Equals(right);
     }
 }

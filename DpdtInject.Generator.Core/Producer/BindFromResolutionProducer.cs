@@ -306,7 +306,7 @@ public {returnType} {methodName}({returnType} unused)
                 {
                     var methodBody = $@"private {returnType} {methodName}({GN.IResolutionRequest} resolutionRequest)
 {{
-    resolutionRequest  = resolutionRequest ?? new {GN.ResolutionRequest}<{ClusterBindings.ClusterType.ToGlobalDisplayString()}, {wrapperSymbol.ToGlobalDisplayString()}>(true);
+    resolutionRequest  = resolutionRequest ?? new {GN.ResolutionRequest}<{ClusterBindings.ClusterType.ToGlobalDisplayString()}, {wrapperSymbol.ToGlobalDisplayString()}>(true, {GN.CustomScopeObject_None});
 
     var result = new global::System.Collections.Generic.List<{wrapperSymbol.ToGlobalDisplayString()}>();
 ";
@@ -417,7 +417,7 @@ private {returnType} {methodName}({GN.IResolutionRequest} resolutionRequest)
                     var modifiedContext = $"target_{instanceProduct.BindingExtender.BindingContainer.GetStableSuffix()}";
 
                     methodBody = $@"
-    resolutionRequest  = resolutionRequest ?? new {GN.ResolutionRequest}<{ClusterBindings.ClusterType.ToGlobalDisplayString()}, {wrapperSymbol.ToGlobalDisplayString()}>(false);
+    resolutionRequest  = resolutionRequest ?? new {GN.ResolutionRequest}<{ClusterBindings.ClusterType.ToGlobalDisplayString()}, {wrapperSymbol.ToGlobalDisplayString()}>(false, {GN.CustomScopeObject_None});
 
     var {modifiedContext} =
         new {GN.ResolutionTarget}<{ClusterBindings.ClusterType.ToGlobalDisplayString()}, {instanceProduct.BindingExtender.BindingContainer.BindToType.ToGlobalDisplayString()}>(
@@ -464,7 +464,7 @@ private {returnType} {methodName}({GN.IResolutionRequest} resolutionRequest)
                     var targetDict = new Dictionary<string, string>();
 
                     var methodBody = $@"
-    resolutionRequest  = resolutionRequest ?? new {GN.ResolutionRequest}<{ClusterBindings.ClusterType.ToGlobalDisplayString()}, {wrapperSymbol.ToGlobalDisplayString()}>(false);
+    resolutionRequest  = resolutionRequest ?? new {GN.ResolutionRequest}<{ClusterBindings.ClusterType.ToGlobalDisplayString()}, {wrapperSymbol.ToGlobalDisplayString()}>(false, {GN.CustomScopeObject_None});
 
     int allowedChildrenCount = {itselfNonConditional};
 ";

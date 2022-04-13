@@ -82,7 +82,7 @@ private {returnType} {methodName}(
     {GN.IResolutionTarget} resolutionTarget
     )
 {{
-    if(resolutionTarget.ScopeObject is null)
+    if(resolutionTarget.ScopeObject == {GN.CustomScopeObject_None})
     {{
         RaiseNoCustomScopeObject<{_bindingExtender.BindingContainer.BindToType.ToGlobalDisplayString()}>();
     }}

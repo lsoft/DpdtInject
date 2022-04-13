@@ -19,5 +19,9 @@ namespace DpdtInject.Generator.Core
         public static string IResolutionFast = "global::" + typeof(IResolutionFast<>).Namespace + "." + nameof(IResolutionFast<object>);
 
         public static string IDisposable = typeof(IDisposable).ToGlobalDisplayString();
+
+        public static string CustomScopeObject = "global::" + typeof(DpdtInject.Injector.Src.CustomScope.CustomScopeObject).Namespace + "." + nameof(DpdtInject.Injector.Src.CustomScope.CustomScopeObject);
+        public static string CustomScopeObject_None = "global::" + typeof(DpdtInject.Injector.Src.CustomScope.CustomScopeObject).Namespace + "." + nameof(DpdtInject.Injector.Src.CustomScope.CustomScopeObject) + "." + nameof(DpdtInject.Injector.Src.CustomScope.CustomScopeObject.None);
+
     }
 }

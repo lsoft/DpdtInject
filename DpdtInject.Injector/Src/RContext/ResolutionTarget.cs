@@ -15,7 +15,7 @@ namespace DpdtInject.Injector.Src.RContext
 
         public bool IsGetAllResolution => ParentRequest.IsGetAllResolution;
 
-        public CustomScopeObject? ScopeObject => ParentRequest.ScopeObject;
+        public CustomScopeObject ScopeObject => ParentRequest.ScopeObject;
 
 
         public IResolutionRequest RootRequest
