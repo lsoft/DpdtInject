@@ -286,7 +286,7 @@ Clusters are organized into a tree. This tree cannot have a circular dependency,
 
 If some binging does not exist in local cluster, Dpdt will request it from parent cluster at runtime. This behavior can be modified by settings `OnlyLocalCluster`/`AllowedCrossCluster`/`MustBeCrossCluster`.
 
-Child clusters must be disposed after its parent.
+Child clusters must be disposed BEFORE its parent.
 
 
 ## Syntax
