@@ -26,9 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DpdtInject.Injector\DpdtInject.Injector.csproj" GeneratePathProperty="true">
-      <PrivateAssets>all</PrivateAssets>
-    </ProjectReference>
+    <ProjectReference Include="..\DpdtInject.Injector\DpdtInject.Injector.csproj" />
   </ItemGroup>
 
   <ItemGroup>

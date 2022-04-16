@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using DpdtInject.Injector.Src.Helper;
 
 namespace DpdtInject.Injector.Src.Reinvented
@@ -8,7 +9,11 @@ namespace DpdtInject.Injector.Src.Reinvented
     /// <summary>
     /// Special thanks to neuecc from https://github.com/neuecc for amazing idea.
     /// </summary>
-    public class FlexibleSizeObjectContainer : IDisposable
+    public class FlexibleSizeObjectContainer :
+        IDisposable
+#if !DPDT_INTERNAL_SUPPRESS_ASYNC_DISPOSABLE
+        , IAsyncDisposable
+#endif
     {
         private readonly int _length;
         private readonly int _mask;
@@ -69,7 +74,12 @@ namespace DpdtInject.Injector.Src.Reinvented
 
         public void Dispose()
         {
-            var excps = new List<Exception>();
+            if (_table.Length == 0)
+            {
+                return;
+            }
+
+            List<Exception>? excps = null;
 
             for(var r = 0; r < _table.Length; r++)
             {
@@ -84,17 +94,65 @@ namespace DpdtInject.Injector.Src.Reinvented
                         }
                         catch(Exception excp)
                         {
+                            excps ??= new List<Exception>();
                             excps.Add(excp);
                         }
                     }
                 }
             }
 
-            if(excps.Count > 0)
+            if(excps != null && excps.Count > 0)
             {
                 throw new AggregateException(excps);
             }
+
+            GC.SuppressFinalize(this);
         }
+
+
+#if !DPDT_INTERNAL_SUPPRESS_ASYNC_DISPOSABLE
+        public async ValueTask DisposeAsync()
+        {
+            if (_table.Length == 0)
+            {
+                return;
+            }
+
+            List<Exception>? excps = null;
+
+            for (var r = 0; r < _table.Length; r++)
+            {
+                var row = _table[r];
+                for (var c = 0; c < row.Count; c++)
+                {
+                    try
+                    {
+                        if (row[c].Object is IAsyncDisposable ad)
+                        {
+                            await ad.DisposeAsync().ConfigureAwait(false);
+                        }
+                        //only if target is only sync disposable, do it!
+                        else if (row[c].Object is IDisposable d)
+                        {
+                            d.Dispose();
+                        }
+                    }
+                    catch (Exception excp)
+                    {
+                        excps ??= new List<Exception>();
+                        excps.Add(excp);
+                    }
+                }
+            }
+
+            if (excps != null && excps.Count > 0)
+            {
+                throw new AggregateException(excps);
+            }
+
+            GC.SuppressFinalize(this);
+        }
+#endif
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

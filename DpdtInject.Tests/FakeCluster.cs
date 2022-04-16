@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DpdtInject.Injector.Src.CustomScope;
 using DpdtInject.Injector.Src.RContext;
 using DpdtInject.Injector.Src;
+using System.Threading.Tasks;
 
 namespace DpdtInject.Tests
 {
@@ -143,6 +144,12 @@ namespace DpdtInject.Tests
 
         /// <inheritdoc />
         public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        public ValueTask DisposeAsync()
         {
             throw new NotImplementedException();
         }

@@ -199,7 +199,7 @@ Also I recommend disable tiered compilation for composition root assembly if you
 - Now, it's time to create a cluster and take our payload from it; put the following at `Program.Main`:
 
 ```csharp
-    var cluster = new MyCluster(null);
+    /*await/* var cluster = new MyCluster(null); //await is needed to dispose singletons with IAsyncDisposable, but without IDisposable interfaces
     var payload = cluster.Get<MyPayload>();
     Console.WriteLine(payload.GetType().Name);
 ```
@@ -227,7 +227,7 @@ Bind<MyPayload>()
 - Now, it's time to create a cluster and take our payload from it; put the following at `Program.Main`:
 
 ```csharp
-    var cluster = new MyCluster(null);
+    /*await*/ using var cluster = new MyCluster(null); //await is needed to dispose singletons with IAsyncDisposable, but without IDisposable interfaces
     var payload = cluster.Get<MyPayload>();
     Console.WriteLine(payload.GetType().Name);
 ```
@@ -248,11 +248,15 @@ Bind<MyPayload>()
 
 Dpdt bingings organized in the groups named `clusters`. Cluster is a class that derived from Dpdt's `DpdtInject.Injector.Src.DefaultCluster`. This class should be `partial`. Each cluster may have any numbers of binding methods even in different compilation units. These methods should be marked with attribute `[DpdtBindingMethod]`. No argument allowed for that methods, and in fact they are not executed at all. You can use this to split your bindings into different groups (something like Ninject's modules).
 
+
 ## Cluster life cycle
 
 The life cycle of the cluster begins by creating it with `new`. The cluster can take other cluster as its parent, so each unknown dependency will be resolved from the parent (if parent exists, otherwise exception would be thrown).
 
 The end of the life cycle of a cluster occurs after the call to its `Dispose` method. At this point, all of its disposable singleton bindings are also being disposed. It is prohibited to dispose of the cluster and use it for resolving in parallel . It is forbidden to resolve after a `Dispose`.
+
+If you have at least one singleton with `IAsyncDisposable` interface, but without `IDisposable` interface, you need to invoke `DisposeAsync` instead of `Dispose` at the cluster object. The rule is simple: `Dispose` cluster -> `Dispose` its singletons, `AsyncDispose` cluster -> `Dispose` + `DisposeAsync` its singletons. So, I recommend always use `DisposeAsync` for a cluster objects. **Disposing order is undefined.**
+
 
 ## Child clusters
 
@@ -269,10 +273,10 @@ The end of the life cycle of a cluster occurs after the call to its `Dispose` me
 
 ...
 
-    var rootCluster = new RootCluster(
+    /*await*/ using var rootCluster = new RootCluster(
         your arguments
         );
-    var childCluster = new ChildCluster(
+    /*await*/ using var childCluster = new ChildCluster(
         rootCluster,
         your arguments
         );
@@ -281,6 +285,8 @@ The end of the life cycle of a cluster occurs after the call to its `Dispose` me
 Clusters are organized into a tree. This tree cannot have a circular dependency, since it is based on constructor argument. Dependencies, consumed by the binding in the child cluster, are resolved from the home cluster if exists, if not - from **parent cluster**.
 
 If some binging does not exist in local cluster, Dpdt will request it from parent cluster at runtime. This behavior can be modified by settings `OnlyLocalCluster`/`AllowedCrossCluster`/`MustBeCrossCluster`.
+
+Child clusters must be disposed after its parent.
 
 
 ## Syntax
@@ -503,26 +509,30 @@ Constant scope is a scope when the cluster receive an outside-created object. It
 
 ```csharp
     Bind<IA>()
-	.To<A>()
-	.WithCustomScope()
-	;
+        .To<A>()
+        .WithCustomScope()
+        ;
 
 ...
 
-    using(var scope1 = cluster.CreateCustomScope())
+    /*await/* using(var scope1 = cluster.CreateCustomScope())
     {
-	var a1 = cluster.Get<IA>(scope1);
+        var a1 = cluster.Get<IA>(scope1);
 
-	using(var scope2 = cluster.CreateCustomScope())
-	{
-	    var a2 = cluster.Get<IA>(scope2);
-	} //here we dispose a2 if target for IA is IDisposable
-    } //here we dispose a1 if target for IA is IDisposable
+        /*await/* using(var scope2 = cluster.CreateCustomScope())
+        {
+            var a2 = cluster.Get<IA>(scope2);
+        } //here we dispose a2 if target for IA is IDisposable /*or IAsyncDisposable*/
+    } //here we dispose a1 if target for IA is IDisposable /*or IAsyncDisposable*/
 ```
 
-`IDisposable` custom-binded objects will be disposed at the moment of the scope object dispose. Keep in mind, custom-scoped bindings are resolved much slower than singleton/transient/constant bindings.
+`IDisposable` custom-binded objects will be disposed at the moment of the scope object dispose. DO NOT forget to invoke `Dispose` on scope object! Otherwise, Custom-scoped disposable objects will not be disposed too.
 
-DO NOT forget to invoke `Dispose` on scope object! Otherwise, Custom-scoped disposable objects will not be disposed too.
+If you have at least one custom scoped binding with `IAsyncDisposable` interface, but without `IDisposable` interface, you need to invoke `DisposeAsync` instead of `Dispose` at the scope object. The rule is simple: `Dispose` scope object -> `Dispose` its bindings, `AsyncDispose` scope object -> `Dispose` + `DisposeAsync` its bindings. So, I recommend always use `DisposeAsync` for a scope objects. **Disposing order is undefined.**
+
+
+
+ Keep in mind, custom-scoped bindings are resolved much slower than singleton/transient/constant bindings.
 
 ## Conditional binding
 
@@ -530,13 +540,13 @@ Each bind clause may have an additional filter e.g.
 
 ```csharp
     Bind<IA>()
-	.To<A>()
-	.WithSingletonScope()
-	.When(IResolutionTarget rt =>
-	{
-	     condition to resolve
-	})
-	;
+        .To<A>()
+        .WithSingletonScope()
+        .When(IResolutionTarget rt =>
+        {
+                condition to resolve
+        })
+    ;
 ```
 
 Please refer unit tests to see the examples. Please note, than any filter makes a resolution process slower (a much slower! 10x slower in compare of unconditional binding!), so use this feature responsibly. Resolution slowdown with conditional bindings has an effect even on those bindings that do not have conditions, but they directly or indirectly takes conditional binding as its dependency. Therefore, it is advisable to place conditions as close to the resolution root as possible.

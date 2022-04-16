@@ -118,6 +118,7 @@ private {returnType} {methodName}(
                 retrieveObjectMethod,
                 funcMethod,
                 null,
+                null,
                 utps
                 );
 

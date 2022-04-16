@@ -13,6 +13,7 @@
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <NoWarn>$(NoWarn);nullable;CS8766;CS8767</NoWarn>
+    <DefineConstants>$(DefineConstants);DPDT_INTERNAL_SUPPRESS_ASYNC_DISPOSABLE</DefineConstants>
   </PropertyGroup>
 
 </Project>

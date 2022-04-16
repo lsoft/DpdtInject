@@ -29,6 +29,11 @@ namespace DpdtInject.Generator.Core.Producer.Product
             get;
         }
 
+        public IMethodProduct? AsyncDisposeMethod
+        {
+            get;
+        }
+
         public IReadOnlyList<UnknownTypeProduct> UnknownTypeProducts
         {
             get;
@@ -40,6 +45,7 @@ namespace DpdtInject.Generator.Core.Producer.Product
             IMethodProduct factoryObjectMethod,
             IMethodProduct funcMethod,
             IMethodProduct? disposeMethod,
+            IMethodProduct? asyncDisposeMethod,
             IReadOnlyList<UnknownTypeProduct>? unknownTypeProducts
             )
         {
@@ -63,6 +69,7 @@ namespace DpdtInject.Generator.Core.Producer.Product
             FactoryObjectMethod = factoryObjectMethod;
             FuncMethod = funcMethod;
             DisposeMethod = disposeMethod;
+            AsyncDisposeMethod = asyncDisposeMethod;
             UnknownTypeProducts = unknownTypeProducts ?? new List<UnknownTypeProduct>();
         }
 
@@ -80,6 +87,10 @@ namespace DpdtInject.Generator.Core.Producer.Product
             {
                 DisposeMethod.Write(writer, sng);
             }
+            if (AsyncDisposeMethod != null)
+            {
+                AsyncDisposeMethod.Write(writer, sng);
+            }
         }
 
         internal void WriteDisposeMethodInvoke(IndentedTextWriter2 writer, ShortTypeNameGenerator sng)
@@ -92,6 +103,25 @@ namespace DpdtInject.Generator.Core.Producer.Product
             writer.WriteLine($"TryToSafeDispose({DisposeMethod.MethodName}, ref result);");
         }
 
+        internal void WriteAsyncDisposeMethodInvoke(IndentedTextWriter2 writer, ShortTypeNameGenerator sng)
+        {
+            if (AsyncDisposeMethod is null)
+            {
+                return;
+            }
+
+            writer.WriteLine("{");
+            writer.Indent++;
+            writer.WriteLine($"var excp = await TryToSafeDisposeAsync({AsyncDisposeMethod.MethodName}).ConfigureAwait(false);");
+            writer.WriteLine($"if(excp != null)");
+            writer.WriteLine("{");
+            writer.Indent++;
+            writer.WriteLine($"result.Add(excp);");
+            writer.Indent--;
+            writer.WriteLine("}");
+            writer.Indent--;
+            writer.WriteLine("}");
+        }
 
         public void WriteCombinedUnknownTypeBody(IndentedTextWriter2 writer, ShortTypeNameGenerator sng)
         {

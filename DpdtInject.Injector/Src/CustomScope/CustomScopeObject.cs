@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 using DpdtInject.Injector.Src.Reinvented;
 
 namespace DpdtInject.Injector.Src.CustomScope
 {
-    public readonly struct CustomScopeObject : IEquatable<CustomScopeObject>, IDisposable
+    public readonly struct CustomScopeObject : 
+        IEquatable<CustomScopeObject>
+        ,IDisposable
+#if !DPDT_INTERNAL_SUPPRESS_ASYNC_DISPOSABLE
+        ,IAsyncDisposable
+#endif
     {
         public static readonly CustomScopeObject None = new CustomScopeObject(0);
 
@@ -47,6 +53,12 @@ namespace DpdtInject.Injector.Src.CustomScope
             _dependencyContainer?.Dispose();
         }
 
+#if !DPDT_INTERNAL_SUPPRESS_ASYNC_DISPOSABLE
+        public ValueTask DisposeAsync()
+        {
+            return _dependencyContainer?.DisposeAsync() ?? ValueTask.CompletedTask;
+        }
+#endif
 
         public bool Equals(CustomScopeObject other) => ReferenceEquals(_dependencyContainer, other._dependencyContainer);
 

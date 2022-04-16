@@ -92,6 +92,7 @@ private {returnType} {methodName}(
                 retrieveObjectMethod,
                 funcMethod,
                 null,
+                null,
                 null
                 );
 

@@ -8,7 +8,7 @@
     <TieredCompilationQuickJitForLoops>false</TieredCompilationQuickJitForLoops>
     <WarningsAsErrors>CS8785;CS8032</WarningsAsErrors>
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-    <Dpdt_Generator_Beautify>true</Dpdt_Generator_Beautify>
+    <Dpdt_Generator_Beautify>false</Dpdt_Generator_Beautify>
   </PropertyGroup>
 
   <ItemGroup>

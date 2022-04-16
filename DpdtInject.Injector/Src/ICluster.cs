@@ -5,10 +5,15 @@ using DpdtInject.Injector.Src.RContext;
 namespace DpdtInject.Injector.Src
 {
     /// <summary>
-    /// Dpdt cluster. Can be hierarchied and be a resolution source.
+    /// Dpdt cluster, a resolution source. Can be hierarchied.
     /// </summary>
     public interface ICluster
-        : IDisposable, IResolution
+        :
+            IDisposable,
+#if !DPDT_INTERNAL_SUPPRESS_ASYNC_DISPOSABLE
+            IAsyncDisposable,
+#endif
+            IResolution
     {
         /// <summary>
         /// A method for internal use only. Please DO NOT use it.

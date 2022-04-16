@@ -19,7 +19,7 @@ namespace DpdtInject.Tests.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class TestResources {
@@ -269,6 +269,7 @@ namespace DpdtInject.Tests.Properties {
         ///using System;
         ///using System.Collections.Generic;
         ///using DpdtInject.Injector.Src.RContext;
+        ///using System.Threading.Tasks;
         ///
         ///namespace DpdtInject.Tests.ClusterBind.Constant
         ///{
@@ -278,7 +279,7 @@ namespace DpdtInject.Tests.Properties {
         ///        public void BindMethod()
         ///        {
         ///            Bind&lt;SubjectCluster&gt;()
-        ///                .WithConstScope(new SubjectCluster [rest of string was truncated]&quot;;.
+        ///                .Wi [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterBindConstant_Cluster {
             get {
@@ -293,6 +294,7 @@ namespace DpdtInject.Tests.Properties {
         ///using System;
         ///using System.Collections.Generic;
         ///using DpdtInject.Injector.Src.RContext;
+        ///using System.Threading.Tasks;
         ///
         ///namespace DpdtInject.Tests.ClusterBind.Transient
         ///{
@@ -302,8 +304,7 @@ namespace DpdtInject.Tests.Properties {
         ///        public void BindMethod()
         ///        {
         ///            Bind&lt;SubjectCluster&gt;()
-        ///                .To&lt;SubjectCluster&gt;()
-        ///          [rest of string was truncated]&quot;;.
+        ///                . [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ClusterBindTransient_Cluster {
             get {
@@ -969,6 +970,35 @@ namespace DpdtInject.Tests.Properties {
         internal static string ConventionsFromSingleInterface1_Cluster {
             get {
                 return ResourceManager.GetString("ConventionsFromSingleInterface1_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using DpdtInject.Injector.Src;
+        ///using System.Threading.Tasks;
+        ///using DpdtInject.Injector.Src.Excp;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Custom.AsyncDispose
+        ///{
+        ///    public partial class CustomAsyncDispose_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithCustomScope()
+        ///                ;
+        ///        }
+        ///
+        ///
+        ///        public [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string CustomAsyncDispose_Cluster {
+            get {
+                return ResourceManager.GetString("CustomAsyncDispose_Cluster", resourceCulture);
             }
         }
         
@@ -2700,6 +2730,34 @@ namespace DpdtInject.Tests.Properties {
         internal static string SettingsCrossClusterOnlyLocalCluster0_Cluster {
             get {
                 return ResourceManager.GetString("SettingsCrossClusterOnlyLocalCluster0_Cluster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///using System;
+        ///using DpdtInject.Injector.Src;
+        ///using System.Threading.Tasks;
+        ///
+        ///namespace DpdtInject.Tests.Scope.Singleton.AsyncDispose
+        ///{
+        ///    public partial class SingletonAsyncDispose_Cluster : DefaultCluster
+        ///    {
+        ///        [DpdtBindingMethod]
+        ///        public void BindMethod()
+        ///        {
+        ///            Bind&lt;IA&gt;()
+        ///                .To&lt;A&gt;()
+        ///                .WithSingletonScope()
+        ///                ;
+        ///        }
+        ///
+        ///
+        ///        public class SingletonAsyncDispose [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SingletonAsyncDispose_Cluster {
+            get {
+                return ResourceManager.GetString("SingletonAsyncDispose_Cluster", resourceCulture);
             }
         }
         

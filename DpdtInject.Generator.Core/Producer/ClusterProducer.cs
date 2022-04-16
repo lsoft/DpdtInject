@@ -165,12 +165,14 @@ namespace DpdtInject.Generator.Core.Producer
 
 
             var itwDispose = new IndentedTextWriter2(3, _doBeautify);
+            var itwAsyncDispose = new IndentedTextWriter2(3, _doBeautify);
             var itwCombinedBody = new IndentedTextWriter2(4, _doBeautify);
             var itwCombinedUnknownTypeBody = new IndentedTextWriter2(4, _doBeautify);
 
             foreach (var instanceProduct in instanceProducts)
             {
                 instanceProduct.WriteDisposeMethodInvoke(itwDispose, sng);
+                instanceProduct.WriteAsyncDisposeMethodInvoke(itwAsyncDispose, sng);
                 instanceProduct.WriteCombinedBody(itwCombinedBody, sng);
                 instanceProduct.WriteCombinedUnknownTypeBody(itwCombinedUnknownTypeBody, sng);
             }
@@ -210,6 +212,10 @@ namespace DpdtInject.Generator.Core.Producer
                 .Replace(
                     "//GENERATOR: place for a dispose clauses",
                     itwDispose.GetResultString()
+                    )
+                .Replace(
+                    "//GENERATOR: place for an async dispose clauses",
+                    itwAsyncDispose.GetResultString()
                     )
                 .Replace(
                     "//GENERATOR: place for a resolution interfaces",

@@ -3,6 +3,8 @@
 
 //GENERATOR: place for an additional usings
 
+using System.Threading.Tasks;
+
 namespace DpdtInject.Generator.Core
 {
 #nullable disable
@@ -11,6 +13,7 @@ namespace DpdtInject.Generator.Core
     {
         private readonly global::DpdtInject.Injector.Src.ICluster _parentCluster;
         private global::System.Int64 _disposed = 0L;
+        private global::System.Int64 _asyncDisposed = 0L;
 
         private readonly global::DpdtInject.Injector.Src.Reinvented.FixedSizeFactoryContainer _typeContainerGet;
         private readonly global::DpdtInject.Injector.Src.Reinvented.FixedSizeFactoryContainer _typeContainerGetAll;
@@ -37,12 +40,39 @@ namespace DpdtInject.Generator.Core
 
         public void Dispose()
         {
-            var exceptions = TrySafelyDispose();
+            DoDispose();
 
-            if(exceptions.Count > 0)
+            global::System.GC.SuppressFinalize(this);
+        }
+
+        public async global::System.Threading.Tasks.ValueTask DisposeAsync()
+        {
+            //do regular dispose at first, if the user only async-dispose this cluster
+            //if this cluster is sync-disposed already, DoDispose method is no op
+            DoDispose();
+
+            await DoDisposeAsync().ConfigureAwait(false);
+
+            global::System.GC.SuppressFinalize(this);
+        }
+
+        private void DoDispose()
+        {
+            var exceptions = TrySafelyDispose();
+            if (exceptions.Count > 0)
             {
                 throw new global::System.AggregateException(exceptions);
             }
+        }
+
+        public async global::System.Threading.Tasks.ValueTask DoDisposeAsync()
+        {
+            var exceptions = await TrySafelyDisposeAsync().ConfigureAwait(false);
+            if (exceptions.Count > 0)
+            {
+                throw new global::System.AggregateException(exceptions);
+            }
+
         }
 
         private global::System.Collections.Generic.List<global::System.Exception> TrySafelyDispose(
@@ -60,6 +90,21 @@ namespace DpdtInject.Generator.Core
             return result;
         }
 
+        private async global::System.Threading.Tasks.ValueTask<global::System.Collections.Generic.List<global::System.Exception>> TrySafelyDisposeAsync(
+            )
+        {
+            var result = new global::System.Collections.Generic.List<global::System.Exception>();
+
+            if (global::System.Threading.Interlocked.Exchange(ref _asyncDisposed, 1L) != 0L)
+            {
+                return result;
+            }
+
+            //GENERATOR: place for an async dispose clauses
+
+            return result;
+        }
+
         private void TryToSafeDispose(
             global::System.Action disposeAction,
             ref global::System.Collections.Generic.List<global::System.Exception> exceptions
@@ -72,6 +117,22 @@ namespace DpdtInject.Generator.Core
             catch (global::System.Exception excp)
             {
                 exceptions.Add(excp);
+            }
+        }
+
+        private async global::System.Threading.Tasks.ValueTask<global::System.Exception> TryToSafeDisposeAsync(
+            global::System.Func<global::System.Threading.Tasks.ValueTask> disposeAction
+            )
+        {
+            try
+            {
+                await disposeAction().ConfigureAwait(false);
+
+                return null;
+            }
+            catch (global::System.Exception excp)
+            {
+                return excp;
             }
         }
 
@@ -274,8 +335,7 @@ namespace DpdtInject.Generator.Core
 
 #endregion
 
-
-#region cross cluster methods
+        #region cross cluster methods
 
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public T GetToChild<T>(global::DpdtInject.Injector.Src.RContext.IResolutionRequest resolutionRequest)
@@ -316,9 +376,9 @@ namespace DpdtInject.Generator.Core
                 );
         }
 
-#endregion
+        #endregion
 
-#region private cluster methods
+        #region private cluster methods
 
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private T GetFromLocalUnsafely<T>(

@@ -127,12 +127,28 @@ private {returnType} {methodName}(
 }}
 ");
 
+            //we no need to async-dispose these bingings, which already sync-disposed, so we have an additional check against IDisposable
+            var asyncDisposeMethodInvoke = MethodProductFactory.Create(
+                $"AsyncDisposeInstance_{_bindingExtender.BindingContainer.BindToType.Name}_{_bindingExtender.BindingContainer.GetStableSuffix()}",
+                new TypeMethodResult(_typeInfoProvider.ValueTask()),
+                (methodName, returnType) => $@"
+private async {returnType} {methodName}(
+    )
+{{
+    if({singletonInstanceName} is {GN.IAsyncDisposable} ad && !({singletonInstanceName} is {GN.IDisposable}))
+    {{
+        await ad.{nameof(IAsyncDisposable.DisposeAsync)}().ConfigureAwait(false);
+    }}
+}}
+");
+
             var product = new InstanceProduct(
                 _bindingExtender,
                 predicateMethod,
                 retrieveObjectMethod,
                 funcMethod,
                 disposeMethodInvoke,
+                asyncDisposeMethodInvoke,
                 utps
                 );
 

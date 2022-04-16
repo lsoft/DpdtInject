@@ -4,6 +4,7 @@ using DpdtInject.Injector.Src.CustomScope;
 using System;
 using System.Collections.Generic;
 using DpdtInject.Injector.Src.RContext;
+using System.Threading.Tasks;
 
 namespace DpdtInject.Tests.ClusterBind.Transient
 {
@@ -44,6 +45,11 @@ namespace DpdtInject.Tests.ClusterBind.Transient
         }
 
         void IDisposable.Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        ValueTask IAsyncDisposable.DisposeAsync()
         {
             throw new NotImplementedException();
         }

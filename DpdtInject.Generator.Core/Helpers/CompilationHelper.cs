@@ -22,6 +22,46 @@ namespace DpdtInject.Generator.Core.Helpers
                     ;
         }
 
+        public static INamedTypeSymbol ValueTask(
+            this ITypeInfoProvider typeInfoProvider
+            )
+        {
+            if (typeInfoProvider is null)
+            {
+                throw new ArgumentNullException(nameof(typeInfoProvider));
+            }
+
+            return typeInfoProvider.GetTypeByMetadataName("System.Threading.Tasks.ValueTask")!;
+        }
+
+        public static INamedTypeSymbol ValueTask(
+            this ITypeInfoProvider typeInfoProvider,
+            params ITypeSymbol[] genericParameters
+            )
+        {
+            if (typeInfoProvider is null)
+            {
+                throw new ArgumentNullException(nameof(typeInfoProvider));
+            }
+
+            return
+                typeInfoProvider.GetTypeByMetadataName("System.Threading.Tasks.ValueTask`" + genericParameters.Length)!
+                    .Construct(genericParameters)
+                    ;
+        }
+
+        public static INamedTypeSymbol Exception(
+            this ITypeInfoProvider typeInfoProvider
+            )
+        {
+            if (typeInfoProvider is null)
+            {
+                throw new ArgumentNullException(nameof(typeInfoProvider));
+            }
+
+            return typeInfoProvider.GetTypeByMetadataName("System.Exception")!;
+        }
+
         public static INamedTypeSymbol SystemType(
             this ITypeInfoProvider typeInfoProvider
             )
